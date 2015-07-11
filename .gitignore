@@ -9,3 +9,5 @@
 .idea/gradle.xml
 .idea/vcs.xml
 DamageCalculator.iml
+app/app.iml
+DamageCalculator.iml
