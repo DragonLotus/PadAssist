@@ -39,10 +39,4 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         //Write your code here
     }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(getArguments().getInt(ARG_SECTION_NUMBER));
-    }
 }
