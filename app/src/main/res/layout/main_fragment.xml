@@ -29,7 +29,6 @@
         android:text="Edit Team"/>
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/color"
         android:layout_width="wrap_content"
@@ -116,6 +115,14 @@
         android:layout_below="@+id/color"/>
 
     <TextView
+        android:id="@+id/orbsLinkedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_alignRight="@+id/orbsLinkedSpinner"
+        android:layout_alignTop="@+id/orbsLinkedSpinner"/>
+
+    <TextView
         android:id="@+id/orbsPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,6 +135,14 @@
         android:layout_height="30dp"
         android:layout_toRightOf="@+id/orbsLinked"
         android:layout_below="@+id/orbsLinkedSpinner"/>
+
+    <TextView
+        android:id="@+id/orbsPlusValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:layout_alignRight="@+id/orbsPlusSpinner"
+        android:layout_alignTop="@+id/orbsPlusSpinner"/>
 
     <TextView
         android:id="@+id/row"
