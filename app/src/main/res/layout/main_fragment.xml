@@ -108,7 +108,8 @@
       android:layout_alignTop="@+id/color"
       android:layout_alignBottom="@+id/color"
       android:layout_toRightOf="@+id/color"
-      android:orientation="horizontal">
+      android:orientation="horizontal"
+      android:id="@+id/orbChoices">
 
       <RadioButton
          android:id="@+id/redButton"
