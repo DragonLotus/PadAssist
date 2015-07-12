@@ -5,8 +5,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
 
-   <TextView android:id="@+id/section_label" android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
     <LinearLayout
         android:id="@+id/editHolder"
         android:orientation="horizontal"
@@ -14,66 +12,93 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/section_label">
 
-    <TextView
+    <CheckBox
         android:id="@+id/manualEdit"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:layout_weight=".5"
         android:text="Manual Edit"/>
 
     <TextView
         android:id="@+id/editTeam"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:layout_weight=".5"
         android:text="Edit Team"/>
     </LinearLayout>
+
 
     <TextView
         android:id="@+id/color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
         android:text="Color"
         android:layout_below="@+id/editHolder"/>
 
     <ImageView
         android:id="@+id/red"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/color"
+        android:layout_alignBottom="@+id/color"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitCenter"
         android:layout_toRightOf="@+id/color"
-        android:src="@drawable/abc_ratingbar_full_material"
+        android:src="@drawable/redorb"
         android:layout_below="@+id/editHolder"/>
 
     <ImageView
         android:id="@+id/blue"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/color"
+        android:layout_alignBottom="@+id/color"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitCenter"
         android:layout_toRightOf="@+id/red"
-        android:src="@drawable/abc_ratingbar_full_material"
+        android:src="@drawable/blueorb"
         android:layout_below="@+id/editHolder"/>
 
     <ImageView
         android:id="@+id/green"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/color"
+        android:layout_alignBottom="@+id/color"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitCenter"
         android:layout_toRightOf="@+id/blue"
-        android:src="@drawable/abc_ratingbar_full_material"
+        android:src="@drawable/greenorb"
         android:layout_below="@+id/editHolder"/>
 
     <ImageView
         android:id="@+id/light"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/color"
+        android:layout_alignBottom="@+id/color"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitCenter"
         android:layout_toRightOf="@+id/green"
-        android:src="@drawable/abc_ratingbar_full_material"
+        android:src="@drawable/lightorb"
         android:layout_below="@+id/editHolder"/>
 
     <ImageView
         android:id="@+id/dark"
-        android:layout_width="wrap_content"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/color"
+        android:layout_alignBottom="@+id/color"
+        android:layout_marginLeft="10dp"
+        android:scaleType="fitCenter"
         android:layout_toRightOf="@+id/light"
-        android:src="@drawable/abc_ratingbar_full_material"
+        android:src="@drawable/darkorbs"
         android:layout_below="@+id/editHolder"/>
 
     <TextView
@@ -81,34 +106,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="# of Orbs Linked"
-        android:layout_below="@+id/dark"/>
+        android:layout_below="@+id/color"/>
 
-    <Spinner
-        android:id="@+id/orbsLinkedSpinner"
-        android:layout_width="70dp"
+    <SeekBar
+        android:id="@+id/orbLinkedSpinner"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
         android:layout_toRightOf="@+id/orbsLinked"
-        android:layout_below="@+id/dark">
-    </Spinner>
+        android:layout_below="@+id/color"/>
 
     <TextView
-        android:id="@+id/orbPlus"
+        android:id="@+id/orbsPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="# of Orbs Plus"
         android:layout_below="@+id/orbsLinkedSpinner"/>
 
-    <Spinner
-        android:id="@+id/orbPlusSpinner"
-        android:layout_width="70dp"
+    <SeekBar
+        android:id="@+id/orbsPlusSpinner"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
         android:layout_toRightOf="@+id/orbsLinked"
-        android:layout_below="@+id/orbsLinkedSpinner">
-    </Spinner>
+        android:layout_below="@+id/orbsLinkedSpinner"/>
 
     <TextView
         android:id="@+id/row"
@@ -122,15 +141,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/orbsLinked"
-        android:layout_below="@+id/orbPlusSpinner"
-        android:onClick="onCheckBoxClicked"/>
+        android:layout_below="@+id/orbPlusSpinner"/>
 
-    <TextView
+    <Button
         android:id="@+id/addMatch"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Match"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:layout_below="@+id/rowCheckBox"/>
 
     <TextView
@@ -139,14 +157,19 @@
         android:layout_height="wrap_content"
         android:text="Orb Matches:"
         android:layout_below="@+id/addMatch"/>
+    <ListView
+        android:id="@+id/orbMatches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/List"
+        android:layout_above="@+id/calculate"/>
 
-    <TextView
+    <Button
         android:id="@+id/calculate"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Calculate"
-        android:gravity="bottom"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/List"/>
+        android:gravity="center"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
