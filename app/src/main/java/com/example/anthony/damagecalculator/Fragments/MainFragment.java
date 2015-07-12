@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment
 {
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private TextView editTeam, sectionLabel, color, row;
+    private TextView editTeam, sectionLabel, color, row, orbsLinkedValue, orbsPlusValue;
     private TextView listText;
     private ImageView red, blue, green, light, dark;
     private LinearLayout editHolder;
@@ -55,13 +55,13 @@ public class MainFragment extends Fragment
 
         }
     };
-//
-//    private View.OnClickListener addMatchClickListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//           orbMatchAdapter.add(orbMatch);
-//        }
-//    };
+
+    //private View.OnClickListener addMatchClickListener = new View.OnClickListener() {
+     //    @Override
+     //    public void onClick(View view) {
+     //      orbMatchAdapter.add(orbMatch);
+     //   }
+     //};
 
     //private RelativeLayout
     public static MainFragment newInstance(int sectionNumber) {
@@ -89,6 +89,47 @@ public class MainFragment extends Fragment
         orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
         initTextView(rootView);
         initImageView(rootView);
+
+        orbsLinked.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress;
+                orbsLinkedValue.setText("" + orbsLinked.getProgress());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        orbsPlus.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            int progress = 0;
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progress = progress;
+                orbsPlusValue.setText("" + orbsPlus.getProgress());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
         return rootView;
     }
 
@@ -112,6 +153,8 @@ public class MainFragment extends Fragment
         color = (TextView) rootView.findViewById(R.id.color);
         row = (TextView) rootView.findViewById(R.id.row);
         listText = (TextView) rootView.findViewById(R.id.List);
+        orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
+        orbsPlusValue = (TextView) rootView.findViewById(R.id.orbsPlusValue);
     }
     private void initImageView(View rootView)
     {
@@ -121,5 +164,7 @@ public class MainFragment extends Fragment
         light = (ImageView) rootView.findViewById(R.id.light);
         dark = (ImageView) rootView.findViewById(R.id.dark);
     }
+
+
 
 }
