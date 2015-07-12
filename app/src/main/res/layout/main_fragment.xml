@@ -122,7 +122,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/orbsLinked"
-        android:layout_below="@+id/orbPlusSpinner"/>
+        android:layout_below="@+id/orbPlusSpinner"
+        android:onClick="onCheckBoxClicked"/>
 
     <TextView
         android:id="@+id/addMatch"

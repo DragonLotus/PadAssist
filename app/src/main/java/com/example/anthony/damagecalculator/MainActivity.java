@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
      */
     ViewPager mViewPager;
 
-    private Spinner spinner;
+    //private Spinner spinner;
     private static final String[]orbChoices = {"3", "4"};
 
     @Override
@@ -60,10 +60,12 @@ public class MainActivity extends ActionBarActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        /*
         spinner = (Spinner)findViewById(R.id.orbsLinkedSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
                android.R.layout.simple_spinner_item, orbChoices);
         spinner.setAdapter(adapter);
+        */
     }
 
 
