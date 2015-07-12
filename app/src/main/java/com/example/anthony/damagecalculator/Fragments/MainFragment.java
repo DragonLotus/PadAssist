@@ -17,6 +17,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
+import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
@@ -100,6 +101,8 @@ public class MainFragment extends Fragment
         manualEdit.setOnCheckedChangeListener(manualEditCheckedChangeListener);
         orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
         orbMatches.setAdapter(orbMatchAdapter);
+        orbMatchAdapter.add(new OrbMatch(3,3, Color.BLUE, true));
+        orbMatchAdapter.add(new OrbMatch(4,4, Color.RED, false));
         Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
     private void initTextView(View rootView)

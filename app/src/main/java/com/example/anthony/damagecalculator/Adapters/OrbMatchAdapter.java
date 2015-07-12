@@ -1,6 +1,8 @@
 package com.example.anthony.damagecalculator.Adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,31 +47,25 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch> {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-//            viewHolder.name.setText(mContentList.get(position).getCountryName());
-            OrbMatch currentMatches = orbMatches.get(position);
-           String rowResult = Integer.toString(currentMatches.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatches.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatches.checkIfRow());
+            OrbMatch currentMatch = orbMatches.get(position);
+           String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.checkIfRow());
             viewHolder.orbMatchTotal.setText(rowResult);
-            if(currentMatches.getColor() == Color.RED) {
-                viewHolder.orbImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.redorb));
 
+            Drawable orbDrawable = getDrawable(R.drawable.darkorb);
+            if(currentMatch.getColor() == Color.RED) {
+                orbDrawable = getDrawable(R.drawable.redorb);
             }
-            if(currentMatches.getColor() == Color.BLUE) {
-                viewHolder.orbImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.blueorb));
-
+            if(currentMatch.getColor() == Color.BLUE) {
+                orbDrawable = getDrawable(R.drawable.blueorb);
             }
-            if(currentMatches.getColor() == Color.GREEN) {
-                viewHolder.orbImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.greenorb));
-
+            if(currentMatch.getColor() == Color.GREEN) {
+                orbDrawable = getDrawable(R.drawable.greenorb);
             }
-            if(currentMatches.getColor() == Color.LIGHT) {
-                viewHolder.orbImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.lightorb));
-
-            }
-            if(currentMatches.getColor() == Color.DARK) {
-                viewHolder.orbImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.darkorb));
-
+            if(currentMatch.getColor() == Color.LIGHT) {
+                orbDrawable = getDrawable(R.drawable.lightorb);
             }
 
+            viewHolder.orbImage.setImageDrawable(orbDrawable);
 
             return convertView;
         }
@@ -78,5 +74,12 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch> {
             TextView orbMatchTotal;
             ImageView orbImage;
         }
+
+    private Drawable getDrawable(int drawable) {
+        if(Build.VERSION.SDK_INT >= 22) {
+            return mContext.getDrawable(drawable);
+        }
+        return mContext.getResources().getDrawable(drawable);
+    }
 
 }
