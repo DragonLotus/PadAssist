@@ -98,7 +98,7 @@
         android:layout_marginLeft="10dp"
         android:scaleType="fitCenter"
         android:layout_toRightOf="@+id/light"
-        android:src="@drawable/darkorbs"
+        android:src="@drawable/darkorb"
         android:layout_below="@+id/editHolder"/>
 
     <TextView

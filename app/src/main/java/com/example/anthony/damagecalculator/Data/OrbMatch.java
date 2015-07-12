@@ -7,11 +7,13 @@ public class OrbMatch {
     private int orbsLinked;
     private int numOrbPlus;
     private Color color;
+    private boolean isRow;
 
-    public OrbMatch(int orbsLinked, int numOrbPlus, Color color) {
+    public OrbMatch(int orbsLinked, int numOrbPlus, Color color, boolean isRow) {
         this.orbsLinked = orbsLinked;
         this.numOrbPlus = numOrbPlus;
         this.color = color;
+        this.isRow = isRow;
     }
 
     public int getOrbsLinked() {
@@ -37,5 +39,7 @@ public class OrbMatch {
     public void setColor(Color color) {
         this.color = color;
     }
+
+    public boolean checkIfRow() { return isRow; }
 
 }
