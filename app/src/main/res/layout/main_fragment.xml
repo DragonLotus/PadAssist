@@ -136,7 +136,7 @@
         android:id="@+id/List"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="List:"
+        android:text="Orb Matches:"
         android:layout_below="@+id/addMatch"/>
 
     <TextView

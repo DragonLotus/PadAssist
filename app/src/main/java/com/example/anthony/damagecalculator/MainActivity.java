@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
         spinner = (Spinner)findViewById(R.id.orbsLinkedSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
-                android.R.layout.simple_spinner_item, orbChoices);
+               android.R.layout.simple_spinner_item, orbChoices);
         spinner.setAdapter(adapter);
     }
 
