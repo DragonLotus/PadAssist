@@ -119,7 +119,7 @@
         android:id="@+id/orbsLinkedValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text="3"
         android:layout_alignRight="@+id/orbsLinkedSpinner"
         android:layout_alignTop="@+id/orbsLinkedSpinner"/>
 
@@ -142,7 +142,7 @@
         android:id="@+id/orbsPlusValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0"
+        android:text="3"
         android:layout_alignRight="@+id/orbsPlusSpinner"
         android:layout_alignTop="@+id/orbsPlusSpinner"/>
 
