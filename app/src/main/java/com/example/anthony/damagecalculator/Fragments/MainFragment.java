@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
@@ -19,13 +21,14 @@ import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 public class MainFragment extends Fragment
 {
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private TextView editTeam;
     public static MainFragment newInstance(int sectionNumber) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
-}
+    }
 
     public MainFragment() {
     }
@@ -34,6 +37,7 @@ public class MainFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
+        editTeam = (TextView) rootView.findViewById(R.id.editTeam);
         return rootView;
     }
 

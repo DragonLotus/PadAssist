@@ -1,0 +1,290 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin">
+
+    <TextView
+        android:id="@+id/teamEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to Team"/>
+
+    <ImageView
+        android:id="@+id/monsterPicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_ratingbar_full_material"
+        android:layout_below="@+id/teamEdit"/>
+
+    <TextView
+        android:id="@+id/monsterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monster Name"
+        android:layout_below="@+id/teamEdit"
+        android:layout_toRightOf="@+id/monsterPicture"/>
+
+    <TextView
+        android:id="@+id/monsterLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monster Level"
+        android:layout_below="@+id/monsterName"
+        android:paddingRight="50dp"
+        android:layout_toRightOf="@+id/monsterPicture"/>
+
+    <TextView
+        android:id="@+id/monsterLevelMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max"
+        android:layout_below="@+id/monsterName"
+        android:layout_toRightOf="@+id/monsterStatsPlus"/>
+
+    <TextView
+        android:id="@+id/monsterStats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stats"
+        android:paddingRight="140dp"
+        android:layout_below="@+id/monsterPicture"/>
+
+    <TextView
+        android:id="@+id/monsterStatsPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:paddingRight="100dp"
+        android:layout_below="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/monsterStats"/>
+
+    <TextView
+        android:id="@+id/monsterStatsMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max"
+        android:layout_below="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/monsterStatsPlus"/>
+
+    <TextView
+        android:id="@+id/monsterStatsHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HP"
+        android:paddingRight="75dp"
+        android:layout_below="@+id/monsterStats"/>
+
+    <TextView
+        android:id="@+id/monsterStatsHPValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1337"
+        android:layout_below="@+id/monsterStats"
+        android:layout_toRightOf="@+id/monsterStatsHP"/>
+
+    <TextView
+        android:id="@+id/monsterStatsHPPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="69"
+        android:layout_alignLeft="@+id/monsterStatsPlus"
+        android:layout_below="@+id/monsterStats"/>
+
+    <TextView
+        android:id="@+id/monsterStatsHPMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max"
+        android:layout_below="@+id/monsterStats"
+        android:layout_toRightOf="@+id/monsterStatsPlus"/>
+    <TextView
+        android:id="@+id/monsterStatsATK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ATK"
+        android:layout_below="@+id/monsterStatsHP"/>
+
+    <TextView
+        android:id="@+id/monsterStatsATKValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1337"
+        android:layout_below="@+id/monsterStatsHP"
+        android:layout_toRightOf="@+id/monsterStatsHP"/>
+
+    <TextView
+        android:id="@+id/monsterStatsATKPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="69"
+        android:layout_alignLeft="@+id/monsterStatsPlus"
+        android:layout_below="@+id/monsterStatsHP"/>
+
+    <TextView
+        android:id="@+id/monsterStatsATKMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max"
+        android:layout_below="@+id/monsterStatsHP"
+        android:layout_toRightOf="@+id/monsterStatsPlus"/>
+
+    <TextView
+        android:id="@+id/monsterStatsRCV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RCV"
+        android:layout_below="@+id/monsterStatsATK"/>
+
+    <TextView
+        android:id="@+id/monsterStatsRCVValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1337"
+        android:layout_below="@+id/monsterStatsATK"
+        android:layout_toRightOf="@+id/monsterStatsHP"/>
+
+    <TextView
+        android:id="@+id/monsterStatsRCVPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="69"
+        android:layout_alignLeft="@+id/monsterStatsPlus"
+        android:layout_below="@+id/monsterStatsATK"/>
+
+    <TextView
+        android:id="@+id/monsterStatsRCVMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max"
+        android:layout_below="@+id/monsterStatsATK"
+        android:layout_toRightOf="@+id/monsterStatsPlus"/>
+
+    <TextView
+        android:id="@+id/monsterStatsWeighted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weighted"
+        android:layout_below="@+id/monsterStatsRCV"/>
+
+    <TextView
+        android:id="@+id/monsterStatsWeightedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1337"
+        android:layout_below="@+id/monsterStatsRCV"
+        android:layout_toRightOf="@+id/monsterStatsHP"/>
+
+    <TextView
+        android:id="@+id/monsterAwakenings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Awakenings"
+        android:layout_below="@+id/monsterStatsWeighted"/>
+
+    <TextView
+        android:id="@+id/monsterAwakeningsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="696969696969"
+        android:layout_below="@+id/monsterAwakenings"/>
+
+    <TextView
+        android:id="@+id/monsterAwakeningsMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max"
+        android:layout_below="@+id/monsterAwakenings"
+        android:layout_toRightOf="@+id/monsterStatsPlus"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"
+        android:layout_toRightOf="@+id/monsterAwakening1"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"
+        android:layout_toRightOf="@+id/monsterAwakening2"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"
+        android:layout_toRightOf="@+id/monsterAwakening3"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"
+        android:layout_toRightOf="@+id/monsterAwakening4"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"
+        android:layout_toRightOf="@+id/monsterAwakening5"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"
+        android:layout_toRightOf="@+id/monsterAwakening6"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"
+        android:layout_toRightOf="@+id/monsterAwakening7"/>
+
+    <ImageView
+        android:id="@+id/monsterAwakening9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+        android:layout_below="@+id/monsterAwakeningsValue"
+        android:layout_toRightOf="@+id/monsterAwakening8"/>
+
+    <TextView
+        android:id="@+id/monsterImport"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:text="Choose Monster from Import"
+        android:layout_below="@+id/monsterAwakening1" />
+
+    <TextView
+        android:id="@+id/monsterMaxAll"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Max All"
+        android:gravity="bottom"
+        android:layout_below="@+id/monsterAwakenings"
+        android:layout_toRightOf="@+id/monsterStatsPlus"/>
+
+
+</RelativeLayout>

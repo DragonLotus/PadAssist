@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
+import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
 
 import java.util.Locale;
 
@@ -59,7 +60,6 @@ public class MainActivity extends ActionBarActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         spinner = (Spinner)findViewById(R.id.orbsLinkedSpinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
                 android.R.layout.simple_spinner_item, orbChoices);
@@ -106,6 +106,10 @@ public class MainActivity extends ActionBarActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             if(position == 0) {
                return MainFragment.newInstance(position + 1);
+            }
+            if(position == 1)
+            {
+                return MonsterPageFragment.newInstance("thomas", "fix this");
             }
             return PlaceholderFragment.newInstance(position + 1);
         }
