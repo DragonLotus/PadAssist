@@ -56,6 +56,40 @@ public class MainFragment extends Fragment
         }
     };
 
+    private SeekBar.OnSeekBarChangeListener orbsLinkedSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            orbsLinkedValue.setText("" + (progress+3));
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
+
+    private SeekBar.OnSeekBarChangeListener orbsPlusSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        orbsPlusValue.setText("" + (progress+3));
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+};
+
     //private View.OnClickListener addMatchClickListener = new View.OnClickListener() {
      //    @Override
      //    public void onClick(View view) {
@@ -90,45 +124,9 @@ public class MainFragment extends Fragment
         initTextView(rootView);
         initImageView(rootView);
 
-        orbsLinked.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0;
+        orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
 
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progress = progress;
-                orbsLinkedValue.setText("" + orbsLinked.getProgress());
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
-
-        orbsPlus.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0;
-
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                progress = progress;
-                orbsPlusValue.setText("" + orbsPlus.getProgress());
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+        orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
 
         return rootView;
     }
