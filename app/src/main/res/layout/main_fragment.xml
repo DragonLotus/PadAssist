@@ -76,4 +76,76 @@
         android:src="@drawable/abc_ratingbar_full_material"
         android:layout_below="@+id/editHolder"/>
 
+    <TextView
+        android:id="@+id/orbsLinked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="# of Orbs Linked"
+        android:layout_below="@+id/dark"/>
+
+    <Spinner
+        android:id="@+id/orbsLinkedSpinner"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:layout_toRightOf="@+id/orbsLinked"
+        android:layout_below="@+id/dark">
+    </Spinner>
+
+    <TextView
+        android:id="@+id/orbPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="# of Orbs Plus"
+        android:layout_below="@+id/orbsLinkedSpinner"/>
+
+    <Spinner
+        android:id="@+id/orbPlusSpinner"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:layout_toRightOf="@+id/orbsLinked"
+        android:layout_below="@+id/orbsLinkedSpinner">
+    </Spinner>
+
+    <TextView
+        android:id="@+id/row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Is a row:"
+        android:layout_below="@+id/orbPlusSpinner"/>
+
+    <CheckBox
+        android:id="@+id/rowCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/orbsLinked"
+        android:layout_below="@+id/orbPlusSpinner"/>
+
+    <TextView
+        android:id="@+id/addMatch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Match"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/rowCheckBox"/>
+
+    <TextView
+        android:id="@+id/List"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="List:"
+        android:layout_below="@+id/addMatch"/>
+
+    <TextView
+        android:id="@+id/calculate"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:text="Calculate"
+        android:gravity="bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/List"/>
+
 </RelativeLayout>

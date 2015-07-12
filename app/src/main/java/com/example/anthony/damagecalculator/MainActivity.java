@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
@@ -42,6 +43,9 @@ public class MainActivity extends ActionBarActivity {
      */
     ViewPager mViewPager;
 
+    private Spinner spinner;
+    private static final String[]orbChoices = {"3", "4"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,10 @@ public class MainActivity extends ActionBarActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        spinner = (Spinner)findViewById(R.id.orbsLinkedSpinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
+                android.R.layout.simple_spinner_item, orbChoices);
+        spinner.setAdapter(adapter);
     }
 
 

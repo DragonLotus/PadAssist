@@ -16,7 +16,8 @@ import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 /**
  * Created by Thomas on 7/11/2015.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment
+{
     private static final String ARG_SECTION_NUMBER = "section_number";
     public static MainFragment newInstance(int sectionNumber) {
         MainFragment fragment = new MainFragment();
@@ -24,7 +25,7 @@ public class MainFragment extends Fragment {
         args.putInt(ARG_SECTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
         return fragment;
-    }
+}
 
     public MainFragment() {
     }
