@@ -109,7 +109,7 @@
         android:layout_below="@+id/color"/>
 
     <SeekBar
-        android:id="@+id/orbLinkedSpinner"
+        android:id="@+id/orbsLinkedSpinner"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_toRightOf="@+id/orbsLinked"
@@ -134,14 +134,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Is a row:"
-        android:layout_below="@+id/orbPlusSpinner"/>
+        android:layout_below="@+id/orbsPlusSpinner"/>
 
     <CheckBox
         android:id="@+id/rowCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/orbsLinked"
-        android:layout_below="@+id/orbPlusSpinner"/>
+        android:layout_below="@+id/orbsPlusSpinner"/>
 
     <Button
         android:id="@+id/addMatch"

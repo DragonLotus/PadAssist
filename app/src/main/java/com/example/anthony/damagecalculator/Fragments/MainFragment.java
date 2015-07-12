@@ -12,12 +12,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.example.anthony.damagecalculator.MainActivity;
+import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
+import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
+
+import java.util.ArrayList;
 
 /**
  * Created by Thomas on 7/11/2015.
@@ -32,6 +36,7 @@ public class MainFragment extends Fragment
     private Button addMatch, calculate;
     private SeekBar orbsLinked, orbsPlus;
     private CheckBox rowCheckBox, manualEdit;
+    private ListView orbMatches;
     private boolean isManualEditing = false;
     private boolean isRow;
 
@@ -72,6 +77,7 @@ public class MainFragment extends Fragment
         orbsPlus = (SeekBar) rootView.findViewById(R.id.orbsPlusSpinner);
         addMatch = (Button) rootView.findViewById(R.id.addMatch);
         calculate = (Button) rootView.findViewById(R.id.calculate);
+orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
         initTextView(rootView);
         initImageView(rootView);
         return rootView;
@@ -84,6 +90,8 @@ public class MainFragment extends Fragment
 
         rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         manualEdit.setOnCheckedChangeListener(manualEditCheckedChangeListener);
+        OrbMatchAdapter orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
+        orbMatches.setAdapter(orbMatchAdapter);
         Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
     private void initTextView(View rootView)
