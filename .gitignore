@@ -13,5 +13,9 @@ app/app.iml
 DamageCalculator.iml
 app/app.iml
 DamageCalculator.iml
+<<<<<<< HEAD
 *.iml
 *.iml
+=======
+app/app.iml
+>>>>>>> origin/master

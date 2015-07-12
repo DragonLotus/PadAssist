@@ -9,8 +9,11 @@
         <option name="gradleHome" value="C:\Programs\Android\Android Studio\gradle\gradle-2.2.1" />
 =======
         <option name="gradleHome" value="E:\Program Files\Android\Android Studio\gradle\gradle-2.2.1" />
+<<<<<<< HEAD
 >>>>>>> origin/master
         <option name="gradleJvm" value="1.7" />
+=======
+>>>>>>> origin/master
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -21,3 +24,4 @@
     </option>
   </component>
 </project>
+

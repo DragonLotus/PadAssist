@@ -111,6 +111,7 @@
         android:id="@+id/orbsLinkedSpinner"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:max="27"
         android:layout_toRightOf="@+id/orbsLinked"
         android:layout_below="@+id/color"/>
 
@@ -133,6 +134,7 @@
         android:id="@+id/orbsPlusSpinner"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:max="27"
         android:layout_toRightOf="@+id/orbsLinked"
         android:layout_below="@+id/orbsLinkedSpinner"/>
 
