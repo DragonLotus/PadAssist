@@ -161,6 +161,7 @@ public class MainFragment extends Fragment
         green = (ImageView) rootView.findViewById(R.id.green);
         light = (ImageView) rootView.findViewById(R.id.light);
         dark = (ImageView) rootView.findViewById(R.id.dark);
+        
     }
 
 
