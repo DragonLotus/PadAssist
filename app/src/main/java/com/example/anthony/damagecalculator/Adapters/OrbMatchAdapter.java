@@ -19,67 +19,80 @@ import java.util.ArrayList;
 /**
  * Created by Thomas on 7/12/2015.
  */
-public class OrbMatchAdapter extends ArrayAdapter<OrbMatch> {
-    private Context mContext;
-    private LayoutInflater inflater;
+public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
+{
+   private Context mContext;
+   private LayoutInflater inflater;
 
-    private ArrayList<OrbMatch> orbMatches;
-    private int resourceId;
-        public OrbMatchAdapter(Context context, int textViewResourceId, ArrayList<OrbMatch> orbMatches) {
-            super(context, textViewResourceId, orbMatches);
-            mContext = context;
-            this.orbMatches = orbMatches;
-            this.resourceId = textViewResourceId;
-        }
+   private ArrayList<OrbMatch> orbMatches;
+   private int resourceId;
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+   public OrbMatchAdapter(Context context, int textViewResourceId, ArrayList<OrbMatch> orbMatches)
+   {
+      super(context, textViewResourceId, orbMatches);
+      mContext = context;
+      this.orbMatches = orbMatches;
+      this.resourceId = textViewResourceId;
+   }
 
-            ViewHolder viewHolder = null;
-            if (convertView == null) {
-                inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                convertView = inflater.inflate(resourceId, parent, false);
-                viewHolder = new ViewHolder();
-                viewHolder.orbMatchTotal = (TextView) convertView.findViewById(R.id.orbMatchTotal);
-                viewHolder.orbImage = (ImageView) convertView.findViewById(R.id.orbImage);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
+   @Override
+   public View getView(int position, View convertView, ViewGroup parent)
+   {
 
-            OrbMatch currentMatch = orbMatches.get(position);
-           String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.checkIfRow());
-            viewHolder.orbMatchTotal.setText(rowResult);
+      ViewHolder viewHolder = null;
+      if (convertView == null)
+      {
+         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+         convertView = inflater.inflate(resourceId, parent, false);
+         viewHolder = new ViewHolder();
+         viewHolder.orbMatchTotal = (TextView) convertView.findViewById(R.id.orbMatchTotal);
+         viewHolder.orbImage = (ImageView) convertView.findViewById(R.id.orbImage);
+         convertView.setTag(viewHolder);
+      } else
+      {
+         viewHolder = (ViewHolder) convertView.getTag();
+      }
 
-            Drawable orbDrawable = getDrawable(R.drawable.darkorb);
-            if(currentMatch.getColor() == Color.RED) {
-                orbDrawable = getDrawable(R.drawable.redorb);
-            }
-            if(currentMatch.getColor() == Color.BLUE) {
-                orbDrawable = getDrawable(R.drawable.blueorb);
-            }
-            if(currentMatch.getColor() == Color.GREEN) {
-                orbDrawable = getDrawable(R.drawable.greenorb);
-            }
-            if(currentMatch.getColor() == Color.LIGHT) {
-                orbDrawable = getDrawable(R.drawable.lightorb);
-            }
+      OrbMatch currentMatch = orbMatches.get(position);
+      String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.checkIfRow());
+      viewHolder.orbMatchTotal.setText(rowResult);
 
-            viewHolder.orbImage.setImageDrawable(orbDrawable);
+      Drawable orbDrawable = getDrawable(R.drawable.darkorb);
+      if (currentMatch.getColor() == Color.RED)
+      {
+         orbDrawable = getDrawable(R.drawable.redorb);
+      }
+      if (currentMatch.getColor() == Color.BLUE)
+      {
+         orbDrawable = getDrawable(R.drawable.blueorb);
+      }
+      if (currentMatch.getColor() == Color.GREEN)
+      {
+         orbDrawable = getDrawable(R.drawable.greenorb);
+      }
+      if (currentMatch.getColor() == Color.LIGHT)
+      {
+         orbDrawable = getDrawable(R.drawable.lightorb);
+      }
 
-            return convertView;
-        }
+      viewHolder.orbImage.setImageDrawable(orbDrawable);
 
-        static class ViewHolder {
-            TextView orbMatchTotal;
-            ImageView orbImage;
-        }
+      return convertView;
+   }
 
-    private Drawable getDrawable(int drawable) {
-        if(Build.VERSION.SDK_INT >= 22) {
-            return mContext.getDrawable(drawable);
-        }
-        return mContext.getResources().getDrawable(drawable);
-    }
+   static class ViewHolder
+   {
+      TextView orbMatchTotal;
+      ImageView orbImage;
+   }
+
+   private Drawable getDrawable(int drawable)
+   {
+      if (Build.VERSION.SDK_INT >= 22)
+      {
+         return mContext.getDrawable(drawable);
+      }
+      return mContext.getResources().getDrawable(drawable);
+   }
 
 }

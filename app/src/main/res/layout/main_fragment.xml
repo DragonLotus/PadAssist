@@ -1,192 +1,234 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin">
+   xmlns:tools="http://schemas.android.com/tools"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent"
+   android:paddingBottom="@dimen/activity_vertical_margin"
+   android:paddingLeft="@dimen/activity_horizontal_margin"
+   android:paddingRight="@dimen/activity_horizontal_margin"
+   android:paddingTop="@dimen/activity_vertical_margin">
 
-    <LinearLayout
-        android:id="@+id/editHolder"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/section_label">
+   <LinearLayout
+      android:id="@+id/editHolder"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/section_label"
+      android:orientation="horizontal">
 
-    <CheckBox
-        android:id="@+id/manualEdit"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight=".5"
-        android:text="Manual Edit"/>
+      <CheckBox
+         android:id="@+id/manualEdit"
+         android:layout_width="0dp"
+         android:layout_height="match_parent"
+         android:layout_weight=".5"
+         android:gravity="center"
+         android:text="Manual Edit" />
 
-    <TextView
-        android:id="@+id/editTeam"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_weight=".5"
-        android:text="Edit Team"/>
-    </LinearLayout>
+      <TextView
+         android:id="@+id/editTeam"
+         android:layout_width="0dp"
+         android:layout_height="match_parent"
+         android:layout_weight=".5"
+         android:gravity="center"
+         android:text="Edit Team" />
+   </LinearLayout>
 
-    <TextView
-        android:id="@+id/color"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:text="Color"
-        android:layout_below="@+id/editHolder"/>
+   <TextView
+      android:id="@+id/color"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/editHolder"
+      android:layout_marginBottom="10dp"
+      android:layout_marginTop="10dp"
+      android:gravity="center"
+      android:text="Color"
+      android:textSize="20sp" />
 
-    <ImageView
-        android:id="@+id/red"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/color"
-        android:layout_alignBottom="@+id/color"
-        android:layout_marginLeft="10dp"
-        android:scaleType="fitCenter"
-        android:layout_toRightOf="@+id/color"
-        android:src="@drawable/redorb"
-        android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/red"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/color"-->
+   <!--android:src="@drawable/redorb"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-    <ImageView
-        android:id="@+id/blue"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/color"
-        android:layout_alignBottom="@+id/color"
-        android:layout_marginLeft="10dp"
-        android:scaleType="fitCenter"
-        android:layout_toRightOf="@+id/red"
-        android:src="@drawable/blueorb"
-        android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/blue"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/red"-->
+   <!--android:src="@drawable/blueorb"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-    <ImageView
-        android:id="@+id/green"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/color"
-        android:layout_alignBottom="@+id/color"
-        android:layout_marginLeft="10dp"
-        android:scaleType="fitCenter"
-        android:layout_toRightOf="@+id/blue"
-        android:src="@drawable/greenorb"
-        android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/green"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/blue"-->
+   <!--android:src="@drawable/greenorb"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-    <ImageView
-        android:id="@+id/light"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/color"
-        android:layout_alignBottom="@+id/color"
-        android:layout_marginLeft="10dp"
-        android:scaleType="fitCenter"
-        android:layout_toRightOf="@+id/green"
-        android:src="@drawable/lightorb"
-        android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/light"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/green"-->
+   <!--android:src="@drawable/lightorb"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-    <ImageView
-        android:id="@+id/dark"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/color"
-        android:layout_alignBottom="@+id/color"
-        android:layout_marginLeft="10dp"
-        android:scaleType="fitCenter"
-        android:layout_toRightOf="@+id/light"
-        android:src="@drawable/darkorb"
-        android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/dark"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/light"-->
+   <!--android:src="@drawable/darkorb"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-    <TextView
-        android:id="@+id/orbsLinked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# of Orbs Linked"
-        android:layout_below="@+id/color"/>
+   <RadioGroup
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignTop="@+id/color"
+      android:layout_alignBottom="@+id/color"
+      android:layout_toRightOf="@+id/color"
+      android:orientation="horizontal">
 
-    <SeekBar
-        android:id="@+id/orbsLinkedSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:max="27"
-        android:layout_toRightOf="@+id/orbsLinked"
-        android:layout_below="@+id/color"/>
+      <RadioButton
+         android:id="@+id/redButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="R"/>
 
-    <TextView
-        android:id="@+id/orbsLinkedValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3"
-        android:layout_alignRight="@+id/orbsLinkedSpinner"
-        android:layout_alignTop="@+id/orbsLinkedSpinner"/>
+      <RadioButton
+         android:id="@+id/blueButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="B"/>
 
-    <TextView
-        android:id="@+id/orbsPlus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# of Orbs Plus"
-        android:layout_below="@+id/orbsLinkedSpinner"/>
+      <RadioButton
+         android:id="@+id/greenButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="G"/>
 
-    <SeekBar
-        android:id="@+id/orbsPlusSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:max="27"
-        android:layout_toRightOf="@+id/orbsLinked"
-        android:layout_below="@+id/orbsLinkedSpinner"/>
+      <RadioButton
+         android:id="@+id/lightButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="L"/>
 
-    <TextView
-        android:id="@+id/orbsPlusValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3"
-        android:layout_alignRight="@+id/orbsPlusSpinner"
-        android:layout_alignTop="@+id/orbsPlusSpinner"/>
+      <RadioButton
+         android:id="@+id/darkButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="D"/>
+   </RadioGroup>
 
-    <TextView
-        android:id="@+id/row"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Is a row:"
-        android:layout_below="@+id/orbsPlusSpinner"/>
+   <TextView
+      android:id="@+id/orbsLinked"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/color"
+      android:text="# of Orbs Linked" />
 
-    <CheckBox
-        android:id="@+id/rowCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/orbsLinked"
-        android:layout_below="@+id/orbsPlusSpinner"/>
+   <SeekBar
+      android:id="@+id/orbsLinkedSpinner"
+      android:layout_width="match_parent"
+      android:layout_height="30dp"
+      android:layout_below="@+id/color"
+      android:layout_toRightOf="@+id/orbsLinked"
+      android:max="27" />
 
-    <Button
-        android:id="@+id/addMatch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Match"
-        android:gravity="center"
-        android:layout_below="@+id/rowCheckBox"/>
+   <TextView
+      android:id="@+id/orbsLinkedValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignRight="@+id/orbsLinkedSpinner"
+      android:layout_alignTop="@+id/orbsLinkedSpinner"
+      android:text="3" />
 
-    <TextView
-        android:id="@+id/List"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Orb Matches:"
-        android:layout_below="@+id/addMatch"/>
-    <ListView
-        android:id="@+id/orbMatches"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/List"
-        android:layout_above="@+id/calculate"/>
+   <TextView
+      android:id="@+id/orbsPlus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/orbsLinkedSpinner"
+      android:text="# of Orbs Plus" />
 
-    <Button
-        android:id="@+id/calculate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Calculate"
-        android:gravity="center"
-        android:layout_alignParentBottom="true"/>
+   <SeekBar
+      android:id="@+id/orbsPlusSpinner"
+      android:layout_width="match_parent"
+      android:layout_height="30dp"
+      android:layout_below="@+id/orbsLinkedSpinner"
+      android:layout_toRightOf="@+id/orbsLinked"
+      android:max="27" />
+
+   <TextView
+      android:id="@+id/orbsPlusValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignRight="@+id/orbsPlusSpinner"
+      android:layout_alignTop="@+id/orbsPlusSpinner"
+      android:text="3" />
+
+   <TextView
+      android:id="@+id/row"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/orbsPlusSpinner"
+      android:text="Is a row:" />
+
+   <CheckBox
+      android:id="@+id/rowCheckBox"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/orbsPlusSpinner"
+      android:layout_toRightOf="@+id/orbsLinked" />
+
+   <Button
+      android:id="@+id/addMatch"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/rowCheckBox"
+      android:gravity="center"
+      android:text="Add Match" />
+
+   <TextView
+      android:id="@+id/List"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/addMatch"
+      android:text="Orb Matches:" />
+
+   <ListView
+      android:id="@+id/orbMatches"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_above="@+id/calculate"
+      android:layout_below="@+id/List" />
+
+   <Button
+      android:id="@+id/calculate"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:gravity="center"
+      android:text="Calculate" />
 
 </RelativeLayout>
