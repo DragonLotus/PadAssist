@@ -37,6 +37,7 @@ public class MainFragment extends Fragment
     private SeekBar orbsLinked, orbsPlus;
     private CheckBox rowCheckBox, manualEdit;
     private ListView orbMatches;
+    private OrbMatchAdapter orbMatchAdapter;
     private boolean isManualEditing = false;
     private boolean isRow;
 
@@ -53,6 +54,13 @@ public class MainFragment extends Fragment
 
         }
     };
+//
+//    private View.OnClickListener addMatchClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View view) {
+//           orbMatchAdapter.add(orbMatch);
+//        }
+//    };
 
     //private RelativeLayout
     public static MainFragment newInstance(int sectionNumber) {
@@ -77,7 +85,7 @@ public class MainFragment extends Fragment
         orbsPlus = (SeekBar) rootView.findViewById(R.id.orbsPlusSpinner);
         addMatch = (Button) rootView.findViewById(R.id.addMatch);
         calculate = (Button) rootView.findViewById(R.id.calculate);
-orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
+        orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
         initTextView(rootView);
         initImageView(rootView);
         return rootView;
@@ -90,7 +98,7 @@ orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
 
         rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         manualEdit.setOnCheckedChangeListener(manualEditCheckedChangeListener);
-        OrbMatchAdapter orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
+        orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
         orbMatches.setAdapter(orbMatchAdapter);
         Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
