@@ -27,6 +27,7 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
 
    private ArrayList<OrbMatch> orbMatches;
    private int resourceId;
+   private Toast toast;
 
    private ImageView.OnClickListener removeOnClickListener = new ImageView.OnClickListener()
    {
@@ -36,7 +37,11 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
          int position = (int)v.getTag(R.string.index);
          orbMatches.remove(position);
          notifyDataSetChanged();
-         Toast.makeText(mContext, "Match Removed", Toast.LENGTH_SHORT).show();
+         if(toast != null) {
+            toast.cancel();
+         }
+         toast = Toast.makeText(mContext, "Match Removed", Toast.LENGTH_SHORT);
+         toast.show();
       }
    };
 

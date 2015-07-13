@@ -47,6 +47,8 @@ public class MainFragment extends Fragment
    private OrbMatch orbMatch;
    private Color orbColor;
    private RadioGroup colorChoices;
+   private Toast toast;
+   private MyAlertDialogFragment dialog;
 
    private CompoundButton.OnCheckedChangeListener rowCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
    {
@@ -131,7 +133,11 @@ public class MainFragment extends Fragment
          rowCheckBox.setEnabled(false);
          rowCheckBox.setChecked(false);
          orbMatchAdapter.clear();
-         Toast.makeText(getActivity(), "Matches Reset", Toast.LENGTH_SHORT).show();
+         if(toast != null) {
+            toast.cancel();
+         }
+         toast = Toast.makeText(getActivity(), "Everything Reset", Toast.LENGTH_SHORT);
+         toast.show();
       }
    };
 
