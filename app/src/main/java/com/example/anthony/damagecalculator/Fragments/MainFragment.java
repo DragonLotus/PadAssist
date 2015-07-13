@@ -1,10 +1,13 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +53,8 @@ public class MainFragment extends Fragment
    private OrbMatch orbMatch;
    private Color orbColor;
    private Toast toast;
-   private MyAlertDialogFragment dialog;
+   private RadioGroup orbRadioGroup;
+   private AlertDialog dialog;
 
    private CompoundButton.OnCheckedChangeListener rowCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
    {
@@ -114,13 +118,29 @@ public class MainFragment extends Fragment
       }
    };
 
+   private Color getOrbColor() {
+      int radioGroupId = orbRadioGroup.getCheckedRadioButtonId();
+      switch(radioGroupId) {
+         case R.id.redOrb:
+            return Color.RED;
+         case R.id.blueOrb:
+            return Color.BLUE;
+         case R.id.greenOrb:
+            return Color.GREEN;
+         case R.id.lightOrb:
+            return Color.LIGHT;
+         case R.id.darkOrb:
+            return Color.DARK;
+      }
+      return Color.RED;
+   }
 
    private View.OnClickListener addMatchOnClickListener = new View.OnClickListener()
    {
       @Override
       public void onClick(View v)
       {
-         orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress(),orbColor, isRow);
+         orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress(),getOrbColor(), isRow);
          orbMatchAdapter.add(orbMatch);
       }
    };
@@ -129,68 +149,8 @@ public class MainFragment extends Fragment
    {
       public void onClick(View v)
       {
-         setAlltoGray();
-         redOrb.setSelected(true);
-         orbColor = Color.RED;
-         orbsLinked.setProgress(0);
-         orbsPlus.setProgress(0);
-         rowCheckBox.setEnabled(false);
-         rowCheckBox.setChecked(false);
-         orbMatchAdapter.clear();
-         if(toast != null) {
-            toast.cancel();
-         }
-         toast = Toast.makeText(getActivity(), "Everything Reset", Toast.LENGTH_SHORT);
-         toast.show();
-      }
-   };
-
-
-
-   private void setAlltoGray()
-   {
-      redOrb.setSelected(false);
-      blueOrb.setSelected(false);
-      greenOrb.setSelected(false);
-      lightOrb.setSelected(false);
-      darkOrb.setSelected(false);
-   }
-
-   private ImageButton.OnClickListener orbOnClickListener = new ImageButton.OnClickListener()
-   {
-      public void onClick(View v)
-      {
-         if(v.equals(redOrb))
-         {
-            orbColor = Color.RED;
-            setAlltoGray();
-            redOrb.setSelected(true);
-         }
-         else if(v.equals(blueOrb))
-         {
-            orbColor = Color.BLUE;
-            setAlltoGray();
-            blueOrb.setSelected(true);
-         }
-         else if(v.equals(greenOrb))
-         {
-            orbColor = Color.GREEN;
-            setAlltoGray();
-            greenOrb.setSelected(true);
-         }
-         else if(v.equals(lightOrb))
-         {
-            orbColor = Color.LIGHT;
-            setAlltoGray();
-            lightOrb.setSelected(true);
-
-         }
-         else if(v.equals(darkOrb))
-         {
-            orbColor = Color.DARK;
-            setAlltoGray();
-            darkOrb.setSelected(true);
-         }
+         dialog = resetAlert();
+         dialog.show();
       }
    };
 
@@ -235,9 +195,9 @@ public class MainFragment extends Fragment
       calculate = (Button) rootView.findViewById(R.id.calculate);
       reset = (Button) rootView.findViewById(R.id.reset);
       orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
+      orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
       initTextView(rootView);
       initImageView(rootView);
-      redOrb.setSelected(true);
       return rootView;
    }
 
@@ -249,18 +209,11 @@ public class MainFragment extends Fragment
       orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
       orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
-      //colorChoices.setOnCheckedChangeListener(colorChoicesOnCheckedListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
-      redOrb.setOnClickListener(orbOnClickListener);
-      blueOrb.setOnClickListener(orbOnClickListener);
-      greenOrb.setOnClickListener(orbOnClickListener);
-      lightOrb.setOnClickListener(orbOnClickListener);
-      darkOrb.setOnClickListener(orbOnClickListener);
 
       reset.setOnClickListener(resetOnClickListener);
       orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
       orbMatches.setAdapter(orbMatchAdapter);
-      //orbMatches.setOnItemClickListener(orbMatchesOnItemClickListener);
 
       Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
@@ -278,12 +231,43 @@ public class MainFragment extends Fragment
 
    private void initImageView(View rootView)
    {
-      redOrb = (ImageButton) rootView.findViewById(R.id.redOrb);
-      blueOrb = (ImageButton) rootView.findViewById(R.id.blueOrb);
-      greenOrb = (ImageButton) rootView.findViewById(R.id.greenOrb);
-      lightOrb = (ImageButton) rootView.findViewById(R.id.lightOrb);
-      darkOrb = (ImageButton) rootView.findViewById(R.id.darkOrb);
+//      redOrb = (ImageButton) rootView.findViewById(R.id.redOrb);
+//      blueOrb = (ImageButton) rootView.findViewById(R.id.blueOrb);
+//      greenOrb = (ImageButton) rootView.findViewById(R.id.greenOrb);
+//      lightOrb = (ImageButton) rootView.findViewById(R.id.lightOrb);
+//      darkOrb = (ImageButton) rootView.findViewById(R.id.darkOrb);
    }
 
+   public AlertDialog resetAlert() {
+      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+      alertDialogBuilder.setTitle("Reset page?");
+      alertDialogBuilder.setMessage("Are you sure you want to clear everything?");
+      alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+         @Override
+         public void onClick(DialogInterface dialog, int which) {
+            //do reset here
+            orbRadioGroup.check(R.id.redOrb);
+            orbsLinked.setProgress(0);
+            orbsPlus.setProgress(0);
+            rowCheckBox.setEnabled(false);
+            rowCheckBox.setChecked(false);
+            orbMatchAdapter.clear();
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "Page Reset", Toast.LENGTH_SHORT);
+            toast.show();
+            dialog.dismiss();
+         }
+      });
+      alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener()
+      {
+         public void onClick(DialogInterface dialog, int which)
+         {
+            dialog.dismiss();
+         }
+      });
 
+      return alertDialogBuilder.create();
+   }
 }

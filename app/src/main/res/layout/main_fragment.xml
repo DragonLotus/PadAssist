@@ -134,41 +134,48 @@
       android:text="Calculate" />
 
    <RadioGroup
+       android:id="@+id/orbRadioGroup"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
+       android:checkedButton="@+id/redOrb"
        android:orientation="horizontal"
        android:layout_alignTop="@+id/color"
        android:layout_alignBottom="@+id/color"
        android:layout_toRightOf="@+id/color">
-      <ImageButton
+      <RadioButton
           android:id="@+id/redOrb"
           android:layout_width="20dp"
           android:layout_height="20dp"
           android:layout_marginLeft="10dp"
+          android:button="@null"
           android:background="@drawable/red_orb_selector" />
-      <ImageButton
+      <RadioButton
           android:id="@+id/blueOrb"
           android:layout_width="20dp"
           android:layout_height="20dp"
           android:layout_marginLeft="10dp"
+          android:button="@null"
           android:background="@drawable/blue_orb_selector" />
-      <ImageButton
+      <RadioButton
           android:id="@+id/greenOrb"
           android:layout_width="20dp"
           android:layout_height="20dp"
           android:layout_marginLeft="10dp"
+          android:button="@null"
           android:background="@drawable/green_orb_selector" />
-      <ImageButton
+      <RadioButton
           android:id="@+id/lightOrb"
           android:layout_width="20dp"
           android:layout_height="20dp"
           android:layout_marginLeft="10dp"
+          android:button="@null"
           android:background="@drawable/light_orb_selector" />
-      <ImageButton
+      <RadioButton
           android:id="@+id/darkOrb"
           android:layout_width="20dp"
           android:layout_height="20dp"
           android:layout_marginLeft="10dp"
+          android:button="@null"
           android:background="@drawable/dark_orb_selector" />
    </RadioGroup>
 

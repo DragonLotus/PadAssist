@@ -69,6 +69,11 @@ public class MonsterPageFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_monster_page, container, false);
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
