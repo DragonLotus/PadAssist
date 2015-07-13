@@ -70,6 +70,15 @@ public class MainFragment extends Fragment
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
       {
          orbsLinkedValue.setText("" + (progress + 3));
+         orbsPlus.setMax(progress + 3);
+         if((progress + 3) >= 6 && (progress + 3) != 7)
+         {
+            rowCheckBox.setEnabled(true);
+         }
+         else
+         {
+            rowCheckBox.setEnabled(false);
+         }
       }
 
       @Override
@@ -90,7 +99,7 @@ public class MainFragment extends Fragment
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
       {
-         orbsPlusValue.setText("" + (progress + 3));
+         orbsPlusValue.setText("" + (progress));
       }
 
       @Override
@@ -173,6 +182,7 @@ public class MainFragment extends Fragment
       View rootView = inflater.inflate(R.layout.main_fragment, container, false);
       editHolder = (LinearLayout) rootView.findViewById(R.id.editHolder);
       rowCheckBox = (CheckBox) rootView.findViewById(R.id.rowCheckBox);
+      rowCheckBox.setEnabled(false);
       manualEdit = (CheckBox) rootView.findViewById(R.id.manualEdit);
       orbsLinked = (SeekBar) rootView.findViewById(R.id.orbsLinkedSpinner);
       orbsPlus = (SeekBar) rootView.findViewById(R.id.orbsPlusSpinner);
@@ -182,11 +192,6 @@ public class MainFragment extends Fragment
       initTextView(rootView);
       //initImageView(rootView);
       colorChoices = (RadioGroup) rootView.findViewById(R.id.orbChoices);
-
-      orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
-
-      orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
-
       return rootView;
    }
 
@@ -195,7 +200,8 @@ public class MainFragment extends Fragment
    {
       super.onActivityCreated(savedInstanceState);
       //Write your code here
-
+      orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
+      orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
       manualEdit.setOnCheckedChangeListener(manualEditCheckedChangeListener);
       colorChoices.setOnCheckedChangeListener(colorChoicesOnCheckedListener);
