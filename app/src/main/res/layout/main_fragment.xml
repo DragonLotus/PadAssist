@@ -14,13 +14,13 @@
       android:layout_below="@+id/section_label"
       android:orientation="horizontal">
 
-      <CheckBox
-         android:id="@+id/manualEdit"
+      <Button
+         android:id="@+id/reset"
          android:layout_width="0dp"
          android:layout_height="match_parent"
          android:layout_weight=".5"
          android:gravity="center"
-         android:text="Manual Edit" />
+         android:text="Reset all" />
 
       <TextView
          android:id="@+id/editTeam"
@@ -178,6 +178,7 @@
       android:layout_height="30dp"
       android:layout_below="@+id/orbsLinkedSpinner"
       android:layout_toRightOf="@+id/orbsLinked"
+      android:max="3"
       />
 
    <TextView
