@@ -1,29 +1,22 @@
 package com.example.anthony.damagecalculator;
 
-import android.app.Activity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
+import com.integralblue.httpresponsecache.HttpResponseCache;
 
+import java.io.File;
 import java.util.Locale;
 
 
@@ -60,12 +53,20 @@ public class MainActivity extends ActionBarActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        /*
-        spinner = (Spinner)findViewById(R.id.orbsLinkedSpinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this,
-               android.R.layout.simple_spinner_item, orbChoices);
-        spinner.setAdapter(adapter);
-        */
+
+        // Get the Default External Cache Directory
+        File httpCacheDir = getExternalCacheDir();
+
+        // Cache Size of 5MB
+        long httpCacheSize = 5 * 1024 * 1024;
+
+        try {
+            // Install the custom Cache Implementation
+            HttpResponseCache.install(httpCacheDir, httpCacheSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
