@@ -78,6 +78,7 @@ public class MainFragment extends Fragment
          else
          {
             rowCheckBox.setEnabled(false);
+            rowCheckBox.setChecked(false);
          }
       }
 
@@ -192,6 +193,7 @@ public class MainFragment extends Fragment
       initTextView(rootView);
       //initImageView(rootView);
       colorChoices = (RadioGroup) rootView.findViewById(R.id.orbChoices);
+      colorChoices.check(1);
       return rootView;
    }
 
