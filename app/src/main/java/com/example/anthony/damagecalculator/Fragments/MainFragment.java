@@ -49,7 +49,6 @@ public class MainFragment extends Fragment
    private boolean isRow;
    private OrbMatch orbMatch;
    private Color orbColor;
-   //private RadioGroup colorChoices;
    private Toast toast;
    private MyAlertDialogFragment dialog;
 
@@ -130,13 +129,8 @@ public class MainFragment extends Fragment
    {
       public void onClick(View v)
       {
-         //setAlltoGray();
-         //red.setImageDrawable(getDrawable(R.drawable.red_orb));
+         setAlltoGray();
          redOrb.setSelected(true);
-         blueOrb.setSelected(false);
-         greenOrb.setSelected(false);
-         lightOrb.setSelected(false);
-         darkOrb.setSelected(false);
          orbColor = Color.RED;
          orbsLinked.setProgress(0);
          orbsPlus.setProgress(0);
@@ -151,53 +145,16 @@ public class MainFragment extends Fragment
       }
    };
 
-//   private ImageView.OnClickListener colorOnClickListener = new ImageView.OnClickListener()
-//   {
-//      public void onClick(View v)
-//      {
-//         if(v.equals(red))
-//         {
-//            setAlltoGray();
-//            red.setImageDrawable(getDrawable(R.drawable.red_orb));
-//            orbColor = Color.RED;
-//
-//         }
-//         else if(v.equals(blue))
-//         {
-//            setAlltoGray();
-//            blue.setImageDrawable(getDrawable(R.drawable.blue_orb));
-//            orbColor = Color.BLUE;
-//         }
-//         else if(v.equals(green))
-//         {
-//            setAlltoGray();
-//            green.setImageDrawable(getDrawable(R.drawable.green_orb));
-//            orbColor = Color.GREEN;
-//
-//         }
-//         else if(v.equals(dark))
-//         {
-//            setAlltoGray();
-//            dark.setImageDrawable(getDrawable(R.drawable.dark_orb));
-//            orbColor = Color.DARK;
-//         }
-//         else if(v.equals(light))
-//         {
-//            setAlltoGray();
-//            light.setImageDrawable(getDrawable(R.drawable.light_orb));
-//            orbColor = Color.LIGHT;
-//         }
-//      }
-//   };
-//
-//   private void setAlltoGray()
-//   {
-//      red.setImageDrawable(getDrawable(R.drawable.red_orb_gray));
-//      blue.setImageDrawable(getDrawable(R.drawable.blue_orb_gray));
-//      green.setImageDrawable(getDrawable(R.drawable.green_orb_gray));
-//      dark.setImageDrawable(getDrawable(R.drawable.dark_orb_gray));
-//      light.setImageDrawable(getDrawable(R.drawable.light_orb_gray));
-//   }
+
+
+   private void setAlltoGray()
+   {
+      redOrb.setSelected(false);
+      blueOrb.setSelected(false);
+      greenOrb.setSelected(false);
+      lightOrb.setSelected(false);
+      darkOrb.setSelected(false);
+   }
 
    private ImageButton.OnClickListener orbOnClickListener = new ImageButton.OnClickListener()
    {
@@ -206,82 +163,39 @@ public class MainFragment extends Fragment
          if(v.equals(redOrb))
          {
             orbColor = Color.RED;
+            setAlltoGray();
             redOrb.setSelected(true);
-            blueOrb.setSelected(false);
-            greenOrb.setSelected(false);
-            lightOrb.setSelected(false);
-            darkOrb.setSelected(false);
          }
          else if(v.equals(blueOrb))
          {
             orbColor = Color.BLUE;
-            redOrb.setSelected(false);
+            setAlltoGray();
             blueOrb.setSelected(true);
-            greenOrb.setSelected(false);
-            lightOrb.setSelected(false);
-            darkOrb.setSelected(false);
          }
          else if(v.equals(greenOrb))
          {
             orbColor = Color.GREEN;
-            redOrb.setSelected(false);
-            blueOrb.setSelected(false);
+            setAlltoGray();
             greenOrb.setSelected(true);
-            lightOrb.setSelected(false);
-            darkOrb.setSelected(false);
          }
          else if(v.equals(lightOrb))
          {
             orbColor = Color.LIGHT;
-            redOrb.setSelected(false);
-            blueOrb.setSelected(false);
-            greenOrb.setSelected(false);
+            setAlltoGray();
             lightOrb.setSelected(true);
-            darkOrb.setSelected(false);
+
          }
          else if(v.equals(darkOrb))
          {
             orbColor = Color.DARK;
-            redOrb.setSelected(false);
-            blueOrb.setSelected(false);
-            greenOrb.setSelected(false);
-            lightOrb.setSelected(false);
+            setAlltoGray();
             darkOrb.setSelected(true);
          }
       }
    };
 
-   /*
 
 
-   private RadioGroup.OnCheckedChangeListener colorChoicesOnCheckedListener = new RadioGroup.OnCheckedChangeListener()
-   {
-      public void onCheckedChanged(RadioGroup group, int checkedId )
-      {
-
-         if(checkedId == R.id.redButton)
-         {
-            orbColor = Color.RED;
-         }
-         else if(checkedId == R.id.blueButton)
-         {
-            orbColor = Color.BLUE;
-         }
-         else if(checkedId == R.id.greenButton)
-         {
-            orbColor = Color.GREEN;
-         }
-         else if(checkedId == R.id.darkButton)
-         {
-            orbColor = Color.DARK;
-         }
-         else if(checkedId == R.id.lightButton)
-         {
-            orbColor = Color.LIGHT;
-         }
-      }
-   };
-   */
 /*
 
    private ListView.OnItemClickListener orbMatchesOnItemClickListener = new ListView.OnItemClickListener()
@@ -324,8 +238,6 @@ public class MainFragment extends Fragment
       initTextView(rootView);
       initImageView(rootView);
       redOrb.setSelected(true);
-      //colorChoices = (RadioGroup) rootView.findViewById(R.id.orbChoices);
-      //colorChoices.check(R.id.redButton);
       return rootView;
    }
 
@@ -339,13 +251,6 @@ public class MainFragment extends Fragment
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
       //colorChoices.setOnCheckedChangeListener(colorChoicesOnCheckedListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
-
-//      red.setOnClickListener(colorOnClickListener);
-//      blue.setOnClickListener(colorOnClickListener);
-//      green.setOnClickListener(colorOnClickListener);
-//      dark.setOnClickListener(colorOnClickListener);
-//      light.setOnClickListener(colorOnClickListener);
-
       redOrb.setOnClickListener(orbOnClickListener);
       blueOrb.setOnClickListener(orbOnClickListener);
       greenOrb.setOnClickListener(orbOnClickListener);
@@ -373,28 +278,12 @@ public class MainFragment extends Fragment
 
    private void initImageView(View rootView)
    {
-//      red = (ImageView) rootView.findViewById(R.id.red);
-//      blue = (ImageView) rootView.findViewById(R.id.blue);
-//      green = (ImageView) rootView.findViewById(R.id.green);
-//      light = (ImageView) rootView.findViewById(R.id.light);
-//      dark = (ImageView) rootView.findViewById(R.id.dark);
       redOrb = (ImageButton) rootView.findViewById(R.id.redOrb);
       blueOrb = (ImageButton) rootView.findViewById(R.id.blueOrb);
       greenOrb = (ImageButton) rootView.findViewById(R.id.greenOrb);
       lightOrb = (ImageButton) rootView.findViewById(R.id.lightOrb);
       darkOrb = (ImageButton) rootView.findViewById(R.id.darkOrb);
    }
-
-   private Drawable getDrawable(int drawable)
-   {
-      if (Build.VERSION.SDK_INT >= 22)
-      {
-         return getActivity().getDrawable(drawable);
-      }
-      return getActivity().getResources().getDrawable(drawable);
-   }
-
-
 
 
 }
