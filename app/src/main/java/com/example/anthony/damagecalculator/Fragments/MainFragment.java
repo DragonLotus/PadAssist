@@ -40,11 +40,7 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment
 {
    private static final String ARG_SECTION_NUMBER = "section_number";
-   private TextView editTeam, sectionLabel, color, row, orbsLinkedValue, orbsPlusValue;
-   private TextView listText;
-   private ImageView red, blue, green, light, dark;
-   private RadioButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb, heartOrb;
-   private LinearLayout editHolder;
+   private TextView editTeam, orbsLinkedValue, orbsPlusValue;
    private Button addMatch, calculate, reset;
    private SeekBar orbsLinked, orbsPlus;
    private CheckBox rowCheckBox;
@@ -52,10 +48,28 @@ public class MainFragment extends Fragment
    private OrbMatchAdapter orbMatchAdapter;
    private boolean isRow;
    private OrbMatch orbMatch;
-   private Color orbColor;
    private Toast toast;
    private RadioGroup orbRadioGroup;
-   private AlertDialog dialog;
+   private MyDialogFragment dialog;
+   private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout()
+   {
+      @Override
+      public void resetLayout()
+      {
+         orbRadioGroup.check(R.id.redOrb);
+         orbsLinked.setProgress(0);
+         orbsPlus.setProgress(0);
+         rowCheckBox.setEnabled(false);
+         rowCheckBox.setChecked(false);
+         orbMatchAdapter.clear();
+         if(toast != null) {
+            toast.cancel();
+         }
+         toast = Toast.makeText(getActivity(), "Page Reset", Toast.LENGTH_SHORT);
+         toast.show();
+         dialog.dismiss();
+      }
+   };
 
    private CompoundButton.OnCheckedChangeListener rowCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
    {
@@ -152,23 +166,9 @@ public class MainFragment extends Fragment
    {
       public void onClick(View v)
       {
-         dialog = resetAlert();
-         dialog.show();
+         dialog.show(getChildFragmentManager(),"Thomas Likes Big Butts And He Cannot Lie");
       }
    };
-
-
-
-/*
-
-   private ListView.OnItemClickListener orbMatchesOnItemClickListener = new ListView.OnItemClickListener()
-   {
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-      {
-         orbMatchAdapter.remove(orbMatchAdapter.getItem(position));
-      }
-   };
-*/
 
 
    public static MainFragment newInstance(int sectionNumber)
@@ -189,7 +189,6 @@ public class MainFragment extends Fragment
                             Bundle savedInstanceState)
    {
       View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-      editHolder = (LinearLayout) rootView.findViewById(R.id.editHolder);
       rowCheckBox = (CheckBox) rootView.findViewById(R.id.rowCheckBox);
       rowCheckBox.setEnabled(false);
       orbsLinked = (SeekBar) rootView.findViewById(R.id.orbsLinkedSpinner);
@@ -199,8 +198,10 @@ public class MainFragment extends Fragment
       reset = (Button) rootView.findViewById(R.id.reset);
       orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
       orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
-      initTextView(rootView);
-      initImageView(rootView);
+      editTeam = (TextView) rootView.findViewById(R.id.editTeam);
+      orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
+      orbsPlusValue = (TextView) rootView.findViewById(R.id.orbsPlusValue);
+      dialog = MyDialogFragment.newInstance(dialogFrag);
       return rootView;
    }
 
@@ -221,56 +222,5 @@ public class MainFragment extends Fragment
       Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
 
-   private void initTextView(View rootView)
-   {
-      editTeam = (TextView) rootView.findViewById(R.id.editTeam);
-      sectionLabel = (TextView) rootView.findViewById(R.id.section_label);
-      color = (TextView) rootView.findViewById(R.id.color);
-      row = (TextView) rootView.findViewById(R.id.row);
-      listText = (TextView) rootView.findViewById(R.id.List);
-      orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
-      orbsPlusValue = (TextView) rootView.findViewById(R.id.orbsPlusValue);
-   }
 
-   private void initImageView(View rootView)
-   {
-//      redOrb = (ImageButton) rootView.findViewById(R.id.redOrb);
-//      blueOrb = (ImageButton) rootView.findViewById(R.id.blueOrb);
-//      greenOrb = (ImageButton) rootView.findViewById(R.id.greenOrb);
-//      lightOrb = (ImageButton) rootView.findViewById(R.id.lightOrb);
-//      darkOrb = (ImageButton) rootView.findViewById(R.id.darkOrb);
-   }
-
-   public AlertDialog resetAlert() {
-      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-      alertDialogBuilder.setTitle("Reset page?");
-      alertDialogBuilder.setMessage("Are you sure you want to clear everything?");
-      alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-         @Override
-         public void onClick(DialogInterface dialog, int which) {
-            //do reset here
-            orbRadioGroup.check(R.id.redOrb);
-            orbsLinked.setProgress(0);
-            orbsPlus.setProgress(0);
-            rowCheckBox.setEnabled(false);
-            rowCheckBox.setChecked(false);
-            orbMatchAdapter.clear();
-            if(toast != null) {
-               toast.cancel();
-            }
-            toast = Toast.makeText(getActivity(), "Page Reset", Toast.LENGTH_SHORT);
-            toast.show();
-            dialog.dismiss();
-         }
-      });
-      alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener()
-      {
-         public void onClick(DialogInterface dialog, int which)
-         {
-            dialog.dismiss();
-         }
-      });
-
-      return alertDialogBuilder.create();
-   }
 }
