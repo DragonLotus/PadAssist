@@ -133,6 +133,10 @@ public class MainFragment extends Fragment
          //setAlltoGray();
          //red.setImageDrawable(getDrawable(R.drawable.red_orb));
          redOrb.setSelected(true);
+         blueOrb.setSelected(false);
+         greenOrb.setSelected(false);
+         lightOrb.setSelected(false);
+         darkOrb.setSelected(false);
          orbColor = Color.RED;
          orbsLinked.setProgress(0);
          orbsPlus.setProgress(0);
