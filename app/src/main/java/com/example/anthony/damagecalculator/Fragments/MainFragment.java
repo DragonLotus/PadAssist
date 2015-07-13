@@ -121,7 +121,7 @@ public class MainFragment extends Fragment
       @Override
       public void onClick(View v)
       {
-         orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress()+3,orbColor, isRow);
+         orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress(),orbColor, isRow);
          orbMatchAdapter.add(orbMatch);
       }
    };
