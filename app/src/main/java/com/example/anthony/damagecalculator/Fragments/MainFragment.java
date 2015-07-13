@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class MainFragment extends Fragment
    private TextView editTeam, sectionLabel, color, row, orbsLinkedValue, orbsPlusValue;
    private TextView listText;
    private ImageView red, blue, green, light, dark;
-   private ImageButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb;
+   private RadioButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb, heartOrb;
    private LinearLayout editHolder;
    private Button addMatch, calculate, reset;
    private SeekBar orbsLinked, orbsPlus;
@@ -131,6 +132,8 @@ public class MainFragment extends Fragment
             return Color.LIGHT;
          case R.id.darkOrb:
             return Color.DARK;
+         case R.id.heartOrb:
+            return Color.HEART;
       }
       return Color.RED;
    }

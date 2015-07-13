@@ -93,6 +93,10 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       {
          orbDrawable = getDrawable(R.drawable.light_orb);
       }
+      if (currentMatch.getColor() == Color.HEART)
+      {
+         orbDrawable = getDrawable(R.drawable.heart_orb);
+      }
 
       viewHolder.orbImage.setImageDrawable(orbDrawable);
       viewHolder.remove.setTag(R.string.index, position);

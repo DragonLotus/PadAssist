@@ -177,6 +177,13 @@
           android:layout_marginLeft="10dp"
           android:button="@null"
           android:background="@drawable/dark_orb_selector" />
+       <RadioButton
+           android:id="@+id/heartOrb"
+           android:layout_width="20dp"
+           android:layout_height="20dp"
+           android:layout_marginLeft="10dp"
+           android:button="@null"
+           android:background="@drawable/heart_orb_selector" />
    </RadioGroup>
 
 </RelativeLayout>
