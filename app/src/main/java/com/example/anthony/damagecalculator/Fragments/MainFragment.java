@@ -129,9 +129,7 @@ public class MainFragment extends Fragment
          orbsPlus.setProgress(0);
          rowCheckBox.setEnabled(false);
          rowCheckBox.setChecked(false);
-         orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
-         orbMatches.setAdapter(orbMatchAdapter);
-
+         orbMatchAdapter.clear();
       }
    };
 
@@ -162,7 +160,7 @@ public class MainFragment extends Fragment
          }
       }
    };
-
+/*
    private ListView.OnItemClickListener orbMatchesOnItemClickListener = new ListView.OnItemClickListener()
    {
       public void onItemClick(AdapterView<?> parent, View view, int position, long id)
@@ -170,15 +168,9 @@ public class MainFragment extends Fragment
          orbMatchAdapter.remove(orbMatchAdapter.getItem(position));
       }
    };
+*/
 
-   //private View.OnClickListener addMatchClickListener = new View.OnClickListener() {
-   //    @Override
-   //    public void onClick(View view) {
-   //      orbMatchAdapter.add(orbMatch);
-   //   }
-   //};
 
-   //private RelativeLayout
    public static MainFragment newInstance(int sectionNumber)
    {
       MainFragment fragment = new MainFragment();
@@ -225,7 +217,7 @@ public class MainFragment extends Fragment
       addMatch.setOnClickListener(addMatchOnClickListener);
       orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
       orbMatches.setAdapter(orbMatchAdapter);
-      orbMatches.setOnItemClickListener(orbMatchesOnItemClickListener);
+      //orbMatches.setOnItemClickListener(orbMatchesOnItemClickListener);
       reset.setOnClickListener(resetOnClickListener);
       Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }

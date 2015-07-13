@@ -27,6 +27,17 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
    private ArrayList<OrbMatch> orbMatches;
    private int resourceId;
 
+   private ImageView.OnClickListener removeOnClickListener = new ImageView.OnClickListener()
+   {
+      @Override
+      public void onClick(View v)
+      {
+         int position = (int)v.getTag(R.string.index);
+         orbMatches.remove(position);
+         notifyDataSetChanged();
+      }
+   };
+
    public OrbMatchAdapter(Context context, int textViewResourceId, ArrayList<OrbMatch> orbMatches)
    {
       super(context, textViewResourceId, orbMatches);
@@ -47,10 +58,11 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
          viewHolder = new ViewHolder();
          viewHolder.orbMatchTotal = (TextView) convertView.findViewById(R.id.orbMatchTotal);
          viewHolder.orbImage = (ImageView) convertView.findViewById(R.id.orbImage);
-         convertView.setTag(viewHolder);
+         viewHolder.remove = (ImageView) convertView.findViewById(R.id.remove);
+         convertView.setTag(R.string.viewHolder, viewHolder);
       } else
       {
-         viewHolder = (ViewHolder) convertView.getTag();
+         viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
       }
 
       OrbMatch currentMatch = orbMatches.get(position);
@@ -76,7 +88,8 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       }
 
       viewHolder.orbImage.setImageDrawable(orbDrawable);
-
+      viewHolder.remove.setTag(R.string.index, position);
+      viewHolder.remove.setOnClickListener(removeOnClickListener);
       return convertView;
    }
 
@@ -84,6 +97,7 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
    {
       TextView orbMatchTotal;
       ImageView orbImage;
+      ImageView remove;
    }
 
    private Drawable getDrawable(int drawable)
