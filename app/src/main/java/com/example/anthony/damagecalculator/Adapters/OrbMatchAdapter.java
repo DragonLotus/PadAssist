@@ -57,10 +57,10 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.checkIfRow());
       viewHolder.orbMatchTotal.setText(rowResult);
 
-      Drawable orbDrawable = getDrawable(R.drawable.darkorb);
-      if (currentMatch.getColor() == Color.RED)
+      Drawable orbDrawable = getDrawable(R.drawable.redorb);
+      if (currentMatch.getColor() == Color.DARK)
       {
-         orbDrawable = getDrawable(R.drawable.redorb);
+         orbDrawable = getDrawable(R.drawable.darkorb);
       }
       if (currentMatch.getColor() == Color.BLUE)
       {

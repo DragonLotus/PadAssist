@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -35,9 +36,9 @@ public class MainFragment extends Fragment
    private TextView listText;
    private ImageView red, blue, green, light, dark;
    private LinearLayout editHolder;
-   private Button addMatch, calculate;
+   private Button addMatch, calculate, reset;
    private SeekBar orbsLinked, orbsPlus;
-   private CheckBox rowCheckBox, manualEdit;
+   private CheckBox rowCheckBox;
    private ListView orbMatches;
    private OrbMatchAdapter orbMatchAdapter;
    private boolean isManualEditing = false;
@@ -55,14 +56,6 @@ public class MainFragment extends Fragment
       }
    };
 
-   private CompoundButton.OnCheckedChangeListener manualEditCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
-   {
-      @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-      {
-
-      }
-   };
 
    private SeekBar.OnSeekBarChangeListener orbsLinkedSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener()
    {
@@ -127,6 +120,21 @@ public class MainFragment extends Fragment
       }
    };
 
+   private Button.OnClickListener resetOnClickListener = new Button.OnClickListener()
+   {
+      public void onClick(View v)
+      {
+         colorChoices.check(R.id.redButton);
+         orbsLinked.setProgress(0);
+         orbsPlus.setProgress(0);
+         rowCheckBox.setEnabled(false);
+         rowCheckBox.setChecked(false);
+         orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
+         orbMatches.setAdapter(orbMatchAdapter);
+
+      }
+   };
+
    private RadioGroup.OnCheckedChangeListener colorChoicesOnCheckedListener = new RadioGroup.OnCheckedChangeListener()
    {
       public void onCheckedChanged(RadioGroup group, int checkedId )
@@ -152,6 +160,14 @@ public class MainFragment extends Fragment
          {
             orbColor = Color.LIGHT;
          }
+      }
+   };
+
+   private ListView.OnItemClickListener orbMatchesOnItemClickListener = new ListView.OnItemClickListener()
+   {
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+      {
+         orbMatchAdapter.remove(orbMatchAdapter.getItem(position));
       }
    };
 
@@ -184,16 +200,16 @@ public class MainFragment extends Fragment
       editHolder = (LinearLayout) rootView.findViewById(R.id.editHolder);
       rowCheckBox = (CheckBox) rootView.findViewById(R.id.rowCheckBox);
       rowCheckBox.setEnabled(false);
-      manualEdit = (CheckBox) rootView.findViewById(R.id.manualEdit);
       orbsLinked = (SeekBar) rootView.findViewById(R.id.orbsLinkedSpinner);
       orbsPlus = (SeekBar) rootView.findViewById(R.id.orbsPlusSpinner);
       addMatch = (Button) rootView.findViewById(R.id.addMatch);
       calculate = (Button) rootView.findViewById(R.id.calculate);
+      reset = (Button) rootView.findViewById(R.id.reset);
       orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
       initTextView(rootView);
       //initImageView(rootView);
       colorChoices = (RadioGroup) rootView.findViewById(R.id.orbChoices);
-      colorChoices.check(1);
+      colorChoices.check(R.id.redButton);
       return rootView;
    }
 
@@ -205,13 +221,12 @@ public class MainFragment extends Fragment
       orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
       orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
-      manualEdit.setOnCheckedChangeListener(manualEditCheckedChangeListener);
       colorChoices.setOnCheckedChangeListener(colorChoicesOnCheckedListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
       orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
       orbMatches.setAdapter(orbMatchAdapter);
-
-
+      orbMatches.setOnItemClickListener(orbMatchesOnItemClickListener);
+      reset.setOnClickListener(resetOnClickListener);
       Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
 
