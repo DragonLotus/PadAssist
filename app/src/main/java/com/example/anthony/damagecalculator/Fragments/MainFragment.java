@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
@@ -130,6 +131,7 @@ public class MainFragment extends Fragment
          rowCheckBox.setEnabled(false);
          rowCheckBox.setChecked(false);
          orbMatchAdapter.clear();
+         Toast.makeText(getActivity(), "Matches Reset", Toast.LENGTH_SHORT).show();
       }
    };
 
