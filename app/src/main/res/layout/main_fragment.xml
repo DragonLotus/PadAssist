@@ -42,65 +42,65 @@
       android:text="Color"
       android:textSize="20sp" />
 
-   <ImageView
-   android:id="@+id/red"
-   android:layout_width="20dp"
-   android:layout_height="wrap_content"
-   android:layout_alignTop="@+id/color"
-   android:layout_alignBottom="@+id/color"
-   android:layout_marginLeft="10dp"
-   android:scaleType="fitCenter"
-   android:layout_toRightOf="@+id/color"
-   android:src="@drawable/red_orb"
-   android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/red"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/color"-->
+   <!--android:src="@drawable/red_orb"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-   <ImageView
-   android:id="@+id/blue"
-   android:layout_width="20dp"
-   android:layout_height="wrap_content"
-   android:layout_alignTop="@+id/color"
-   android:layout_alignBottom="@+id/color"
-   android:layout_marginLeft="10dp"
-   android:scaleType="fitCenter"
-   android:layout_toRightOf="@+id/red"
-   android:src="@drawable/blue_orb_gray"
-   android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/blue"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/red"-->
+   <!--android:src="@drawable/blue_orb_gray"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-   <ImageView
-   android:id="@+id/green"
-   android:layout_width="20dp"
-   android:layout_height="wrap_content"
-   android:layout_alignTop="@+id/color"
-   android:layout_alignBottom="@+id/color"
-   android:layout_marginLeft="10dp"
-   android:scaleType="fitCenter"
-   android:layout_toRightOf="@+id/blue"
-   android:src="@drawable/green_orb_gray"
-   android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/green"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/blue"-->
+   <!--android:src="@drawable/green_orb_gray"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-   <ImageView
-   android:id="@+id/light"
-   android:layout_width="20dp"
-   android:layout_height="wrap_content"
-   android:layout_alignTop="@+id/color"
-   android:layout_alignBottom="@+id/color"
-   android:layout_marginLeft="10dp"
-   android:scaleType="fitCenter"
-   android:layout_toRightOf="@+id/green"
-   android:src="@drawable/light_orb_gray"
-   android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/light"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/green"-->
+   <!--android:src="@drawable/light_orb_gray"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
-   <ImageView
-   android:id="@+id/dark"
-   android:layout_width="20dp"
-   android:layout_height="wrap_content"
-   android:layout_alignTop="@+id/color"
-   android:layout_alignBottom="@+id/color"
-   android:layout_marginLeft="10dp"
-   android:scaleType="fitCenter"
-   android:layout_toRightOf="@+id/light"
-   android:src="@drawable/dark_orb_gray"
-   android:layout_below="@+id/editHolder"/>
+   <!--<ImageView-->
+   <!--android:id="@+id/dark"-->
+   <!--android:layout_width="20dp"-->
+   <!--android:layout_height="wrap_content"-->
+   <!--android:layout_alignTop="@+id/color"-->
+   <!--android:layout_alignBottom="@+id/color"-->
+   <!--android:layout_marginLeft="10dp"-->
+   <!--android:scaleType="fitCenter"-->
+   <!--android:layout_toRightOf="@+id/light"-->
+   <!--android:src="@drawable/dark_orb_gray"-->
+   <!--android:layout_below="@+id/editHolder"/>-->
 
    <!--<RadioGroup-->
       <!--android:layout_width="wrap_content"-->
@@ -232,5 +232,44 @@
       android:layout_alignParentBottom="true"
       android:gravity="center"
       android:text="Calculate" />
+
+   <RadioGroup
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_alignTop="@+id/color"
+       android:layout_alignBottom="@+id/color"
+       android:layout_toRightOf="@+id/color">
+      <ImageButton
+          android:id="@+id/redOrb"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginLeft="10dp"
+          android:background="@drawable/red_orb_selector" />
+      <ImageButton
+          android:id="@+id/blueOrb"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginLeft="10dp"
+          android:background="@drawable/blue_orb_selector" />
+      <ImageButton
+          android:id="@+id/greenOrb"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginLeft="10dp"
+          android:background="@drawable/green_orb_selector" />
+      <ImageButton
+          android:id="@+id/lightOrb"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginLeft="10dp"
+          android:background="@drawable/light_orb_selector" />
+      <ImageButton
+          android:id="@+id/darkOrb"
+          android:layout_width="20dp"
+          android:layout_height="20dp"
+          android:layout_marginLeft="10dp"
+          android:background="@drawable/dark_orb_selector" />
+   </RadioGroup>
 
 </RelativeLayout>

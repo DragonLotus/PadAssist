@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <item android:state_pressed="true"
+        android:drawable="@drawable/light_orb_pressed"/>
+    <item android:state_selected="true"
+        android:drawable="@drawable/light_orb"/>
+    <item android:drawable="@drawable/light_orb_gray"/>
+</selector>
