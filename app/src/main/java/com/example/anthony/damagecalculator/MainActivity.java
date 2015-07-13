@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
 import com.integralblue.httpresponsecache.HttpResponseCache;
+import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
 import java.util.Locale;
@@ -62,7 +63,8 @@ public class MainActivity extends ActionBarActivity {
 
         try {
             // Install the custom Cache Implementation
-            HttpResponseCache.install(httpCacheDir, httpCacheSize);
+//            HttpResponseCache.install(httpCacheDir, httpCacheSize);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
