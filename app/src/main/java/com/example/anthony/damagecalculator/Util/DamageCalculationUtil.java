@@ -38,8 +38,13 @@ public class DamageCalculationUtil
       return multiplier;
    }
 
-   public static int monsterStatCalc(int minimumStat, int maximumStat, int currentLevel, int maxLevel, double statScale)
+   public static double monsterStatCalc(int minimumStat, int maximumStat, int currentLevel, int maxLevel, double statScale)
    {
-      return (int) Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) ((currentLevel - 1) / (maxLevel)), statScale)));
+      if(currentLevel <= 1)
+      {
+         return minimumStat;
+      }
+      //return (int) Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) ((currentLevel - 1) / (maxLevel - 1)), statScale)));
+      return Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double)(currentLevel - 1) / (maxLevel - 1), statScale)));
    }
 }

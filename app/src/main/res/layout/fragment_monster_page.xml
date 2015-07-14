@@ -49,7 +49,7 @@
         android:id="@+id/monsterLevelValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="99"
+        android:text="1"
         android:textSize="20dp"
         android:inputType="number"
         android:maxLength="2"
@@ -307,11 +307,10 @@
         android:layout_height="wrap_content"
         android:text="1337"
         android:textSize="18dp"
-        android:layout_alignLeft="@+id/monsterStatsHPTotal"
-        android:layout_alignRight="@+id/monsterStatsHPTotal"
+        android:layout_toLeftOf="@+id/monsterStatsWeightedMax"
         android:layout_alignTop="@+id/monsterStatsWeightedMax"
         android:layout_alignBottom="@+id/monsterStatsWeightedMax"
-        android:gravity="center"/>
+        android:gravity="center_vertical"/>
 
     <Button
         android:id="@+id/monsterStatsWeightedMax"

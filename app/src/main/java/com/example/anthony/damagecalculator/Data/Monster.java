@@ -11,14 +11,15 @@ public class Monster
    public static final int HP_MULTIPLIER = 10;
    public static final int ATK_MULTIPLIER = 5;
    public static final int RCV_MULTIPLIER = 3;
-   private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2, currentLevel, currentAtk, currentRcv, currentHp, atkPlus, hpPlus, rcvPlus, maxAwakenings, currentAwakenings;
+   private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2, currentLevel, atkPlus, hpPlus, rcvPlus, maxAwakenings, currentAwakenings;
    private Color element1, element2;
    private ArrayList<String> awokenSkills;
    private String activeSkill, leaderSkill, name;
-   private double atkScale, rcvScale, hpScale;
+   private double atkScale, rcvScale, hpScale, currentAtk, currentRcv, currentHp;
    DecimalFormat format = new DecimalFormat("0.00");
    public Monster()
    {
+      currentLevel = 1;
       atkMax = 1370;
       atkMin = 913;
       hpMin = 1271;
@@ -26,6 +27,9 @@ public class Monster
       rcvMin = 256;
       rcvMax = 384;
       maxLevel = 99;
+      atkScale = 1;
+      rcvScale = 1;
+      hpScale = 1;
       maxAwakenings = 7;
    }
 
@@ -41,22 +45,22 @@ public class Monster
 
    public int getCurrentAtk()
    {
-      return currentAtk;
+      return (int)currentAtk;
    }
 
    public int getCurrentHp()
    {
-      return currentHp;
+      return (int)currentHp;
    }
 
    public int getTotalHp() {
-      return currentHp + hpPlus * HP_MULTIPLIER;
+      return (int)currentHp + hpPlus * HP_MULTIPLIER;
    }
    public int getTotalAtk() {
-      return currentAtk + atkPlus * ATK_MULTIPLIER;
+      return (int)currentAtk + atkPlus * ATK_MULTIPLIER;
    }
    public int getTotalRcv() {
-      return currentRcv + rcvPlus * RCV_MULTIPLIER;
+      return (int)currentRcv + rcvPlus * RCV_MULTIPLIER;
    }
    public String getWeightedString() {
       return format.format(getWeighted());
@@ -66,17 +70,17 @@ public class Monster
       return currentHp / HP_MULTIPLIER + currentAtk / ATK_MULTIPLIER + currentRcv / RCV_MULTIPLIER;
    }
 
-   public void setCurrentAtk(int currentAtk)
+   public void setCurrentAtk(double currentAtk)
    {
       this.currentAtk = currentAtk;
    }
 
    public int getCurrentRcv()
    {
-      return currentRcv;
+      return (int)currentRcv;
    }
 
-   public void setCurrentRcv(int currentRcv)
+   public void setCurrentRcv(double currentRcv)
    {
       this.currentRcv = currentRcv;
    }
@@ -262,7 +266,7 @@ public class Monster
       this.hpScale = hpScale;
    }
 
-   public void setCurrentHp(int currentHp)
+   public void setCurrentHp(double currentHp)
    {
       this.currentHp = currentHp;
    }
