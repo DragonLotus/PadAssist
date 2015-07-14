@@ -328,7 +328,7 @@
         android:layout_height="wrap_content"
         android:text="Awakenings"
         android:textSize="18dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="10dp"
         android:layout_alignTop="@+id/monsterAwakeningsMax"
         android:layout_alignBottom="@+id/monsterAwakeningsMax"
         android:gravity="center_vertical"
@@ -338,7 +338,7 @@
         android:id="@+id/monsterAwakeningsValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3"
+        android:text="5"
         android:textSize="18dp"
         android:inputType="number"
         android:maxLength="1"
@@ -346,21 +346,45 @@
         android:layout_alignTop="@+id/monsterAwakeningsMax"
         android:layout_alignBottom="@+id/monsterAwakeningsMax"
         android:gravity="center_vertical"
-        android:layout_alignLeft="@+id/monsterStatsPlus"/>
+        android:layout_toRightOf="@+id/monsterAwakenings"/>
+    <Button
+        android:id="@+id/awakeningPlus"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:text="+"
+        android:layout_toLeftOf="@+id/monsterAwakeningsMax"
+        android:layout_alignBottom="@+id/monsterAwakeningsMax"/>
+    <Button
+        android:id="@+id/awakeningMinus"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:layout_toLeftOf="@+id/awakeningPlus"
+        android:layout_alignBottom="@+id/awakeningPlus"/>
     <Button
         android:id="@+id/monsterAwakeningsMax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Max"
         android:layout_below="@+id/monsterStatsWeightedMax"
+        android:layout_alignParentRight="true" />
+
+    <Button
+        android:id="@+id/awakeningHolderMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Max"
+        android:visibility="invisible"
+        android:layout_below="@+id/monsterAwakeningsMax"
         android:layout_alignParentRight="true"/>
 
     <LinearLayout
         android:id="@+id/awakeningHolder"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/monsterAwakeningsMax"
-        android:gravity="center_horizontal">
+        android:layout_alignTop="@+id/awakeningHolderMax"
+        android:layout_alignBottom="@+id/awakeningHolderMax"
+        android:gravity="center">
     <ImageView
         android:id="@+id/monsterAwakening1"
         android:layout_width="wrap_content"

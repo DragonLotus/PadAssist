@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,7 +48,7 @@ public class MonsterPageFragment extends Fragment
    private OnFragmentInteractionListener mListener;
    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue;
    private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
-   private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterChoose, monsterStatsMaxAll;
+   private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterChoose, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
    private ImageView monsterPicture, monsterAwakening1, monsterAwakening2, monsterAwakening3, monsterAwakening4, monsterAwakening5, monsterAwakening6, monsterAwakening7, monsterAwakening8, monsterAwakening9;
    private LinearLayout awakeningHolder;
    private Monster monster;
@@ -106,6 +108,8 @@ public class MonsterPageFragment extends Fragment
       monsterStatsRCVMax = (Button) rootView.findViewById(R.id.monsterStatsRCVMax);
       monsterAwakeningsMax = (Button) rootView.findViewById(R.id.monsterAwakeningsMax);
       monsterStatsMaxAll = (Button) rootView.findViewById(R.id.monsterStatsMaxAll);
+      awakeningMinus = (Button) rootView.findViewById(R.id.awakeningMinus);
+      awakeningPlus = (Button) rootView.findViewById(R.id.awakeningPlus);
       monsterChoose = (Button) rootView.findViewById(R.id.monsterChoose);
       monsterLevelValue = (EditText) rootView.findViewById(R.id.monsterLevelValue);
       monsterStatsHPPlus = (EditText) rootView.findViewById(R.id.monsterStatsHPPlus);
@@ -147,6 +151,10 @@ public class MonsterPageFragment extends Fragment
 
       monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
       showAwakenings();
+      grayAwakenings();
+      awakeningMinus.setOnClickListener(awakeningButtons);
+      awakeningPlus.setOnClickListener(awakeningButtons);
+
 
 
    }
@@ -238,7 +246,27 @@ public class MonsterPageFragment extends Fragment
          }
       }
    };
-   @TargetApi(11)
+
+   private View.OnClickListener awakeningButtons = new View.OnClickListener(){
+      @Override
+      public void onClick(View v) {
+         if(v.equals(awakeningMinus)){
+            if(Integer.parseInt(monsterAwakeningsValue.getText().toString()) > 0 && Integer.parseInt(monsterAwakeningsValue.getText().toString()) <= monster.getMaxAwakenings()){
+               monsterAwakeningsValue.setText("" + (Integer.parseInt(monsterAwakeningsValue.getText().toString()) - 1));
+               monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+            }
+         }
+         else if(v.equals(awakeningPlus)){
+            if(Integer.parseInt(monsterAwakeningsValue.getText().toString()) >= 0 && Integer.parseInt(monsterAwakeningsValue.getText().toString()) < monster.getMaxAwakenings()){
+               monsterAwakeningsValue.setText("" + (Integer.parseInt(monsterAwakeningsValue.getText().toString()) + 1));
+               monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+            }
+         }
+         grayAwakenings();
+
+      }
+   };
+
    public void showAwakenings()
    {
       // Show max # of awakenings
@@ -248,13 +276,23 @@ public class MonsterPageFragment extends Fragment
          view = awakeningHolder.getChildAt(i);
          view.setVisibility(View.GONE);
       }
-      //Gray out depending on monsterAwakeningsValue
+   }
+
+   //Gray out depending on monsterAwakeningsValue
+   @TargetApi(11)
+   public void grayAwakenings(){
+      int i = 0;
+      View view = null;
+      for(i = 0; i < monster.getCurrentAwakenings(); i++){
+         view = awakeningHolder.getChildAt(i);
+
+         view.setAlpha(1);
+      }
       for(i = monster.getCurrentAwakenings(); i < monster.getMaxAwakenings(); i++){
          view = awakeningHolder.getChildAt(i);
 
          view.setAlpha((float).5);
       }
    }
-
 
 }

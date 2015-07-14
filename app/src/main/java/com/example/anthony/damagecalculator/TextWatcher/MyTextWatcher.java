@@ -36,12 +36,17 @@ public class MyTextWatcher implements TextWatcher
    public void onTextChanged(CharSequence s, int start, int before, int count)
    {
       //update is null causing break
+
       update.changeMonsterAttribute(statToChange , Integer.valueOf(s.toString()));
    }
 
    @Override
    public void afterTextChanged(Editable s)
    {
-
+//      Prevents from being 0. Something like that.
+//      String text = monsterAwakeningsValue.getText().toString();
+//      if(text.equals("")) {
+//         monsterAwakeningsValue.setText("0");
+//      }
    }
 }
