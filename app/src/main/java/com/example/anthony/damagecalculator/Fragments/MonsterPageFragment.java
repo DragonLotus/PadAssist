@@ -106,15 +106,13 @@ public class MonsterPageFragment extends Fragment
       monsterStatsMaxAll = (Button) rootView.findViewById(R.id.monsterStatsMaxAll);
       monsterChoose = (Button) rootView.findViewById(R.id.monsterChoose);
       monsterLevelValue = (EditText) rootView.findViewById(R.id.monsterLevelValue);
-      if(monsterLevelValue == null)
-      {
-         Log.d("sadas", "i hate my life");
-      }
       monsterStatsHPPlus = (EditText) rootView.findViewById(R.id.monsterStatsHPPlus);
       monsterStatsATKPlus = (EditText) rootView.findViewById(R.id.monsterStatsATKPlus);
       monsterStatsRCVPlus = (EditText) rootView.findViewById(R.id.monsterStatsRCVPlus);
       monsterAwakeningsValue = (EditText) rootView.findViewById(R.id.monsterAwakeningsValue);
       awakeningHolder = (LinearLayout) rootView.findViewById(R.id.awakeningHolder);
+
+
       return rootView;
    }
 
@@ -123,10 +121,24 @@ public class MonsterPageFragment extends Fragment
    {
       super.onActivityCreated(savedInstanceState);
       monster = new Monster();
+      monster.setCurrentLevel(monster.getCurrentLevel());
+      monsterLevelValue.setText(Integer.toString(monster.getMaxLevel()));
+      monster.setCurrentAtk(monster.getAtkMax());
+      monsterStatsATKBase.setText(Integer.toString(monster.getAtkMax()));
+      monster.setCurrentHp(monster.getHpMax());
+      monsterStatsHPBase.setText(Integer.toString(monster.getHpMax()));
+      monster.setCurrentRcv(monster.getRcvMax());
+      monster.setHpPlus(Integer.valueOf(monsterStatsHPPlus.getText().toString()));
+      monster.setAtkPlus(Integer.valueOf(monsterStatsATKPlus.getText().toString()));
+      monster.setRcvPlus(Integer.valueOf(monsterStatsRCVPlus.getText().toString()));
+      monsterStatsRCVBase.setText(Integer.toString(monster.getRcvMax()));
+      monsterStatsATKTotal.setText(Integer.toString(monster.getTotalAtk()));
+      monsterStatsHPTotal.setText(Integer.toString(monster.getTotalHp()));
+      monsterStatsRCVTotal.setText(Integer.toString(monster.getTotalRcv()));
       monsterLevelValue.addTextChangedListener(currentLevelWatcher);
-      monsterStatsHPBase.addTextChangedListener(hpPlusWatcher);
-      monsterStatsATKBase.addTextChangedListener(atkPlusWatcher);
-      monsterStatsRCVBase.addTextChangedListener(rcvPlusWatcher);
+      monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
+      monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
+      monsterStatsRCVPlus.addTextChangedListener(rcvPlusWatcher);
 
 
    }
@@ -187,6 +199,7 @@ public class MonsterPageFragment extends Fragment
       @Override
       public void changeMonsterAttribute(int statToChange, int statValue)
       {
+         Log.d("hi", "sup");
          if (statToChange == MyTextWatcher.CURRENT_LEVEL)
          {
             monster.setCurrentLevel(statValue);

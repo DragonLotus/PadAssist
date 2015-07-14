@@ -2,6 +2,7 @@ package com.example.anthony.damagecalculator.TextWatcher;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 /**
@@ -34,6 +35,7 @@ public class MyTextWatcher implements TextWatcher
    @Override
    public void onTextChanged(CharSequence s, int start, int before, int count)
    {
+      //update is null causing break
       update.changeMonsterAttribute(statToChange , Integer.valueOf(s.toString()));
    }
 
