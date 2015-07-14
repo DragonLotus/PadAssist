@@ -2,6 +2,8 @@ package com.example.anthony.damagecalculator.Fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,7 +62,7 @@ public class MonsterPageFragment extends Fragment
       {
          if (statToChange == MyTextWatcher.CURRENT_LEVEL)
          {
-            if(statValue == 0)
+            if (statValue == 0)
             {
                statValue = 1;
             }
@@ -85,6 +88,11 @@ public class MonsterPageFragment extends Fragment
             monster.setHpPlus(statValue);
             monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
             monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+         } else if (statToChange == MyTextWatcher.AWAKENINGS)
+         {
+            monster.setCurrentAwakenings(statValue);
+            Log.d("hello", Integer.toString(monster.getCurrentAwakenings()));
+            grayAwakenings();
          }
       }
    };
@@ -93,27 +101,35 @@ public class MonsterPageFragment extends Fragment
    private MyTextWatcher hpPlusWatcher = new MyTextWatcher(MyTextWatcher.HP_STAT, changeStats);
    private MyTextWatcher atkPlusWatcher = new MyTextWatcher(MyTextWatcher.ATK_STAT, changeStats);
    private MyTextWatcher rcvPlusWatcher = new MyTextWatcher(MyTextWatcher.RCV_STAT, changeStats);
+   private MyTextWatcher awakeningsWatcher = new MyTextWatcher(MyTextWatcher.AWAKENINGS, changeStats);
 
-   private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
+   private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener()
+   {
       @Override
-      public void onFocusChange(View v, boolean hasFocus) {
-         if(!hasFocus){
-            if(monsterAwakeningsValue.getText().toString().equals(""))
+      public void onFocusChange(View v, boolean hasFocus)
+      {
+         if (!hasFocus)
+         {
+            if (monsterAwakeningsValue.getText().toString().equals(""))
             {
                monsterAwakeningsValue.setText("0");
                monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
                grayAwakenings();
             }
-            else if(monsterLevelValue.getText().toString().equals("")) {
+            else if (monsterLevelValue.getText().toString().equals(""))
+            {
                monsterLevelValue.setText("" + 1);
             }
-            else if(monsterStatsHPPlus.getText().toString().equals("")){
+            else if (monsterStatsHPPlus.getText().toString().equals(""))
+            {
                monsterStatsHPPlus.setText("" + 0);
             }
-            else if(monsterStatsATKPlus.getText().toString().equals("")){
+            else if (monsterStatsATKPlus.getText().toString().equals(""))
+            {
                monsterStatsATKPlus.setText("" + 0);
             }
-            else if(monsterStatsRCVPlus.getText().toString().equals("")){
+            else if (monsterStatsRCVPlus.getText().toString().equals(""))
+            {
                monsterStatsRCVPlus.setText("" + 0);
             }
             monsterStats();
@@ -211,6 +227,7 @@ public class MonsterPageFragment extends Fragment
       monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
       monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
       monsterStatsRCVPlus.addTextChangedListener(rcvPlusWatcher);
+      monsterAwakeningsValue.addTextChangedListener(awakeningsWatcher);
 
       monsterLevelValue.setOnFocusChangeListener(editTextOnFocusChange);
       monsterStatsHPPlus.setOnFocusChangeListener(editTextOnFocusChange);
@@ -240,6 +257,7 @@ public class MonsterPageFragment extends Fragment
 //      monsterStatsRCVPlus.addTextChangedListener(monsterTextWatcher);
 //      monsterAwakeningsValue.addTextChangedListener(monsterTextWatcher);
 
+      monsterLevelValue.setOnKeyListener(editTextOnKeyListener);
    }
 
    // TODO: Rename method, update argument and hook method into UI event
@@ -300,6 +318,7 @@ public class MonsterPageFragment extends Fragment
       @Override
       public void onClick(View v)
       {
+         monsterAwakeningsValue.clearFocus();
          if (v.equals(awakeningMinus))
          {
             if (Integer.parseInt(monsterAwakeningsValue.getText().toString()) > 0 && Integer.parseInt(monsterAwakeningsValue.getText().toString()) <= monster.getMaxAwakenings())
@@ -461,5 +480,21 @@ public class MonsterPageFragment extends Fragment
       monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
 
    }
+
+
+   private EditText.OnKeyListener editTextOnKeyListener = new EditText.OnKeyListener()
+   {
+      @Override
+      public boolean onKey(View v, int keyCode, KeyEvent event)
+      {
+         if(keyCode == KeyEvent.KEYCODE_ENTER)
+         {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+         }
+         return false;
+      }
+   };
+
 
 }

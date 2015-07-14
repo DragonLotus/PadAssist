@@ -14,6 +14,7 @@ public class MyTextWatcher implements TextWatcher
    public static final int ATK_STAT = 1;
    public static final int RCV_STAT = 2;
    public static final int CURRENT_LEVEL = 3;
+   public static final int AWAKENINGS = 4;
 
    private int statToChange;
 
