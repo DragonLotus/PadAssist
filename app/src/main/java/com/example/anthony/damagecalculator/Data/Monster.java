@@ -11,7 +11,7 @@ public class Monster
    public static final int HP_MULTIPLIER = 10;
    public static final int ATK_MULTIPLIER = 5;
    public static final int RCV_MULTIPLIER = 3;
-   private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2, currentLevel, currentAtk, currentRcv, currentHp, atkPlus,hpPlus, rcvPlus;
+   private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2, currentLevel, currentAtk, currentRcv, currentHp, atkPlus, hpPlus, rcvPlus, maxAwakenings, currentAwakenings;
    private Color element1, element2;
    private ArrayList<String> awokenSkills;
    private String activeSkill, leaderSkill, name;
@@ -26,6 +26,7 @@ public class Monster
       rcvMin = 256;
       rcvMax = 384;
       maxLevel = 99;
+      maxAwakenings = 7;
    }
 
    public int getCurrentLevel()
@@ -295,4 +296,22 @@ public class Monster
    {
       this.rcvPlus = rcvPlus;
    }
+
+   public int getMaxAwakenings() {
+      return maxAwakenings;
+   }
+
+   public void setMaxAwakenings(int maxAwakenings) {
+      this.maxAwakenings = maxAwakenings;
+   }
+
+   public int getCurrentAwakenings() {
+      return currentAwakenings;
+   }
+
+   public void setCurrentAwakenings(int currentAwakenings) {
+      this.currentAwakenings = currentAwakenings;
+   }
 }
+
+

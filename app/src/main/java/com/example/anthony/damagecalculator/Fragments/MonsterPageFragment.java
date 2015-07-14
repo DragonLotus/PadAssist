@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -121,6 +123,7 @@ public class MonsterPageFragment extends Fragment
    {
       super.onActivityCreated(savedInstanceState);
       monster = new Monster();
+
       monster.setCurrentLevel(monster.getCurrentLevel());
       monsterLevelValue.setText(Integer.toString(monster.getMaxLevel()));
       monster.setCurrentAtk(monster.getAtkMax());
@@ -135,10 +138,15 @@ public class MonsterPageFragment extends Fragment
       monsterStatsATKTotal.setText(Integer.toString(monster.getTotalAtk()));
       monsterStatsHPTotal.setText(Integer.toString(monster.getTotalHp()));
       monsterStatsRCVTotal.setText(Integer.toString(monster.getTotalRcv()));
+      monsterStatsWeightedValue.setText(monster.getWeightedString());
+
       monsterLevelValue.addTextChangedListener(currentLevelWatcher);
       monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
       monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
       monsterStatsRCVPlus.addTextChangedListener(rcvPlusWatcher);
+
+      monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+      showAwakenings();
 
 
    }
@@ -230,6 +238,23 @@ public class MonsterPageFragment extends Fragment
          }
       }
    };
+   @TargetApi(11)
+   public void showAwakenings()
+   {
+      // Show max # of awakenings
+      int i = 0;
+      View view = null;
+      for(i = monster.getMaxAwakenings(); i < 9; i++){
+         view = awakeningHolder.getChildAt(i);
+         view.setVisibility(View.GONE);
+      }
+      //Gray out depending on monsterAwakeningsValue
+      for(i = monster.getCurrentAwakenings(); i < monster.getMaxAwakenings(); i++){
+         view = awakeningHolder.getChildAt(i);
+
+         view.setAlpha((float).5);
+      }
+   }
 
 
 }
