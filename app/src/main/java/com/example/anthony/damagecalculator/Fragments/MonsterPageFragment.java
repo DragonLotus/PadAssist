@@ -91,6 +91,10 @@ public class MonsterPageFragment extends Fragment
          } else if (statToChange == MyTextWatcher.AWAKENINGS)
          {
             monster.setCurrentAwakenings(statValue);
+            if(monster.getCurrentAwakenings() > monster.getMaxAwakenings()){
+               monster.setCurrentAwakenings(monster.getMaxAwakenings());
+               monsterAwakeningsValue.setText(Integer.toString(monster.getCurrentAwakenings()));
+            }
             Log.d("hello", Integer.toString(monster.getCurrentAwakenings()));
             grayAwakenings();
          }
@@ -118,19 +122,19 @@ public class MonsterPageFragment extends Fragment
             }
             else if (monsterLevelValue.getText().toString().equals(""))
             {
-               monsterLevelValue.setText("" + 1);
+               monsterLevelValue.setText("1");
             }
             else if (monsterStatsHPPlus.getText().toString().equals(""))
             {
-               monsterStatsHPPlus.setText("" + 0);
+               monsterStatsHPPlus.setText("0");
             }
             else if (monsterStatsATKPlus.getText().toString().equals(""))
             {
-               monsterStatsATKPlus.setText("" + 0);
+               monsterStatsATKPlus.setText("0");
             }
             else if (monsterStatsRCVPlus.getText().toString().equals(""))
             {
-               monsterStatsRCVPlus.setText("" + 0);
+               monsterStatsRCVPlus.setText("0");
             }
             monsterStats();
          }
@@ -347,38 +351,38 @@ public class MonsterPageFragment extends Fragment
          v.requestFocus();
          if (v.equals(monsterLevelMax))
          {
-            monsterLevelValue.setText("" + (Integer.toString(monster.getMaxLevel())));
+            monsterLevelValue.setText(Integer.toString(monster.getMaxLevel()));
             monsterStats();
          } else if (v.equals(monsterStatsMax))
          {
-            monsterStatsHPPlus.setText("" + 99);
-            monsterStatsATKPlus.setText("" + 99);
-            monsterStatsRCVPlus.setText("" + 99);
+            monsterStatsHPPlus.setText("99");
+            monsterStatsATKPlus.setText("99");
+            monsterStatsRCVPlus.setText("99");
             monsterStats();
          } else if (v.equals(monsterStatsHPMax))
          {
-            monsterStatsHPPlus.setText("" + 99);
+            monsterStatsHPPlus.setText("99");
             monsterStats();
          } else if (v.equals(monsterStatsATKMax))
          {
-            monsterStatsATKPlus.setText("" + 99);
+            monsterStatsATKPlus.setText("99");
             monsterStats();
          } else if (v.equals(monsterStatsRCVMax))
          {
-            monsterStatsRCVPlus.setText("" + 99);
+            monsterStatsRCVPlus.setText("99");
             monsterStats();
          } else if (v.equals(monsterAwakeningsMax))
          {
-            monsterAwakeningsValue.setText("" + (monster.getMaxAwakenings()));
+            monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
             monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
             grayAwakenings();
          } else if (v.equals(monsterStatsMaxAll))
          {
-            monsterLevelValue.setText("" + (Integer.toString(monster.getMaxLevel())));
-            monsterStatsHPPlus.setText("" + 99);
-            monsterStatsATKPlus.setText("" + 99);
-            monsterStatsRCVPlus.setText("" + 99);
-            monsterAwakeningsValue.setText("" + (monster.getMaxAwakenings()));
+            monsterLevelValue.setText(Integer.toString(monster.getMaxLevel()));
+            monsterStatsHPPlus.setText("99");
+            monsterStatsATKPlus.setText("99");
+            monsterStatsRCVPlus.setText("99");
+            monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
             monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
             grayAwakenings();
             monsterStats();
