@@ -16,15 +16,20 @@ public class MyTextWatcher implements TextWatcher
    public static final int CURRENT_LEVEL = 3;
 
    private int statToChange;
-   public MyTextWatcher(int statToChange) {
+
+   private ChangeStats update;
+
+   public MyTextWatcher(int statToChange, ChangeStats update)
+   {
       this.statToChange = statToChange;
+      this.update = update;
    }
+
    public interface ChangeStats
    {
       public void changeMonsterAttribute(int statToChange, int statValue);
    }
 
-   private ChangeStats update;
 
    @Override
    public void beforeTextChanged(CharSequence s, int start, int count, int after)
@@ -35,9 +40,11 @@ public class MyTextWatcher implements TextWatcher
    @Override
    public void onTextChanged(CharSequence s, int start, int before, int count)
    {
-      //update is null causing break
-
-      update.changeMonsterAttribute(statToChange , Integer.valueOf(s.toString()));
+      if(s.toString().equals(""))
+      {
+         s = "0";
+      }
+      update.changeMonsterAttribute(statToChange, Integer.valueOf(s.toString()));
    }
 
    @Override
