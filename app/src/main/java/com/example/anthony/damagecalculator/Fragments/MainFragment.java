@@ -166,6 +166,10 @@ public class MainFragment extends Fragment
    {
       public void onClick(View v)
       {
+         if(dialog == null)
+         {
+            dialog = MyDialogFragment.newInstance(dialogFrag);
+         }
          dialog.show(getChildFragmentManager(),"Thomas Likes Big Butts And He Cannot Lie");
       }
    };
@@ -201,7 +205,6 @@ public class MainFragment extends Fragment
       editTeam = (TextView) rootView.findViewById(R.id.editTeam);
       orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
       orbsPlusValue = (TextView) rootView.findViewById(R.id.orbsPlusValue);
-      dialog = MyDialogFragment.newInstance(dialogFrag);
       return rootView;
    }
 
@@ -214,7 +217,6 @@ public class MainFragment extends Fragment
       orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
-
       reset.setOnClickListener(resetOnClickListener);
       orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
       orbMatches.setAdapter(orbMatchAdapter);
