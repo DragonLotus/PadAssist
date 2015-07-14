@@ -94,8 +94,7 @@ public class MonsterPageFragment extends Fragment
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                             Bundle savedInstanceState)
    {
-      // Inflate the layout for this fragment
-      View rootView = inflater.inflate(R.layout.main_fragment, container, false);
+      View rootView = inflater.inflate(R.layout.fragment_monster_page, container, false);
       initTextView(rootView);
       initImageView(rootView);
       monsterLevelMax = (Button) rootView.findViewById(R.id.monsterLevelMax);
@@ -116,9 +115,7 @@ public class MonsterPageFragment extends Fragment
       monsterStatsRCVPlus = (EditText) rootView.findViewById(R.id.monsterStatsRCVPlus);
       monsterAwakeningsValue = (EditText) rootView.findViewById(R.id.monsterAwakeningsValue);
       awakeningHolder = (LinearLayout) rootView.findViewById(R.id.awakeningHolder);
-
-
-      return inflater.inflate(R.layout.fragment_monster_page, container, false);
+      return rootView;
    }
 
    @Override
@@ -126,10 +123,10 @@ public class MonsterPageFragment extends Fragment
    {
       super.onActivityCreated(savedInstanceState);
       monster = new Monster();
-      //monsterLevelValue.addTextChangedListener(currentLevelWatcher);
+      monsterLevelValue.addTextChangedListener(currentLevelWatcher);
       monsterStatsHPBase.addTextChangedListener(hpPlusWatcher);
-     // monsterStatsATKBase.addTextChangedListener(atkPlusWatcher);
-      //monsterStatsRCVBase.addTextChangedListener(rcvPlusWatcher);
+      monsterStatsATKBase.addTextChangedListener(atkPlusWatcher);
+      monsterStatsRCVBase.addTextChangedListener(rcvPlusWatcher);
 
 
    }
