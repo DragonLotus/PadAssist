@@ -162,6 +162,8 @@ public class MonsterPageFragment extends Fragment
       monsterStatsRCVMax.setOnClickListener(maxButtons);
       monsterAwakeningsMax.setOnClickListener(maxButtons);
       monsterStatsMaxAll.setOnClickListener(maxButtons);
+      //Temporary update stats button
+      monsterChoose.setOnClickListener(maxButtons);
 
    }
 
@@ -216,42 +218,42 @@ public class MonsterPageFragment extends Fragment
 
    }
 
-//   private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
-//   {
-//      @Override
-//      public void changeMonsterAttribute(int statToChange, int statValue)
-//      {
-//         Log.d("hi", "sup");
-//         if (statToChange == MyTextWatcher.CURRENT_LEVEL)
-//         {
-//            monster.setCurrentLevel(statValue);
-//            monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
-//            monster.setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getHpMin(), monster.getHpMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getHpScale()));
-//            monster.setCurrentRcv(DamageCalculationUtil.monsterStatCalc(monster.getRcvMin(), monster.getRcvMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getRcvScale()));
-//            monsterStatsHPBase.setText("" + (monster.getCurrentHp()));
-//            monsterStatsATKBase.setText("" + (monster.getCurrentAtk()));
-//            monsterStatsRCVBase.setText("" + (monster.getCurrentRcv()));
-//         }
-//         else if (statToChange == MyTextWatcher.ATK_STAT)
-//         {
-//            monster.setAtkPlus(statValue);
-//            monsterStatsATKTotal.setText(monster.getTotalAtk());
-//            monsterStatsWeightedValue.setText(monster.getWeightedString());
-//         }
-//         else if (statToChange == MyTextWatcher.RCV_STAT)
-//         {
-//            monster.setRcvPlus(statValue);
-//            monsterStatsRCVTotal.setText(monster.getTotalRcv());
-//            monsterStatsWeightedValue.setText(monster.getWeightedString());
-//         }
-//         else if (statToChange == MyTextWatcher.HP_STAT)
-//         {
-//            monster.setHpPlus(statValue);
-//            monsterStatsHPTotal.setText(monster.getTotalHp());
-//            monsterStatsWeightedValue.setText(monster.getWeightedString());
-//         }
-//      }
-//   };
+   private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
+   {
+      @Override
+      public void changeMonsterAttribute(int statToChange, int statValue)
+      {
+         Log.d("hi", "sup");
+         if (statToChange == MyTextWatcher.CURRENT_LEVEL)
+         {
+            monster.setCurrentLevel(statValue);
+            monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
+            monster.setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getHpMin(), monster.getHpMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getHpScale()));
+            monster.setCurrentRcv(DamageCalculationUtil.monsterStatCalc(monster.getRcvMin(), monster.getRcvMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getRcvScale()));
+            monsterStatsHPBase.setText("" + (monster.getCurrentHp()));
+            monsterStatsATKBase.setText("" + (monster.getCurrentAtk()));
+            monsterStatsRCVBase.setText("" + (monster.getCurrentRcv()));
+         }
+         else if (statToChange == MyTextWatcher.ATK_STAT)
+         {
+            monster.setAtkPlus(statValue);
+            monsterStatsATKTotal.setText(monster.getTotalAtk());
+            monsterStatsWeightedValue.setText(monster.getWeightedString());
+         }
+         else if (statToChange == MyTextWatcher.RCV_STAT)
+         {
+            monster.setRcvPlus(statValue);
+            monsterStatsRCVTotal.setText(monster.getTotalRcv());
+            monsterStatsWeightedValue.setText(monster.getWeightedString());
+         }
+         else if (statToChange == MyTextWatcher.HP_STAT)
+         {
+            monster.setHpPlus(statValue);
+            monsterStatsHPTotal.setText(monster.getTotalHp());
+            monsterStatsWeightedValue.setText(monster.getWeightedString());
+         }
+      }
+   };
 
    private View.OnClickListener awakeningButtons = new View.OnClickListener(){
       @Override
@@ -304,14 +306,17 @@ public class MonsterPageFragment extends Fragment
             grayAwakenings();
          }
          else if (v.equals(monsterStatsMaxAll)){
-            //Temporary update button to test calculations
-//            monsterLevelValue.setText("" + (Integer.toString(monster.getMaxLevel())));
-//            monsterStatsHPPlus.setText("" + 99);
-//            monsterStatsATKPlus.setText("" + 99);
-//            monsterStatsRCVPlus.setText("" + 99);
-//            monsterAwakeningsValue.setText("" + (monster.getMaxAwakenings()));
-//            monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
-//            grayAwakenings();
+            monsterLevelValue.setText("" + (Integer.toString(monster.getMaxLevel())));
+            monsterStatsHPPlus.setText("" + 99);
+            monsterStatsATKPlus.setText("" + 99);
+            monsterStatsRCVPlus.setText("" + 99);
+            monsterAwakeningsValue.setText("" + (monster.getMaxAwakenings()));
+            monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+            grayAwakenings();
+            monsterStats();
+         }
+         else if (v.equals(monsterChoose))
+         {
             monsterStats();
          }
       }
@@ -347,6 +352,7 @@ public class MonsterPageFragment extends Fragment
 
    public void monsterStats()
    {
+      //Update method because our TextWatcher no work
       monster.setCurrentLevel(Integer.parseInt(monsterLevelValue.getText().toString()));
       monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
       monster.setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getHpMin(), monster.getHpMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getHpScale()));
