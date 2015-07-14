@@ -51,6 +51,7 @@ public class MainFragment extends Fragment
    private Toast toast;
    private RadioGroup orbRadioGroup;
    private MyDialogFragment dialog;
+
    private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout()
    {
       @Override
