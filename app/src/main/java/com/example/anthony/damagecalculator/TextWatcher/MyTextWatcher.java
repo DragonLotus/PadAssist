@@ -2,15 +2,25 @@ package com.example.anthony.damagecalculator.TextWatcher;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.EditText;
 
 /**
  * Created by Anthony on 7/13/2015.
  */
 public class MyTextWatcher implements TextWatcher
 {
+   public static final int HP_STAT = 0;
+   public static final int ATK_STAT = 1;
+   public static final int RCV_STAT = 2;
+   public static final int CURRENT_LEVEL = 3;
+
+   private int statToChange;
+   public MyTextWatcher(int statToChange) {
+      this.statToChange = statToChange;
+   }
    public interface ChangeStats
    {
-      public void monsterStatCalc(int minimumStat, int maximumStat, int currentLevel, int maxLevel, double statScale);
+      public void changeMonsterAttribute(int statToChange, int statValue);
    }
 
    private ChangeStats update;
@@ -24,7 +34,7 @@ public class MyTextWatcher implements TextWatcher
    @Override
    public void onTextChanged(CharSequence s, int start, int before, int count)
    {
-      update.monsterStatCalc();
+      update.changeMonsterAttribute(statToChange , Integer.valueOf(s.toString()));
    }
 
    @Override

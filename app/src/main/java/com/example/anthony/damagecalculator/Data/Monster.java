@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator.Data;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -7,13 +8,80 @@ import java.util.ArrayList;
  */
 public class Monster
 {
-   private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2;
+   public static final int HP_MULTIPLIER = 10;
+   public static final int ATK_MULTIPLIER = 5;
+   public static final int RCV_MULTIPLIER = 3;
+   private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2, currentLevel, currentAtk, currentRcv, currentHp, atkPlus,hpPlus, rcvPlus;
    private Color element1, element2;
    private ArrayList<String> awokenSkills;
    private String activeSkill, leaderSkill, name;
    private double atkScale, rcvScale, hpScale;
+   DecimalFormat format = new DecimalFormat("0.00");
+   public Monster()
+   {
+      atkMax = 1370;
+      atkMin = 913;
+      hpMin = 1271;
+      hpMax = 3528;
+      rcvMin = 256;
+      rcvMax = 384;
+      maxLevel = 99;
+   }
+
+   public int getCurrentLevel()
+   {
+      return currentLevel;
+   }
+
+   public void setCurrentLevel(int currentLevel)
+   {
+      this.currentLevel = currentLevel;
+   }
+
+   public int getCurrentAtk()
+   {
+      return currentAtk;
+   }
+
+   public int getCurrentHp()
+   {
+      return currentHp;
+   }
+
+   public int getTotalHp() {
+      return currentHp + hpPlus * HP_MULTIPLIER;
+   }
+   public int getTotalAtk() {
+      return currentAtk + atkPlus * ATK_MULTIPLIER;
+   }
+   public int getTotalRcv() {
+      return currentRcv + rcvPlus * RCV_MULTIPLIER;
+   }
+   public String getWeightedString() {
+      return format.format(getWeighted());
+   }
+
+   public double getWeighted() {
+      return currentHp / HP_MULTIPLIER + currentAtk / ATK_MULTIPLIER + currentRcv / RCV_MULTIPLIER;
+   }
+
+   public void setCurrentAtk(int currentAtk)
+   {
+      this.currentAtk = currentAtk;
+   }
+
+   public int getCurrentRcv()
+   {
+      return currentRcv;
+   }
+
+   public void setCurrentRcv(int currentRcv)
+   {
+      this.currentRcv = currentRcv;
+   }
 
    public int getAtkMax()
+
    {
       return atkMax;
    }
@@ -191,5 +259,40 @@ public class Monster
    public void setHpScale(double hpScale)
    {
       this.hpScale = hpScale;
+   }
+
+   public void setCurrentHp(int currentHp)
+   {
+      this.currentHp = currentHp;
+   }
+
+   public int getAtkPlus()
+   {
+      return atkPlus;
+   }
+
+   public void setAtkPlus(int atkPlus)
+   {
+      this.atkPlus = atkPlus;
+   }
+
+   public int getHpPlus()
+   {
+      return hpPlus;
+   }
+
+   public void setHpPlus(int hpPlus)
+   {
+      this.hpPlus = hpPlus;
+   }
+
+   public int getRcvPlus()
+   {
+      return rcvPlus;
+   }
+
+   public void setRcvPlus(int rcvPlus)
+   {
+      this.rcvPlus = rcvPlus;
    }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
+import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 
 /**
@@ -45,6 +48,11 @@ public class MonsterPageFragment extends Fragment
    private ImageView monsterPicture, monsterAwakening1, monsterAwakening2, monsterAwakening3, monsterAwakening4, monsterAwakening5, monsterAwakening6, monsterAwakening7, monsterAwakening8, monsterAwakening9;
    private LinearLayout awakeningHolder;
    private Monster monster;
+   private MyTextWatcher currentLevelWatcher = new MyTextWatcher(MyTextWatcher.CURRENT_LEVEL);
+   private MyTextWatcher hpPlusWatcher = new MyTextWatcher(MyTextWatcher.HP_STAT);
+   private MyTextWatcher atkPlusWatcher = new MyTextWatcher(MyTextWatcher.ATK_STAT);
+   private MyTextWatcher rcvPlusWatcher = new MyTextWatcher(MyTextWatcher.RCV_STAT);
+
 
    /**
     * Use this factory method to create a new instance of
@@ -99,20 +107,15 @@ public class MonsterPageFragment extends Fragment
       monsterStatsMaxAll = (Button) rootView.findViewById(R.id.monsterStatsMaxAll);
       monsterChoose = (Button) rootView.findViewById(R.id.monsterChoose);
       monsterLevelValue = (EditText) rootView.findViewById(R.id.monsterLevelValue);
+      if(monsterLevelValue == null)
+      {
+         Log.d("sadas", "i hate my life");
+      }
       monsterStatsHPPlus = (EditText) rootView.findViewById(R.id.monsterStatsHPPlus);
       monsterStatsATKPlus = (EditText) rootView.findViewById(R.id.monsterStatsATKPlus);
       monsterStatsRCVPlus = (EditText) rootView.findViewById(R.id.monsterStatsRCVPlus);
       monsterAwakeningsValue = (EditText) rootView.findViewById(R.id.monsterAwakeningsValue);
       awakeningHolder = (LinearLayout) rootView.findViewById(R.id.awakeningHolder);
-
-      monster.setAtkMax(1370);
-      monster.setAtkMin(913);
-      monster.setHpMin(1271);
-      monster.setHpMax(3528);
-      monster.setRcvMin(256);
-      monster.setRcvMax(384);
-      monster.setMaxLevel(99);
-
 
 
       return inflater.inflate(R.layout.fragment_monster_page, container, false);
@@ -122,6 +125,13 @@ public class MonsterPageFragment extends Fragment
    public void onActivityCreated(Bundle savedInstanceState)
    {
       super.onActivityCreated(savedInstanceState);
+      monster = new Monster();
+      //monsterLevelValue.addTextChangedListener(currentLevelWatcher);
+      monsterStatsHPBase.addTextChangedListener(hpPlusWatcher);
+     // monsterStatsATKBase.addTextChangedListener(atkPlusWatcher);
+      //monsterStatsRCVBase.addTextChangedListener(rcvPlusWatcher);
+
+
    }
 
    // TODO: Rename method, update argument and hook method into UI event
@@ -174,34 +184,42 @@ public class MonsterPageFragment extends Fragment
       monsterAwakening9 = (ImageView) rootView.findViewById(R.id.monsterAwakening9);
 
    }
-//   public int monsterStatCalc(Monster monster, String choiceStat, int currentLevel)
-//   {
-//      int minimumStat = 0, maximumStat = 0;
-//      double statScale = 0;
-//
-//      if(choiceStat.equals("hp"))
-//      {
-//         minimumStat = monster.getHpMin();
-//         maximumStat = monster.getHpMax();
-//         statScale = monster.getHpScale();
-//      }
-//      else if(choiceStat.equals("rcv"))
-//      {
-//         minimumStat = monster.getRcvMin();
-//         maximumStat = monster.getRcvMax();
-//         statScale = monster.getRcvScale();
-//      }
-//      else if(choiceStat.equals("atk"))
-//      {
-//         minimumStat = monster.getAtkMin();
-//         maximumStat = monster.getAtkMax();
-//         statScale = monster.getAtkScale();
-//      }
-//      return (int) Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) ((currentLevel - 1) / (monster.getMaxLevel())), statScale)));
-//   }
 
-   public int monsterStatCalc(int minimumStat, int maximumStat, int currentLevel, int maxLevel, double statScale)
+   private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
    {
-      return (int) Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) ((currentLevel - 1) / (maxLevel)), statScale)));
-   }
+      @Override
+      public void changeMonsterAttribute(int statToChange, int statValue)
+      {
+         if (statToChange == MyTextWatcher.CURRENT_LEVEL)
+         {
+            monster.setCurrentLevel(statValue);
+            monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
+            monster.setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getHpMin(), monster.getHpMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getHpScale()));
+            monster.setCurrentRcv(DamageCalculationUtil.monsterStatCalc(monster.getRcvMin(), monster.getRcvMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getRcvScale()));
+            monsterStatsHPBase.setText(monster.getCurrentHp());
+            monsterStatsATKBase.setText(monster.getCurrentAtk());
+            monsterStatsRCVBase.setText(monster.getCurrentRcv());
+         }
+         else if (statToChange == MyTextWatcher.ATK_STAT)
+         {
+            monster.setAtkPlus(statValue);
+            monsterStatsATKTotal.setText(monster.getTotalAtk());
+            monsterStatsWeightedValue.setText(monster.getWeightedString());
+         }
+         else if (statToChange == MyTextWatcher.RCV_STAT)
+         {
+            monster.setRcvPlus(statValue);
+            monsterStatsRCVTotal.setText(monster.getTotalRcv());
+            monsterStatsWeightedValue.setText(monster.getWeightedString());
+         }
+         else if (statToChange == MyTextWatcher.HP_STAT)
+         {
+            monster.setHpPlus(statValue);
+            monsterStatsHPTotal.setText(monster.getTotalHp());
+            monsterStatsWeightedValue.setText(monster.getWeightedString());
+         }
+      }
+   };
+
+
 }
