@@ -94,6 +94,32 @@ public class MonsterPageFragment extends Fragment
    private MyTextWatcher atkPlusWatcher = new MyTextWatcher(MyTextWatcher.ATK_STAT, changeStats);
    private MyTextWatcher rcvPlusWatcher = new MyTextWatcher(MyTextWatcher.RCV_STAT, changeStats);
 
+   private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus) {
+         if(!hasFocus){
+            if(monsterAwakeningsValue.getText().toString().equals(""))
+            {
+               monsterAwakeningsValue.setText("0");
+               monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+               grayAwakenings();
+            }
+            else if(monsterLevelValue.getText().toString().equals("")) {
+               monsterLevelValue.setText("" + 1);
+            }
+            else if(monsterStatsHPPlus.getText().toString().equals("")){
+               monsterStatsHPPlus.setText("" + 0);
+            }
+            else if(monsterStatsATKPlus.getText().toString().equals("")){
+               monsterStatsATKPlus.setText("" + 0);
+            }
+            else if(monsterStatsRCVPlus.getText().toString().equals("")){
+               monsterStatsRCVPlus.setText("" + 0);
+            }
+            monsterStats();
+         }
+      }
+   };
 
    /**
     * Use this factory method to create a new instance of
@@ -185,6 +211,12 @@ public class MonsterPageFragment extends Fragment
       monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
       monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
       monsterStatsRCVPlus.addTextChangedListener(rcvPlusWatcher);
+
+      monsterLevelValue.setOnFocusChangeListener(editTextOnFocusChange);
+      monsterStatsHPPlus.setOnFocusChangeListener(editTextOnFocusChange);
+      monsterStatsATKPlus.setOnFocusChangeListener(editTextOnFocusChange);
+      monsterStatsRCVPlus.setOnFocusChangeListener(editTextOnFocusChange);
+      monsterAwakeningsValue.setOnFocusChangeListener(editTextOnFocusChange);
 
       monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
       showAwakenings();
@@ -293,6 +325,7 @@ public class MonsterPageFragment extends Fragment
       @Override
       public void onClick(View v)
       {
+         v.requestFocus();
          if (v.equals(monsterLevelMax))
          {
             monsterLevelValue.setText("" + (Integer.toString(monster.getMaxLevel())));
