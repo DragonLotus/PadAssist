@@ -46,7 +46,7 @@ public class MonsterPageFragment extends Fragment
    private String mParam2;
 
    private OnFragmentInteractionListener mListener;
-   private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue;
+   private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue;
    private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
    private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterChoose, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
    private ImageView monsterPicture, monsterAwakening1, monsterAwakening2, monsterAwakening3, monsterAwakening4, monsterAwakening5, monsterAwakening6, monsterAwakening7, monsterAwakening8, monsterAwakening9;
@@ -152,6 +152,7 @@ public class MonsterPageFragment extends Fragment
       monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
       showAwakenings();
       grayAwakenings();
+      monsterStats();
       awakeningMinus.setOnClickListener(awakeningButtons);
       awakeningPlus.setOnClickListener(awakeningButtons);
 
@@ -164,6 +165,11 @@ public class MonsterPageFragment extends Fragment
       monsterStatsMaxAll.setOnClickListener(maxButtons);
       //Temporary update stats button
       monsterChoose.setOnClickListener(maxButtons);
+      monsterLevelValue.addTextChangedListener(monsterTextWatcher);
+      monsterStatsHPPlus.addTextChangedListener(monsterTextWatcher);
+      monsterStatsATKPlus.addTextChangedListener(monsterTextWatcher);
+      monsterStatsRCVPlus.addTextChangedListener(monsterTextWatcher);
+      monsterAwakeningsValue.addTextChangedListener(monsterTextWatcher);
 
    }
 
@@ -200,6 +206,7 @@ public class MonsterPageFragment extends Fragment
       monsterStatsRCVBase = (TextView) rootView.findViewById(R.id.monsterStatsRCVBase);
       monsterStatsRCVTotal = (TextView) rootView.findViewById(R.id.monsterStatsRCVTotal);
       monsterStatsWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsWeightedValue);
+      monsterStatsTotalWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsTotalWeightedValue);
 
    }
 
@@ -350,6 +357,42 @@ public class MonsterPageFragment extends Fragment
       }
    }
 
+   //TextWatcher Testerino. Testicles.
+   private TextWatcher monsterTextWatcher = new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+         Log.d("Text on change", "yup");
+         if(monsterAwakeningsValue.getText().toString().equals(""))
+         {
+            monsterAwakeningsValue.setText("0");
+            grayAwakenings();
+         }
+         else if(monsterLevelValue.getText().toString().equals("")) {
+            monsterLevelValue.setText("" + 1);
+         }
+         else if(monsterStatsHPPlus.getText().toString().equals("")){
+            monsterStatsHPPlus.setText("" + 0);
+         }
+         else if(monsterStatsATKPlus.getText().toString().equals("")){
+            monsterStatsATKPlus.setText("" + 0);
+         }
+         else if(monsterStatsRCVPlus.getText().toString().equals("")){
+            monsterStatsRCVPlus.setText("" + 0);
+         }
+         monsterStats();
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {
+         Log.d("Text after change", "yup");
+      }
+   };
+
    public void monsterStats()
    {
       //Update method because our TextWatcher no work
@@ -367,6 +410,8 @@ public class MonsterPageFragment extends Fragment
       monsterStatsATKTotal.setText("" + (monster.getTotalAtk()));
       monsterStatsRCVTotal.setText("" + (monster.getTotalRcv()));
       monsterStatsWeightedValue.setText("" + (monster.getWeightedString()));
+      monsterStatsTotalWeightedValue.setText("" + (monster.getTotalWeightedString()));
+
 
    }
 

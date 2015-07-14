@@ -43,10 +43,6 @@ public class MyTextWatcher implements TextWatcher
    @Override
    public void afterTextChanged(Editable s)
    {
-//      Prevents from being 0. Something like that.
-//      String text = monsterAwakeningsValue.getText().toString();
-//      if(text.equals("")) {
-//         monsterAwakeningsValue.setText("0");
-//      }
+
    }
 }

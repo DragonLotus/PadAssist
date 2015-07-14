@@ -70,6 +70,14 @@ public class Monster
       return currentHp / HP_MULTIPLIER + currentAtk / ATK_MULTIPLIER + currentRcv / RCV_MULTIPLIER;
    }
 
+   public String getTotalWeightedString() {
+      return format.format(getTotalWeighted());
+   }
+
+   public double getTotalWeighted() {
+      return getWeighted() + hpPlus + atkPlus + rcvPlus;
+   }
+
    public void setCurrentAtk(double currentAtk)
    {
       this.currentAtk = currentAtk;

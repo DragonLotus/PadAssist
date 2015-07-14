@@ -297,6 +297,7 @@
         android:layout_height="wrap_content"
         android:text="Weighted"
         android:textSize="18dp"
+        android:layout_marginRight="30dp"
         android:layout_alignTop="@+id/monsterStatsWeightedMax"
         android:layout_alignBottom="@+id/monsterStatsWeightedMax"
         android:gravity="center_vertical" />
@@ -307,10 +308,22 @@
         android:layout_height="wrap_content"
         android:text="1337"
         android:textSize="18dp"
-        android:layout_toLeftOf="@+id/monsterStatsWeightedMax"
+        android:layout_toRightOf="@+id/monsterStatsWeighted"
         android:layout_alignTop="@+id/monsterStatsWeightedMax"
         android:layout_alignBottom="@+id/monsterStatsWeightedMax"
         android:gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/monsterStatsTotalWeightedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1337"
+        android:textSize="18dp"
+        android:layout_alignLeft="@+id/monsterStatsPlus"
+        android:layout_alignRight="@+id/monsterStatsWeightedMax"
+        android:layout_alignTop="@+id/monsterStatsWeightedMax"
+        android:layout_alignBottom="@+id/monsterStatsWeightedMax"
+        android:gravity="center"/>
 
     <Button
         android:id="@+id/monsterStatsWeightedMax"
