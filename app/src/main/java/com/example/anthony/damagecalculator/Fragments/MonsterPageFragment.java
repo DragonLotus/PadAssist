@@ -370,6 +370,7 @@ public class MonsterPageFragment extends Fragment
          if(monsterAwakeningsValue.getText().toString().equals(""))
          {
             monsterAwakeningsValue.setText("0");
+            monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
             grayAwakenings();
          }
          else if(monsterLevelValue.getText().toString().equals("")) {
