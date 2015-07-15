@@ -31,6 +31,7 @@ public class Monster
       rcvScale = 1;
       hpScale = 1;
       maxAwakenings = 7;
+      name = "Kirin of the Sacred Gleam, Sakuya";
    }
 
    public int getCurrentLevel()
