@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/monsterPicture"
         android:layout_alignTop="@+id/monsterPicture"
-        android:paddingLeft="10dp"
+        android:padding="3dp"
         android:text="+297"
         android:textSize="16dp"
         android:textColor="#f0ff00"
@@ -34,19 +34,19 @@
         <!--android:textColor="#000000"-->
         <!--android:textStyle="bold"/>-->
 
-    <TextView
+    <com.example.anthony.damagecalculator.Graphics.TextStroke
         android:id="@+id/monsterAwakenings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignBottom="@+id/monsterPicture"
         android:layout_alignLeft="@+id/monsterPicture"
         android:gravity="bottom"
-        android:padding="4dp"
         android:text="6"
         android:textSize="16dp"
-        android:textColor="#000000"
+        android:textColor="#f0ff00"
         android:textStyle="bold"
-        android:maxLength="1"/>
+        android:paddingLeft="1dp"
+        android:background="@drawable/awakening_background"/>
 
     <TextView
         android:id="@+id/monsterName"

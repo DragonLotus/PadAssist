@@ -2,6 +2,7 @@ package com.example.anthony.damagecalculator.Adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,11 +62,15 @@ public class MonsterListAdapter extends ArrayAdapter<Monster>
       viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()));
       viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));
       viewHolder.monsterHP.setText(Integer.toString(monsterList.get(position).getTotalHp()));
-      viewHolder.monsterAwakenings.setText(Integer.toString(monsterList.get(position).getCurrentAwakenings()));
+      viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
       viewHolder.monsterName.setText(monsterList.get(position).getName());
       viewHolder.monsterLevelValue.setText(Integer.toString(monsterList.get(position).getCurrentLevel()));
       int totalPlus = monsterList.get(position).getAtkPlus() + monsterList.get(position).getHpPlus() + monsterList.get(position).getRcvPlus();
-      viewHolder.monsterPlus.setText("+" + Integer.toString(totalPlus));
+      viewHolder.monsterPlus.setText(" +" + Integer.toString(totalPlus) + " ");
+      if (monsterList.get(position).getCurrentAwakenings() == monsterList.get(position).getMaxAwakenings()){
+         viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
+         viewHolder.monsterAwakenings.setText("");
+      }
 
       return convertView;
    }
@@ -76,6 +81,5 @@ public class MonsterListAdapter extends ArrayAdapter<Monster>
       ImageView monsterPicture;
 
    }
-
 
 }
