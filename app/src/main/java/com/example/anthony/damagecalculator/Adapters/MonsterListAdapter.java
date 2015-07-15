@@ -58,14 +58,14 @@ public class MonsterListAdapter extends ArrayAdapter<Monster>
       {
          viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
       }
-      viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getCurrentAtk()));
-      viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getCurrentRcv()));
-      viewHolder.monsterHP.setText(Integer.toString(monsterList.get(position).getCurrentHp()));
+      viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()));
+      viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));
+      viewHolder.monsterHP.setText(Integer.toString(monsterList.get(position).getTotalHp()));
       viewHolder.monsterAwakenings.setText(Integer.toString(monsterList.get(position).getCurrentAwakenings()));
       viewHolder.monsterName.setText(monsterList.get(position).getName());
       viewHolder.monsterLevelValue.setText(Integer.toString(monsterList.get(position).getCurrentLevel()));
       int totalPlus = monsterList.get(position).getAtkPlus() + monsterList.get(position).getHpPlus() + monsterList.get(position).getRcvPlus();
-      viewHolder.monsterPlus.setText(Integer.toString(totalPlus));
+      viewHolder.monsterPlus.setText("+" + Integer.toString(totalPlus));
 
       return convertView;
    }
