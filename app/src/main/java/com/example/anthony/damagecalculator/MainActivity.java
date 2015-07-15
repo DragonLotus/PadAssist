@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
 
         try {
             // Install the custom Cache Implementation
-//            HttpResponseCache.install(httpCacheDir, httpCacheSize);
+            HttpResponseCache.install(httpCacheDir, httpCacheSize);
 
         } catch (Exception e) {
             e.printStackTrace();

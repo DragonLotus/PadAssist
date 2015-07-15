@@ -23,6 +23,7 @@ import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.util.ArrayList;
@@ -212,6 +213,7 @@ public class MainFragment extends Fragment
    {
       super.onActivityCreated(savedInstanceState);
       //Write your code here
+       new DownloadPadApi().start();
       orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
       orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
