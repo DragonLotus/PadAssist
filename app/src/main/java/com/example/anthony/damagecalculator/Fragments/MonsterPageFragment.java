@@ -53,7 +53,7 @@ public class MonsterPageFragment extends Fragment
    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue;
    private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
    private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterChoose, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
-   private ImageView monsterPicture, monsterAwakening1, monsterAwakening2, monsterAwakening3, monsterAwakening4, monsterAwakening5, monsterAwakening6, monsterAwakening7, monsterAwakening8, monsterAwakening9;
+   private ImageView monsterPicture;
    private LinearLayout awakeningHolder;
    private Monster monster;
    private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
@@ -209,22 +209,6 @@ public class MonsterPageFragment extends Fragment
       super.onActivityCreated(savedInstanceState);
       monster = new Monster();
 
-//      monster.setCurrentLevel(monster.getCurrentLevel());
-//      monsterLevelValue.setText(Integer.toString(monster.getMaxLevel()));
-//      monster.setCurrentAtk(monster.getAtkMax());
-//      monsterStatsATKBase.setText(Integer.toString(monster.getAtkMax()));
-//      monster.setCurrentHp(monster.getHpMax());
-//      monsterStatsHPBase.setText(Integer.toString(monster.getHpMax()));
-//      monster.setCurrentRcv(monster.getRcvMax());
-//      monster.setHpPlus(Integer.valueOf(monsterStatsHPPlus.getText().toString()));
-//      monster.setAtkPlus(Integer.valueOf(monsterStatsATKPlus.getText().toString()));
-//      monster.setRcvPlus(Integer.valueOf(monsterStatsRCVPlus.getText().toString()));
-//      monsterStatsRCVBase.setText(Integer.toString(monster.getRcvMax()));
-//      monsterStatsATKTotal.setText(Integer.toString(monster.getTotalAtk()));
-//      monsterStatsHPTotal.setText(Integer.toString(monster.getTotalHp()));
-//      monsterStatsRCVTotal.setText(Integer.toString(monster.getTotalRcv()));
-//
-//
       monsterLevelValue.addTextChangedListener(currentLevelWatcher);
       monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
       monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
@@ -253,11 +237,6 @@ public class MonsterPageFragment extends Fragment
       monsterStatsMaxAll.setOnClickListener(maxButtons);
       //Temporary update stats button
       monsterChoose.setOnClickListener(maxButtons);
-//      monsterLevelValue.addTextChangedListener(monsterTextWatcher);
-//      monsterStatsHPPlus.addTextChangedListener(monsterTextWatcher);
-//      monsterStatsATKPlus.addTextChangedListener(monsterTextWatcher);
-//      monsterStatsRCVPlus.addTextChangedListener(monsterTextWatcher);
-//      monsterAwakeningsValue.addTextChangedListener(monsterTextWatcher);
    rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
    }
@@ -302,18 +281,7 @@ public class MonsterPageFragment extends Fragment
    private void initImageView(View rootView)
    {
       monsterPicture = (ImageView) rootView.findViewById(R.id.monsterPicture);
-      monsterAwakening1 = (ImageView) rootView.findViewById(R.id.monsterAwakening1);
-      monsterAwakening2 = (ImageView) rootView.findViewById(R.id.monsterAwakening2);
-      monsterAwakening3 = (ImageView) rootView.findViewById(R.id.monsterAwakening3);
-      monsterAwakening4 = (ImageView) rootView.findViewById(R.id.monsterAwakening4);
-      monsterAwakening5 = (ImageView) rootView.findViewById(R.id.monsterAwakening5);
-      monsterAwakening6 = (ImageView) rootView.findViewById(R.id.monsterAwakening6);
-      monsterAwakening7 = (ImageView) rootView.findViewById(R.id.monsterAwakening7);
-      monsterAwakening8 = (ImageView) rootView.findViewById(R.id.monsterAwakening8);
-      monsterAwakening9 = (ImageView) rootView.findViewById(R.id.monsterAwakening9);
-
    }
-
 
    private View.OnClickListener awakeningButtons = new View.OnClickListener()
    {
@@ -423,45 +391,6 @@ public class MonsterPageFragment extends Fragment
       }
    }
 
-   /*
-
-   //TextWatcher Testerino. Testicles.
-   private TextWatcher monsterTextWatcher = new TextWatcher() {
-      @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-      }
-
-      @Override
-      public void onTextChanged(CharSequence s, int start, int before, int count) {
-         Log.d("Text on change", "yup");
-         if(monsterAwakeningsValue.getText().toString().equals(""))
-         {
-            monsterAwakeningsValue.setText("0");
-            monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
-            grayAwakenings();
-         }
-         else if(monsterLevelValue.getText().toString().equals("")) {
-            monsterLevelValue.setText("" + 1);
-         }
-         else if(monsterStatsHPPlus.getText().toString().equals("")){
-            monsterStatsHPPlus.setText("" + 0);
-         }
-         else if(monsterStatsATKPlus.getText().toString().equals("")){
-            monsterStatsATKPlus.setText("" + 0);
-         }
-         else if(monsterStatsRCVPlus.getText().toString().equals("")){
-            monsterStatsRCVPlus.setText("" + 0);
-         }
-         monsterStats();
-      }
-
-      @Override
-      public void afterTextChanged(Editable s) {
-         Log.d("Text after change", "yup");
-      }
-   };
-*/
    public void monsterStats()
    {
       //Update method because our TextWatcher no work
@@ -482,7 +411,6 @@ public class MonsterPageFragment extends Fragment
       monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
 
    }
-
 
    private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()
    {

@@ -124,11 +124,11 @@ public class MainActivity extends ActionBarActivity
          {
             return MainFragment.newInstance(position + 1);
          }
-         if (position == 1)
+         if (position == 2)
          {
             return MonsterPageFragment.newInstance("thomas", "fix this");
          }
-         if (position == 2)
+         if (position == 1)
          {
             return TeamListFragment.newInstance("thomas", "where are you");
          }
