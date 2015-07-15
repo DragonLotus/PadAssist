@@ -14,6 +14,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -47,7 +48,7 @@ public class MonsterPageFragment extends Fragment
    // TODO: Rename and change types of parameters
    private String mParam1;
    private String mParam2;
-
+   private View rootView;
    private OnFragmentInteractionListener mListener;
    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue;
    private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
@@ -91,7 +92,8 @@ public class MonsterPageFragment extends Fragment
          } else if (statToChange == MyTextWatcher.AWAKENINGS)
          {
             monster.setCurrentAwakenings(statValue);
-            if(monster.getCurrentAwakenings() > monster.getMaxAwakenings()){
+            if (monster.getCurrentAwakenings() > monster.getMaxAwakenings())
+            {
                monster.setCurrentAwakenings(monster.getMaxAwakenings());
                monsterAwakeningsValue.setText(Integer.toString(monster.getCurrentAwakenings()));
             }
@@ -119,20 +121,16 @@ public class MonsterPageFragment extends Fragment
                monsterAwakeningsValue.setText("0");
                monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
                grayAwakenings();
-            }
-            else if (monsterLevelValue.getText().toString().equals(""))
+            } else if (monsterLevelValue.getText().toString().equals(""))
             {
                monsterLevelValue.setText("1");
-            }
-            else if (monsterStatsHPPlus.getText().toString().equals(""))
+            } else if (monsterStatsHPPlus.getText().toString().equals(""))
             {
                monsterStatsHPPlus.setText("0");
-            }
-            else if (monsterStatsATKPlus.getText().toString().equals(""))
+            } else if (monsterStatsATKPlus.getText().toString().equals(""))
             {
                monsterStatsATKPlus.setText("0");
-            }
-            else if (monsterStatsRCVPlus.getText().toString().equals(""))
+            } else if (monsterStatsRCVPlus.getText().toString().equals(""))
             {
                monsterStatsRCVPlus.setText("0");
             }
@@ -181,7 +179,7 @@ public class MonsterPageFragment extends Fragment
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                             Bundle savedInstanceState)
    {
-      View rootView = inflater.inflate(R.layout.fragment_monster_page, container, false);
+      rootView = inflater.inflate(R.layout.fragment_monster_page, container, false);
       initTextView(rootView);
       initImageView(rootView);
       monsterLevelMax = (Button) rootView.findViewById(R.id.monsterLevelMax);
@@ -260,8 +258,8 @@ public class MonsterPageFragment extends Fragment
 //      monsterStatsATKPlus.addTextChangedListener(monsterTextWatcher);
 //      monsterStatsRCVPlus.addTextChangedListener(monsterTextWatcher);
 //      monsterAwakeningsValue.addTextChangedListener(monsterTextWatcher);
+   rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
-      monsterLevelValue.setOnKeyListener(editTextOnKeyListener);
    }
 
    // TODO: Rename method, update argument and hook method into UI event
@@ -486,17 +484,22 @@ public class MonsterPageFragment extends Fragment
    }
 
 
-   private EditText.OnKeyListener editTextOnKeyListener = new EditText.OnKeyListener()
+   private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()
    {
       @Override
-      public boolean onKey(View v, int keyCode, KeyEvent event)
+      public void onGlobalLayout()
       {
-         if(keyCode == KeyEvent.KEYCODE_ENTER)
+
+         if (getResources().getConfiguration().keyboardHidden == Configuration.KEYBOARDHIDDEN_YES)
          {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            if(((ViewGroup)rootView).getFocusedChild() == null)
+            {
+               Log.d("FKTHOMSA", "DAM U THOMAS");
+            }
+            ((ViewGroup)rootView).getFocusedChild().clearFocus();
+            Log.d("is this real?", "what da");
+
          }
-         return false;
       }
    };
 

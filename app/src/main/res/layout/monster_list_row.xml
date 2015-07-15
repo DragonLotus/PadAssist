@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+   <ImageView
+      android:id="@+id/monsterPicture"
+      android:layout_width="80dp"
+      android:layout_height="80dp"
+      android:src="@drawable/kirin_portrait"
+      android:layout_centerVertical="true"/>
+
+   <TextView
+      android:id="@+id/monsterPlus"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="+297"
+      android:layout_alignTop="@+id/monsterPicture"
+      android:layout_alignRight="@+id/monsterPicture"
+      />
+
+   <TextView
+      android:id="@+id/monsterAwakenings"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="69"
+      android:gravity="bottom"
+      android:layout_alignBottom="@+id/monsterPicture"
+      android:layout_alignRight="@+id/monsterPicture"
+      />
+
+   <TextView
+      android:id="@+id/monsterName"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Kirin of the Sacred Gleam, Sakuya"
+      android:layout_alignTop="@+id/monsterPicture"
+      android:layout_toRightOf="@+id/monsterPicture"/>
+
+   <TextView
+      android:id="@+id/monsterLevel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Level"
+      android:layout_below="@+id/monster1Name"
+      android:layout_toRightOf="@+id/monsterPicture" />
+
+   <TextView
+      android:id="@+id/monsterHP"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="HP: "
+      android:layout_below="@+id/monster1Name"
+      android:layout_toRightOf="@+id/monster1Level" />
+
+   <TextView
+      android:id="@+id/monsterHPValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="1337"
+      android:layout_alignBottom="@+id/monsterPicture"
+      android:layout_toRightOf="@+id/monsterHP" />
+
+   <TextView
+      android:id="@+id/monsterATK"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="ATK: "
+      android:layout_below="@+id/monster1Name"
+      android:layout_toRightOf="@+id/monsterHPValue" />
+
+   <TextView
+      android:id="@+id/monsterATKValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="1337"
+      android:layout_below="@+id/monster1Name"
+      android:layout_toRightOf="@+id/monsterATK" />
+
+   <TextView
+      android:id="@+id/monsterRCV"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="RCV: "
+      android:layout_below="@+id/monster1Name"
+      android:layout_toRightOf="@+id/monsterATKValue" />
+
+   <TextView
+      android:id="@+id/monsterRCVValue"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="1337"
+      android:layout_below="@+id/monster1Name"
+      android:layout_toRightOf="@+id/monsterRCV" />
+
+</RelativeLayout>
