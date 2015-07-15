@@ -1,8 +1,13 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +16,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -34,20 +41,37 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment
 {
    private static final String ARG_SECTION_NUMBER = "section_number";
-   private TextView editTeam, sectionLabel, color, row, orbsLinkedValue, orbsPlusValue;
-   private TextView listText;
-   private ImageView red, blue, green, light, dark;
-   private LinearLayout editHolder;
+   private TextView editTeam, orbsLinkedValue, orbsPlusValue;
    private Button addMatch, calculate, reset;
    private SeekBar orbsLinked, orbsPlus;
    private CheckBox rowCheckBox;
    private ListView orbMatches;
    private OrbMatchAdapter orbMatchAdapter;
-   private boolean isManualEditing = false;
    private boolean isRow;
    private OrbMatch orbMatch;
-   private Color orbColor;
-   private RadioGroup colorChoices;
+   private Toast toast;
+   private RadioGroup orbRadioGroup;
+   private MyDialogFragment dialog;
+
+   private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout()
+   {
+      @Override
+      public void resetLayout()
+      {
+         orbRadioGroup.check(R.id.redOrb);
+         orbsLinked.setProgress(0);
+         orbsPlus.setProgress(0);
+         rowCheckBox.setEnabled(false);
+         rowCheckBox.setChecked(false);
+         orbMatchAdapter.clear();
+         if(toast != null) {
+            toast.cancel();
+         }
+         toast = Toast.makeText(getActivity(), "Page Reset", Toast.LENGTH_SHORT);
+         toast.show();
+         dialog.dismiss();
+      }
+   };
 
    private CompoundButton.OnCheckedChangeListener rowCheckedChangeListener = new CompoundButton.OnCheckedChangeListener()
    {
@@ -111,13 +135,31 @@ public class MainFragment extends Fragment
       }
    };
 
+   private Color getOrbColor() {
+      int radioGroupId = orbRadioGroup.getCheckedRadioButtonId();
+      switch(radioGroupId) {
+         case R.id.redOrb:
+            return Color.RED;
+         case R.id.blueOrb:
+            return Color.BLUE;
+         case R.id.greenOrb:
+            return Color.GREEN;
+         case R.id.lightOrb:
+            return Color.LIGHT;
+         case R.id.darkOrb:
+            return Color.DARK;
+         case R.id.heartOrb:
+            return Color.HEART;
+      }
+      return Color.RED;
+   }
 
    private View.OnClickListener addMatchOnClickListener = new View.OnClickListener()
    {
       @Override
       public void onClick(View v)
       {
-         orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress(),orbColor, isRow);
+         orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress(),getOrbColor(), isRow);
          orbMatchAdapter.add(orbMatch);
       }
    };
@@ -126,52 +168,13 @@ public class MainFragment extends Fragment
    {
       public void onClick(View v)
       {
-         colorChoices.check(R.id.redButton);
-         orbsLinked.setProgress(0);
-         orbsPlus.setProgress(0);
-         rowCheckBox.setEnabled(false);
-         rowCheckBox.setChecked(false);
-         orbMatchAdapter.clear();
-         Toast.makeText(getActivity(), "Matches Reset", Toast.LENGTH_SHORT).show();
+         if(dialog == null)
+         {
+            dialog = MyDialogFragment.newInstance(dialogFrag);
+         }
+         dialog.show(getChildFragmentManager(),"Thomas Likes Big Butts And He Cannot Lie");
       }
    };
-
-   private RadioGroup.OnCheckedChangeListener colorChoicesOnCheckedListener = new RadioGroup.OnCheckedChangeListener()
-   {
-      public void onCheckedChanged(RadioGroup group, int checkedId )
-      {
-
-         if(checkedId == R.id.redButton)
-         {
-            orbColor = Color.RED;
-         }
-         else if(checkedId == R.id.blueButton)
-         {
-            orbColor = Color.BLUE;
-         }
-         else if(checkedId == R.id.greenButton)
-         {
-            orbColor = Color.GREEN;
-         }
-         else if(checkedId == R.id.darkButton)
-         {
-            orbColor = Color.DARK;
-         }
-         else if(checkedId == R.id.lightButton)
-         {
-            orbColor = Color.LIGHT;
-         }
-      }
-   };
-/*
-   private ListView.OnItemClickListener orbMatchesOnItemClickListener = new ListView.OnItemClickListener()
-   {
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-      {
-         orbMatchAdapter.remove(orbMatchAdapter.getItem(position));
-      }
-   };
-*/
 
 
    public static MainFragment newInstance(int sectionNumber)
@@ -192,7 +195,6 @@ public class MainFragment extends Fragment
                             Bundle savedInstanceState)
    {
       View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-      editHolder = (LinearLayout) rootView.findViewById(R.id.editHolder);
       rowCheckBox = (CheckBox) rootView.findViewById(R.id.rowCheckBox);
       rowCheckBox.setEnabled(false);
       orbsLinked = (SeekBar) rootView.findViewById(R.id.orbsLinkedSpinner);
@@ -201,10 +203,10 @@ public class MainFragment extends Fragment
       calculate = (Button) rootView.findViewById(R.id.calculate);
       reset = (Button) rootView.findViewById(R.id.reset);
       orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
-      initTextView(rootView);
-      //initImageView(rootView);
-      colorChoices = (RadioGroup) rootView.findViewById(R.id.orbChoices);
-      colorChoices.check(R.id.redButton);
+      orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
+      editTeam = (TextView) rootView.findViewById(R.id.editTeam);
+      orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
+      orbsPlusValue = (TextView) rootView.findViewById(R.id.orbsPlusValue);
       return rootView;
    }
 
@@ -217,34 +219,13 @@ public class MainFragment extends Fragment
       orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
       orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
-      colorChoices.setOnCheckedChangeListener(colorChoicesOnCheckedListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
+      reset.setOnClickListener(resetOnClickListener);
       orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
       orbMatches.setAdapter(orbMatchAdapter);
-      //orbMatches.setOnItemClickListener(orbMatchesOnItemClickListener);
-      reset.setOnClickListener(resetOnClickListener);
+
       Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
 
-   private void initTextView(View rootView)
-   {
-      editTeam = (TextView) rootView.findViewById(R.id.editTeam);
-      sectionLabel = (TextView) rootView.findViewById(R.id.section_label);
-      color = (TextView) rootView.findViewById(R.id.color);
-      row = (TextView) rootView.findViewById(R.id.row);
-      listText = (TextView) rootView.findViewById(R.id.List);
-      orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
-      orbsPlusValue = (TextView) rootView.findViewById(R.id.orbsPlusValue);
-   }
-/*
-   private void initImageView(View rootView)
-   {
-      red = (ImageView) rootView.findViewById(R.id.red);
-      blue = (ImageView) rootView.findViewById(R.id.blue);
-      green = (ImageView) rootView.findViewById(R.id.green);
-      light = (ImageView) rootView.findViewById(R.id.light);
-      dark = (ImageView) rootView.findViewById(R.id.dark);
-   }
-*/
 
 }
