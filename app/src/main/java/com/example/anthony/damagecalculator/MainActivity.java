@@ -133,6 +133,11 @@ public class MainActivity extends ActionBarActivity
          {
             return EnemyTargetFragment.newInstance("thomas", "where are you");
          }
+         if(position == 3)
+         {
+            return TeamListFragment.newInstance("thomas ??", "sup");
+         }
+
          return PlaceholderFragment.newInstance(position + 1);
       }
 
@@ -140,7 +145,7 @@ public class MainActivity extends ActionBarActivity
       public int getCount()
       {
          // Show 3 total pages.
-         return 3;
+         return 4;
       }
 
       @Override
@@ -155,6 +160,8 @@ public class MainActivity extends ActionBarActivity
                return getString(R.string.title_section2).toUpperCase(l);
             case 2:
                return getString(R.string.title_section3).toUpperCase(l);
+            case 3:
+               return "Section 4".toUpperCase(l);
          }
          return null;
       }
