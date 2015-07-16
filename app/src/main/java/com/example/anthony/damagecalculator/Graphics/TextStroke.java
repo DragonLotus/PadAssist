@@ -49,6 +49,4 @@ public class TextStroke extends TextView {
         getPaint().setStyle((Paint.Style.FILL));
         super.onDraw(canvas);
     }
-
-
 }

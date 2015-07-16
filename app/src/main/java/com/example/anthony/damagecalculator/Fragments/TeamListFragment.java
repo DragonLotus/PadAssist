@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterListAdapter;
@@ -39,6 +40,7 @@ public class TeamListFragment extends Fragment
    private OnFragmentInteractionListener mListener;
    private ListView monsterListView;
    private MonsterListAdapter monsterListAdapter;
+   private Button importButton;
 
    /**
     * Use this factory method to create a new instance of
@@ -81,6 +83,7 @@ public class TeamListFragment extends Fragment
    {
       View rootView = inflater.inflate(R.layout.fragment_team_list, container, false);
       monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+      importButton = (Button) rootView.findViewById(R.id.importButton);
       return rootView;
    }
 
@@ -139,9 +142,9 @@ public class TeamListFragment extends Fragment
       kirin.setCurrentHp(69);
       kirin.setCurrentRcv(69);
       kirin.setCurrentAwakenings(7);
-      kirin.setAtkPlus(60);
-      kirin.setHpPlus(3);
-      kirin.setRcvPlus(6);
+      kirin.setAtkPlus(99);
+      kirin.setHpPlus(99);
+      kirin.setRcvPlus(99);
 
       Monster bob = new Monster();
       bob.setCurrentAtk(1337);
@@ -152,6 +155,10 @@ public class TeamListFragment extends Fragment
       bob.setHpPlus(300);
       bob.setRcvPlus(37);
 
+      monsterListAdapter.add(kirin);
+      monsterListAdapter.add(kirin);
+      monsterListAdapter.add(kirin);
+      monsterListAdapter.add(kirin);
       monsterListAdapter.add(kirin);
       monsterListAdapter.add(bob);
    }
