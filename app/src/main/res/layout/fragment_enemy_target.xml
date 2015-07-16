@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.anthony.damagecalculator.Fragments.EnemyTargetFragment">
+
+    <TextView
+        android:id="@+id/targetHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Target HP:" />
+
+    <EditText
+        android:id="@+id/targetHPValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/targetHP"
+        android:text="31337" />
+
+    <TextView
+        android:id="@+id/currentHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/targetHPValue"
+        android:text="Current HP:" />
+
+    <EditText
+        android:id="@+id/currentHPValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/targetHPValue"
+        android:layout_toRightOf="@id/currentHP"
+        android:text="31337" />
+
+    <TextView
+        android:id="@+id/targetDefense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currentHPValue"
+        android:text="Target DEF:" />
+
+    <EditText
+        android:id="@+id/targetDefenseValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currentHPValue"
+        android:layout_toRightOf="@id/targetDefense"
+        android:text="31337" />
+
+
+</RelativeLayout>

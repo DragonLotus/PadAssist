@@ -9,13 +9,6 @@
     android:focusableInTouchMode="true"
     android:clickable="true">
 
-    <!--<Button-->
-    <!--android:id="@+id/teamEdit"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="Back to Team"-->
-    <!--android:layout_marginBottom="10dp"/>-->
-
     <ImageView
         android:id="@+id/monsterPicture"
         android:layout_width="80dp"
