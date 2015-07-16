@@ -74,21 +74,26 @@ public class MonsterPageFragment extends Fragment
             monsterStatsHPBase.setText(String.valueOf(monster.getCurrentHp()));
             monsterStatsATKBase.setText(String.valueOf(monster.getCurrentAtk()));
             monsterStatsRCVBase.setText(String.valueOf(monster.getCurrentRcv()));
+            monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+            monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
          } else if (statToChange == MyTextWatcher.ATK_STAT)
          {
             monster.setAtkPlus(statValue);
             monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
             monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+            monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
          } else if (statToChange == MyTextWatcher.RCV_STAT)
          {
             monster.setRcvPlus(statValue);
             monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
             monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+            monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
          } else if (statToChange == MyTextWatcher.HP_STAT)
          {
             monster.setHpPlus(statValue);
             monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
             monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+            monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
          } else if (statToChange == MyTextWatcher.AWAKENINGS)
          {
             monster.setCurrentAwakenings(statValue);

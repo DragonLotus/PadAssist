@@ -42,6 +42,7 @@ public class TextStroke extends TextView {
         getPaint().setStrokeWidth(10);
         getPaint().setStyle(Paint.Style.STROKE);
         getPaint().setAntiAlias(true);
+        getPaint().setStrokeJoin(Paint.Join.ROUND);
         super.onDraw(canvas);
         setTextColor(textColor);
         getPaint().setStrokeWidth(0);
