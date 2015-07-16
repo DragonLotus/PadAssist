@@ -10,7 +10,8 @@
    <ListView
       android:id="@+id/monsterListView"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"/>
+      android:layout_height="wrap_content"
+       android:layout_above="@+id/importButton"/>
 
     <Button
         android:id="@+id/importButton"

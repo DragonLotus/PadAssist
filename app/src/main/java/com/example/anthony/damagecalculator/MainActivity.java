@@ -131,7 +131,7 @@ public class MainActivity extends ActionBarActivity
          }
          if (position == 1)
          {
-            return TeamListFragment.newInstance("thomas", "where are you");
+            return EnemyTargetFragment.newInstance("thomas", "where are you");
          }
          return PlaceholderFragment.newInstance(position + 1);
       }

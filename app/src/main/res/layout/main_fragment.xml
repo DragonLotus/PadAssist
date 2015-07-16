@@ -47,7 +47,8 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_below="@+id/color"
-      android:text="# of Orbs Linked" />
+      android:text="# of Orbs Linked"
+       android:textSize="16dp"/>
 
    <SeekBar
       android:id="@+id/orbsLinkedSpinner"
@@ -70,7 +71,8 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_below="@+id/orbsLinkedSpinner"
-      android:text="# of Orbs Plus" />
+      android:text="# of Orbs Plus"
+       android:textSize="16dp"/>
 
    <SeekBar
       android:id="@+id/orbsPlusSpinner"
@@ -94,7 +96,11 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_below="@+id/orbsPlusSpinner"
-      android:text="Is a row:" />
+      android:text="Is a row:"
+       android:textSize="16dp"
+       android:layout_alignTop="@+id/rowCheckBox"
+       android:layout_alignBottom="@+id/rowCheckBox"
+       android:gravity="center_vertical"/>
 
    <CheckBox
       android:id="@+id/rowCheckBox"
