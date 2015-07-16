@@ -10,14 +10,13 @@ public class Enemy
    private Color targetColor;
 
 
-
-   public Enemy(int targetHp, int currentHp, int targetDef, double gravityPercent, Color targetColor)
+   //default is satan from  Lord of Hell - Mythical
+   public Enemy()
    {
-      this.targetHp = targetHp;
-      this.currentHp = currentHp;
-      this.targetDef = targetDef;
-      this.gravityPercent = gravityPercent;
-      this.targetColor = targetColor;
+      this.targetHp = 6666666;
+      this.targetDef = 368;
+      this.currentHp = this.targetHp;
+      gravityPercent = 0;
    }
 
 
@@ -56,7 +55,7 @@ public class Enemy
       return gravityPercent;
    }
 
-   public void setGravityPercent(int gravityPercent)
+   public void setGravityPercent(double gravityPercent)
    {
       this.gravityPercent = gravityPercent;
    }

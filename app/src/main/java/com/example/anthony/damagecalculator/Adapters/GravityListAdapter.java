@@ -1,6 +1,7 @@
 package com.example.anthony.damagecalculator.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.example.anthony.damagecalculator.R;
 import java.util.ArrayList;
+import java.text.DecimalFormat;
 
 /**
  * Created by Anthony on 7/16/2015.
@@ -42,8 +44,8 @@ public class GravityListAdapter extends ArrayAdapter<Double>
       {
          viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
       }
-
-      viewHolder.gravityText.setText(Double.toString(gravityList.get(position)));
+      DecimalFormat df = new DecimalFormat("#%");
+      viewHolder.gravityText.setText(df.format(gravityList.get(position)));
 
       return convertView;
    }

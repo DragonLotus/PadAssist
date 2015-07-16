@@ -1,3 +1,24 @@
-fku
+To Do:
 
-k
+Enemy Page
+-add defense break
+-gravity scrolling buttons (for smaller devices)
+- element reduction
+-damage absorbtion over X damage (like sopdet)
+-element absorb
+-set up fragments with the buttons and adapter
+-apply button = takes all the gravity and adjust the current hp of the enemy
+
+Calculations Page
+-Make it
+
+
+
+
+Monster Page
+-unfocs when keyboard is hidden (when pressing back)
+
+
+Maybe
+-tank calculator
+-poison orbs
