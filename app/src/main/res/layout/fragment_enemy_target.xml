@@ -196,7 +196,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/gravity"
-        android:layout_toLeftOf="@id/gravityButton2"
+        android:layout_toLeftOf="@+id/gravityButton2"
         android:text="10%" />
 
     <Button
@@ -212,7 +212,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/gravityButton1"
-        android:layout_toLeftOf="@id/gravityButton2"
+        android:layout_toLeftOf="@+id/gravityButton2"
         android:text="20%" />
 
     <Button
@@ -228,7 +228,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/gravityButton3"
-        android:layout_toLeftOf="@id/gravityButton2"
+        android:layout_toLeftOf="@+id/gravityButton2"
         android:text="30%" />
 
     <Button
