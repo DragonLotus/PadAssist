@@ -171,7 +171,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/targetDefense"
-        android:layout_below="@+id/color"
+        android:layout_alignTop="@+id/applyButton"
+        android:layout_alignBottom="@+id/applyButton"
+        android:gravity="center_vertical"
         android:text="Gravities: "
         android:textSize="18dp" />
 
@@ -179,23 +181,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/currentHPValue"
-        android:layout_below="@+id/color"
+        android:layout_alignTop="@+id/applyButton"
+        android:layout_alignBottom="@+id/applyButton"
+        android:gravity="center_vertical"
         android:text="1337%"
         android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        android:layout_below="@+id/color"
+        android:layout_alignLeft="@+id/gravityButton1"
+        android:layout_alignParentRight="true"/>
 
     <ListView
         android:id="@+id/gravityList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/calculate"
-        android:layout_below="@+id/gravity"
+        android:layout_below="@+id/applyButton"
         android:layout_toLeftOf="@+id/gravityButton1" />
 
     <Button
         android:id="@+id/gravityButton1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gravity"
+        android:layout_below="@+id/applyButton"
         android:layout_toLeftOf="@+id/gravityButton2"
         android:text="10%" />
 
@@ -204,7 +217,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/gravity"
+        android:layout_below="@+id/applyButton"
         android:text="15%" />
 
     <Button
