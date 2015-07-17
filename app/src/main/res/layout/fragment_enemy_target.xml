@@ -177,8 +177,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/targetDefense"
-        android:layout_alignTop="@+id/applyButton"
-        android:layout_alignBottom="@+id/applyButton"
+        android:layout_alignTop="@+id/clearButton"
+        android:layout_alignBottom="@+id/clearButton"
         android:gravity="center_vertical"
         android:text="Gravities: "
         android:textSize="18dp" />
@@ -188,100 +188,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/currentHPValue"
-        android:layout_alignTop="@+id/applyButton"
-        android:layout_alignBottom="@+id/applyButton"
+        android:layout_alignTop="@+id/clearButton"
+        android:layout_alignBottom="@+id/clearButton"
         android:gravity="center_vertical"
         android:text="0%"
         android:textSize="18dp" />
 
     <Button
-        android:id="@+id/applyButton"
+        android:id="@+id/clearButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Apply"
-        android:layout_below="@+id/color"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:text="Clear"
+        android:layout_below="@+id/color"/>
 
     <LinearLayout
         android:id="@+id/gravityHolder"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/calculate"
-        android:layout_below="@+id/applyButton">
+        android:layout_below="@+id/clearButton"
+        >
         <ListView
             android:id="@+id/gravityList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5"
+            android:focusableInTouchMode="true"/>
 
         <GridView
             android:id="@+id/gravityButtonGrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numColumns="auto_fit"
-            android:clickable="true"
             android:layout_weight=".5"
+            android:focusableInTouchMode="true"
             >
         </GridView>
     </LinearLayout>
-
-
-    <!--<Button-->
-    <!--android:id="@+id/gravityButton1"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/applyButton"-->
-    <!--android:layout_toLeftOf="@+id/gravityButton2"-->
-    <!--android:text="10%" />-->
-
-    <!--<Button-->
-    <!--android:id="@+id/gravityButton2"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentRight="true"-->
-    <!--android:layout_below="@+id/applyButton"-->
-    <!--android:text="15%" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/gravityButton3"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/gravityButton1"-->
-        <!--android:layout_toLeftOf="@+id/gravityButton2"-->
-        <!--android:text="20%" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/gravityButton4"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_below="@+id/gravityButton1"-->
-        <!--android:text="25%" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/gravityButton5"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/gravityButton3"-->
-        <!--android:layout_toLeftOf="@+id/gravityButton2"-->
-        <!--android:text="30%" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/gravityButton6"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_below="@+id/gravityButton3"-->
-        <!--android:text="35%" />-->
-
-    <!--<Button-->
-        <!--android:id="@+id/gravityButton7"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignLeft="@+id/gravityButton1"-->
-        <!--android:layout_below="@+id/gravityButton5"-->
-        <!--android:text="45%" />-->
-
 
     <Button
         android:id="@+id/calculate"

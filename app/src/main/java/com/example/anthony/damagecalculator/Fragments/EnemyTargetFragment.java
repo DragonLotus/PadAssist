@@ -60,7 +60,7 @@ public class EnemyTargetFragment extends Fragment
    private EditText targetHpValue, currentHpValue, targetDefenseValue;
    private TextView percentHpValue, totalGravityValue;
    private RadioGroup orbRadioGroup;
-   private Button gravityButton1, gravityButton2, gravityButton3, gravityButton4, gravityButton5, gravityButton6, gravityButton7;
+   private Button applyButton, clearButton;
    private GravityListAdapter gravityListAdapter;
    private GravityButtonAdapter gravityButtonAdapter;
    private ListView gravityList;
@@ -93,15 +93,22 @@ public class EnemyTargetFragment extends Fragment
 
             enemy.setTargetHp(statValue);
             enemy.setCurrentHp(statValue);
+            enemy.setBeforeGravityHP(statValue);
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
 
          }
          if(statToChange == MyTextWatcher.CURRENT_HP)
          {
+            Log.d("Stringerino", Double.toString(enemy.getBeforeGravityHP()*enemy.getGravityPercent()));
             enemy.setCurrentHp(statValue);
             if(enemy.getCurrentHp()>enemy.getTargetHp()){
                currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
                enemy.setCurrentHp(enemy.getTargetHp());
+               enemy.setBeforeGravityHP(enemy.getTargetHp());
+            }
+            if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 0){
+               enemy.setCurrentHp(1);
+               currentHpValue.setText("1");
             }
 
          }
@@ -167,6 +174,7 @@ public class EnemyTargetFragment extends Fragment
       gravityList = (ListView) rootView.findViewById(R.id.gravityList);
       totalGravityValue = (TextView) rootView.findViewById(R.id.totalGravityValue);
       gravityButtonList = (GridView) rootView.findViewById(R.id.gravityButtonGrid);
+      clearButton = (Button) rootView.findViewById(R.id.clearButton);
       return rootView;
    }
 
@@ -181,6 +189,7 @@ public class EnemyTargetFragment extends Fragment
 
       gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, new ArrayList<Integer>(), updateGravityPercent);
       gravityList.setAdapter(gravityListAdapter);
+      gravityList.setOnItemClickListener(gravityRemoveOnClickListener);
       gravityButtonAdapter = new GravityButtonAdapter(getActivity(), R.layout.gravity_button_grid, new ArrayList<Integer>());
       gravityButtonList.setAdapter(gravityButtonAdapter);
       gravityButtonList.setOnItemClickListener(gravityButtonOnClickListener);
@@ -191,6 +200,8 @@ public class EnemyTargetFragment extends Fragment
       targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
       currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
       targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
+
+      clearButton.setOnClickListener(clearButtonOnClickListener);
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
@@ -233,8 +244,17 @@ public class EnemyTargetFragment extends Fragment
       @Override
       public void onItemClick(AdapterView<?> parent, View v, int position, long id)
       {
-         gravityListAdapter.add(gravityButtonAdapter.getItem(position));
-         gravityListAdapter.notifyDataSetChanged();
+         if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1){
+
+         }
+         else{
+            currentHpValue.clearFocus();
+            gravityListAdapter.add(gravityButtonAdapter.getItem(position));
+            gravityListAdapter.notifyDataSetChanged();
+            enemy.setCurrentHp((int)(enemy.getBeforeGravityHP()*enemy.getGravityPercent()));
+            currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+         }
+
       }
    };
 
@@ -277,11 +297,33 @@ public class EnemyTargetFragment extends Fragment
                targetDefenseValue.setText("0");
                enemy.setTargetDef(0);
             }
+            if(v.equals(currentHpValue)){
+               enemy.setBeforeGravityHP(enemy.getCurrentHp());
+            }
          }
          ;
       }
    };
 
+   private ListView.OnItemClickListener gravityRemoveOnClickListener = new ListView.OnItemClickListener(){
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+         currentHpValue.clearFocus();
+         gravityListAdapter.remove(gravityListAdapter.getItem(position));
+         enemy.setCurrentHp((int)(enemy.getBeforeGravityHP()*enemy.getGravityPercent()));
+         currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+      }
+   };
+
+   private Button.OnClickListener clearButtonOnClickListener = new Button.OnClickListener(){
+      @Override
+      public void onClick(View v) {
+         currentHpValue.clearFocus();
+         gravityListAdapter.clear();
+         enemy.setCurrentHp((int)(enemy.getBeforeGravityHP()*enemy.getGravityPercent()));
+         currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+      }
+   };
 
    public void hideKeyboard(View view)
    {
