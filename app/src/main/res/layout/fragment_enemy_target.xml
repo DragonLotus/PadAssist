@@ -26,7 +26,6 @@
         android:id="@+id/targetHPValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/targetHP"
         android:inputType="number"
         android:text="0"
@@ -49,7 +48,6 @@
         android:id="@+id/currentHPValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/targetHPValue"
         android:layout_toRightOf="@+id/currentHP"
         android:inputType="number"
@@ -102,13 +100,21 @@
         android:id="@+id/targetDefenseValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_below="@+id/percentHPValue"
         android:layout_toRightOf="@+id/targetDefense"
         android:inputType="number"
         android:text="31337"
         android:textSize="18dp"
         android:maxLength="9"/>
+
+    <!--<Spinner-->
+        <!--android:id="@+id/defenseBreakSpinner"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:spinnerMode="dropdown"-->
+        <!--android:layout_alignLeft="@+id/clearButton"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_below="@+id/percentAlign"/>-->
 
     <TextView
         android:id="@+id/color"

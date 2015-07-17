@@ -1,24 +1,27 @@
 To Do:
 
+Orb Match Page
+-Maybe make a button to link to enemy page. Gotta figure out how to link shit.
+
 Enemy Page
--add defense break
--gravity scrolling buttons (for smaller devices)
-- element reduction
--damage absorbtion over X damage (like sopdet)
--element absorb
+-add defense break (Radiogroup or dropdown menu)
+?gravity scrolling buttons (for smaller devices)
+-element reduction (Selections)
+-damage absorbtion over X damage (like sopdet) (EditText)
+-element absorb (Selections? Can there be more than 1?)
 -set up fragments with the buttons and adapter
--apply button = takes all the gravity and adjust the current hp of the enemy
+X apply button = takes all the gravity and adjust the current hp of the enemy
+	-now applies automatically. Added a clear button instead.
+-Need to add that unfocus when keyboard hidden shit as well.
 
 Calculations Page
 -Make it
 
-
-
-
 Monster Page
--unfocs when keyboard is hidden (when pressing back)
-
+-unfocus when keyboard is hidden (when pressing back)
+-Latent awakenings when they come/translated.
 
 Maybe
 -tank calculator
 -poison orbs
+-Jammer orbs

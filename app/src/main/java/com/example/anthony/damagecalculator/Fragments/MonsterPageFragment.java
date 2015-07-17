@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.R;
@@ -56,6 +57,7 @@ public class MonsterPageFragment extends Fragment
    private ImageView monsterPicture;
    private LinearLayout awakeningHolder;
    private Monster monster;
+   private Toast toast;
    private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
    {
       @Override
@@ -330,6 +332,11 @@ public class MonsterPageFragment extends Fragment
             v.requestFocus();
             monsterLevelValue.setText(Integer.toString(monster.getMaxLevel()));
             monsterStats();
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "Level maxed", Toast.LENGTH_SHORT);
+            toast.show();
          }
          else if (v.equals(monsterStatsMax))
          {
@@ -337,28 +344,52 @@ public class MonsterPageFragment extends Fragment
             monsterStatsATKPlus.setText("99");
             monsterStatsRCVPlus.setText("99");
             monsterStats();
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "Maxed all +", Toast.LENGTH_SHORT);
+            toast.show();
          }
          else if (v.equals(monsterStatsHPMax))
          {
             monsterStatsHPPlus.setText("99");
             monsterStats();
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "HP + maxed", Toast.LENGTH_SHORT);
+            toast.show();
          }
          else if (v.equals(monsterStatsATKMax))
          {
             monsterStatsATKPlus.setText("99");
             monsterStats();
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "ATK + maxed", Toast.LENGTH_SHORT);
+            toast.show();
          }
          else if (v.equals(monsterStatsRCVMax))
          {
             monsterStatsRCVPlus.setText("99");
             monsterStats();
-            monsterStats();
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "RCV + maxed", Toast.LENGTH_SHORT);
+            toast.show();
          }
          else if (v.equals(monsterAwakeningsMax))
          {
             monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
             monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
             grayAwakenings();
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "Awakenings maxed", Toast.LENGTH_SHORT);
+            toast.show();
          }
          else if (v.equals(monsterStatsMaxAll))
          {
@@ -370,6 +401,11 @@ public class MonsterPageFragment extends Fragment
             monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
             grayAwakenings();
             monsterStats();
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "All stats maxed", Toast.LENGTH_SHORT);
+            toast.show();
          }
          else if (v.equals(monsterChoose))
          {

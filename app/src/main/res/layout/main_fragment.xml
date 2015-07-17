@@ -64,7 +64,8 @@
       android:layout_height="wrap_content"
       android:layout_alignRight="@+id/orbsLinkedSpinner"
       android:layout_alignTop="@+id/orbsLinkedSpinner"
-      android:text="3" />
+      android:text="3"
+       android:textSize="16sp"/>
 
    <TextView
       android:id="@+id/orbsPlus"
@@ -89,7 +90,8 @@
       android:layout_height="wrap_content"
       android:layout_alignRight="@+id/orbsPlusSpinner"
       android:layout_alignTop="@+id/orbsPlusSpinner"
-      android:text="0" />
+      android:text="0"
+       android:textSize="16sp"/>
 
    <TextView
       android:id="@+id/row"

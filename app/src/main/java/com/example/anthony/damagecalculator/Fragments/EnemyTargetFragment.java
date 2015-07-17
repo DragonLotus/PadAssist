@@ -14,11 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.example.anthony.damagecalculator.Adapters.GravityListAdapter;
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
@@ -250,7 +253,7 @@ public class EnemyTargetFragment extends Fragment
             if(toast != null) {
                toast.cancel();
             }
-            toast = Toast.makeText(getActivity(), "Gravities will have no effect.", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getActivity(), "Gravities will have no effect", Toast.LENGTH_SHORT);
             toast.show();
          }
          else{
@@ -271,7 +274,6 @@ public class EnemyTargetFragment extends Fragment
       for (int i = 0; i < gravityInts.length; i++)
       {
          gravityButtonAdapter.add(gravityInts[i]);
-
       }
    }
 
@@ -309,7 +311,7 @@ public class EnemyTargetFragment extends Fragment
                if(toast != null) {
                   toast.cancel();
                }
-               toast = Toast.makeText(getActivity(), "Initial HP set and gravities reset.", Toast.LENGTH_LONG);
+               toast = Toast.makeText(getActivity(), "Initial HP set and gravities reset", Toast.LENGTH_LONG);
                toast.show();
             }
          }
@@ -340,7 +342,7 @@ public class EnemyTargetFragment extends Fragment
             if(toast != null) {
                toast.cancel();
             }
-            toast = Toast.makeText(getActivity(), "Gravities cleared.", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getActivity(), "Gravities cleared", Toast.LENGTH_SHORT);
             toast.show();
          }
       }
