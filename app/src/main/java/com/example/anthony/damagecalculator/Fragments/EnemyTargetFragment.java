@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -64,7 +65,8 @@ public class EnemyTargetFragment extends Fragment
    private EditText targetHpValue, currentHpValue, targetDefenseValue;
    private TextView percentHpValue, totalGravityValue;
    private RadioGroup orbRadioGroup;
-   private Button applyButton, clearButton;
+   private Button gravityShowHideButton, clearButton;
+   private LinearLayout gravityHolder;
    private GravityListAdapter gravityListAdapter;
    private GravityButtonAdapter gravityButtonAdapter;
    private ListView gravityList;
@@ -180,6 +182,8 @@ public class EnemyTargetFragment extends Fragment
       totalGravityValue = (TextView) rootView.findViewById(R.id.totalGravityValue);
       gravityButtonList = (GridView) rootView.findViewById(R.id.gravityButtonGrid);
       clearButton = (Button) rootView.findViewById(R.id.clearButton);
+      gravityShowHideButton = (Button) rootView.findViewById(R.id.gravityShowHide);
+      gravityHolder = (LinearLayout) rootView.findViewById(R.id.gravityHolder);
       return rootView;
    }
 
@@ -207,6 +211,7 @@ public class EnemyTargetFragment extends Fragment
       targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
 
       clearButton.setOnClickListener(clearButtonOnClickListener);
+      gravityShowHideButton.setOnClickListener(gravityShowHideOnClickListener);
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
@@ -260,7 +265,7 @@ public class EnemyTargetFragment extends Fragment
             currentHpValue.clearFocus();
             gravityListAdapter.add(gravityButtonAdapter.getItem(position));
             gravityListAdapter.notifyDataSetChanged();
-            enemy.setCurrentHp((int)(enemy.getBeforeGravityHP()*enemy.getGravityPercent()));
+            enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
          }
 
@@ -324,7 +329,7 @@ public class EnemyTargetFragment extends Fragment
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
          currentHpValue.clearFocus();
          gravityListAdapter.remove(gravityListAdapter.getItem(position));
-         enemy.setCurrentHp((int)(enemy.getBeforeGravityHP()*enemy.getGravityPercent()));
+         enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
          currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
       }
    };
@@ -344,6 +349,20 @@ public class EnemyTargetFragment extends Fragment
             }
             toast = Toast.makeText(getActivity(), "Gravities cleared", Toast.LENGTH_SHORT);
             toast.show();
+         }
+      }
+   };
+
+   private Button.OnClickListener gravityShowHideOnClickListener = new Button.OnClickListener(){
+      @Override
+      public void onClick(View v) {
+         if(gravityHolder.getVisibility() == View.GONE){
+            gravityHolder.setVisibility(View.VISIBLE);
+            gravityShowHideButton.setText("Hide");
+         }
+         else if(gravityHolder.getVisibility() == View.VISIBLE){
+            gravityHolder.setVisibility(View.GONE);
+            gravityShowHideButton.setText("Show");
          }
       }
    };

@@ -204,9 +204,17 @@
         android:id="@+id/clearButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:text="Clear"
+        android:layout_toLeftOf="@+id/gravityShowHide"
         android:layout_below="@+id/color"/>
+
+    <Button
+        android:id="@+id/gravityShowHide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/color"
+        android:text="Show"/>
 
     <LinearLayout
         android:id="@+id/gravityHolder"
@@ -214,7 +222,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/calculate"
         android:layout_below="@+id/clearButton"
-        >
+        android:visibility="gone">
         <ListView
             android:id="@+id/gravityList"
             android:layout_width="wrap_content"
