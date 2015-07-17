@@ -20,6 +20,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.GravityButtonAdapter;
 import com.example.anthony.damagecalculator.Adapters.GravityListAdapter;
@@ -68,6 +69,7 @@ public class EnemyTargetFragment extends Fragment
    private Enemy enemy;
    private DecimalFormat df;
    private OnFragmentInteractionListener mListener;
+   private Toast toast;
    private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent()
    {
       @Override
@@ -106,7 +108,7 @@ public class EnemyTargetFragment extends Fragment
                enemy.setCurrentHp(enemy.getTargetHp());
                enemy.setBeforeGravityHP(enemy.getTargetHp());
             }
-            if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 0){
+            if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 0 && enemy.getBeforeGravityHP() != 0){
                enemy.setCurrentHp(1);
                currentHpValue.setText("1");
             }
@@ -244,8 +246,12 @@ public class EnemyTargetFragment extends Fragment
       @Override
       public void onItemClick(AdapterView<?> parent, View v, int position, long id)
       {
-         if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1){
-
+         if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1 || enemy.getCurrentHp() == 0){
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "Gravities will have no effect.", Toast.LENGTH_SHORT);
+            toast.show();
          }
          else{
             currentHpValue.clearFocus();
@@ -299,6 +305,12 @@ public class EnemyTargetFragment extends Fragment
             }
             if(v.equals(currentHpValue)){
                enemy.setBeforeGravityHP(enemy.getCurrentHp());
+               gravityListAdapter.clear();
+               if(toast != null) {
+                  toast.cancel();
+               }
+               toast = Toast.makeText(getActivity(), "Initial HP set and gravities reset.", Toast.LENGTH_LONG);
+               toast.show();
             }
          }
          ;
@@ -318,10 +330,19 @@ public class EnemyTargetFragment extends Fragment
    private Button.OnClickListener clearButtonOnClickListener = new Button.OnClickListener(){
       @Override
       public void onClick(View v) {
-         currentHpValue.clearFocus();
-         gravityListAdapter.clear();
-         enemy.setCurrentHp((int)(enemy.getBeforeGravityHP()*enemy.getGravityPercent()));
-         currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+         if(enemy.getCurrentHp() == 0){
+         }
+         else {
+            currentHpValue.clearFocus();
+            gravityListAdapter.clear();
+            enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
+            currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+            if(toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "Gravities cleared.", Toast.LENGTH_SHORT);
+            toast.show();
+         }
       }
    };
 
