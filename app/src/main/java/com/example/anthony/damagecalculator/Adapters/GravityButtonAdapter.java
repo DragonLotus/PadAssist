@@ -1,6 +1,7 @@
 package com.example.anthony.damagecalculator.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,13 @@ import java.util.ArrayList;
 /**
  * Created by DragonLotus on 7/16/2015.
  */
-public class GravityButtonAdapter extends ArrayAdapter<String> {
+public class GravityButtonAdapter extends ArrayAdapter<Integer> {
     private Context mContext;
     private LayoutInflater inflater;
-    private ArrayList<String> gravityButtonList;
+    private ArrayList<Integer> gravityButtonList;
     private int resourceId;
 
-    public GravityButtonAdapter(Context context, int textViewResourceId, ArrayList<String> gravityButtonList)
+    public GravityButtonAdapter(Context context, int textViewResourceId, ArrayList<Integer> gravityButtonList)
     {
         super(context, textViewResourceId, gravityButtonList);
         mContext = context;
@@ -40,12 +41,14 @@ public class GravityButtonAdapter extends ArrayAdapter<String> {
             convertView = inflater.inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.gravityButton = (Button) convertView.findViewById(R.id.gravityButton);
+            viewHolder.gravityButton.setClickable(false);
+            viewHolder.gravityButton.setFocusable(false);
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else
         {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        viewHolder.gravityButton.setText(gravityButtonList.get(position));
+        viewHolder.gravityButton.setText(gravityButtonList.get(position).toString() + "%");
 
         return convertView;
     }
@@ -54,4 +57,6 @@ public class GravityButtonAdapter extends ArrayAdapter<String> {
     {
         Button gravityButton;
     }
+
+
 }

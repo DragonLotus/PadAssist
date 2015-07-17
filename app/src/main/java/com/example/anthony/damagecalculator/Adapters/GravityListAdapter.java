@@ -9,24 +9,25 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.example.anthony.damagecalculator.R;
 import java.util.ArrayList;
-import java.text.DecimalFormat;
 
 /**
  * Created by Anthony on 7/16/2015.
  */
-public class GravityListAdapter extends ArrayAdapter<Double>
+public class GravityListAdapter extends ArrayAdapter<Integer>
 {
    private Context mContext;
    private LayoutInflater inflater;
-   private ArrayList<Double> gravityList;
+   private ArrayList<Integer> gravityList;
    private int resourceId;
+   private UpdateGravityPercent updateGravityPercent;
 
-   public GravityListAdapter(Context context, int textViewResourceId, ArrayList<Double> gravityList)
+   public GravityListAdapter(Context context, int textViewResourceId, ArrayList<Integer> gravityList, UpdateGravityPercent updateGravityPercent)
    {
       super(context, textViewResourceId, gravityList);
       mContext = context;
       this.gravityList = gravityList;
       this.resourceId = textViewResourceId;
+      this.updateGravityPercent = updateGravityPercent;
    }
 
    public View getView(int position, View convertView, ViewGroup parent)
@@ -44,15 +45,28 @@ public class GravityListAdapter extends ArrayAdapter<Double>
       {
          viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
       }
-      DecimalFormat df = new DecimalFormat("#%");
-      viewHolder.gravityText.setText(df.format(gravityList.get(position)));
+      viewHolder.gravityText.setText(gravityList.get(position).toString() + "%");
 
       return convertView;
+   }
+
+   public interface UpdateGravityPercent
+   {
+      public void updatePercent();
    }
 
    static class ViewHolder
    {
       TextView gravityText;
    }
+
+   @Override
+   public void notifyDataSetChanged()
+   {
+      super.notifyDataSetChanged();
+      //update the textview here by looping trhrough all objects and then setting the total percent
+      updateGravityPercent.updatePercent();
+   }
+
 
 }

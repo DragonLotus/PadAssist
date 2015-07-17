@@ -5,9 +5,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -21,11 +27,15 @@ import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
 
 import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 
 /**
@@ -48,7 +58,7 @@ public class EnemyTargetFragment extends Fragment
    private String mParam2;
 
    private EditText targetHpValue, currentHpValue, targetDefenseValue;
-   private TextView percentHpValue;
+   private TextView percentHpValue, totalGravityValue;
    private RadioGroup orbRadioGroup;
    private Button gravityButton1, gravityButton2, gravityButton3, gravityButton4, gravityButton5, gravityButton6, gravityButton7;
    private GravityListAdapter gravityListAdapter;
@@ -56,7 +66,54 @@ public class EnemyTargetFragment extends Fragment
    private ListView gravityList;
    private GridView gravityButtonList;
    private Enemy enemy;
+   private DecimalFormat df;
    private OnFragmentInteractionListener mListener;
+   private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent()
+   {
+      @Override
+      public void updatePercent()
+      {
+         double gravity = 1.0;
+         for (int i = 0; i < gravityListAdapter.getCount(); i++)
+         {
+            gravity *= 1 - gravityListAdapter.getItem(i) / 100.0;
+         }
+
+         totalGravityValue.setText(Math.round((1 - gravity) * 100) + "%");
+         enemy.setGravityPercent(gravity);
+      }
+   };
+   private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
+   {
+      @Override
+      public void changeMonsterAttribute(int statToChange, int statValue)
+      {
+         if(statToChange == MyTextWatcher.TARGET_HP)
+         {
+
+            enemy.setTargetHp(statValue);
+            enemy.setCurrentHp(statValue);
+            currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+
+         }
+         if(statToChange == MyTextWatcher.CURRENT_HP)
+         {
+            enemy.setCurrentHp(statValue);
+
+         }
+         if(statToChange == MyTextWatcher.TARGET_DEFENSE)
+         {
+            enemy.setTargetDef(statValue);
+         }
+         Log.d("HI THOMAS", String.valueOf(enemy.getPercentHp()));
+         df = new DecimalFormat("#.##");
+         percentHpValue.setText(df.format(enemy.getPercentHp()));
+      }
+   };
+
+   private MyTextWatcher targetHPWatcher = new MyTextWatcher(MyTextWatcher.TARGET_HP,changeStats);
+   private MyTextWatcher currentHPWatcher = new MyTextWatcher(MyTextWatcher.CURRENT_HP,changeStats);
+   private MyTextWatcher targetDefenseWatcher = new MyTextWatcher(MyTextWatcher.TARGET_DEFENSE,changeStats);
 
    /**
     * Use this factory method to create a new instance of
@@ -103,14 +160,8 @@ public class EnemyTargetFragment extends Fragment
       targetDefenseValue = (EditText) rootView.findViewById(R.id.targetDefenseValue);
       percentHpValue = (TextView) rootView.findViewById(R.id.percentHPValue);
       orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
-//      gravityButton1 = (Button) rootView.findViewById(R.id.gravityButton1);
-//      gravityButton2 = (Button) rootView.findViewById(R.id.gravityButton2);
-//      gravityButton3 = (Button) rootView.findViewById(R.id.gravityButton3);
-//      gravityButton4 = (Button) rootView.findViewById(R.id.gravityButton4);
-//      gravityButton5 = (Button) rootView.findViewById(R.id.gravityButton5);
-//      gravityButton6 = (Button) rootView.findViewById(R.id.gravityButton6);
-//      gravityButton7 = (Button) rootView.findViewById(R.id.gravityButton7);
       gravityList = (ListView) rootView.findViewById(R.id.gravityList);
+      totalGravityValue = (TextView) rootView.findViewById(R.id.totalGravityValue);
       gravityButtonList = (GridView) rootView.findViewById(R.id.gravityButtonGrid);
       return rootView;
    }
@@ -119,18 +170,23 @@ public class EnemyTargetFragment extends Fragment
    {
       super.onActivityCreated(savedInstanceState);
       enemy = new Enemy();
-//      gravityButton1.setOnClickListener(gravityButtonOnClickListener);
-//      gravityButton2.setOnClickListener(gravityButtonOnClickListener);
-//      gravityButton3.setOnClickListener(gravityButtonOnClickListener);
-//      gravityButton4.setOnClickListener(gravityButtonOnClickListener);
-//      gravityButton5.setOnClickListener(gravityButtonOnClickListener);
-//      gravityButton6.setOnClickListener(gravityButtonOnClickListener);
-//      gravityButton7.setOnClickListener(gravityButtonOnClickListener);
-      gravityButtonAdapter = new GravityButtonAdapter(getActivity(),R.layout.gravity_button_grid, new ArrayList<String>());
+
+      targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
+      currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+      targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
+
+      gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, new ArrayList<Integer>(), updateGravityPercent);
+      gravityList.setAdapter(gravityListAdapter);
+      gravityButtonAdapter = new GravityButtonAdapter(getActivity(), R.layout.gravity_button_grid, new ArrayList<Integer>());
       gravityButtonList.setAdapter(gravityButtonAdapter);
+      gravityButtonList.setOnItemClickListener(gravityButtonOnClickListener);
       gravityButtonInit();
-      //gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, new ArrayList<Double>());
-      //gravityList.setAdapter(gravityListAdapter);
+      targetHpValue.addTextChangedListener(targetHPWatcher);
+      currentHpValue.addTextChangedListener(currentHPWatcher);
+      targetDefenseValue.addTextChangedListener(targetDefenseWatcher);
+      targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
+      currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
+      targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
@@ -167,49 +223,65 @@ public class EnemyTargetFragment extends Fragment
       public void onFragmentInteraction(Uri uri);
    }
 
-   private Button.OnClickListener gravityButtonOnClickListener = new Button.OnClickListener()
+
+   private GridView.OnItemClickListener gravityButtonOnClickListener = new GridView.OnItemClickListener()
    {
       @Override
-      public void onClick(View v)
+      public void onItemClick(AdapterView<?> parent, View v, int position, long id)
       {
-         if(v.equals(gravityButton1))
-         {
-            enemy.setGravityPercent(.10);
-         }
-         else if(v.equals(gravityButton2))
-         {
-            enemy.setGravityPercent(.15);
-         }
-         else if(v.equals(gravityButton3))
-         {
-            enemy.setGravityPercent(.20);
-         }
-         else if(v.equals(gravityButton4))
-         {
-            enemy.setGravityPercent(.25);
-         }
-         else if(v.equals(gravityButton5))
-         {
-            enemy.setGravityPercent(.30);
-         }
-         else if(v.equals(gravityButton6))
-         {
-            enemy.setGravityPercent(.35);
-         }
-         else if(v.equals(gravityButton7))
-         {
-            enemy.setGravityPercent(.45);
-         }
-         gravityListAdapter.add(enemy.getGravityPercent());
+         gravityListAdapter.add(gravityButtonAdapter.getItem(position));
+         gravityListAdapter.notifyDataSetChanged();
       }
    };
 
+
    private void gravityButtonInit()
    {
-      String[] gravityStrings = {"10%","15%","20%","25%","30%","35%","45%"};
-      for(int i = 0; i<gravityStrings.length; i++){
-         gravityButtonAdapter.add(gravityStrings[i]);
+      int[] gravityInts = {10, 15, 20, 25, 30, 35, 45};
+      for (int i = 0; i < gravityInts.length; i++)
+      {
+         gravityButtonAdapter.add(gravityInts[i]);
 
+      }
    }
+
+
+   private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener()
+   {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus)
+      {
+         if (!hasFocus)
+         {
+            hideKeyboard(v);
+            if (targetHpValue.getText().toString().equals(""))
+            {
+               targetHpValue.setText("0");
+               enemy.setTargetHp(0);
+               enemy.setCurrentHp(0);
+               currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+               percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+            }
+            else if (currentHpValue.getText().toString().equals(""))
+            {
+               currentHpValue.setText("0");
+               enemy.setCurrentHp(0);
+               percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+            }
+            else if (targetDefenseValue.getText().toString().equals(""))
+            {
+               targetDefenseValue.setText("0");
+               enemy.setTargetDef(0);
+            }
+         }
+         ;
+      }
+   };
+
+
+   public void hideKeyboard(View view)
+   {
+      InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+      inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
    }
 }

@@ -28,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/targetHP"
-
-        android:text="31337"
+        android:inputType="number"
+        android:text="0"
         android:textSize="18dp" />
 
     <TextView
@@ -51,7 +51,8 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/targetHPValue"
         android:layout_toRightOf="@+id/currentHP"
-        android:text="31337"
+        android:inputType="number"
+        android:text="0"
         android:textSize="18dp" />
 
     <TextView
@@ -81,7 +82,7 @@
         android:layout_alignLeft="@+id/currentHPValue"
         android:layout_alignTop="@+id/percentAlign"
         android:gravity="center_vertical"
-        android:text="31337%"
+        android:text="--%"
         android:textSize="18dp" />
 
     <TextView
@@ -102,6 +103,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/percentHPValue"
         android:layout_toRightOf="@+id/targetDefense"
+        android:inputType="number"
         android:text="31337"
         android:textSize="18dp" />
 
@@ -179,22 +181,22 @@
         android:textSize="18dp" />
 
     <TextView
+        android:id="@+id/totalGravityValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/currentHPValue"
         android:layout_alignTop="@+id/applyButton"
         android:layout_alignBottom="@+id/applyButton"
         android:gravity="center_vertical"
-        android:text="1337%"
+        android:text="0%"
         android:textSize="18dp" />
 
     <Button
         android:id="@+id/applyButton"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:text="Apply"
         android:layout_below="@+id/color"
-        android:layout_alignLeft="@+id/gravityHolder"
         android:layout_alignParentRight="true"/>
 
     <LinearLayout
@@ -214,6 +216,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:numColumns="auto_fit"
+            android:clickable="true"
             android:layout_weight=".5"
             >
         </GridView>

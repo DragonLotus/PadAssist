@@ -69,4 +69,13 @@ public class Enemy
    {
       this.targetColor = targetColor;
    }
+
+   public double getPercentHp()
+   {
+      if(targetHp == 0)
+      {
+         return 0;
+      }
+      return (double)currentHp/targetHp;
+   }
 }
