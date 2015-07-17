@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.anthony.damagecalculator.Adapters.GravityButtonAdapter;
 import com.example.anthony.damagecalculator.Adapters.GravityListAdapter;
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Enemy;
@@ -50,7 +52,9 @@ public class EnemyTargetFragment extends Fragment
    private RadioGroup orbRadioGroup;
    private Button gravityButton1, gravityButton2, gravityButton3, gravityButton4, gravityButton5, gravityButton6, gravityButton7;
    private GravityListAdapter gravityListAdapter;
+   private GravityButtonAdapter gravityButtonAdapter;
    private ListView gravityList;
+   private GridView gravityButtonList;
    private Enemy enemy;
    private OnFragmentInteractionListener mListener;
 
@@ -99,14 +103,15 @@ public class EnemyTargetFragment extends Fragment
       targetDefenseValue = (EditText) rootView.findViewById(R.id.targetDefenseValue);
       percentHpValue = (TextView) rootView.findViewById(R.id.percentHPValue);
       orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
-      gravityButton1 = (Button) rootView.findViewById(R.id.gravityButton1);
-      gravityButton2 = (Button) rootView.findViewById(R.id.gravityButton2);
-      gravityButton3 = (Button) rootView.findViewById(R.id.gravityButton3);
-      gravityButton4 = (Button) rootView.findViewById(R.id.gravityButton4);
-      gravityButton5 = (Button) rootView.findViewById(R.id.gravityButton5);
-      gravityButton6 = (Button) rootView.findViewById(R.id.gravityButton6);
-      gravityButton7 = (Button) rootView.findViewById(R.id.gravityButton7);
+//      gravityButton1 = (Button) rootView.findViewById(R.id.gravityButton1);
+//      gravityButton2 = (Button) rootView.findViewById(R.id.gravityButton2);
+//      gravityButton3 = (Button) rootView.findViewById(R.id.gravityButton3);
+//      gravityButton4 = (Button) rootView.findViewById(R.id.gravityButton4);
+//      gravityButton5 = (Button) rootView.findViewById(R.id.gravityButton5);
+//      gravityButton6 = (Button) rootView.findViewById(R.id.gravityButton6);
+//      gravityButton7 = (Button) rootView.findViewById(R.id.gravityButton7);
       gravityList = (ListView) rootView.findViewById(R.id.gravityList);
+      gravityButtonList = (GridView) rootView.findViewById(R.id.gravityButtonGrid);
       return rootView;
    }
 
@@ -114,15 +119,18 @@ public class EnemyTargetFragment extends Fragment
    {
       super.onActivityCreated(savedInstanceState);
       enemy = new Enemy();
-      gravityButton1.setOnClickListener(gravityButtonOnClickListener);
-      gravityButton2.setOnClickListener(gravityButtonOnClickListener);
-      gravityButton3.setOnClickListener(gravityButtonOnClickListener);
-      gravityButton4.setOnClickListener(gravityButtonOnClickListener);
-      gravityButton5.setOnClickListener(gravityButtonOnClickListener);
-      gravityButton6.setOnClickListener(gravityButtonOnClickListener);
-      gravityButton7.setOnClickListener(gravityButtonOnClickListener);
-      gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, new ArrayList<Double>());
-      gravityList.setAdapter(gravityListAdapter);
+//      gravityButton1.setOnClickListener(gravityButtonOnClickListener);
+//      gravityButton2.setOnClickListener(gravityButtonOnClickListener);
+//      gravityButton3.setOnClickListener(gravityButtonOnClickListener);
+//      gravityButton4.setOnClickListener(gravityButtonOnClickListener);
+//      gravityButton5.setOnClickListener(gravityButtonOnClickListener);
+//      gravityButton6.setOnClickListener(gravityButtonOnClickListener);
+//      gravityButton7.setOnClickListener(gravityButtonOnClickListener);
+      gravityButtonAdapter = new GravityButtonAdapter(getActivity(),R.layout.gravity_button_grid, new ArrayList<String>());
+      gravityButtonList.setAdapter(gravityButtonAdapter);
+      gravityButtonInit();
+      //gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, new ArrayList<Double>());
+      //gravityList.setAdapter(gravityListAdapter);
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
@@ -195,4 +203,13 @@ public class EnemyTargetFragment extends Fragment
          gravityListAdapter.add(enemy.getGravityPercent());
       }
    };
+
+   private void gravityButtonInit()
+   {
+      String[] gravityStrings = {"10%","15%","20%","25%","30%","35%","45%"};
+      for(int i = 0; i<gravityStrings.length; i++){
+         gravityButtonAdapter.add(gravityStrings[i]);
+
+   }
+   }
 }

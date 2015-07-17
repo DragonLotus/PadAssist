@@ -352,6 +352,7 @@ public class MonsterPageFragment extends Fragment
          {
             monsterStatsRCVPlus.setText("99");
             monsterStats();
+            monsterStats();
          }
          else if (v.equals(monsterAwakeningsMax))
          {
