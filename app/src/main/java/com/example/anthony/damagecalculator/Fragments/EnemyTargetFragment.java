@@ -99,6 +99,10 @@ public class EnemyTargetFragment extends Fragment
          if(statToChange == MyTextWatcher.CURRENT_HP)
          {
             enemy.setCurrentHp(statValue);
+            if(enemy.getCurrentHp()>enemy.getTargetHp()){
+               currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
+               enemy.setCurrentHp(enemy.getTargetHp());
+            }
 
          }
          if(statToChange == MyTextWatcher.TARGET_DEFENSE)
@@ -107,7 +111,7 @@ public class EnemyTargetFragment extends Fragment
          }
          Log.d("HI THOMAS", String.valueOf(enemy.getPercentHp()));
          df = new DecimalFormat("#.##");
-         percentHpValue.setText(df.format(enemy.getPercentHp()));
+         percentHpValue.setText(df.format(enemy.getPercentHp()*100) + "%");
       }
    };
 

@@ -30,6 +30,7 @@
         android:layout_toRightOf="@+id/targetHP"
         android:inputType="number"
         android:text="0"
+        android:maxLength="9"
         android:textSize="18dp" />
 
     <TextView
@@ -53,7 +54,8 @@
         android:layout_toRightOf="@+id/currentHP"
         android:inputType="number"
         android:text="0"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:maxLength="9"/>
 
     <TextView
         android:id="@+id/percentHP"
@@ -105,7 +107,8 @@
         android:layout_toRightOf="@+id/targetDefense"
         android:inputType="number"
         android:text="31337"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:maxLength="9"/>
 
     <TextView
         android:id="@+id/color"
@@ -116,7 +119,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Color"
-        android:textSize="20dp" />
+        android:textSize="20dp"/>
 
     <RadioGroup
         android:id="@+id/orbRadioGroup"
