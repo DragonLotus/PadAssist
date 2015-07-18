@@ -248,11 +248,21 @@
                 </GridView>
             </LinearLayout>
 
+            <EditText
+                android:id="@+id/absorbAlign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/gravityHolder"
+                android:visibility="invisible"
+                android:focusable="false"/>
+
             <TextView
                 android:id="@+id/elementAbsorb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/gravityHolder"
+                android:layout_alignBottom="@+id/absorbAlign"
+                android:layout_alignTop="@+id/absorbAlign"
+                android:gravity="center_vertical"
                 android:text="Element Absorb"
                 android:textSize="18dp"/>
 
@@ -260,10 +270,10 @@
                 android:id="@+id/absorbOrbRadioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/elementAbsorb"
-                android:layout_alignTop="@+id/elementAbsorb"
-                android:layout_toRightOf="@+id/elementAbsorb"
-                android:checkedButton="@+id/redOrbAbsorb"
+                android:layout_alignBottom="@+id/absorbAlign"
+                android:layout_alignTop="@+id/absorbAlign"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@+id/elementReduction"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -291,7 +301,7 @@
                     android:button="@null" />
 
                 <RadioButton
-                    android:id="@+id/lightOrAbsorb"
+                    android:id="@+id/lightOrbAbsorb"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
@@ -307,13 +317,94 @@
                     android:button="@null" />
             </RadioGroup>
 
+            <CheckBox
+                android:id="@+id/absorbCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/absorbOrbRadioGroup"
+                android:layout_alignBottom="@+id/absorbOrbRadioGroup"
+                android:gravity="center_vertical"
+                android:checked="false"/>
+
+            <EditText
+                android:id="@+id/reductionAlign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/absorbOrbRadioGroup"
+                android:visibility="invisible"
+                android:focusable="false"/>
+
             <TextView
                 android:id="@+id/elementReduction"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/elementAbsorb"
+                android:layout_alignBottom="@+id/reductionAlign"
+                android:layout_alignTop="@+id/reductionAlign"
+                android:gravity="center_vertical"
                 android:text="Element Reduction"
                 android:textSize="18dp"/>
+
+            <RadioGroup
+                android:id="@+id/reductionOrbRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/reductionAlign"
+                android:layout_alignTop="@+id/reductionAlign"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@+id/elementReduction"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/redOrbReduction"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/red_orb_selector"
+                    android:button="@null"/>
+
+                <RadioButton
+                    android:id="@+id/blueOrbReduction"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/blue_orb_selector"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/greenOrbReduction"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/green_orb_selector"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/lightOrbReduction"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/light_orb_selector"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/darkOrbReduction"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/dark_orb_selector"
+                    android:button="@null" />
+            </RadioGroup>
+
+            <CheckBox
+                android:id="@+id/reductionCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/reductionOrbRadioGroup"
+                android:layout_alignBottom="@+id/reductionOrbRadioGroup"
+                android:gravity="center_vertical"
+                android:checked="false"/>
 
             <TextView
                 android:id="@+id/damageThreshold"
@@ -321,15 +412,15 @@
                 android:layout_height="wrap_content"
                 android:text="Damage Threshold: "
                 android:textSize="18dp"
-                android:layout_alignTop="@id/damageThresholdValue"
-                android:layout_alignBottom="@id/damageThresholdValue"
+                android:layout_alignTop="@+id/damageThresholdValue"
+                android:layout_alignBottom="@+id/damageThresholdValue"
                 android:gravity="center_vertical"/>
 
             <EditText
                 android:id="@+id/damageThresholdValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/elementReduction"
+                android:layout_below="@+id/elementReduction"
                 android:layout_toRightOf="@+id/damageThreshold"
                 android:textSize="18dp"
                 android:text="200000"
@@ -340,8 +431,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/damageThresholdValue"
-                android:layout_alignBottom="@id/damageThresholdValue"
+                android:layout_alignTop="@+id/damageThresholdValue"
+                android:layout_alignBottom="@+id/damageThresholdValue"
                 android:gravity="center_vertical"
                 android:checked="false"/>
         </RelativeLayout>

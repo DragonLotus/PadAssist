@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -63,9 +66,9 @@ public class EnemyTargetFragment extends Fragment
    private String mParam1;
    private String mParam2;
 
-   private EditText targetHpValue, currentHpValue, targetDefenseValue;
+   private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue;
    private TextView percentHpValue, totalGravityValue;
-   private RadioGroup orbRadioGroup;
+   private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
    private Button gravityShowHideButton, clearButton, hpReset;
    private LinearLayout gravityHolder;
    private GravityListAdapter gravityListAdapter;
@@ -78,6 +81,7 @@ public class EnemyTargetFragment extends Fragment
    private Toast toast;
    private Spinner defenseBreakSpinner;
    private String[] defenseBreakItems;
+   private CheckBox absorbCheck, reductionCheck, damageThresholdCheck;
    private double defenseBreakValue = 1.0;
    private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent()
    {
@@ -183,6 +187,7 @@ public class EnemyTargetFragment extends Fragment
       targetHpValue = (EditText) rootView.findViewById(R.id.targetHPValue);
       currentHpValue = (EditText) rootView.findViewById(R.id.currentHPValue);
       targetDefenseValue = (EditText) rootView.findViewById(R.id.targetDefenseValue);
+      damageThresholdValue = (EditText) rootView.findViewById(R.id.damageThresholdValue);
       percentHpValue = (TextView) rootView.findViewById(R.id.percentHPValue);
       orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
       gravityList = (ListView) rootView.findViewById(R.id.gravityList);
@@ -193,6 +198,11 @@ public class EnemyTargetFragment extends Fragment
       gravityHolder = (LinearLayout) rootView.findViewById(R.id.gravityHolder);
       hpReset = (Button) rootView.findViewById(R.id.hpReset);
       defenseBreakSpinner = (Spinner) rootView.findViewById(R.id.defenseBreakSpinner);
+      absorbRadioGroup = (RadioGroup) rootView.findViewById(R.id.absorbOrbRadioGroup);
+      reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
+      absorbCheck = (CheckBox) rootView.findViewById(R.id.absorbCheck);
+      reductionCheck = (CheckBox) rootView.findViewById(R.id.reductionCheck);
+      damageThresholdCheck = (CheckBox) rootView.findViewById(R.id.damageThresholdCheck);
 
       return rootView;
    }
@@ -233,6 +243,9 @@ public class EnemyTargetFragment extends Fragment
 
       gravityList.setOnTouchListener(listViewScroll);
       gravityButtonList.setOnTouchListener(listViewScroll);
+      absorbCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+      reductionCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+      damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
 
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
@@ -475,6 +488,46 @@ public class EnemyTargetFragment extends Fragment
          }
          toast = Toast.makeText(getActivity(), "HP reset and gravities cleared", Toast.LENGTH_SHORT);
          toast.show();
+      }
+   };
+
+   private CompoundButton.OnCheckedChangeListener checkBoxOnChangeListener = new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+         if(buttonView.equals(absorbCheck)){
+            if(isChecked){
+               for(int i = 0; i<absorbRadioGroup.getChildCount(); i++) {
+                  absorbRadioGroup.getChildAt(i).setEnabled(true);
+               }
+            }
+            else{
+               absorbRadioGroup.clearCheck();
+               for(int i = 0; i<absorbRadioGroup.getChildCount(); i++){
+                  absorbRadioGroup.getChildAt(i).setEnabled(false);
+               }
+            }
+         }
+         else if(buttonView.equals(reductionCheck)){
+            if(isChecked){
+               for(int i = 0; i<reductionRadioGroup.getChildCount(); i++){
+                  reductionRadioGroup.getChildAt(i).setEnabled(true);
+               }
+            }
+            else{
+               reductionRadioGroup.clearCheck();
+               for(int i = 0; i<reductionRadioGroup.getChildCount(); i++){
+                  reductionRadioGroup.getChildAt(i).setEnabled(false);
+               }
+            }
+         }
+         else if(buttonView.equals(damageThresholdCheck)){
+            if(isChecked){
+               damageThresholdValue.setEnabled(true);
+            }
+            else{
+               damageThresholdValue.setEnabled(false);
+               }
+         }
       }
    };
 

@@ -32,21 +32,21 @@
    </LinearLayout>
 
    <TextView
-      android:id="@+id/color"
+      android:id="@+id/element"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_below="@+id/editHolder"
       android:layout_marginBottom="10dp"
       android:layout_marginTop="10dp"
       android:gravity="center"
-      android:text="Color"
+      android:text="Element"
       android:textSize="20sp" />
 
    <TextView
       android:id="@+id/orbsLinked"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_below="@+id/color"
+      android:layout_below="@+id/element"
       android:text="# of Orbs Linked"
        android:textSize="16dp"/>
 
@@ -54,7 +54,7 @@
       android:id="@+id/orbsLinkedSpinner"
       android:layout_width="match_parent"
       android:layout_height="30dp"
-      android:layout_below="@+id/color"
+      android:layout_below="@+id/element"
       android:layout_toRightOf="@+id/orbsLinked"
       android:max="27" />
 
@@ -147,9 +147,9 @@
        android:layout_height="wrap_content"
        android:checkedButton="@+id/redOrb"
        android:orientation="horizontal"
-       android:layout_alignTop="@+id/color"
-       android:layout_alignBottom="@+id/color"
-       android:layout_toRightOf="@+id/color">
+       android:layout_alignTop="@+id/element"
+       android:layout_alignBottom="@+id/element"
+       android:layout_toRightOf="@+id/element">
       <RadioButton
           android:id="@+id/redOrb"
           android:layout_width="20dp"
