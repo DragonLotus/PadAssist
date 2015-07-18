@@ -66,7 +66,7 @@ public class EnemyTargetFragment extends Fragment
    private EditText targetHpValue, currentHpValue, targetDefenseValue;
    private TextView percentHpValue, totalGravityValue;
    private RadioGroup orbRadioGroup;
-   private Button gravityShowHideButton, clearButton;
+   private Button gravityShowHideButton, clearButton, hpReset;
    private LinearLayout gravityHolder;
    private GravityListAdapter gravityListAdapter;
    private GravityButtonAdapter gravityButtonAdapter;
@@ -191,7 +191,7 @@ public class EnemyTargetFragment extends Fragment
       clearButton = (Button) rootView.findViewById(R.id.clearButton);
       gravityShowHideButton = (Button) rootView.findViewById(R.id.gravityShowHide);
       gravityHolder = (LinearLayout) rootView.findViewById(R.id.gravityHolder);
-
+      hpReset = (Button) rootView.findViewById(R.id.hpReset);
       defenseBreakSpinner = (Spinner) rootView.findViewById(R.id.defenseBreakSpinner);
 
       return rootView;
@@ -224,11 +224,15 @@ public class EnemyTargetFragment extends Fragment
 
       clearButton.setOnClickListener(clearButtonOnClickListener);
       gravityShowHideButton.setOnClickListener(gravityShowHideOnClickListener);
+      hpReset.setOnClickListener(hpResetOnClickListener);
 
       defenseBreakItems = new String[]{"0%", "25%", "50%", "75%", "100%"};
       ArrayAdapter<String> defenseBreakAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, defenseBreakItems);
       defenseBreakSpinner.setAdapter(defenseBreakAdapter);
       defenseBreakSpinner.setOnItemSelectedListener(defenseBreakOnItemSelectedListener);
+
+      gravityList.setOnTouchListener(listViewScroll);
+      gravityButtonList.setOnTouchListener(listViewScroll);
 
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
@@ -460,11 +464,44 @@ public class EnemyTargetFragment extends Fragment
          }
       };
 
+   private Button.OnClickListener hpResetOnClickListener = new Button.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+         gravityListAdapter.clear();
+         targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
+         if (toast != null)
+         {
+            toast.cancel();
+         }
+         toast = Toast.makeText(getActivity(), "HP reset and gravities cleared", Toast.LENGTH_SHORT);
+         toast.show();
+      }
+   };
+
       public void hideKeyboard(View view)
       {
          InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
          inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
       }
+
+   // http://stackoverflow.com/a/14577399 magic.
+   private ListView.OnTouchListener listViewScroll = new ListView.OnTouchListener(){
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+         int action = event.getAction();
+         switch (action) {
+            case MotionEvent.ACTION_DOWN:
+               v.getParent().requestDisallowInterceptTouchEvent(true);
+               break;
+            case MotionEvent.ACTION_UP:
+               v.getParent().requestDisallowInterceptTouchEvent(false);
+               break;
+         }
+         v.onTouchEvent(event);
+         return true;
+      }
+   };
+
 
 //   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()
 //   {

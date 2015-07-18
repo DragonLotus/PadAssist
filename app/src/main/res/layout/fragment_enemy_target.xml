@@ -55,34 +55,34 @@
         android:textSize="18dp"
         android:maxLength="9"/>
 
+    <Button
+        android:id="@+id/hpReset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:layout_below="@+id/targetHPValue"
+        android:layout_alignParentRight="true"/>
+
     <TextView
         android:id="@+id/percentHP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/percentAlign"
-        android:layout_alignRight="@+id/targetDefense"
-        android:layout_alignTop="@+id/percentAlign"
+        android:layout_toLeftOf="@+id/percentHPValue"
+        android:layout_alignBottom="@+id/targetHPValue"
+        android:layout_alignTop="@+id/targetHPValue"
         android:gravity="center_vertical"
         android:text="% HP: "
         android:textSize="18dp" />
-
-    <EditText
-        android:id="@+id/percentAlign"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/currentHPValue"
-        android:layout_toRightOf="@+id/percentHP"
-        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/percentHPValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/percentAlign"
-        android:layout_alignLeft="@+id/currentHPValue"
-        android:layout_alignTop="@+id/percentAlign"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/targetHPValue"
+        android:layout_alignTop="@+id/targetHPValue"
         android:gravity="center_vertical"
-        android:text="--%"
+        android:text="100%"
         android:textSize="18dp" />
 
     <TextView
@@ -100,7 +100,7 @@
         android:id="@+id/targetDefenseValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/percentHPValue"
+        android:layout_below="@+id/currentHPValue"
         android:layout_toRightOf="@+id/targetDefense"
         android:inputType="number"
         android:text="31337"
@@ -111,136 +111,243 @@
         android:id="@+id/defenseBreakSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/gravityShowHide"
-        android:layout_below="@+id/percentAlign"
+        android:layout_alignLeft="@+id/hpReset"
         android:layout_alignTop="@+id/targetDefenseValue"
         android:layout_alignBottom="@+id/targetDefenseValue"
         android:gravity="center_vertical"/>
 
     <TextView
-        android:id="@+id/color"
+        android:id="@+id/element"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/targetDefenseValue"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="Color"
-        android:textSize="20dp"/>
+        android:text="Element"
+        android:textSize="18dp"/>
 
     <RadioGroup
         android:id="@+id/orbRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/color"
-        android:layout_alignTop="@+id/color"
-        android:layout_toRightOf="@+id/color"
+        android:layout_alignBottom="@+id/element"
+        android:layout_alignTop="@+id/element"
+        android:layout_toRightOf="@+id/element"
         android:checkedButton="@+id/redOrb"
         android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/redOrb"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/red_orb_selector"
-            android:button="@null" />
+            android:button="@null"/>
 
         <RadioButton
             android:id="@+id/blueOrb"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/blue_orb_selector"
             android:button="@null" />
 
         <RadioButton
             android:id="@+id/greenOrb"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/green_orb_selector"
             android:button="@null" />
 
         <RadioButton
             android:id="@+id/lightOrb"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/light_orb_selector"
             android:button="@null" />
 
         <RadioButton
             android:id="@+id/darkOrb"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/dark_orb_selector"
             android:button="@null" />
     </RadioGroup>
 
-    <TextView
-        android:id="@+id/gravity"
+    <ScrollView
+        android:id="@+id/overallScrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/targetDefense"
-        android:layout_alignTop="@+id/clearButton"
-        android:layout_alignBottom="@+id/clearButton"
-        android:gravity="center_vertical"
-        android:text="Gravities: "
-        android:textSize="18dp" />
-
-    <TextView
-        android:id="@+id/totalGravityValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/currentHPValue"
-        android:layout_alignTop="@+id/clearButton"
-        android:layout_alignBottom="@+id/clearButton"
-        android:gravity="center_vertical"
-        android:text="0%"
-        android:textSize="18dp" />
-
-    <Button
-        android:id="@+id/clearButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clear"
-        android:layout_toLeftOf="@+id/gravityShowHide"
-        android:layout_below="@+id/color"/>
-
-    <Button
-        android:id="@+id/gravityShowHide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/color"
-        android:text="Show"/>
-
-    <LinearLayout
-        android:id="@+id/gravityHolder"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/calculate"
-        android:layout_below="@+id/clearButton"
-        android:visibility="gone">
-        <ListView
-            android:id="@+id/gravityList"
+        android:layout_below="@+id/element"
+        android:layout_above="@+id/calculate">
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:focusableInTouchMode="true"/>
+            android:layout_height="wrap_content">
 
-        <GridView
-            android:id="@+id/gravityButtonGrid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numColumns="auto_fit"
-            android:layout_weight=".5"
-            android:focusableInTouchMode="true"
-            >
-        </GridView>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/gravity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/clearButton"
+                android:layout_alignBottom="@+id/clearButton"
+                android:gravity="center_vertical"
+                android:text="Gravities: "
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/totalGravityValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/gravity"
+                android:layout_alignTop="@+id/clearButton"
+                android:layout_alignBottom="@+id/clearButton"
+                android:gravity="center_vertical"
+                android:text="0%"
+                android:textSize="18dp" />
+
+            <Button
+                android:id="@+id/clearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clear"
+                android:layout_toLeftOf="@+id/gravityShowHide"/>
+
+            <Button
+                android:id="@+id/gravityShowHide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Show"/>
+
+            <LinearLayout
+                android:id="@+id/gravityHolder"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clearButton"
+                android:visibility="gone">
+                <ListView
+                    android:id="@+id/gravityList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:layout_weight=".5"
+                    android:focusableInTouchMode="true"
+                    android:nestedScrollingEnabled="true"/>
+
+                <GridView
+                    android:id="@+id/gravityButtonGrid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:numColumns="auto_fit"
+                    android:layout_weight=".5"
+                    android:focusableInTouchMode="true"
+                    android:nestedScrollingEnabled="true">
+                </GridView>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/elementAbsorb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gravityHolder"
+                android:text="Element Absorb"
+                android:textSize="18dp"/>
+
+            <RadioGroup
+                android:id="@+id/absorbOrbRadioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/elementAbsorb"
+                android:layout_alignTop="@+id/elementAbsorb"
+                android:layout_toRightOf="@+id/elementAbsorb"
+                android:checkedButton="@+id/redOrbAbsorb"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/redOrbAbsorb"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/red_orb_selector"
+                    android:button="@null"/>
+
+                <RadioButton
+                    android:id="@+id/blueOrbAbsorb"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/blue_orb_selector"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/greenOrbAbsorb"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/green_orb_selector"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/lightOrAbsorb"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/light_orb_selector"
+                    android:button="@null" />
+
+                <RadioButton
+                    android:id="@+id/darkOrbAbsorb"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/dark_orb_selector"
+                    android:button="@null" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/elementReduction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/elementAbsorb"
+                android:text="Element Reduction"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:id="@+id/damageThreshold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Damage Threshold: "
+                android:textSize="18dp"
+                android:layout_alignTop="@id/damageThresholdValue"
+                android:layout_alignBottom="@id/damageThresholdValue"
+                android:gravity="center_vertical"/>
+
+            <EditText
+                android:id="@+id/damageThresholdValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/elementReduction"
+                android:layout_toRightOf="@+id/damageThreshold"
+                android:textSize="18dp"
+                android:text="200000"
+                android:maxLength="9"/>
+
+            <CheckBox
+                android:id="@+id/damageThresholdCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/damageThresholdValue"
+                android:layout_alignBottom="@id/damageThresholdValue"
+                android:gravity="center_vertical"
+                android:checked="false"/>
+        </RelativeLayout>
+    </ScrollView>
+
+
 
     <Button
         android:id="@+id/calculate"
