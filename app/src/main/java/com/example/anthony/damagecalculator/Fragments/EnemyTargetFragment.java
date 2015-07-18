@@ -102,7 +102,7 @@ public class EnemyTargetFragment extends Fragment
          {
 
             enemy.setTargetHp(statValue);
-            enemy.setCurrentHp(statValue);
+            enemy.setCurrentHp((int)(statValue*enemy.getGravityPercent()));
             enemy.setBeforeGravityHP(statValue);
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
 
@@ -268,11 +268,11 @@ public class EnemyTargetFragment extends Fragment
       @Override
       public void onItemClick(AdapterView<?> parent, View v, int position, long id)
       {
-         if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1 || enemy.getCurrentHp() == 0){
+         if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1 || enemy.getCurrentHp() == 0 || enemy.getTargetHp() == 0){
             if(toast != null) {
                toast.cancel();
             }
-            toast = Toast.makeText(getActivity(), "Gravities will have no effect", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getActivity(), "Additional gravities will have no effect", Toast.LENGTH_SHORT);
             toast.show();
          }
          else{
@@ -323,13 +323,21 @@ public class EnemyTargetFragment extends Fragment
                targetDefenseValue.setText("0");
                enemy.setTargetDef(0);
             }
-            if(v.equals(currentHpValue)){
-               enemy.setBeforeGravityHP(enemy.getCurrentHp());
-               gravityListAdapter.clear();
+            if(v.equals(targetHpValue)){
                if(toast != null) {
                   toast.cancel();
                }
-               toast = Toast.makeText(getActivity(), "Initial HP set and gravities reset", Toast.LENGTH_LONG);
+            toast = Toast.makeText(getActivity(), "Target HP set and gravities applied", Toast.LENGTH_LONG);
+            toast.show();
+            }
+            else if(v.equals(currentHpValue)){
+               enemy.setBeforeGravityHP(enemy.getCurrentHp());
+               enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
+               currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+               if(toast != null) {
+                  toast.cancel();
+               }
+               toast = Toast.makeText(getActivity(), "Initial HP set and gravities applied", Toast.LENGTH_LONG);
                toast.show();
             }
             else if(v.equals(targetDefenseValue)){
