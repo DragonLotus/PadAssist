@@ -103,7 +103,7 @@ public class EnemyTargetFragment extends Fragment
          {
 
             enemy.setTargetHp(statValue);
-            enemy.setCurrentHp((int)(statValue*enemy.getGravityPercent()));
+            enemy.setCurrentHp((int) (statValue * enemy.getGravityPercent()));
             enemy.setBeforeGravityHP(statValue);
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
 
@@ -272,207 +272,199 @@ public class EnemyTargetFragment extends Fragment
       @Override
       public void onItemClick(AdapterView<?> parent, View v, int position, long id)
       {
-<<<<<<< HEAD
-         if (enemy.getBeforeGravityHP() * enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1 || enemy.getCurrentHp() == 0)
-         {
-            if (toast != null)
-            {
-=======
-         if(enemy.getBeforeGravityHP()*enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1 || enemy.getCurrentHp() == 0 || enemy.getTargetHp() == 0){
-            if(toast != null) {
->>>>>>> origin/master
-               toast.cancel();
+
+               if (enemy.getBeforeGravityHP() * enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1 || enemy.getCurrentHp() == 0 || enemy.getTargetHp() == 0)
+               {
+                  if (toast != null)
+                  {
+                     toast.cancel();
+                  }
+                  toast = Toast.makeText(getActivity(), "Additional gravities will have no effect", Toast.LENGTH_SHORT);
+                  toast.show();
+               }
+               else
+               {
+                  currentHpValue.clearFocus();
+                  gravityListAdapter.add(gravityButtonAdapter.getItem(position));
+                  gravityListAdapter.notifyDataSetChanged();
+                  enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
+                  currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+               }
+
             }
-            toast = Toast.makeText(getActivity(), "Additional gravities will have no effect", Toast.LENGTH_SHORT);
-            toast.show();
+         } ;
+
+
+      private void gravityButtonInit()
+      {
+         int[] gravityInts = {10, 15, 20, 25, 30, 35, 45};
+         for (int i = 0; i < gravityInts.length; i++)
+         {
+            gravityButtonAdapter.add(gravityInts[i]);
          }
-         else
+      }
+
+      private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener()
+      {
+         @Override
+         public void onFocusChange(View v, boolean hasFocus)
+         {
+            if (!hasFocus)
+            {
+               hideKeyboard(v);
+               if (targetHpValue.getText().toString().equals(""))
+               {
+                  targetHpValue.setText("0");
+                  enemy.setTargetHp(0);
+                  enemy.setCurrentHp(0);
+                  currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+                  percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+               }
+               else if (currentHpValue.getText().toString().equals(""))
+               {
+                  currentHpValue.setText("0");
+                  enemy.setCurrentHp(0);
+                  percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+               }
+               else if (targetDefenseValue.getText().toString().equals(""))
+               {
+                  targetDefenseValue.setText("0");
+                  enemy.setTargetDef(0);
+               }
+
+               if (v.equals(targetHpValue))
+               {
+                  if (toast != null)
+                  {
+                     toast.cancel();
+                  }
+                  toast = Toast.makeText(getActivity(), "Target HP set and gravities applied", Toast.LENGTH_LONG);
+                  toast.show();
+               }
+               else if (v.equals(currentHpValue))
+               {
+                  enemy.setBeforeGravityHP(enemy.getCurrentHp());
+                  enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
+                  currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+                  if (toast != null)
+                  {
+                     toast.cancel();
+                  }
+                  toast = Toast.makeText(getActivity(), "Initial HP set and gravities applied", Toast.LENGTH_LONG);
+                  toast.show();
+               }
+               else if (v.equals(targetDefenseValue))
+               {
+                  enemy.setBeforeDefenseBreak(enemy.getTargetDef());
+                  targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
+                  if (toast != null)
+                  {
+                     toast.cancel();
+                  }
+                  toast = Toast.makeText(getActivity(), "Initial defense set", Toast.LENGTH_SHORT);
+                  toast.show();
+               }
+            }
+            ;
+         }
+      };
+
+      private ListView.OnItemClickListener gravityRemoveOnClickListener = new ListView.OnItemClickListener()
+      {
+         @Override
+         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
          {
             currentHpValue.clearFocus();
-            gravityListAdapter.add(gravityButtonAdapter.getItem(position));
-            gravityListAdapter.notifyDataSetChanged();
+            gravityListAdapter.remove(gravityListAdapter.getItem(position));
             enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
          }
+      };
 
-      }
-   };
-
-
-   private void gravityButtonInit()
-   {
-      int[] gravityInts = {10, 15, 20, 25, 30, 35, 45};
-      for (int i = 0; i < gravityInts.length; i++)
+      private Button.OnClickListener clearButtonOnClickListener = new Button.OnClickListener()
       {
-         gravityButtonAdapter.add(gravityInts[i]);
-      }
-   }
-
-   private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener()
-   {
-      @Override
-      public void onFocusChange(View v, boolean hasFocus)
-      {
-         if (!hasFocus)
+         @Override
+         public void onClick(View v)
          {
-            hideKeyboard(v);
-            if (targetHpValue.getText().toString().equals(""))
+            if (enemy.getCurrentHp() == 0)
             {
-               targetHpValue.setText("0");
-               enemy.setTargetHp(0);
-               enemy.setCurrentHp(0);
-               currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-               percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
             }
-            else if (currentHpValue.getText().toString().equals(""))
+            else
             {
-               currentHpValue.setText("0");
-               enemy.setCurrentHp(0);
-               percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
-            }
-            else if (targetDefenseValue.getText().toString().equals(""))
-            {
-               targetDefenseValue.setText("0");
-               enemy.setTargetDef(0);
-            }
-<<<<<<< HEAD
-            if (v.equals(currentHpValue))
-            {
-               enemy.setBeforeGravityHP(enemy.getCurrentHp());
+               currentHpValue.clearFocus();
                gravityListAdapter.clear();
-               if (toast != null)
-               {
-=======
-            if(v.equals(targetHpValue)){
-               if(toast != null) {
-                  toast.cancel();
-               }
-            toast = Toast.makeText(getActivity(), "Target HP set and gravities applied", Toast.LENGTH_LONG);
-            toast.show();
-            }
-            else if(v.equals(currentHpValue)){
-               enemy.setBeforeGravityHP(enemy.getCurrentHp());
                enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
                currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-               if(toast != null) {
->>>>>>> origin/master
-                  toast.cancel();
-               }
-               toast = Toast.makeText(getActivity(), "Initial HP set and gravities applied", Toast.LENGTH_LONG);
-               toast.show();
-            }
-            else if (v.equals(targetDefenseValue))
-            {
-               enemy.setBeforeDefenseBreak(enemy.getTargetDef());
-               targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
                if (toast != null)
                {
                   toast.cancel();
                }
-               toast = Toast.makeText(getActivity(), "Initial defense set", Toast.LENGTH_SHORT);
+               toast = Toast.makeText(getActivity(), "Gravities cleared", Toast.LENGTH_SHORT);
                toast.show();
             }
          }
-         ;
-      }
-   };
+      };
 
-   private ListView.OnItemClickListener gravityRemoveOnClickListener = new ListView.OnItemClickListener()
-   {
-      @Override
-      public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+      private Button.OnClickListener gravityShowHideOnClickListener = new Button.OnClickListener()
       {
-         currentHpValue.clearFocus();
-         gravityListAdapter.remove(gravityListAdapter.getItem(position));
-         enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
-         currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-      }
-   };
-
-   private Button.OnClickListener clearButtonOnClickListener = new Button.OnClickListener()
-   {
-      @Override
-      public void onClick(View v)
-      {
-         if (enemy.getCurrentHp() == 0)
+         @Override
+         public void onClick(View v)
          {
-         }
-         else
-         {
-            currentHpValue.clearFocus();
-            gravityListAdapter.clear();
-            enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
-            currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-            if (toast != null)
+            if (gravityHolder.getVisibility() == View.GONE)
             {
-               toast.cancel();
+               gravityHolder.setVisibility(View.VISIBLE);
+               gravityShowHideButton.setText("Hide");
             }
-            toast = Toast.makeText(getActivity(), "Gravities cleared", Toast.LENGTH_SHORT);
-            toast.show();
+            else if (gravityHolder.getVisibility() == View.VISIBLE)
+            {
+               gravityHolder.setVisibility(View.GONE);
+               gravityShowHideButton.setText("Show");
+            }
          }
-      }
-   };
+      };
 
-   private Button.OnClickListener gravityShowHideOnClickListener = new Button.OnClickListener()
-   {
-      @Override
-      public void onClick(View v)
+      private Spinner.OnItemSelectedListener defenseBreakOnItemSelectedListener = new Spinner.OnItemSelectedListener()
       {
-         if (gravityHolder.getVisibility() == View.GONE)
+         //Don't forget to set enemy Target Defense when calculating
+         @Override
+         public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
          {
-            gravityHolder.setVisibility(View.VISIBLE);
-            gravityShowHideButton.setText("Hide");
-         }
-         else if (gravityHolder.getVisibility() == View.VISIBLE)
-         {
-            gravityHolder.setVisibility(View.GONE);
-            gravityShowHideButton.setText("Show");
-         }
-      }
-   };
+            if (position == 0)
+            {
+               targetDefenseValue.setText(String.valueOf(enemy.getBeforeDefenseBreak()));
+            }
+            else if (position == 1)
+            {
+               defenseBreakValue = .75;
 
-   private Spinner.OnItemSelectedListener defenseBreakOnItemSelectedListener = new Spinner.OnItemSelectedListener()
-   {
-      //Don't forget to set enemy Target Defense when calculating
-      @Override
-      public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            }
+            else if (position == 2)
+            {
+               defenseBreakValue = .50;
+            }
+            else if (position == 3)
+            {
+               defenseBreakValue = .25;
+            }
+            else if (position == 4)
+            {
+               defenseBreakValue = 0;
+            }
+            targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
+         }
+
+         @Override
+         public void onNothingSelected(AdapterView<?> parent)
+         {
+
+         }
+      };
+
+      public void hideKeyboard(View view)
       {
-         if (position == 0)
-         {
-            targetDefenseValue.setText(String.valueOf(enemy.getBeforeDefenseBreak()));
-         }
-         else if (position == 1)
-         {
-            defenseBreakValue = .75;
-
-         }
-         else if (position == 2)
-         {
-            defenseBreakValue = .50;
-         }
-         else if (position == 3)
-         {
-           defenseBreakValue = .25;
-         }
-         else if (position == 4)
-         {
-            defenseBreakValue = 0;
-         }
-         targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
+         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
       }
-
-      @Override
-      public void onNothingSelected(AdapterView<?> parent)
-      {
-
-      }
-   };
-
-   public void hideKeyboard(View view)
-   {
-      InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-      inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-   }
 
 //   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()
 //   {
@@ -490,4 +482,4 @@ public class EnemyTargetFragment extends Fragment
 //   };
 
 
-}
+   }
