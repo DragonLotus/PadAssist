@@ -107,14 +107,15 @@
         android:textSize="18dp"
         android:maxLength="9"/>
 
-    <!--<Spinner-->
-        <!--android:id="@+id/defenseBreakSpinner"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:spinnerMode="dropdown"-->
-        <!--android:layout_alignLeft="@+id/clearButton"-->
-        <!--android:layout_alignParentRight="true"-->
-        <!--android:layout_below="@+id/percentAlign"/>-->
+    <Spinner
+        android:id="@+id/defenseBreakSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/gravityShowHide"
+        android:layout_below="@+id/percentAlign"
+        android:layout_alignTop="@+id/targetDefenseValue"
+        android:layout_alignBottom="@+id/targetDefenseValue"
+        android:gravity="center_vertical"/>
 
     <TextView
         android:id="@+id/color"

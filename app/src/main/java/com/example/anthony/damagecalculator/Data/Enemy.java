@@ -5,7 +5,7 @@ package com.example.anthony.damagecalculator.Data;
  */
 public class Enemy
 {
-   private int targetHp, currentHp, targetDef, beforeGravityHP;
+   private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak;
    private double gravityPercent;
    private Color targetColor;
 
@@ -17,6 +17,7 @@ public class Enemy
       this.targetDef = 368;
       this.currentHp = this.targetHp;
       this.beforeGravityHP = this.currentHp;
+      this.beforeDefenseBreak = this.targetDef;
       gravityPercent = 1;
    }
 
@@ -86,5 +87,13 @@ public class Enemy
 
    public void setBeforeGravityHP(int beforeGravityHP) {
       this.beforeGravityHP = beforeGravityHP;
+   }
+
+   public int getBeforeDefenseBreak() {
+      return beforeDefenseBreak;
+   }
+
+   public void setBeforeDefenseBreak(int beforeDefenseBreak) {
+      this.beforeDefenseBreak = beforeDefenseBreak;
    }
 }

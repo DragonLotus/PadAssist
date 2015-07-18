@@ -75,6 +75,8 @@ public class EnemyTargetFragment extends Fragment
    private DecimalFormat df;
    private OnFragmentInteractionListener mListener;
    private Toast toast;
+   private Spinner defenseBreakSpinner;
+   private String[] defenseBreakItems;
    private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent()
    {
       @Override
@@ -184,6 +186,9 @@ public class EnemyTargetFragment extends Fragment
       clearButton = (Button) rootView.findViewById(R.id.clearButton);
       gravityShowHideButton = (Button) rootView.findViewById(R.id.gravityShowHide);
       gravityHolder = (LinearLayout) rootView.findViewById(R.id.gravityHolder);
+
+      defenseBreakSpinner = (Spinner) rootView.findViewById(R.id.defenseBreakSpinner);
+
       return rootView;
    }
 
@@ -212,6 +217,12 @@ public class EnemyTargetFragment extends Fragment
 
       clearButton.setOnClickListener(clearButtonOnClickListener);
       gravityShowHideButton.setOnClickListener(gravityShowHideOnClickListener);
+
+      defenseBreakItems =  new String[] {"0%","25%", "50%", "75%", "100%"};
+      ArrayAdapter<String> defenseBreakAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, defenseBreakItems);
+      defenseBreakSpinner.setAdapter(defenseBreakAdapter);
+      defenseBreakSpinner.setOnItemSelectedListener(defenseBreakOnItemSelectedListener);
+
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
@@ -282,7 +293,6 @@ public class EnemyTargetFragment extends Fragment
       }
    }
 
-
    private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener()
    {
       @Override
@@ -317,6 +327,14 @@ public class EnemyTargetFragment extends Fragment
                   toast.cancel();
                }
                toast = Toast.makeText(getActivity(), "Initial HP set and gravities reset", Toast.LENGTH_LONG);
+               toast.show();
+            }
+            else if(v.equals(targetDefenseValue)){
+               enemy.setBeforeDefenseBreak(enemy.getTargetDef());
+               if(toast != null) {
+                  toast.cancel();
+               }
+               toast = Toast.makeText(getActivity(), "Initial defense set", Toast.LENGTH_SHORT);
                toast.show();
             }
          }
@@ -364,6 +382,33 @@ public class EnemyTargetFragment extends Fragment
             gravityHolder.setVisibility(View.GONE);
             gravityShowHideButton.setText("Show");
          }
+      }
+   };
+
+   private Spinner.OnItemSelectedListener defenseBreakOnItemSelectedListener = new Spinner.OnItemSelectedListener(){
+      //Don't forget to set enemy Target Defense when calculating
+      @Override
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+         if(position == 0){
+            targetDefenseValue.setText(String.valueOf(enemy.getBeforeDefenseBreak()));
+         }
+         else if(position == 1){
+            targetDefenseValue.setText(String.valueOf((int)(enemy.getBeforeDefenseBreak()*.75)));
+         }
+         else if(position == 2){
+            targetDefenseValue.setText(String.valueOf((int)(enemy.getBeforeDefenseBreak()*.50)));
+         }
+         else if(position == 3){
+            targetDefenseValue.setText(String.valueOf((int)(enemy.getBeforeDefenseBreak()*.25)));
+         }
+         else if(position == 4){
+            targetDefenseValue.setText("0");
+         }
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {
+
       }
    };
 
