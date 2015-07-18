@@ -18,6 +18,7 @@ public class MyTextWatcher implements TextWatcher
    public static final int TARGET_HP = 5;
    public static final int CURRENT_HP = 6;
    public static final int TARGET_DEFENSE = 7;
+   public static final int DAMAGE_THRESHOLD = 8;
 
    private int statToChange;
 

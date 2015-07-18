@@ -5,9 +5,10 @@ package com.example.anthony.damagecalculator.Data;
  */
 public class Enemy
 {
-   private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak;
+   private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold;
    private double gravityPercent;
-   private Color targetColor;
+   private Color targetColor, absorb;
+   private Color[] reduction;
 
 
    //default is satan from  Lord of Hell - Mythical
@@ -95,5 +96,13 @@ public class Enemy
 
    public void setBeforeDefenseBreak(int beforeDefenseBreak) {
       this.beforeDefenseBreak = beforeDefenseBreak;
+   }
+
+   public int getDamageThreshold() {
+      return damageThreshold;
+   }
+
+   public void setDamageThreshold(int damageThreshold) {
+      this.damageThreshold = damageThreshold;
    }
 }

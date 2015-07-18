@@ -112,7 +112,7 @@ public class EnemyTargetFragment extends Fragment
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
 
          }
-         if (statToChange == MyTextWatcher.CURRENT_HP)
+         else if (statToChange == MyTextWatcher.CURRENT_HP)
          {
             Log.d("Stringerino", Double.toString(enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
             enemy.setCurrentHp(statValue);
@@ -129,9 +129,14 @@ public class EnemyTargetFragment extends Fragment
             }
 
          }
-         if (statToChange == MyTextWatcher.TARGET_DEFENSE)
+         else if (statToChange == MyTextWatcher.TARGET_DEFENSE)
          {
             enemy.setTargetDef(statValue);
+         }
+
+         else if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD)
+         {
+            enemy.setDamageThreshold(statValue);
          }
          Log.d("HI THOMAS", String.valueOf(enemy.getPercentHp()));
          df = new DecimalFormat("#.##");
@@ -143,6 +148,7 @@ public class EnemyTargetFragment extends Fragment
    private MyTextWatcher targetHPWatcher = new MyTextWatcher(MyTextWatcher.TARGET_HP, changeStats);
    private MyTextWatcher currentHPWatcher = new MyTextWatcher(MyTextWatcher.CURRENT_HP, changeStats);
    private MyTextWatcher targetDefenseWatcher = new MyTextWatcher(MyTextWatcher.TARGET_DEFENSE, changeStats);
+   private MyTextWatcher damageThresholdWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_THRESHOLD, changeStats);
 
    /**
     * Use this factory method to create a new instance of
@@ -246,6 +252,7 @@ public class EnemyTargetFragment extends Fragment
       absorbCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
       reductionCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
       damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+      damageThresholdValue.addTextChangedListener(damageThresholdWatcher);
 
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
