@@ -99,6 +99,10 @@ public class MainFragment extends Fragment
             rowCheckBox.setEnabled(false);
             rowCheckBox.setChecked(false);
          }
+         if((progress + 3)>= 26){
+            rowCheckBox.setEnabled(false);
+            rowCheckBox.setChecked(true);
+         }
       }
 
       @Override
