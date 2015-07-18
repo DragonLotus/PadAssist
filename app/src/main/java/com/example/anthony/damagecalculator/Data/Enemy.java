@@ -1,5 +1,7 @@
 package com.example.anthony.damagecalculator.Data;
 
+import java.util.ArrayList;
+
 /**
  * Created by Anthony on 7/16/2015.
  */
@@ -8,12 +10,13 @@ public class Enemy
    private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold;
    private double gravityPercent;
    private Color targetColor, absorb;
-   private Color[] reduction;
+   private ArrayList<Color> reduction;
 
 
    //default is satan from  Lord of Hell - Mythical
    public Enemy()
    {
+      reduction = new ArrayList<Color>();
       this.targetHp = 6666666;
       this.targetDef = 368;
       this.currentHp = this.targetHp;
@@ -77,50 +80,75 @@ public class Enemy
 
    public double getPercentHp()
    {
-      if(targetHp == 0)
+      if (targetHp == 0)
       {
          return 0;
       }
-      return (double)currentHp/targetHp;
+      return (double) currentHp / targetHp;
    }
 
-   public int getBeforeGravityHP() {
+   public int getBeforeGravityHP()
+   {
       return beforeGravityHP;
    }
 
-   public void setBeforeGravityHP(int beforeGravityHP) {
+   public void setBeforeGravityHP(int beforeGravityHP)
+   {
       this.beforeGravityHP = beforeGravityHP;
    }
 
-   public int getBeforeDefenseBreak() {
+   public int getBeforeDefenseBreak()
+   {
       return beforeDefenseBreak;
    }
 
-   public void setBeforeDefenseBreak(int beforeDefenseBreak) {
+   public void setBeforeDefenseBreak(int beforeDefenseBreak)
+   {
       this.beforeDefenseBreak = beforeDefenseBreak;
    }
 
-   public int getDamageThreshold() {
+   public int getDamageThreshold()
+   {
       return damageThreshold;
    }
 
-   public void setDamageThreshold(int damageThreshold) {
+   public void setDamageThreshold(int damageThreshold)
+   {
       this.damageThreshold = damageThreshold;
    }
 
-   public Color getAbsorb() {
+   public Color getAbsorb()
+   {
       return absorb;
    }
 
-   public void setAbsorb(Color absorb) {
+   public void setAbsorb(Color absorb)
+   {
       this.absorb = absorb;
    }
 
-   public Color[] getReduction() {
+   public ArrayList<Color> getReduction()
+   {
       return reduction;
    }
 
-   public void addReduction(Color color){
-      
+   public void addReduction(Color color)
+   {
+      reduction.add(color);
    }
+
+   public void removeReduction(Color color)
+   {
+      reduction.remove(color);
+   }
+
+   public boolean containsReduction(Color color)
+   {
+      return reduction.contains(color);
+   }
+   public boolean reductionIsEmpty()
+   {
+      return reduction.isEmpty();
+   }
+
 }

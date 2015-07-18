@@ -265,6 +265,8 @@ public class EnemyTargetFragment extends Fragment
       orbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
       absorbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
 
+      redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
+
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
 
@@ -307,201 +309,203 @@ public class EnemyTargetFragment extends Fragment
       public void onItemClick(AdapterView<?> parent, View v, int position, long id)
       {
 
-               if (enemy.getBeforeGravityHP() * enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1 || enemy.getCurrentHp() == 0 || enemy.getTargetHp() == 0)
-               {
-                  if (toast != null)
-                  {
-                     toast.cancel();
-                  }
-                  toast = Toast.makeText(getActivity(), "Additional gravities will have no effect", Toast.LENGTH_SHORT);
-                  toast.show();
-               }
-               else
-               {
-                  currentHpValue.clearFocus();
-                  gravityListAdapter.add(gravityButtonAdapter.getItem(position));
-                  gravityListAdapter.notifyDataSetChanged();
-                  enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
-                  currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-               }
-
-            }
-         } ;
-
-
-      private void gravityButtonInit()
-      {
-         int[] gravityInts = {10, 15, 20, 25, 30, 35, 45};
-         for (int i = 0; i < gravityInts.length; i++)
+         if (enemy.getBeforeGravityHP() * enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 1 || enemy.getCurrentHp() == 0 || enemy.getTargetHp() == 0)
          {
-            gravityButtonAdapter.add(gravityInts[i]);
-         }
-      }
-
-      private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener()
-      {
-         @Override
-         public void onFocusChange(View v, boolean hasFocus)
-         {
-            if (!hasFocus)
+            if (toast != null)
             {
-               hideKeyboard(v);
-               if (targetHpValue.getText().toString().equals(""))
-               {
-                  targetHpValue.setText("0");
-                  enemy.setTargetHp(0);
-                  enemy.setCurrentHp(0);
-                  currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-                  percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
-               }
-               else if (currentHpValue.getText().toString().equals(""))
-               {
-                  currentHpValue.setText("0");
-                  enemy.setCurrentHp(0);
-                  percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
-               }
-               else if (targetDefenseValue.getText().toString().equals(""))
-               {
-                  targetDefenseValue.setText("0");
-                  enemy.setTargetDef(0);
-               }
-               else if (damageThresholdValue.getText().toString().equals(""))
-               {
-                  damageThresholdValue.setText("0");
-                  enemy.setDamageThreshold(0);
-               }
-
-               if (v.equals(targetHpValue))
-               {
-                  if (toast != null)
-                  {
-                     toast.cancel();
-                  }
-                  toast = Toast.makeText(getActivity(), "Target HP set and gravities applied", Toast.LENGTH_LONG);
-                  toast.show();
-               }
-               else if (v.equals(currentHpValue))
-               {
-                  enemy.setBeforeGravityHP(enemy.getCurrentHp());
-                  enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
-                  currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-                  if (toast != null)
-                  {
-                     toast.cancel();
-                  }
-                  toast = Toast.makeText(getActivity(), "Initial HP set and gravities applied", Toast.LENGTH_LONG);
-                  toast.show();
-               }
-               else if (v.equals(targetDefenseValue))
-               {
-                  enemy.setBeforeDefenseBreak(enemy.getTargetDef());
-                  targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
-                  if (toast != null)
-                  {
-                     toast.cancel();
-                  }
-                  toast = Toast.makeText(getActivity(), "Initial defense set", Toast.LENGTH_SHORT);
-                  toast.show();
-               }
+               toast.cancel();
             }
-            ;
+            toast = Toast.makeText(getActivity(), "Additional gravities will have no effect", Toast.LENGTH_SHORT);
+            toast.show();
          }
-      };
-
-      private ListView.OnItemClickListener gravityRemoveOnClickListener = new ListView.OnItemClickListener()
-      {
-         @Override
-         public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+         else
          {
             currentHpValue.clearFocus();
-            gravityListAdapter.remove(gravityListAdapter.getItem(position));
+            gravityListAdapter.add(gravityButtonAdapter.getItem(position));
+            gravityListAdapter.notifyDataSetChanged();
             enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
          }
-      };
 
-      private Button.OnClickListener clearButtonOnClickListener = new Button.OnClickListener()
+      }
+   };
+
+
+   private void gravityButtonInit()
+   {
+      int[] gravityInts = {10, 15, 20, 25, 30, 35, 45};
+      for (int i = 0; i < gravityInts.length; i++)
       {
-         @Override
-         public void onClick(View v)
+         gravityButtonAdapter.add(gravityInts[i]);
+      }
+   }
+
+   private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener()
+   {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus)
+      {
+         if (!hasFocus)
          {
-            if (enemy.getCurrentHp() == 0)
+            hideKeyboard(v);
+            if (targetHpValue.getText().toString().equals(""))
             {
+               targetHpValue.setText("0");
+               enemy.setTargetHp(0);
+               enemy.setCurrentHp(0);
+               currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+               percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
             }
-            else
+            else if (currentHpValue.getText().toString().equals(""))
             {
-               currentHpValue.clearFocus();
-               gravityListAdapter.clear();
+               currentHpValue.setText("0");
+               enemy.setCurrentHp(0);
+               percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+            }
+            else if (targetDefenseValue.getText().toString().equals(""))
+            {
+               targetDefenseValue.setText("0");
+               enemy.setTargetDef(0);
+            }
+            else if (damageThresholdValue.getText().toString().equals(""))
+            {
+               damageThresholdValue.setText("0");
+               enemy.setDamageThreshold(0);
+            }
+
+            if (v.equals(targetHpValue))
+            {
+               if (toast != null)
+               {
+                  toast.cancel();
+               }
+               toast = Toast.makeText(getActivity(), "Target HP set and gravities applied", Toast.LENGTH_LONG);
+               toast.show();
+            }
+            else if (v.equals(currentHpValue))
+            {
+               enemy.setBeforeGravityHP(enemy.getCurrentHp());
                enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
                currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
                if (toast != null)
                {
                   toast.cancel();
                }
-               toast = Toast.makeText(getActivity(), "Gravities cleared", Toast.LENGTH_SHORT);
+               toast = Toast.makeText(getActivity(), "Initial HP set and gravities applied", Toast.LENGTH_LONG);
+               toast.show();
+            }
+            else if (v.equals(targetDefenseValue))
+            {
+               enemy.setBeforeDefenseBreak(enemy.getTargetDef());
+               targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
+               if (toast != null)
+               {
+                  toast.cancel();
+               }
+               toast = Toast.makeText(getActivity(), "Initial defense set", Toast.LENGTH_SHORT);
                toast.show();
             }
          }
-      };
+         ;
+      }
+   };
 
-      private Button.OnClickListener gravityShowHideOnClickListener = new Button.OnClickListener()
-      {
-         @Override
-         public void onClick(View v)
-         {
-            if (gravityHolder.getVisibility() == View.GONE)
-            {
-               gravityHolder.setVisibility(View.VISIBLE);
-               gravityShowHideButton.setText("Hide");
-            }
-            else if (gravityHolder.getVisibility() == View.VISIBLE)
-            {
-               gravityHolder.setVisibility(View.GONE);
-               gravityShowHideButton.setText("Show");
-            }
-         }
-      };
-
-      private Spinner.OnItemSelectedListener defenseBreakOnItemSelectedListener = new Spinner.OnItemSelectedListener()
-      {
-         //Don't forget to set enemy Target Defense when calculating
-         @Override
-         public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-         {
-            if (position == 0)
-            {
-               defenseBreakValue = 1.0;
-            }
-            else if (position == 1)
-            {
-               defenseBreakValue = .75;
-
-            }
-            else if (position == 2)
-            {
-               defenseBreakValue = .50;
-            }
-            else if (position == 3)
-            {
-               defenseBreakValue = .25;
-            }
-            else if (position == 4)
-            {
-               defenseBreakValue = 0;
-            }
-            targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
-         }
-
-         @Override
-         public void onNothingSelected(AdapterView<?> parent)
-         {
-
-         }
-      };
-
-   private Button.OnClickListener hpResetOnClickListener = new Button.OnClickListener() {
+   private ListView.OnItemClickListener gravityRemoveOnClickListener = new ListView.OnItemClickListener()
+   {
       @Override
-      public void onClick(View v) {
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+      {
+         currentHpValue.clearFocus();
+         gravityListAdapter.remove(gravityListAdapter.getItem(position));
+         enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
+         currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+      }
+   };
+
+   private Button.OnClickListener clearButtonOnClickListener = new Button.OnClickListener()
+   {
+      @Override
+      public void onClick(View v)
+      {
+         if (enemy.getCurrentHp() == 0)
+         {
+         }
+         else
+         {
+            currentHpValue.clearFocus();
+            gravityListAdapter.clear();
+            enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
+            currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+            if (toast != null)
+            {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "Gravities cleared", Toast.LENGTH_SHORT);
+            toast.show();
+         }
+      }
+   };
+
+   private Button.OnClickListener gravityShowHideOnClickListener = new Button.OnClickListener()
+   {
+      @Override
+      public void onClick(View v)
+      {
+         if (gravityHolder.getVisibility() == View.GONE)
+         {
+            gravityHolder.setVisibility(View.VISIBLE);
+            gravityShowHideButton.setText("Hide");
+         }
+         else if (gravityHolder.getVisibility() == View.VISIBLE)
+         {
+            gravityHolder.setVisibility(View.GONE);
+            gravityShowHideButton.setText("Show");
+         }
+      }
+   };
+
+   private Spinner.OnItemSelectedListener defenseBreakOnItemSelectedListener = new Spinner.OnItemSelectedListener()
+   {
+      //Don't forget to set enemy Target Defense when calculating
+      @Override
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+      {
+         if (position == 0)
+         {
+            defenseBreakValue = 1.0;
+         }
+         else if (position == 1)
+         {
+            defenseBreakValue = .75;
+
+         }
+         else if (position == 2)
+         {
+            defenseBreakValue = .50;
+         }
+         else if (position == 3)
+         {
+            defenseBreakValue = .25;
+         }
+         else if (position == 4)
+         {
+            defenseBreakValue = 0;
+         }
+         targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent)
+      {
+
+      }
+   };
+
+   private Button.OnClickListener hpResetOnClickListener = new Button.OnClickListener()
+   {
+      @Override
+      public void onClick(View v)
+      {
          gravityListAdapter.clear();
          targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
          if (toast != null)
@@ -513,57 +517,75 @@ public class EnemyTargetFragment extends Fragment
       }
    };
 
-   private CompoundButton.OnCheckedChangeListener checkBoxOnChangeListener = new CompoundButton.OnCheckedChangeListener() {
+   private CompoundButton.OnCheckedChangeListener checkBoxOnChangeListener = new CompoundButton.OnCheckedChangeListener()
+   {
       @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-         if(buttonView.equals(absorbCheck)){
-            if(isChecked){
-               for(int i = 0; i<absorbRadioGroup.getChildCount(); i++) {
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+      {
+         if (buttonView.equals(absorbCheck))
+         {
+            if (isChecked)
+            {
+               for (int i = 0; i < absorbRadioGroup.getChildCount(); i++)
+               {
                   absorbRadioGroup.getChildAt(i).setEnabled(true);
                }
             }
-            else{
+            else
+            {
                absorbRadioGroup.clearCheck();
-               for(int i = 0; i<absorbRadioGroup.getChildCount(); i++){
+               for (int i = 0; i < absorbRadioGroup.getChildCount(); i++)
+               {
                   absorbRadioGroup.getChildAt(i).setEnabled(false);
                }
             }
          }
-         else if(buttonView.equals(reductionCheck)){
-            if(isChecked){
-               for(int i = 0; i<reductionRadioGroup.getChildCount(); i++){
+         else if (buttonView.equals(reductionCheck))
+         {
+            if (isChecked)
+            {
+               for (int i = 0; i < reductionRadioGroup.getChildCount(); i++)
+               {
                   reductionRadioGroup.getChildAt(i).setEnabled(true);
                }
             }
-            else{
+            else
+            {
                redOrbReduction.setChecked(false);
                blueOrbReduction.setChecked(false);
                greenOrbReduction.setChecked(false);
                lightOrbReduction.setChecked(false);
                darkOrbReduction.setChecked(false);
-               for(int i = 0; i<reductionRadioGroup.getChildCount(); i++){
+               for (int i = 0; i < reductionRadioGroup.getChildCount(); i++)
+               {
                   reductionRadioGroup.getChildAt(i).setEnabled(false);
                }
                setElementReduction();
             }
          }
-         else if(buttonView.equals(damageThresholdCheck)){
-            if(isChecked){
+         else if (buttonView.equals(damageThresholdCheck))
+         {
+            if (isChecked)
+            {
                damageThresholdValue.setEnabled(true);
             }
-            else{
+            else
+            {
                damageThresholdValue.clearFocus();
                damageThresholdValue.setEnabled(false);
-               }
+            }
          }
       }
    };
 
-   private RadioGroup.OnCheckedChangeListener enemyElementOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+   private RadioGroup.OnCheckedChangeListener enemyElementOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener()
+   {
       @Override
-      public void onCheckedChanged(RadioGroup group, int checkedId) {
+      public void onCheckedChanged(RadioGroup group, int checkedId)
+      {
          int radioChecked = group.getCheckedRadioButtonId();
-         switch (radioChecked){
+         switch (radioChecked)
+         {
             case R.id.redOrb:
                enemy.setTargetColor(Color.RED);
                break;
@@ -598,50 +620,133 @@ public class EnemyTargetFragment extends Fragment
       }
    };
 
-   private CompoundButton.OnCheckedChangeListener reductionCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
+   private CompoundButton.OnCheckedChangeListener reductionCheckedChangedListener = new CompoundButton.OnCheckedChangeListener()
+   {
       @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+      {
          setElementReduction();
       }
    };
 
-   private void setElementReduction(){
-      if(redOrbReduction.isChecked()){
-         //add red reduction to reduction array in enemy object
+   private void setElementReduction()
+   {
+
+      if (enemy.getReduction() != null && !enemy.reductionIsEmpty())
+      {
+         if (redOrbReduction.isChecked())
+         {
+            //add red reduction to reduction array in enemy object
+            if (!enemy.containsReduction(Color.RED))
+            {
+               enemy.addReduction(Color.RED);
+            }
+         }
+         else
+         {
+            if (enemy.containsReduction(Color.RED))
+            {
+               enemy.removeReduction(Color.RED);
+            }
+         }
+         if (blueOrbReduction.isChecked())
+         {
+            if (!enemy.containsReduction(Color.BLUE))
+            {
+               enemy.addReduction(Color.BLUE);
+            }
+         }
+         else
+         {
+            if (enemy.containsReduction(Color.BLUE))
+            {
+               enemy.removeReduction(Color.BLUE);
+            }
+         }
+         if (greenOrbReduction.isChecked())
+         {
+            if (enemy.containsReduction(Color.GREEN))
+            {
+               enemy.addReduction(Color.GREEN);
+            }
+         }
+         else
+         {
+            if (enemy.containsReduction(Color.GREEN))
+            {
+               enemy.removeReduction(Color.GREEN);
+            }
+         }
+         if (lightOrbReduction.isChecked())
+         {
+            if (!enemy.containsReduction(Color.LIGHT))
+            {
+               enemy.addReduction(Color.LIGHT);
+            }
+         }
+         else
+         {
+            if (enemy.containsReduction(Color.LIGHT))
+            {
+               enemy.removeReduction(Color.LIGHT);
+            }
+         }
+         if (darkOrbReduction.isChecked())
+         {
+            if (!enemy.containsReduction(Color.DARK))
+            {
+               enemy.addReduction(Color.DARK);
+            }
+         }
+         else
+         {
+            if (enemy.containsReduction(Color.DARK))
+            {
+               enemy.removeReduction(Color.DARK);
+            }
+         }
       }
-      else {
-         //remove red reduction from reduction array in enemy object
-      }
-      if(blueOrbReduction.isChecked()){
-      }
-      else {
-      }
-      if(greenOrbReduction.isChecked()){
-      }
-      else {
-      }
-      if(lightOrbReduction.isChecked()){
-      }
-      else {
-      }
-      if(darkOrbReduction.isChecked()){
-      }
-      else {
+      else
+      {
+         if (redOrbReduction.isChecked())
+         {
+               enemy.addReduction(Color.RED);
+         }
+         if (blueOrbReduction.isChecked())
+         {
+            enemy.addReduction(Color.BLUE);
+         }
+         if (greenOrbReduction.isChecked())
+         {
+            enemy.addReduction(Color.GREEN);
+         }
+         if (lightOrbReduction.isChecked())
+         {
+            enemy.addReduction(Color.LIGHT);
+         }
+         if (darkOrbReduction.isChecked())
+         {
+            enemy.addReduction(Color.DARK);
+         }
+
       }
    }
 
-      public void hideKeyboard(View view)
-      {
-         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-      }
+   public void hideKeyboard(View view)
+   {
+      InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+      inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+   }
 
    // http://stackoverflow.com/a/14577399 magic.
-   private ListView.OnTouchListener listViewScroll = new ListView.OnTouchListener(){
+   private ListView.OnTouchListener listViewScroll = new ListView.OnTouchListener()
+   {
       @Override
-      public boolean onTouch(View v, MotionEvent event) {
+      public boolean onTouch(View v, MotionEvent event)
+      {
          int action = event.getAction();
-         switch (action) {
+         switch (action)
+         {
             case MotionEvent.ACTION_DOWN:
                v.getParent().requestDisallowInterceptTouchEvent(true);
                break;
@@ -671,4 +776,4 @@ public class EnemyTargetFragment extends Fragment
 //   };
 
 
-   }
+}
