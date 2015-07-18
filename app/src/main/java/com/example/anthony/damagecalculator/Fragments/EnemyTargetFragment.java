@@ -82,7 +82,7 @@ public class EnemyTargetFragment extends Fragment
    private Toast toast;
    private Spinner defenseBreakSpinner;
    private String[] defenseBreakItems;
-   private CheckBox absorbCheck, reductionCheck, damageThresholdCheck;
+   private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
    private double defenseBreakValue = 1.0;
    private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent()
    {
@@ -211,6 +211,11 @@ public class EnemyTargetFragment extends Fragment
       absorbCheck = (CheckBox) rootView.findViewById(R.id.absorbCheck);
       reductionCheck = (CheckBox) rootView.findViewById(R.id.reductionCheck);
       damageThresholdCheck = (CheckBox) rootView.findViewById(R.id.damageThresholdCheck);
+      redOrbReduction = (CheckBox) rootView.findViewById(R.id.redOrbReduction);
+      blueOrbReduction = (CheckBox) rootView.findViewById(R.id.blueOrbReduction);
+      greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
+      lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
+      darkOrbReduction = (CheckBox) rootView.findViewById((R.id.darkOrbReduction));
 
       return rootView;
    }
@@ -259,12 +264,6 @@ public class EnemyTargetFragment extends Fragment
 
       orbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
       absorbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
-
-      if (enemy.getTargetColor().equals(null))
-      {
-         Log.d("Stringerino", "yea it is null");
-      }
-
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
@@ -537,10 +536,15 @@ public class EnemyTargetFragment extends Fragment
                }
             }
             else{
-               reductionRadioGroup.clearCheck();
+               redOrbReduction.setChecked(false);
+               blueOrbReduction.setChecked(false);
+               greenOrbReduction.setChecked(false);
+               lightOrbReduction.setChecked(false);
+               darkOrbReduction.setChecked(false);
                for(int i = 0; i<reductionRadioGroup.getChildCount(); i++){
                   reductionRadioGroup.getChildAt(i).setEnabled(false);
                }
+               setElementReduction();
             }
          }
          else if(buttonView.equals(damageThresholdCheck)){
@@ -593,6 +597,38 @@ public class EnemyTargetFragment extends Fragment
          }
       }
    };
+
+   private CompoundButton.OnCheckedChangeListener reductionCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+         setElementReduction();
+      }
+   };
+
+   private void setElementReduction(){
+      if(redOrbReduction.isChecked()){
+         //add red reduction to reduction array in enemy object
+      }
+      else {
+         //remove red reduction from reduction array in enemy object
+      }
+      if(blueOrbReduction.isChecked()){
+      }
+      else {
+      }
+      if(greenOrbReduction.isChecked()){
+      }
+      else {
+      }
+      if(lightOrbReduction.isChecked()){
+      }
+      else {
+      }
+      if(darkOrbReduction.isChecked()){
+      }
+      else {
+      }
+   }
 
       public void hideKeyboard(View view)
       {

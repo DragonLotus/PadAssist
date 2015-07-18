@@ -115,4 +115,12 @@ public class Enemy
    public void setAbsorb(Color absorb) {
       this.absorb = absorb;
    }
+
+   public Color[] getReduction() {
+      return reduction;
+   }
+
+   public void addReduction(Color color){
+      
+   }
 }
