@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -127,7 +128,7 @@ public class EnemyTargetFragment extends Fragment
          }
          Log.d("HI THOMAS", String.valueOf(enemy.getPercentHp()));
          df = new DecimalFormat("#.##");
-         percentHpValue.setText(df.format(enemy.getPercentHp()*100) + "%");
+         percentHpValue.setText(df.format(enemy.getPercentHp() * 100) + "%");
       }
    };
 
@@ -214,6 +215,8 @@ public class EnemyTargetFragment extends Fragment
       targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
       currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
       targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
+//      targetHpValue.setOnKeyListener(downKeyboard);
+//      currentHpValue.setOnKeyListener(downKeyboard);
 
       clearButton.setOnClickListener(clearButtonOnClickListener);
       gravityShowHideButton.setOnClickListener(gravityShowHideOnClickListener);
@@ -417,4 +420,21 @@ public class EnemyTargetFragment extends Fragment
       InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
       inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
    }
+
+//   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()
+//   {
+//      @Override
+//      public boolean onKey(View v, int keyCode, KeyEvent event)
+//      {
+//         Log.d("hello", String.valueOf(keyCode));
+//         if(keyCode == KeyEvent.KEYCODE_ENTER)
+//         {
+//            v.clearFocus();
+//            return true;
+//         }
+//         return false;
+//      }
+//   };
+
+
 }
