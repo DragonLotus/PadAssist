@@ -431,7 +431,7 @@ public class EnemyTargetFragment extends Fragment
          {
             if (position == 0)
             {
-               targetDefenseValue.setText(String.valueOf(enemy.getBeforeDefenseBreak()));
+               defenseBreakValue = 1.0;
             }
             else if (position == 1)
             {
