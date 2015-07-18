@@ -136,6 +136,7 @@ public class EnemyTargetFragment extends Fragment
 
          else if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD)
          {
+            Log.d("DamageThreshold Value", damageThresholdValue.getText().toString());
             enemy.setDamageThreshold(statValue);
          }
          Log.d("HI THOMAS", String.valueOf(enemy.getPercentHp()));
@@ -253,6 +254,7 @@ public class EnemyTargetFragment extends Fragment
       reductionCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
       damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
       damageThresholdValue.addTextChangedListener(damageThresholdWatcher);
+      damageThresholdValue.setOnFocusChangeListener(editTextOnFocusChange);
 
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
@@ -354,6 +356,11 @@ public class EnemyTargetFragment extends Fragment
                {
                   targetDefenseValue.setText("0");
                   enemy.setTargetDef(0);
+               }
+               else if (damageThresholdValue.getText().toString().equals(""))
+               {
+                  damageThresholdValue.setText("0");
+                  enemy.setDamageThreshold(0);
                }
 
                if (v.equals(targetHpValue))
@@ -493,7 +500,7 @@ public class EnemyTargetFragment extends Fragment
          {
             toast.cancel();
          }
-         toast = Toast.makeText(getActivity(), "HP reset and gravities cleared", Toast.LENGTH_SHORT);
+         toast = Toast.makeText(getActivity(), "HP reset to 100% and gravities cleared", Toast.LENGTH_SHORT);
          toast.show();
       }
    };
@@ -532,6 +539,7 @@ public class EnemyTargetFragment extends Fragment
                damageThresholdValue.setEnabled(true);
             }
             else{
+               damageThresholdValue.clearFocus();
                damageThresholdValue.setEnabled(false);
                }
          }

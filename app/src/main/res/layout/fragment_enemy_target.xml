@@ -282,7 +282,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/red_orb_selector"
-                    android:button="@null"/>
+                    android:button="@null"
+                    android:enabled="false"/>
 
                 <RadioButton
                     android:id="@+id/blueOrbAbsorb"
@@ -290,7 +291,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/blue_orb_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:enabled="false" />
 
                 <RadioButton
                     android:id="@+id/greenOrbAbsorb"
@@ -298,7 +300,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/green_orb_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:enabled="false" />
 
                 <RadioButton
                     android:id="@+id/lightOrbAbsorb"
@@ -306,7 +309,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/light_orb_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:enabled="false" />
 
                 <RadioButton
                     android:id="@+id/darkOrbAbsorb"
@@ -314,7 +318,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/dark_orb_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:enabled="false" />
             </RadioGroup>
 
             <CheckBox
@@ -361,7 +366,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/red_orb_selector"
-                    android:button="@null"/>
+                    android:button="@null"
+                    android:enabled="false"/>
 
                 <RadioButton
                     android:id="@+id/blueOrbReduction"
@@ -369,7 +375,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/blue_orb_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:enabled="false"/>
 
                 <RadioButton
                     android:id="@+id/greenOrbReduction"
@@ -377,7 +384,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/green_orb_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:enabled="false"/>
 
                 <RadioButton
                     android:id="@+id/lightOrbReduction"
@@ -385,7 +393,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/light_orb_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:enabled="false" />
 
                 <RadioButton
                     android:id="@+id/darkOrbReduction"
@@ -393,7 +402,8 @@
                     android:layout_height="18dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/dark_orb_selector"
-                    android:button="@null" />
+                    android:button="@null"
+                    android:enabled="false"/>
             </RadioGroup>
 
             <CheckBox
@@ -424,7 +434,9 @@
                 android:layout_toRightOf="@+id/damageThreshold"
                 android:textSize="18dp"
                 android:text="200000"
-                android:maxLength="9"/>
+                android:maxLength="9"
+                android:inputType="number"
+                android:enabled="false"/>
 
             <CheckBox
                 android:id="@+id/damageThresholdCheck"
