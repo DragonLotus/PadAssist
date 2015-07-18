@@ -19,6 +19,8 @@ public class Enemy
       this.currentHp = this.targetHp;
       this.beforeGravityHP = this.currentHp;
       this.beforeDefenseBreak = this.targetDef;
+      this.targetColor = Color.DARK;
+      this.absorb = Color.BLUE;
       gravityPercent = 1;
    }
 
@@ -104,5 +106,13 @@ public class Enemy
 
    public void setDamageThreshold(int damageThreshold) {
       this.damageThreshold = damageThreshold;
+   }
+
+   public Color getAbsorb() {
+      return absorb;
+   }
+
+   public void setAbsorb(Color absorb) {
+      this.absorb = absorb;
    }
 }

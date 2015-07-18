@@ -134,7 +134,7 @@
         android:layout_alignBottom="@+id/element"
         android:layout_alignTop="@+id/element"
         android:layout_toRightOf="@+id/element"
-        android:checkedButton="@+id/redOrb"
+        android:checkedButton="@+id/darkOrb"
         android:orientation="horizontal">
 
         <RadioButton
@@ -449,8 +449,6 @@
                 android:checked="false"/>
         </RelativeLayout>
     </ScrollView>
-
-
 
     <Button
         android:id="@+id/calculate"

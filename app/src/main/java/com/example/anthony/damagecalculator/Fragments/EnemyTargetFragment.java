@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.example.anthony.damagecalculator.Adapters.GravityButtonAdapter;
 import com.example.anthony.damagecalculator.Adapters.GravityListAdapter;
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
+import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.MainActivity;
@@ -255,6 +256,14 @@ public class EnemyTargetFragment extends Fragment
       damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
       damageThresholdValue.addTextChangedListener(damageThresholdWatcher);
       damageThresholdValue.setOnFocusChangeListener(editTextOnFocusChange);
+
+      orbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
+      absorbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
+
+      if (enemy.getTargetColor().equals(null))
+      {
+         Log.d("Stringerino", "yea it is null");
+      }
 
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
@@ -542,6 +551,45 @@ public class EnemyTargetFragment extends Fragment
                damageThresholdValue.clearFocus();
                damageThresholdValue.setEnabled(false);
                }
+         }
+      }
+   };
+
+   private RadioGroup.OnCheckedChangeListener enemyElementOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(RadioGroup group, int checkedId) {
+         int radioChecked = group.getCheckedRadioButtonId();
+         switch (radioChecked){
+            case R.id.redOrb:
+               enemy.setTargetColor(Color.RED);
+               break;
+            case R.id.blueOrb:
+               enemy.setTargetColor(Color.BLUE);
+               break;
+            case R.id.greenOrb:
+               enemy.setTargetColor(Color.GREEN);
+               break;
+            case R.id.lightOrb:
+               enemy.setTargetColor(Color.LIGHT);
+               break;
+            case R.id.darkOrb:
+               enemy.setTargetColor(Color.DARK);
+               break;
+            case R.id.redOrbAbsorb:
+               enemy.setAbsorb(Color.RED);
+               break;
+            case R.id.blueOrbAbsorb:
+               enemy.setAbsorb(Color.BLUE);
+               break;
+            case R.id.greenOrbAbsorb:
+               enemy.setAbsorb(Color.GREEN);
+               break;
+            case R.id.lightOrbAbsorb:
+               enemy.setAbsorb(Color.LIGHT);
+               break;
+            case R.id.darkOrbAbsorb:
+               enemy.setAbsorb(Color.DARK);
+               break;
          }
       }
    };
