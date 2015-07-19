@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/monsterPicture"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/kirin_portrait" />
+
+    <com.example.anthony.damagecalculator.Graphics.TextStroke
+        android:id="@+id/monsterPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/monsterPicture"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:text="+297"
+        android:textSize="16dp"
+        android:textColor="#f0ff00"
+        android:textStyle="bold"/>
+
+    <com.example.anthony.damagecalculator.Graphics.TextStroke
+        android:id="@+id/monsterAwakenings"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_alignLeft="@+id/monsterPicture"
+        android:gravity="bottom"
+        android:text="6"
+        android:textSize="12dp"
+        android:textColor="#f0ff00"
+        android:textStyle="bold"
+        android:paddingLeft="1dp"
+        android:background="@drawable/awakening_background"/>
+
+    <TextView
+        android:id="@+id/monsterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/monsterPicture"
+        android:text="Kirin of the Sacred Gleam, Sakuya"
+        android:textSize="16dp"
+        android:singleLine="true"
+        android:paddingLeft="10dp"/>
+
+    <com.example.anthony.damagecalculator.Graphics.ThinStroke
+        android:id="@+id/monsterElement1Damage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterName"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/monsterPicture"
+        android:text="9999999 "
+        android:textSize="16dp"
+        android:textColor="#F0F000"
+        android:paddingLeft="10dp"/>
+
+    <com.example.anthony.damagecalculator.Graphics.ThinStroke
+        android:id="@+id/monsterElement1DamageEnemy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/monsterElement1Damage"
+        android:layout_alignBottom="@+id/monsterElement1Damage"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/monsterElement1Damage"
+        android:text="(9999999)"
+        android:textSize="16dp"
+        android:textColor="#F0F000"/>
+
+    <com.example.anthony.damagecalculator.Graphics.ThinStroke
+        android:id="@+id/monsterElement2Damage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterElement1Damage"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/monsterPicture"
+        android:text="9999999 "
+        android:textSize="16dp"
+        android:paddingLeft="10dp"
+        android:textColor="#F0F000"/>
+
+    <com.example.anthony.damagecalculator.Graphics.ThinStroke
+        android:id="@+id/monsterElement2DamageEnemy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterElement1DamageEnemy"
+        android:gravity="center_vertical"
+        android:layout_toRightOf="@+id/monsterElement2Damage"
+        android:text="(9999999)"
+        android:textSize="16dp"
+        android:textColor="#F0F000"/>
+
+</RelativeLayout>

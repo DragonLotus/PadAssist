@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.example.anthony.damagecalculator.Fragments.EnemyTargetFragment;
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
+import com.example.anthony.damagecalculator.Fragments.TeamDamageListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamListFragment;
 import com.integralblue.httpresponsecache.HttpResponseCache;
 import com.jakewharton.disklrucache.DiskLruCache;
@@ -137,6 +138,10 @@ public class MainActivity extends ActionBarActivity
          {
             return TeamListFragment.newInstance("thomas ??", "sup");
          }
+         if(position == 4)
+         {
+            return TeamDamageListFragment.newInstance("yes", "?");
+         }
 
          return PlaceholderFragment.newInstance(position + 1);
       }
@@ -145,7 +150,7 @@ public class MainActivity extends ActionBarActivity
       public int getCount()
       {
          // Show 3 total pages.
-         return 4;
+         return 5;
       }
 
       @Override

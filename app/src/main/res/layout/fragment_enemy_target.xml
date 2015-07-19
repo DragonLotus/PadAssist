@@ -120,9 +120,8 @@
         android:id="@+id/element"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/targetDefenseValue"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_alignTop="@+id/orbRadioGroup"
+        android:layout_alignBottom="@+id/orbRadioGroup"
         android:gravity="center"
         android:text="Element"
         android:textSize="18dp"/>
@@ -131,8 +130,9 @@
         android:id="@+id/orbRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/element"
-        android:layout_alignTop="@+id/element"
+        android:layout_below="@+id/targetDefenseValue"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:layout_toRightOf="@+id/element"
         android:checkedButton="@+id/darkOrb"
         android:orientation="horizontal">
@@ -182,7 +182,7 @@
         android:id="@+id/overallScrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/element"
+        android:layout_below="@+id/orbRadioGroup"
         android:layout_above="@+id/calculate">
         <RelativeLayout
             android:layout_width="wrap_content"
