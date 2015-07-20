@@ -6,6 +6,8 @@
         android:drawable="@drawable/dark_orb_pressed"/>
     <item android:state_selected="true"
         android:drawable="@drawable/dark_orb"/>
+    <item android:state_enabled="false"
+    android:drawable="@drawable/dark_orb_disable"/>
     <item android:state_checked="true"
         android:drawable="@drawable/dark_orb"/>
     <item android:drawable="@drawable/dark_orb_gray"/>

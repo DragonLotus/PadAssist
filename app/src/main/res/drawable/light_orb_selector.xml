@@ -8,6 +8,8 @@
         android:drawable="@drawable/light_orb"/>
     <item android:state_checked="true"
         android:drawable="@drawable/light_orb"/>
+    <item android:state_enabled="false"
+        android:drawable="@drawable/light_orb_disable"/>
     <item android:state_checked="false"
         android:drawable="@drawable/light_orb_gray"/>
 </selector>
