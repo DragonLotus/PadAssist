@@ -327,9 +327,9 @@ public class MonsterPageFragment extends Fragment
       @Override
       public void onClick(View v)
       {
+         clearTextFocus();
          if (v.equals(monsterLevelMax))
          {
-            v.requestFocus();
             monsterLevelValue.setText(Integer.toString(monster.getMaxLevel()));
             monsterStats();
             if(toast != null) {
@@ -465,6 +465,14 @@ public class MonsterPageFragment extends Fragment
       monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
       monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
 
+   }
+
+   public void clearTextFocus() {
+      monsterLevelValue.clearFocus();
+      monsterStatsHPPlus.clearFocus();
+      monsterStatsATKPlus.clearFocus();
+      monsterStatsRCVPlus.clearFocus();
+      monsterAwakeningsValue.clearFocus();
    }
 
    public void hideKeyboard(View view)
