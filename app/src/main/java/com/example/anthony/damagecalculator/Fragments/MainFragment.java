@@ -44,10 +44,10 @@ public class MainFragment extends Fragment
    private TextView editTeam, orbsLinkedValue, orbsPlusValue;
    private Button addMatch, calculate, reset;
    private SeekBar orbsLinked, orbsPlus;
-   private CheckBox rowCheckBox;
+   private CheckBox rowCheckBox, maxLeadMultiplierCheckBox;
    private ListView orbMatches;
    private OrbMatchAdapter orbMatchAdapter;
-   private boolean isRow;
+   private boolean isRow, maxLeadMultiplier = false;
    private OrbMatch orbMatch;
    private Toast toast;
    private RadioGroup orbRadioGroup;
@@ -78,7 +78,12 @@ public class MainFragment extends Fragment
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
       {
-         isRow = isChecked;
+         if(buttonView.equals(rowCheckBox)){
+            isRow = isChecked;
+         }
+         else if(buttonView.equals(maxLeadMultiplierCheckBox)){
+            maxLeadMultiplier = isChecked;
+         }
       }
    };
 
@@ -200,7 +205,7 @@ public class MainFragment extends Fragment
    {
       View rootView = inflater.inflate(R.layout.main_fragment, container, false);
       rowCheckBox = (CheckBox) rootView.findViewById(R.id.rowCheckBox);
-      rowCheckBox.setEnabled(false);
+      maxLeadMultiplierCheckBox = (CheckBox) rootView.findViewById(R.id.maxLeadMultiplierCheckBox);
       orbsLinked = (SeekBar) rootView.findViewById(R.id.orbsLinkedSpinner);
       orbsPlus = (SeekBar) rootView.findViewById(R.id.orbsPlusSpinner);
       addMatch = (Button) rootView.findViewById(R.id.addMatch);
@@ -223,6 +228,7 @@ public class MainFragment extends Fragment
       orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
       orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
+      maxLeadMultiplierCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
       reset.setOnClickListener(resetOnClickListener);
       orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());

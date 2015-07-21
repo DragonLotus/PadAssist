@@ -15,12 +15,12 @@
       android:orientation="horizontal">
 
       <Button
-         android:id="@+id/reset"
+         android:id="@+id/enemyStats"
          android:layout_width="0dp"
          android:layout_height="match_parent"
          android:layout_weight=".5"
          android:gravity="center"
-         android:text="Reset all" />
+         android:text="Enemy Stats" />
 
       <TextView
          android:id="@+id/editTeam"
@@ -109,22 +109,59 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_below="@+id/orbsPlusSpinner"
-      android:layout_toRightOf="@+id/orbsLinked" />
+      android:layout_toRightOf="@+id/row"
+       android:enabled="false"/>
 
-   <Button
-      android:id="@+id/addMatch"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/rowCheckBox"
-      android:gravity="center"
-      android:text="Add Match" />
+    <TextView
+        android:id="@+id/maxLeadMultiplier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orbsPlusSpinner"
+        android:text="Max Lead Multipliers:"
+        android:textSize="16dp"
+        android:layout_toLeftOf="@+id/maxLeadMultiplierCheckBox"
+        android:layout_alignTop="@+id/rowCheckBox"
+        android:layout_alignBottom="@+id/rowCheckBox"
+        android:gravity="center_vertical"/>
+
+    <CheckBox
+        android:id="@+id/maxLeadMultiplierCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orbsPlusSpinner"
+        android:layout_alignParentRight="true" />
+
+    <LinearLayout
+        android:id="@+id/buttonHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rowCheckBox"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/addMatch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Add Match"
+            android:layout_weight=".5"/>
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:text="Reset all" />
+    </LinearLayout>
+
 
    <TextView
       android:id="@+id/List"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_below="@+id/addMatch"
-      android:text="Orb Matches:" />
+      android:layout_below="@+id/buttonHolder"
+      android:text="Orb Matches:"
+       android:textSize="16dp"/>
 
    <ListView
       android:id="@+id/orbMatches"
@@ -135,11 +172,32 @@
 
    <Button
       android:id="@+id/calculate"
-      android:layout_width="match_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_alignParentBottom="true"
-      android:gravity="center"
+       android:layout_alignParentRight="true"
       android:text="Calculate" />
+
+    <TextView
+        android:id="@+id/additionalCombo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Additional Combos: "
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/additionalComboValue"
+        android:layout_alignBottom="@+id/additionalComboValue"
+        android:gravity="center_vertical" />
+
+    <EditText
+        android:id="@+id/additionalComboValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/additionalCombo"
+        android:text="0"
+        android:textSize="16dp"
+        android:inputType="number"
+        android:maxLength="5"/>
 
    <RadioGroup
        android:id="@+id/orbRadioGroup"
