@@ -12,7 +12,7 @@
         android:id="@+id/monsterListView"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/totalComboValue" />
+        android:layout_above="@+id/totalDamageValue" />
 
     <Button
         android:id="@+id/recalculateButton"
@@ -57,12 +57,10 @@
         android:id="@+id/totalComboValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/additionalComboValue"
+        android:layout_above="@id/recalculateButton"
         android:layout_toRightOf="@+id/totalCombo"
         android:text="69"
-        android:textSize="16dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"/>
+        android:textSize="16dp"/>
 
     <TextView
         android:id="@+id/hpRecovered"
@@ -79,12 +77,27 @@
         android:id="@+id/hpRecoveredValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/additionalComboValue"
+        android:layout_above="@+id/recalculateButton"
         android:layout_alignParentRight="true"
         android:text="1337"
-        android:textSize="16dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"/>
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/totalDamage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/totalComboValue"
+        android:text="Total Damage: "
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/totalDamageValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/totalComboValue"
+        android:layout_toRightOf="@+id/totalDamage"
+        android:text="133333333337"
+        android:textSize="16dp" />
 
 
 

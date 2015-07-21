@@ -38,8 +38,8 @@ public class ThinStroke extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
         int textColor = getTextColors().getDefaultColor();
-        setTextColor(0xFF000000);
-        getPaint().setStrokeWidth(5);
+        setTextColor(0xFF555555);
+        getPaint().setStrokeWidth(6);
         getPaint().setStyle(Paint.Style.STROKE);
         getPaint().setAntiAlias(true);
         getPaint().setStrokeJoin(Paint.Join.ROUND);

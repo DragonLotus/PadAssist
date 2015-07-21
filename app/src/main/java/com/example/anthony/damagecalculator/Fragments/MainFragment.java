@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
@@ -12,10 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,6 +33,7 @@ import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
@@ -41,7 +45,9 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment
 {
    private static final String ARG_SECTION_NUMBER = "section_number";
+   private int additionalCombos = 0;
    private TextView editTeam, orbsLinkedValue, orbsPlusValue;
+   private EditText additionalComboValue;
    private Button addMatch, calculate, reset;
    private SeekBar orbsLinked, orbsPlus;
    private CheckBox rowCheckBox, maxLeadMultiplierCheckBox;
@@ -58,11 +64,14 @@ public class MainFragment extends Fragment
       @Override
       public void resetLayout()
       {
+         additionalComboValue.clearFocus();
          orbRadioGroup.check(R.id.redOrb);
          orbsLinked.setProgress(0);
          orbsPlus.setProgress(0);
          rowCheckBox.setEnabled(false);
          rowCheckBox.setChecked(false);
+         maxLeadMultiplierCheckBox.setChecked(false);
+         additionalComboValue.setText("0");
          orbMatchAdapter.clear();
          if(toast != null) {
             toast.cancel();
@@ -78,6 +87,7 @@ public class MainFragment extends Fragment
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
       {
+         additionalComboValue.clearFocus();
          if(buttonView.equals(rowCheckBox)){
             isRow = isChecked;
          }
@@ -113,7 +123,7 @@ public class MainFragment extends Fragment
       @Override
       public void onStartTrackingTouch(SeekBar seekBar)
       {
-
+         additionalComboValue.clearFocus();
       }
 
       @Override
@@ -134,7 +144,7 @@ public class MainFragment extends Fragment
       @Override
       public void onStartTrackingTouch(SeekBar seekBar)
       {
-
+         additionalComboValue.clearFocus();
       }
 
       @Override
@@ -168,6 +178,7 @@ public class MainFragment extends Fragment
       @Override
       public void onClick(View v)
       {
+         additionalComboValue.clearFocus();
          orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress(),getOrbColor(), isRow);
          orbMatchAdapter.add(orbMatch);
       }
@@ -181,9 +192,41 @@ public class MainFragment extends Fragment
          {
             dialog = MyDialogFragment.newInstance(dialogFrag);
          }
-         dialog.show(getChildFragmentManager(),"Thomas Likes Big Butts And He Cannot Lie");
+         dialog.show(getChildFragmentManager(), "Thomas Likes Big Butts And He Cannot Lie");
       }
    };
+
+   private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats(){
+      @Override
+      public void changeMonsterAttribute(int statToChange, int statValue) {
+         if (statToChange == MyTextWatcher.ADDITIONAL_COMBOS){
+            additionalCombos = statValue;
+         }
+      }
+   };
+
+   private MyTextWatcher additionalComboTextWatcher = new MyTextWatcher(MyTextWatcher.ADDITIONAL_COMBOS, changeStats);
+
+   private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener()
+   {
+      @Override
+      public void onFocusChange(View v, boolean hasFocus)
+      {
+         if (!hasFocus)
+         {
+            hideKeyboard(v);
+            if((additionalComboValue.getText().toString().equals(""))){
+               additionalComboValue.setText("0");
+            }
+         }
+      }
+   };
+
+   public void hideKeyboard(View view)
+   {
+      InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+      inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+   }
 
 
    public static MainFragment newInstance(int sectionNumber)
@@ -216,12 +259,12 @@ public class MainFragment extends Fragment
       editTeam = (TextView) rootView.findViewById(R.id.editTeam);
       orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
       orbsPlusValue = (TextView) rootView.findViewById(R.id.orbsPlusValue);
+      additionalComboValue = (EditText) rootView.findViewById(R.id.additionalComboValue);
       return rootView;
    }
 
    @Override
-   public void onActivityCreated(@Nullable Bundle savedInstanceState)
-   {
+   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
       super.onActivityCreated(savedInstanceState);
       //Write your code here
        new DownloadPadApi().start();
@@ -233,9 +276,10 @@ public class MainFragment extends Fragment
       reset.setOnClickListener(resetOnClickListener);
       orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
       orbMatches.setAdapter(orbMatchAdapter);
+      additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
+      additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
-
 
 }
