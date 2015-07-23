@@ -9,35 +9,34 @@
     android:clickable="true"
     android:focusableInTouchMode="true">
 
-   <LinearLayout
-      android:id="@+id/editHolder"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/section_label"
-      android:orientation="horizontal">
+   <!--<LinearLayout-->
+      <!--android:id="@+id/editHolder"-->
+      <!--android:layout_width="match_parent"-->
+      <!--android:layout_height="wrap_content"-->
+      <!--android:layout_below="@+id/section_label"-->
+      <!--android:orientation="horizontal">-->
 
-      <Button
-         android:id="@+id/enemyStats"
-         android:layout_width="0dp"
-         android:layout_height="match_parent"
-         android:layout_weight=".5"
-         android:gravity="center"
-         android:text="Enemy Stats" />
+      <!--<Button-->
+         <!--android:id="@+id/enemyStats"-->
+         <!--android:layout_width="0dp"-->
+         <!--android:layout_height="match_parent"-->
+         <!--android:layout_weight=".5"-->
+         <!--android:gravity="center"-->
+         <!--android:text="Enemy Stats" />-->
 
-      <TextView
-         android:id="@+id/editTeam"
-         android:layout_width="0dp"
-         android:layout_height="match_parent"
-         android:layout_weight=".5"
-         android:gravity="center"
-         android:text="Edit Team" />
-   </LinearLayout>
+      <!--<TextView-->
+         <!--android:id="@+id/editTeam"-->
+         <!--android:layout_width="0dp"-->
+         <!--android:layout_height="match_parent"-->
+         <!--android:layout_weight=".5"-->
+         <!--android:gravity="center"-->
+         <!--android:text="Edit Team" />-->
+   <!--</LinearLayout>-->
 
    <TextView
       android:id="@+id/element"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_below="@+id/editHolder"
       android:layout_marginBottom="10dp"
       android:layout_marginTop="10dp"
       android:gravity="center"

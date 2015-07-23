@@ -256,7 +256,7 @@ public class MainFragment extends Fragment
       reset = (Button) rootView.findViewById(R.id.reset);
       orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
       orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
-      editTeam = (TextView) rootView.findViewById(R.id.editTeam);
+      //editTeam = (TextView) rootView.findViewById(R.id.editTeam);
       orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
       orbsPlusValue = (TextView) rootView.findViewById(R.id.orbsPlusValue);
       additionalComboValue = (EditText) rootView.findViewById(R.id.additionalComboValue);
