@@ -1,6 +1,7 @@
 package com.example.anthony.damagecalculator;
 
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -207,6 +208,15 @@ public class MainActivity extends ActionBarActivity
          View rootView = inflater.inflate(R.layout.fragment_main, container, false);
          return rootView;
       }
+   }
+
+   public void switchFragment(Fragment fragment)
+   {
+      FragmentManager fm = getSupportFragmentManager();
+      FragmentTransaction transaction = fm.beginTransaction();
+      transaction.replace(R.id.pager, fragment);
+      transaction.addToBackStack(null).commit();
+
    }
 
 }
