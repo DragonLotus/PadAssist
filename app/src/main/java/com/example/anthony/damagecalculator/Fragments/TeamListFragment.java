@@ -41,6 +41,9 @@ public class TeamListFragment extends Fragment
    private ListView monsterListView;
    private MonsterListAdapter monsterListAdapter;
    private Button importButton;
+   private Boolean loggedIn = false;
+   private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
+
 
    /**
     * Use this factory method to create a new instance of
@@ -161,5 +164,16 @@ public class TeamListFragment extends Fragment
       monsterListAdapter.add(kirin);
       monsterListAdapter.add(kirin);
       monsterListAdapter.add(bob);
+      importButton.setOnClickListener(importOnClickListener);
    }
+
+   private View.OnClickListener importOnClickListener = new View.OnClickListener(){
+      @Override
+      public void onClick(View v) {
+         if (!loggedIn){
+            loginDialogFragment.newInstance();
+            loginDialogFragment.show(getChildFragmentManager(),"Show Login Dialog Fragment");
+         }
+      }
+   };
 }

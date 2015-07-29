@@ -1,57 +1,69 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context="com.example.anthony.damagecalculator.Fragments.LoginDialogFragment">
 
     <TextView
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/usernameEditText"
         android:layout_alignBottom="@+id/usernameEditText"
+        android:layout_alignTop="@+id/usernameEditText"
         android:gravity="center_vertical"
         android:text="Username: "
-        android:textSize="16dp"/>
+        android:textSize="16dp" />
+
     <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Username"
+        android:layout_toRightOf="@+id/username"
+        android:hint="Username"
         android:textSize="16dp"
-        android:layout_toRightOf="@+id/username"/>
+        android:singleLine="true"/>
+
     <TextView
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/passwordEditText"
         android:layout_alignBottom="@+id/passwordEditText"
+        android:layout_alignTop="@+id/passwordEditText"
         android:gravity="center_vertical"
         android:text="Password: "
         android:textSize="16dp"/>
+
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Password"
-        android:textSize="16dp"
-        android:password="true"
+        android:layout_below="@+id/username"
         android:layout_toRightOf="@+id/password"
-        android:layout_below="@+id/username"/>
+        android:hint="Password"
+        android:password="true"
+        android:textSize="16dp"
+        android:singleLine="true" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/cancelButton"/>
+        android:layout_below="@+id/passwordEditText">
 
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"/>
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="Login" />
+    </LinearLayout>
 
 </RelativeLayout>

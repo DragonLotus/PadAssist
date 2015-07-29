@@ -58,6 +58,8 @@ public class MonsterPageFragment extends Fragment
    private LinearLayout awakeningHolder;
    private Monster monster;
    private Toast toast;
+   private Boolean loggedIn = false;
+   private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
    private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
    {
       @Override
@@ -409,7 +411,10 @@ public class MonsterPageFragment extends Fragment
          }
          else if (v.equals(monsterChoose))
          {
-            monsterStats();
+            if (!loggedIn){
+               loginDialogFragment.newInstance();
+               loginDialogFragment.show(getChildFragmentManager(),"Show Login Dialog Fragment");
+            }
          }
       }
    };
