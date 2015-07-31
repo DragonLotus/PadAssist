@@ -11,14 +11,26 @@
       android:id="@+id/monsterListView"
       android:layout_width="match_parent"
       android:layout_height="fill_parent"
-       android:layout_above="@+id/importButton"/>
+       android:layout_above="@+id/buttonHolder"/>
 
-    <Button
-        android:id="@+id/importButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttonHolder"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="Import Team"/>
+        android:layout_alignParentBottom="true">
+        <Button
+            android:id="@+id/importButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Import Team"
+            android:layout_weight=".5"/>
+        <Button
+            android:id="@+id/orbMatchButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Orb Matches"
+            android:layout_weight=".5"/>
+    </LinearLayout>
+
 
 </RelativeLayout>

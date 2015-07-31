@@ -70,7 +70,7 @@ public class EnemyTargetFragment extends Fragment
    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue;
    private TextView percentHpValue, totalGravityValue;
    private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
-   private Button gravityShowHideButton, clearButton, hpReset;
+   private Button gravityShowHideButton, clearButton, hpReset, calculate;
    private LinearLayout gravityHolder;
    private GravityListAdapter gravityListAdapter;
    private GravityButtonAdapter gravityButtonAdapter;
@@ -205,6 +205,7 @@ public class EnemyTargetFragment extends Fragment
       gravityShowHideButton = (Button) rootView.findViewById(R.id.gravityShowHide);
       gravityHolder = (LinearLayout) rootView.findViewById(R.id.gravityHolder);
       hpReset = (Button) rootView.findViewById(R.id.hpReset);
+      calculate = (Button) rootView.findViewById(R.id.calculate);
       defenseBreakSpinner = (Spinner) rootView.findViewById(R.id.defenseBreakSpinner);
       absorbRadioGroup = (RadioGroup) rootView.findViewById(R.id.absorbOrbRadioGroup);
       reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
@@ -266,6 +267,8 @@ public class EnemyTargetFragment extends Fragment
       absorbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
 
       redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
+
+      calculate.setOnClickListener(calculateOnClickListener);
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }
@@ -756,6 +759,13 @@ public class EnemyTargetFragment extends Fragment
          }
          v.onTouchEvent(event);
          return true;
+      }
+   };
+
+   private View.OnClickListener calculateOnClickListener = new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+         ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true));
       }
    };
 

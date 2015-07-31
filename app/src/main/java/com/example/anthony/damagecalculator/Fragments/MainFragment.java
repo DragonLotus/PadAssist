@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
@@ -48,12 +49,12 @@ public class MainFragment extends Fragment
    private int additionalCombos = 0;
    private TextView editTeam, orbsLinkedValue, orbsPlusValue;
    private EditText additionalComboValue;
-   private Button addMatch, calculate, reset;
+   private Button addMatch, calculateButton, reset;
    private SeekBar orbsLinked, orbsPlus;
-   private CheckBox rowCheckBox, maxLeadMultiplierCheckBox;
+   private CheckBox rowCheckBox, maxLeadMultiplierCheckBox, ignoreEnemyCheckBox;
    private ListView orbMatches;
    private OrbMatchAdapter orbMatchAdapter;
-   private boolean isRow, maxLeadMultiplier = false;
+   private boolean isRow, maxLeadMultiplier = false, hasEnemy = false;
    private OrbMatch orbMatch;
    private Toast toast;
    private RadioGroup orbRadioGroup;
@@ -93,6 +94,15 @@ public class MainFragment extends Fragment
          }
          else if(buttonView.equals(maxLeadMultiplierCheckBox)){
             maxLeadMultiplier = isChecked;
+         }
+         else if(buttonView.equals(ignoreEnemyCheckBox)){
+            hasEnemy = isChecked;
+            if(isChecked){
+               calculateButton.setText("Calculate without Enemy");
+            }
+            else{
+               calculateButton.setText("Enemy Attributes");
+            }
          }
       }
    };
@@ -173,6 +183,19 @@ public class MainFragment extends Fragment
       return Color.RED;
    }
 
+   private View.OnClickListener calculateOnClickListener = new View.OnClickListener(){
+      @Override
+      public void onClick(View v) {
+         additionalComboValue.clearFocus();
+         if(hasEnemy){
+            ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(hasEnemy));
+         }
+         else {
+            ( (MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance("1", "2"));
+         }
+      }
+   };
+
    private View.OnClickListener addMatchOnClickListener = new View.OnClickListener()
    {
       @Override
@@ -249,10 +272,11 @@ public class MainFragment extends Fragment
       View rootView = inflater.inflate(R.layout.main_fragment, container, false);
       rowCheckBox = (CheckBox) rootView.findViewById(R.id.rowCheckBox);
       maxLeadMultiplierCheckBox = (CheckBox) rootView.findViewById(R.id.maxLeadMultiplierCheckBox);
+      ignoreEnemyCheckBox = (CheckBox) rootView.findViewById(R.id.ignoreEnemyCheckBox);
       orbsLinked = (SeekBar) rootView.findViewById(R.id.orbsLinkedSpinner);
       orbsPlus = (SeekBar) rootView.findViewById(R.id.orbsPlusSpinner);
       addMatch = (Button) rootView.findViewById(R.id.addMatch);
-      calculate = (Button) rootView.findViewById(R.id.calculate);
+      calculateButton = (Button) rootView.findViewById(R.id.calculateButton);
       reset = (Button) rootView.findViewById(R.id.reset);
       orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
       orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
@@ -272,12 +296,14 @@ public class MainFragment extends Fragment
       orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
       rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
       maxLeadMultiplierCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
+      ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
       reset.setOnClickListener(resetOnClickListener);
       orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
       orbMatches.setAdapter(orbMatchAdapter);
       additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
       additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
+      calculateButton.setOnClickListener(calculateOnClickListener);
 
       //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
    }

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.example.anthony.damagecalculator.Fragments.EnemyTargetFragment;
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
@@ -41,7 +42,7 @@ public class MainActivity extends ActionBarActivity
    /**
     * The {@link android.support.v4.view.ViewPager} that will host the section contents.
     */
-   ViewPager mViewPager;
+   FrameLayout mViewPager;
 
    //private Spinner spinner;
    private static final String[] orbChoices = {"3", "4"};
@@ -57,8 +58,10 @@ public class MainActivity extends ActionBarActivity
       mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
       // Set up the ViewPager with the sections adapter.
-      mViewPager = (ViewPager) findViewById(R.id.pager);
-      mViewPager.setAdapter(mSectionsPagerAdapter);
+//      mViewPager = (ViewPager) findViewById(R.id.pager);
+//      mViewPager.setAdapter(mSectionsPagerAdapter);
+
+      switchFragment(TeamListFragment.newInstance("1", "2"));
 
       // Get the Default External Cache Directory
       File httpCacheDir = getExternalCacheDir();

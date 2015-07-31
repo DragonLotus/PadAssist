@@ -7,12 +7,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterListAdapter;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 
 import java.util.ArrayList;
@@ -40,7 +42,7 @@ public class TeamListFragment extends Fragment
    private OnFragmentInteractionListener mListener;
    private ListView monsterListView;
    private MonsterListAdapter monsterListAdapter;
-   private Button importButton;
+   private Button importButton, orbMatchButton;
    private Boolean loggedIn = false;
    private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
 
@@ -87,6 +89,7 @@ public class TeamListFragment extends Fragment
       View rootView = inflater.inflate(R.layout.fragment_team_list, container, false);
       monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
       importButton = (Button) rootView.findViewById(R.id.importButton);
+      orbMatchButton = (Button) rootView.findViewById(R.id.orbMatchButton);
       return rootView;
    }
 
@@ -164,16 +167,33 @@ public class TeamListFragment extends Fragment
       monsterListAdapter.add(kirin);
       monsterListAdapter.add(kirin);
       monsterListAdapter.add(bob);
-      importButton.setOnClickListener(importOnClickListener);
+      importButton.setOnClickListener(buttonOnClickListener);
+      orbMatchButton.setOnClickListener(buttonOnClickListener);
+      monsterListView.setOnItemClickListener(monsterListOnClickListener);
    }
 
-   private View.OnClickListener importOnClickListener = new View.OnClickListener(){
+   private View.OnClickListener buttonOnClickListener = new View.OnClickListener(){
       @Override
       public void onClick(View v) {
-         if (!loggedIn){
-            loginDialogFragment.newInstance();
-            loginDialogFragment.show(getChildFragmentManager(),"Show Login Dialog Fragment");
+         if(v.equals(importButton)){
+            if (!loggedIn){
+               loginDialogFragment.newInstance();
+               loginDialogFragment.show(getChildFragmentManager(),"Show Login Dialog Fragment");
+            }
+            else {
+               //Import team list here
+            }
          }
+         if(v.equals(orbMatchButton)){
+            ( (MainActivity) getActivity()).switchFragment(MainFragment.newInstance(1));
+         }
+      }
+   };
+
+   private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener(){
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+         ( (MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance("1", "2"));
       }
    };
 }

@@ -36,6 +36,7 @@ public class TeamDamageListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ListView monsterListView;
     private MonsterDamageListAdapter monsterListAdapter;
+    private boolean hasEnemy;
 
     /**
      * Use this factory method to create a new instance of
@@ -51,6 +52,16 @@ public class TeamDamageListFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    public static TeamDamageListFragment newInstance(boolean hasEnemy)
+    {
+        TeamDamageListFragment fragment = new TeamDamageListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("hasEnemy", hasEnemy);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,6 +92,9 @@ public class TeamDamageListFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if(getArguments() != null) {
+            hasEnemy = getArguments().getBoolean("hasEnemy");
+        }
         monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, new ArrayList<Monster>());
         monsterListView.setAdapter(monsterListAdapter);
         Monster kirin = new Monster();

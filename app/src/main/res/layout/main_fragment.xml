@@ -168,17 +168,15 @@
       android:id="@+id/orbMatches"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_above="@+id/calculate"
+      android:layout_above="@+id/additionalComboValue"
       android:layout_below="@+id/List" />
 
-   <Button
-      android:id="@+id/calculate"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-       android:layout_alignParentRight="true"
-      android:text="Calculate" />
-
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Enemy Attributes" />
     <TextView
         android:id="@+id/additionalCombo"
         android:layout_width="wrap_content"
@@ -193,12 +191,34 @@
         android:id="@+id/additionalComboValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/calculateButton"
         android:layout_toRightOf="@+id/additionalCombo"
         android:text="0"
         android:textSize="16dp"
         android:inputType="number"
         android:maxLength="5"/>
+
+    <TextView
+        android:id="@+id/ignoreEnemy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/calculateButton"
+        android:layout_toLeftOf="@+id/ignoreEnemyCheckBox"
+        android:text="Ignore Enemy:"
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/additionalComboValue"
+        android:layout_alignBottom="@+id/additionalComboValue"
+        android:gravity="center_vertical"/>
+
+    <CheckBox
+        android:id="@+id/ignoreEnemyCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/additionalComboValue"
+        android:layout_alignBottom="@+id/additionalComboValue"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:enabled="true"/>
 
    <RadioGroup
        android:id="@+id/orbRadioGroup"
