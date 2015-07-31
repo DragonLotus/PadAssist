@@ -11,7 +11,7 @@
         android:id="@+id/monsterListToggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hide Monster Damage Breakdown"
+        android:text="Show Monster Damage Breakdown"
         android:textSize="18dp"
         android:textStyle="bold"/>
     <ScrollView
@@ -26,7 +26,7 @@
                 android:id="@+id/monsterListView"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/totalCombo"
