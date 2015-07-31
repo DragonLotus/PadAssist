@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
 import com.example.anthony.damagecalculator.Data.Monster;
@@ -37,6 +38,7 @@ public class TeamDamageListFragment extends Fragment {
     private ListView monsterListView;
     private MonsterDamageListAdapter monsterListAdapter;
     private boolean hasEnemy;
+    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue;
 
     /**
      * Use this factory method to create a new instance of
@@ -86,6 +88,11 @@ public class TeamDamageListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_team_damage_list, container, false);
         monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+        monsterListToggle = (TextView) rootView.findViewById(R.id.monsterListToggle);
+        enemyHP = (TextView) rootView.findViewById(R.id.enemyHP);
+        enemyHPValue = (TextView) rootView.findViewById(R.id.enemyHPValue);
+        enemyHPPercent = (TextView) rootView.findViewById(R.id.enemyHPPercent);
+        enemyHPPercentValue = (TextView) rootView.findViewById(R.id.enemyHPPercentValue);
         return rootView;
     }
 
@@ -95,7 +102,13 @@ public class TeamDamageListFragment extends Fragment {
         if(getArguments() != null) {
             hasEnemy = getArguments().getBoolean("hasEnemy");
         }
-        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, new ArrayList<Monster>());
+        if (!hasEnemy){
+            enemyHP.setVisibility(View.GONE);
+            enemyHPValue.setVisibility(View.GONE);
+            enemyHPPercent.setVisibility(View.GONE);
+            enemyHPPercentValue.setVisibility(View.GONE);
+        }
+        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, new ArrayList<Monster>(), hasEnemy);
         monsterListView.setAdapter(monsterListAdapter);
         Monster kirin = new Monster();
         kirin.setCurrentAtk(69);
@@ -111,6 +124,7 @@ public class TeamDamageListFragment extends Fragment {
         monsterListAdapter.add(kirin);
         monsterListAdapter.add(kirin);
         monsterListAdapter.add(kirin);
+        monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -140,5 +154,19 @@ public class TeamDamageListFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+    private View.OnClickListener monsterListToggleOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(monsterListView.getVisibility() == View.GONE){
+                monsterListView.setVisibility(View.VISIBLE);
+                monsterListToggle.setText("Hide Monster Damage Breakdown");
+            }
+            else if (monsterListView.getVisibility() == View.VISIBLE){
+                monsterListView.setVisibility(View.GONE);
+                monsterListToggle.setText("Show Monster Damage Breakdown");
+            }
+        }
+    };
 
 }

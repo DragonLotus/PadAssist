@@ -92,4 +92,21 @@
         android:textSize="16dp"
         android:textColor="#F0F000"/>
 
+    <TextView
+        android:id="@+id/monsterElement1Percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25%"
+        android:layout_alignParentRight="true"
+        android:textSize="16dp"
+        android:layout_alignBottom="@+id/monsterElement1Damage"/>
+    <TextView
+        android:id="@+id/monsterElement2Percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="25%"
+        android:layout_alignParentRight="true"
+        android:textSize="16dp"
+        android:layout_alignBottom="@+id/monsterElement2Damage"/>
+
 </RelativeLayout>

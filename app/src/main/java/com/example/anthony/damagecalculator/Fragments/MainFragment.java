@@ -54,7 +54,7 @@ public class MainFragment extends Fragment
    private CheckBox rowCheckBox, maxLeadMultiplierCheckBox, ignoreEnemyCheckBox;
    private ListView orbMatches;
    private OrbMatchAdapter orbMatchAdapter;
-   private boolean isRow, maxLeadMultiplier = false, hasEnemy = false;
+   private boolean isRow, maxLeadMultiplier = false, hasEnemy = true;
    private OrbMatch orbMatch;
    private Toast toast;
    private RadioGroup orbRadioGroup;
@@ -71,6 +71,7 @@ public class MainFragment extends Fragment
          orbsPlus.setProgress(0);
          rowCheckBox.setEnabled(false);
          rowCheckBox.setChecked(false);
+         ignoreEnemyCheckBox.setChecked(false);
          maxLeadMultiplierCheckBox.setChecked(false);
          additionalComboValue.setText("0");
          orbMatchAdapter.clear();
@@ -96,9 +97,9 @@ public class MainFragment extends Fragment
             maxLeadMultiplier = isChecked;
          }
          else if(buttonView.equals(ignoreEnemyCheckBox)){
-            hasEnemy = isChecked;
+            hasEnemy = !isChecked;
             if(isChecked){
-               calculateButton.setText("Calculate without Enemy");
+               calculateButton.setText("Calculate without Target");
             }
             else{
                calculateButton.setText("Enemy Attributes");
@@ -187,8 +188,8 @@ public class MainFragment extends Fragment
       @Override
       public void onClick(View v) {
          additionalComboValue.clearFocus();
-         if(hasEnemy){
-            ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(hasEnemy));
+         if(!hasEnemy){
+            ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false));
          }
          else {
             ( (MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance("1", "2"));

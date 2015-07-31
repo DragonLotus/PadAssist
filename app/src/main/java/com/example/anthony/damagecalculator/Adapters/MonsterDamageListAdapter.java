@@ -24,13 +24,15 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
     private int resourceId;
+    private boolean hasEnemy;
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList)
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy)
     {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
         this.resourceId = textViewResourceId;
+        this.hasEnemy = hasEnemy;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
@@ -62,6 +64,10 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         if (monsterList.get(position).getCurrentAwakenings() == monsterList.get(position).getMaxAwakenings()){
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
+        }
+        if(!hasEnemy){
+            viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }
 
         return convertView;

@@ -7,12 +7,117 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.anthony.damagecalculator.Fragments.TeamDamageListFragment">
-
-    <ListView
-        android:id="@+id/monsterListView"
+    <TextView
+        android:id="@+id/monsterListToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hide Monster Damage Breakdown"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/totalDamageValue" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/monsterListToggle"
+        android:layout_above="@+id/recalculateButton">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ListView
+                android:id="@+id/monsterListView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:visibility="visible"/>
+
+            <TextView
+                android:id="@+id/totalCombo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/totalComboValue"
+                android:layout_alignBottom="@+id/totalComboValue"
+                android:gravity="center_vertical"
+                android:text="Total Combos: "
+                android:textSize="18dp"/>
+
+            <TextView
+                android:id="@+id/totalComboValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/totalDamageValue"
+                android:layout_toRightOf="@+id/totalCombo"
+                android:text="69"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:id="@+id/hpRecovered"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/totalCombo"
+                android:text="HP Recovered: "
+                android:textSize="18dp" />
+
+            <com.example.anthony.damagecalculator.Graphics.ThinStroke
+                android:id="@+id/hpRecoveredValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/totalCombo"
+                android:layout_toRightOf="@+id/hpRecovered"
+                android:text="1337"
+                android:textSize="18dp"
+                android:textColor="#FF9999"/>
+
+            <TextView
+                android:id="@+id/totalDamage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monsterListView"
+                android:text="Total Damage: "
+                android:textSize="18dp" />
+
+            <com.example.anthony.damagecalculator.Graphics.ThinStroke
+                android:id="@+id/totalDamageValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/totalDamage"
+                android:layout_below="@+id/monsterListView"
+                android:text="133333333337"
+                android:textSize="18dp"
+                android:textColor="#BBBBBB"/>
+
+            <TextView
+                android:id="@+id/enemyHP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Target Remaining HP: "
+                android:layout_below="@+id/hpRecovered"
+                android:textSize="18dp" />
+            <com.example.anthony.damagecalculator.Graphics.ThinStroke
+                android:id="@+id/enemyHPValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1333337"
+                android:textSize="18dp"
+                android:layout_below="@+id/hpRecovered"
+                android:layout_toRightOf="@+id/enemyHP"
+                android:textColor="#550055"/>
+
+            <TextView
+                android:id="@+id/enemyHPPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Target % Remaining HP: "
+                android:layout_below="@+id/enemyHP"
+                android:textSize="18dp" />
+            <TextView
+                android:id="@+id/enemyHPPercentValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100%"
+                android:textSize="18dp"
+                android:layout_below="@+id/enemyHP"
+                android:layout_toRightOf="@+id/enemyHPPercent"/>
+        </RelativeLayout>
+    </ScrollView>
+
 
     <Button
         android:id="@+id/recalculateButton"
@@ -27,7 +132,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Additional Combos: "
-        android:textSize="16dp"
+        android:textSize="18dp"
         android:layout_alignTop="@+id/additionalComboValue"
         android:layout_alignBottom="@+id/additionalComboValue"
         android:gravity="center_vertical" />
@@ -39,66 +144,8 @@
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/additionalCombo"
         android:text="0"
-        android:textSize="16dp"
+        android:textSize="18dp"
         android:inputType="numberSigned"
         android:maxLength="5"/>
-
-    <TextView
-        android:id="@+id/totalCombo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/totalComboValue"
-        android:layout_alignBottom="@+id/totalComboValue"
-        android:gravity="center_vertical"
-        android:text="Total Combos: "
-        android:textSize="16dp"/>
-
-    <TextView
-        android:id="@+id/totalComboValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/recalculateButton"
-        android:layout_toRightOf="@+id/totalCombo"
-        android:text="69"
-        android:textSize="16dp"/>
-
-    <TextView
-        android:id="@+id/hpRecovered"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/totalComboValue"
-        android:layout_alignBottom="@+id/totalComboValue"
-        android:gravity="center_vertical"
-        android:layout_toLeftOf="@+id/hpRecoveredValue"
-        android:text="HP Recovered: "
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/hpRecoveredValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/recalculateButton"
-        android:layout_alignParentRight="true"
-        android:text="1337"
-        android:textSize="16dp"/>
-
-    <TextView
-        android:id="@+id/totalDamage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/totalComboValue"
-        android:text="Total Damage: "
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/totalDamageValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/totalComboValue"
-        android:layout_toRightOf="@+id/totalDamage"
-        android:text="133333333337"
-        android:textSize="16dp" />
-
-
 
 </RelativeLayout>
