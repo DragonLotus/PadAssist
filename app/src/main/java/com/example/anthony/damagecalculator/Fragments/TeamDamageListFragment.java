@@ -43,7 +43,7 @@ public class TeamDamageListFragment extends Fragment {
     private ListView monsterListView;
     private MonsterDamageListAdapter monsterListAdapter;
     private Enemy enemy;
-    private boolean hasEnemy;
+    private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private ArrayList<Monster> monsterList;
     private int additionalCombos, totalCombos = 0;
@@ -67,7 +67,7 @@ public class TeamDamageListFragment extends Fragment {
         return fragment;
     }
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Enemy enemy)
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Enemy enemy, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold)
     {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
@@ -76,6 +76,9 @@ public class TeamDamageListFragment extends Fragment {
         args.putParcelableArrayList("orbMatches", orbMatches);
         args.putInt("additionalCombos", additionalCombos);
         args.putParcelable("enemy", enemy);
+        args.putBoolean("hasAbsorb", hasAbsorb);
+        args.putBoolean("hasReduction", hasReduction);
+        args.putBoolean("hasDamageThreshold", hasDamageThreshold);
         fragment.setArguments(args);
         return fragment;
     }
@@ -131,10 +134,13 @@ public class TeamDamageListFragment extends Fragment {
             orbMatches = getArguments().getParcelableArrayList("orbMatches");
             additionalCombos = getArguments().getInt("additionalCombos");
             enemy = getArguments().getParcelable("enemy");
+            hasAbsorb = getArguments().getBoolean("hasAbsorb");
+            hasReduction = getArguments().getBoolean("hasReduction");
+            hasDamageThreshold = getArguments().getBoolean("hasDamageThreshold");
         }
         updateTextView();
         Log.d("totalCombos", String.valueOf(totalCombos));
-        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos);
+        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, hasAbsorb, hasReduction, hasDamageThreshold);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
     }

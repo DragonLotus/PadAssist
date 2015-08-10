@@ -59,44 +59,44 @@ public class Monster implements Parcelable {
         int damage = getElement1Damage(orbMatches, orbPlusAwakenings, combos);
         if(element1.equals(Color.RED)){
             if(enemy.getTargetColor().equals(Color.BLUE)){
-                return damage/2;
+                return damage/2 - enemy.getTargetDef();
             }
             else if(enemy.getTargetColor().equals(Color.GREEN)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
         else if(element1.equals(Color.BLUE)){
             if(enemy.getTargetColor().equals(Color.GREEN)){
-                return damage/2;
+                return damage/2 - enemy.getTargetDef();
             }
             else if(enemy.getTargetColor().equals(Color.RED)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
         else if(element1.equals(Color.GREEN)){
             if(enemy.getTargetColor().equals(Color.RED)){
-                return damage/2;
+                return damage/2 - enemy.getTargetDef();
             }
             else if(enemy.getTargetColor().equals(Color.BLUE)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
         else if(element1.equals(Color.LIGHT)){
             if(enemy.getTargetColor().equals(Color.DARK)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
         else if(element1.equals(Color.DARK)){
             if(enemy.getTargetColor().equals(Color.LIGHT)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
-        return damage;
+        return damage - enemy.getTargetDef();
     }
 
     public String getElement1DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
@@ -118,49 +118,51 @@ public class Monster implements Parcelable {
         int damage = getElement2Damage(orbMatches, orbPlusAwakenings, combos);
         if(element2.equals(Color.RED)){
             if(enemy.getTargetColor().equals(Color.BLUE)){
-                return damage/2;
+                return damage/2 - enemy.getTargetDef();
             }
             else if(enemy.getTargetColor().equals(Color.GREEN)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
         else if(element2.equals(Color.BLUE)){
             if(enemy.getTargetColor().equals(Color.GREEN)){
-                return damage/2;
+                return damage/2 - enemy.getTargetDef();
             }
             else if(enemy.getTargetColor().equals(Color.RED)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
         else if(element2.equals(Color.GREEN)){
             if(enemy.getTargetColor().equals(Color.RED)){
-                return damage/2;
+                return damage/2 - enemy.getTargetDef();
             }
             else if(enemy.getTargetColor().equals(Color.BLUE)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
         else if(element2.equals(Color.LIGHT)){
             if(enemy.getTargetColor().equals(Color.DARK)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
         else if(element2.equals(Color.DARK)){
             if(enemy.getTargetColor().equals(Color.LIGHT)){
-                return damage*2;
+                return damage*2 - enemy.getTargetDef();
             }
-            else return damage;
+            else return damage - enemy.getTargetDef();
         }
-        return damage;
+        return damage - enemy.getTargetDef();
     }
 
     public String getElement2DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
         return String.valueOf(getElement2DamageEnemy(orbMatches, orbPlusAwakenings, enemy, combos));
     }
+
+
 
     public int getCurrentLevel() {
         return currentLevel;
@@ -168,6 +170,9 @@ public class Monster implements Parcelable {
 
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
+        setCurrentHp(DamageCalculationUtil.monsterStatCalc(hpMin, hpMax, currentLevel, maxLevel, hpScale));
+        setCurrentAtk(DamageCalculationUtil.monsterStatCalc(atkMin, atkMax, currentLevel, maxLevel, atkScale));
+        setCurrentRcv(DamageCalculationUtil.monsterStatCalc(rcvMin, rcvMax, currentLevel, maxLevel, rcvScale));
     }
 
     public int getCurrentAtk() {

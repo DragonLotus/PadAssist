@@ -26,12 +26,12 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
-    private int resourceId, combos;
-    private boolean hasEnemy;
+    private int resourceId, combos, element1Damage, element1DamageEnemy, element2Damage, element2DamageEnemy;
+    private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private Enemy enemy;
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos)
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold)
     {
         super(context, textViewResourceId, monsterList);
         mContext = context;
@@ -41,6 +41,9 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         this.orbMatches = orbMatches;
         this.enemy = enemy;
         this.combos = combos;
+        this.hasAbsorb = hasAbsorb;
+        this.hasReduction = hasReduction;
+        this.hasDamageThreshold = hasDamageThreshold;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
@@ -62,11 +65,6 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        //Needs to get # of orb awakenings from team object maybe
-        viewHolder.monsterElement1Damage.setText(monsterList.get(position).getElement1DamageString(orbMatches,6, combos));
-        viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
-        viewHolder.monsterElement2Damage.setText(monsterList.get(position).getElement2DamageString(orbMatches, 6, combos));
-        viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
         int totalPlus = monsterList.get(position).getAtkPlus() + monsterList.get(position).getHpPlus() + monsterList.get(position).getRcvPlus();
         viewHolder.monsterPlus.setText(" +" + Integer.toString(totalPlus) + " ");
         viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
@@ -74,11 +72,44 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
         }
-        if(!hasEnemy){
+        //Needs to get # of orb awakenings from team object maybe
+
+        element1Damage = monsterList.get(position).getElement1Damage(orbMatches, 6, combos);
+        element2Damage = monsterList.get(position).getElement2Damage(orbMatches, 6, combos);
+        viewHolder.monsterElement1Damage.setText(String.valueOf(element1Damage));
+        viewHolder.monsterElement2Damage.setText(String.valueOf(element2Damage));
+        if(hasEnemy){
+            element1DamageEnemy = monsterList.get(position).getElement1DamageEnemy(orbMatches, 6, enemy, combos);
+            element2DamageEnemy = monsterList.get(position).getElement2DamageEnemy(orbMatches, 6, enemy, combos);
+            if (element1Damage == 0){
+                element1DamageEnemy = 0;
+            }
+            else if(element1DamageEnemy < 0){
+                element1DamageEnemy = 1;
+            }
+            if (element2Damage == 0){
+                element2DamageEnemy = 0;
+            }
+            else if(element2DamageEnemy < 0){
+                element2DamageEnemy = 1;
+            }
+            viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+            viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+        }
+        else {
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }
+        setTextColors(position, viewHolder);
+        return convertView;
+    }
 
+    static class ViewHolder{
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage, monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy;
+        ImageView monsterPicture;
+    }
+
+    public void setTextColors(int position, ViewHolder viewHolder){
         if(monsterList.get(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.RED)){
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#FF0000"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FF0000"));
@@ -119,12 +150,5 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#AA00FF"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
         }
-
-        return convertView;
-    }
-
-    static class ViewHolder{
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage, monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy;
-        ImageView monsterPicture;
     }
 }

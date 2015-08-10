@@ -20,14 +20,15 @@ public class Enemy implements  Parcelable
    public Enemy()
    {
       reduction = new ArrayList<Color>();
-      this.targetHp = 6666666;
-      this.targetDef = 368;
-      this.currentHp = this.targetHp;
-      this.beforeGravityHP = this.currentHp;
-      this.beforeDefenseBreak = this.targetDef;
-      this.targetColor = Color.DARK;
-      this.absorb = Color.BLUE;
+      targetHp = 6666666;
+      targetDef = 368;
+      currentHp = targetHp;
+      beforeGravityHP = currentHp;
+      beforeDefenseBreak = targetDef;
+      targetColor = Color.DARK;
+      absorb = Color.BLUE;
       gravityPercent = 1;
+      damageThreshold = 200000;
    }
 
 

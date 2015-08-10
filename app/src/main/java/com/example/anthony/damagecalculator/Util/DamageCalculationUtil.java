@@ -34,7 +34,6 @@ public class DamageCalculationUtil {
     }
 
     public static double comboMultiplier(double damage, int combos){
-        Log.d("combos value", String.valueOf(combos));
         return Math.ceil(damage * ((combos - 1)*.25 + 1.0));
     }
 
