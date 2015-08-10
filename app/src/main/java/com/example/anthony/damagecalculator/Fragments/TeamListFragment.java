@@ -13,10 +13,12 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterListAdapter;
+import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.util.ArrayList;
 
@@ -156,21 +158,25 @@ public class TeamListFragment extends Fragment
        } else {
            monsters = new ArrayList<Monster>();
            Monster monster1 = new Monster();
+           monster1.setElement2(Color.RED);
            monster1.setHpPlus(0);
            monster1.setAtkPlus(0);
            monster1.setRcvPlus(0);
            monster1.setCurrentAwakenings(1);
            Monster monster2 = new Monster();
+           monster2.setElement2(Color.BLUE);
            monster2.setHpPlus(22);
            monster2.setAtkPlus(22);
            monster2.setRcvPlus(22);
            monster2.setCurrentAwakenings(2);
            Monster monster3 = new Monster();
+           monster3.setElement2(Color.GREEN);
            monster3.setHpPlus(33);
            monster3.setAtkPlus(33);
            monster3.setRcvPlus(33);
            monster3.setCurrentAwakenings(3);
            Monster monster4 = new Monster();
+           monster4.setElement2(Color.DARK);
            monster4.setHpPlus(44);
            monster4.setAtkPlus(44);
            monster4.setRcvPlus(44);

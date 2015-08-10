@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
+import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
@@ -39,6 +41,7 @@ public class TeamDamageListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ListView monsterListView;
     private MonsterDamageListAdapter monsterListAdapter;
+    private Enemy enemy;
     private boolean hasEnemy;
     private ArrayList<OrbMatch> orbMatches;
     private ArrayList<Monster> monsterList;
@@ -62,6 +65,17 @@ public class TeamDamageListFragment extends Fragment {
         return fragment;
     }
 
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, Enemy enemy)
+    {
+        TeamDamageListFragment fragment = new TeamDamageListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("hasEnemy", hasEnemy);
+        args.putParcelableArrayList("monsterList", monsterList);
+        args.putParcelableArrayList("orbMatches", orbMatches);
+        args.putParcelable("enemy", enemy);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches)
     {
@@ -110,9 +124,10 @@ public class TeamDamageListFragment extends Fragment {
             hasEnemy = getArguments().getBoolean("hasEnemy");
             monsterList = getArguments().getParcelableArrayList("monsterList");
             orbMatches = getArguments().getParcelableArrayList("orbMatches");
+            enemy = getArguments().getParcelable("enemy");
         }
         updateTextView();
-        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches);
+        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
     }
@@ -172,7 +187,30 @@ public class TeamDamageListFragment extends Fragment {
                 //totalDamage += monsterList.get(i).getSecondaryElementDamage();
             //}
         }
+        else{
+            //Need to set colors of each enemy element stuff
+            setTextColors();
+            enemyHPValue.setText(String.valueOf(enemy.getTargetHp()));
+        }
 
+    }
+
+    private void setTextColors(){
+        if(enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.RED)){
+            enemyHPValue.setTextColor(Color.parseColor("#FF0000"));
+        }
+        else  if(enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.BLUE)){
+            enemyHPValue.setTextColor(Color.parseColor("#4444FF"));
+        }
+        else  if(enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.GREEN)){
+            enemyHPValue.setTextColor(Color.parseColor("#00FF00"));
+        }
+        else  if(enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT)){
+            enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
+        }
+        else  if(enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.DARK)){
+            enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
+        }
     }
 
 }

@@ -1,11 +1,14 @@
 package com.example.anthony.damagecalculator.Data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
  * Created by Anthony on 7/16/2015.
  */
-public class Enemy
+public class Enemy implements  Parcelable
 {
    private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold;
    private double gravityPercent;
@@ -150,5 +153,47 @@ public class Enemy
    {
       return reduction.isEmpty();
    }
+
+   public Enemy(Parcel source) {
+      targetHp = source.readInt();
+      currentHp = source.readInt();
+      targetDef = source.readInt();
+      beforeGravityHP = source.readInt();
+      beforeDefenseBreak = source.readInt();
+      damageThreshold = source.readInt();
+      gravityPercent = source.readDouble();
+      targetColor = (Color) source.readSerializable();
+      absorb = (Color) source.readSerializable();
+      reduction = source.readArrayList(Color.class.getClassLoader());
+   }
+
+   @Override
+   public void writeToParcel(Parcel dest, int flags) {
+      dest.writeInt(targetHp);
+      dest.writeInt(currentHp);
+      dest.writeInt(targetDef);
+      dest.writeInt(beforeGravityHP);
+      dest.writeInt(beforeDefenseBreak);
+      dest.writeInt(damageThreshold);
+      dest.writeDouble(gravityPercent);
+      dest.writeSerializable(targetColor);
+      dest.writeSerializable(absorb);
+      dest.writeList(reduction);
+   }
+
+   @Override
+   public int describeContents() {
+      return 0;
+   }
+
+   public static final Parcelable.Creator<Enemy> CREATOR = new Parcelable.Creator<Enemy>() {
+      public Enemy createFromParcel(Parcel source) {
+         return new Enemy(source);
+      }
+
+      public Enemy[] newArray(int size) {
+         return new Enemy[size];
+      }
+   };
 
 }

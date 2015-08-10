@@ -47,16 +47,119 @@ public class Monster implements Parcelable {
         name = "Kirin of the Sacred Gleam, Sakuya";
     }
 
-    public double getElement1Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
-        return DamageCalculationUtil.totalMonsterDamageMain(this, orbMatches, orbPlusAwakenings);
+    public int getElement1Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
+        return (int) DamageCalculationUtil.monsterElement1OrbDamage(this, orbMatches, orbPlusAwakenings);
     }
 
-//   public double getMainElementDamage(int orbsLinked, int orbPlus, int orbPlusAwakenings) {
-//      return DamageCalculationUtil.totalMonsterDamageMain(this, orbsLinked, orbPlus, orbPlusAwakenings);
-//   }
-
     public String getElement1DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
-        return "(" + getElement1Damage(orbMatches, orbPlusAwakenings) + ")";
+        return String.valueOf(getElement1Damage(orbMatches, orbPlusAwakenings));
+    }
+
+    public int getElement1DamageEnemy(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy) {
+        int damage = getElement1Damage(orbMatches, orbPlusAwakenings);
+        if(element1.equals(Color.RED)){
+            if(enemy.getTargetColor().equals(Color.BLUE)){
+                return damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.GREEN)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        else if(element1.equals(Color.BLUE)){
+            if(enemy.getTargetColor().equals(Color.GREEN)){
+                return damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.RED)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        else if(element1.equals(Color.GREEN)){
+            if(enemy.getTargetColor().equals(Color.RED)){
+                return damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.BLUE)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        else if(element1.equals(Color.LIGHT)){
+            if(enemy.getTargetColor().equals(Color.DARK)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        else if(element1.equals(Color.DARK)){
+            if(enemy.getTargetColor().equals(Color.LIGHT)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        return damage;
+    }
+
+    public String getElement1DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy) {
+        return String.valueOf(getElement1DamageEnemy(orbMatches, orbPlusAwakenings, enemy));
+    }
+
+    public int getElement2Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
+        if (element2.equals(element1)){
+            return (int)Math.ceil(getElement1Damage(orbMatches, orbPlusAwakenings) * .1);
+        }
+        return (int) DamageCalculationUtil.monsterElement2OrbDamage(this, orbMatches, orbPlusAwakenings);
+    }
+
+    public String getElement2DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
+        return String.valueOf(getElement2Damage(orbMatches, orbPlusAwakenings));
+    }
+
+    public int getElement2DamageEnemy(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy) {
+        int damage = getElement2Damage(orbMatches, orbPlusAwakenings);
+        if(element2.equals(Color.RED)){
+            if(enemy.getTargetColor().equals(Color.BLUE)){
+                return damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.GREEN)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        else if(element2.equals(Color.BLUE)){
+            if(enemy.getTargetColor().equals(Color.GREEN)){
+                return damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.RED)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        else if(element2.equals(Color.GREEN)){
+            if(enemy.getTargetColor().equals(Color.RED)){
+                return damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.BLUE)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        else if(element2.equals(Color.LIGHT)){
+            if(enemy.getTargetColor().equals(Color.DARK)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        else if(element2.equals(Color.DARK)){
+            if(enemy.getTargetColor().equals(Color.LIGHT)){
+                return damage*2;
+            }
+            else return damage;
+        }
+        return damage;
+    }
+
+    public String getElement2DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy) {
+        return String.valueOf(getElement2DamageEnemy(orbMatches, orbPlusAwakenings, enemy));
     }
 
     public int getCurrentLevel() {

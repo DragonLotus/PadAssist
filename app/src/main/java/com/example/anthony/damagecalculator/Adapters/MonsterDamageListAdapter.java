@@ -1,6 +1,7 @@
 package com.example.anthony.damagecalculator.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
@@ -24,11 +26,12 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
-    private int resourceId, element1Damage, element2Damage, element1DamageEnemy, element2DamageEnemy;
+    private int resourceId;
     private boolean hasEnemy;
     private ArrayList<OrbMatch> orbMatches;
+    private Enemy enemy;
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches)
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy)
     {
         super(context, textViewResourceId, monsterList);
         mContext = context;
@@ -36,6 +39,7 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         this.resourceId = textViewResourceId;
         this.hasEnemy = hasEnemy;
         this.orbMatches = orbMatches;
+        this.enemy = enemy;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
@@ -57,13 +61,11 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        //Needs to take in monster stats. But yea, pretty much the gist of it.
-        element1Damage = (int) DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1);
-            viewHolder.monsterElement1Damage.setText(String.valueOf(element1Damage) + " ");
-       // viewHolder.monsterElement1DamageEnemy.setText(monsterList.get(position).getMainElementDamageString(orbMatches,6));
-        viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1)) + ")");
-        viewHolder.monsterElement2Damage.setText(String.valueOf(DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1)) + " ");
-        viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1)) + ")");
+        //Needs to get # of orb awakenings from team object maybe
+        viewHolder.monsterElement1Damage.setText(monsterList.get(position).getElement1DamageString(orbMatches,6));
+        viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageEnemyString(orbMatches, 6, enemy) + ")");
+        viewHolder.monsterElement2Damage.setText(monsterList.get(position).getElement2DamageString(orbMatches, 6));
+        viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, 6, enemy) + ")");
         int totalPlus = monsterList.get(position).getAtkPlus() + monsterList.get(position).getHpPlus() + monsterList.get(position).getRcvPlus();
         viewHolder.monsterPlus.setText(" +" + Integer.toString(totalPlus) + " ");
         viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
@@ -74,6 +76,47 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         if(!hasEnemy){
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
+        }
+
+        if(monsterList.get(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.RED)){
+            viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#FF0000"));
+            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FF0000"));
+        }
+        else  if(monsterList.get(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.BLUE)){
+            viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#4444FF"));
+            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#4444FF"));
+        }
+        else  if(monsterList.get(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.GREEN)){
+            viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#00FF00"));
+            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#00FF00"));
+        }
+        else  if(monsterList.get(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT)){
+            viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#F0F000"));
+            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#F0F000"));
+        }
+        else  if(monsterList.get(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.DARK)){
+            viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#AA00FF"));
+            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
+        }
+        if(monsterList.get(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.RED)){
+            viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#FF0000"));
+            viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FF0000"));
+        }
+        else  if(monsterList.get(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.BLUE)){
+            viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#4444FF"));
+            viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#4444FF"));
+        }
+        else  if(monsterList.get(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.GREEN)){
+            viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#00FF00"));
+            viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#00FF00"));
+        }
+        else  if(monsterList.get(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT)){
+            viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#F0F000"));
+            viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#F0F000"));
+        }
+        else  if(monsterList.get(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.DARK)){
+            viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#AA00FF"));
+            viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
         }
 
         return convertView;
