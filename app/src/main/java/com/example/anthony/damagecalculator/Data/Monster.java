@@ -47,16 +47,16 @@ public class Monster implements Parcelable {
         name = "Kirin of the Sacred Gleam, Sakuya";
     }
 
-    public int getElement1Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
-        return (int) DamageCalculationUtil.monsterElement1OrbDamage(this, orbMatches, orbPlusAwakenings);
+    public int getElement1Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, int combos) {
+        return (int) DamageCalculationUtil.monsterElement1Damage(this, orbMatches, orbPlusAwakenings, combos);
     }
 
-    public String getElement1DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
-        return String.valueOf(getElement1Damage(orbMatches, orbPlusAwakenings));
+    public String getElement1DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, int combos) {
+        return String.valueOf(getElement1Damage(orbMatches, orbPlusAwakenings, combos));
     }
 
-    public int getElement1DamageEnemy(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy) {
-        int damage = getElement1Damage(orbMatches, orbPlusAwakenings);
+    public int getElement1DamageEnemy(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
+        int damage = getElement1Damage(orbMatches, orbPlusAwakenings, combos);
         if(element1.equals(Color.RED)){
             if(enemy.getTargetColor().equals(Color.BLUE)){
                 return damage/2;
@@ -99,23 +99,23 @@ public class Monster implements Parcelable {
         return damage;
     }
 
-    public String getElement1DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy) {
-        return String.valueOf(getElement1DamageEnemy(orbMatches, orbPlusAwakenings, enemy));
+    public String getElement1DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
+        return String.valueOf(getElement1DamageEnemy(orbMatches, orbPlusAwakenings, enemy, combos));
     }
 
-    public int getElement2Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
+    public int getElement2Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, int combos) {
         if (element2.equals(element1)){
-            return (int)Math.ceil(getElement1Damage(orbMatches, orbPlusAwakenings) * .1);
+            return (int)Math.ceil(getElement1Damage(orbMatches, orbPlusAwakenings, combos) * .1);
         }
-        return (int) DamageCalculationUtil.monsterElement2OrbDamage(this, orbMatches, orbPlusAwakenings);
+        return (int) DamageCalculationUtil.monsterElement2Damage(this, orbMatches, orbPlusAwakenings, combos);
     }
 
-    public String getElement2DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
-        return String.valueOf(getElement2Damage(orbMatches, orbPlusAwakenings));
+    public String getElement2DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, int combos) {
+        return String.valueOf(getElement2Damage(orbMatches, orbPlusAwakenings, combos));
     }
 
-    public int getElement2DamageEnemy(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy) {
-        int damage = getElement2Damage(orbMatches, orbPlusAwakenings);
+    public int getElement2DamageEnemy(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
+        int damage = getElement2Damage(orbMatches, orbPlusAwakenings, combos);
         if(element2.equals(Color.RED)){
             if(enemy.getTargetColor().equals(Color.BLUE)){
                 return damage/2;
@@ -158,8 +158,8 @@ public class Monster implements Parcelable {
         return damage;
     }
 
-    public String getElement2DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy) {
-        return String.valueOf(getElement2DamageEnemy(orbMatches, orbPlusAwakenings, enemy));
+    public String getElement2DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
+        return String.valueOf(getElement2DamageEnemy(orbMatches, orbPlusAwakenings, enemy, combos));
     }
 
     public int getCurrentLevel() {

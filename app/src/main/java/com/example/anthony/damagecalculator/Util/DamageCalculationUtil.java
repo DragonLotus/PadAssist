@@ -1,5 +1,7 @@
 package com.example.anthony.damagecalculator.Util;
 
+import android.util.Log;
+
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 
@@ -11,24 +13,29 @@ import java.util.ArrayList;
 public class DamageCalculationUtil {
 
 
-    public static double monsterElement1OrbDamage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings) {
+    public static double monsterElement1Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos) {
         double totalOrbDamage = 0;
         for (int i = 0; i < orbMatches.size(); i++) {
             if (orbMatches.get(i).getColor().equals(monster.getElement1())) {
                 totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatches.get(i), orbAwakenings, 0);
             }
         }
-        return totalOrbDamage;
+        return comboMultiplier(totalOrbDamage, combos);
     }
 
-    public static double monsterElement2OrbDamage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings) {
+    public static double monsterElement2Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos) {
         double totalOrbDamage = 0;
         for(int i = 0; i < orbMatches.size(); i++) {
             if(orbMatches.get(i).getColor().equals(monster.getElement2())) {
                 totalOrbDamage += orbMatch((monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, 0);
             }
         }
-        return totalOrbDamage;
+        return comboMultiplier(totalOrbDamage, combos);
+    }
+
+    public static double comboMultiplier(double damage, int combos){
+        Log.d("combos value", String.valueOf(combos));
+        return Math.ceil(damage * ((combos - 1)*.25 + 1.0));
     }
 
     public static double orbMatch(int Attack, OrbMatch orbMatches, int OrbAwakenings, int TPAwakenings) {

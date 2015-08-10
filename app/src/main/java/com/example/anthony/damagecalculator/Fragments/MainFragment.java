@@ -204,9 +204,9 @@ public class MainFragment extends Fragment
             toast.show();
          } else {
             if (!hasEnemy) {
-               ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, monsterList, orbMatchList), TeamDamageListFragment.TAG);
+               ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, monsterList, orbMatchList, additionalCombos), TeamDamageListFragment.TAG);
             } else {
-               ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(monsterList, orbMatchList), EnemyTargetFragment.TAG);
+               ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(monsterList, orbMatchList, additionalCombos), EnemyTargetFragment.TAG);
             }
          }
       }

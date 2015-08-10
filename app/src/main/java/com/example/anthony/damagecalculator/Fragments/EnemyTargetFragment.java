@@ -86,6 +86,7 @@ public class EnemyTargetFragment extends Fragment
    private String[] defenseBreakItems;
    private ArrayList<OrbMatch> orbMatches;
    private ArrayList<Monster> monsterList;
+   private int additionalCombos;
    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
    private double defenseBreakValue = 1.0;
    private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent()
@@ -165,12 +166,13 @@ public class EnemyTargetFragment extends Fragment
     * @return A new instance of fragment EnemyTargetFragment.
     */
    // TODO: Rename and change types and number of parameters
-   public static EnemyTargetFragment newInstance(ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches)
+   public static EnemyTargetFragment newInstance(ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos)
    {
       EnemyTargetFragment fragment = new EnemyTargetFragment();
       Bundle args = new Bundle();
       args.putParcelableArrayList("monsterList", monsterList);
       args.putParcelableArrayList("orbMatches", orbMatches);
+      args.putInt("additionalCombos", additionalCombos);
       fragment.setArguments(args);
       return fragment;
    }
@@ -231,6 +233,7 @@ public class EnemyTargetFragment extends Fragment
       if(getArguments() != null) {
          monsterList = getArguments().getParcelableArrayList("monsterList");
          orbMatches = getArguments().getParcelableArrayList("orbMatches");
+         additionalCombos = getArguments().getInt("additionalCombos");
       }
       enemy = new Enemy();
 
@@ -773,7 +776,7 @@ public class EnemyTargetFragment extends Fragment
    private View.OnClickListener calculateOnClickListener = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-         ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches, enemy), TeamDamageListFragment.TAG);
+         ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches, additionalCombos, enemy), TeamDamageListFragment.TAG);
       }
    };
 

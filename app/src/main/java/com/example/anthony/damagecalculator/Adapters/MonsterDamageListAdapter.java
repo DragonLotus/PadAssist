@@ -26,12 +26,12 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
-    private int resourceId;
+    private int resourceId, combos;
     private boolean hasEnemy;
     private ArrayList<OrbMatch> orbMatches;
     private Enemy enemy;
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy)
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos)
     {
         super(context, textViewResourceId, monsterList);
         mContext = context;
@@ -40,6 +40,7 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         this.hasEnemy = hasEnemy;
         this.orbMatches = orbMatches;
         this.enemy = enemy;
+        this.combos = combos;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
@@ -62,10 +63,10 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
         //Needs to get # of orb awakenings from team object maybe
-        viewHolder.monsterElement1Damage.setText(monsterList.get(position).getElement1DamageString(orbMatches,6));
-        viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageEnemyString(orbMatches, 6, enemy) + ")");
-        viewHolder.monsterElement2Damage.setText(monsterList.get(position).getElement2DamageString(orbMatches, 6));
-        viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, 6, enemy) + ")");
+        viewHolder.monsterElement1Damage.setText(monsterList.get(position).getElement1DamageString(orbMatches,6, combos));
+        viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
+        viewHolder.monsterElement2Damage.setText(monsterList.get(position).getElement2DamageString(orbMatches, 6, combos));
+        viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
         int totalPlus = monsterList.get(position).getAtkPlus() + monsterList.get(position).getHpPlus() + monsterList.get(position).getRcvPlus();
         viewHolder.monsterPlus.setText(" +" + Integer.toString(totalPlus) + " ");
         viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));

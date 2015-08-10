@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,8 @@ public class TeamDamageListFragment extends Fragment {
     private boolean hasEnemy;
     private ArrayList<OrbMatch> orbMatches;
     private ArrayList<Monster> monsterList;
-    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue;
+    private int additionalCombos, totalCombos = 0;
+    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue;
 
     /**
      * Use this factory method to create a new instance of
@@ -65,25 +67,27 @@ public class TeamDamageListFragment extends Fragment {
         return fragment;
     }
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, Enemy enemy)
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Enemy enemy)
     {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
         args.putParcelableArrayList("monsterList", monsterList);
         args.putParcelableArrayList("orbMatches", orbMatches);
+        args.putInt("additionalCombos", additionalCombos);
         args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches)
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos)
     {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
         args.putParcelableArrayList("monsterList", monsterList);
         args.putParcelableArrayList("orbMatches", orbMatches);
+        args.putInt("additionalCombos", additionalCombos);
         fragment.setArguments(args);
         return fragment;
     }
@@ -114,6 +118,7 @@ public class TeamDamageListFragment extends Fragment {
         enemyHPPercent = (TextView) rootView.findViewById(R.id.enemyHPPercent);
         enemyHPPercentValue = (TextView) rootView.findViewById(R.id.enemyHPPercentValue);
         totalDamageValue = (TextView) rootView.findViewById(R.id.totalDamageValue);
+        totalComboValue = (TextView) rootView.findViewById(R.id.totalComboValue);
         return rootView;
     }
 
@@ -124,10 +129,12 @@ public class TeamDamageListFragment extends Fragment {
             hasEnemy = getArguments().getBoolean("hasEnemy");
             monsterList = getArguments().getParcelableArrayList("monsterList");
             orbMatches = getArguments().getParcelableArrayList("orbMatches");
+            additionalCombos = getArguments().getInt("additionalCombos");
             enemy = getArguments().getParcelable("enemy");
         }
         updateTextView();
-        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy);
+        Log.d("totalCombos", String.valueOf(totalCombos));
+        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
     }
@@ -176,6 +183,7 @@ public class TeamDamageListFragment extends Fragment {
 
     public void updateTextView()
     {
+        totalCombos = additionalCombos + orbMatches.size();
         if (!hasEnemy) {
             enemyHP.setVisibility(View.GONE);
             enemyHPValue.setVisibility(View.GONE);
@@ -190,8 +198,11 @@ public class TeamDamageListFragment extends Fragment {
         else{
             //Need to set colors of each enemy element stuff
             setTextColors();
-            enemyHPValue.setText(String.valueOf(enemy.getTargetHp()));
+            enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
+            enemyHPPercentValue.setText(String.valueOf((enemy.getGravityPercent())*100) + "%");
         }
+
+        totalComboValue.setText(String.valueOf(totalCombos));
 
     }
 
