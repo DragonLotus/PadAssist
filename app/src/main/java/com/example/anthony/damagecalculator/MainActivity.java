@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Fragments.EnemyTargetFragment;
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
@@ -23,6 +26,7 @@ import com.integralblue.httpresponsecache.HttpResponseCache;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -61,7 +65,7 @@ public class MainActivity extends ActionBarActivity
 //      mViewPager = (ViewPager) findViewById(R.id.pager);
 //      mViewPager.setAdapter(mSectionsPagerAdapter);
 
-      switchFragment(TeamListFragment.newInstance("1", "2"));
+      switchFragment(TeamListFragment.newInstance("1", "2"), TeamListFragment.TAG);
 
       // Get the Default External Cache Directory
       File httpCacheDir = getExternalCacheDir();
@@ -126,26 +130,27 @@ public class MainActivity extends ActionBarActivity
       {
          // getItem is called to instantiate the fragment for the given page.
          // Return a PlaceholderFragment (defined as a static inner class below).
-         if (position == 0)
-         {
-            return MainFragment.newInstance(position + 1);
-         }
-         if (position == 2)
-         {
-            return MonsterPageFragment.newInstance("thomas", "fix this");
-         }
-         if (position == 1)
-         {
-            return EnemyTargetFragment.newInstance("thomas", "where are you");
-         }
-         if(position == 3)
-         {
-            return TeamListFragment.newInstance("thomas ??", "sup");
-         }
-         if(position == 4)
-         {
-            return TeamDamageListFragment.newInstance("yes", "?");
-         }
+//         if (position == 0)
+//         {
+//            return MainFragment.newInstance(position + 1);
+//         }
+//         if (position == 2)
+//         {
+//            Monster kirin = new Monster();
+//            return MonsterPageFragment.newInstance(kirin);
+//         }
+//         if (position == 1)
+//         {
+//            return EnemyTargetFragment.newInstance();
+//         }
+//         if(position == 3)
+//         {
+//            return TeamListFragment.newInstance("thomas ??", "sup");
+//         }
+//         if(position == 4)
+//         {
+//            return TeamDamageListFragment.newInstance("yes", "?");
+//         }
 
          return PlaceholderFragment.newInstance(position + 1);
       }
@@ -213,13 +218,21 @@ public class MainActivity extends ActionBarActivity
       }
    }
 
-   public void switchFragment(Fragment fragment)
+   public void switchFragment(Fragment fragment, String tag)
    {
       FragmentManager fm = getSupportFragmentManager();
       FragmentTransaction transaction = fm.beginTransaction();
-      transaction.replace(R.id.pager, fragment);
+      transaction.replace(R.id.pager, fragment, tag);
       transaction.addToBackStack(null).commit();
 
    }
 
+   @Override
+   public void onBackPressed() {
+      if(getSupportFragmentManager().getBackStackEntryCount() == 0) {
+         finish();
+      } else {
+         getSupportFragmentManager().popBackStack();
+      }
+   }
 }

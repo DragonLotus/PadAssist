@@ -75,6 +75,8 @@ public class MonsterListAdapter extends ArrayAdapter<Monster>
       return convertView;
    }
 
+
+
    static class ViewHolder
    {
       TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV;

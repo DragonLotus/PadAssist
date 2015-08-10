@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
  */
 public class MainFragment extends Fragment
 {
+   public static final String TAG = MainFragment.class.getSimpleName();
    private static final String ARG_SECTION_NUMBER = "section_number";
    private int additionalCombos = 0;
    private TextView editTeam, orbsLinkedValue, orbsPlusValue;
@@ -56,6 +58,8 @@ public class MainFragment extends Fragment
    private OrbMatchAdapter orbMatchAdapter;
    private boolean isRow, maxLeadMultiplier = false, hasEnemy = true;
    private OrbMatch orbMatch;
+   private ArrayList<OrbMatch> orbMatchList;
+   private ArrayList<Monster> monsterList;
    private Toast toast;
    private RadioGroup orbRadioGroup;
    private MyDialogFragment dialog;
@@ -99,10 +103,14 @@ public class MainFragment extends Fragment
          else if(buttonView.equals(ignoreEnemyCheckBox)){
             hasEnemy = !isChecked;
             if(isChecked){
-               calculateButton.setText("Calculate without Target");
+               calculateButton.setText("Calculate");
+//               if(orbMatches.getCount() == 0){
+//                  calculateButton.setEnabled(false);
+//               }
             }
             else{
                calculateButton.setText("Enemy Attributes");
+//               calculateButton.setEnabled(true);
             }
          }
       }
@@ -188,11 +196,18 @@ public class MainFragment extends Fragment
       @Override
       public void onClick(View v) {
          additionalComboValue.clearFocus();
-         if(!hasEnemy){
-            ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false));
-         }
-         else {
-            ( (MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance("1", "2"));
+         if (orbMatches.getCount() == 0) {
+            if (toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "No orb matches", Toast.LENGTH_SHORT);
+            toast.show();
+         } else {
+            if (!hasEnemy) {
+               ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, monsterList, orbMatchList), TeamDamageListFragment.TAG);
+            } else {
+               ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(monsterList, orbMatchList), EnemyTargetFragment.TAG);
+            }
          }
       }
    };
@@ -205,6 +220,9 @@ public class MainFragment extends Fragment
          additionalComboValue.clearFocus();
          orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress(),getOrbColor(), isRow);
          orbMatchAdapter.add(orbMatch);
+//         if(ignoreEnemyCheckBox.isChecked()){
+//            calculateButton.setEnabled(true);
+//         }
       }
    };
 
@@ -252,12 +270,11 @@ public class MainFragment extends Fragment
       inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
    }
 
-
-   public static MainFragment newInstance(int sectionNumber)
+   public static MainFragment newInstance(ArrayList<Monster> monsterList)
    {
       MainFragment fragment = new MainFragment();
       Bundle args = new Bundle();
-      args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+      args.putParcelableArrayList("monsterList", monsterList);
       fragment.setArguments(args);
       return fragment;
    }
@@ -292,6 +309,9 @@ public class MainFragment extends Fragment
    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
       super.onActivityCreated(savedInstanceState);
       //Write your code here
+      if(getArguments() != null) {
+         monsterList = getArguments().getParcelableArrayList("monsterList");
+      }
        new DownloadPadApi().start();
       orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
       orbsPlus.setOnSeekBarChangeListener(orbsPlusSeekBarChangeListener);
@@ -300,7 +320,8 @@ public class MainFragment extends Fragment
       ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
       reset.setOnClickListener(resetOnClickListener);
-      orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, new ArrayList<OrbMatch>());
+      orbMatchList = new ArrayList<OrbMatch>();
+      orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, orbMatchList);
       orbMatches.setAdapter(orbMatchAdapter);
       additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
       additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);

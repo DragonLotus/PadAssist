@@ -1,330 +1,383 @@
 package com.example.anthony.damagecalculator.Data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
  * Created by Anthony on 7/13/2015.
  */
-public class Monster
-{
-   public static final int HP_MULTIPLIER = 10;
-   public static final int ATK_MULTIPLIER = 5;
-   public static final int RCV_MULTIPLIER = 3;
-   private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2, currentLevel, atkPlus, hpPlus, rcvPlus, maxAwakenings, currentAwakenings;
-   private Color element1, element2;
-   private ArrayList<String> awokenSkills;
-   private String activeSkill, leaderSkill, name;
-   private double atkScale, rcvScale, hpScale, currentAtk, currentRcv, currentHp;
-   DecimalFormat format = new DecimalFormat("0.00");
-   public Monster()
-   {
-      currentLevel = 1;
-      atkMax = 1370;
-      atkMin = 913;
-      hpMin = 1271;
-      hpMax = 3528;
-      rcvMin = 256;
-      rcvMax = 384;
-      maxLevel = 99;
-      atkScale = 1;
-      rcvScale = 1;
-      hpScale = 1;
-      maxAwakenings = 7;
-      name = "Kirin of the Sacred Gleam, Sakuya";
-   }
+public class Monster implements Parcelable {
+    public static final int HP_MULTIPLIER = 10;
+    public static final int ATK_MULTIPLIER = 5;
+    public static final int RCV_MULTIPLIER = 3;
+    private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2, currentLevel, atkPlus, hpPlus, rcvPlus, maxAwakenings, currentAwakenings;
+    private Color element1, element2;
+    private ArrayList<String> awokenSkills;
+    private String activeSkill, leaderSkill, name;
+    private double atkScale, rcvScale, hpScale, currentAtk, currentRcv, currentHp;
+    DecimalFormat format = new DecimalFormat("0.00");
 
-   public int getCurrentLevel()
-   {
-      return currentLevel;
-   }
+    public Monster() {
+        currentLevel = 1;
+        atkMax = 1370;
+        atkMin = 913;
+        hpMin = 1271;
+        hpMax = 3528;
+        rcvMin = 256;
+        rcvMax = 384;
+        maxLevel = 99;
+        atkScale = 1;
+        rcvScale = 1;
+        hpScale = 1;
+        maxAwakenings = 7;
+        hpPlus = 99;
+        atkPlus = 99;
+        rcvPlus = 99;
+        currentHp = DamageCalculationUtil.monsterStatCalc(hpMin, hpMax, currentLevel, maxLevel, hpScale);
+        currentAtk = DamageCalculationUtil.monsterStatCalc(atkMin, atkMax, currentLevel, maxLevel, atkScale);
+        currentRcv = DamageCalculationUtil.monsterStatCalc(rcvMin, rcvMax, currentLevel, maxLevel, rcvScale);
+        currentAwakenings = 7;
+        element1 = Color.LIGHT;
+        element2 = Color.LIGHT;
+        name = "Kirin of the Sacred Gleam, Sakuya";
+    }
 
-   public void setCurrentLevel(int currentLevel)
-   {
-      this.currentLevel = currentLevel;
-   }
+    public double getElement1Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
+        return DamageCalculationUtil.totalMonsterDamageMain(this, orbMatches, orbPlusAwakenings);
+    }
 
-   public int getCurrentAtk()
-   {
-      return (int)currentAtk;
-   }
+//   public double getMainElementDamage(int orbsLinked, int orbPlus, int orbPlusAwakenings) {
+//      return DamageCalculationUtil.totalMonsterDamageMain(this, orbsLinked, orbPlus, orbPlusAwakenings);
+//   }
 
-   public int getCurrentHp()
-   {
-      return (int)currentHp;
-   }
+    public String getElement1DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings) {
+        return "(" + getElement1Damage(orbMatches, orbPlusAwakenings) + ")";
+    }
 
-   public int getTotalHp() {
-      return (int)currentHp + hpPlus * HP_MULTIPLIER;
-   }
-   public int getTotalAtk() {
-      return (int)currentAtk + atkPlus * ATK_MULTIPLIER;
-   }
-   public int getTotalRcv() {
-      return (int)currentRcv + rcvPlus * RCV_MULTIPLIER;
-   }
-   public String getWeightedString() {
-      return format.format(getWeighted());
-   }
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
 
-   public double getWeighted() {
-      return currentHp / HP_MULTIPLIER + currentAtk / ATK_MULTIPLIER + currentRcv / RCV_MULTIPLIER;
-   }
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
 
-   public String getTotalWeightedString() {
-      return format.format(getTotalWeighted());
-   }
+    public int getCurrentAtk() {
+        return (int) currentAtk;
+    }
 
-   public double getTotalWeighted() {
-      return getWeighted() + hpPlus + atkPlus + rcvPlus;
-   }
+    public int getCurrentHp() {
+        return (int) currentHp;
+    }
 
-   public void setCurrentAtk(double currentAtk)
-   {
-      this.currentAtk = currentAtk;
-   }
+    public int getTotalHp() {
+        return (int) currentHp + hpPlus * HP_MULTIPLIER;
+    }
 
-   public int getCurrentRcv()
-   {
-      return (int)currentRcv;
-   }
+    public int getTotalAtk() {
+        return (int) currentAtk + atkPlus * ATK_MULTIPLIER;
+    }
 
-   public void setCurrentRcv(double currentRcv)
-   {
-      this.currentRcv = currentRcv;
-   }
+    public int getTotalRcv() {
+        return (int) currentRcv + rcvPlus * RCV_MULTIPLIER;
+    }
 
-   public int getAtkMax()
+    public String getWeightedString() {
+        return format.format(getWeighted());
+    }
 
-   {
-      return atkMax;
-   }
+    public double getWeighted() {
+        return currentHp / HP_MULTIPLIER + currentAtk / ATK_MULTIPLIER + currentRcv / RCV_MULTIPLIER;
+    }
 
-   public void setAtkMax(int atkMax)
-   {
-      this.atkMax = atkMax;
-   }
+    public String getTotalWeightedString() {
+        return format.format(getTotalWeighted());
+    }
 
-   public int getAtkMin()
-   {
-      return atkMin;
-   }
+    public double getTotalWeighted() {
+        return getWeighted() + hpPlus + atkPlus + rcvPlus;
+    }
 
-   public void setAtkMin(int atkMin)
-   {
-      this.atkMin = atkMin;
-   }
+    public void setCurrentAtk(double currentAtk) {
+        this.currentAtk = currentAtk;
+    }
 
-   public int getHpMax()
-   {
-      return hpMax;
-   }
+    public int getCurrentRcv() {
+        return (int) currentRcv;
+    }
 
-   public void setHpMax(int hpMax)
-   {
-      this.hpMax = hpMax;
-   }
+    public void setCurrentRcv(double currentRcv) {
+        this.currentRcv = currentRcv;
+    }
 
-   public int getHpMin()
-   {
-      return hpMin;
-   }
+    public int getAtkMax()
 
-   public void setHpMin(int hpMin)
-   {
-      this.hpMin = hpMin;
-   }
+    {
+        return atkMax;
+    }
 
-   public int getMaxLevel()
-   {
-      return maxLevel;
-   }
+    public void setAtkMax(int atkMax) {
+        this.atkMax = atkMax;
+    }
 
-   public void setMaxLevel(int maxLevel)
-   {
-      this.maxLevel = maxLevel;
-   }
+    public int getAtkMin() {
+        return atkMin;
+    }
 
-   public int getRcvMax()
-   {
-      return rcvMax;
-   }
+    public void setAtkMin(int atkMin) {
+        this.atkMin = atkMin;
+    }
 
-   public void setRcvMax(int rcvMax)
-   {
-      this.rcvMax = rcvMax;
-   }
+    public int getHpMax() {
+        return hpMax;
+    }
 
-   public int getRcvMin()
-   {
-      return rcvMin;
-   }
+    public void setHpMax(int hpMax) {
+        this.hpMax = hpMax;
+    }
 
-   public void setRcvMin(int rcvMin)
-   {
-      this.rcvMin = rcvMin;
-   }
+    public int getHpMin() {
+        return hpMin;
+    }
 
-   public int getType1()
-   {
-      return type1;
-   }
+    public void setHpMin(int hpMin) {
+        this.hpMin = hpMin;
+    }
 
-   public void setType1(int type1)
-   {
-      this.type1 = type1;
-   }
+    public int getMaxLevel() {
+        return maxLevel;
+    }
 
-   public int getType2()
-   {
-      return type2;
-   }
+    public void setMaxLevel(int maxLevel) {
+        this.maxLevel = maxLevel;
+    }
 
-   public void setType2(int type2)
-   {
-      this.type2 = type2;
-   }
+    public int getRcvMax() {
+        return rcvMax;
+    }
 
-   public Color getElement1()
-   {
-      return element1;
-   }
+    public void setRcvMax(int rcvMax) {
+        this.rcvMax = rcvMax;
+    }
 
-   public void setElement1(Color element1)
-   {
-      this.element1 = element1;
-   }
+    public int getRcvMin() {
+        return rcvMin;
+    }
 
-   public Color getElement2()
-   {
-      return element2;
-   }
+    public void setRcvMin(int rcvMin) {
+        this.rcvMin = rcvMin;
+    }
 
-   public void setElement2(Color element2)
-   {
-      this.element2 = element2;
-   }
+    public int getType1() {
+        return type1;
+    }
 
-   public ArrayList<String> getAwokenSkills()
-   {
-      return awokenSkills;
-   }
+    public void setType1(int type1) {
+        this.type1 = type1;
+    }
 
-   public void setAwokenSkills(ArrayList<String> awokenSkills)
-   {
-      this.awokenSkills = awokenSkills;
-   }
+    public int getType2() {
+        return type2;
+    }
 
-   public String getActiveSkill()
-   {
-      return activeSkill;
-   }
+    public void setType2(int type2) {
+        this.type2 = type2;
+    }
 
-   public void setActiveSkill(String activeSkill)
-   {
-      this.activeSkill = activeSkill;
-   }
+    public Color getElement1() {
+        return element1;
+    }
 
-   public String getLeaderSkill()
-   {
-      return leaderSkill;
-   }
+    public void setElement1(Color element1) {
+        this.element1 = element1;
+    }
 
-   public void setLeaderSkill(String leaderSkill)
-   {
-      this.leaderSkill = leaderSkill;
-   }
+    public Color getElement2() {
+        return element2;
+    }
 
-   public String getName()
-   {
-      return name;
-   }
+    public void setElement2(Color element2) {
+        this.element2 = element2;
+    }
 
-   public void setName(String name)
-   {
-      this.name = name;
-   }
+    public ArrayList<String> getAwokenSkills() {
+        return awokenSkills;
+    }
 
-   public double getAtkScale()
-   {
-      return atkScale;
-   }
+    public void setAwokenSkills(ArrayList<String> awokenSkills) {
+        this.awokenSkills = awokenSkills;
+    }
 
-   public void setAtkScale(double atkScale)
-   {
-      this.atkScale = atkScale;
-   }
+    public String getActiveSkill() {
+        return activeSkill;
+    }
 
-   public double getRcvScale()
-   {
-      return rcvScale;
-   }
+    public void setActiveSkill(String activeSkill) {
+        this.activeSkill = activeSkill;
+    }
 
-   public void setRcvScale(double rcvScale)
-   {
-      this.rcvScale = rcvScale;
-   }
+    public String getLeaderSkill() {
+        return leaderSkill;
+    }
 
-   public double getHpScale()
-   {
-      return hpScale;
-   }
+    public void setLeaderSkill(String leaderSkill) {
+        this.leaderSkill = leaderSkill;
+    }
 
-   public void setHpScale(double hpScale)
-   {
-      this.hpScale = hpScale;
-   }
+    public String getName() {
+        return name;
+    }
 
-   public void setCurrentHp(double currentHp)
-   {
-      this.currentHp = currentHp;
-   }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-   public int getAtkPlus()
-   {
-      return atkPlus;
-   }
+    public double getAtkScale() {
+        return atkScale;
+    }
 
-   public void setAtkPlus(int atkPlus)
-   {
-      this.atkPlus = atkPlus;
-   }
+    public void setAtkScale(double atkScale) {
+        this.atkScale = atkScale;
+    }
 
-   public int getHpPlus()
-   {
-      return hpPlus;
-   }
+    public double getRcvScale() {
+        return rcvScale;
+    }
 
-   public void setHpPlus(int hpPlus)
-   {
-      this.hpPlus = hpPlus;
-   }
+    public void setRcvScale(double rcvScale) {
+        this.rcvScale = rcvScale;
+    }
 
-   public int getRcvPlus()
-   {
-      return rcvPlus;
-   }
+    public double getHpScale() {
+        return hpScale;
+    }
 
-   public void setRcvPlus(int rcvPlus)
-   {
-      this.rcvPlus = rcvPlus;
-   }
+    public void setHpScale(double hpScale) {
+        this.hpScale = hpScale;
+    }
 
-   public int getMaxAwakenings() {
-      return maxAwakenings;
-   }
+    public void setCurrentHp(double currentHp) {
+        this.currentHp = currentHp;
+    }
 
-   public void setMaxAwakenings(int maxAwakenings) {
-      this.maxAwakenings = maxAwakenings;
-   }
+    public int getAtkPlus() {
+        return atkPlus;
+    }
 
-   public int getCurrentAwakenings() {
-      return currentAwakenings;
-   }
+    public void setAtkPlus(int atkPlus) {
+        this.atkPlus = atkPlus;
+    }
 
-   public void setCurrentAwakenings(int currentAwakenings) {
-      this.currentAwakenings = currentAwakenings;
-   }
+    public int getHpPlus() {
+        return hpPlus;
+    }
+
+    public void setHpPlus(int hpPlus) {
+        this.hpPlus = hpPlus;
+    }
+
+    public int getRcvPlus() {
+        return rcvPlus;
+    }
+
+    public void setRcvPlus(int rcvPlus) {
+        this.rcvPlus = rcvPlus;
+    }
+
+    public int getMaxAwakenings() {
+        return maxAwakenings;
+    }
+
+    public void setMaxAwakenings(int maxAwakenings) {
+        this.maxAwakenings = maxAwakenings;
+    }
+
+    public int getCurrentAwakenings() {
+        return currentAwakenings;
+    }
+
+    public void setCurrentAwakenings(int currentAwakenings) {
+        this.currentAwakenings = currentAwakenings;
+    }
+
+    public Monster(Parcel source) {
+        atkMax = source.readInt();
+        atkMin = source.readInt();
+        hpMax = source.readInt();
+        hpMin = source.readInt();
+        maxLevel = source.readInt();
+        rcvMax = source.readInt();
+        rcvMin = source.readInt();
+        type1 = source.readInt();
+        type2 = source.readInt();
+        currentLevel = source.readInt();
+        atkPlus = source.readInt();
+        hpPlus = source.readInt();
+        rcvPlus = source.readInt();
+        maxAwakenings = source.readInt();
+        currentAwakenings = source.readInt();
+        element1 = (Color) source.readSerializable();
+        element2 = (Color) source.readSerializable();
+        awokenSkills = source.readArrayList(String.class.getClassLoader());
+        activeSkill = source.readString();
+        leaderSkill = source.readString();
+        name = source.readString();
+        atkScale = source.readDouble();
+        rcvScale = source.readDouble();
+        hpScale = source.readDouble();
+        currentAtk = source.readDouble();
+        currentHp = source.readDouble();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(atkMax);
+        dest.writeInt(atkMin);
+        dest.writeInt(hpMax);
+        dest.writeInt(hpMin);
+        dest.writeInt(maxLevel);
+        dest.writeInt(rcvMax);
+        dest.writeInt(rcvMin);
+        dest.writeInt(type1);
+        dest.writeInt(type2);
+        dest.writeInt(currentLevel);
+        dest.writeInt(atkPlus);
+        dest.writeInt(hpPlus);
+        dest.writeInt(rcvPlus);
+        dest.writeInt(maxAwakenings);
+        dest.writeInt(currentAwakenings);
+        dest.writeSerializable(element1);
+        dest.writeSerializable(element2);
+        dest.writeList(awokenSkills);
+        dest.writeString(activeSkill);
+        dest.writeString(leaderSkill);
+        dest.writeString(name);
+        dest.writeDouble(atkScale);
+        dest.writeDouble(rcvScale);
+        dest.writeDouble(hpScale);
+        dest.writeDouble(currentAtk);
+        dest.writeDouble(currentHp);
+    }
+
+    public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {
+        public Monster createFromParcel(Parcel source) {
+            return new Monster(source);
+        }
+
+        public Monster[] newArray(int size) {
+            return new Monster[size];
+        }
+    };
 }
 
 

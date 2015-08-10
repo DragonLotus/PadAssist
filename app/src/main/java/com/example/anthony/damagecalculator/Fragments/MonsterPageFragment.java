@@ -41,14 +41,13 @@ import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
  */
 public class MonsterPageFragment extends Fragment
 {
+   public static final String TAG = MonsterPageFragment.class.getSimpleName();
    // TODO: Rename parameter arguments, choose names that match
    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
    private static final String ARG_PARAM1 = "param1";
    private static final String ARG_PARAM2 = "param2";
 
    // TODO: Rename and change types of parameters
-   private String mParam1;
-   private String mParam2;
    private View rootView;
    private OnFragmentInteractionListener mListener;
    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue;
@@ -78,6 +77,9 @@ public class MonsterPageFragment extends Fragment
             monsterStatsHPBase.setText(String.valueOf(monster.getCurrentHp()));
             monsterStatsATKBase.setText(String.valueOf(monster.getCurrentAtk()));
             monsterStatsRCVBase.setText(String.valueOf(monster.getCurrentRcv()));
+            monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
+            monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
+            monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
             monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
             monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
          }
@@ -139,6 +141,7 @@ public class MonsterPageFragment extends Fragment
             else if (monsterStatsHPPlus.getText().toString().equals(""))
             {
                monsterStatsHPPlus.setText("0");
+
             }
             else if (monsterStatsATKPlus.getText().toString().equals(""))
             {
@@ -162,12 +165,12 @@ public class MonsterPageFragment extends Fragment
     * @return A new instance of fragment MonsterPageFragment.
     */
    // TODO: Rename and change types and number of parameters
-   public static MonsterPageFragment newInstance(String param1, String param2)
+   public static MonsterPageFragment newInstance(Monster monster)
    {
       MonsterPageFragment fragment = new MonsterPageFragment();
       Bundle args = new Bundle();
-      args.putString(ARG_PARAM1, param1);
-      args.putString(ARG_PARAM2, param2);
+      Log.d("Monster1:", "Monster1: " + monster);
+      args.putParcelable("monster", monster);
       fragment.setArguments(args);
       return fragment;
    }
@@ -183,8 +186,8 @@ public class MonsterPageFragment extends Fragment
       super.onCreate(savedInstanceState);
       if (getArguments() != null)
       {
-         mParam1 = getArguments().getString(ARG_PARAM1);
-         mParam2 = getArguments().getString(ARG_PARAM2);
+         monster = getArguments().getParcelable("monster");
+         Log.d("Monster2:", "Monster2: " + monster);
       }
    }
 
@@ -213,7 +216,6 @@ public class MonsterPageFragment extends Fragment
       monsterAwakeningsValue = (EditText) rootView.findViewById(R.id.monsterAwakeningsValue);
       awakeningHolder = (LinearLayout) rootView.findViewById(R.id.awakeningHolder);
 
-
       return rootView;
    }
 
@@ -221,8 +223,8 @@ public class MonsterPageFragment extends Fragment
    public void onActivityCreated(Bundle savedInstanceState)
    {
       super.onActivityCreated(savedInstanceState);
-      monster = new Monster();
-
+      initializeEditTexts();
+      monsterStats();
       monsterLevelValue.addTextChangedListener(currentLevelWatcher);
       monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
       monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
@@ -238,7 +240,6 @@ public class MonsterPageFragment extends Fragment
       monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
       showAwakenings();
       grayAwakenings();
-      monsterStats();
       awakeningMinus.setOnClickListener(awakeningButtons);
       awakeningPlus.setOnClickListener(awakeningButtons);
 
@@ -269,6 +270,7 @@ public class MonsterPageFragment extends Fragment
    {
       super.onDetach();
       mListener = null;
+      Log.d("What is awakening", "awakening detach: " + monster.getCurrentAwakenings() + " " + monster);
    }
 
 
@@ -454,6 +456,12 @@ public class MonsterPageFragment extends Fragment
    public void monsterStats()
    {
       //Update method because our TextWatcher no work
+     setMonsterStats();
+      setTextViewValues();
+
+   }
+
+   public void setMonsterStats() {
       monster.setCurrentLevel(Integer.parseInt(monsterLevelValue.getText().toString()));
       monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
       monster.setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getHpMin(), monster.getHpMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getHpScale()));
@@ -461,6 +469,10 @@ public class MonsterPageFragment extends Fragment
       monster.setHpPlus(Integer.valueOf(monsterStatsHPPlus.getText().toString()));
       monster.setAtkPlus(Integer.valueOf(monsterStatsATKPlus.getText().toString()));
       monster.setRcvPlus(Integer.valueOf(monsterStatsRCVPlus.getText().toString()));
+   }
+
+   public void setTextViewValues() {
+      Log.d("What are the values", "Values: " + monster.getCurrentHp() + " " + monster.getCurrentAtk() + " " + monster.getCurrentRcv());
       monsterStatsHPBase.setText(String.valueOf(monster.getCurrentHp()));
       monsterStatsATKBase.setText(String.valueOf(monster.getCurrentAtk()));
       monsterStatsRCVBase.setText(String.valueOf(monster.getCurrentRcv()));
@@ -470,6 +482,14 @@ public class MonsterPageFragment extends Fragment
       monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
       monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
 
+   }
+
+   public void initializeEditTexts() {
+      monsterLevelValue.setText(String.valueOf(monster.getCurrentLevel()));
+      monsterStatsHPPlus.setText(String.valueOf(monster.getHpPlus()));
+      monsterStatsATKPlus.setText(String.valueOf(monster.getAtkPlus()));
+      monsterStatsRCVPlus.setText(String.valueOf(monster.getRcvPlus()));
+      monsterAwakeningsValue.setText(String.valueOf(monster.getCurrentAwakenings()));
    }
 
    public void clearTextFocus() {
@@ -504,6 +524,7 @@ public class MonsterPageFragment extends Fragment
 //         }
 //      }
 //   };
+
 
 
 }

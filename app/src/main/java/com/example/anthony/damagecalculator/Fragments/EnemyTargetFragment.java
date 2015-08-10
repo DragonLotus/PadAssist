@@ -34,6 +34,7 @@ import com.example.anthony.damagecalculator.Adapters.GravityListAdapter;
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.Enemy;
+import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
@@ -58,6 +59,7 @@ import java.util.Comparator;
  */
 public class EnemyTargetFragment extends Fragment
 {
+   public static final String TAG = EnemyTargetFragment.class.getSimpleName();
    // TODO: Rename parameter arguments, choose names that match
    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
    private static final String ARG_PARAM1 = "param1";
@@ -82,6 +84,8 @@ public class EnemyTargetFragment extends Fragment
    private Toast toast;
    private Spinner defenseBreakSpinner;
    private String[] defenseBreakItems;
+   private ArrayList<OrbMatch> orbMatches;
+   private ArrayList<Monster> monsterList;
    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
    private double defenseBreakValue = 1.0;
    private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent()
@@ -161,12 +165,12 @@ public class EnemyTargetFragment extends Fragment
     * @return A new instance of fragment EnemyTargetFragment.
     */
    // TODO: Rename and change types and number of parameters
-   public static EnemyTargetFragment newInstance(String param1, String param2)
+   public static EnemyTargetFragment newInstance(ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches)
    {
       EnemyTargetFragment fragment = new EnemyTargetFragment();
       Bundle args = new Bundle();
-      args.putString(ARG_PARAM1, param1);
-      args.putString(ARG_PARAM2, param2);
+      args.putParcelableArrayList("monsterList", monsterList);
+      args.putParcelableArrayList("orbMatches", orbMatches);
       fragment.setArguments(args);
       return fragment;
    }
@@ -224,6 +228,10 @@ public class EnemyTargetFragment extends Fragment
    public void onActivityCreated(@Nullable Bundle savedInstanceState)
    {
       super.onActivityCreated(savedInstanceState);
+      if(getArguments() != null) {
+         monsterList = getArguments().getParcelableArrayList("monsterList");
+         orbMatches = getArguments().getParcelableArrayList("orbMatches");
+      }
       enemy = new Enemy();
 
       targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
@@ -765,7 +773,7 @@ public class EnemyTargetFragment extends Fragment
    private View.OnClickListener calculateOnClickListener = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-         ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true));
+         ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches), TeamDamageListFragment.TAG);
       }
    };
 

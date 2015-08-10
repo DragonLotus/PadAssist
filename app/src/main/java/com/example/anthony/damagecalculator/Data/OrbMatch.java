@@ -1,9 +1,12 @@
 package com.example.anthony.damagecalculator.Data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Thomas on 7/11/2015.
  */
-public class OrbMatch
+public class OrbMatch implements Parcelable
 {
    private int orbsLinked;
    private int numOrbPlus;
@@ -52,5 +55,35 @@ public class OrbMatch
    {
       return isRow;
    }
+
+   public OrbMatch(Parcel source) {
+      orbsLinked = source.readInt();
+      numOrbPlus = source.readInt();
+      color = (Color) source.readSerializable();
+      isRow = source.readByte() == 1;
+   }
+
+   @Override
+   public void writeToParcel(Parcel dest, int flags) {
+      dest.writeInt(orbsLinked);
+      dest.writeInt(numOrbPlus);
+      dest.writeSerializable(color);
+      dest.writeByte((byte) (isRow ? 1 : 0));
+   }
+
+   @Override
+   public int describeContents() {
+      return 0;
+   }
+
+   public static final Parcelable.Creator<OrbMatch> CREATOR = new Creator<OrbMatch>() {
+      public OrbMatch createFromParcel(Parcel source) {
+         return new OrbMatch(source);
+      }
+
+      public OrbMatch[] newArray(int size) {
+         return new OrbMatch[size];
+      }
+   };
 
 }

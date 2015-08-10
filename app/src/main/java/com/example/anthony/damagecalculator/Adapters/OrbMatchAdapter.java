@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Fragments.MainFragment;
 import com.example.anthony.damagecalculator.R;
 
 import java.util.ArrayList;
@@ -34,14 +35,16 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       @Override
       public void onClick(View v)
       {
-         int position = (int)v.getTag(R.string.index);
-         orbMatches.remove(position);
-         notifyDataSetChanged();
-         if(toast != null) {
-            toast.cancel();
+         if(orbMatches.size() > 0) {
+            int position = (int) v.getTag(R.string.index);
+            orbMatches.remove(position);
+            notifyDataSetChanged();
+            if (toast != null) {
+               toast.cancel();
+            }
+            toast = Toast.makeText(mContext, "Match Removed", Toast.LENGTH_SHORT);
+            toast.show();
          }
-         toast = Toast.makeText(mContext, "Match Removed", Toast.LENGTH_SHORT);
-         toast.show();
       }
    };
 

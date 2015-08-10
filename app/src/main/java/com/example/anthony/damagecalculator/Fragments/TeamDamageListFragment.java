@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
 import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class TeamDamageListFragment extends Fragment {
+    public static final String TAG = MonsterPageFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -38,7 +40,9 @@ public class TeamDamageListFragment extends Fragment {
     private ListView monsterListView;
     private MonsterDamageListAdapter monsterListAdapter;
     private boolean hasEnemy;
-    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue;
+    private ArrayList<OrbMatch> orbMatches;
+    private ArrayList<Monster> monsterList;
+    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue;
 
     /**
      * Use this factory method to create a new instance of
@@ -59,11 +63,13 @@ public class TeamDamageListFragment extends Fragment {
     }
 
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy)
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches)
     {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
+        args.putParcelableArrayList("monsterList", monsterList);
+        args.putParcelableArrayList("orbMatches", orbMatches);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,6 +99,7 @@ public class TeamDamageListFragment extends Fragment {
         enemyHPValue = (TextView) rootView.findViewById(R.id.enemyHPValue);
         enemyHPPercent = (TextView) rootView.findViewById(R.id.enemyHPPercent);
         enemyHPPercentValue = (TextView) rootView.findViewById(R.id.enemyHPPercentValue);
+        totalDamageValue = (TextView) rootView.findViewById(R.id.totalDamageValue);
         return rootView;
     }
 
@@ -101,29 +108,12 @@ public class TeamDamageListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if(getArguments() != null) {
             hasEnemy = getArguments().getBoolean("hasEnemy");
+            monsterList = getArguments().getParcelableArrayList("monsterList");
+            orbMatches = getArguments().getParcelableArrayList("orbMatches");
         }
-        if (!hasEnemy){
-            enemyHP.setVisibility(View.GONE);
-            enemyHPValue.setVisibility(View.GONE);
-            enemyHPPercent.setVisibility(View.GONE);
-            enemyHPPercentValue.setVisibility(View.GONE);
-        }
-        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, new ArrayList<Monster>(), hasEnemy);
+        updateTextView();
+        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches);
         monsterListView.setAdapter(monsterListAdapter);
-        Monster kirin = new Monster();
-        kirin.setCurrentAtk(69);
-        kirin.setCurrentHp(69);
-        kirin.setCurrentRcv(69);
-        kirin.setCurrentAwakenings(7);
-        kirin.setAtkPlus(99);
-        kirin.setHpPlus(99);
-        kirin.setRcvPlus(99);
-        monsterListAdapter.add(kirin);
-        monsterListAdapter.add(kirin);
-        monsterListAdapter.add(kirin);
-        monsterListAdapter.add(kirin);
-        monsterListAdapter.add(kirin);
-        monsterListAdapter.add(kirin);
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
     }
 
@@ -168,5 +158,21 @@ public class TeamDamageListFragment extends Fragment {
             }
         }
     };
+
+    public void updateTextView()
+    {
+        if (!hasEnemy) {
+            enemyHP.setVisibility(View.GONE);
+            enemyHPValue.setVisibility(View.GONE);
+            enemyHPPercent.setVisibility(View.GONE);
+            enemyHPPercentValue.setVisibility(View.GONE);
+            int totalDamage = 0;
+          //  for(int i = 0; i<monsterList.size(); i++){
+                //totalDamage += monsterList.get(i).getMainElementDamage();
+                //totalDamage += monsterList.get(i).getSecondaryElementDamage();
+            //}
+        }
+
+    }
 
 }

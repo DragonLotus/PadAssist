@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
@@ -23,16 +24,18 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
-    private int resourceId;
+    private int resourceId, element1Damage, element2Damage, element1DamageEnemy, element2DamageEnemy;
     private boolean hasEnemy;
+    private ArrayList<OrbMatch> orbMatches;
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy)
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches)
     {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
         this.resourceId = textViewResourceId;
         this.hasEnemy = hasEnemy;
+        this.orbMatches = orbMatches;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
@@ -55,12 +58,15 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
         //Needs to take in monster stats. But yea, pretty much the gist of it.
-            viewHolder.monsterElement1Damage.setText(String.valueOf(DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1)) + " ");
+        element1Damage = (int) DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1);
+            viewHolder.monsterElement1Damage.setText(String.valueOf(element1Damage) + " ");
+       // viewHolder.monsterElement1DamageEnemy.setText(monsterList.get(position).getMainElementDamageString(orbMatches,6));
         viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1)) + ")");
         viewHolder.monsterElement2Damage.setText(String.valueOf(DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1)) + " ");
         viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1)) + ")");
         int totalPlus = monsterList.get(position).getAtkPlus() + monsterList.get(position).getHpPlus() + monsterList.get(position).getRcvPlus();
         viewHolder.monsterPlus.setText(" +" + Integer.toString(totalPlus) + " ");
+        viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
         if (monsterList.get(position).getCurrentAwakenings() == monsterList.get(position).getMaxAwakenings()){
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");

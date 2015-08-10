@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
  */
 public class TeamListFragment extends Fragment
 {
+    public static final String TAG = TeamListFragment.class.getSimpleName();
    // TODO: Rename parameter arguments, choose names that match
    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
    private static final String ARG_PARAM1 = "param1";
@@ -41,6 +43,7 @@ public class TeamListFragment extends Fragment
 
    private OnFragmentInteractionListener mListener;
    private ListView monsterListView;
+   private ArrayList<Monster> monsters;
    private MonsterListAdapter monsterListAdapter;
    private Button importButton, orbMatchButton;
    private Boolean loggedIn = false;
@@ -137,42 +140,66 @@ public class TeamListFragment extends Fragment
       public void onFragmentInteraction(Uri uri);
    }
 
-   @Override
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("monsters", monsters);
+    }
+
+    @Override
    public void onActivityCreated(Bundle savedInstanceState)
    {
       super.onActivityCreated(savedInstanceState);
-      monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, new ArrayList<Monster>());
-      monsterListView.setAdapter(monsterListAdapter);
-      Monster kirin = new Monster();
-      kirin.setCurrentAtk(69);
-      kirin.setCurrentHp(69);
-      kirin.setCurrentRcv(69);
-      kirin.setCurrentAwakenings(7);
-      kirin.setAtkPlus(99);
-      kirin.setHpPlus(99);
-      kirin.setRcvPlus(99);
+       Log.d("SavedInstanceState", "SavedInstanceState: " + savedInstanceState);
+       if(savedInstanceState != null) {
+           monsters = savedInstanceState.getParcelableArrayList("monsters");
+       } else {
+           monsters = new ArrayList<Monster>();
+           Monster monster1 = new Monster();
+           monster1.setHpPlus(0);
+           monster1.setAtkPlus(0);
+           monster1.setRcvPlus(0);
+           monster1.setCurrentAwakenings(1);
+           Monster monster2 = new Monster();
+           monster2.setHpPlus(22);
+           monster2.setAtkPlus(22);
+           monster2.setRcvPlus(22);
+           monster2.setCurrentAwakenings(2);
+           Monster monster3 = new Monster();
+           monster3.setHpPlus(33);
+           monster3.setAtkPlus(33);
+           monster3.setRcvPlus(33);
+           monster3.setCurrentAwakenings(3);
+           Monster monster4 = new Monster();
+           monster4.setHpPlus(44);
+           monster4.setAtkPlus(44);
+           monster4.setRcvPlus(44);
+           monster4.setCurrentAwakenings(4);
+           Monster monster5 = new Monster();
+           monster5.setHpPlus(55);
+           monster5.setAtkPlus(55);
+           monster5.setRcvPlus(55);
+           monster5.setCurrentAwakenings(5);
+           Monster monster6 = new Monster();
+           monster6.setCurrentLevel(99);
+           monster6.setCurrentAwakenings(7);
 
-      Monster bob = new Monster();
-      bob.setCurrentAtk(1337);
-      bob.setCurrentHp(1337);
-      bob.setCurrentRcv(1337);
-      bob.setCurrentAwakenings(2);
-      bob.setAtkPlus(1000);
-      bob.setHpPlus(300);
-      bob.setRcvPlus(37);
-
-      monsterListAdapter.add(kirin);
-      monsterListAdapter.add(kirin);
-      monsterListAdapter.add(kirin);
-      monsterListAdapter.add(kirin);
-      monsterListAdapter.add(kirin);
-      monsterListAdapter.add(bob);
+           monsters.add(monster1);
+           monsters.add(monster2);
+           monsters.add(monster3);
+           monsters.add(monster4);
+           monsters.add(monster5);
+           monsters.add(monster6);
+       }
+       monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
+       monsterListView.setAdapter(monsterListAdapter);
       importButton.setOnClickListener(buttonOnClickListener);
       orbMatchButton.setOnClickListener(buttonOnClickListener);
       monsterListView.setOnItemClickListener(monsterListOnClickListener);
    }
 
-   private View.OnClickListener buttonOnClickListener = new View.OnClickListener(){
+
+    private View.OnClickListener buttonOnClickListener = new View.OnClickListener(){
       @Override
       public void onClick(View v) {
          if(v.equals(importButton)){
@@ -185,15 +212,18 @@ public class TeamListFragment extends Fragment
             }
          }
          if(v.equals(orbMatchButton)){
-            ( (MainActivity) getActivity()).switchFragment(MainFragment.newInstance(1));
+            ( (MainActivity) getActivity()).switchFragment(MainFragment.newInstance(monsters), MainFragment.TAG);
          }
       }
    };
+    public void updateList() {
+        monsterListAdapter.notifyDataSetChanged();
+    }
 
    private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener(){
       @Override
       public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-         ( (MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance("1", "2"));
+         ( (MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(monsters.get(position)), MonsterPageFragment.TAG);
       }
    };
 }
