@@ -157,21 +157,13 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#AA00FF"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
         }
-        if(hasAbsorb){
-            if(monsterList.get(position).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos)<0){
+
+            if(element1DamageEnemy<0){
                 viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
             }
-            if(monsterList.get(position).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos)<0){
+            if(element2DamageEnemy<0){
                 viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
             }
-        }
-        else if (hasDamageThreshold) {
-            if(monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos)<0){
-                viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
-            }
-            if(monsterList.get(position).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos)<0){
-                viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
-            }
-        }
+
     }
 }
