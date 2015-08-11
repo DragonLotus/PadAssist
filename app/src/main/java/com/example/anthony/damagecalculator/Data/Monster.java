@@ -344,6 +344,16 @@ public class Monster implements Parcelable {
         this.currentAwakenings = currentAwakenings;
     }
 
+    public int getTPA(){
+        //Loop through awakenings and count Double prongs
+        return 0;
+    }
+
+    public int getRowAwakenings(Color color){
+        //Loop through awakenings and count Row Awakenings depending on element
+        return 0;
+    }
+
     public Monster(Parcel source) {
         atkMax = source.readInt();
         atkMin = source.readInt();

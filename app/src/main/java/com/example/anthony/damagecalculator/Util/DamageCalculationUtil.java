@@ -19,7 +19,7 @@ public class DamageCalculationUtil {
         double totalOrbDamage = 0;
         for (int i = 0; i < orbMatches.size(); i++) {
             if (orbMatches.get(i).getColor().equals(monster.getElement1())) {
-                totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatches.get(i), orbAwakenings, 0);
+                totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
         return comboMultiplier(totalOrbDamage, combos);
@@ -30,14 +30,14 @@ public class DamageCalculationUtil {
         if(monster.getElement1().equals(monster.getElement2())){
             for(int i = 0; i < orbMatches.size(); i++) {
                 if(orbMatches.get(i).getColor().equals(monster.getElement2())) {
-                    totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, 0);
+                    totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, monster.getTPA());
                 }
             }
             return comboMultiplier(totalOrbDamage, combos);
         }
         for(int i = 0; i < orbMatches.size(); i++) {
             if(orbMatches.get(i).getColor().equals(monster.getElement2())) {
-                totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, 0);
+                totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
         return comboMultiplier(totalOrbDamage, combos);
@@ -179,6 +179,11 @@ public class DamageCalculationUtil {
             return monsterDamageEnemyDefense(damage/2, enemy);
         }
         else return monsterDamageEnemyDefense(damage, enemy);
+    }
+
+    public static double monsterElement1DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
+        return 0;
     }
 
     public static double orbMatch(int Attack, OrbMatch orbMatches, int OrbAwakenings, int TPAwakenings) {
