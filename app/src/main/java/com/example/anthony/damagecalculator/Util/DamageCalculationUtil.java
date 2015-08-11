@@ -233,20 +233,31 @@ public class DamageCalculationUtil {
         return Math.ceil(damage);
     }
 
-    public static double orbMatch(int Attack, int OrbsLinked, int OrbPlus, int OrbAwakenings, int TPAwakenings) {
+    public static double hpRecovered(int rcv, ArrayList<OrbMatch> orbMatches, int combos){
+        double totalOrbDamage = 0;
+        for (int i = 0; i < orbMatches.size(); i++) {
+            if (orbMatches.get(i).getColor().equals(Color.HEART)) {
+                totalOrbDamage += orbMatch(rcv, orbMatches.get(i));
+            }
+        }
+        return comboMultiplier(totalOrbDamage, combos);
+    }
+
+    public static double orbMatch(int rcv, OrbMatch orbMatches) {
         // Write in combos
         // Attack, Orb Awakenings, TPA from API, draw from Monster Database
         //(1 + (number of plus orbs).06) x (1 + (number of plus orb awakenings).05)
-        if (OrbsLinked < 3) {
+        if (orbMatches.getOrbsLinked() < 3) {
             throw new IllegalArgumentException();
         }
-        double damage = Attack * (((OrbsLinked - 3) * .25) + 1)
-                * ((OrbPlus * .06) + 1) * ((OrbAwakenings * .05) + 1);
-        if (OrbsLinked == 4) {
-            damage = damage * Math.pow(1.5, TPAwakenings);
+        double heal = 0;
+        if (orbMatches.getNumOrbPlus() == 0){
+            heal = rcv * (((orbMatches.getOrbsLinked() - 3) * .25) + 1);
+        }else {
+            heal = rcv * (((orbMatches.getOrbsLinked() - 3) * .25) + 1)
+                    * ((orbMatches.getNumOrbPlus() * .06) + 1);
         }
-
-        return Math.ceil(damage);
+        return Math.ceil(heal);
     }
 
     public static double finalMultiplier(double leadMul, double extraMul, int rowAwakenings, int numberOfRows) {

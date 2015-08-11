@@ -19,6 +19,7 @@ import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -28,13 +29,14 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
-    private int resourceId, combos;
+    private int resourceId, combos, totalDamage;
     private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private Enemy enemy;
     private Team team;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, Team team, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold) {
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, Team team, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold, int totalDamage) {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
@@ -47,6 +49,7 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         this.hasReduction = hasReduction;
         this.hasDamageThreshold = hasDamageThreshold;
         this.team = team;
+        this.totalDamage = totalDamage;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -62,7 +65,8 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement1DamageEnemy = (TextView) convertView.findViewById(R.id.monsterElement1DamageEnemy);
             viewHolder.monsterElement2Damage = (TextView) convertView.findViewById(R.id.monsterElement2Damage);
             viewHolder.monsterElement2DamageEnemy = (TextView) convertView.findViewById(R.id.monsterElement2DamageEnemy);
-
+            viewHolder.monsterElement1Percent = (TextView) convertView.findViewById(R.id.monsterElement1Percent);
+            viewHolder.monsterElement2Percent = (TextView) convertView.findViewById(R.id.monsterElement2Percent);
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
@@ -92,17 +96,19 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
                 viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos) + ")");
             }
         }
-
         else {
+            viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double)monsterList.get(position).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), combos)/totalDamage * 100) + "%"));
+            viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double)monsterList.get(position).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), combos)/totalDamage * 100) + "%"));
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }
+
         setTextColors(position, viewHolder);
         return convertView;
     }
 
     static class ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage, monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage, monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy, monsterElement1Percent, monsterElement2Percent;
         ImageView monsterPicture;
     }
 

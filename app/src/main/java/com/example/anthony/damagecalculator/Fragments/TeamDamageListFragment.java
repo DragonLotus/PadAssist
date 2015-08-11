@@ -19,6 +19,7 @@ import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.util.ArrayList;
 
@@ -50,8 +51,8 @@ public class TeamDamageListFragment extends Fragment {
     private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private ArrayList<Monster> monsterList;
-    private int additionalCombos, totalCombos = 0;
-    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue;
+    private int additionalCombos, totalCombos = 0, totalDamage = 0;
+    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
 
@@ -128,6 +129,8 @@ public class TeamDamageListFragment extends Fragment {
         enemyHPPercentValue = (TextView) rootView.findViewById(R.id.enemyHPPercentValue);
         totalDamageValue = (TextView) rootView.findViewById(R.id.totalDamageValue);
         totalComboValue = (TextView) rootView.findViewById(R.id.totalComboValue);
+        hpRecoveredValue = (TextView) rootView.findViewById(R.id.hpRecoveredValue);
+        targetReduction = (TextView) rootView.findViewById(R.id.targetReduction);
         reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
         redOrbReduction = (CheckBox) rootView.findViewById(R.id.redOrbReduction);
         blueOrbReduction = (CheckBox) rootView.findViewById(R.id.blueOrbReduction);
@@ -154,7 +157,7 @@ public class TeamDamageListFragment extends Fragment {
         updateTextView();
         setReductionOrbs();
         Log.d("totalCombos", String.valueOf(totalCombos));
-        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, team, hasAbsorb, hasReduction, hasDamageThreshold);
+        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, team, hasAbsorb, hasReduction, hasDamageThreshold, totalDamage);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
     }
@@ -208,18 +211,19 @@ public class TeamDamageListFragment extends Fragment {
             enemyHPPercent.setVisibility(View.GONE);
             enemyHPPercentValue.setVisibility(View.GONE);
             reductionRadioGroup.setVisibility(View.GONE);
-            int totalDamage = 0;
-            //  for(int i = 0; i<monsterList.size(); i++){
-            //totalDamage += monsterList.get(i).getMainElementDamage();
-            //totalDamage += monsterList.get(i).getSecondaryElementDamage();
-            //}
+            targetReduction.setVisibility(View.GONE);
+              for(int i = 0; i<monsterList.size(); i++){
+            totalDamage += monsterList.get(i).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), totalCombos);
+            totalDamage += monsterList.get(i).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), totalCombos);
+            }
+            totalDamageValue.setText(String.valueOf(totalDamage));
         } else {
             //Need to set colors of each enemy element stuff
             setTextColors();
             enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
             enemyHPPercentValue.setText(String.valueOf((enemy.getGravityPercent()) * 100) + "%");
         }
-
+        hpRecoveredValue.setText(String.valueOf((int)DamageCalculationUtil.hpRecovered(team.getTeamRcv(), orbMatches, totalCombos)));
         totalComboValue.setText(String.valueOf(totalCombos));
 
     }
