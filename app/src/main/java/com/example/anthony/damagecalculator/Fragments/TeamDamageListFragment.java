@@ -22,6 +22,7 @@ import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
@@ -53,11 +54,12 @@ public class TeamDamageListFragment extends Fragment {
     private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private ArrayList<Monster> monsterList;
-    private int additionalCombos, totalCombos = 0, totalDamage = 0;
+    private int additionalCombos, totalCombos = 0, totalDamage = 0, temp = 0;
     private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private RadioGroup absorbRadioGroup;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     /**
      * Use this factory method to create a new instance of
@@ -224,15 +226,75 @@ public class TeamDamageListFragment extends Fragment {
             }
             totalDamageValue.setText(String.valueOf(totalDamage));
         } else {
-            for (int i = 0; i < monsterList.size(); i++) {
-                totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
-                totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+            Log.d("Enemy absorb", "" + enemy.getAbsorb());
+            if (hasDamageThreshold) {
+                for (int i = 0; i < monsterList.size(); i++) {
+                    totalDamage += monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                    temp = totalDamage;
+                    if (totalDamage < 0){
+                        totalDamage = 0;
+                        temp = 0;
+                    }
+                    if (totalDamage >= enemy.getCurrentHp()){
+                        totalDamage = enemy.getCurrentHp();
+                    }
+                }
+                for (int i = 0; i < monsterList.size(); i++){
+                    totalDamage += monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                    temp = totalDamage;
+                    if (totalDamage < 0) {
+                        totalDamage = 0;
+                        temp = 0;
+                    }
+                    if (totalDamage >= enemy.getCurrentHp()){
+                        totalDamage = enemy.getCurrentHp();
+                    }
+                }
+                totalDamage = temp;
+            } else if (hasAbsorb) {
+                for (int i = 0; i < monsterList.size(); i++) {
+                    totalDamage += monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                    temp = totalDamage;
+                    if (totalDamage < 0){
+                        totalDamage = 0;
+                        temp = 0;
+                    }
+                    if (totalDamage >= enemy.getCurrentHp()){
+                        totalDamage = enemy.getCurrentHp();
+                    }
+                }
+                for (int i = 0; i < monsterList.size(); i++){
+                    totalDamage += monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                    temp = totalDamage;
+                    if (totalDamage < 0) {
+                        totalDamage = 0;
+                        temp = 0;
+                    }
+                    if (totalDamage >= enemy.getCurrentHp()){
+                        totalDamage = enemy.getCurrentHp();
+                    }
+                }
+                totalDamage = temp;
+            } else if (hasReduction) {
+                for (int i = 0; i < monsterList.size(); i++) {
+                    totalDamage += monsterList.get(i).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                    totalDamage += monsterList.get(i).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                }
+            } else {
+                for (int i = 0; i < monsterList.size(); i++) {
+                    totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                    totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                }
             }
             totalDamageValue.setText(String.valueOf(totalDamage));
             //Need to set colors of each enemy element stuff
             setTextColors();
+            enemy.setCurrentHp(enemy.getCurrentHp() - totalDamage);
+            if (enemy.getCurrentHp() < 0){
+                enemy.setCurrentHp(0);
+            }
             enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
-            enemyHPPercentValue.setText(String.valueOf((enemy.getGravityPercent()) * 100) + "%");
+            enemyHPPercentValue.setText(String.valueOf(df.format((double)enemy.getCurrentHp()/enemy.getTargetHp()*100) + "%"));
         }
         hpRecoveredValue.setText(String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), orbMatches, totalCombos)));
         totalComboValue.setText(String.valueOf(totalCombos));

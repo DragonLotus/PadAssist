@@ -84,17 +84,17 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         viewHolder.monsterElement1Damage.setText(String.valueOf(element1Damage));
         viewHolder.monsterElement2Damage.setText(String.valueOf(element2Damage));
         if (hasEnemy) {
-            if (hasAbsorb) {
-                element1DamageEnemy = monsterList.get(position).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
-                element2DamageEnemy = monsterList.get(position).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
-                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
-            } else if (hasDamageThreshold) {
-                element1DamageEnemy = monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
-                element2DamageEnemy = monsterList.get(position).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
-                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
-            } else if (hasReduction) {
+            if (hasDamageThreshold) {
+            element1DamageEnemy = monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
+            element2DamageEnemy = monsterList.get(position).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
+            viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+            viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+        } else if (hasAbsorb) {
+            element1DamageEnemy = monsterList.get(position).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
+            element2DamageEnemy = monsterList.get(position).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
+            viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+            viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+        } else if (hasReduction) {
                 element1DamageEnemy = monsterList.get(position).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
                 element2DamageEnemy = monsterList.get(position).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
@@ -107,6 +107,7 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             }
             viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double)element1DamageEnemy/totalDamage * 100) + "%"));
             viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double)element2DamageEnemy/totalDamage * 100) + "%"));
+            //if statement to check element damage > total damage, set to 0%?
         }
         else {
             viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double)element1Damage/totalDamage * 100) + "%"));

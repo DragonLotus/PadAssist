@@ -467,6 +467,7 @@ public class EnemyTargetFragment extends Fragment {
                     }
                 } else {
                     absorbRadioGroup.clearCheck();
+                    enemy.setAbsorb(Color.HEART);
                     for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                         absorbRadioGroup.getChildAt(i).setEnabled(false);
                     }

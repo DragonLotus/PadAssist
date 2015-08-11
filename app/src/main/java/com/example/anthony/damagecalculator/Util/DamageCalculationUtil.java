@@ -14,7 +14,6 @@ import java.util.ArrayList;
  */
 public class DamageCalculationUtil {
 
-
     public static double monsterElement1Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos) {
         double totalOrbDamage = 0;
         for (int i = 0; i < orbMatches.size(); i++) {
@@ -183,10 +182,14 @@ public class DamageCalculationUtil {
 
     public static double monsterElement1DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
         double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
+        Log.d("Enemy absorb damageutil", "" + enemy.getAbsorb());
+        Log.d("MonsterEle damageutil", "" + monster.getElement1());
         if(enemy.getAbsorb().equals(monster.getElement1())){
             return damage * -1;
         }
-        else return damage;
+        Log.d("EnemyAb damageutil2", "" + enemy.getAbsorb());
+        Log.d("MonsterEle damageutil2", "" + monster.getElement1());
+        return damage;
     }
 
     public static double monsterElement2DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
@@ -198,14 +201,14 @@ public class DamageCalculationUtil {
     }
 
     public static double monsterElement1DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
+        double damage =  monsterElement1DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy);
         if(damage >= enemy.getDamageThreshold()){
             return ((damage - enemy.getDamageThreshold())* -1);
         }
         return damage;
     }
     public static double monsterElement2DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement2DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
+        double damage = monsterElement2DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy);
         if(damage >= enemy.getDamageThreshold()){
             return ((damage - enemy.getDamageThreshold())* -1);
         }

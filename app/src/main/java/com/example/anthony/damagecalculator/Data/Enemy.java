@@ -26,7 +26,7 @@ public class Enemy implements  Parcelable
       beforeGravityHP = currentHp;
       beforeDefenseBreak = targetDef;
       targetColor = Color.DARK;
-      absorb = Color.BLUE;
+      absorb = Color.HEART;
       gravityPercent = 1;
       damageThreshold = 200000;
    }
