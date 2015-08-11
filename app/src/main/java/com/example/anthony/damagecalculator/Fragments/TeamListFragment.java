@@ -228,6 +228,7 @@ public class TeamListFragment extends Fragment {
     };
 
     public void updateTeam(){
+        team.setMonsters(monsters);
         for(int i = 0; i < monsters.size(); i++){
             team.setTeamHealth(team.getTeamHealth() + monsters.get(i).getTotalHp());
             team.setTeamRcv(team.getTeamRcv() + monsters.get(i).getTotalRcv());

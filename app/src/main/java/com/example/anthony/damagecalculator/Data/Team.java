@@ -46,6 +46,22 @@ public class Team implements Parcelable {
         return orbPlusAwakenings;
     }
 
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
+    }
+
+    public void setMonsters(ArrayList<Monster> monsters) {
+        this.monsters = monsters;
+    }
+
+    public int getTotalDamage() {
+        return totalDamage;
+    }
+
+    public void setTotalDamage(int totalDamage) {
+        this.totalDamage = totalDamage;
+    }
+
     public void setOrbPlusAwakenings(ArrayList<Integer> orbPlusAwakenings) {
         this.orbPlusAwakenings = orbPlusAwakenings;
     }
@@ -58,7 +74,9 @@ public class Team implements Parcelable {
     public Team(Parcel source) {
         teamHealth = source.readInt();
         teamRcv = source.readInt();
+        totalDamage = source.readInt();
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
+        monsters = source.readArrayList(Monster.class.getClassLoader());
     }
 
     @Override
@@ -70,7 +88,9 @@ public class Team implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(teamHealth);
         dest.writeInt(teamRcv);
+        dest.writeInt(totalDamage);
         dest.writeList(rowAwakenings);
+        dest.writeList(monsters);
     }
 
     public static final Parcelable.Creator<Team> CREATOR = new Creator<Team>() {

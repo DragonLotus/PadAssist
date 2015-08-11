@@ -46,7 +46,7 @@ public class MyTextWatcher implements TextWatcher
    @Override
    public void onTextChanged(CharSequence s, int start, int before, int count)
    {
-      if(s.toString().equals(""))
+      if(s.toString().equals("") || s.toString().equals("-"))
       {
          s = "0";
       }

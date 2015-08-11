@@ -177,86 +177,18 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement2Percent.setText(String.valueOf("0%"));
         }
     }
-//
-//    @Override
-//    public void notifyDataSetChanged() {
-//        super.notifyDataSetChanged();
-//        totalDamage = 0;
-//        if (hasDamageThreshold) {
-//            for (int i = 0; i < monsterList.size(); i++) {
-//                if (monsterList.get(i).isBound()) {
-//                } else {
-//                    totalDamage += monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
-//                    if (totalDamage < 0) {
-//                        totalDamage = 0;
-//                    }
-//                    if (monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-//                        totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
-//                    }
-//                }
-//            }
-//            for (int i = 0; i < monsterList.size(); i++) {
-//                if (monsterList.get(i).isBound()) {
-//                } else {
-//                    totalDamage += monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, combos);
-//                    if (totalDamage < 0) {
-//                        totalDamage = 0;
-//                    }
-//                    if (monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-//                        totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
-//                    }
-//                }
-//            }
-//        } else if (hasAbsorb) {
-//            for (int i = 0; i < monsterList.size(); i++) {
-//                if (monsterList.get(i).isBound()) {
-//                } else {
-//                    totalDamage += monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
-//                    if (totalDamage < 0) {
-//                        totalDamage = 0;
-//                    }
-//                    if (monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-//                        totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
-//                    }
-//                }
-//            }
-//            for (int i = 0; i < monsterList.size(); i++) {
-//                if (monsterList.get(i).isBound()) {
-//                } else {
-//                    totalDamage += monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, combos);
-//                    if (totalDamage < 0) {
-//                        totalDamage = 0;
-//                    }
-//
-//                    if (monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-//                        totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
-//                    }
-//                }
-//            }
-//        } else if (hasReduction) {
-//            for (int i = 0; i < monsterList.size(); i++) {
-//                if (monsterList.get(i).isBound()) {
-//                } else {
-//                    totalDamage += monsterList.get(i).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
-//                    totalDamage += monsterList.get(i).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, combos);
-//                }
-//            }
-//        } else {
-//            for (int i = 0; i < monsterList.size(); i++) {
-//                if (monsterList.get(i).isBound()) {
-//                } else {
-//                    totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
-//                    totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, combos);
-//                }
-//            }
-//        }
-//    }
 
-    public int getTotalDamage() {
-        return totalDamage;
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        totalDamage = team.getTotalDamage();
     }
 
-    public void setTotalDamage(int totalDamage) {
-        this.totalDamage = totalDamage;
+    public int getCombos() {
+        return combos;
+    }
+
+    public void setCombos(int combos) {
+        this.combos = combos;
     }
 }

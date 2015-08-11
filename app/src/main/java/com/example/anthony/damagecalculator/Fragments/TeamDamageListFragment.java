@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -63,10 +64,11 @@ public class TeamDamageListFragment extends Fragment {
     private ArrayList<OrbMatch> orbMatches;
     private ArrayList<Monster> monsterList;
     private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0;
-    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction;
+    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private RadioGroup absorbRadioGroup;
+    private Button recalculateButton;
     private DecimalFormat df = new DecimalFormat("#.##");
 
     /**
@@ -146,6 +148,8 @@ public class TeamDamageListFragment extends Fragment {
         totalComboValue = (TextView) rootView.findViewById(R.id.totalComboValue);
         hpRecoveredValue = (TextView) rootView.findViewById(R.id.hpRecoveredValue);
         targetReduction = (TextView) rootView.findViewById(R.id.targetReduction);
+        targetAbsorb = (TextView) rootView.findViewById(R.id.elementAbsorb);
+        recalculateButton = (Button) rootView.findViewById(R.id.recalculateButton);
         reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
         absorbRadioGroup = (RadioGroup) rootView.findViewById(R.id.absorbOrbRadioGroup);
         redOrbReduction = (CheckBox) rootView.findViewById(R.id.redOrbReduction);
@@ -174,6 +178,7 @@ public class TeamDamageListFragment extends Fragment {
         if(hasEnemy){
             temp = enemy.getCurrentHp();
         }
+        totalCombos = additionalCombos + orbMatches.size();
         updateTextView();
         setReductionOrbs();
         Log.d("totalCombos", String.valueOf(totalCombos));
@@ -183,6 +188,7 @@ public class TeamDamageListFragment extends Fragment {
         additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
         monsterListView.setOnItemClickListener(bindMonsterOnClickListener);
+        recalculateButton.setOnClickListener(recalculateButtonOnClickListener);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -227,7 +233,6 @@ public class TeamDamageListFragment extends Fragment {
     };
 
     public void updateTextView() {
-        totalCombos = additionalCombos + orbMatches.size();
         totalDamage = 0;
         if (!hasEnemy) {
             enemyHP.setVisibility(View.GONE);
@@ -236,6 +241,8 @@ public class TeamDamageListFragment extends Fragment {
             enemyHPPercentValue.setVisibility(View.GONE);
             reductionRadioGroup.setVisibility(View.GONE);
             targetReduction.setVisibility(View.GONE);
+            targetAbsorb.setVisibility(View.GONE);
+            absorbRadioGroup.setVisibility(View.GONE);
             for (int i = 0; i < monsterList.size(); i++) {
                 if (monsterList.get(i).isBound()) {
                 } else {
@@ -243,7 +250,6 @@ public class TeamDamageListFragment extends Fragment {
                     totalDamage += monsterList.get(i).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), totalCombos);
                 }
             }
-            totalDamageValue.setText(String.valueOf(totalDamage));
         } else {
             enemy.setCurrentHp(temp);
             if (hasDamageThreshold) {
@@ -314,7 +320,6 @@ public class TeamDamageListFragment extends Fragment {
                     }
                 }
             }
-            totalDamageValue.setText(String.valueOf(totalDamage));
             //Need to set colors of each enemy element stuff
             setTextColors();
             enemy.setCurrentHp(enemy.getCurrentHp() - totalDamage);
@@ -324,6 +329,8 @@ public class TeamDamageListFragment extends Fragment {
             enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
             enemyHPPercentValue.setText(String.valueOf(df.format((double) enemy.getCurrentHp() / enemy.getTargetHp() * 100) + "%"));
         }
+        team.setTotalDamage(totalDamage);
+        totalDamageValue.setText(String.valueOf(totalDamage));
         hpRecoveredValue.setText(String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), orbMatches, totalCombos)));
         totalComboValue.setText(String.valueOf(totalCombos));
     }
@@ -350,7 +357,6 @@ public class TeamDamageListFragment extends Fragment {
                 toast.show();
             }
             updateTextView();
-            monsterListAdapter.setTotalDamage(totalDamage);
             monsterListAdapter.notifyDataSetChanged();
         }
     };
@@ -389,6 +395,22 @@ public class TeamDamageListFragment extends Fragment {
                     additionalComboValue.setText("0");
                 }
             }
+        }
+    };
+
+    private Button.OnClickListener recalculateButtonOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            totalCombos += additionalCombosFragment;
+            Log.d("Total Combo 1", "" + totalCombos);
+            if(totalCombos < orbMatches.size()){
+                totalCombos = orbMatches.size();
+            }
+            monsterListAdapter.setCombos(totalCombos);
+            Log.d("Total Combo 2", "" + totalCombos);
+            updateTextView();
+            monsterListAdapter.notifyDataSetChanged();
+            additionalComboValue.setText("0");
         }
     };
 
