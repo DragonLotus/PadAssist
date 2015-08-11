@@ -13,11 +13,13 @@ import android.widget.TextView;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -27,12 +29,14 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
-    private int resourceId, combos;
+    private int resourceId, combos, totalDamage, element1Damage, element1DamageEnemy, element2Damage, element2DamageEnemy;
     private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private Enemy enemy;
+    private Team team;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold) {
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, Team team, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold, int totalDamage) {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
@@ -44,6 +48,8 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         this.hasAbsorb = hasAbsorb;
         this.hasReduction = hasReduction;
         this.hasDamageThreshold = hasDamageThreshold;
+        this.team = team;
+        this.totalDamage = totalDamage;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -59,7 +65,8 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement1DamageEnemy = (TextView) convertView.findViewById(R.id.monsterElement1DamageEnemy);
             viewHolder.monsterElement2Damage = (TextView) convertView.findViewById(R.id.monsterElement2Damage);
             viewHolder.monsterElement2DamageEnemy = (TextView) convertView.findViewById(R.id.monsterElement2DamageEnemy);
-
+            viewHolder.monsterElement1Percent = (TextView) convertView.findViewById(R.id.monsterElement1Percent);
+            viewHolder.monsterElement2Percent = (TextView) convertView.findViewById(R.id.monsterElement2Percent);
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
@@ -72,34 +79,48 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterAwakenings.setText("");
         }
         //Needs to get # of orb awakenings from team object maybe
-        viewHolder.monsterElement1Damage.setText(monsterList.get(position).getElement1DamageString(orbMatches, 6, combos));
-        viewHolder.monsterElement2Damage.setText(monsterList.get(position).getElement2DamageString(orbMatches, 6, combos));
+        element1Damage = monsterList.get(position).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), combos);
+        element2Damage = monsterList.get(position).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), combos);
+        viewHolder.monsterElement1Damage.setText(String.valueOf(element1Damage));
+        viewHolder.monsterElement2Damage.setText(String.valueOf(element2Damage));
         if (hasEnemy) {
             if (hasAbsorb) {
-                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageAbsorbString(orbMatches, 6, enemy, combos) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageAbsorbString(orbMatches, 6, enemy, combos) + ")");
+                element1DamageEnemy = monsterList.get(position).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
+                element2DamageEnemy = monsterList.get(position).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
+                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             } else if (hasDamageThreshold) {
-                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageThresholdString(orbMatches, 6, enemy, combos) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageThresholdString(orbMatches, 6, enemy, combos) + ")");
+                element1DamageEnemy = monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
+                element2DamageEnemy = monsterList.get(position).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
+                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             } else if (hasReduction) {
-                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageReductionString(orbMatches, 6, enemy, combos) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageReductionString(orbMatches, 6, enemy, combos) + ")");
+                element1DamageEnemy = monsterList.get(position).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
+                element2DamageEnemy = monsterList.get(position).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
+                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             } else {
-                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
+                element1DamageEnemy = monsterList.get(position).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
+                element2DamageEnemy = monsterList.get(position).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
+                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             }
         }
-
         else {
+            viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double)element1Damage/totalDamage * 100) + "%"));
+            viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double)element2Damage/totalDamage * 100) + "%"));
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }
+        viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double)element1DamageEnemy/totalDamage * 100) + "%"));
+        viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double)element2DamageEnemy/totalDamage * 100) + "%"));
+
         setTextColors(position, viewHolder);
         return convertView;
     }
 
     static class ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage, monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage, monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy, monsterElement1Percent, monsterElement2Percent;
         ImageView monsterPicture;
     }
 
@@ -136,21 +157,13 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#AA00FF"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
         }
-        if(hasAbsorb){
-            if(monsterList.get(position).getElement1DamageAbsorb(orbMatches, 6, enemy, combos)<0){
+
+            if(element1DamageEnemy<0){
                 viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
             }
-            if(monsterList.get(position).getElement2DamageAbsorb(orbMatches, 6, enemy, combos)<0){
+            if(element2DamageEnemy<0){
                 viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
             }
-        }
-        else if (hasDamageThreshold) {
-            if(monsterList.get(position).getElement1DamageThreshold(orbMatches, 6, enemy, combos)<0){
-                viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
-            }
-            if(monsterList.get(position).getElement2DamageThreshold(orbMatches, 6, enemy, combos)<0){
-                viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
-            }
-        }
+
     }
 }

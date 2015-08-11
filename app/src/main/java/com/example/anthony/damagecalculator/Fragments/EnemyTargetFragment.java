@@ -36,6 +36,7 @@ import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
@@ -57,6 +58,7 @@ import java.util.Comparator;
  * Use the {@link EnemyTargetFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class EnemyTargetFragment extends Fragment
 {
    public static final String TAG = EnemyTargetFragment.class.getSimpleName();
@@ -68,7 +70,7 @@ public class EnemyTargetFragment extends Fragment
    // TODO: Rename and change types of parameters
    private String mParam1;
    private String mParam2;
-
+   private Team team;
    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue;
    private TextView percentHpValue, totalGravityValue;
    private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
@@ -116,7 +118,6 @@ public class EnemyTargetFragment extends Fragment
             enemy.setCurrentHp((int) (statValue * enemy.getGravityPercent()));
             enemy.setBeforeGravityHP(statValue);
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-
          }
          else if (statToChange == MyTextWatcher.CURRENT_HP)
          {
@@ -128,6 +129,7 @@ public class EnemyTargetFragment extends Fragment
                enemy.setCurrentHp(enemy.getTargetHp());
                enemy.setBeforeGravityHP(enemy.getTargetHp());
             }
+
             if (enemy.getBeforeGravityHP() * enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 0 && enemy.getBeforeGravityHP() != 0)
             {
                enemy.setCurrentHp(1);
@@ -160,18 +162,16 @@ public class EnemyTargetFragment extends Fragment
     * Use this factory method to create a new instance of
     * this fragment using the provided parameters.
     *
-    * @param param1 Parameter 1.
-    * @param param2 Parameter 2.
     * @return A new instance of fragment EnemyTargetFragment.
     */
    // TODO: Rename and change types and number of parameters
-   public static EnemyTargetFragment newInstance(ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos)
-   {
+   public static EnemyTargetFragment newInstance(ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Team team) {
       EnemyTargetFragment fragment = new EnemyTargetFragment();
       Bundle args = new Bundle();
       args.putParcelableArrayList("monsterList", monsterList);
       args.putParcelableArrayList("orbMatches", orbMatches);
       args.putInt("additionalCombos", additionalCombos);
+      args.putParcelable("team", team);
       fragment.setArguments(args);
       return fragment;
    }
@@ -233,6 +233,7 @@ public class EnemyTargetFragment extends Fragment
          monsterList = getArguments().getParcelableArrayList("monsterList");
          orbMatches = getArguments().getParcelableArrayList("orbMatches");
          additionalCombos = getArguments().getInt("additionalCombos");
+         team = getArguments().getParcelable("team");
       }
       enemy = new Enemy();
 
@@ -253,6 +254,7 @@ public class EnemyTargetFragment extends Fragment
       targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
       currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
       targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
+
 //      targetHpValue.setOnKeyListener(downKeyboard);
 //      currentHpValue.setOnKeyListener(downKeyboard);
 
@@ -871,7 +873,7 @@ public class EnemyTargetFragment extends Fragment
          {
             Log.d("Contains Dark", "yup");
          }
-         ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches, additionalCombos, enemy, absorbCheck.isChecked(), reductionCheck.isChecked(), damageThresholdCheck.isChecked()), TeamDamageListFragment.TAG);
+         ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches, additionalCombos, team, enemy, absorbCheck.isChecked(), reductionCheck.isChecked(), damageThresholdCheck.isChecked()), TeamDamageListFragment.TAG);
       }
    };
 

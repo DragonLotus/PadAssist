@@ -33,6 +33,7 @@ import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
@@ -58,6 +59,7 @@ public class MainFragment extends Fragment
    private OrbMatchAdapter orbMatchAdapter;
    private boolean isRow, maxLeadMultiplier = false, hasEnemy = true;
    private OrbMatch orbMatch;
+   private Team team;
    private ArrayList<OrbMatch> orbMatchList;
    private ArrayList<Monster> monsterList;
    private Toast toast;
@@ -204,9 +206,9 @@ public class MainFragment extends Fragment
             toast.show();
          } else {
             if (!hasEnemy) {
-               ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, monsterList, orbMatchList, additionalCombos), TeamDamageListFragment.TAG);
+               ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, monsterList, orbMatchList, additionalCombos, team), TeamDamageListFragment.TAG);
             } else {
-               ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(monsterList, orbMatchList, additionalCombos), EnemyTargetFragment.TAG);
+               ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(monsterList, orbMatchList, additionalCombos, team), EnemyTargetFragment.TAG);
             }
          }
       }
@@ -270,11 +272,12 @@ public class MainFragment extends Fragment
       inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
    }
 
-   public static MainFragment newInstance(ArrayList<Monster> monsterList)
+   public static MainFragment newInstance(ArrayList<Monster> monsterList, Team team)
    {
       MainFragment fragment = new MainFragment();
       Bundle args = new Bundle();
       args.putParcelableArrayList("monsterList", monsterList);
+      args.putParcelable("team", team);
       fragment.setArguments(args);
       return fragment;
    }
@@ -311,6 +314,7 @@ public class MainFragment extends Fragment
       //Write your code here
       if(getArguments() != null) {
          monsterList = getArguments().getParcelableArrayList("monsterList");
+         team = getArguments().getParcelable("team");
       }
        new DownloadPadApi().start();
       orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);

@@ -18,7 +18,9 @@ import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.util.ArrayList;
 
@@ -43,18 +45,20 @@ public class TeamDamageListFragment extends Fragment
    private String mParam1;
    private String mParam2;
 
-   private OnFragmentInteractionListener mListener;
-   private ListView monsterListView;
-   private MonsterDamageListAdapter monsterListAdapter;
-   private Enemy enemy;
-   private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
-   private ArrayList<OrbMatch> orbMatches;
-   private ArrayList<Monster> monsterList;
-   private int additionalCombos, totalCombos = 0;
-   private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue;
-   private RadioGroup absorbRadioGroup,reductionRadioGroup;
-   private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
-   private RadioButton redOrbAbsorb;
+
+    private OnFragmentInteractionListener mListener;
+    private ListView monsterListView;
+    private MonsterDamageListAdapter monsterListAdapter;
+    private Enemy enemy;
+    private Team team;
+    private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
+    private ArrayList<OrbMatch> orbMatches;
+    private ArrayList<Monster> monsterList;
+    private int additionalCombos, totalCombos = 0, totalDamage = 0;
+    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction;
+    private RadioGroup reductionRadioGroup;
+    private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
+   private RadioGroup absorbRadioGroup;
 
    /**
     * Use this factory method to create a new instance of
@@ -75,33 +79,34 @@ public class TeamDamageListFragment extends Fragment
       return fragment;
    }
 
-   public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Enemy enemy, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold)
-   {
-      TeamDamageListFragment fragment = new TeamDamageListFragment();
-      Bundle args = new Bundle();
-      args.putBoolean("hasEnemy", hasEnemy);
-      args.putParcelableArrayList("monsterList", monsterList);
-      args.putParcelableArrayList("orbMatches", orbMatches);
-      args.putInt("additionalCombos", additionalCombos);
-      args.putParcelable("enemy", enemy);
-      args.putBoolean("hasAbsorb", hasAbsorb);
-      args.putBoolean("hasReduction", hasReduction);
-      args.putBoolean("hasDamageThreshold", hasDamageThreshold);
-      fragment.setArguments(args);
-      return fragment;
-   }
 
-   public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos)
-   {
-      TeamDamageListFragment fragment = new TeamDamageListFragment();
-      Bundle args = new Bundle();
-      args.putBoolean("hasEnemy", hasEnemy);
-      args.putParcelableArrayList("monsterList", monsterList);
-      args.putParcelableArrayList("orbMatches", orbMatches);
-      args.putInt("additionalCombos", additionalCombos);
-      fragment.setArguments(args);
-      return fragment;
-   }
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Team team, Enemy enemy, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold) {
+        TeamDamageListFragment fragment = new TeamDamageListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("hasEnemy", hasEnemy);
+        args.putParcelableArrayList("monsterList", monsterList);
+        args.putParcelableArrayList("orbMatches", orbMatches);
+        args.putInt("additionalCombos", additionalCombos);
+        args.putParcelable("team", team);
+        args.putParcelable("enemy", enemy);
+        args.putBoolean("hasAbsorb", hasAbsorb);
+        args.putBoolean("hasReduction", hasReduction);
+        args.putBoolean("hasDamageThreshold", hasDamageThreshold);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Team team) {
+        TeamDamageListFragment fragment = new TeamDamageListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("hasEnemy", hasEnemy);
+        args.putParcelableArrayList("monsterList", monsterList);
+        args.putParcelableArrayList("orbMatches", orbMatches);
+        args.putInt("additionalCombos", additionalCombos);
+        args.putParcelable("team", team);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
    public TeamDamageListFragment()
    {
@@ -125,48 +130,49 @@ public class TeamDamageListFragment extends Fragment
    {
       // Inflate the layout for this fragment
 
-      View rootView = inflater.inflate(R.layout.fragment_team_damage_list, container, false);
-      monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
-      monsterListToggle = (TextView) rootView.findViewById(R.id.monsterListToggle);
-      enemyHP = (TextView) rootView.findViewById(R.id.enemyHP);
-      enemyHPValue = (TextView) rootView.findViewById(R.id.enemyHPValue);
-      enemyHPPercent = (TextView) rootView.findViewById(R.id.enemyHPPercent);
-      enemyHPPercentValue = (TextView) rootView.findViewById(R.id.enemyHPPercentValue);
-      totalDamageValue = (TextView) rootView.findViewById(R.id.totalDamageValue);
-      totalComboValue = (TextView) rootView.findViewById(R.id.totalComboValue);
-      reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
-      absorbRadioGroup = (RadioGroup) rootView.findViewById(R.id.absorbOrbRadioGroup);
-      redOrbReduction = (CheckBox) rootView.findViewById(R.id.redOrbReduction);
-      blueOrbReduction = (CheckBox) rootView.findViewById(R.id.blueOrbReduction);
-      greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
-      darkOrbReduction = (CheckBox) rootView.findViewById(R.id.darkOrbReduction);
-      lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
-      redOrbAbsorb = (RadioButton) rootView.findViewById(R.id.redOrbAbsorb);
-      return rootView;
-   }
+        View rootView = inflater.inflate(R.layout.fragment_team_damage_list, container, false);
+        monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+        monsterListToggle = (TextView) rootView.findViewById(R.id.monsterListToggle);
+        enemyHP = (TextView) rootView.findViewById(R.id.enemyHP);
+        enemyHPValue = (TextView) rootView.findViewById(R.id.enemyHPValue);
+        enemyHPPercent = (TextView) rootView.findViewById(R.id.enemyHPPercent);
+        enemyHPPercentValue = (TextView) rootView.findViewById(R.id.enemyHPPercentValue);
+        totalDamageValue = (TextView) rootView.findViewById(R.id.totalDamageValue);
+        totalComboValue = (TextView) rootView.findViewById(R.id.totalComboValue);
+        hpRecoveredValue = (TextView) rootView.findViewById(R.id.hpRecoveredValue);
+        targetReduction = (TextView) rootView.findViewById(R.id.targetReduction);
+        reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
+        absorbRadioGroup = (RadioGroup) rootView.findViewById(R.id.absorbOrbRadioGroup);
+        redOrbReduction = (CheckBox) rootView.findViewById(R.id.redOrbReduction);
+        blueOrbReduction = (CheckBox) rootView.findViewById(R.id.blueOrbReduction);
+        greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
+        darkOrbReduction = (CheckBox) rootView.findViewById(R.id.darkOrbReduction);
+        lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
 
-   @Override
-   public void onActivityCreated(Bundle savedInstanceState)
-   {
-      super.onActivityCreated(savedInstanceState);
-      if (getArguments() != null)
-      {
-         hasEnemy = getArguments().getBoolean("hasEnemy");
-         monsterList = getArguments().getParcelableArrayList("monsterList");
-         orbMatches = getArguments().getParcelableArrayList("orbMatches");
-         additionalCombos = getArguments().getInt("additionalCombos");
-         enemy = getArguments().getParcelable("enemy");
-         hasAbsorb = getArguments().getBoolean("hasAbsorb");
-         hasReduction = getArguments().getBoolean("hasReduction");
-         hasDamageThreshold = getArguments().getBoolean("hasDamageThreshold");
-      }
-      updateTextView();
-      setReductionOrbs();
-      Log.d("totalCombos", String.valueOf(totalCombos));
-      monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, hasAbsorb, hasReduction, hasDamageThreshold);
-      monsterListView.setAdapter(monsterListAdapter);
-      monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
-   }
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getArguments() != null) {
+            hasEnemy = getArguments().getBoolean("hasEnemy");
+            monsterList = getArguments().getParcelableArrayList("monsterList");
+            orbMatches = getArguments().getParcelableArrayList("orbMatches");
+            additionalCombos = getArguments().getInt("additionalCombos");
+            team = getArguments().getParcelable("team");
+            enemy = getArguments().getParcelable("enemy");
+            hasAbsorb = getArguments().getBoolean("hasAbsorb");
+            hasReduction = getArguments().getBoolean("hasReduction");
+            hasDamageThreshold = getArguments().getBoolean("hasDamageThreshold");
+        }
+        updateTextView();
+        setReductionOrbs();
+        Log.d("totalCombos", String.valueOf(totalCombos));
+        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, team, hasAbsorb, hasReduction, hasDamageThreshold, totalDamage);
+        monsterListView.setAdapter(monsterListAdapter);
+        monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
+    }
 
    // TODO: Rename method, update argument and hook method into UI event
    public void onButtonPressed(Uri uri)
@@ -218,34 +224,41 @@ public class TeamDamageListFragment extends Fragment
       }
    };
 
-   public void updateTextView()
-   {
-      totalCombos = additionalCombos + orbMatches.size();
-      if (!hasEnemy)
-      {
-         enemyHP.setVisibility(View.GONE);
-         enemyHPValue.setVisibility(View.GONE);
-         enemyHPPercent.setVisibility(View.GONE);
-         enemyHPPercentValue.setVisibility(View.GONE);
-         reductionRadioGroup.setVisibility(View.GONE);
-         int totalDamage = 0;
-         //  for(int i = 0; i<monsterList.size(); i++){
-         //totalDamage += monsterList.get(i).getMainElementDamage();
-         //totalDamage += monsterList.get(i).getSecondaryElementDamage();
-         //}
-      }
-      else
-      {
-         //Need to set colors of each enemy element stuff
-         setTextColors();
-         enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
-         enemyHPPercentValue.setText(String.valueOf((enemy.getGravityPercent()) * 100) + "%");
-      }
+    public void updateTextView()
+    {
+       totalCombos = additionalCombos + orbMatches.size();
+       if (!hasEnemy)
+       {
+          enemyHP.setVisibility(View.GONE);
+          enemyHPValue.setVisibility(View.GONE);
+          enemyHPPercent.setVisibility(View.GONE);
+          enemyHPPercentValue.setVisibility(View.GONE);
+          reductionRadioGroup.setVisibility(View.GONE);
+          targetReduction.setVisibility(View.GONE);
+          for (int i = 0; i < monsterList.size(); i++)
+          {
+             totalDamage += monsterList.get(i).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), totalCombos);
+             totalDamage += monsterList.get(i).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), totalCombos);
+          }
+          totalDamageValue.setText(String.valueOf(totalDamage));
+       }
+       else
+       {
+          for (int i = 0; i < monsterList.size(); i++)
+          {
+             totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+             totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+          }
+          totalDamageValue.setText(String.valueOf(totalDamage));
+          //Need to set colors of each enemy element stuff
+          setTextColors();
+          enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
+          enemyHPPercentValue.setText(String.valueOf((enemy.getGravityPercent()) * 100) + "%");
+       }
+       hpRecoveredValue.setText(String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), orbMatches, totalCombos)));
+       totalComboValue.setText(String.valueOf(totalCombos));
 
-      totalComboValue.setText(String.valueOf(totalCombos));
-
-   }
-
+    }
    private void setTextColors()
    {
       if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.RED))
