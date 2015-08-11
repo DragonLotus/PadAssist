@@ -218,6 +218,11 @@ public class TeamDamageListFragment extends Fragment {
             }
             totalDamageValue.setText(String.valueOf(totalDamage));
         } else {
+            for(int i = 0; i<monsterList.size(); i++){
+            totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+            totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+        }
+            totalDamageValue.setText(String.valueOf(totalDamage));
             //Need to set colors of each enemy element stuff
             setTextColors();
             enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
