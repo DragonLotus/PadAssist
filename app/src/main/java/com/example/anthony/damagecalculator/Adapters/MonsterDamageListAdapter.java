@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
@@ -31,8 +32,9 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private Enemy enemy;
+    private Team team;
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold) {
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, Team team, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold) {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
@@ -44,6 +46,7 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         this.hasAbsorb = hasAbsorb;
         this.hasReduction = hasReduction;
         this.hasDamageThreshold = hasDamageThreshold;
+        this.team = team;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -72,21 +75,21 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterAwakenings.setText("");
         }
         //Needs to get # of orb awakenings from team object maybe
-        viewHolder.monsterElement1Damage.setText(monsterList.get(position).getElement1DamageString(orbMatches, 6, combos));
-        viewHolder.monsterElement2Damage.setText(monsterList.get(position).getElement2DamageString(orbMatches, 6, combos));
+        viewHolder.monsterElement1Damage.setText(monsterList.get(position).getElement1DamageString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), combos));
+        viewHolder.monsterElement2Damage.setText(monsterList.get(position).getElement2DamageString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), combos));
         if (hasEnemy) {
             if (hasAbsorb) {
-                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageAbsorbString(orbMatches, 6, enemy, combos) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageAbsorbString(orbMatches, 6, enemy, combos) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageAbsorbString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageAbsorbString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos) + ")");
             } else if (hasDamageThreshold) {
-                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageThresholdString(orbMatches, 6, enemy, combos) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageThresholdString(orbMatches, 6, enemy, combos) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageThresholdString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageThresholdString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos) + ")");
             } else if (hasReduction) {
-                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageReductionString(orbMatches, 6, enemy, combos) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageReductionString(orbMatches, 6, enemy, combos) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageReductionString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageReductionString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos) + ")");
             } else {
-                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageEnemyString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos) + ")");
             }
         }
 
@@ -137,18 +140,18 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
         }
         if(hasAbsorb){
-            if(monsterList.get(position).getElement1DamageAbsorb(orbMatches, 6, enemy, combos)<0){
+            if(monsterList.get(position).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos)<0){
                 viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
             }
-            if(monsterList.get(position).getElement2DamageAbsorb(orbMatches, 6, enemy, combos)<0){
+            if(monsterList.get(position).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos)<0){
                 viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
             }
         }
         else if (hasDamageThreshold) {
-            if(monsterList.get(position).getElement1DamageThreshold(orbMatches, 6, enemy, combos)<0){
+            if(monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos)<0){
                 viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
             }
-            if(monsterList.get(position).getElement2DamageThreshold(orbMatches, 6, enemy, combos)<0){
+            if(monsterList.get(position).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos)<0){
                 viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
             }
         }

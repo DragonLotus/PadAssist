@@ -17,6 +17,7 @@ import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class TeamDamageListFragment extends Fragment {
     private ListView monsterListView;
     private MonsterDamageListAdapter monsterListAdapter;
     private Enemy enemy;
+    private Team team;
     private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private ArrayList<Monster> monsterList;
@@ -71,13 +73,14 @@ public class TeamDamageListFragment extends Fragment {
         return fragment;
     }
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Enemy enemy, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold) {
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Team team, Enemy enemy, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold) {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
         args.putParcelableArrayList("monsterList", monsterList);
         args.putParcelableArrayList("orbMatches", orbMatches);
         args.putInt("additionalCombos", additionalCombos);
+        args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
         args.putBoolean("hasAbsorb", hasAbsorb);
         args.putBoolean("hasReduction", hasReduction);
@@ -86,13 +89,14 @@ public class TeamDamageListFragment extends Fragment {
         return fragment;
     }
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos) {
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Team team) {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
         args.putParcelableArrayList("monsterList", monsterList);
         args.putParcelableArrayList("orbMatches", orbMatches);
         args.putInt("additionalCombos", additionalCombos);
+        args.putParcelable("team", team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -141,6 +145,7 @@ public class TeamDamageListFragment extends Fragment {
             monsterList = getArguments().getParcelableArrayList("monsterList");
             orbMatches = getArguments().getParcelableArrayList("orbMatches");
             additionalCombos = getArguments().getInt("additionalCombos");
+            team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
             hasAbsorb = getArguments().getBoolean("hasAbsorb");
             hasReduction = getArguments().getBoolean("hasReduction");
@@ -149,7 +154,7 @@ public class TeamDamageListFragment extends Fragment {
         updateTextView();
         setReductionOrbs();
         Log.d("totalCombos", String.valueOf(totalCombos));
-        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, hasAbsorb, hasReduction, hasDamageThreshold);
+        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, team, hasAbsorb, hasReduction, hasDamageThreshold);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
     }

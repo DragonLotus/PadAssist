@@ -36,6 +36,7 @@ import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
@@ -78,6 +79,7 @@ public class EnemyTargetFragment extends Fragment {
     private ListView gravityList;
     private GridView gravityButtonList;
     private Enemy enemy;
+    private Team team;
     private DecimalFormat df;
     private OnFragmentInteractionListener mListener;
     private Toast toast;
@@ -150,12 +152,13 @@ public class EnemyTargetFragment extends Fragment {
      * @return A new instance of fragment EnemyTargetFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EnemyTargetFragment newInstance(ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos) {
+    public static EnemyTargetFragment newInstance(ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Team team) {
         EnemyTargetFragment fragment = new EnemyTargetFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("monsterList", monsterList);
         args.putParcelableArrayList("orbMatches", orbMatches);
         args.putInt("additionalCombos", additionalCombos);
+        args.putParcelable("team", team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -212,6 +215,7 @@ public class EnemyTargetFragment extends Fragment {
             monsterList = getArguments().getParcelableArrayList("monsterList");
             orbMatches = getArguments().getParcelableArrayList("orbMatches");
             additionalCombos = getArguments().getInt("additionalCombos");
+            team = getArguments().getParcelable("team");
         }
         enemy = new Enemy();
 
@@ -668,7 +672,7 @@ public class EnemyTargetFragment extends Fragment {
             if(enemy.getReduction().contains(Color.DARK)){
                 Log.d("Contains Dark", "yup");
             }
-            ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches, additionalCombos, enemy, absorbCheck.isChecked(), reductionCheck.isChecked(), damageThresholdCheck.isChecked()), TeamDamageListFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches, additionalCombos, team, enemy, absorbCheck.isChecked(), reductionCheck.isChecked(), damageThresholdCheck.isChecked()), TeamDamageListFragment.TAG);
         }
     };
 
