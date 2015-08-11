@@ -85,16 +85,16 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         viewHolder.monsterElement2Damage.setText(String.valueOf(element2Damage));
         if (hasEnemy) {
             if (hasDamageThreshold) {
-            element1DamageEnemy = monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
-            element2DamageEnemy = monsterList.get(position).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
-            viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-            viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
-        } else if (hasAbsorb) {
-            element1DamageEnemy = monsterList.get(position).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
-            element2DamageEnemy = monsterList.get(position).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
-            viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-            viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
-        } else if (hasReduction) {
+                element1DamageEnemy = monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
+                element2DamageEnemy = monsterList.get(position).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
+                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+            } else if (hasAbsorb) {
+                element1DamageEnemy = monsterList.get(position).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
+                element2DamageEnemy = monsterList.get(position).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
+                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+            } else if (hasReduction) {
                 element1DamageEnemy = monsterList.get(position).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
                 element2DamageEnemy = monsterList.get(position).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
@@ -105,16 +105,18 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             }
-            viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double)element1DamageEnemy/totalDamage * 100) + "%"));
-            viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double)element2DamageEnemy/totalDamage * 100) + "%"));
+            viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) element1DamageEnemy / totalDamage * 100) + "%"));
+            viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) element2DamageEnemy / totalDamage * 100) + "%"));
             //if statement to check element damage > total damage, set to 0%?
-        }
-        else {
-            viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double)element1Damage/totalDamage * 100) + "%"));
-            viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double)element2Damage/totalDamage * 100) + "%"));
+        } else {
+            viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) element1Damage / totalDamage * 100) + "%"));
+            viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) element2Damage / totalDamage * 100) + "%"));
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }
+        Log.d("Total Damage", "" + totalDamage);
+        Log.d("Ele1%Damage", "" + df.format((double) element1DamageEnemy / totalDamage* 100));
+        Log.d("Ele2%Damage", "" + df.format((double) element2DamageEnemy / totalDamage* 100));
 
         setTextColors(position, viewHolder);
         return convertView;
@@ -159,12 +161,102 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
         }
 
-            if(element1DamageEnemy<0){
-                viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
-            }
-            if(element2DamageEnemy<0){
-                viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
-            }
+        if (element1DamageEnemy < 0) {
+            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
+        }
+        if (element2DamageEnemy < 0) {
+            viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
+        }
 
+        if(monsterList.get(position).isBound()){
+            viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#666666"));
+            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#666666"));
+            viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#666666"));
+            viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#666666"));
+            viewHolder.monsterElement1Percent.setText(String.valueOf("0%"));
+            viewHolder.monsterElement2Percent.setText(String.valueOf("0%"));
+        }
+    }
+//
+//    @Override
+//    public void notifyDataSetChanged() {
+//        super.notifyDataSetChanged();
+//        totalDamage = 0;
+//        if (hasDamageThreshold) {
+//            for (int i = 0; i < monsterList.size(); i++) {
+//                if (monsterList.get(i).isBound()) {
+//                } else {
+//                    totalDamage += monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
+//                    if (totalDamage < 0) {
+//                        totalDamage = 0;
+//                    }
+//                    if (monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+//                        totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
+//                    }
+//                }
+//            }
+//            for (int i = 0; i < monsterList.size(); i++) {
+//                if (monsterList.get(i).isBound()) {
+//                } else {
+//                    totalDamage += monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, combos);
+//                    if (totalDamage < 0) {
+//                        totalDamage = 0;
+//                    }
+//                    if (monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+//                        totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
+//                    }
+//                }
+//            }
+//        } else if (hasAbsorb) {
+//            for (int i = 0; i < monsterList.size(); i++) {
+//                if (monsterList.get(i).isBound()) {
+//                } else {
+//                    totalDamage += monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
+//                    if (totalDamage < 0) {
+//                        totalDamage = 0;
+//                    }
+//                    if (monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+//                        totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
+//                    }
+//                }
+//            }
+//            for (int i = 0; i < monsterList.size(); i++) {
+//                if (monsterList.get(i).isBound()) {
+//                } else {
+//                    totalDamage += monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, combos);
+//                    if (totalDamage < 0) {
+//                        totalDamage = 0;
+//                    }
+//
+//                    if (monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+//                        totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
+//                    }
+//                }
+//            }
+//        } else if (hasReduction) {
+//            for (int i = 0; i < monsterList.size(); i++) {
+//                if (monsterList.get(i).isBound()) {
+//                } else {
+//                    totalDamage += monsterList.get(i).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
+//                    totalDamage += monsterList.get(i).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, combos);
+//                }
+//            }
+//        } else {
+//            for (int i = 0; i < monsterList.size(); i++) {
+//                if (monsterList.get(i).isBound()) {
+//                } else {
+//                    totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, combos);
+//                    totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, combos);
+//                }
+//            }
+//        }
+//    }
+
+    public int getTotalDamage() {
+        return totalDamage;
+    }
+
+    public void setTotalDamage(int totalDamage) {
+        this.totalDamage = totalDamage;
     }
 }

@@ -20,6 +20,7 @@ public class Monster implements Parcelable {
     private ArrayList<String> awokenSkills;
     private String activeSkill, leaderSkill, name;
     private double atkScale, rcvScale, hpScale, currentAtk, currentRcv, currentHp;
+    private boolean isBound;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public Monster() {
@@ -44,6 +45,7 @@ public class Monster implements Parcelable {
         currentAwakenings = 7;
         element1 = Color.LIGHT;
         element2 = Color.LIGHT;
+        isBound = false;
         name = "Kirin of the Sacred Gleam, Sakuya";
     }
 
@@ -376,6 +378,14 @@ public class Monster implements Parcelable {
         this.currentAwakenings = currentAwakenings;
     }
 
+    public boolean isBound() {
+        return isBound;
+    }
+
+    public void setIsBound(boolean isBound) {
+        this.isBound = isBound;
+    }
+
     public int getTPA(){
         //Loop through awakenings and count Double prongs
         return 0;
@@ -413,6 +423,7 @@ public class Monster implements Parcelable {
         hpScale = source.readDouble();
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
+        isBound = source.readByte() == 1;
     }
 
     @Override
@@ -448,6 +459,7 @@ public class Monster implements Parcelable {
         dest.writeDouble(hpScale);
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
+        dest.writeByte((byte) (isBound ? 1 : 0));
     }
 
     public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {

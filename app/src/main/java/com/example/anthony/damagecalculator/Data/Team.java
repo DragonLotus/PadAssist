@@ -9,8 +9,9 @@ import java.util.ArrayList;
  * Created by DragonLotus on 8/10/2015.
  */
 public class Team implements Parcelable {
-    private int teamHealth, teamRcv;
+    private int teamHealth, teamRcv, totalDamage;
     private ArrayList<Integer> rowAwakenings, orbPlusAwakenings;
+    private ArrayList<Monster> monsters;
 
     public Team() {
         teamHealth = 0;

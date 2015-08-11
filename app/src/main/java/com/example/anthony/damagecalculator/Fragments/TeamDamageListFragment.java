@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,11 +9,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
 import com.example.anthony.damagecalculator.Data.Enemy;
@@ -20,6 +25,7 @@ import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
@@ -48,13 +54,15 @@ public class TeamDamageListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ListView monsterListView;
+    private EditText additionalComboValue;
     private MonsterDamageListAdapter monsterListAdapter;
     private Enemy enemy;
     private Team team;
+    private Toast toast;
     private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
     private ArrayList<OrbMatch> orbMatches;
     private ArrayList<Monster> monsterList;
-    private int additionalCombos, totalCombos = 0, totalDamage = 0, temp = 0;
+    private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0;
     private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
@@ -128,6 +136,7 @@ public class TeamDamageListFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_team_damage_list, container, false);
         monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+        additionalComboValue = (EditText) rootView.findViewById(R.id.additionalComboValue);
         monsterListToggle = (TextView) rootView.findViewById(R.id.monsterListToggle);
         enemyHP = (TextView) rootView.findViewById(R.id.enemyHP);
         enemyHPValue = (TextView) rootView.findViewById(R.id.enemyHPValue);
@@ -162,12 +171,18 @@ public class TeamDamageListFragment extends Fragment {
             hasReduction = getArguments().getBoolean("hasReduction");
             hasDamageThreshold = getArguments().getBoolean("hasDamageThreshold");
         }
+        if(hasEnemy){
+            temp = enemy.getCurrentHp();
+        }
         updateTextView();
         setReductionOrbs();
         Log.d("totalCombos", String.valueOf(totalCombos));
         monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, team, hasAbsorb, hasReduction, hasDamageThreshold, totalDamage);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
+        additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
+        additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
+        monsterListView.setOnItemClickListener(bindMonsterOnClickListener);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -213,6 +228,7 @@ public class TeamDamageListFragment extends Fragment {
 
     public void updateTextView() {
         totalCombos = additionalCombos + orbMatches.size();
+        totalDamage = 0;
         if (!hasEnemy) {
             enemyHP.setVisibility(View.GONE);
             enemyHPValue.setVisibility(View.GONE);
@@ -221,86 +237,123 @@ public class TeamDamageListFragment extends Fragment {
             reductionRadioGroup.setVisibility(View.GONE);
             targetReduction.setVisibility(View.GONE);
             for (int i = 0; i < monsterList.size(); i++) {
-                totalDamage += monsterList.get(i).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), totalCombos);
-                totalDamage += monsterList.get(i).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), totalCombos);
+                if (monsterList.get(i).isBound()) {
+                } else {
+                    totalDamage += monsterList.get(i).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), totalCombos);
+                    totalDamage += monsterList.get(i).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), totalCombos);
+                }
             }
             totalDamageValue.setText(String.valueOf(totalDamage));
         } else {
-            Log.d("Enemy absorb", "" + enemy.getAbsorb());
+            enemy.setCurrentHp(temp);
             if (hasDamageThreshold) {
                 for (int i = 0; i < monsterList.size(); i++) {
-                    totalDamage += monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
-                    temp = totalDamage;
-                    if (totalDamage < 0){
-                        totalDamage = 0;
-                        temp = 0;
-                    }
-                    if (totalDamage >= enemy.getCurrentHp()){
-                        totalDamage = enemy.getCurrentHp();
-                    }
-                }
-                totalDamage = temp;
-                for (int i = 0; i < monsterList.size(); i++){
-                    totalDamage += monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
-                    temp = totalDamage;
-                    if (totalDamage < 0) {
-                        totalDamage = 0;
-                        temp = 0;
-                    }
-                    if (totalDamage >= enemy.getCurrentHp()){
-                        totalDamage = enemy.getCurrentHp();
+                    if (monsterList.get(i).isBound()) {
+                    } else {
+                        totalDamage += monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                        if (totalDamage < 0) {
+                            totalDamage = 0;
+                        }
+                        if (monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                            totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                        }
                     }
                 }
-                totalDamage = temp;
+                for (int i = 0; i < monsterList.size(); i++) {
+                    if (monsterList.get(i).isBound()) {
+                    } else {
+                        totalDamage += monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                        if (totalDamage < 0) {
+                            totalDamage = 0;
+                        }
+                        if (monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                            totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                        }
+                    }
+                }
             } else if (hasAbsorb) {
                 for (int i = 0; i < monsterList.size(); i++) {
-                    totalDamage += monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
-                    temp = totalDamage;
-                    if (totalDamage < 0){
-                        totalDamage = 0;
-                        temp = 0;
-                    }
-                    if (totalDamage >= enemy.getCurrentHp()){
-                        totalDamage = enemy.getCurrentHp();
-                    }
-                }
-                for (int i = 0; i < monsterList.size(); i++){
-                    totalDamage += monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
-                    temp = totalDamage;
-                    if (totalDamage < 0) {
-                        totalDamage = 0;
-                        temp = 0;
-                    }
-                    if (totalDamage >= enemy.getCurrentHp()){
-                        totalDamage = enemy.getCurrentHp();
+                    if (monsterList.get(i).isBound()) {
+                    } else {
+                        totalDamage += monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                        if (totalDamage < 0) {
+                            totalDamage = 0;
+                        }
+                        if (monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                            totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                        }
                     }
                 }
-                totalDamage = temp;
+                for (int i = 0; i < monsterList.size(); i++) {
+                    if (monsterList.get(i).isBound()) {
+                    } else {
+                        totalDamage += monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                        if (totalDamage < 0) {
+                            totalDamage = 0;
+                        }
+
+                        if (monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                            totalDamage = enemy.getCurrentHp() + monsterList.get(i).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                        }
+                    }
+                }
             } else if (hasReduction) {
                 for (int i = 0; i < monsterList.size(); i++) {
-                    totalDamage += monsterList.get(i).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
-                    totalDamage += monsterList.get(i).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                    if (monsterList.get(i).isBound()) {
+                    } else {
+                        totalDamage += monsterList.get(i).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                        totalDamage += monsterList.get(i).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                    }
                 }
             } else {
                 for (int i = 0; i < monsterList.size(); i++) {
-                    totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
-                    totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                    if (monsterList.get(i).isBound()) {
+                    } else {
+                        totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                        totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+                    }
                 }
             }
             totalDamageValue.setText(String.valueOf(totalDamage));
             //Need to set colors of each enemy element stuff
             setTextColors();
             enemy.setCurrentHp(enemy.getCurrentHp() - totalDamage);
-            if (enemy.getCurrentHp() < 0){
+            if (enemy.getCurrentHp() < 0) {
                 enemy.setCurrentHp(0);
             }
             enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
-            enemyHPPercentValue.setText(String.valueOf(df.format((double)enemy.getCurrentHp()/enemy.getTargetHp()*100) + "%"));
+            enemyHPPercentValue.setText(String.valueOf(df.format((double) enemy.getCurrentHp() / enemy.getTargetHp() * 100) + "%"));
         }
         hpRecoveredValue.setText(String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), orbMatches, totalCombos)));
         totalComboValue.setText(String.valueOf(totalCombos));
-
     }
+
+    private ListView.OnItemClickListener bindMonsterOnClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            additionalComboValue.clearFocus();
+            if (monsterList.get(position).isBound()) {
+                monsterList.get(position).setIsBound(false);
+                Log.d("Bound", "monster " + position + " is unbound");
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Monster unbound", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                monsterList.get(position).setIsBound(true);
+                Log.d("Bound", "monster " + position + " is bound");
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Monster bound", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            updateTextView();
+            monsterListAdapter.setTotalDamage(totalDamage);
+            monsterListAdapter.notifyDataSetChanged();
+        }
+    };
 
     private void setTextColors() {
         if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.RED)) {
@@ -314,6 +367,34 @@ public class TeamDamageListFragment extends Fragment {
         } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.DARK)) {
             enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
         }
+    }
+
+    private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
+        @Override
+        public void changeMonsterAttribute(int statToChange, int statValue) {
+            if (statToChange == MyTextWatcher.ADDITIONAL_COMBOS) {
+                additionalCombosFragment = statValue;
+            }
+        }
+    };
+
+    private MyTextWatcher additionalComboTextWatcher = new MyTextWatcher(MyTextWatcher.ADDITIONAL_COMBOS, changeStats);
+
+    private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (!hasFocus) {
+                hideKeyboard(v);
+                if ((additionalComboValue.getText().toString().equals(""))) {
+                    additionalComboValue.setText("0");
+                }
+            }
+        }
+    };
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
     private void setReductionOrbs() {
