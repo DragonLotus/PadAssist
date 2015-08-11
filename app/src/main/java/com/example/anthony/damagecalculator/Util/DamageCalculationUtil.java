@@ -172,7 +172,7 @@ public class DamageCalculationUtil {
         if (damage == 0){
             return 0;
         }
-        if(enemy.getReduction().isEmpty()){
+        if(enemy.getReduction().isEmpty() || enemy.getReduction() == null){
             return monsterDamageEnemyDefense(damage, enemy);
         }
         else if(enemy.getReduction().contains(monster.getElement2())){
@@ -182,8 +182,34 @@ public class DamageCalculationUtil {
     }
 
     public static double monsterElement1DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
-        return 0;
+        double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
+        if(enemy.getAbsorb().equals(monster.getElement1())){
+            return damage * -1;
+        }
+        else return damage;
+    }
+
+    public static double monsterElement2DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement2DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
+        if(enemy.getAbsorb().equals(monster.getElement2())){
+            return damage * -1;
+        }
+        else return damage;
+    }
+
+    public static double monsterElement1DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
+        if(damage >= enemy.getDamageThreshold()){
+            return ((damage - enemy.getDamageThreshold())* -1);
+        }
+        return damage;
+    }
+    public static double monsterElement2DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement2DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
+        if(damage >= enemy.getDamageThreshold()){
+            return ((damage - enemy.getDamageThreshold())* -1);
+        }
+        return damage;
     }
 
     public static double orbMatch(int Attack, OrbMatch orbMatches, int OrbAwakenings, int TPAwakenings) {

@@ -75,15 +75,22 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         viewHolder.monsterElement1Damage.setText(monsterList.get(position).getElement1DamageString(orbMatches, 6, combos));
         viewHolder.monsterElement2Damage.setText(monsterList.get(position).getElement2DamageString(orbMatches, 6, combos));
         if (hasEnemy) {
-            if (hasReduction) {
+            if (hasAbsorb) {
+                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageAbsorbString(orbMatches, 6, enemy, combos) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageAbsorbString(orbMatches, 6, enemy, combos) + ")");
+            } else if (hasDamageThreshold) {
+                viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageThresholdString(orbMatches, 6, enemy, combos) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageThresholdString(orbMatches, 6, enemy, combos) + ")");
+            } else if (hasReduction) {
                 viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageReductionString(orbMatches, 6, enemy, combos) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageReductionString(orbMatches, 6, enemy, combos) + ")");
             } else {
                 viewHolder.monsterElement1DamageEnemy.setText("(" + monsterList.get(position).getElement1DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + monsterList.get(position).getElement2DamageEnemyString(orbMatches, 6, enemy, combos) + ")");
             }
+        }
 
-        } else {
+        else {
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }
@@ -128,6 +135,22 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         } else if (monsterList.get(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.DARK)) {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#AA00FF"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
+        }
+        if(hasAbsorb){
+            if(monsterList.get(position).getElement1DamageAbsorb(orbMatches, 6, enemy, combos)<0){
+                viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
+            }
+            if(monsterList.get(position).getElement2DamageAbsorb(orbMatches, 6, enemy, combos)<0){
+                viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
+            }
+        }
+        else if (hasDamageThreshold) {
+            if(monsterList.get(position).getElement1DamageThreshold(orbMatches, 6, enemy, combos)<0){
+                viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
+            }
+            if(monsterList.get(position).getElement2DamageThreshold(orbMatches, 6, enemy, combos)<0){
+                viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
+            }
         }
     }
 }

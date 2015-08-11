@@ -95,6 +95,38 @@ public class Monster implements Parcelable {
         return String.valueOf(getElement2DamageReduction(orbMatches, orbPlusAwakenings, enemy, combos));
     }
 
+    public int getElement1DamageAbsorb(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, orbMatches, orbPlusAwakenings, combos, enemy);
+    }
+
+    public String getElement1DamageAbsorbString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
+        return String.valueOf(getElement1DamageAbsorb(orbMatches, orbPlusAwakenings, enemy, combos));
+    }
+
+    public int getElement2DamageAbsorb(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, orbMatches, orbPlusAwakenings, combos, enemy);
+    }
+
+    public String getElement2DamageAbsorbString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
+        return String.valueOf(getElement2DamageAbsorb(orbMatches, orbPlusAwakenings, enemy, combos));
+    }
+
+    public int getElement1DamageThreshold(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, orbMatches, orbPlusAwakenings, combos, enemy);
+    }
+
+    public String getElement1DamageThresholdString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
+        return String.valueOf(getElement1DamageThreshold(orbMatches, orbPlusAwakenings, enemy, combos));
+    }
+
+    public int getElement2DamageThreshold(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, orbMatches, orbPlusAwakenings, combos, enemy);
+    }
+
+    public String getElement2DamageThresholdString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
+        return String.valueOf(getElement2DamageThreshold(orbMatches, orbPlusAwakenings, enemy, combos));
+    }
+
     public int getCurrentLevel() {
         return currentLevel;
     }
