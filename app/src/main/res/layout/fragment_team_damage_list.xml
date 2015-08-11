@@ -123,10 +123,84 @@
             android:textSize="18dp"/>
 
          <EditText
-            android:id="@+id/reductionAlign"
+            android:id="@+id/absorbAlign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/enemyHPPercent"
+            android:visibility="invisible"
+            android:focusable="false"/>
+
+         <TextView
+            android:id="@+id/elementAbsorb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/absorbAlign"
+            android:layout_alignTop="@+id/absorbAlign"
+            android:gravity="center_vertical"
+            android:text="Element Absorb"
+            android:textSize="18dp"/>
+
+         <RadioGroup
+            android:id="@+id/absorbOrbRadioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/absorbAlign"
+            android:layout_alignTop="@+id/absorbAlign"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@+id/targetReduction"
+            android:orientation="horizontal">
+
+            <RadioButton
+               android:id="@+id/redOrbAbsorb"
+               android:layout_width="18dp"
+               android:layout_height="18dp"
+               android:layout_marginLeft="10dp"
+               android:background="@drawable/red_orb_selector"
+               android:button="@null"
+               android:enabled="false"/>
+
+            <RadioButton
+               android:id="@+id/blueOrbAbsorb"
+               android:layout_width="18dp"
+               android:layout_height="18dp"
+               android:layout_marginLeft="10dp"
+               android:background="@drawable/blue_orb_selector"
+               android:button="@null"
+               android:enabled="false" />
+
+            <RadioButton
+               android:id="@+id/greenOrbAbsorb"
+               android:layout_width="18dp"
+               android:layout_height="18dp"
+               android:layout_marginLeft="10dp"
+               android:background="@drawable/green_orb_selector"
+               android:button="@null"
+               android:enabled="false" />
+
+            <RadioButton
+               android:id="@+id/lightOrbAbsorb"
+               android:layout_width="18dp"
+               android:layout_height="18dp"
+               android:layout_marginLeft="10dp"
+               android:background="@drawable/light_orb_selector"
+               android:button="@null"
+               android:enabled="false" />
+
+            <RadioButton
+               android:id="@+id/darkOrbAbsorb"
+               android:layout_width="18dp"
+               android:layout_height="18dp"
+               android:layout_marginLeft="10dp"
+               android:background="@drawable/dark_orb_selector"
+               android:button="@null"
+               android:enabled="false" />
+         </RadioGroup>
+
+         <EditText
+            android:id="@+id/reductionAlign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/elementAbsorb"
             android:visibility="invisible"
             android:focusable="false"/>
          <TextView
@@ -138,8 +212,6 @@
             android:text="Element Reduction "
             android:gravity="center_vertical"
             android:textSize="18dp"/>
-
-
          <RadioGroup
             android:id="@+id/reductionOrbRadioGroup"
             android:layout_width="wrap_content"
