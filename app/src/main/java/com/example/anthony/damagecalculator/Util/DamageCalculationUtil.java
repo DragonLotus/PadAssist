@@ -2,6 +2,8 @@ package com.example.anthony.damagecalculator.Util;
 
 import android.util.Log;
 
+import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 
@@ -25,16 +27,158 @@ public class DamageCalculationUtil {
 
     public static double monsterElement2Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos) {
         double totalOrbDamage = 0;
+        if(monster.getElement1().equals(monster.getElement2())){
+            for(int i = 0; i < orbMatches.size(); i++) {
+                if(orbMatches.get(i).getColor().equals(monster.getElement2())) {
+                    totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, 0);
+                }
+            }
+            return comboMultiplier(totalOrbDamage, combos);
+        }
         for(int i = 0; i < orbMatches.size(); i++) {
             if(orbMatches.get(i).getColor().equals(monster.getElement2())) {
-                totalOrbDamage += orbMatch((monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, 0);
+                totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, 0);
             }
         }
         return comboMultiplier(totalOrbDamage, combos);
     }
 
     public static double comboMultiplier(double damage, int combos){
-        return Math.ceil(damage * ((combos - 1)*.25 + 1.0));
+        return Math.ceil(damage * ((combos - 1) * .25 + 1.0));
+    }
+
+    public static double monsterElement1DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
+        if(damage == 0){
+            return 0;
+        }
+        damage = monsterDamageEnemyDefense(damage, enemy);
+        return damage;
+    }
+
+    public static double monsterElement2DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
+        if(damage == 0){
+            return 0;
+        }
+        damage = monsterDamageEnemyDefense(damage, enemy);
+        return damage;
+    }
+
+    public static double monsterElement1DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement1Damage(monster, orbMatches, orbAwakenings, combos);
+        if(monster.getElement1().equals(Color.RED)){
+            if(enemy.getTargetColor().equals(Color.BLUE)){
+                damage = damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.GREEN)){
+                damage = damage*2;
+            }
+        }
+        else if(monster.getElement1().equals(Color.BLUE)){
+            if(enemy.getTargetColor().equals(Color.GREEN)){
+                damage = damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.RED)){
+                damage = damage*2;
+            }
+        }
+        else if(monster.getElement1().equals(Color.GREEN)){
+            if(enemy.getTargetColor().equals(Color.RED)){
+                damage = damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.BLUE)){
+                damage = damage*2;
+            }
+        }
+        else if(monster.getElement1().equals(Color.LIGHT)){
+            if(enemy.getTargetColor().equals(Color.DARK)){
+                damage = damage*2;
+            }
+        }
+        else if(monster.getElement1().equals(Color.DARK)){
+            if(enemy.getTargetColor().equals(Color.LIGHT)){
+                damage = damage*2;
+            }
+        }
+        return damage;
+    }
+
+    public static double monsterElement2DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement2Damage(monster, orbMatches, orbAwakenings, combos);
+        if (damage == 0){
+            return 0;
+        }
+        if(monster.getElement2().equals(Color.RED)){
+            if(enemy.getTargetColor().equals(Color.BLUE)){
+                damage = damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.GREEN)){
+                damage = damage*2;
+            }
+        }
+        else if(monster.getElement2().equals(Color.BLUE)){
+            if(enemy.getTargetColor().equals(Color.GREEN)){
+                damage = damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.RED)){
+                damage = damage*2;
+            }
+        }
+        else if(monster.getElement2().equals(Color.GREEN)){
+            if(enemy.getTargetColor().equals(Color.RED)){
+                damage = damage/2;
+            }
+            else if(enemy.getTargetColor().equals(Color.BLUE)){
+                damage = damage*2;
+            }
+        }
+        else if(monster.getElement2().equals(Color.LIGHT)){
+            if(enemy.getTargetColor().equals(Color.DARK)){
+                damage = damage*2;
+            }
+        }
+        else if(monster.getElement2().equals(Color.DARK)){
+            if(enemy.getTargetColor().equals(Color.LIGHT)){
+                damage = damage*2;
+            }
+        }
+        return damage;
+    }
+
+    public static double monsterDamageEnemyDefense(double damage, Enemy enemy){
+        if(damage-enemy.getTargetDef()<0){
+            return 1;
+        }
+        return damage - enemy.getTargetDef();
+    }
+
+    public static double monsterElement1DamageReduction(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
+        if (damage == 0){
+            return 0;
+        }
+        if(enemy.getReduction().isEmpty()){
+            return monsterDamageEnemyDefense(damage, enemy);
+        }
+        else if(enemy.getReduction().contains(monster.getElement1())){
+            return monsterDamageEnemyDefense(damage/2, enemy);
+        }
+        else return monsterDamageEnemyDefense(damage, enemy);
+    }
+
+    public static double monsterElement2DamageReduction(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
+        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
+        if (damage == 0){
+            return 0;
+        }
+        if(enemy.getReduction().isEmpty()){
+            return monsterDamageEnemyDefense(damage, enemy);
+        }
+        else if(enemy.getReduction().contains(monster.getElement2())){
+            return monsterDamageEnemyDefense(damage/2, enemy);
+        }
+        else return monsterDamageEnemyDefense(damage, enemy);
     }
 
     public static double orbMatch(int Attack, OrbMatch orbMatches, int OrbAwakenings, int TPAwakenings) {

@@ -776,6 +776,11 @@ public class EnemyTargetFragment extends Fragment
    private View.OnClickListener calculateOnClickListener = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+         if(reductionCheck.isChecked()){
+            Log.d("reductionCheck", "True");
+         }else{
+            Log.d("reductionCheck", "False");
+         }
          ( (MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches, additionalCombos, enemy, absorbCheck.isChecked(), reductionCheck.isChecked(), damageThresholdCheck.isChecked()), TeamDamageListFragment.TAG);
       }
    };

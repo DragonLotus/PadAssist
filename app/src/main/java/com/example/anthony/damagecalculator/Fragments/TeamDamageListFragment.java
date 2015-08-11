@@ -220,7 +220,7 @@ public class TeamDamageListFragment extends Fragment {
             enemyHPValue.setTextColor(Color.parseColor("#4444FF"));
         }
         else  if(enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.GREEN)){
-            enemyHPValue.setTextColor(Color.parseColor("#00FF00"));
+            enemyHPValue.setTextColor(Color.parseColor("#00CC00"));
         }
         else  if(enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT)){
             enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
