@@ -33,17 +33,16 @@ import java.util.ArrayList;
  * Use the {@link TeamDamageListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamDamageListFragment extends Fragment
-{
-   public static final String TAG = MonsterPageFragment.class.getSimpleName();
-   // TODO: Rename parameter arguments, choose names that match
-   // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-   private static final String ARG_PARAM1 = "param1";
-   private static final String ARG_PARAM2 = "param2";
+public class TeamDamageListFragment extends Fragment {
+    public static final String TAG = MonsterPageFragment.class.getSimpleName();
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
-   // TODO: Rename and change types of parameters
-   private String mParam1;
-   private String mParam2;
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
 
     private OnFragmentInteractionListener mListener;
@@ -58,26 +57,25 @@ public class TeamDamageListFragment extends Fragment
     private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
-   private RadioGroup absorbRadioGroup;
+    private RadioGroup absorbRadioGroup;
 
-   /**
-    * Use this factory method to create a new instance of
-    * this fragment using the provided parameters.
-    *
-    * @param param1 Parameter 1.
-    * @param param2 Parameter 2.
-    * @return A new instance of fragment TeamDamageListFragment.
-    */
-   // TODO: Rename and change types and number of parameters
-   public static TeamDamageListFragment newInstance(String param1, String param2)
-   {
-      TeamDamageListFragment fragment = new TeamDamageListFragment();
-      Bundle args = new Bundle();
-      args.putString(ARG_PARAM1, param1);
-      args.putString(ARG_PARAM2, param2);
-      fragment.setArguments(args);
-      return fragment;
-   }
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment TeamDamageListFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static TeamDamageListFragment newInstance(String param1, String param2) {
+        TeamDamageListFragment fragment = new TeamDamageListFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
     public static TeamDamageListFragment newInstance(boolean hasEnemy, ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Team team, Enemy enemy, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold) {
@@ -108,27 +106,23 @@ public class TeamDamageListFragment extends Fragment
         return fragment;
     }
 
-   public TeamDamageListFragment()
-   {
-      // Required empty public constructor
-   }
+    public TeamDamageListFragment() {
+        // Required empty public constructor
+    }
 
-   @Override
-   public void onCreate(Bundle savedInstanceState)
-   {
-      super.onCreate(savedInstanceState);
-      if (getArguments() != null)
-      {
-         mParam1 = getArguments().getString(ARG_PARAM1);
-         mParam2 = getArguments().getString(ARG_PARAM2);
-      }
-   }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
 
-   @Override
-   public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                            Bundle savedInstanceState)
-   {
-      // Inflate the layout for this fragment
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_team_damage_list, container, false);
         monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
@@ -174,120 +168,94 @@ public class TeamDamageListFragment extends Fragment
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
     }
 
-   // TODO: Rename method, update argument and hook method into UI event
-   public void onButtonPressed(Uri uri)
-   {
-      if (mListener != null)
-      {
-         mListener.onFragmentInteraction(uri);
-      }
-   }
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
-   @Override
-   public void onDetach()
-   {
-      super.onDetach();
-      mListener = null;
-   }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
-   /**
-    * This interface must be implemented by activities that contain this
-    * fragment to allow an interaction in this fragment to be communicated
-    * to the activity and potentially other fragments contained in that
-    * activity.
-    * <p/>
-    * See the Android Training lesson <a href=
-    * "http://developer.android.com/training/basics/fragments/communicating.html"
-    * >Communicating with Other Fragments</a> for more information.
-    */
-   public interface OnFragmentInteractionListener
-   {
-      // TODO: Update argument type and name
-      public void onFragmentInteraction(Uri uri);
-   }
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
 
-   private View.OnClickListener monsterListToggleOnClickListener = new View.OnClickListener()
-   {
-      @Override
-      public void onClick(View v)
-      {
-         if (monsterListView.getVisibility() == View.GONE)
-         {
-            monsterListView.setVisibility(View.VISIBLE);
-            monsterListToggle.setText("Hide Monster Damage Breakdown");
-         }
-         else if (monsterListView.getVisibility() == View.VISIBLE)
-         {
-            monsterListView.setVisibility(View.GONE);
-            monsterListToggle.setText("Show Monster Damage Breakdown");
-         }
-      }
-   };
+    private View.OnClickListener monsterListToggleOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (monsterListView.getVisibility() == View.GONE) {
+                monsterListView.setVisibility(View.VISIBLE);
+                monsterListToggle.setText("Hide Monster Damage Breakdown");
+            } else if (monsterListView.getVisibility() == View.VISIBLE) {
+                monsterListView.setVisibility(View.GONE);
+                monsterListToggle.setText("Show Monster Damage Breakdown");
+            }
+        }
+    };
 
-    public void updateTextView()
-    {
-       totalCombos = additionalCombos + orbMatches.size();
-       if (!hasEnemy)
-       {
-          enemyHP.setVisibility(View.GONE);
-          enemyHPValue.setVisibility(View.GONE);
-          enemyHPPercent.setVisibility(View.GONE);
-          enemyHPPercentValue.setVisibility(View.GONE);
-          reductionRadioGroup.setVisibility(View.GONE);
-          targetReduction.setVisibility(View.GONE);
-          for (int i = 0; i < monsterList.size(); i++)
-          {
-             totalDamage += monsterList.get(i).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), totalCombos);
-             totalDamage += monsterList.get(i).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), totalCombos);
-          }
-          totalDamageValue.setText(String.valueOf(totalDamage));
-       }
-       else
-       {
-          for (int i = 0; i < monsterList.size(); i++)
-          {
-             totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
-             totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
-          }
-          totalDamageValue.setText(String.valueOf(totalDamage));
-          //Need to set colors of each enemy element stuff
-          setTextColors();
-          enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
-          enemyHPPercentValue.setText(String.valueOf((enemy.getGravityPercent()) * 100) + "%");
-       }
-       hpRecoveredValue.setText(String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), orbMatches, totalCombos)));
-       totalComboValue.setText(String.valueOf(totalCombos));
+    public void updateTextView() {
+        totalCombos = additionalCombos + orbMatches.size();
+        if (!hasEnemy) {
+            enemyHP.setVisibility(View.GONE);
+            enemyHPValue.setVisibility(View.GONE);
+            enemyHPPercent.setVisibility(View.GONE);
+            enemyHPPercentValue.setVisibility(View.GONE);
+            reductionRadioGroup.setVisibility(View.GONE);
+            targetReduction.setVisibility(View.GONE);
+            for (int i = 0; i < monsterList.size(); i++) {
+                totalDamage += monsterList.get(i).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), totalCombos);
+                totalDamage += monsterList.get(i).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), totalCombos);
+            }
+            totalDamageValue.setText(String.valueOf(totalDamage));
+        } else {
+            for (int i = 0; i < monsterList.size(); i++) {
+                totalDamage += monsterList.get(i).getElement1DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement1()), enemy, totalCombos);
+                totalDamage += monsterList.get(i).getElement2DamageEnemy(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
+            }
+            totalDamageValue.setText(String.valueOf(totalDamage));
+            //Need to set colors of each enemy element stuff
+            setTextColors();
+            enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
+            enemyHPPercentValue.setText(String.valueOf((enemy.getGravityPercent()) * 100) + "%");
+        }
+        hpRecoveredValue.setText(String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), orbMatches, totalCombos)));
+        totalComboValue.setText(String.valueOf(totalCombos));
 
     }
-   private void setTextColors()
-   {
-      if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.RED))
-      {
-         enemyHPValue.setTextColor(Color.parseColor("#FF0000"));
-      }
-      else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.BLUE))
-      {
-         enemyHPValue.setTextColor(Color.parseColor("#4444FF"));
-      }
-      else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.GREEN))
-      {
-         enemyHPValue.setTextColor(Color.parseColor("#00CC00"));
-      }
-      else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT))
-      {
-         enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
-      }
-      else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.DARK))
-      {
-         enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
-      }
-   }
 
-   private void setReductionOrbs()
-   {
+    private void setTextColors() {
+        if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.RED)) {
+            enemyHPValue.setTextColor(Color.parseColor("#FF0000"));
+        } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
+            enemyHPValue.setTextColor(Color.parseColor("#4444FF"));
+        } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
+            enemyHPValue.setTextColor(Color.parseColor("#00CC00"));
+        } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
+            enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
+        } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.DARK)) {
+            enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
+        }
+    }
 
-      if (hasReduction)
-      {
+    private void setReductionOrbs() {
+
+        if (hasReduction) {
             ArrayList<com.example.anthony.damagecalculator.Data.Color> hi = enemy.getReduction();
             for (int i = 0; i < hi.size(); i++) {
                 Log.d("hello2", hi.get(i).toString() + hi.size());
@@ -295,37 +263,34 @@ public class TeamDamageListFragment extends Fragment
             if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.RED)) {
                 redOrbReduction.setChecked(true);
             }
-         Log.d("hello2", "Red: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.RED) + " checked: " + redOrbReduction.isChecked());
+            Log.d("hello2", "Red: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.RED) + " checked: " + redOrbReduction.isChecked());
             if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
                 blueOrbReduction.setChecked(true);
             }
-         Log.d("hello2", "Blue: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.BLUE) + " checked: " + blueOrbReduction.isChecked());
+            Log.d("hello2", "Blue: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.BLUE) + " checked: " + blueOrbReduction.isChecked());
             if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
                 greenOrbReduction.setChecked(true);
             }
-         Log.d("hello2", "GREEN: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.GREEN) + " checked: " + greenOrbReduction.isChecked());
+            Log.d("hello2", "GREEN: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.GREEN) + " checked: " + greenOrbReduction.isChecked());
             if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.DARK)) {
                 darkOrbReduction.setChecked(true);
             }
-         Log.d("hello2", "DARk: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.DARK) + " checked: " + darkOrbReduction.isChecked());
+            Log.d("hello2", "DARk: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.DARK) + " checked: " + darkOrbReduction.isChecked());
             if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
                 lightOrbReduction.setChecked(true);
             }
-         Log.d("hello2", "Light: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.LIGHT) + " checked: " + lightOrbReduction.isChecked());
+            Log.d("hello2", "Light: " + enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.LIGHT) + " checked: " + lightOrbReduction.isChecked());
 
-      }
-   }
+        }
+    }
 
-   private void setAbsorbOrbs()
-   {
-      if(hasAbsorb)
-      {
-         absorbRadioGroup.check(R.id.redOrbAbsorb);
-         if(enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED)
-         {
+    private void setAbsorbOrbs() {
+        if (hasAbsorb) {
             absorbRadioGroup.check(R.id.redOrbAbsorb);
-         }
-      }
-   }
+            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED) {
+                absorbRadioGroup.check(R.id.redOrbAbsorb);
+            }
+        }
+    }
 
 }
