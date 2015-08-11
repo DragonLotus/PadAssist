@@ -239,6 +239,7 @@ public class TeamDamageListFragment extends Fragment {
                         totalDamage = enemy.getCurrentHp();
                     }
                 }
+                totalDamage = temp;
                 for (int i = 0; i < monsterList.size(); i++){
                     totalDamage += monsterList.get(i).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(i).getElement2()), enemy, totalCombos);
                     temp = totalDamage;
