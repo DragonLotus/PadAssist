@@ -85,8 +85,6 @@ public class EnemyTargetFragment extends Fragment {
     private Toast toast;
     private Spinner defenseBreakSpinner;
     private String[] defenseBreakItems;
-    private ArrayList<OrbMatch> orbMatches;
-    private ArrayList<Monster> monsterList;
     private int additionalCombos;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private double defenseBreakValue = 1.0;
@@ -150,13 +148,12 @@ public class EnemyTargetFragment extends Fragment {
      * @return A new instance of fragment EnemyTargetFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EnemyTargetFragment newInstance(ArrayList<Monster> monsterList, ArrayList<OrbMatch> orbMatches, int additionalCombos, Team team) {
+    public static EnemyTargetFragment newInstance(int additionalCombos, Team team, Enemy enemy) {
         EnemyTargetFragment fragment = new EnemyTargetFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList("monsterList", monsterList);
-        args.putParcelableArrayList("orbMatches", orbMatches);
         args.putInt("additionalCombos", additionalCombos);
         args.putParcelable("team", team);
+        args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
     }
@@ -209,13 +206,10 @@ public class EnemyTargetFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            monsterList = getArguments().getParcelableArrayList("monsterList");
-            orbMatches = getArguments().getParcelableArrayList("orbMatches");
             additionalCombos = getArguments().getInt("additionalCombos");
             team = getArguments().getParcelable("team");
+            enemy = getArguments().getParcelable("enemy");
         }
-        enemy = new Enemy();
-
         targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
         currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
         targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
@@ -625,7 +619,7 @@ public class EnemyTargetFragment extends Fragment {
             if (enemy.getReduction().contains(Color.DARK)) {
                 Log.d("Contains Dark", "yup");
             }
-            ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, monsterList, orbMatches, additionalCombos, team, enemy), TeamDamageListFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, additionalCombos, team, enemy), TeamDamageListFragment.TAG);
         }
     };
 

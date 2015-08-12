@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Data.Color;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
 import com.example.anthony.damagecalculator.R;
 
@@ -25,7 +26,7 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
 {
    private Context mContext;
    private LayoutInflater inflater;
-
+   private Team team;
    private ArrayList<OrbMatch> orbMatches;
    private int resourceId;
    private Toast toast;
@@ -35,9 +36,9 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       @Override
       public void onClick(View v)
       {
-         if(orbMatches.size() > 0) {
+         if(team.sizeOrbMatches() > 0) {
             int position = (int) v.getTag(R.string.index);
-            orbMatches.remove(position);
+            team.removeOrbMatches(position);
             notifyDataSetChanged();
             if (toast != null) {
                toast.cancel();
@@ -48,11 +49,12 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       }
    };
 
-   public OrbMatchAdapter(Context context, int textViewResourceId, ArrayList<OrbMatch> orbMatches)
+   public OrbMatchAdapter(Context context, int textViewResourceId, Team team)
    {
-      super(context, textViewResourceId, orbMatches);
+      super(context, textViewResourceId, team.getOrbMatches());
       mContext = context;
-      this.orbMatches = orbMatches;
+      this.team = team;
+      //this.orbMatches = orbMatches;
       this.resourceId = textViewResourceId;
    }
 
@@ -75,7 +77,7 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
          viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
       }
 
-      OrbMatch currentMatch = orbMatches.get(position);
+      OrbMatch currentMatch = team.getOrbMatches(position);
       String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.checkIfRow());
       viewHolder.orbMatchTotal.setText(rowResult);
 

@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator;
 
+import android.os.PersistableBundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -15,8 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.EnemyTargetFragment;
 import com.example.anthony.damagecalculator.Fragments.MainFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
@@ -47,14 +50,17 @@ public class MainActivity extends ActionBarActivity
     * The {@link android.support.v4.view.ViewPager} that will host the section contents.
     */
    FrameLayout mViewPager;
-
-   //private Spinner spinner;
-   private static final String[] orbChoices = {"3", "4"};
+   private Fragment mContent;
+   private Enemy enemy;
+   private Team team;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
+      if(savedInstanceState != null){
+         mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+      }
       setContentView(R.layout.activity_main);
 
       // Create the adapter that will return a fragment for each of the three
@@ -64,8 +70,10 @@ public class MainActivity extends ActionBarActivity
       // Set up the ViewPager with the sections adapter.
 //      mViewPager = (ViewPager) findViewById(R.id.pager);
 //      mViewPager.setAdapter(mSectionsPagerAdapter);
-
-      switchFragment(TeamListFragment.newInstance("1", "2"), TeamListFragment.TAG);
+      enemy = new Enemy();
+      team = new Team();
+      //switchFragment(TeamListFragment.newInstance("1", "2"), TeamListFragment.TAG);
+      switchFragment(TeamListFragment.newInstance(team, enemy), TeamListFragment.TAG);
 
       // Get the Default External Cache Directory
       File httpCacheDir = getExternalCacheDir();
@@ -86,6 +94,11 @@ public class MainActivity extends ActionBarActivity
 
    }
 
+   @Override
+   public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+      super.onSaveInstanceState(outState, outPersistentState);
+      getSupportFragmentManager().putFragment(outState, "mContent", mContent);
+   }
 
    @Override
    public boolean onCreateOptionsMenu(Menu menu)

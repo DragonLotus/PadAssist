@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterListAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
@@ -48,7 +49,8 @@ public class TeamListFragment extends Fragment {
     private ArrayList<Monster> monsters;
     private MonsterListAdapter monsterListAdapter;
     private Button importButton, orbMatchButton;
-    private Team team = new Team();
+    private Team team;
+    private Enemy enemy;
     private Boolean loggedIn = false;
     private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
 
@@ -62,11 +64,11 @@ public class TeamListFragment extends Fragment {
      * @return A new instance of fragment TeamListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TeamListFragment newInstance(String param1, String param2) {
+    public static TeamListFragment newInstance(Team team, Enemy enemy) {
         TeamListFragment fragment = new TeamListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable("team", team);
+        args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
     }
@@ -101,18 +103,6 @@ public class TeamListFragment extends Fragment {
         }
     }
 
-    /*
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
- */
     @Override
     public void onDetach() {
         super.onDetach();
@@ -135,18 +125,23 @@ public class TeamListFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putParcelableArrayList("monsters", monsters);
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Log.d("SavedInstanceState1", "SavedInstanceState: " + outState);
+        outState.putParcelableArrayList("monsters", monsters);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("SavedInstanceState", "SavedInstanceState: " + savedInstanceState);
-        if (savedInstanceState != null) {
+        if(getArguments() != null){
+            team = getArguments().getParcelable("team");
+            enemy = getArguments().getParcelable("enemy");
+        }
+        Log.d("SavedInstanceState2", "SavedInstanceState: " + savedInstanceState);
+        if(savedInstanceState != null){
             monsters = savedInstanceState.getParcelableArrayList("monsters");
-        } else {
+        }else {
             monsters = new ArrayList<Monster>();
             Monster monster1 = new Monster();
             monster1.setElement2(Color.RED);
@@ -188,14 +183,18 @@ public class TeamListFragment extends Fragment {
             monsters.add(monster5);
             monsters.add(monster6);
         }
+        if(team.getMonsters() != null){
+            monsters = team.getMonsters();
+        }else{
+            updateTeam();
+        }
         monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
         monsterListView.setAdapter(monsterListAdapter);
         importButton.setOnClickListener(buttonOnClickListener);
         orbMatchButton.setOnClickListener(buttonOnClickListener);
         monsterListView.setOnItemClickListener(monsterListOnClickListener);
-        updateTeam();
-    }
 
+    }
 
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
         @Override
@@ -211,7 +210,7 @@ public class TeamListFragment extends Fragment {
             if (v.equals(orbMatchButton)) {
                 Log.d("Team Health", String.valueOf(team.getTeamHealth()));
                 Log.d("Team RCV", String.valueOf(team.getTeamRcv()));
-                ((MainActivity) getActivity()).switchFragment(MainFragment.newInstance(monsters, team), MainFragment.TAG);
+                ((MainActivity) getActivity()).switchFragment(MainFragment.newInstance(team, enemy), MainFragment.TAG);
             }
         }
     };
@@ -223,16 +222,11 @@ public class TeamListFragment extends Fragment {
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(monsters.get(position)), MonsterPageFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(team.getMonsters(position)), MonsterPageFragment.TAG);
         }
     };
 
     public void updateTeam(){
         team.setMonsters(monsters);
-        for(int i = 0; i < monsters.size(); i++){
-            team.setTeamHealth(team.getTeamHealth() + monsters.get(i).getTotalHp());
-            team.setTeamRcv(team.getTeamRcv() + monsters.get(i).getTotalRcv());
-            //Maybe do row awakening count here too.
-        }
     }
 }

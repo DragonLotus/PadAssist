@@ -12,6 +12,7 @@ public class Team implements Parcelable {
     private int teamHealth, teamRcv, totalDamage;
     private ArrayList<Integer> rowAwakenings, orbPlusAwakenings;
     private ArrayList<Monster> monsters;
+    private ArrayList<OrbMatch> orbMatches = new ArrayList<OrbMatch>();
 
     public Team() {
         teamHealth = 0;
@@ -19,6 +20,10 @@ public class Team implements Parcelable {
     }
 
     public int getTeamHealth() {
+        int teamHealth = 0;
+        for(int i = 0; i < monsters.size(); i++){
+            teamHealth += monsters.get(i).getTotalHp();
+        }
         return teamHealth;
     }
 
@@ -27,6 +32,10 @@ public class Team implements Parcelable {
     }
 
     public int getTeamRcv() {
+        int teamRcv = 0;
+        for(int i = 0; i < monsters.size(); i++){
+            teamRcv += monsters.get(i).getTotalRcv();
+        }
         return teamRcv;
     }
 
@@ -66,6 +75,42 @@ public class Team implements Parcelable {
         this.orbPlusAwakenings = orbPlusAwakenings;
     }
 
+    public ArrayList<OrbMatch> getOrbMatches() {
+        return orbMatches;
+    }
+
+    public void setOrbMatches(ArrayList<OrbMatch> orbMatches) {
+        this.orbMatches = orbMatches;
+    }
+
+    public void addOrbMatches(OrbMatch orbMatch) {
+        orbMatches.add(orbMatch);
+    }
+
+    public void clearOrbMatches(){
+        orbMatches.clear();
+    }
+
+    public void removeOrbMatches(int position){
+        orbMatches.remove(position);
+    }
+
+    public int sizeOrbMatches(){
+        return orbMatches.size();
+    }
+
+    public OrbMatch getOrbMatches(int position){
+        return orbMatches.get(position);
+    }
+
+    public int sizeMonsters(){
+        return monsters.size();
+    }
+
+    public Monster getMonsters(int position){
+        return monsters.get(position);
+    }
+
     public int getOrbPlusAwakenings(Color color){
         //Case Switch thing for each color. 5 elements for 5 colors. 1 red, 2 blue, 3 green, 4 light, 5 dark
         return 6;
@@ -77,6 +122,7 @@ public class Team implements Parcelable {
         totalDamage = source.readInt();
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
+        orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
     }
 
     @Override
@@ -91,6 +137,7 @@ public class Team implements Parcelable {
         dest.writeInt(totalDamage);
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);
+        dest.writeList(orbMatches);
     }
 
     public static final Parcelable.Creator<Team> CREATOR = new Creator<Team>() {

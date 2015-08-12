@@ -13,6 +13,7 @@ public class Enemy implements Parcelable {
     private double gravityPercent;
     private Color targetColor, absorb;
     private ArrayList<Color> reduction;
+    private ArrayList<Integer> gravityList;
     private Boolean hasAbsorb = false, hasReduction = false, hasDamageThreshold = false;
 
 
@@ -154,6 +155,14 @@ public class Enemy implements Parcelable {
         this.hasReduction = hasReduction;
     }
 
+    public ArrayList<Integer> getGravityList() {
+        return gravityList;
+    }
+
+    public void setGravityList(ArrayList<Integer> gravityList) {
+        this.gravityList = gravityList;
+    }
+
     public Enemy(Parcel source) {
         targetHp = source.readInt();
         currentHp = source.readInt();
@@ -168,6 +177,7 @@ public class Enemy implements Parcelable {
         hasAbsorb = source.readByte() == 1;
         hasReduction = source.readByte() == 1;
         hasDamageThreshold = source.readByte() == 1;
+        gravityList = source.readArrayList(Integer.class.getClassLoader());
     }
 
     @Override
@@ -185,6 +195,7 @@ public class Enemy implements Parcelable {
         dest.writeByte((byte) (hasAbsorb ? 1 : 0));
         dest.writeByte((byte) (hasReduction ? 1 : 0));
         dest.writeByte((byte) (hasDamageThreshold ? 1 : 0));
+        dest.writeList(gravityList);
     }
 
     @Override

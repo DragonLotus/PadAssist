@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
 import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
@@ -60,8 +61,7 @@ public class MainFragment extends Fragment
    private boolean isRow, maxLeadMultiplier = false, hasEnemy = true;
    private OrbMatch orbMatch;
    private Team team;
-   private ArrayList<OrbMatch> orbMatchList;
-   private ArrayList<Monster> monsterList;
+   private Enemy enemy;
    private Toast toast;
    private RadioGroup orbRadioGroup;
    private MyDialogFragment dialog;
@@ -80,7 +80,7 @@ public class MainFragment extends Fragment
          ignoreEnemyCheckBox.setChecked(false);
          maxLeadMultiplierCheckBox.setChecked(false);
          additionalComboValue.setText("0");
-         orbMatchAdapter.clear();
+         team.clearOrbMatches();
          if(toast != null) {
             toast.cancel();
          }
@@ -198,7 +198,7 @@ public class MainFragment extends Fragment
       @Override
       public void onClick(View v) {
          additionalComboValue.clearFocus();
-         if (orbMatches.getCount() == 0) {
+         if (team.sizeOrbMatches() == 0) {
             if (toast != null) {
                toast.cancel();
             }
@@ -206,9 +206,9 @@ public class MainFragment extends Fragment
             toast.show();
          } else {
             if (!hasEnemy) {
-               ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, monsterList, orbMatchList, additionalCombos, team), TeamDamageListFragment.TAG);
+               ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, team), TeamDamageListFragment.TAG);
             } else {
-               ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(monsterList, orbMatchList, additionalCombos, team), EnemyTargetFragment.TAG);
+               ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, team, enemy), EnemyTargetFragment.TAG);
             }
          }
       }
@@ -221,7 +221,9 @@ public class MainFragment extends Fragment
       {
          additionalComboValue.clearFocus();
          orbMatch = new OrbMatch(orbsLinked.getProgress()+3, orbsPlus.getProgress(),getOrbColor(), isRow);
-         orbMatchAdapter.add(orbMatch);
+         team.addOrbMatches(orbMatch);
+         orbMatchAdapter.notifyDataSetChanged();
+         Log.d("size", "" + team.sizeOrbMatches());
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }
@@ -272,12 +274,12 @@ public class MainFragment extends Fragment
       inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
    }
 
-   public static MainFragment newInstance(ArrayList<Monster> monsterList, Team team)
+   public static MainFragment newInstance(Team team, Enemy enemy)
    {
       MainFragment fragment = new MainFragment();
       Bundle args = new Bundle();
-      args.putParcelableArrayList("monsterList", monsterList);
       args.putParcelable("team", team);
+      args.putParcelable("enemy", enemy);
       fragment.setArguments(args);
       return fragment;
    }
@@ -313,8 +315,8 @@ public class MainFragment extends Fragment
       super.onActivityCreated(savedInstanceState);
       //Write your code here
       if(getArguments() != null) {
-         monsterList = getArguments().getParcelableArrayList("monsterList");
          team = getArguments().getParcelable("team");
+         enemy = getArguments().getParcelable("enemy");
       }
        new DownloadPadApi().start();
       orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);
@@ -324,8 +326,8 @@ public class MainFragment extends Fragment
       ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
       addMatch.setOnClickListener(addMatchOnClickListener);
       reset.setOnClickListener(resetOnClickListener);
-      orbMatchList = new ArrayList<OrbMatch>();
-      orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, orbMatchList);
+      //orbMatchList = new ArrayList<OrbMatch>();
+      orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, team);
       orbMatches.setAdapter(orbMatchAdapter);
       additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
       additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
