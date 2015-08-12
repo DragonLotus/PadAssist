@@ -55,8 +55,7 @@
         android:text="9999999 "
         android:textSize="16dp"
         android:textColor="#F0F000"
-        android:paddingLeft="10dp"
-        android:paddingRight="5dp"/>
+        android:paddingLeft="5dp"/>
 
     <com.example.anthony.damagecalculator.Graphics.ThinStroke
         android:id="@+id/monsterElement1DamageEnemy"
@@ -79,9 +78,8 @@
         android:layout_toRightOf="@+id/monsterPicture"
         android:text="9999999 "
         android:textSize="16dp"
-        android:paddingLeft="10dp"
-        android:textColor="#F0F000"
-        android:paddingRight="5dp"/>
+        android:paddingLeft="5dp"
+        android:textColor="#F0F000"/>
 
     <com.example.anthony.damagecalculator.Graphics.ThinStroke
         android:id="@+id/monsterElement2DamageEnemy"

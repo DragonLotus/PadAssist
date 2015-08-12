@@ -81,8 +81,8 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         //Needs to get # of orb awakenings from team object maybe
         element1Damage = monsterList.get(position).getElement1Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), combos);
         element2Damage = monsterList.get(position).getElement2Damage(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), combos);
-        viewHolder.monsterElement1Damage.setText(String.valueOf(element1Damage));
-        viewHolder.monsterElement2Damage.setText(String.valueOf(element2Damage));
+        viewHolder.monsterElement1Damage.setText(" " + String.valueOf(element1Damage) + " ");
+        viewHolder.monsterElement2Damage.setText(" " + String.valueOf(element2Damage) + " ");
         if (hasEnemy) {
             if (hasDamageThreshold) {
                 element1DamageEnemy = monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
