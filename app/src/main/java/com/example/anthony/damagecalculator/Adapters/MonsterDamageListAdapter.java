@@ -30,13 +30,13 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
     private int resourceId, combos, totalDamage, element1Damage, element1DamageEnemy, element2Damage, element2DamageEnemy;
-    private boolean hasEnemy, hasAbsorb, hasReduction, hasDamageThreshold;
+    private boolean hasEnemy;
     private ArrayList<OrbMatch> orbMatches;
     private Enemy enemy;
     private Team team;
     private DecimalFormat df = new DecimalFormat("#.##");
 
-    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, Team team, boolean hasAbsorb, boolean hasReduction, boolean hasDamageThreshold, int totalDamage) {
+    public MonsterDamageListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, boolean hasEnemy, ArrayList<OrbMatch> orbMatches, Enemy enemy, int combos, Team team, int totalDamage) {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
@@ -45,9 +45,6 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         this.orbMatches = orbMatches;
         this.enemy = enemy;
         this.combos = combos;
-        this.hasAbsorb = hasAbsorb;
-        this.hasReduction = hasReduction;
-        this.hasDamageThreshold = hasDamageThreshold;
         this.team = team;
         this.totalDamage = totalDamage;
     }
@@ -84,17 +81,17 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         viewHolder.monsterElement1Damage.setText(" " + String.valueOf(element1Damage) + " ");
         viewHolder.monsterElement2Damage.setText(" " + String.valueOf(element2Damage) + " ");
         if (hasEnemy) {
-            if (hasDamageThreshold) {
+            if (enemy.getHasDamageThreshold()) {
                 element1DamageEnemy = monsterList.get(position).getElement1DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
                 element2DamageEnemy = monsterList.get(position).getElement2DamageThreshold(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
-            } else if (hasAbsorb) {
+            } else if (enemy.getHasAbsorb()) {
                 element1DamageEnemy = monsterList.get(position).getElement1DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
                 element2DamageEnemy = monsterList.get(position).getElement2DamageAbsorb(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
-            } else if (hasReduction) {
+            } else if (enemy.getHasReduction()) {
                 element1DamageEnemy = monsterList.get(position).getElement1DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement1()), enemy, combos);
                 element2DamageEnemy = monsterList.get(position).getElement2DamageReduction(orbMatches, team.getOrbPlusAwakenings(monsterList.get(position).getElement2()), enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
@@ -107,10 +104,22 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             }
             viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) element1DamageEnemy / totalDamage * 100) + "%"));
             viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) element2DamageEnemy / totalDamage * 100) + "%"));
+            if((double) element1DamageEnemy / totalDamage * 100 < 0 || Double.isNaN((double) element1DamageEnemy / totalDamage * 100)){
+                viewHolder.monsterElement1Percent.setText("0%");
+            }
+            if((double) element2DamageEnemy / totalDamage * 100 < 0 ||  Double.isNaN((double) element2DamageEnemy / totalDamage * 100)){
+                viewHolder.monsterElement2Percent.setText("0%");
+            }
             //if statement to check element damage > total damage, set to 0%?
         } else {
             viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) element1Damage / totalDamage * 100) + "%"));
             viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) element2Damage / totalDamage * 100) + "%"));
+            if(Double.isNaN((double) element1Damage / totalDamage * 100)){
+                viewHolder.monsterElement1Percent.setText("0%");
+            }
+            if(Double.isNaN((double) element2Damage / totalDamage * 100)) {
+                viewHolder.monsterElement2Percent.setText("0%");
+            }
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }

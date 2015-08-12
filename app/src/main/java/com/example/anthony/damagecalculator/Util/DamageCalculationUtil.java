@@ -182,13 +182,9 @@ public class DamageCalculationUtil {
 
     public static double monsterElement1DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
         double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
-        Log.d("Enemy absorb damageutil", "" + enemy.getAbsorb());
-        Log.d("MonsterEle damageutil", "" + monster.getElement1());
         if(enemy.getAbsorb().equals(monster.getElement1())){
             return damage * -1;
         }
-        Log.d("EnemyAb damageutil2", "" + enemy.getAbsorb());
-        Log.d("MonsterEle damageutil2", "" + monster.getElement1());
         return damage;
     }
 
