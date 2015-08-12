@@ -20,6 +20,7 @@ public class Enemy implements Parcelable {
     //default is satan from  Lord of Hell - Mythical
     public Enemy() {
         reduction = new ArrayList<Color>();
+        gravityList = new ArrayList<Integer>();
         targetHp = 6666666;
         targetDef = 368;
         currentHp = targetHp;
@@ -161,6 +162,10 @@ public class Enemy implements Parcelable {
 
     public void setGravityList(ArrayList<Integer> gravityList) {
         this.gravityList = gravityList;
+    }
+
+    public int getGravityList(int position){
+        return gravityList.get(position);
     }
 
     public Enemy(Parcel source) {

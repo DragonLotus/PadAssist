@@ -12,11 +12,12 @@ public class Team implements Parcelable {
     private int teamHealth, teamRcv, totalDamage;
     private ArrayList<Integer> rowAwakenings, orbPlusAwakenings;
     private ArrayList<Monster> monsters;
-    private ArrayList<OrbMatch> orbMatches = new ArrayList<OrbMatch>();
+    private ArrayList<OrbMatch> orbMatches;
 
     public Team() {
         teamHealth = 0;
         teamRcv = 0;
+        orbMatches = new ArrayList<OrbMatch>();
     }
 
     public int getTeamHealth() {

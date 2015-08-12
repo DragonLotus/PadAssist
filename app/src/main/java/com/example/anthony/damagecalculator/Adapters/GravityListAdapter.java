@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.R;
 import java.util.ArrayList;
 
@@ -17,15 +19,15 @@ public class GravityListAdapter extends ArrayAdapter<Integer>
 {
    private Context mContext;
    private LayoutInflater inflater;
-   private ArrayList<Integer> gravityList;
+   private Enemy enemy;
    private int resourceId;
    private UpdateGravityPercent updateGravityPercent;
 
-   public GravityListAdapter(Context context, int textViewResourceId, ArrayList<Integer> gravityList, UpdateGravityPercent updateGravityPercent)
+   public GravityListAdapter(Context context, int textViewResourceId, Enemy enemy, UpdateGravityPercent updateGravityPercent)
    {
-      super(context, textViewResourceId, gravityList);
+      super(context, textViewResourceId, enemy.getGravityList());
       mContext = context;
-      this.gravityList = gravityList;
+      this.enemy = enemy;
       this.resourceId = textViewResourceId;
       this.updateGravityPercent = updateGravityPercent;
    }
@@ -45,7 +47,7 @@ public class GravityListAdapter extends ArrayAdapter<Integer>
       {
          viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
       }
-      viewHolder.gravityText.setText(gravityList.get(position).toString() + "%");
+      viewHolder.gravityText.setText(String.valueOf(enemy.getGravityList(position)) + "%");
 
       return convertView;
    }

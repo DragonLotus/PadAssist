@@ -2,6 +2,7 @@ package com.example.anthony.damagecalculator.Fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -210,11 +211,16 @@ public class EnemyTargetFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        Log.d("Current HP", "" + enemy.getCurrentHp());
+        Log.d("Has Absorb", "" + enemy.getHasAbsorb());
+        Log.d("Has Reduction", "" + enemy.getHasReduction());
+        Log.d("Has Damage Threshold", "" + enemy.getHasDamageThreshold());
         targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
         currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
         targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
+        Log.d("Current HP2", "" + enemy.getCurrentHp());
 
-        gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, new ArrayList<Integer>(), updateGravityPercent);
+        gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, enemy, updateGravityPercent);
         gravityList.setAdapter(gravityListAdapter);
         gravityList.setOnItemClickListener(gravityRemoveOnClickListener);
         gravityButtonAdapter = new GravityButtonAdapter(getActivity(), R.layout.gravity_button_grid, new ArrayList<Integer>());
@@ -227,6 +233,8 @@ public class EnemyTargetFragment extends Fragment {
         targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
         currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
         targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
+
+        updateGravityPercent.updatePercent();
 
 //      targetHpValue.setOnKeyListener(downKeyboard);
 //      currentHpValue.setOnKeyListener(downKeyboard);
@@ -258,6 +266,9 @@ public class EnemyTargetFragment extends Fragment {
         lightOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
 
         calculate.setOnClickListener(calculateOnClickListener);
+        setReductionOrbs();
+        setAbsorbOrbs();
+        setDamageThreshold();
 
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
@@ -573,6 +584,65 @@ public class EnemyTargetFragment extends Fragment {
         }
     }
 
+    private void setReductionOrbs() {
+        if (enemy.getHasReduction()) {
+            reductionCheck.setChecked(true);
+            for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
+                reductionRadioGroup.getChildAt(i).setEnabled(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.RED)) {
+                redOrbReduction.setChecked(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
+                blueOrbReduction.setChecked(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
+                greenOrbReduction.setChecked(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.DARK)) {
+                darkOrbReduction.setChecked(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
+                lightOrbReduction.setChecked(true);
+            }
+
+        }
+    }
+
+    private void setAbsorbOrbs(){
+        absorbCheck.setChecked(enemy.getHasAbsorb());
+        if (enemy.getHasAbsorb()) {
+            for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
+                absorbRadioGroup.getChildAt(i).setEnabled(true);
+            }
+            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.redOrbAbsorb);
+            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.BLUE) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.blueOrbAbsorb);
+            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.GREEN) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.greenOrbAbsorb);
+            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.LIGHT) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.lightOrbAbsorb);
+            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.DARK) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.darkOrbAbsorb);
+            }
+        }
+
+    }
+
+    private void setDamageThreshold() {
+        if (enemy.getHasDamageThreshold()) {
+            damageThresholdValue.setEnabled(true);
+            damageThresholdCheck.setChecked(true);
+            damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
+        }
+    }
+
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -599,26 +669,6 @@ public class EnemyTargetFragment extends Fragment {
     private View.OnClickListener calculateOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (reductionCheck.isChecked()) {
-                Log.d("reductionCheck", "True");
-            } else {
-                Log.d("reductionCheck", "False");
-            }
-            if (enemy.getReduction().contains(Color.RED)) {
-                Log.d("Contains Red", "yup");
-            }
-            if (enemy.getReduction().contains(Color.BLUE)) {
-                Log.d("Contains Blue", "yup");
-            }
-            if (enemy.getReduction().contains(Color.GREEN)) {
-                Log.d("Contains Green", "yup");
-            }
-            if (enemy.getReduction().contains(Color.LIGHT)) {
-                Log.d("Contains Light", "yup");
-            }
-            if (enemy.getReduction().contains(Color.DARK)) {
-                Log.d("Contains Dark", "yup");
-            }
             ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, additionalCombos, team, enemy), TeamDamageListFragment.TAG);
         }
     };
