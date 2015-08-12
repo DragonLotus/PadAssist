@@ -181,6 +181,7 @@ public class TeamDamageListFragment extends Fragment {
         totalCombos = additionalCombos + orbMatches.size();
         updateTextView();
         setReductionOrbs();
+        setAbsorbOrbs();
         Log.d("totalCombos", String.valueOf(totalCombos));
         monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, team, hasAbsorb, hasReduction, hasDamageThreshold, totalDamage);
         monsterListView.setAdapter(monsterListAdapter);
@@ -401,6 +402,7 @@ public class TeamDamageListFragment extends Fragment {
     private Button.OnClickListener recalculateButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            additionalComboValue.clearFocus();
             totalCombos += additionalCombosFragment;
             Log.d("Total Combo 1", "" + totalCombos);
             if(totalCombos < orbMatches.size()){
@@ -452,9 +454,25 @@ public class TeamDamageListFragment extends Fragment {
 
     private void setAbsorbOrbs() {
         if (hasAbsorb) {
-            absorbRadioGroup.check(R.id.redOrbAbsorb);
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED) {
-                absorbRadioGroup.check(R.id.redOrbAbsorb);
+                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                ((RadioButton)absorbRadioGroup.getChildAt(0)).setChecked(true);
+            }
+            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.BLUE) {
+                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                ((RadioButton)absorbRadioGroup.getChildAt(1)).setChecked(true);
+            }
+            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.GREEN) {
+                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                ((RadioButton)absorbRadioGroup.getChildAt(2)).setChecked(true);
+            }
+            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.LIGHT) {
+                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                ((RadioButton)absorbRadioGroup.getChildAt(3)).setChecked(true);
+            }
+            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.DARK) {
+                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                ((RadioButton)absorbRadioGroup.getChildAt(4)).setChecked(true);
             }
         }
     }
