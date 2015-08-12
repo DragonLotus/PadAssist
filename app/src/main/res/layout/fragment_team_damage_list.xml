@@ -277,6 +277,38 @@
                     android:enabled="false" />
             </RadioGroup>
 
+            <TextView
+               android:id="@+id/damageThreshold"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Damage Threshold: "
+               android:textSize="18dp"
+               android:layout_alignTop="@+id/damageThresholdValue"
+               android:layout_alignBottom="@+id/damageThresholdValue"
+               android:gravity="center_vertical"/>
+
+            <EditText
+               android:id="@+id/damageThresholdValue"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_below="@+id/targetReduction"
+               android:layout_toRightOf="@+id/damageThreshold"
+               android:textSize="18dp"
+               android:text="200000"
+               android:maxLength="9"
+               android:inputType="number"
+               android:enabled="false"/>
+
+            <CheckBox
+               android:id="@+id/damageThresholdCheck"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true"
+               android:layout_alignTop="@+id/damageThresholdValue"
+               android:layout_alignBottom="@+id/damageThresholdValue"
+               android:gravity="center_vertical"
+               android:checked="false"/>
+
 
         </RelativeLayout>
     </ScrollView>

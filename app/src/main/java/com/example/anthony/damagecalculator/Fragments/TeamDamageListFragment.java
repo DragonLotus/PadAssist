@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -55,7 +56,7 @@ public class TeamDamageListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private ListView monsterListView;
-    private EditText additionalComboValue;
+    private EditText additionalComboValue, damageThresholdValue;
     private MonsterDamageListAdapter monsterListAdapter;
     private Enemy enemy;
     private Team team;
@@ -67,6 +68,7 @@ public class TeamDamageListFragment extends Fragment {
     private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
+    private CheckBox damageThresholdCheck;
     private RadioGroup absorbRadioGroup;
     private Button recalculateButton;
     private DecimalFormat df = new DecimalFormat("#.##");
@@ -157,6 +159,8 @@ public class TeamDamageListFragment extends Fragment {
         greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
         darkOrbReduction = (CheckBox) rootView.findViewById(R.id.darkOrbReduction);
         lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
+        damageThresholdValue = (EditText) rootView.findViewById(R.id.damageThresholdValue);
+        damageThresholdCheck = (CheckBox) rootView.findViewById(R.id.damageThresholdCheck);
 
         return rootView;
     }
@@ -182,6 +186,7 @@ public class TeamDamageListFragment extends Fragment {
         updateTextView();
         setReductionOrbs();
         setAbsorbOrbs();
+        setDamageThreshold();
         Log.d("totalCombos", String.valueOf(totalCombos));
         monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, monsterList, hasEnemy, orbMatches, enemy, totalCombos, team, hasAbsorb, hasReduction, hasDamageThreshold, totalDamage);
         monsterListView.setAdapter(monsterListAdapter);
@@ -190,6 +195,9 @@ public class TeamDamageListFragment extends Fragment {
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
         monsterListView.setOnItemClickListener(bindMonsterOnClickListener);
         recalculateButton.setOnClickListener(recalculateButtonOnClickListener);
+        damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+        damageThresholdValue.addTextChangedListener(damageThresholdWatcher);
+        damageThresholdValue.setOnFocusChangeListener(editTextOnFocusChange);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -386,6 +394,7 @@ public class TeamDamageListFragment extends Fragment {
     };
 
     private MyTextWatcher additionalComboTextWatcher = new MyTextWatcher(MyTextWatcher.ADDITIONAL_COMBOS, changeStats);
+   private MyTextWatcher damageThresholdWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_THRESHOLD, changeStats);
 
     private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
         @Override
@@ -394,6 +403,10 @@ public class TeamDamageListFragment extends Fragment {
                 hideKeyboard(v);
                 if ((additionalComboValue.getText().toString().equals(""))) {
                     additionalComboValue.setText("0");
+                }
+                else if (damageThresholdValue.getText().toString().equals("")) {
+                   damageThresholdValue.setText("0");
+                   enemy.setDamageThreshold(0);
                 }
             }
         }
@@ -460,26 +473,48 @@ public class TeamDamageListFragment extends Fragment {
                 absorbRadioGroup.check(R.id.redOrbAbsorb);
             }
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.BLUE) {
-                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 //((RadioButton)absorbRadioGroup.getChildAt(1)).setChecked(true);
                 absorbRadioGroup.check(R.id.blueOrbAbsorb);
             }
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.GREEN) {
-                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 //((RadioButton)absorbRadioGroup.getChildAt(2)).setChecked(true);
                 absorbRadioGroup.check(R.id.greenOrbAbsorb);
             }
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.LIGHT) {
-                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 //((RadioButton)absorbRadioGroup.getChildAt(3)).setChecked(true);
                 absorbRadioGroup.check(R.id.lightOrbAbsorb);
             }
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.DARK) {
-                Log.d("enemyAbsorb","" + enemy.getAbsorb());
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 //((RadioButton)absorbRadioGroup.getChildAt(4)).setChecked(true);
                 absorbRadioGroup.check(R.id.darkOrbAbsorb);
             }
         }
     }
+
+    private void setDamageThreshold()
+    {
+        if(hasDamageThreshold)
+        {
+            damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
+        }
+    }
+
+    private CompoundButton.OnCheckedChangeListener checkBoxOnChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+           if (buttonView.equals(damageThresholdCheck)) {
+               if (isChecked) {
+                    damageThresholdValue.setEnabled(true);
+                } else {
+                    damageThresholdValue.clearFocus();
+                    damageThresholdValue.setEnabled(false);
+                }
+            }
+        }
+    };
 
 }
