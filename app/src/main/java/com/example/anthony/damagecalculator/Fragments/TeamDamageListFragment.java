@@ -455,24 +455,29 @@ public class TeamDamageListFragment extends Fragment {
     private void setAbsorbOrbs() {
         if (hasAbsorb) {
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED) {
-                Log.d("enemyAbsorb","" + enemy.getAbsorb());
-                ((RadioButton)absorbRadioGroup.getChildAt(0)).setChecked(true);
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                //((RadioButton)absorbRadioGroup.getChildAt(0)).setChecked(true);
+                absorbRadioGroup.check(R.id.redOrbAbsorb);
             }
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.BLUE) {
                 Log.d("enemyAbsorb","" + enemy.getAbsorb());
-                ((RadioButton)absorbRadioGroup.getChildAt(1)).setChecked(true);
+                //((RadioButton)absorbRadioGroup.getChildAt(1)).setChecked(true);
+                absorbRadioGroup.check(R.id.blueOrbAbsorb);
             }
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.GREEN) {
                 Log.d("enemyAbsorb","" + enemy.getAbsorb());
-                ((RadioButton)absorbRadioGroup.getChildAt(2)).setChecked(true);
+                //((RadioButton)absorbRadioGroup.getChildAt(2)).setChecked(true);
+                absorbRadioGroup.check(R.id.greenOrbAbsorb);
             }
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.LIGHT) {
                 Log.d("enemyAbsorb","" + enemy.getAbsorb());
-                ((RadioButton)absorbRadioGroup.getChildAt(3)).setChecked(true);
+                //((RadioButton)absorbRadioGroup.getChildAt(3)).setChecked(true);
+                absorbRadioGroup.check(R.id.lightOrbAbsorb);
             }
             if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.DARK) {
                 Log.d("enemyAbsorb","" + enemy.getAbsorb());
-                ((RadioButton)absorbRadioGroup.getChildAt(4)).setChecked(true);
+                //((RadioButton)absorbRadioGroup.getChildAt(4)).setChecked(true);
+                absorbRadioGroup.check(R.id.darkOrbAbsorb);
             }
         }
     }
