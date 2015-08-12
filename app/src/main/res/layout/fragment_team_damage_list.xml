@@ -277,6 +277,16 @@
                     android:enabled="false" />
             </RadioGroup>
 
+            <CheckBox
+               android:id="@+id/reductionCheck"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true"
+               android:layout_alignTop="@+id/reductionOrbRadioGroup"
+               android:layout_alignBottom="@+id/reductionOrbRadioGroup"
+               android:gravity="center_vertical"
+               android:checked="false"/>
+
             <TextView
                android:id="@+id/damageThreshold"
                android:layout_width="wrap_content"
