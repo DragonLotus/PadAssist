@@ -69,7 +69,7 @@ public class TeamDamageListFragment extends Fragment
    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold;
    private RadioGroup reductionRadioGroup;
    private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
-   private CheckBox reductionCheck, damageThresholdCheck;
+   private CheckBox absorbCheck, reductionCheck, damageThresholdCheck;
    private RadioGroup absorbRadioGroup;
    private Button recalculateButton;
    private DecimalFormat df = new DecimalFormat("#.##");
@@ -171,6 +171,7 @@ public class TeamDamageListFragment extends Fragment
       damageThresholdValue = (EditText) rootView.findViewById(R.id.damageThresholdValue);
       damageThresholdCheck = (CheckBox) rootView.findViewById(R.id.damageThresholdCheck);
       damageThreshold = (TextView) rootView.findViewById(R.id.damageThreshold);
+      absorbCheck = (CheckBox) rootView.findViewById(R.id.absorbCheck);
 
       return rootView;
    }
@@ -208,6 +209,7 @@ public class TeamDamageListFragment extends Fragment
       additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
       monsterListView.setOnItemClickListener(bindMonsterOnClickListener);
       recalculateButton.setOnClickListener(recalculateButtonOnClickListener);
+      absorbCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
       reductionCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
       damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
       damageThresholdValue.addTextChangedListener(damageThresholdWatcher);
@@ -588,6 +590,12 @@ public class TeamDamageListFragment extends Fragment
    {
       if (hasAbsorb)
       {
+         absorbCheck.setChecked(true);
+         for (int i = 0; i < absorbRadioGroup.getChildCount(); i++)
+         {
+            absorbRadioGroup.getChildAt(i).setEnabled(true);
+         }
+
          if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED)
          {
             Log.d("enemyAbsorb", "" + enemy.getAbsorb());
@@ -669,6 +677,25 @@ public class TeamDamageListFragment extends Fragment
                   reductionRadioGroup.getChildAt(i).setEnabled(false);
                }
                setElementReduction(isChecked, buttonView.getId());
+            }
+         }
+         else if (buttonView.equals(absorbCheck))
+         {
+            if (isChecked)
+            {
+               for (int i = 0; i < absorbRadioGroup.getChildCount(); i++)
+               {
+                  absorbRadioGroup.getChildAt(i).setEnabled(true);
+               }
+            }
+            else
+            {
+               absorbRadioGroup.clearCheck();
+               enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.HEART);
+               for (int i = 0; i < absorbRadioGroup.getChildCount(); i++)
+               {
+                  absorbRadioGroup.getChildAt(i).setEnabled(false);
+               }
             }
          }
       }

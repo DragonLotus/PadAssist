@@ -198,6 +198,16 @@
                     android:enabled="false" />
             </RadioGroup>
 
+            <CheckBox
+               android:id="@+id/absorbCheck"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_alignParentRight="true"
+               android:layout_alignTop="@+id/absorbOrbRadioGroup"
+               android:layout_alignBottom="@+id/absorbOrbRadioGroup"
+               android:gravity="center_vertical"
+               android:checked="false"/>
+
             <EditText
                 android:id="@+id/reductionAlign"
                 android:layout_width="wrap_content"
