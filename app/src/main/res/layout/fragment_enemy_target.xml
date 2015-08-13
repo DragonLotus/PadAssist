@@ -470,6 +470,14 @@
                 android:layout_alignBottom="@+id/damageThresholdValue"
                 android:gravity="center_vertical"
                 android:checked="false"/>
+
+            <EditText
+                android:id="@+id/editTextTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/damageThresholdValue"
+                android:inputType="number"
+                android:text="1337"/>
         </RelativeLayout>
     </ScrollView>
 

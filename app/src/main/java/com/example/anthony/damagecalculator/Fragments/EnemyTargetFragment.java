@@ -71,7 +71,7 @@ public class EnemyTargetFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Team team;
-    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue;
+    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, editTextTest;
     private TextView percentHpValue, totalGravityValue;
     private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
     private Button gravityShowHideButton, clearButton, hpReset, calculate;
@@ -210,7 +210,8 @@ public class EnemyTargetFragment extends Fragment {
         blueOrbReduction = (CheckBox) rootView.findViewById(R.id.blueOrbReduction);
         greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
         lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
-        darkOrbReduction = (CheckBox) rootView.findViewById((R.id.darkOrbReduction));
+        darkOrbReduction = (CheckBox) rootView.findViewById(R.id.darkOrbReduction);
+        editTextTest = (EditText) rootView.findViewById(R.id.editTextTest);
         return rootView;
     }
 
@@ -292,6 +293,7 @@ public class EnemyTargetFragment extends Fragment {
         Log.d("Current HP10", "" + enemy.getCurrentHp());
         Log.d("Current HP value10", "" + currentHpValue.getText());
         Log.d("Before Gravity2", "" + enemy.getBeforeGravityHP());
+        editTextTest.setText(String.valueOf(enemy.getCurrentHp()));
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
 
