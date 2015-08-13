@@ -99,10 +99,10 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             }
             viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) element1DamageEnemy / team.getTotalDamage() * 100) + "%"));
             viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) element2DamageEnemy / team.getTotalDamage() * 100) + "%"));
-            if((double) element1DamageEnemy / team.getTotalDamage() * 100 < 0 || Double.isNaN((double) element1DamageEnemy / team.getTotalDamage() * 100)){
+            if(Double.isNaN((double) element1DamageEnemy / team.getTotalDamage() * 100)){
                 viewHolder.monsterElement1Percent.setText("0%");
             }
-            if((double) element2DamageEnemy / team.getTotalDamage() * 100 < 0 ||  Double.isNaN((double) element2DamageEnemy / team.getTotalDamage() * 100)){
+            if(Double.isNaN((double) element2DamageEnemy / team.getTotalDamage() * 100)){
                 viewHolder.monsterElement2Percent.setText("0%");
             }
             //if statement to check element damage > total damage, set to 0%?
@@ -118,9 +118,9 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }
-        Log.d("Total Damage", "" + team.getTotalDamage());
-        Log.d("Ele1%Damage", "" + df.format((double) element1DamageEnemy / team.getTotalDamage()* 100));
-        Log.d("Ele2%Damage", "" + df.format((double) element2DamageEnemy / team.getTotalDamage()* 100));
+//        Log.d("Total Damage", "" + team.getTotalDamage());
+//        Log.d("Ele1%Damage", "" + df.format((double) element1DamageEnemy / team.getTotalDamage()* 100));
+//        Log.d("Ele2%Damage", "" + df.format((double) element2DamageEnemy / team.getTotalDamage()* 100));
 
         setTextColors(position, viewHolder);
         return convertView;

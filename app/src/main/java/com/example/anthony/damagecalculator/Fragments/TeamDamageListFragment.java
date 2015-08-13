@@ -345,16 +345,17 @@ public class TeamDamageListFragment extends Fragment {
             }
             //Need to set colors of each enemy element stuff
             setTextColors();
+            Log.d("Damage Current HP", "" + enemy.getCurrentHp());
+            Log.d("Damage Before HP", "" + enemy.getBeforeGravityHP());
             enemy.setCurrentHp(enemy.getCurrentHp() - totalDamage);
-            if (enemy.getCurrentHp() > enemy.getTargetHp()) {
-                enemy.setCurrentHp(enemy.getTargetHp());
-            }
+            Log.d("Damage Current HP2", "" + enemy.getCurrentHp());
+            Log.d("Damage Before HP2", "" + enemy.getBeforeGravityHP());
             if (enemy.getCurrentHp() != temp) {
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
                 enemy.setIsDamaged(true);
             }
-            if (enemy.getCurrentHp() < 0) {
-                enemy.setCurrentHp(0);
+            if(totalDamage == 0 && enemy.getCurrentHp() == enemy.getTargetHp()){
+                enemy.setBeforeGravityHP(enemy.getCurrentHp());
             }
             enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()) + " ");
             enemyHPPercentValue.setText(String.valueOf(df.format((double) enemy.getCurrentHp() / enemy.getTargetHp() * 100) + "%"));
@@ -402,6 +403,9 @@ public class TeamDamageListFragment extends Fragment {
             enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
         } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.DARK)) {
             enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
+        }
+        if (totalDamage < 0) {
+            totalDamageValue.setTextColor(Color.parseColor("#FFBBBB"));
         }
     }
 
@@ -559,6 +563,8 @@ public class TeamDamageListFragment extends Fragment {
                     }
                 }
             }
+            updateTextView();
+            monsterListAdapter.notifyDataSetChanged();
         }
     };
 
@@ -599,6 +605,8 @@ public class TeamDamageListFragment extends Fragment {
                 enemy.removeReduction(color);
             }
         }
+        updateTextView();
+        monsterListAdapter.notifyDataSetChanged();
     }
 
     private RadioGroup.OnCheckedChangeListener absorbOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
@@ -622,6 +630,8 @@ public class TeamDamageListFragment extends Fragment {
                     enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.DARK);
                     break;
             }
+            updateTextView();
+            monsterListAdapter.notifyDataSetChanged();
             Log.d("absorb", "" + enemy.getAbsorb());
         }
     };

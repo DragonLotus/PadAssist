@@ -292,6 +292,7 @@ public class EnemyTargetFragment extends Fragment {
         Log.d("Has Damage Threshold E", "" + enemy.getHasDamageThreshold());
         Log.d("Current HP10", "" + enemy.getCurrentHp());
         Log.d("Current HP value10", "" + currentHpValue.getText());
+        Log.d("Current Edit value10", "" + editTextTest.getText());
         Log.d("Before Gravity2", "" + enemy.getBeforeGravityHP());
         editTextTest.setText("5000");
         Log.d("Current HP10", "" + enemy.getCurrentHp());
@@ -311,6 +312,7 @@ public class EnemyTargetFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("Current Edit value10", "" + editTextTest.getText());
         Log.d("Has Absorb R", "" + enemy.getHasAbsorb());
         Log.d("Has Reduction R", "" + enemy.getHasReduction());
         Log.d("Has Damage Threshold R", "" + enemy.getHasDamageThreshold());
