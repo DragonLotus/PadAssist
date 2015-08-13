@@ -71,29 +71,29 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterAwakenings.setText("");
         }
         //Needs to get # of orb awakenings from team object maybe
-        element1Damage = team.getMonsters(position).getElement1Damage(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement1()), combos);
-        element2Damage = team.getMonsters(position).getElement2Damage(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement2()), combos);
+        element1Damage = team.getMonsters(position).getElement1Damage(team, combos);
+        element2Damage = team.getMonsters(position).getElement2Damage(team, combos);
         viewHolder.monsterElement1Damage.setText(" " + String.valueOf(element1Damage) + " ");
         viewHolder.monsterElement2Damage.setText(" " + String.valueOf(element2Damage) + " ");
         if (hasEnemy) {
             if (enemy.getHasDamageThreshold()) {
-                element1DamageEnemy = team.getMonsters(position).getElement1DamageThreshold(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement1()), enemy, combos);
-                element2DamageEnemy = team.getMonsters(position).getElement2DamageThreshold(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement2()), enemy, combos);
+                element1DamageEnemy = team.getMonsters(position).getElement1DamageThreshold(team, enemy, combos);
+                element2DamageEnemy = team.getMonsters(position).getElement2DamageThreshold(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             } else if (enemy.getHasAbsorb()) {
-                element1DamageEnemy = team.getMonsters(position).getElement1DamageAbsorb(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement1()), enemy, combos);
-                element2DamageEnemy = team.getMonsters(position).getElement2DamageAbsorb(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement2()), enemy, combos);
+                element1DamageEnemy = team.getMonsters(position).getElement1DamageAbsorb(team, enemy, combos);
+                element2DamageEnemy = team.getMonsters(position).getElement2DamageAbsorb(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             } else if (enemy.getHasReduction()) {
-                element1DamageEnemy = team.getMonsters(position).getElement1DamageReduction(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement1()), enemy, combos);
-                element2DamageEnemy = team.getMonsters(position).getElement2DamageReduction(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement2()), enemy, combos);
+                element1DamageEnemy = team.getMonsters(position).getElement1DamageReduction(team, enemy, combos);
+                element2DamageEnemy = team.getMonsters(position).getElement2DamageReduction(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             } else {
-                element1DamageEnemy = team.getMonsters(position).getElement1DamageEnemy(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement1()), enemy, combos);
-                element2DamageEnemy = team.getMonsters(position).getElement2DamageEnemy(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(position).getElement2()), enemy, combos);
+                element1DamageEnemy = team.getMonsters(position).getElement1DamageEnemy(team, enemy, combos);
+                element2DamageEnemy = team.getMonsters(position).getElement2DamageEnemy(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             }

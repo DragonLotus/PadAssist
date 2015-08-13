@@ -107,14 +107,23 @@ public class EnemyTargetFragment extends Fragment {
             if (statToChange == MyTextWatcher.TARGET_HP) {
 
                 enemy.setTargetHp(statValue);
-                enemy.setCurrentHp((int) (statValue * enemy.getGravityPercent()));
-                enemy.setBeforeGravityHP(statValue);
-                currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+                Log.d("Current HP7", "" + enemy.getCurrentHp());
+                //enemy.setCurrentHp((int) (statValue * enemy.getGravityPercent()));
+                //enemy.setBeforeGravityHP(statValue);
+                //currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+                Log.d("Current HP6", "" + enemy.getCurrentHp());
+                Log.d("Current HP value2", "" + currentHpValue.getText());
             } else if (statToChange == MyTextWatcher.CURRENT_HP) {
                 Log.d("Stringerino", Double.toString(enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
+                Log.d("Current HP13", "" + enemy.getCurrentHp());
+                Log.d("Current HP value13", "" + currentHpValue.getText());
                 enemy.setCurrentHp(statValue);
+                Log.d("Current HP13", "" + enemy.getCurrentHp());
+                Log.d("Current HP value13", "" + currentHpValue.getText());
                 if (enemy.getCurrentHp() > enemy.getTargetHp()) {
                     currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
+                    Log.d("Current HP7", "" + enemy.getCurrentHp());
+                    Log.d("Current HP value3", "" + currentHpValue.getText());
                     enemy.setCurrentHp(enemy.getTargetHp());
                     enemy.setBeforeGravityHP(enemy.getTargetHp());
                 }
@@ -211,14 +220,16 @@ public class EnemyTargetFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+
         Log.d("Current HP", "" + enemy.getCurrentHp());
         Log.d("Has Absorb", "" + enemy.getHasAbsorb());
         Log.d("Has Reduction", "" + enemy.getHasReduction());
         Log.d("Has Damage Threshold", "" + enemy.getHasDamageThreshold());
         targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
-        currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+        totalGravityValue.setText(String.valueOf(enemy.getCurrentHp()));
         targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
         Log.d("Current HP2", "" + enemy.getCurrentHp());
+        Log.d("Current HP value", "" + currentHpValue.getText());
 
         gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, enemy, updateGravityPercent);
         gravityList.setAdapter(gravityListAdapter);
@@ -234,6 +245,11 @@ public class EnemyTargetFragment extends Fragment {
         currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
         targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
 
+        if(enemy.isDamaged()){
+            enemy.clearGravityList();
+            gravityListAdapter.notifyDataSetChanged();
+            enemy.setIsDamaged(false);
+        }
         updateGravityPercent.updatePercent();
 
 //      targetHpValue.setOnKeyListener(downKeyboard);
@@ -266,11 +282,24 @@ public class EnemyTargetFragment extends Fragment {
         lightOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
 
         calculate.setOnClickListener(calculateOnClickListener);
-        setReductionOrbs();
-        setAbsorbOrbs();
-        setDamageThreshold();
 
+        Log.d("Current HP10", "" + enemy.getCurrentHp());
+        Log.d("Current HP value10", "" + currentHpValue.getText());
+        Log.d("Before Gravity2", "" + enemy.getBeforeGravityHP());
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Current HP11", "" + enemy.getCurrentHp());
+        Log.d("Current HP value11", "" + currentHpValue.getText());
+        currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
+        Log.d("Current HP12", "" + enemy.getCurrentHp());
+        Log.d("Current HP value12", "" + currentHpValue.getText());
+//        setReductionOrbs();
+//        setAbsorbOrbs();
+//        setDamageThreshold();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -316,8 +345,11 @@ public class EnemyTargetFragment extends Fragment {
                 currentHpValue.clearFocus();
                 gravityListAdapter.add(gravityButtonAdapter.getItem(position));
                 gravityListAdapter.notifyDataSetChanged();
+                Log.d("Current HP value4", "" + currentHpValue.getText());
                 enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
                 currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+                Log.d("Current HP3", "" + enemy.getCurrentHp());
+                Log.d("Current HP value4", "" + currentHpValue.getText());
             }
 
         }
@@ -355,19 +387,33 @@ public class EnemyTargetFragment extends Fragment {
                 }
 
                 if (v.equals(targetHpValue)) {
+                    enemy.setBeforeGravityHP(enemy.getCurrentHp());
+                    if(enemy.getTargetHp() < enemy.getCurrentHp()){
+                        currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
+                    }
+                    enemy.clearGravityList();
+                    gravityListAdapter.notifyDataSetChanged();
+                    updateGravityPercent.updatePercent();
                     if (toast != null) {
                         toast.cancel();
                     }
-                    toast = Toast.makeText(getActivity(), "Target HP set and gravities applied", Toast.LENGTH_LONG);
+                    toast = Toast.makeText(getActivity(), "Target HP set and gravities removed", Toast.LENGTH_LONG);
                     toast.show();
                 } else if (v.equals(currentHpValue)) {
+                    Log.d("Current HP8", "" + enemy.getCurrentHp());
+                    Log.d("Current HP value5", "" + currentHpValue.getText());
                     enemy.setBeforeGravityHP(enemy.getCurrentHp());
-                    enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
-                    currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+                    enemy.clearGravityList();
+                    gravityListAdapter.notifyDataSetChanged();
+                    updateGravityPercent.updatePercent();
+                    //enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
+                    //currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+                    Log.d("Current HP8", "" + enemy.getCurrentHp());
+                    Log.d("Current HP value5", "" + currentHpValue.getText());
                     if (toast != null) {
                         toast.cancel();
                     }
-                    toast = Toast.makeText(getActivity(), "Initial HP set and gravities applied", Toast.LENGTH_LONG);
+                    toast = Toast.makeText(getActivity(), "Initial HP set and gravities removed", Toast.LENGTH_LONG);
                     toast.show();
                 } else if (v.equals(targetDefenseValue)) {
                     enemy.setBeforeDefenseBreak(enemy.getTargetDef());
@@ -388,8 +434,12 @@ public class EnemyTargetFragment extends Fragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             currentHpValue.clearFocus();
             gravityListAdapter.remove(gravityListAdapter.getItem(position));
+            Log.d("Current HP4", "" + enemy.getCurrentHp());
+            Log.d("Current HP value6", "" + currentHpValue.getText());
             enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+            Log.d("Current HP4", "" + enemy.getCurrentHp());
+            Log.d("Current HP value6", "" + currentHpValue.getText());
         }
     };
 
@@ -400,8 +450,14 @@ public class EnemyTargetFragment extends Fragment {
             } else {
                 currentHpValue.clearFocus();
                 gravityListAdapter.clear();
+
+                Log.d("Current HP9", "" + enemy.getCurrentHp());
+                Log.d("Before Gravity", "" + enemy.getBeforeGravityHP());
+                Log.d("Current HP value8", "" + currentHpValue.getText());
                 enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
                 currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
+                Log.d("Current HP5", "" + enemy.getCurrentHp());
+                Log.d("Current HP value7", "" + currentHpValue.getText());
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -428,6 +484,7 @@ public class EnemyTargetFragment extends Fragment {
         //Don't forget to set enemy Target Defense when calculating
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            clearTextFocus();
             if (position == 0) {
                 defenseBreakValue = 1.0;
             } else if (position == 1) {
@@ -453,7 +510,8 @@ public class EnemyTargetFragment extends Fragment {
         @Override
         public void onClick(View v) {
             gravityListAdapter.clear();
-            targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
+            currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
+            enemy.setBeforeGravityHP(enemy.getCurrentHp());
             if (toast != null) {
                 toast.cancel();
             }
@@ -465,6 +523,7 @@ public class EnemyTargetFragment extends Fragment {
     private CompoundButton.OnCheckedChangeListener checkBoxOnChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            clearTextFocus();
             if (buttonView.equals(absorbCheck)) {
                 enemy.setHasAbsorb(absorbCheck.isChecked());
                 if (isChecked) {
@@ -641,6 +700,13 @@ public class EnemyTargetFragment extends Fragment {
             damageThresholdCheck.setChecked(true);
             damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
         }
+    }
+
+    private void clearTextFocus(){
+        targetHpValue.clearFocus();
+        currentHpValue.clearFocus();
+        targetDefenseValue.clearFocus();
+        damageThresholdValue.clearFocus();
     }
 
     public void hideKeyboard(View view) {

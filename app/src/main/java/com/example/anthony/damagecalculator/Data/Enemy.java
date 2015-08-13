@@ -14,7 +14,7 @@ public class Enemy implements Parcelable {
     private Color targetColor, absorb;
     private ArrayList<Color> reduction;
     private ArrayList<Integer> gravityList;
-    private Boolean hasAbsorb = false, hasReduction = false, hasDamageThreshold = false;
+    private Boolean hasAbsorb = false, hasReduction = false, hasDamageThreshold = false, isDamaged;
 
 
     //default is satan from  Lord of Hell - Mythical
@@ -30,6 +30,7 @@ public class Enemy implements Parcelable {
         absorb = Color.HEART;
         gravityPercent = 1;
         damageThreshold = 200000;
+        isDamaged = false;
     }
 
 
@@ -47,6 +48,9 @@ public class Enemy implements Parcelable {
 
     public void setCurrentHp(int currentHp) {
         this.currentHp = currentHp;
+        if(this.currentHp < 0){
+            this.currentHp = 0;
+        }
     }
 
     public int getTargetDef() {
@@ -148,6 +152,14 @@ public class Enemy implements Parcelable {
         this.hasDamageThreshold = hasDamageThreshold;
     }
 
+    public Boolean isDamaged() {
+        return isDamaged;
+    }
+
+    public void setIsDamaged(Boolean isDamaged) {
+        this.isDamaged = isDamaged;
+    }
+
     public Boolean getHasReduction() {
         return hasReduction;
     }
@@ -168,6 +180,10 @@ public class Enemy implements Parcelable {
         return gravityList.get(position);
     }
 
+    public void clearGravityList(){
+        gravityList.clear();
+    }
+
     public Enemy(Parcel source) {
         targetHp = source.readInt();
         currentHp = source.readInt();
@@ -182,6 +198,7 @@ public class Enemy implements Parcelable {
         hasAbsorb = source.readByte() == 1;
         hasReduction = source.readByte() == 1;
         hasDamageThreshold = source.readByte() == 1;
+        isDamaged = source.readByte() == 1;
         gravityList = source.readArrayList(Integer.class.getClassLoader());
     }
 
@@ -200,6 +217,7 @@ public class Enemy implements Parcelable {
         dest.writeByte((byte) (hasAbsorb ? 1 : 0));
         dest.writeByte((byte) (hasReduction ? 1 : 0));
         dest.writeByte((byte) (hasDamageThreshold ? 1 : 0));
+        dest.writeByte((byte) (isDamaged ? 1: 0));
         dest.writeList(gravityList);
     }
 

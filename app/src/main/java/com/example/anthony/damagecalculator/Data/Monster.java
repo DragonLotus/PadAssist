@@ -49,84 +49,44 @@ public class Monster implements Parcelable {
         name = "Kirin of the Sacred Gleam, Sakuya";
     }
 
-    public int getElement1Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1Damage(this, orbMatches, orbPlusAwakenings, combos);
+    public int getElement1Damage(Team team, int combos) {
+        return (int) DamageCalculationUtil.monsterElement1Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos);
     }
 
-    public String getElement1DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, int combos) {
-        return String.valueOf(getElement1Damage(orbMatches, orbPlusAwakenings, combos));
+    public int getElement1DamageEnemy(Team team, Enemy enemy, int combos) {
+        return (int) Math.ceil(DamageCalculationUtil.monsterElement1DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy));
     }
 
-    public int getElement1DamageEnemy(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return (int) Math.ceil(DamageCalculationUtil.monsterElement1DamageEnemy(this, orbMatches, orbPlusAwakenings, combos, enemy));
+    public int getElement2Damage(Team team, int combos) {
+        return (int) DamageCalculationUtil.monsterElement2Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos);
     }
 
-    public String getElement1DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return String.valueOf(getElement1DamageEnemy(orbMatches, orbPlusAwakenings, enemy, combos));
+    public int getElement2DamageEnemy(Team team, Enemy enemy, int combos) {
+        return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy));
     }
 
-    public int getElement2Damage(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2Damage(this, orbMatches, orbPlusAwakenings, combos);
+    public int getElement1DamageReduction(Team team, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
     }
 
-    public String getElement2DamageString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, int combos) {
-        return String.valueOf(getElement2Damage(orbMatches, orbPlusAwakenings, combos));
+    public int getElement2DamageReduction(Team team, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
     }
 
-    public int getElement2DamageEnemy(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, orbMatches, orbPlusAwakenings, combos, enemy));
+    public int getElement1DamageAbsorb(Team team, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
     }
 
-    public String getElement2DamageEnemyString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return String.valueOf(getElement2DamageEnemy(orbMatches, orbPlusAwakenings, enemy, combos));
+    public int getElement2DamageAbsorb(Team team, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
     }
 
-    public int getElement1DamageReduction(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
-        return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, orbMatches, orbPlusAwakenings, combos, enemy);
+    public int getElement1DamageThreshold(Team team, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
     }
 
-    public String getElement1DamageReductionString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return String.valueOf(getElement1DamageReduction(orbMatches, orbPlusAwakenings, enemy, combos));
-    }
-
-    public int getElement2DamageReduction(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
-        return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, orbMatches, orbPlusAwakenings, combos, enemy);
-    }
-
-    public String getElement2DamageReductionString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return String.valueOf(getElement2DamageReduction(orbMatches, orbPlusAwakenings, enemy, combos));
-    }
-
-    public int getElement1DamageAbsorb(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
-        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, orbMatches, orbPlusAwakenings, combos, enemy);
-    }
-
-    public String getElement1DamageAbsorbString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return String.valueOf(getElement1DamageAbsorb(orbMatches, orbPlusAwakenings, enemy, combos));
-    }
-
-    public int getElement2DamageAbsorb(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
-        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, orbMatches, orbPlusAwakenings, combos, enemy);
-    }
-
-    public String getElement2DamageAbsorbString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return String.valueOf(getElement2DamageAbsorb(orbMatches, orbPlusAwakenings, enemy, combos));
-    }
-
-    public int getElement1DamageThreshold(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
-        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, orbMatches, orbPlusAwakenings, combos, enemy);
-    }
-
-    public String getElement1DamageThresholdString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return String.valueOf(getElement1DamageThreshold(orbMatches, orbPlusAwakenings, enemy, combos));
-    }
-
-    public int getElement2DamageThreshold(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos){
-        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, orbMatches, orbPlusAwakenings, combos, enemy);
-    }
-
-    public String getElement2DamageThresholdString(ArrayList<OrbMatch> orbMatches, int orbPlusAwakenings, Enemy enemy, int combos) {
-        return String.valueOf(getElement2DamageThreshold(orbMatches, orbPlusAwakenings, enemy, combos));
+    public int getElement2DamageThreshold(Team team, Enemy enemy, int combos){
+        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
     }
 
     public int getCurrentLevel() {

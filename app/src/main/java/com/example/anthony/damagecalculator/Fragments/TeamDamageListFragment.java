@@ -261,8 +261,8 @@ public class TeamDamageListFragment extends Fragment {
             for (int i = 0; i < team.sizeMonsters(); i++) {
                 if (team.getMonsters(i).isBound()) {
                 } else {
-                    totalDamage += team.getMonsters(i).getElement1Damage(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), totalCombos);
-                    totalDamage += team.getMonsters(i).getElement2Damage(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement2()), totalCombos);
+                    totalDamage += team.getMonsters(i).getElement1Damage(team, totalCombos);
+                    totalDamage += team.getMonsters(i).getElement2Damage(team, totalCombos);
                 }
             }
         } else {
@@ -271,24 +271,24 @@ public class TeamDamageListFragment extends Fragment {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
                     } else {
-                        totalDamage += team.getMonsters(i).getElement1DamageThreshold(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos);
+                        totalDamage += team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos);
                         if (totalDamage < 0) {
                             totalDamage = 0;
                         }
-                        if (team.getMonsters(i).getElement1DamageThreshold(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageThreshold(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos);
+                        if (team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos);
                         }
                     }
                 }
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
                     } else {
-                        totalDamage += team.getMonsters(i).getElement2DamageThreshold(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement2()), enemy, totalCombos);
+                        totalDamage += team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos);
                         if (totalDamage < 0) {
                             totalDamage = 0;
                         }
-                        if (team.getMonsters(i).getElement2DamageThreshold(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageThreshold(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos);
+                        if (team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos);
                         }
                     }
                 }
@@ -296,52 +296,62 @@ public class TeamDamageListFragment extends Fragment {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
                     } else {
-                        totalDamage += team.getMonsters(i).getElement1DamageAbsorb(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos);
-                        if (totalDamage < 0) {
-                            totalDamage = 0;
-                        }
-                        if (team.getMonsters(i).getElement1DamageAbsorb(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageAbsorb(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos);
+                        if(enemy.getCurrentHp() - (team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()){
+                            totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
+                        }else{
+                            if (team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos);
+                        }else {
+                                totalDamage += team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos);
+                            }
                         }
                     }
                 }
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
-                    } else {
-                        totalDamage += team.getMonsters(i).getElement2DamageAbsorb(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement2()), enemy, totalCombos);
-                        if (totalDamage < 0) {
-                            totalDamage = 0;
+                    } else {if(enemy.getCurrentHp() - (team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()){
+                        totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
+                    }else{
+                        if (team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos);
+                        }else {
+                            totalDamage += team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos);
                         }
+                    }
 
-                        if (team.getMonsters(i).getElement2DamageAbsorb(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageAbsorb(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos);
-                        }
                     }
                 }
             } else if (enemy.getHasReduction()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
                     } else {
-                        totalDamage += team.getMonsters(i).getElement1DamageReduction(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos);
-                        totalDamage += team.getMonsters(i).getElement2DamageReduction(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement2()), enemy, totalCombos);
+                        totalDamage += team.getMonsters(i).getElement1DamageReduction(team, enemy, totalCombos);
+                        totalDamage += team.getMonsters(i).getElement2DamageReduction(team, enemy, totalCombos);
                     }
                 }
             } else {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
                     } else {
-                        totalDamage += team.getMonsters(i).getElement1DamageEnemy(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement1()), enemy, totalCombos);
-                        totalDamage += team.getMonsters(i).getElement2DamageEnemy(team.getOrbMatches(), team.getOrbPlusAwakenings(team.getMonsters(i).getElement2()), enemy, totalCombos);
+                        totalDamage += team.getMonsters(i).getElement1DamageEnemy(team, enemy, totalCombos);
+                        totalDamage += team.getMonsters(i).getElement2DamageEnemy(team, enemy, totalCombos);
                     }
                 }
             }
             //Need to set colors of each enemy element stuff
             setTextColors();
             enemy.setCurrentHp(enemy.getCurrentHp() - totalDamage);
+            if(enemy.getCurrentHp() > enemy.getTargetHp()){
+                enemy.setCurrentHp(enemy.getTargetHp());
+            }
+            if(enemy.getCurrentHp() != temp) {
+                enemy.setBeforeGravityHP(enemy.getCurrentHp());
+                enemy.setIsDamaged(true);
+            }
             if (enemy.getCurrentHp() < 0) {
                 enemy.setCurrentHp(0);
             }
-            enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()));
+            enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()) + " ");
             enemyHPPercentValue.setText(String.valueOf(df.format((double) enemy.getCurrentHp() / enemy.getTargetHp() * 100) + "%"));
         }
         team.setTotalDamage(totalDamage);
