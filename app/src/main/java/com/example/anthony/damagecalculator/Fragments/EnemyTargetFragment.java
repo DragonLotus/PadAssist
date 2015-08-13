@@ -293,7 +293,10 @@ public class EnemyTargetFragment extends Fragment {
         Log.d("Current HP10", "" + enemy.getCurrentHp());
         Log.d("Current HP value10", "" + currentHpValue.getText());
         Log.d("Before Gravity2", "" + enemy.getBeforeGravityHP());
-        editTextTest.setText(String.valueOf(enemy.getCurrentHp()));
+        editTextTest.setText("5000");
+        Log.d("Current HP10", "" + enemy.getCurrentHp());
+        Log.d("Current Edit value10", "" + editTextTest.getText());
+        Log.d("Before Gravity2", "" + enemy.getBeforeGravityHP());
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
 
