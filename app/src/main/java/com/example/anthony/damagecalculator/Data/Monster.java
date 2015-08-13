@@ -86,7 +86,7 @@ public class Monster implements Parcelable {
     }
 
     public int getElement2DamageThreshold(Team team, Enemy enemy, int combos){
-        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
+        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
     }
 
     public int getCurrentLevel() {

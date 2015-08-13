@@ -271,24 +271,28 @@ public class TeamDamageListFragment extends Fragment {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
                     } else {
-                        totalDamage += team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos);
-                        if (totalDamage < 0) {
-                            totalDamage = 0;
-                        }
-                        if (team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos);
+                        if (enemy.getCurrentHp() - (team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
+                            totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
+                        } else {
+                            if (team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                                totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos);
+                            } else {
+                                totalDamage += team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos);
+                            }
                         }
                     }
                 }
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
                     } else {
-                        totalDamage += team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos);
-                        if (totalDamage < 0) {
-                            totalDamage = 0;
-                        }
-                        if (team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos);
+                        if (enemy.getCurrentHp() - (team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
+                            totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
+                        } else {
+                            if (team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                                totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos);
+                            } else {
+                                totalDamage += team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos);
+                            }
                         }
                     }
                 }
@@ -296,12 +300,12 @@ public class TeamDamageListFragment extends Fragment {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
                     } else {
-                        if(enemy.getCurrentHp() - (team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()){
+                        if (enemy.getCurrentHp() - (team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
                             totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
-                        }else{
+                        } else {
                             if (team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos);
-                        }else {
+                                totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos);
+                            } else {
                                 totalDamage += team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos);
                             }
                         }
@@ -309,15 +313,16 @@ public class TeamDamageListFragment extends Fragment {
                 }
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getMonsters(i).isBound()) {
-                    } else {if(enemy.getCurrentHp() - (team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()){
-                        totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
-                    }else{
-                        if (team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
-                            totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos);
-                        }else {
-                            totalDamage += team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos);
+                    } else {
+                        if (enemy.getCurrentHp() - (team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
+                            totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
+                        } else {
+                            if (team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                                totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos);
+                            } else {
+                                totalDamage += team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos);
+                            }
                         }
-                    }
 
                     }
                 }
@@ -341,10 +346,10 @@ public class TeamDamageListFragment extends Fragment {
             //Need to set colors of each enemy element stuff
             setTextColors();
             enemy.setCurrentHp(enemy.getCurrentHp() - totalDamage);
-            if(enemy.getCurrentHp() > enemy.getTargetHp()){
+            if (enemy.getCurrentHp() > enemy.getTargetHp()) {
                 enemy.setCurrentHp(enemy.getTargetHp());
             }
-            if(enemy.getCurrentHp() != temp) {
+            if (enemy.getCurrentHp() != temp) {
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
                 enemy.setIsDamaged(true);
             }
@@ -406,7 +411,7 @@ public class TeamDamageListFragment extends Fragment {
             if (statToChange == MyTextWatcher.ADDITIONAL_COMBOS) {
                 additionalCombosFragment = statValue;
             }
-            if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD){
+            if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD) {
                 enemy.setDamageThreshold(statValue);
             }
         }
@@ -453,54 +458,54 @@ public class TeamDamageListFragment extends Fragment {
     }
 
     private void setReductionOrbs() {
-            if (enemy.getHasReduction()) {
-                reductionCheck.setChecked(true);
-                for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
-                    reductionRadioGroup.getChildAt(i).setEnabled(true);
-                }
-                if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.RED)) {
-                    redOrbReduction.setChecked(true);
-                }
-                if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
-                    blueOrbReduction.setChecked(true);
-                }
-                if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
-                    greenOrbReduction.setChecked(true);
-                }
-                if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.DARK)) {
-                    darkOrbReduction.setChecked(true);
-                }
-                if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
-                    lightOrbReduction.setChecked(true);
-                }
-
+        if (enemy.getHasReduction()) {
+            reductionCheck.setChecked(true);
+            for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
+                reductionRadioGroup.getChildAt(i).setEnabled(true);
             }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.RED)) {
+                redOrbReduction.setChecked(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
+                blueOrbReduction.setChecked(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
+                greenOrbReduction.setChecked(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.DARK)) {
+                darkOrbReduction.setChecked(true);
+            }
+            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
+                lightOrbReduction.setChecked(true);
+            }
+
+        }
 
     }
 
     private void setAbsorbOrbs() {
-            absorbCheck.setChecked(enemy.getHasAbsorb());
-            if (enemy.getHasAbsorb()) {
-                for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
-                    absorbRadioGroup.getChildAt(i).setEnabled(true);
-                }
-                if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED) {
-                    Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                    absorbRadioGroup.check(R.id.redOrbAbsorb);
-                } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.BLUE) {
-                    Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                    absorbRadioGroup.check(R.id.blueOrbAbsorb);
-                } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.GREEN) {
-                    Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                    absorbRadioGroup.check(R.id.greenOrbAbsorb);
-                } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.LIGHT) {
-                    Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                    absorbRadioGroup.check(R.id.lightOrbAbsorb);
-                } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.DARK) {
-                    Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                    absorbRadioGroup.check(R.id.darkOrbAbsorb);
-                }
+        absorbCheck.setChecked(enemy.getHasAbsorb());
+        if (enemy.getHasAbsorb()) {
+            for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
+                absorbRadioGroup.getChildAt(i).setEnabled(true);
             }
+            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.redOrbAbsorb);
+            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.BLUE) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.blueOrbAbsorb);
+            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.GREEN) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.greenOrbAbsorb);
+            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.LIGHT) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.lightOrbAbsorb);
+            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.DARK) {
+                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
+                absorbRadioGroup.check(R.id.darkOrbAbsorb);
+            }
+        }
 
     }
 
@@ -516,7 +521,7 @@ public class TeamDamageListFragment extends Fragment {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if (buttonView.equals(damageThresholdCheck)) {
-                enemy.setHasDamageThreshold(damageThresholdCheck.isChecked());
+                enemy.setHasDamageThreshold(isChecked);
                 if (isChecked) {
                     damageThresholdValue.setEnabled(true);
                 } else {
@@ -524,7 +529,7 @@ public class TeamDamageListFragment extends Fragment {
                     damageThresholdValue.setEnabled(false);
                 }
             } else if (buttonView.equals(reductionCheck)) {
-                enemy.setHasReduction(reductionCheck.isChecked());
+                enemy.setHasReduction(isChecked);
                 if (isChecked) {
                     for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                         reductionRadioGroup.getChildAt(i).setEnabled(true);
@@ -541,7 +546,7 @@ public class TeamDamageListFragment extends Fragment {
                     setElementReduction(isChecked, buttonView.getId());
                 }
             } else if (buttonView.equals(absorbCheck)) {
-                enemy.setHasAbsorb(absorbCheck.isChecked());
+                enemy.setHasAbsorb(isChecked);
                 if (isChecked) {
                     for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                         absorbRadioGroup.getChildAt(i).setEnabled(true);
@@ -600,7 +605,7 @@ public class TeamDamageListFragment extends Fragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             int radioChecked = group.getCheckedRadioButtonId();
-            switch (radioChecked){
+            switch (radioChecked) {
                 case R.id.redOrbAbsorb:
                     enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.RED);
                     break;

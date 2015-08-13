@@ -86,7 +86,8 @@ public class EnemyTargetFragment extends Fragment {
     private Toast toast;
     private Spinner defenseBreakSpinner;
     private String[] defenseBreakItems;
-    private int additionalCombos;
+    private int additionalCombos, tempDamageThresholdValue;
+    private Boolean tempAbsorb, tempReduction, tempDamageThreshold;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private double defenseBreakValue = 1.0;
     private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent() {
@@ -220,7 +221,10 @@ public class EnemyTargetFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
-
+        tempAbsorb = enemy.getHasAbsorb();
+        tempReduction = enemy.getHasReduction();
+        tempDamageThreshold = enemy.getHasDamageThreshold();
+        tempDamageThresholdValue = enemy.getDamageThreshold();
         Log.d("Current HP", "" + enemy.getCurrentHp());
         Log.d("Has Absorb", "" + enemy.getHasAbsorb());
         Log.d("Has Reduction", "" + enemy.getHasReduction());
@@ -282,7 +286,9 @@ public class EnemyTargetFragment extends Fragment {
         lightOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
 
         calculate.setOnClickListener(calculateOnClickListener);
-
+        Log.d("Has Absorb E", "" + enemy.getHasAbsorb());
+        Log.d("Has Reduction E", "" + enemy.getHasReduction());
+        Log.d("Has Damage Threshold E", "" + enemy.getHasDamageThreshold());
         Log.d("Current HP10", "" + enemy.getCurrentHp());
         Log.d("Current HP value10", "" + currentHpValue.getText());
         Log.d("Before Gravity2", "" + enemy.getBeforeGravityHP());
@@ -290,16 +296,31 @@ public class EnemyTargetFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("Has Absorb S", "" + enemy.getHasAbsorb());
+        Log.d("Has Reduction S", "" + enemy.getHasReduction());
+        Log.d("Has Damage Threshold S", "" + enemy.getHasDamageThreshold());
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        Log.d("Has Absorb R", "" + enemy.getHasAbsorb());
+        Log.d("Has Reduction R", "" + enemy.getHasReduction());
+        Log.d("Has Damage Threshold R", "" + enemy.getHasDamageThreshold());
         Log.d("Current HP11", "" + enemy.getCurrentHp());
         Log.d("Current HP value11", "" + currentHpValue.getText());
         currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
         Log.d("Current HP12", "" + enemy.getCurrentHp());
         Log.d("Current HP value12", "" + currentHpValue.getText());
-//        setReductionOrbs();
-//        setAbsorbOrbs();
-//        setDamageThreshold();
+        enemy.setHasAbsorb(tempAbsorb);
+        enemy.setHasReduction(tempReduction);
+        enemy.setHasDamageThreshold(tempDamageThreshold);
+        enemy.setDamageThreshold(tempDamageThresholdValue);
+        setReductionOrbs();
+        setAbsorbOrbs();
+        setDamageThreshold();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -525,7 +546,7 @@ public class EnemyTargetFragment extends Fragment {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             clearTextFocus();
             if (buttonView.equals(absorbCheck)) {
-                enemy.setHasAbsorb(absorbCheck.isChecked());
+                enemy.setHasAbsorb(isChecked);
                 if (isChecked) {
                     for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                         absorbRadioGroup.getChildAt(i).setEnabled(true);
@@ -538,7 +559,7 @@ public class EnemyTargetFragment extends Fragment {
                     }
                 }
             } else if (buttonView.equals(reductionCheck)) {
-                enemy.setHasReduction(reductionCheck.isChecked());
+                enemy.setHasReduction(isChecked);
                 if (isChecked) {
                     for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                         reductionRadioGroup.getChildAt(i).setEnabled(true);
@@ -555,7 +576,7 @@ public class EnemyTargetFragment extends Fragment {
                     setElementReduction(isChecked, buttonView.getId());
                 }
             } else if (buttonView.equals(damageThresholdCheck)) {
-                enemy.setHasDamageThreshold(damageThresholdCheck.isChecked());
+                enemy.setHasDamageThreshold(isChecked);
                 if (isChecked) {
                     damageThresholdValue.setEnabled(true);
                 } else {
@@ -665,12 +686,23 @@ public class EnemyTargetFragment extends Fragment {
                 lightOrbReduction.setChecked(true);
             }
 
+        }else {
+            reductionCheck.setChecked(false);
+            redOrbReduction.setChecked(false);
+            blueOrbReduction.setChecked(false);
+            greenOrbReduction.setChecked(false);
+            lightOrbReduction.setChecked(false);
+            darkOrbReduction.setChecked(false);
+            for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
+                reductionRadioGroup.getChildAt(i).setEnabled(false);
+            }
         }
     }
 
     private void setAbsorbOrbs(){
-        absorbCheck.setChecked(enemy.getHasAbsorb());
+        Log.d("absorb Check", "" + absorbCheck.isChecked());
         if (enemy.getHasAbsorb()) {
+            absorbCheck.setChecked(true);
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
             }
@@ -690,6 +722,13 @@ public class EnemyTargetFragment extends Fragment {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.darkOrbAbsorb);
             }
+        } else{
+            absorbCheck.setChecked(false);
+            absorbRadioGroup.clearCheck();
+            enemy.setAbsorb(Color.HEART);
+            for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
+                absorbRadioGroup.getChildAt(i).setEnabled(false);
+            }
         }
 
     }
@@ -699,6 +738,9 @@ public class EnemyTargetFragment extends Fragment {
             damageThresholdValue.setEnabled(true);
             damageThresholdCheck.setChecked(true);
             damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
+        }else {
+            damageThresholdValue.setEnabled(false);
+            damageThresholdCheck.setChecked(false);
         }
     }
 

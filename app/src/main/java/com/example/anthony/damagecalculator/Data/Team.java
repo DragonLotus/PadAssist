@@ -114,6 +114,7 @@ public class Team implements Parcelable {
 
     public int getOrbPlusAwakenings(Color color){
         //Case Switch thing for each color. 5 elements for 5 colors. 1 red, 2 blue, 3 green, 4 light, 5 dark
+        //Check for monster bound
         return 6;
     }
 
