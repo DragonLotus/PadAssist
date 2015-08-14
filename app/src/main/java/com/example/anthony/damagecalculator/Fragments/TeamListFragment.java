@@ -239,5 +239,6 @@ public class TeamListFragment extends Fragment {
 
     public void updateTeam(){
         team.setMonsters(monsters);
+        team.update();
     }
 }

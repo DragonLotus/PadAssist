@@ -388,6 +388,7 @@ public class TeamDamageListFragment extends Fragment {
                 toast.show();
             }
             team.update();
+            Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(com.example.anthony.damagecalculator.Data.Color.LIGHT));
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }

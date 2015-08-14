@@ -159,40 +159,44 @@ public class Team implements Parcelable {
         //Check for monster bound
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
+        for(int i = 0; i < 5; i++){
+            orbPlusAwakenings.add(0);
+            rowAwakenings.add(0);
+        }
         for (int i = 0; i < monsters.size(); i++) {
             if (!monsters.get(i).isBound()) {
                 for (int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
                     int awokenSkill = monsters.get(i).getAwokenSkils(j);
                     switch (awokenSkill){
                         case 14:
-                            orbPlusAwakenings.add(0, 1);
+                            orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
                             break;
                         case 15:
-                            orbPlusAwakenings.add(1, 1);
+                            orbPlusAwakenings.set(1, orbPlusAwakenings.get(1) + 1);
                             break;
                         case 16:
-                            orbPlusAwakenings.add(2, 1);
+                            orbPlusAwakenings.set(2, orbPlusAwakenings.get(2) + 1);
                             break;
                         case 17:
-                            orbPlusAwakenings.add(3, 1);
+                            orbPlusAwakenings.set(3, orbPlusAwakenings.get(3) + 1);
                             break;
                         case 18:
-                            orbPlusAwakenings.add(4, 1);
+                            orbPlusAwakenings.set(4, orbPlusAwakenings.get(4) + 1);
                             break;
                         case 22:
-                            rowAwakenings.add(0, 1);
+                            rowAwakenings.set(0, rowAwakenings.get(0) + 1);
                             break;
                         case 23:
-                            rowAwakenings.add(1, 1);
+                            rowAwakenings.set(1, rowAwakenings.get(1) + 1);
                             break;
                         case 24:
-                            rowAwakenings.add(2, 1);
+                            rowAwakenings.set(2, rowAwakenings.get(2) + 1);
                             break;
                         case 25:
-                            rowAwakenings.add(3, 1);
+                            rowAwakenings.set(3, rowAwakenings.get(3) + 1);
                             break;
                         case 26:
-                            rowAwakenings.add(4, 1);
+                            rowAwakenings.set(4, rowAwakenings.get(4) + 1);
                             break;
                     }
                 }
