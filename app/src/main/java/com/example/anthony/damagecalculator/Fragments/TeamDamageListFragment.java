@@ -387,6 +387,7 @@ public class TeamDamageListFragment extends Fragment {
                 toast = Toast.makeText(getActivity(), "Monster bound", Toast.LENGTH_SHORT);
                 toast.show();
             }
+            team.update();
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }

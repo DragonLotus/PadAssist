@@ -3,23 +3,84 @@ package com.example.anthony.damagecalculator.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Anthony on 7/13/2015.
  */
-public class Monster implements Parcelable {
+@Table(name = "Categories")
+public class Monster extends Model implements Parcelable {
     public static final int HP_MULTIPLIER = 10;
     public static final int ATK_MULTIPLIER = 5;
     public static final int RCV_MULTIPLIER = 3;
-    private int atkMax, atkMin, hpMax, hpMin, maxLevel, rcvMax, rcvMin, type1, type2, currentLevel, atkPlus, hpPlus, rcvPlus, maxAwakenings, currentAwakenings;
-    private Color element1, element2;
-    private ArrayList<String> awokenSkills;
-    private String activeSkill, leaderSkill, name;
-    private double atkScale, rcvScale, hpScale, currentAtk, currentRcv, currentHp;
+
+    @Column(name = "monsterId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    private int monsterId;
+    @Column(name = "atkMax")
+    private int atkMax;
+    @Column(name = "atkMin")
+    private int atkMin;
+    @Column(name = "hpMax")
+    private int hpMax;
+    @Column(name = "hpMin")
+    private int hpMin;
+    @Column(name = "maxLevel")
+    private int maxLevel;
+    @Column(name = "rcvMin")
+    private int rcvMin;
+    @Column(name = "rcvMax")
+    private int rcvMax;
+    @Column(name = "type1")
+    private int type1;
+    @Column(name = "type2")
+    private int type2;
+    @Column(name = "currentLevel")
+    private int currentLevel;
+    @Column(name = "atkPlus")
+    private int atkPlus;
+    @Column(name = "hpPlus")
+    private int hpPlus;
+    @Column(name = "rcvPlus")
+    private int rcvPlus;
+    @Column(name = "maxAwakenings")
+    private int maxAwakenings;
+    @Column(name = "currentAwakenings")
+    private int currentAwakenings;
+    @Column(name = "element1")
+    private Color element1;
+    @Column(name = "element2")
+    private Color element2;
+    @Column(name = "awokenSkills")
+    private ArrayList<Integer> awokenSkills = new ArrayList<Integer>();
+    @Column(name = "activeSkill")
+    private String activeSkill;
+    @Column(name = "leaderSkill")
+    private String leaderSkill;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "atkScale")
+    private double atkScale;
+    @Column(name = "rcvScale")
+    private double rcvScale;
+    @Column(name = "hpScale")
+    private double hpScale;
+    @Column(name = "currentAtk")
+    private double currentAtk;
+    @Column(name = "currentRcv")
+    private double currentRcv;
+    @Column(name = "currentHp")
+    private double currentHp;
+    @Column(name = "isBound")
     private boolean isBound;
     DecimalFormat format = new DecimalFormat("0.00");
 
@@ -47,6 +108,14 @@ public class Monster implements Parcelable {
         element2 = Color.LIGHT;
         isBound = false;
         name = "Kirin of the Sacred Gleam, Sakuya";
+        awokenSkills.add(17);
+        awokenSkills.add(12);
+        awokenSkills.add(11);
+        awokenSkills.add(28);
+        awokenSkills.add(17);
+        awokenSkills.add(21);
+        awokenSkills.add(19);
+
     }
 
     public int getElement1Damage(Team team, int combos) {
@@ -238,11 +307,15 @@ public class Monster implements Parcelable {
         this.element2 = element2;
     }
 
-    public ArrayList<String> getAwokenSkills() {
+    public ArrayList<Integer> getAwokenSkills() {
         return awokenSkills;
     }
 
-    public void setAwokenSkills(ArrayList<String> awokenSkills) {
+    public int getAwokenSkils(int position){
+        return awokenSkills.get(position);
+    }
+
+    public void setAwokenSkills(ArrayList<Integer> awokenSkills) {
         this.awokenSkills = awokenSkills;
     }
 
@@ -347,16 +420,17 @@ public class Monster implements Parcelable {
     }
 
     public int getTPA(){
-        //Loop through awakenings and count Double prongs
-        return 0;
-    }
-
-    public int getRowAwakenings(Color color){
-        //Loop through awakenings and count Row Awakenings depending on element
-        return 0;
+        int numOfDoubleProngs = 0;
+        for(int i = 0; i < currentAwakenings; i++){
+            if(awokenSkills.get(i) == 27){
+                numOfDoubleProngs++;
+            }
+        }
+        return numOfDoubleProngs;
     }
 
     public Monster(Parcel source) {
+        monsterId = source.readInt();
         atkMax = source.readInt();
         atkMin = source.readInt();
         hpMax = source.readInt();
@@ -393,6 +467,7 @@ public class Monster implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(monsterId);
         dest.writeInt(atkMax);
         dest.writeInt(atkMin);
         dest.writeInt(hpMax);
@@ -431,6 +506,19 @@ public class Monster implements Parcelable {
             return new Monster[size];
         }
     };
+
+
+    public static List<Monster> getAllMonsters() {
+        return new Select().from(Monster.class).execute();
+    }
+
+    public static void deleteAllMonsters() {
+         new Delete().from(Monster.class).execute();
+    }
+
+    public static List<Monster> getAllMonstersLevel(int level) {
+        return new Select().from(Monster.class).where("currentLevel = ?", level).execute();
+    }
 }
 
 

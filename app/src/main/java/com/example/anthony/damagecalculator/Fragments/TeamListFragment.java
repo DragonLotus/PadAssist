@@ -132,6 +132,14 @@ public class TeamListFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        for(int i = 0; i < monsters.size(); i++) {
+            monsters.get(i).save();
+        }
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(getArguments() != null){
@@ -142,46 +150,49 @@ public class TeamListFragment extends Fragment {
         if(savedInstanceState != null){
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         }else {
-            monsters = new ArrayList<Monster>();
-            Monster monster1 = new Monster();
-            monster1.setElement2(Color.RED);
-            monster1.setHpPlus(0);
-            monster1.setAtkPlus(0);
-            monster1.setRcvPlus(0);
-            monster1.setCurrentAwakenings(1);
-            Monster monster2 = new Monster();
-            monster2.setElement2(Color.BLUE);
-            monster2.setHpPlus(22);
-            monster2.setAtkPlus(22);
-            monster2.setRcvPlus(22);
-            monster2.setCurrentAwakenings(2);
-            Monster monster3 = new Monster();
-            monster3.setElement2(Color.GREEN);
-            monster3.setHpPlus(33);
-            monster3.setAtkPlus(33);
-            monster3.setRcvPlus(33);
-            monster3.setCurrentAwakenings(3);
-            Monster monster4 = new Monster();
-            monster4.setElement2(Color.DARK);
-            monster4.setHpPlus(44);
-            monster4.setAtkPlus(44);
-            monster4.setRcvPlus(44);
-            monster4.setCurrentAwakenings(4);
-            Monster monster5 = new Monster();
-            monster5.setHpPlus(55);
-            monster5.setAtkPlus(55);
-            monster5.setRcvPlus(55);
-            monster5.setCurrentAwakenings(5);
-            Monster monster6 = new Monster();
-            monster6.setCurrentLevel(99);
-            monster6.setCurrentAwakenings(7);
+            monsters = (ArrayList) Monster.getAllMonsters();
+            if(monsters == null || monsters.size() == 0) {
+                monsters = new ArrayList<Monster>();
+                Monster monster1 = new Monster();
+                monster1.setElement2(Color.RED);
+                monster1.setHpPlus(0);
+                monster1.setAtkPlus(0);
+                monster1.setRcvPlus(0);
+                monster1.setCurrentAwakenings(1);
+                Monster monster2 = new Monster();
+                monster2.setElement2(Color.BLUE);
+                monster2.setHpPlus(22);
+                monster2.setAtkPlus(22);
+                monster2.setRcvPlus(22);
+                monster2.setCurrentAwakenings(2);
+                Monster monster3 = new Monster();
+                monster3.setElement2(Color.GREEN);
+                monster3.setHpPlus(33);
+                monster3.setAtkPlus(33);
+                monster3.setRcvPlus(33);
+                monster3.setCurrentAwakenings(3);
+                Monster monster4 = new Monster();
+                monster4.setElement2(Color.DARK);
+                monster4.setHpPlus(44);
+                monster4.setAtkPlus(44);
+                monster4.setRcvPlus(44);
+                monster4.setCurrentAwakenings(4);
+                Monster monster5 = new Monster();
+                monster5.setHpPlus(55);
+                monster5.setAtkPlus(55);
+                monster5.setRcvPlus(55);
+                monster5.setCurrentAwakenings(5);
+                Monster monster6 = new Monster();
+                monster6.setCurrentLevel(99);
+                monster6.setCurrentAwakenings(7);
 
-            monsters.add(monster1);
-            monsters.add(monster2);
-            monsters.add(monster3);
-            monsters.add(monster4);
-            monsters.add(monster5);
-            monsters.add(monster6);
+                monsters.add(monster1);
+                monsters.add(monster2);
+                monsters.add(monster3);
+                monsters.add(monster4);
+                monsters.add(monster5);
+                monsters.add(monster6);
+            }
         }
         if(team.getMonsters() != null){
             monsters = team.getMonsters();

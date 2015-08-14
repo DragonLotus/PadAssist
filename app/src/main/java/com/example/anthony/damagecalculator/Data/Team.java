@@ -3,14 +3,28 @@ package com.example.anthony.damagecalculator.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by DragonLotus on 8/10/2015.
  */
+@Table(name = "Categories")
 public class Team implements Parcelable {
-    private int teamHealth, teamRcv, totalDamage;
-    private ArrayList<Integer> rowAwakenings, orbPlusAwakenings;
+
+    @Column(name = "teamId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    private int teamId;
+    private int teamHealth;
+    private int teamRcv;
+    private int totalDamage;
+    @Column(name = "rowAwakenings")
+    private ArrayList<Integer> rowAwakenings= new ArrayList<Integer>();
+    @Column(name = "orbPlusAwakenings")
+    private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
+    @Column(name = "monsters")
     private ArrayList<Monster> monsters;
     private ArrayList<OrbMatch> orbMatches;
 
@@ -22,7 +36,7 @@ public class Team implements Parcelable {
 
     public int getTeamHealth() {
         int teamHealth = 0;
-        for(int i = 0; i < monsters.size(); i++){
+        for (int i = 0; i < monsters.size(); i++) {
             teamHealth += monsters.get(i).getTotalHp();
         }
         return teamHealth;
@@ -34,7 +48,7 @@ public class Team implements Parcelable {
 
     public int getTeamRcv() {
         int teamRcv = 0;
-        for(int i = 0; i < monsters.size(); i++){
+        for (int i = 0; i < monsters.size(); i++) {
             teamRcv += monsters.get(i).getTotalRcv();
         }
         return teamRcv;
@@ -88,34 +102,102 @@ public class Team implements Parcelable {
         orbMatches.add(orbMatch);
     }
 
-    public void clearOrbMatches(){
+    public void clearOrbMatches() {
         orbMatches.clear();
     }
 
-    public void removeOrbMatches(int position){
+    public void removeOrbMatches(int position) {
         orbMatches.remove(position);
     }
 
-    public int sizeOrbMatches(){
+    public int sizeOrbMatches() {
         return orbMatches.size();
     }
 
-    public OrbMatch getOrbMatches(int position){
+    public OrbMatch getOrbMatches(int position) {
         return orbMatches.get(position);
     }
 
-    public int sizeMonsters(){
+    public int sizeMonsters() {
         return monsters.size();
     }
 
-    public Monster getMonsters(int position){
+    public Monster getMonsters(int position) {
         return monsters.get(position);
     }
 
-    public int getOrbPlusAwakenings(Color color){
-        //Case Switch thing for each color. 5 elements for 5 colors. 1 red, 2 blue, 3 green, 4 light, 5 dark
+    public int getOrbPlusAwakenings(Color color) {
+        if (color.equals(Color.RED)){
+            return orbPlusAwakenings.get(0);
+        } else if (color.equals(Color.BLUE)){
+            return orbPlusAwakenings.get(1);
+        } else if (color.equals(Color.GREEN)){
+            return orbPlusAwakenings.get(2);
+        } else if (color.equals(Color.LIGHT)){
+            return orbPlusAwakenings.get(3);
+        } else if (color.equals(Color.DARK)){
+            return orbPlusAwakenings.get(4);
+        }else return 0;
+    }
+
+    public int getRowAwakenings(Color color) {
+        if (color.equals(Color.RED)){
+            return rowAwakenings.get(0);
+        } else if (color.equals(Color.BLUE)){
+            return rowAwakenings.get(1);
+        } else if (color.equals(Color.GREEN)){
+            return rowAwakenings.get(2);
+        } else if (color.equals(Color.LIGHT)){
+            return rowAwakenings.get(3);
+        } else if (color.equals(Color.DARK)){
+            return rowAwakenings.get(4);
+        }else return 0;
+    }
+
+    public void update() {
+        //Case Switch thing for each color. 5 elements for 5 colors. 0 red, 1 blue, 2 green, 3 light, 4 dark
         //Check for monster bound
-        return 6;
+        orbPlusAwakenings.clear();
+        rowAwakenings.clear();
+        for (int i = 0; i < monsters.size(); i++) {
+            if (!monsters.get(i).isBound()) {
+                for (int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
+                    int awokenSkill = monsters.get(i).getAwokenSkils(j);
+                    switch (awokenSkill){
+                        case 14:
+                            orbPlusAwakenings.add(0, 1);
+                            break;
+                        case 15:
+                            orbPlusAwakenings.add(1, 1);
+                            break;
+                        case 16:
+                            orbPlusAwakenings.add(2, 1);
+                            break;
+                        case 17:
+                            orbPlusAwakenings.add(3, 1);
+                            break;
+                        case 18:
+                            orbPlusAwakenings.add(4, 1);
+                            break;
+                        case 22:
+                            rowAwakenings.add(0, 1);
+                            break;
+                        case 23:
+                            rowAwakenings.add(1, 1);
+                            break;
+                        case 24:
+                            rowAwakenings.add(2, 1);
+                            break;
+                        case 25:
+                            rowAwakenings.add(3, 1);
+                            break;
+                        case 26:
+                            rowAwakenings.add(4, 1);
+                            break;
+                    }
+                }
+            }
+        }
     }
 
     public Team(Parcel source) {

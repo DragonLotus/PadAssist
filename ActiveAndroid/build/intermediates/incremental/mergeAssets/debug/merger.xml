@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/twong/Documents/TVGuide_Android/ActiveAndroid/assets"/></dataSet><dataSet config="debug"><source path="/Users/twong/Documents/TVGuide_Android/ActiveAndroid/build-types/debug/assets"/></dataSet></merger>
