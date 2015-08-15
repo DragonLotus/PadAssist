@@ -27,11 +27,22 @@ public class Team implements Parcelable {
     @Column(name = "monsters")
     private ArrayList<Monster> monsters;
     private ArrayList<OrbMatch> orbMatches;
+    @Column(name = "teamName")
+    private String teamName;
+    @Column(name = "teamGroup")
+    private int teamGroup;
+    //Position in Team Group
+    @Column(name = "order")
+    private int order;
+    @Column(name = "monsters")
+    private Boolean favorite;
+    private Boolean hasAwakenings;
 
     public Team() {
         teamHealth = 0;
         teamRcv = 0;
         orbMatches = new ArrayList<OrbMatch>();
+        hasAwakenings = true;
     }
 
     public int getTeamHealth() {
@@ -154,6 +165,14 @@ public class Team implements Parcelable {
         }else return 0;
     }
 
+    public Boolean hasAwakenings() {
+        return hasAwakenings;
+    }
+
+    public void setHasAwakenings(Boolean hasAwakenings) {
+        this.hasAwakenings = hasAwakenings;
+    }
+
     public void update() {
         //Case Switch thing for each color. 5 elements for 5 colors. 0 red, 1 blue, 2 green, 3 light, 4 dark
         //Check for monster bound
@@ -164,7 +183,7 @@ public class Team implements Parcelable {
             rowAwakenings.add(0);
         }
         for (int i = 0; i < monsters.size(); i++) {
-            if (!monsters.get(i).isBound()) {
+            if (!monsters.get(i).isBound() && hasAwakenings) {
                 for (int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
                     int awokenSkill = monsters.get(i).getAwokenSkils(j);
                     switch (awokenSkill){
@@ -211,6 +230,10 @@ public class Team implements Parcelable {
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
         orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
+        teamName = source.readString();
+        teamGroup = source.readInt();
+        order = source.readInt();
+        favorite = source.readByte() == 1;
     }
 
     @Override
@@ -226,6 +249,10 @@ public class Team implements Parcelable {
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);
         dest.writeList(orbMatches);
+        dest.writeString(teamName);
+        dest.writeInt(teamGroup);
+        dest.writeInt(order);
+        dest.writeByte((byte) (favorite ? 1 : 0));
     }
 
     public static final Parcelable.Creator<Team> CREATOR = new Creator<Team>() {

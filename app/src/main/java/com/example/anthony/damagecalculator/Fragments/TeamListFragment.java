@@ -150,7 +150,7 @@ public class TeamListFragment extends Fragment {
         if(savedInstanceState != null){
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         }else {
-            monsters = (ArrayList) Monster.getAllMonsters();
+            //monsters = (ArrayList) Monster.getAllMonsters();
             if(monsters == null || monsters.size() == 0) {
                 monsters = new ArrayList<Monster>();
                 Monster monster1 = new Monster();

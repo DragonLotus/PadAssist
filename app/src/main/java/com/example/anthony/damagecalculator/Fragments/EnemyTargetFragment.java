@@ -71,7 +71,7 @@ public class EnemyTargetFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private Team team;
-    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, editTextTest;
+    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue;
     private TextView percentHpValue, totalGravityValue;
     private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
     private Button gravityShowHideButton, clearButton, hpReset, calculate;
@@ -211,7 +211,6 @@ public class EnemyTargetFragment extends Fragment {
         greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
         lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
         darkOrbReduction = (CheckBox) rootView.findViewById(R.id.darkOrbReduction);
-        editTextTest = (EditText) rootView.findViewById(R.id.editTextTest);
         return rootView;
     }
 
@@ -292,11 +291,8 @@ public class EnemyTargetFragment extends Fragment {
         Log.d("Has Damage Threshold E", "" + enemy.getHasDamageThreshold());
         Log.d("Current HP10", "" + enemy.getCurrentHp());
         Log.d("Current HP value10", "" + currentHpValue.getText());
-        Log.d("Current Edit value10", "" + editTextTest.getText());
         Log.d("Before Gravity2", "" + enemy.getBeforeGravityHP());
-        editTextTest.setText("5000");
         Log.d("Current HP10", "" + enemy.getCurrentHp());
-        Log.d("Current Edit value10", "" + editTextTest.getText());
         Log.d("Before Gravity2", "" + enemy.getBeforeGravityHP());
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
@@ -312,7 +308,6 @@ public class EnemyTargetFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("Current Edit value10", "" + editTextTest.getText());
         Log.d("Has Absorb R", "" + enemy.getHasAbsorb());
         Log.d("Has Reduction R", "" + enemy.getHasReduction());
         Log.d("Has Damage Threshold R", "" + enemy.getHasDamageThreshold());

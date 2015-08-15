@@ -68,7 +68,7 @@ public class TeamDamageListFragment extends Fragment {
     private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
-    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck;
+    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, hasAwakeningsCheck;
     private RadioGroup absorbRadioGroup;
     private Button recalculateButton;
     private DecimalFormat df = new DecimalFormat("#.##");
@@ -157,6 +157,7 @@ public class TeamDamageListFragment extends Fragment {
         damageThresholdCheck = (CheckBox) rootView.findViewById(R.id.damageThresholdCheck);
         damageThreshold = (TextView) rootView.findViewById(R.id.damageThreshold);
         absorbCheck = (CheckBox) rootView.findViewById(R.id.absorbCheck);
+        hasAwakeningsCheck = (CheckBox) rootView.findViewById(R.id.hasAwakeningsCheck);
 
         return rootView;
     }
@@ -176,6 +177,7 @@ public class TeamDamageListFragment extends Fragment {
             setAbsorbOrbs();
             setDamageThreshold();
         }
+        setAwakenings();
         totalCombos = additionalCombos + team.sizeOrbMatches();
         updateTextView();
         Log.d("totalCombos", String.valueOf(totalCombos));
@@ -191,14 +193,14 @@ public class TeamDamageListFragment extends Fragment {
         damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         damageThresholdValue.addTextChangedListener(damageThresholdWatcher);
         damageThresholdValue.setOnFocusChangeListener(editTextOnFocusChange);
-
         redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         blueOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         greenOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         darkOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         lightOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
-
         absorbRadioGroup.setOnCheckedChangeListener(absorbOnCheckChangeListener);
+        hasAwakeningsCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -564,6 +566,12 @@ public class TeamDamageListFragment extends Fragment {
                         absorbRadioGroup.getChildAt(i).setEnabled(false);
                     }
                 }
+            }else if (buttonView.equals(hasAwakeningsCheck)){
+                Log.d("hasAwakenings1", "" + team.hasAwakenings());
+                team.setHasAwakenings(isChecked);
+                team.update();
+                Log.d("hasAwakenings2", "" + team.hasAwakenings());
+                Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(com.example.anthony.damagecalculator.Data.Color.LIGHT));
             }
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
@@ -609,6 +617,10 @@ public class TeamDamageListFragment extends Fragment {
         }
         updateTextView();
         monsterListAdapter.notifyDataSetChanged();
+    }
+
+    private void setAwakenings(){
+        hasAwakeningsCheck.setChecked(team.hasAwakenings());
     }
 
     private RadioGroup.OnCheckedChangeListener absorbOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {

@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/hpRecovered"
-                android:text="Target Remaining HP: "
+                android:text="Enemy Remaining HP: "
                 android:textSize="18dp" />
 
             <com.example.anthony.damagecalculator.Graphics.ThinStroke
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/enemyHP"
-                android:text="Target % Remaining HP: "
+                android:text="Enemy % Remaining HP: "
                 android:textSize="18dp" />
 
             <TextView
@@ -328,6 +328,23 @@
                android:layout_alignBottom="@+id/damageThresholdValue"
                android:gravity="center_vertical"
                android:checked="false"/>
+
+            <TextView
+                android:id="@+id/hasAwakenings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Awakenings Enabled: "
+                android:layout_alignTop="@+id/hasAwakeningsCheck"
+                android:layout_alignBottom="@+id/hasAwakeningsCheck"
+                android:gravity="center_vertical"
+                android:textSize="18dp"/>
+
+            <CheckBox
+                android:id="@+id/hasAwakeningsCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/damageThresholdValue"
+                android:layout_toRightOf="@+id/hasAwakenings"/>
 
 
         </RelativeLayout>
