@@ -22,8 +22,8 @@ public class MyDialogFragment extends DialogFragment
    {
 
       AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-      alertDialogBuilder.setTitle("Reset page?");
-      alertDialogBuilder.setMessage("Are you sure you want to clear everything?");
+      alertDialogBuilder.setTitle("Reset matches?");
+      alertDialogBuilder.setMessage("Are you sure you want to clear the current orb matches?");
       alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener()
       {
          public void onClick(DialogInterface dialog, int which)

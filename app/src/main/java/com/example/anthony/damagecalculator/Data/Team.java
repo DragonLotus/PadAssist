@@ -3,26 +3,28 @@ package com.example.anthony.damagecalculator.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DragonLotus on 8/10/2015.
  */
 @Table(name = "Categories")
-public class Team implements Parcelable {
+public class Team extends Model implements Parcelable {
 
     @Column(name = "teamId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private int teamId;
     private int teamHealth;
     private int teamRcv;
     private int totalDamage;
-    @Column(name = "rowAwakenings")
     private ArrayList<Integer> rowAwakenings= new ArrayList<Integer>();
-    @Column(name = "orbPlusAwakenings")
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
     @Column(name = "monsters")
     private ArrayList<Monster> monsters;
@@ -43,6 +45,7 @@ public class Team implements Parcelable {
         teamRcv = 0;
         orbMatches = new ArrayList<OrbMatch>();
         hasAwakenings = true;
+        favorite = false;
     }
 
     public int getTeamHealth() {
@@ -73,10 +76,6 @@ public class Team implements Parcelable {
         return rowAwakenings;
     }
 
-    public void setRowAwakenings(ArrayList<Integer> rowAwakenings) {
-        this.rowAwakenings = rowAwakenings;
-    }
-
     public ArrayList<Integer> getOrbPlusAwakenings() {
         return orbPlusAwakenings;
     }
@@ -97,16 +96,8 @@ public class Team implements Parcelable {
         this.totalDamage = totalDamage;
     }
 
-    public void setOrbPlusAwakenings(ArrayList<Integer> orbPlusAwakenings) {
-        this.orbPlusAwakenings = orbPlusAwakenings;
-    }
-
     public ArrayList<OrbMatch> getOrbMatches() {
         return orbMatches;
-    }
-
-    public void setOrbMatches(ArrayList<OrbMatch> orbMatches) {
-        this.orbMatches = orbMatches;
     }
 
     public void addOrbMatches(OrbMatch orbMatch) {
@@ -264,4 +255,31 @@ public class Team implements Parcelable {
             return new Team[size];
         }
     };
+
+    public static List<Team> getAllTeams() {
+        return new Select().from(Team.class).execute();
+    }
+
+    public static void deleteAllTeams() {
+        new Delete().from(Team.class).execute();
+    }
+
+    public static List<Team> getTeamId(int id){
+        return new Select().from(Team.class).where("teamId = ?", id).execute();
+    }
+
+    public static List<Team> getTeamGroup(int teamGroup){
+        return new Select().from(Team.class).where("teamGroup = ?", teamGroup).execute();
+    }
+
+    public static List<Team> getOrder(int order){
+        return new Select().from(Team.class).where("order = ?", order).execute();
+    }
+
+    public static List<Team> getFavorite(boolean favorite){
+        return new Select().from(Team.class).where("favorite = ?", favorite).execute();
+    }
+
+
+
 }

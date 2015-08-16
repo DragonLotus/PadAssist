@@ -152,7 +152,7 @@
             android:layout_height="match_parent"
             android:layout_weight=".5"
             android:gravity="center"
-            android:text="Reset all" />
+            android:text="Reset Matches" />
     </LinearLayout>
 
 

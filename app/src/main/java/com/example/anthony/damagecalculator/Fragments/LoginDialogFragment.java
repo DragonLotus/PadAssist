@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,7 +26,7 @@ import com.example.anthony.damagecalculator.R;
 public class LoginDialogFragment extends DialogFragment {
 
     private View rootView;
-    private Button loginButton, cancelButton;
+    private TextView loginButton, cancelButton;
     private EditText usernameEditText, passwordEditText;
 
     static LoginDialogFragment newInstance(){
@@ -66,8 +68,8 @@ public class LoginDialogFragment extends DialogFragment {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_login_dialog, container, false);
 
-        loginButton = (Button) rootView.findViewById(R.id.loginButton);
-        cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
+        loginButton = (TextView) rootView.findViewById(R.id.loginButton);
+        cancelButton = (TextView) rootView.findViewById(R.id.cancelButton);
         usernameEditText = (EditText) rootView.findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) rootView.findViewById(R.id.passwordEditText);
         return rootView;
@@ -78,8 +80,23 @@ public class LoginDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         loginButton.setOnClickListener(buttonOnClickListener);
         cancelButton.setOnClickListener(buttonOnClickListener);
+        //loginButton.setOnTouchListener(buttonOnTouchListener);
+        //cancelButton.setOnTouchListener(buttonOnTouchListener);
         getDialog().setTitle("Login to PADherder");
     }
+
+    private View.OnTouchListener buttonOnTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            if(v.equals(loginButton)){
+                loginButton.setBackgroundColor(Color.parseColor("#BBBBBB"));
+            }
+            if(v.equals(cancelButton)){
+                cancelButton.setBackgroundColor(Color.parseColor("#BBBBBB"));
+            }
+            return false;
+        }
+    };
 
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
         @Override

@@ -592,6 +592,7 @@ public class EnemyTargetFragment extends Fragment {
     private RadioGroup.OnCheckedChangeListener enemyElementOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
+            clearTextFocus();
             int radioChecked = group.getCheckedRadioButtonId();
             switch (radioChecked) {
                 case R.id.redOrb:
@@ -636,6 +637,7 @@ public class EnemyTargetFragment extends Fragment {
     };
 
     private void setElementReduction(boolean isChecked, int buttonId) {
+        clearTextFocus();
         Color color = null;
         switch (buttonId) {
             case R.id.redOrbReduction:

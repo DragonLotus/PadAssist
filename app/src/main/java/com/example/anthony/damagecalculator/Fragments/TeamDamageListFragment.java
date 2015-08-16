@@ -359,19 +359,24 @@ public class TeamDamageListFragment extends Fragment {
             if(totalDamage == 0 && enemy.getCurrentHp() == enemy.getTargetHp()){
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
             }
-            enemyHPValue.setText(String.valueOf(enemy.getCurrentHp()) + " ");
+            enemyHPValue.setText(" "+ String.valueOf(enemy.getCurrentHp()) + " ");
             enemyHPPercentValue.setText(String.valueOf(df.format((double) enemy.getCurrentHp() / enemy.getTargetHp() * 100) + "%"));
         }
         team.setTotalDamage(totalDamage);
-        totalDamageValue.setText(String.valueOf(totalDamage) + " ");
-        hpRecoveredValue.setText(String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), team.getOrbMatches(), totalCombos)) + " ");
+        totalDamageValue.setText(" "+ String.valueOf(totalDamage) + " ");
+        hpRecoveredValue.setText(" "+ String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), team.getOrbMatches(), totalCombos)) + " ");
         totalComboValue.setText(String.valueOf(totalCombos));
+        if (totalDamage < 0) {
+            totalDamageValue.setTextColor(Color.parseColor("#FFBBBB"));
+        }else {
+            totalDamageValue.setTextColor(Color.parseColor("#BBBBBB"));
+        }
     }
 
     private ListView.OnItemClickListener bindMonsterOnClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            additionalComboValue.clearFocus();
+            clearTextFocus();
             if (team.getMonsters(position).isBound()) {
                 team.getMonsters(position).setIsBound(false);
                 Log.d("Bound", "monster " + position + " is unbound");
@@ -408,9 +413,6 @@ public class TeamDamageListFragment extends Fragment {
         } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.DARK)) {
             enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
         }
-        if (totalDamage < 0) {
-            totalDamageValue.setTextColor(Color.parseColor("#FFBBBB"));
-        }
     }
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
@@ -446,7 +448,7 @@ public class TeamDamageListFragment extends Fragment {
     private Button.OnClickListener recalculateButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            additionalComboValue.clearFocus();
+            clearTextFocus();
             totalCombos += additionalCombosFragment;
             Log.d("Total Combo 1", "" + totalCombos);
             if (totalCombos < team.sizeOrbMatches()) {
@@ -528,6 +530,7 @@ public class TeamDamageListFragment extends Fragment {
     private CompoundButton.OnCheckedChangeListener checkBoxOnChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            clearTextFocus();
             if (buttonView.equals(damageThresholdCheck)) {
                 enemy.setHasDamageThreshold(isChecked);
                 if (isChecked) {
@@ -587,6 +590,7 @@ public class TeamDamageListFragment extends Fragment {
     };
 
     private void setElementReduction(boolean isChecked, int buttonId) {
+        clearTextFocus();
         com.example.anthony.damagecalculator.Data.Color color = null;
         switch (buttonId) {
             case R.id.redOrbReduction:
@@ -626,6 +630,7 @@ public class TeamDamageListFragment extends Fragment {
     private RadioGroup.OnCheckedChangeListener absorbOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
+            clearTextFocus();
             int radioChecked = group.getCheckedRadioButtonId();
             switch (radioChecked) {
                 case R.id.redOrbAbsorb:
@@ -649,5 +654,10 @@ public class TeamDamageListFragment extends Fragment {
             Log.d("absorb", "" + enemy.getAbsorb());
         }
     };
+
+    private void clearTextFocus(){
+        additionalComboValue.clearFocus();
+        damageThresholdValue.clearFocus();
+    }
 
 }

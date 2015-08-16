@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
+    android:paddingBottom="16dp"
     tools:context="com.example.anthony.damagecalculator.Fragments.LoginDialogFragment">
 
     <TextView
@@ -53,19 +54,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/passwordEditText">
 
-        <Button
+        <TextView
             android:id="@+id/cancelButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:text="Cancel" />
+            android:text="Cancel"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:paddingTop="16dp"/>
 
-        <Button
+        <TextView
             android:id="@+id/loginButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:text="Login" />
+            android:text="Login"
+            android:textSize="16dp"
+            android:gravity="center"
+            android:paddingTop="16dp"/>
     </LinearLayout>
 
 </RelativeLayout>

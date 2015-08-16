@@ -250,8 +250,8 @@ public class MonsterPageFragment extends Fragment
       monsterStatsRCVMax.setOnClickListener(maxButtons);
       monsterAwakeningsMax.setOnClickListener(maxButtons);
       monsterStatsMaxAll.setOnClickListener(maxButtons);
-      //Temporary update stats button
       monsterChoose.setOnClickListener(maxButtons);
+
       //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
    }

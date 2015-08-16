@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/totalCombo"
-                android:text="HP Recovered: "
+                android:text="Team HP Recovered:"
                 android:textSize="18dp" />
 
             <com.example.anthony.damagecalculator.Graphics.ThinStroke
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/monsterListView"
-                android:text="Total Damage: "
+                android:text="Total Damage:"
                 android:textSize="18dp" />
 
             <com.example.anthony.damagecalculator.Graphics.ThinStroke
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/hpRecovered"
-                android:text="Enemy Remaining HP: "
+                android:text="Enemy Remaining HP:"
                 android:textSize="18dp" />
 
             <com.example.anthony.damagecalculator.Graphics.ThinStroke

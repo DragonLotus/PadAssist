@@ -8,7 +8,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/kirin_portrait" />
+        android:src="@drawable/monster_1218" />
 
     <com.example.anthony.damagecalculator.Graphics.TextStroke
         android:id="@+id/monsterPlus"

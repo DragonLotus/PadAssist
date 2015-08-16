@@ -69,19 +69,20 @@ public class MainFragment extends Fragment {
         @Override
         public void resetLayout() {
             additionalComboValue.clearFocus();
-            orbRadioGroup.check(R.id.redOrb);
-            orbsLinked.setProgress(0);
-            orbsPlus.setProgress(0);
-            rowCheckBox.setEnabled(false);
-            rowCheckBox.setChecked(false);
-            ignoreEnemyCheckBox.setChecked(false);
-            maxLeadMultiplierCheckBox.setChecked(false);
-            additionalComboValue.setText("0");
+//            orbRadioGroup.check(R.id.redOrb);
+//            orbsLinked.setProgress(0);
+//            orbsPlus.setProgress(0);
+//            rowCheckBox.setEnabled(false);
+//            rowCheckBox.setChecked(false);
+//            ignoreEnemyCheckBox.setChecked(false);
+//            maxLeadMultiplierCheckBox.setChecked(false);
+//            additionalComboValue.setText("0");
             team.clearOrbMatches();
+            orbMatchAdapter.notifyDataSetChanged();
             if (toast != null) {
                 toast.cancel();
             }
-            toast = Toast.makeText(getActivity(), "Page Reset", Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getActivity(), "Matches Reset", Toast.LENGTH_SHORT);
             toast.show();
             dialog.dismiss();
         }
