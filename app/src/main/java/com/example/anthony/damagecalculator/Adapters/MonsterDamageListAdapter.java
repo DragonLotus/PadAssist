@@ -2,7 +2,6 @@ package com.example.anthony.damagecalculator.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,17 +9,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
-import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
-import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
-
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 /**
  * Created by DragonLotus on 7/18/2015.
@@ -132,35 +127,35 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
     }
 
     public void setTextColors(int position, ViewHolder viewHolder) {
-        if (team.getMonsters(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.RED)) {
+        if (team.getMonsters(position).getElement1().equals(Element.RED)) {
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#FF0000"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#FF0000"));
-        } else if (team.getMonsters(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
+        } else if (team.getMonsters(position).getElement1().equals(Element.BLUE)) {
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#4444FF"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#4444FF"));
-        } else if (team.getMonsters(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
+        } else if (team.getMonsters(position).getElement1().equals(Element.GREEN)) {
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#00FF00"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#00FF00"));
-        } else if (team.getMonsters(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
+        } else if (team.getMonsters(position).getElement1().equals(Element.LIGHT)) {
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#F0F000"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#F0F000"));
-        } else if (team.getMonsters(position).getElement1().equals(com.example.anthony.damagecalculator.Data.Color.DARK)) {
+        } else if (team.getMonsters(position).getElement1().equals(Element.DARK)) {
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#AA00FF"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
         }
-        if (team.getMonsters(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.RED)) {
+        if (team.getMonsters(position).getElement2().equals(Element.RED)) {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#FF0000"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FF0000"));
-        } else if (team.getMonsters(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
+        } else if (team.getMonsters(position).getElement2().equals(Element.BLUE)) {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#4444FF"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#4444FF"));
-        } else if (team.getMonsters(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
+        } else if (team.getMonsters(position).getElement2().equals(Element.GREEN)) {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#00CC00"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#00CC00"));
-        } else if (team.getMonsters(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
+        } else if (team.getMonsters(position).getElement2().equals(Element.LIGHT)) {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#F0F000"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#F0F000"));
-        } else if (team.getMonsters(position).getElement2().equals(com.example.anthony.damagecalculator.Data.Color.DARK)) {
+        } else if (team.getMonsters(position).getElement2().equals(Element.DARK)) {
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#AA00FF"));
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#AA00FF"));
         }

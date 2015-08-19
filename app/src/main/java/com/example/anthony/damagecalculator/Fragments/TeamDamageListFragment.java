@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,22 +16,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
-import com.example.anthony.damagecalculator.Data.Monster;
-import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 
 /**
@@ -395,22 +391,22 @@ public class TeamDamageListFragment extends Fragment {
                 toast.show();
             }
             team.update();
-            Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(com.example.anthony.damagecalculator.Data.Color.LIGHT));
+            Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }
     };
 
     private void setTextColors() {
-        if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.RED)) {
+        if (enemy.getTargetElement().equals(Element.RED)) {
             enemyHPValue.setTextColor(Color.parseColor("#FF0000"));
-        } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
+        } else if (enemy.getTargetElement().equals(Element.BLUE)) {
             enemyHPValue.setTextColor(Color.parseColor("#4444FF"));
-        } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
+        } else if (enemy.getTargetElement().equals(Element.GREEN)) {
             enemyHPValue.setTextColor(Color.parseColor("#00CC00"));
-        } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
+        } else if (enemy.getTargetElement().equals(Element.LIGHT)) {
             enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
-        } else if (enemy.getTargetColor().equals(com.example.anthony.damagecalculator.Data.Color.DARK)) {
+        } else if (enemy.getTargetElement().equals(Element.DARK)) {
             enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
         }
     }
@@ -473,19 +469,19 @@ public class TeamDamageListFragment extends Fragment {
             for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                 reductionRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.RED)) {
+            if (enemy.containsReduction(Element.RED)) {
                 redOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
+            if (enemy.containsReduction(Element.BLUE)) {
                 blueOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
+            if (enemy.containsReduction(Element.GREEN)) {
                 greenOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.DARK)) {
+            if (enemy.containsReduction(Element.DARK)) {
                 darkOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
+            if (enemy.containsReduction(Element.LIGHT)) {
                 lightOrbReduction.setChecked(true);
             }
 
@@ -499,19 +495,19 @@ public class TeamDamageListFragment extends Fragment {
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED) {
+            if (enemy.getAbsorb() == Element.RED) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.redOrbAbsorb);
-            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.BLUE) {
+            } else if (enemy.getAbsorb() == Element.BLUE) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.blueOrbAbsorb);
-            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.GREEN) {
+            } else if (enemy.getAbsorb() == Element.GREEN) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.greenOrbAbsorb);
-            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.LIGHT) {
+            } else if (enemy.getAbsorb() == Element.LIGHT) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.lightOrbAbsorb);
-            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.DARK) {
+            } else if (enemy.getAbsorb() == Element.DARK) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.darkOrbAbsorb);
             }
@@ -564,7 +560,7 @@ public class TeamDamageListFragment extends Fragment {
                     }
                 } else {
                     absorbRadioGroup.clearCheck();
-                    enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.HEART);
+                    enemy.setAbsorb(Element.BLANK);
                     for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                         absorbRadioGroup.getChildAt(i).setEnabled(false);
                     }
@@ -574,7 +570,7 @@ public class TeamDamageListFragment extends Fragment {
                 team.setHasAwakenings(isChecked);
                 team.update();
                 Log.d("hasAwakenings2", "" + team.hasAwakenings());
-                Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(com.example.anthony.damagecalculator.Data.Color.LIGHT));
+                Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
             }
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
@@ -591,32 +587,32 @@ public class TeamDamageListFragment extends Fragment {
 
     private void setElementReduction(boolean isChecked, int buttonId) {
         clearTextFocus();
-        com.example.anthony.damagecalculator.Data.Color color = null;
+        Element element = null;
         switch (buttonId) {
             case R.id.redOrbReduction:
-                color = com.example.anthony.damagecalculator.Data.Color.RED;
+                element = Element.RED;
                 break;
             case R.id.blueOrbReduction:
-                color = com.example.anthony.damagecalculator.Data.Color.BLUE;
+                element = Element.BLUE;
                 break;
             case R.id.greenOrbReduction:
-                color = com.example.anthony.damagecalculator.Data.Color.GREEN;
+                element = Element.GREEN;
                 break;
             case R.id.darkOrbReduction:
-                color = com.example.anthony.damagecalculator.Data.Color.DARK;
+                element = Element.DARK;
                 break;
             case R.id.lightOrbReduction:
-                color = com.example.anthony.damagecalculator.Data.Color.LIGHT;
+                element = Element.LIGHT;
                 break;
         }
 
         if (isChecked) {
-            if (!enemy.containsReduction(color)) {
-                enemy.addReduction(color);
+            if (!enemy.containsReduction(element)) {
+                enemy.addReduction(element);
             }
         } else {
-            if (enemy.containsReduction(color)) {
-                enemy.removeReduction(color);
+            if (enemy.containsReduction(element)) {
+                enemy.removeReduction(element);
             }
         }
         updateTextView();
@@ -634,19 +630,19 @@ public class TeamDamageListFragment extends Fragment {
             int radioChecked = group.getCheckedRadioButtonId();
             switch (radioChecked) {
                 case R.id.redOrbAbsorb:
-                    enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.RED);
+                    enemy.setAbsorb(Element.RED);
                     break;
                 case R.id.blueOrbAbsorb:
-                    enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.BLUE);
+                    enemy.setAbsorb(Element.BLUE);
                     break;
                 case R.id.greenOrbAbsorb:
-                    enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.GREEN);
+                    enemy.setAbsorb(Element.GREEN);
                     break;
                 case R.id.lightOrbAbsorb:
-                    enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.LIGHT);
+                    enemy.setAbsorb(Element.LIGHT);
                     break;
                 case R.id.darkOrbAbsorb:
-                    enemy.setAbsorb(com.example.anthony.damagecalculator.Data.Color.DARK);
+                    enemy.setAbsorb(Element.DARK);
                     break;
             }
             updateTextView();

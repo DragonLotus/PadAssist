@@ -1,6 +1,5 @@
 package com.example.anthony.damagecalculator.Fragments;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,14 +12,12 @@ import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterListAdapter;
-import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
-import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
-import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.util.ArrayList;
 
@@ -134,9 +131,10 @@ public class TeamListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        for(int i = 0; i < monsters.size(); i++) {
-            monsters.get(i).save();
-        }
+        team.saveMonsters();
+//        for(int i = 0; i < monsters.size(); i++) {
+//            monsters.get(i).save();
+//        }
     }
 
     @Override
@@ -150,39 +148,52 @@ public class TeamListFragment extends Fragment {
         if(savedInstanceState != null){
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         }else {
-            //monsters = (ArrayList) Monster.getAllMonsters();
+            monsters = (ArrayList) Monster.getAllMonsters();
+            Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters);
             if(monsters == null || monsters.size() == 0) {
                 monsters = new ArrayList<Monster>();
                 Monster monster1 = new Monster();
-                monster1.setElement2(Color.RED);
+                monster1.setMonsterId(1);
+                monster1.setName("Kirin of the Sacred Gleam, Sakuya #1");
+                monster1.setElement2(Element.RED);
                 monster1.setHpPlus(0);
                 monster1.setAtkPlus(0);
                 monster1.setRcvPlus(0);
                 monster1.setCurrentAwakenings(1);
                 Monster monster2 = new Monster();
-                monster2.setElement2(Color.BLUE);
+                monster2.setMonsterId(2);
+                monster2.setName("Kirin of the Sacred Gleam, Sakuya #2");
+                monster2.setElement2(Element.BLUE);
                 monster2.setHpPlus(22);
                 monster2.setAtkPlus(22);
                 monster2.setRcvPlus(22);
                 monster2.setCurrentAwakenings(2);
                 Monster monster3 = new Monster();
-                monster3.setElement2(Color.GREEN);
+                monster3.setMonsterId(3);
+                monster3.setName("Kirin of the Sacred Gleam, Sakuya #3");
+                monster3.setElement2(Element.GREEN);
                 monster3.setHpPlus(33);
                 monster3.setAtkPlus(33);
                 monster3.setRcvPlus(33);
                 monster3.setCurrentAwakenings(3);
                 Monster monster4 = new Monster();
-                monster4.setElement2(Color.DARK);
+                monster4.setMonsterId(4);
+                monster4.setName("Kirin of the Sacred Gleam, Sakuya #4");
+                monster4.setElement2(Element.DARK);
                 monster4.setHpPlus(44);
                 monster4.setAtkPlus(44);
                 monster4.setRcvPlus(44);
                 monster4.setCurrentAwakenings(4);
                 Monster monster5 = new Monster();
+                monster5.setMonsterId(5);
+                monster5.setName("Kirin of the Sacred Gleam, Sakuya #5");
                 monster5.setHpPlus(55);
                 monster5.setAtkPlus(55);
                 monster5.setRcvPlus(55);
                 monster5.setCurrentAwakenings(5);
                 Monster monster6 = new Monster();
+                monster6.setMonsterId(6);
+                monster6.setName("Kirin of the Sacred Gleam, Sakuya #6");
                 monster6.setCurrentLevel(99);
                 monster6.setCurrentAwakenings(7);
 
@@ -192,6 +203,10 @@ public class TeamListFragment extends Fragment {
                 monsters.add(monster4);
                 monsters.add(monster5);
                 monsters.add(monster6);
+            }
+            for(int i = 0; i < monsters.size(); i++){
+                Log.d("Monster name", "" + monsters.get(i).getName());
+                Log.d("Monster id", "" + monsters.get(i).getMonsterId());
             }
         }
         if(team.getMonsters() != null){
@@ -240,5 +255,6 @@ public class TeamListFragment extends Fragment {
     public void updateTeam(){
         team.setMonsters(monsters);
         team.update();
+        team.setTeamId(1);
     }
 }

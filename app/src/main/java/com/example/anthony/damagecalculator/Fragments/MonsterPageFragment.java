@@ -266,6 +266,12 @@ public class MonsterPageFragment extends Fragment
    }
 
    @Override
+   public void onDestroy() {
+      super.onDestroy();
+      monster.save();
+   }
+
+   @Override
    public void onDetach()
    {
       super.onDetach();
@@ -309,16 +315,17 @@ public class MonsterPageFragment extends Fragment
          {
             if (Integer.parseInt(monsterAwakeningsValue.getText().toString()) > 0 && Integer.parseInt(monsterAwakeningsValue.getText().toString()) <= monster.getMaxAwakenings())
             {
-               monsterAwakeningsValue.setText("" + (Integer.parseInt(monsterAwakeningsValue.getText().toString()) - 1));
-               monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+               //monster.setCurrentAwakenings(monster.getCurrentAwakenings() - 1);
+               monsterAwakeningsValue.setText("" + (monster.getCurrentAwakenings() - 1));
             }
          }
          else if (v.equals(awakeningPlus))
          {
             if (Integer.parseInt(monsterAwakeningsValue.getText().toString()) >= 0 && Integer.parseInt(monsterAwakeningsValue.getText().toString()) < monster.getMaxAwakenings())
             {
-               monsterAwakeningsValue.setText("" + (Integer.parseInt(monsterAwakeningsValue.getText().toString()) + 1));
-               monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+               //monster.setCurrentAwakenings(monster.getCurrentAwakenings() + 1);
+               monsterAwakeningsValue.setText("" + (monster.getCurrentAwakenings() + 1));
+
             }
          }
          grayAwakenings();
@@ -387,7 +394,7 @@ public class MonsterPageFragment extends Fragment
          else if (v.equals(monsterAwakeningsMax))
          {
             monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
-            monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+            monster.setCurrentAwakenings(monster.getMaxAwakenings());
             grayAwakenings();
             if(toast != null) {
                toast.cancel();
@@ -402,7 +409,7 @@ public class MonsterPageFragment extends Fragment
             monsterStatsATKPlus.setText("99");
             monsterStatsRCVPlus.setText("99");
             monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
-            monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+            monster.setCurrentAwakenings(monster.getMaxAwakenings());
             grayAwakenings();
             monsterStats();
             if(toast != null) {

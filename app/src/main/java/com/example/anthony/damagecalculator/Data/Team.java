@@ -9,16 +9,14 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by DragonLotus on 8/10/2015.
  */
-@Table(name = "Categories")
+@Table(name = "Team")
 public class Team extends Model implements Parcelable {
-
     @Column(name = "teamId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private int teamId;
     private int teamHealth;
@@ -34,9 +32,9 @@ public class Team extends Model implements Parcelable {
     @Column(name = "teamGroup")
     private int teamGroup;
     //Position in Team Group
-    @Column(name = "order")
-    private int order;
-    @Column(name = "monsters")
+    @Column(name = "teamOrder")
+    private int teamOrder;
+    @Column(name = "favorite")
     private Boolean favorite;
     private Boolean hasAwakenings;
 
@@ -128,30 +126,67 @@ public class Team extends Model implements Parcelable {
         return monsters.get(position);
     }
 
-    public int getOrbPlusAwakenings(Color color) {
-        if (color.equals(Color.RED)){
+    public int getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
+
+    public int getTeamGroup() {
+        return teamGroup;
+    }
+
+    public void setTeamGroup(int teamGroup) {
+        this.teamGroup = teamGroup;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
+
+    public int getTeamOrder() {
+        return teamOrder;
+    }
+
+    public void setTeamOrder(int teamOrder) {
+        this.teamOrder = teamOrder;
+    }
+
+    public void saveMonsters(){
+        for (int i = 0; i < monsters.size(); i++){
+            monsters.get(i).save();
+        }
+    }
+    public int getOrbPlusAwakenings(Element element) {
+        if (element.equals(Element.RED)){
             return orbPlusAwakenings.get(0);
-        } else if (color.equals(Color.BLUE)){
+        } else if (element.equals(Element.BLUE)){
             return orbPlusAwakenings.get(1);
-        } else if (color.equals(Color.GREEN)){
+        } else if (element.equals(Element.GREEN)){
             return orbPlusAwakenings.get(2);
-        } else if (color.equals(Color.LIGHT)){
+        } else if (element.equals(Element.LIGHT)){
             return orbPlusAwakenings.get(3);
-        } else if (color.equals(Color.DARK)){
+        } else if (element.equals(Element.DARK)){
             return orbPlusAwakenings.get(4);
         }else return 0;
     }
 
-    public int getRowAwakenings(Color color) {
-        if (color.equals(Color.RED)){
+    public int getRowAwakenings(Element element) {
+        if (element.equals(Element.RED)){
             return rowAwakenings.get(0);
-        } else if (color.equals(Color.BLUE)){
+        } else if (element.equals(Element.BLUE)){
             return rowAwakenings.get(1);
-        } else if (color.equals(Color.GREEN)){
+        } else if (element.equals(Element.GREEN)){
             return rowAwakenings.get(2);
-        } else if (color.equals(Color.LIGHT)){
+        } else if (element.equals(Element.LIGHT)){
             return rowAwakenings.get(3);
-        } else if (color.equals(Color.DARK)){
+        } else if (element.equals(Element.DARK)){
             return rowAwakenings.get(4);
         }else return 0;
     }
@@ -221,9 +256,10 @@ public class Team extends Model implements Parcelable {
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
         orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
+        teamId = source.readInt();
         teamName = source.readString();
         teamGroup = source.readInt();
-        order = source.readInt();
+        teamOrder = source.readInt();
         favorite = source.readByte() == 1;
     }
 
@@ -240,9 +276,10 @@ public class Team extends Model implements Parcelable {
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);
         dest.writeList(orbMatches);
+        dest.writeInt(teamId);
         dest.writeString(teamName);
         dest.writeInt(teamGroup);
-        dest.writeInt(order);
+        dest.writeInt(teamOrder);
         dest.writeByte((byte) (favorite ? 1 : 0));
     }
 
@@ -264,21 +301,21 @@ public class Team extends Model implements Parcelable {
         new Delete().from(Team.class).execute();
     }
 
-    public static List<Team> getTeamId(int id){
-        return new Select().from(Team.class).where("teamId = ?", id).execute();
-    }
-
-    public static List<Team> getTeamGroup(int teamGroup){
-        return new Select().from(Team.class).where("teamGroup = ?", teamGroup).execute();
-    }
-
-    public static List<Team> getOrder(int order){
-        return new Select().from(Team.class).where("order = ?", order).execute();
-    }
-
-    public static List<Team> getFavorite(boolean favorite){
-        return new Select().from(Team.class).where("favorite = ?", favorite).execute();
-    }
+//    public static List<Team> getTeamId(int id){
+//        return new Select().from(Team.class).where("teamId = ?", id).execute();
+//    }
+//
+//    public static List<Team> getTeamGroup(int teamGroup){
+//        return new Select().from(Team.class).where("teamGroup = ?", teamGroup).execute();
+//    }
+//
+//    public static List<Team> getOrder(int teamOrder){
+//        return new Select().from(Team.class).where("teamOrder = ?", teamOrder).execute();
+//    }
+//
+//    public static List<Team> getFavorite(boolean favorite){
+//        return new Select().from(Team.class).where("favorite = ?", favorite).execute();
+//    }
 
 
 

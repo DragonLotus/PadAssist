@@ -12,13 +12,12 @@ import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Anthony on 7/13/2015.
  */
-@Table(name = "Categories")
+@Table(name = "Monster")
 public class Monster extends Model implements Parcelable {
     public static final int HP_MULTIPLIER = 10;
     public static final int ATK_MULTIPLIER = 5;
@@ -57,9 +56,9 @@ public class Monster extends Model implements Parcelable {
     @Column(name = "currentAwakenings")
     private int currentAwakenings;
     @Column(name = "element1")
-    private Color element1;
+    private Element element1;
     @Column(name = "element2")
-    private Color element2;
+    private Element element2;
     @Column(name = "awokenSkills")
     private ArrayList<Integer> awokenSkills = new ArrayList<Integer>();
     @Column(name = "activeSkill")
@@ -104,8 +103,8 @@ public class Monster extends Model implements Parcelable {
         currentAtk = DamageCalculationUtil.monsterStatCalc(atkMin, atkMax, currentLevel, maxLevel, atkScale);
         currentRcv = DamageCalculationUtil.monsterStatCalc(rcvMin, rcvMax, currentLevel, maxLevel, rcvScale);
         currentAwakenings = 7;
-        element1 = Color.LIGHT;
-        element2 = Color.LIGHT;
+        element1 = Element.LIGHT;
+        element2 = Element.LIGHT;
         isBound = false;
         name = "Kirin of the Sacred Gleam, Sakuya";
         awokenSkills.add(17);
@@ -291,19 +290,19 @@ public class Monster extends Model implements Parcelable {
         this.type2 = type2;
     }
 
-    public Color getElement1() {
+    public Element getElement1() {
         return element1;
     }
 
-    public void setElement1(Color element1) {
+    public void setElement1(Element element1) {
         this.element1 = element1;
     }
 
-    public Color getElement2() {
+    public Element getElement2() {
         return element2;
     }
 
-    public void setElement2(Color element2) {
+    public void setElement2(Element element2) {
         this.element2 = element2;
     }
 
@@ -454,8 +453,8 @@ public class Monster extends Model implements Parcelable {
         rcvPlus = source.readInt();
         maxAwakenings = source.readInt();
         currentAwakenings = source.readInt();
-        element1 = (Color) source.readSerializable();
-        element2 = (Color) source.readSerializable();
+        element1 = (Element) source.readSerializable();
+        element2 = (Element) source.readSerializable();
         awokenSkills = source.readArrayList(String.class.getClassLoader());
         activeSkill = source.readString();
         leaderSkill = source.readString();
@@ -528,73 +527,73 @@ public class Monster extends Model implements Parcelable {
         return new Select().from(Monster.class).where("currentLevel = ?", level).execute();
     }
 
-    public static List<Monster> getMonsterId(int id){
-        return new Select().from(Monster.class).where("monsterId = ?", id).execute();
-    }
-
-    public static List<Monster> getMonsterAtkMax(int attack){
-        return new Select().from(Monster.class).where("atkMax = ?", attack).execute();
-    }
-
-    public static List<Monster> getMonsterAtkMin(int attack){
-        return new Select().from(Monster.class).where("atkMin = ?", attack).execute();
-    }
-
-    public static List<Monster> getMonsterHpMax(int hp){
-        return new Select().from(Monster.class).where("hpMax = ?", hp).execute();
-    }
-
-    public static List<Monster> getMonsterHpMin(int hp){
-        return new Select().from(Monster.class).where("hpMin = ?", hp).execute();
-    }
-
-    public static List<Monster> getMonsterMaxLevel(int level){
-        return new Select().from(Monster.class).where("maxLevel = ?", level).execute();
-    }
-
-    public static List<Monster> getMonsterRcvMax(int rcv){
-        return new Select().from(Monster.class).where("maxRcv = ?", rcv).execute();
-    }
-
-    public static List<Monster> getMonsterRcvMin(int rcv){
-        return new Select().from(Monster.class).where("minRcv = ?", rcv).execute();
-    }
-
-    public static List<Monster> getMonsterType1(int type){
-        return new Select().from(Monster.class).where("type1 = ?", type).execute();
-    }
-
-    public static List<Monster> getMonsterType2(int type){
-        return new Select().from(Monster.class).where("type2 = ?", type).execute();
-    }
-
-    public static List<Monster> getMonsterMaxAwakenings(int awakenings){
-        return new Select().from(Monster.class).where("maxAwakenings = ?", awakenings).execute();
-    }
-
-    public static List<Monster> getMonsterCurrentAwakenings(int awakenings){
-        return new Select().from(Monster.class).where("currentAwakenings = ?", awakenings).execute();
-    }
-
-    public static List<Monster> getMonsterElement1(Color element){
-        return new Select().from(Monster.class).where("element1 = ?", element).execute();
-    }
-
-    public static List<Monster> getMonsterElement2(Color element){
-        return new Select().from(Monster.class).where("element2 = ?", element).execute();
-    }
-
-    private static List<Monster> getMonsterCurrentHp(int hp){
-        return new Select().from(Monster.class).where("currentHp = ?", hp).execute();
-    }
-
-    private static List<Monster> getMonsterCurrentAtk(int attack){
-        return new Select().from(Monster.class).where("currentAtk = ?", attack).execute();
-    }
-
-    private static List<Monster> getMonsterCurrentRcv(int rcv){
-        return new Select().from(Monster.class).where("currentRcv = ?", rcv).execute();
-    }
+//    public static List<Monster> getMonsterId(int id){
+//        return new Select().from(Monster.class).where("monsterId = ?", id).execute();
+//    }
+//
+//    public static List<Monster> getMonsterAtkMax(int attack){
+//        return new Select().from(Monster.class).where("atkMax = ?", attack).execute();
+//    }
+//
+//    public static List<Monster> getMonsterAtkMin(int attack){
+//        return new Select().from(Monster.class).where("atkMin = ?", attack).execute();
+//    }
+//
+//    public static List<Monster> getMonsterHpMax(int hp){
+//        return new Select().from(Monster.class).where("hpMax = ?", hp).execute();
+//    }
+//
+//    public static List<Monster> getMonsterHpMin(int hp){
+//        return new Select().from(Monster.class).where("hpMin = ?", hp).execute();
+//    }
+//
+//    public static List<Monster> getMonsterMaxLevel(int level){
+//        return new Select().from(Monster.class).where("maxLevel = ?", level).execute();
+//    }
+//
+//    public static List<Monster> getMonsterRcvMax(int rcv){
+//        return new Select().from(Monster.class).where("maxRcv = ?", rcv).execute();
+//    }
+//
+//    public static List<Monster> getMonsterRcvMin(int rcv){
+//        return new Select().from(Monster.class).where("minRcv = ?", rcv).execute();
+//    }
+//
+//    public static List<Monster> getMonsterType1(int type){
+//        return new Select().from(Monster.class).where("type1 = ?", type).execute();
+//    }
+//
+//    public static List<Monster> getMonsterType2(int type){
+//        return new Select().from(Monster.class).where("type2 = ?", type).execute();
+//    }
+//
+//    public static List<Monster> getMonsterMaxAwakenings(int awakenings){
+//        return new Select().from(Monster.class).where("maxAwakenings = ?", awakenings).execute();
+//    }
+//
+//    public static List<Monster> getMonsterCurrentAwakenings(int awakenings){
+//        return new Select().from(Monster.class).where("currentAwakenings = ?", awakenings).execute();
+//    }
+//
+//    public static List<Monster> getMonsterElement1(Element element){
+//        return new Select().from(Monster.class).where("element1 = ?", element).execute();
+//    }
+//
+//    public static List<Monster> getMonsterElement2(Element element){
+//        return new Select().from(Monster.class).where("element2 = ?", element).execute();
+//    }
+//
+//    private static List<Monster> getMonsterCurrentHp(int hp){
+//        return new Select().from(Monster.class).where("currentHp = ?", hp).execute();
+//    }
+//
+//    private static List<Monster> getMonsterCurrentAtk(int attack){
+//        return new Select().from(Monster.class).where("currentAtk = ?", attack).execute();
+//    }
+//
+//    private static List<Monster> getMonsterCurrentRcv(int rcv){
+//        return new Select().from(Monster.class).where("currentRcv = ?", rcv).execute();
+//    }
 }
 
 

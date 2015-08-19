@@ -11,10 +11,9 @@ import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
-import com.example.anthony.damagecalculator.Fragments.MainFragment;
 import com.example.anthony.damagecalculator.R;
 
 import java.util.ArrayList;
@@ -82,23 +81,23 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       viewHolder.orbMatchTotal.setText(rowResult);
 
       Drawable orbDrawable = getDrawable(R.drawable.red_orb);
-      if (currentMatch.getColor() == Color.DARK)
+      if (currentMatch.getElement() == Element.DARK)
       {
          orbDrawable = getDrawable(R.drawable.dark_orb);
       }
-      if (currentMatch.getColor() == Color.BLUE)
+      if (currentMatch.getElement() == Element.BLUE)
       {
          orbDrawable = getDrawable(R.drawable.blue_orb);
       }
-      if (currentMatch.getColor() == Color.GREEN)
+      if (currentMatch.getElement() == Element.GREEN)
       {
          orbDrawable = getDrawable(R.drawable.green_orb);
       }
-      if (currentMatch.getColor() == Color.LIGHT)
+      if (currentMatch.getElement() == Element.LIGHT)
       {
          orbDrawable = getDrawable(R.drawable.light_orb);
       }
-      if (currentMatch.getColor() == Color.HEART)
+      if (currentMatch.getElement() == Element.HEART)
       {
          orbDrawable = getDrawable(R.drawable.heart_orb);
       }

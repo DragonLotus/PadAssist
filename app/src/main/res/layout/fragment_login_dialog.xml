@@ -59,6 +59,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
+            android:textColor="@drawable/button_clicked"
             android:text="Cancel"
             android:textSize="16dp"
             android:gravity="center"

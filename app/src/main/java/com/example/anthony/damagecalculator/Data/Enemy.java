@@ -11,23 +11,23 @@ import java.util.ArrayList;
 public class Enemy implements Parcelable {
     private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold;
     private double gravityPercent;
-    private Color targetColor, absorb;
-    private ArrayList<Color> reduction;
+    private Element targetElement, absorb;
+    private ArrayList<Element> reduction;
     private ArrayList<Integer> gravityList;
     private Boolean hasAbsorb = false, hasReduction = false, hasDamageThreshold = false, isDamaged;
 
 
     //default is satan from  Lord of Hell - Mythical
     public Enemy() {
-        reduction = new ArrayList<Color>();
+        reduction = new ArrayList<Element>();
         gravityList = new ArrayList<Integer>();
         targetHp = 6666666;
         targetDef = 368;
         currentHp = targetHp;
         beforeGravityHP = currentHp;
         beforeDefenseBreak = targetDef;
-        targetColor = Color.DARK;
-        absorb = Color.HEART;
+        targetElement = Element.DARK;
+        absorb = Element.BLANK;
         gravityPercent = 1;
         damageThreshold = 200000;
         isDamaged = false;
@@ -69,12 +69,12 @@ public class Enemy implements Parcelable {
         this.gravityPercent = gravityPercent;
     }
 
-    public Color getTargetColor() {
-        return targetColor;
+    public Element getTargetElement() {
+        return targetElement;
     }
 
-    public void setTargetColor(Color targetColor) {
-        this.targetColor = targetColor;
+    public void setTargetElement(Element targetElement) {
+        this.targetElement = targetElement;
     }
 
     public double getPercentHp() {
@@ -108,28 +108,28 @@ public class Enemy implements Parcelable {
         this.damageThreshold = damageThreshold;
     }
 
-    public Color getAbsorb() {
+    public Element getAbsorb() {
         return absorb;
     }
 
-    public void setAbsorb(Color absorb) {
+    public void setAbsorb(Element absorb) {
         this.absorb = absorb;
     }
 
-    public ArrayList<Color> getReduction() {
+    public ArrayList<Element> getReduction() {
         return reduction;
     }
 
-    public void addReduction(Color color) {
-        reduction.add(color);
+    public void addReduction(Element element) {
+        reduction.add(element);
     }
 
-    public void removeReduction(Color color) {
-        reduction.remove(color);
+    public void removeReduction(Element element) {
+        reduction.remove(element);
     }
 
-    public boolean containsReduction(Color color) {
-        return reduction.contains(color);
+    public boolean containsReduction(Element element) {
+        return reduction.contains(element);
     }
 
     public boolean reductionIsEmpty() {
@@ -192,9 +192,9 @@ public class Enemy implements Parcelable {
         beforeDefenseBreak = source.readInt();
         damageThreshold = source.readInt();
         gravityPercent = source.readDouble();
-        targetColor = (Color) source.readSerializable();
-        absorb = (Color) source.readSerializable();
-        reduction = source.readArrayList(Color.class.getClassLoader());
+        targetElement = (Element) source.readSerializable();
+        absorb = (Element) source.readSerializable();
+        reduction = source.readArrayList(Element.class.getClassLoader());
         hasAbsorb = source.readByte() == 1;
         hasReduction = source.readByte() == 1;
         hasDamageThreshold = source.readByte() == 1;
@@ -211,7 +211,7 @@ public class Enemy implements Parcelable {
         dest.writeInt(beforeDefenseBreak);
         dest.writeInt(damageThreshold);
         dest.writeDouble(gravityPercent);
-        dest.writeSerializable(targetColor);
+        dest.writeSerializable(targetElement);
         dest.writeSerializable(absorb);
         dest.writeList(reduction);
         dest.writeByte((byte) (hasAbsorb ? 1 : 0));

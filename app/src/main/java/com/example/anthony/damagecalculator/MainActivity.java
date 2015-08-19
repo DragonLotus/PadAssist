@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.Configuration;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
@@ -59,7 +60,14 @@ public class MainActivity extends ActionBarActivity
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
-      ActiveAndroid.initialize(this);
+      if (android.os.Build.VERSION.SDK_INT >= 20) {
+         Configuration.Builder configBuilder = new Configuration.Builder(this);
+         configBuilder.addModelClasses(Monster.class);
+         configBuilder.addModelClasses(Team.class);
+         ActiveAndroid.initialize(configBuilder.create());
+      } else {
+         ActiveAndroid.initialize(this);
+      }
       if(savedInstanceState != null){
          mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
       }

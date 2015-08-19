@@ -1,8 +1,6 @@
 package com.example.anthony.damagecalculator.Util;
 
-import android.util.Log;
-
-import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
@@ -17,7 +15,7 @@ public class DamageCalculationUtil {
     public static double monsterElement1Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos) {
         double totalOrbDamage = 0;
         for (int i = 0; i < orbMatches.size(); i++) {
-            if (orbMatches.get(i).getColor().equals(monster.getElement1())) {
+            if (orbMatches.get(i).getElement().equals(monster.getElement1())) {
                 totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
@@ -28,14 +26,14 @@ public class DamageCalculationUtil {
         double totalOrbDamage = 0;
         if(monster.getElement1().equals(monster.getElement2())){
             for(int i = 0; i < orbMatches.size(); i++) {
-                if(orbMatches.get(i).getColor().equals(monster.getElement2())) {
+                if(orbMatches.get(i).getElement().equals(monster.getElement2())) {
                     totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, monster.getTPA());
                 }
             }
             return comboMultiplier(totalOrbDamage, combos);
         }
         for(int i = 0; i < orbMatches.size(); i++) {
-            if(orbMatches.get(i).getColor().equals(monster.getElement2())) {
+            if(orbMatches.get(i).getElement().equals(monster.getElement2())) {
                 totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
@@ -66,37 +64,37 @@ public class DamageCalculationUtil {
 
     public static double monsterElement1DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
         double damage = monsterElement1Damage(monster, orbMatches, orbAwakenings, combos);
-        if(monster.getElement1().equals(Color.RED)){
-            if(enemy.getTargetColor().equals(Color.BLUE)){
+        if(monster.getElement1().equals(Element.RED)){
+            if(enemy.getTargetElement().equals(Element.BLUE)){
                 damage = damage/2;
             }
-            else if(enemy.getTargetColor().equals(Color.GREEN)){
+            else if(enemy.getTargetElement().equals(Element.GREEN)){
                 damage = damage*2;
             }
         }
-        else if(monster.getElement1().equals(Color.BLUE)){
-            if(enemy.getTargetColor().equals(Color.GREEN)){
+        else if(monster.getElement1().equals(Element.BLUE)){
+            if(enemy.getTargetElement().equals(Element.GREEN)){
                 damage = damage/2;
             }
-            else if(enemy.getTargetColor().equals(Color.RED)){
+            else if(enemy.getTargetElement().equals(Element.RED)){
                 damage = damage*2;
             }
         }
-        else if(monster.getElement1().equals(Color.GREEN)){
-            if(enemy.getTargetColor().equals(Color.RED)){
+        else if(monster.getElement1().equals(Element.GREEN)){
+            if(enemy.getTargetElement().equals(Element.RED)){
                 damage = damage/2;
             }
-            else if(enemy.getTargetColor().equals(Color.BLUE)){
+            else if(enemy.getTargetElement().equals(Element.BLUE)){
                 damage = damage*2;
             }
         }
-        else if(monster.getElement1().equals(Color.LIGHT)){
-            if(enemy.getTargetColor().equals(Color.DARK)){
+        else if(monster.getElement1().equals(Element.LIGHT)){
+            if(enemy.getTargetElement().equals(Element.DARK)){
                 damage = damage*2;
             }
         }
-        else if(monster.getElement1().equals(Color.DARK)){
-            if(enemy.getTargetColor().equals(Color.LIGHT)){
+        else if(monster.getElement1().equals(Element.DARK)){
+            if(enemy.getTargetElement().equals(Element.LIGHT)){
                 damage = damage*2;
             }
         }
@@ -108,37 +106,37 @@ public class DamageCalculationUtil {
         if (damage == 0){
             return 0;
         }
-        if(monster.getElement2().equals(Color.RED)){
-            if(enemy.getTargetColor().equals(Color.BLUE)){
+        if(monster.getElement2().equals(Element.RED)){
+            if(enemy.getTargetElement().equals(Element.BLUE)){
                 damage = damage/2;
             }
-            else if(enemy.getTargetColor().equals(Color.GREEN)){
+            else if(enemy.getTargetElement().equals(Element.GREEN)){
                 damage = damage*2;
             }
         }
-        else if(monster.getElement2().equals(Color.BLUE)){
-            if(enemy.getTargetColor().equals(Color.GREEN)){
+        else if(monster.getElement2().equals(Element.BLUE)){
+            if(enemy.getTargetElement().equals(Element.GREEN)){
                 damage = damage/2;
             }
-            else if(enemy.getTargetColor().equals(Color.RED)){
+            else if(enemy.getTargetElement().equals(Element.RED)){
                 damage = damage*2;
             }
         }
-        else if(monster.getElement2().equals(Color.GREEN)){
-            if(enemy.getTargetColor().equals(Color.RED)){
+        else if(monster.getElement2().equals(Element.GREEN)){
+            if(enemy.getTargetElement().equals(Element.RED)){
                 damage = damage/2;
             }
-            else if(enemy.getTargetColor().equals(Color.BLUE)){
+            else if(enemy.getTargetElement().equals(Element.BLUE)){
                 damage = damage*2;
             }
         }
-        else if(monster.getElement2().equals(Color.LIGHT)){
-            if(enemy.getTargetColor().equals(Color.DARK)){
+        else if(monster.getElement2().equals(Element.LIGHT)){
+            if(enemy.getTargetElement().equals(Element.DARK)){
                 damage = damage*2;
             }
         }
-        else if(monster.getElement2().equals(Color.DARK)){
-            if(enemy.getTargetColor().equals(Color.LIGHT)){
+        else if(monster.getElement2().equals(Element.DARK)){
+            if(enemy.getTargetElement().equals(Element.LIGHT)){
                 damage = damage*2;
             }
         }
@@ -235,7 +233,7 @@ public class DamageCalculationUtil {
     public static double hpRecovered(int rcv, ArrayList<OrbMatch> orbMatches, int combos){
         double totalOrbDamage = 0;
         for (int i = 0; i < orbMatches.size(); i++) {
-            if (orbMatches.get(i).getColor().equals(Color.HEART)) {
+            if (orbMatches.get(i).getElement().equals(Element.HEART)) {
                 totalOrbDamage += orbMatch(rcv, orbMatches.get(i));
             }
         }

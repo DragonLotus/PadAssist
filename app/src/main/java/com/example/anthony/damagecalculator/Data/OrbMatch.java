@@ -10,14 +10,14 @@ public class OrbMatch implements Parcelable
 {
    private int orbsLinked;
    private int numOrbPlus;
-   private Color color;
+   private Element element;
    private boolean isRow;
 
-   public OrbMatch(int orbsLinked, int numOrbPlus, Color color, boolean isRow)
+   public OrbMatch(int orbsLinked, int numOrbPlus, Element element, boolean isRow)
    {
       this.orbsLinked = orbsLinked;
       this.numOrbPlus = numOrbPlus;
-      this.color = color;
+      this.element = element;
       this.isRow = isRow;
    }
 
@@ -41,14 +41,14 @@ public class OrbMatch implements Parcelable
       this.numOrbPlus = numOrbPlus;
    }
 
-   public Color getColor()
+   public Element getElement()
    {
-      return color;
+      return element;
    }
 
-   public void setColor(Color color)
+   public void setElement(Element element)
    {
-      this.color = color;
+      this.element = element;
    }
 
    public boolean checkIfRow()
@@ -59,7 +59,7 @@ public class OrbMatch implements Parcelable
    public OrbMatch(Parcel source) {
       orbsLinked = source.readInt();
       numOrbPlus = source.readInt();
-      color = (Color) source.readSerializable();
+      element = (Element) source.readSerializable();
       isRow = source.readByte() == 1;
    }
 
@@ -67,7 +67,7 @@ public class OrbMatch implements Parcelable
    public void writeToParcel(Parcel dest, int flags) {
       dest.writeInt(orbsLinked);
       dest.writeInt(numOrbPlus);
-      dest.writeSerializable(color);
+      dest.writeSerializable(element);
       dest.writeByte((byte) (isRow ? 1 : 0));
    }
 

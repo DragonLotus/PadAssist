@@ -1,47 +1,33 @@
 package com.example.anthony.damagecalculator.Fragments;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
-import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
-import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
-import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
-
-import java.util.ArrayList;
 
 /**
  * Created by Thomas on 7/11/2015.
@@ -157,23 +143,23 @@ public class MainFragment extends Fragment {
         }
     };
 
-    private Color getOrbColor() {
+    private Element getOrbColor() {
         int radioGroupId = orbRadioGroup.getCheckedRadioButtonId();
         switch (radioGroupId) {
             case R.id.redOrb:
-                return Color.RED;
+                return Element.RED;
             case R.id.blueOrb:
-                return Color.BLUE;
+                return Element.BLUE;
             case R.id.greenOrb:
-                return Color.GREEN;
+                return Element.GREEN;
             case R.id.lightOrb:
-                return Color.LIGHT;
+                return Element.LIGHT;
             case R.id.darkOrb:
-                return Color.DARK;
+                return Element.DARK;
             case R.id.heartOrb:
-                return Color.HEART;
+                return Element.HEART;
         }
-        return Color.RED;
+        return Element.RED;
     }
 
     private View.OnClickListener calculateOnClickListener = new View.OnClickListener() {

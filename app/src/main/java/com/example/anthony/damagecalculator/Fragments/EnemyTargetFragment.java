@@ -1,16 +1,11 @@
 package com.example.anthony.damagecalculator.Fragments;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,23 +27,15 @@ import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.GravityButtonAdapter;
 import com.example.anthony.damagecalculator.Adapters.GravityListAdapter;
-import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
-import com.example.anthony.damagecalculator.Data.Color;
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
-import com.example.anthony.damagecalculator.Data.Monster;
-import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
-import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
 
-import org.w3c.dom.Text;
-
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 
 /**
@@ -555,7 +542,7 @@ public class EnemyTargetFragment extends Fragment {
                     }
                 } else {
                     absorbRadioGroup.clearCheck();
-                    enemy.setAbsorb(Color.HEART);
+                    enemy.setAbsorb(Element.BLANK);
                     for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                         absorbRadioGroup.getChildAt(i).setEnabled(false);
                     }
@@ -596,34 +583,34 @@ public class EnemyTargetFragment extends Fragment {
             int radioChecked = group.getCheckedRadioButtonId();
             switch (radioChecked) {
                 case R.id.redOrb:
-                    enemy.setTargetColor(Color.RED);
+                    enemy.setTargetElement(Element.RED);
                     break;
                 case R.id.blueOrb:
-                    enemy.setTargetColor(Color.BLUE);
+                    enemy.setTargetElement(Element.BLUE);
                     break;
                 case R.id.greenOrb:
-                    enemy.setTargetColor(Color.GREEN);
+                    enemy.setTargetElement(Element.GREEN);
                     break;
                 case R.id.lightOrb:
-                    enemy.setTargetColor(Color.LIGHT);
+                    enemy.setTargetElement(Element.LIGHT);
                     break;
                 case R.id.darkOrb:
-                    enemy.setTargetColor(Color.DARK);
+                    enemy.setTargetElement(Element.DARK);
                     break;
                 case R.id.redOrbAbsorb:
-                    enemy.setAbsorb(Color.RED);
+                    enemy.setAbsorb(Element.RED);
                     break;
                 case R.id.blueOrbAbsorb:
-                    enemy.setAbsorb(Color.BLUE);
+                    enemy.setAbsorb(Element.BLUE);
                     break;
                 case R.id.greenOrbAbsorb:
-                    enemy.setAbsorb(Color.GREEN);
+                    enemy.setAbsorb(Element.GREEN);
                     break;
                 case R.id.lightOrbAbsorb:
-                    enemy.setAbsorb(Color.LIGHT);
+                    enemy.setAbsorb(Element.LIGHT);
                     break;
                 case R.id.darkOrbAbsorb:
-                    enemy.setAbsorb(Color.DARK);
+                    enemy.setAbsorb(Element.DARK);
                     break;
             }
         }
@@ -638,32 +625,32 @@ public class EnemyTargetFragment extends Fragment {
 
     private void setElementReduction(boolean isChecked, int buttonId) {
         clearTextFocus();
-        Color color = null;
+        Element element = null;
         switch (buttonId) {
             case R.id.redOrbReduction:
-                color = Color.RED;
+                element = Element.RED;
                 break;
             case R.id.blueOrbReduction:
-                color = Color.BLUE;
+                element = Element.BLUE;
                 break;
             case R.id.greenOrbReduction:
-                color = Color.GREEN;
+                element = Element.GREEN;
                 break;
             case R.id.darkOrbReduction:
-                color = Color.DARK;
+                element = Element.DARK;
                 break;
             case R.id.lightOrbReduction:
-                color = Color.LIGHT;
+                element = Element.LIGHT;
                 break;
         }
 
         if (isChecked) {
-            if (!enemy.containsReduction(color)) {
-                enemy.addReduction(color);
+            if (!enemy.containsReduction(element)) {
+                enemy.addReduction(element);
             }
         } else {
-            if (enemy.containsReduction(color)) {
-                enemy.removeReduction(color);
+            if (enemy.containsReduction(element)) {
+                enemy.removeReduction(element);
             }
         }
     }
@@ -674,19 +661,19 @@ public class EnemyTargetFragment extends Fragment {
             for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                 reductionRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.RED)) {
+            if (enemy.containsReduction(Element.RED)) {
                 redOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.BLUE)) {
+            if (enemy.containsReduction(Element.BLUE)) {
                 blueOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.GREEN)) {
+            if (enemy.containsReduction(Element.GREEN)) {
                 greenOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.DARK)) {
+            if (enemy.containsReduction(Element.DARK)) {
                 darkOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(com.example.anthony.damagecalculator.Data.Color.LIGHT)) {
+            if (enemy.containsReduction(Element.LIGHT)) {
                 lightOrbReduction.setChecked(true);
             }
 
@@ -710,26 +697,26 @@ public class EnemyTargetFragment extends Fragment {
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.RED) {
+            if (enemy.getAbsorb() == Element.RED) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.redOrbAbsorb);
-            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.BLUE) {
+            } else if (enemy.getAbsorb() == Element.BLUE) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.blueOrbAbsorb);
-            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.GREEN) {
+            } else if (enemy.getAbsorb() == Element.GREEN) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.greenOrbAbsorb);
-            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.LIGHT) {
+            } else if (enemy.getAbsorb() == Element.LIGHT) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.lightOrbAbsorb);
-            } else if (enemy.getAbsorb() == com.example.anthony.damagecalculator.Data.Color.DARK) {
+            } else if (enemy.getAbsorb() == Element.DARK) {
                 Log.d("enemyAbsorb", "" + enemy.getAbsorb());
                 absorbRadioGroup.check(R.id.darkOrbAbsorb);
             }
         } else{
             absorbCheck.setChecked(false);
             absorbRadioGroup.clearCheck();
-            enemy.setAbsorb(Color.HEART);
+            enemy.setAbsorb(Element.BLANK);
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(false);
             }
