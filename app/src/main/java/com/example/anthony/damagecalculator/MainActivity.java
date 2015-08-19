@@ -3,12 +3,10 @@ package com.example.anthony.damagecalculator;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,18 +18,10 @@ import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
-import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
-import com.example.anthony.damagecalculator.Fragments.EnemyTargetFragment;
-import com.example.anthony.damagecalculator.Fragments.MainFragment;
-import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
-import com.example.anthony.damagecalculator.Fragments.TeamDamageListFragment;
-import com.example.anthony.damagecalculator.Fragments.TeamListFragment;
-import com.integralblue.httpresponsecache.HttpResponseCache;
-import com.jakewharton.disklrucache.DiskLruCache;
+import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -82,8 +72,8 @@ public class MainActivity extends ActionBarActivity
 //      mViewPager.setAdapter(mSectionsPagerAdapter);
       enemy = new Enemy();
       team = new Team();
-      //switchFragment(TeamListFragment.newInstance("1", "2"), TeamListFragment.TAG);
-      switchFragment(TeamListFragment.newInstance(team, enemy), TeamListFragment.TAG);
+      //switchFragment(MonsterListFragment.newInstance("1", "2"), MonsterListFragment.TAG);
+      switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 
       // Get the Default External Cache Directory
       File httpCacheDir = getExternalCacheDir();
@@ -168,7 +158,7 @@ public class MainActivity extends ActionBarActivity
 //         }
 //         if(position == 3)
 //         {
-//            return TeamListFragment.newInstance("thomas ??", "sup");
+//            return MonsterListFragment.newInstance("thomas ??", "sup");
 //         }
 //         if(position == 4)
 //         {

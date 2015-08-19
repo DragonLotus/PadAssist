@@ -25,13 +25,13 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TeamListFragment.OnFragmentInteractionListener} interface
+ * {@link MonsterListFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TeamListFragment#newInstance} factory method to
+ * Use the {@link MonsterListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamListFragment extends Fragment {
-    public static final String TAG = TeamListFragment.class.getSimpleName();
+public class MonsterListFragment extends Fragment {
+    public static final String TAG = MonsterListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -58,11 +58,11 @@ public class TeamListFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TeamListFragment.
+     * @return A new instance of fragment MonsterListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TeamListFragment newInstance(Team team, Enemy enemy) {
-        TeamListFragment fragment = new TeamListFragment();
+    public static MonsterListFragment newInstance(Team team, Enemy enemy) {
+        MonsterListFragment fragment = new MonsterListFragment();
         Bundle args = new Bundle();
         args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
@@ -70,7 +70,7 @@ public class TeamListFragment extends Fragment {
         return fragment;
     }
 
-    public TeamListFragment() {
+    public MonsterListFragment() {
         // Required empty public constructor
     }
 
@@ -86,7 +86,7 @@ public class TeamListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_team_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_monster_list, container, false);
         monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
         importButton = (Button) rootView.findViewById(R.id.importButton);
         orbMatchButton = (Button) rootView.findViewById(R.id.orbMatchButton);

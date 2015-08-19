@@ -160,6 +160,7 @@ public class Team extends Model implements Parcelable {
 
     public void saveMonsters(){
         for (int i = 0; i < monsters.size(); i++){
+            monsters.get(i).setTeamIndex(i);
             monsters.get(i).save();
         }
     }

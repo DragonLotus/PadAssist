@@ -81,6 +81,8 @@ public class Monster extends Model implements Parcelable {
     private double currentHp;
     @Column(name = "isBound")
     private boolean isBound;
+    @Column(name = "teamIndex")
+    private int teamIndex;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public Monster() {
@@ -133,27 +135,27 @@ public class Monster extends Model implements Parcelable {
         return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy));
     }
 
-    public int getElement1DamageReduction(Team team, Enemy enemy, int combos){
+    public int getElement1DamageReduction(Team team, Enemy enemy, int combos) {
         return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
     }
 
-    public int getElement2DamageReduction(Team team, Enemy enemy, int combos){
+    public int getElement2DamageReduction(Team team, Enemy enemy, int combos) {
         return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
     }
 
-    public int getElement1DamageAbsorb(Team team, Enemy enemy, int combos){
+    public int getElement1DamageAbsorb(Team team, Enemy enemy, int combos) {
         return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
     }
 
-    public int getElement2DamageAbsorb(Team team, Enemy enemy, int combos){
+    public int getElement2DamageAbsorb(Team team, Enemy enemy, int combos) {
         return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
     }
 
-    public int getElement1DamageThreshold(Team team, Enemy enemy, int combos){
+    public int getElement1DamageThreshold(Team team, Enemy enemy, int combos) {
         return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
     }
 
-    public int getElement2DamageThreshold(Team team, Enemy enemy, int combos){
+    public int getElement2DamageThreshold(Team team, Enemy enemy, int combos) {
         return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
     }
 
@@ -310,7 +312,7 @@ public class Monster extends Model implements Parcelable {
         return awokenSkills;
     }
 
-    public int getAwokenSkils(int position){
+    public int getAwokenSkils(int position) {
         return awokenSkills.get(position);
     }
 
@@ -426,10 +428,18 @@ public class Monster extends Model implements Parcelable {
         this.monsterId = monsterId;
     }
 
-    public int getTPA(){
+    public int getTeamIndex() {
+        return teamIndex;
+    }
+
+    public void setTeamIndex(int teamIndex) {
+        this.teamIndex = teamIndex;
+    }
+
+    public int getTPA() {
         int numOfDoubleProngs = 0;
-        for(int i = 0; i < currentAwakenings; i++){
-            if(awokenSkills.get(i) == 27){
+        for (int i = 0; i < currentAwakenings; i++) {
+            if (awokenSkills.get(i) == 27) {
                 numOfDoubleProngs++;
             }
         }
@@ -465,6 +475,7 @@ public class Monster extends Model implements Parcelable {
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
         isBound = source.readByte() == 1;
+        teamIndex = source.readInt();
     }
 
     @Override
@@ -502,6 +513,7 @@ public class Monster extends Model implements Parcelable {
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
         dest.writeByte((byte) (isBound ? 1 : 0));
+        dest.writeInt(teamIndex);
     }
 
     public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {
@@ -516,11 +528,11 @@ public class Monster extends Model implements Parcelable {
 
 
     public static List<Monster> getAllMonsters() {
-        return new Select().from(Monster.class).execute();
+        return new Select().from(Monster.class).orderBy("teamIndex ASC").execute();
     }
 
     public static void deleteAllMonsters() {
-         new Delete().from(Monster.class).execute();
+        new Delete().from(Monster.class).execute();
     }
 
     public static List<Monster> getAllMonstersLevel(int level) {
