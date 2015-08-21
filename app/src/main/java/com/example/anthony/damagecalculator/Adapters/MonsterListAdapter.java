@@ -60,11 +60,13 @@ public class MonsterListAdapter extends ArrayAdapter<Monster>
       viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
       viewHolder.monsterName.setText(monsterList.get(position).getName());
       viewHolder.monsterLevelValue.setText(Integer.toString(monsterList.get(position).getCurrentLevel()));
-      int totalPlus = monsterList.get(position).getAtkPlus() + monsterList.get(position).getHpPlus() + monsterList.get(position).getRcvPlus();
-      viewHolder.monsterPlus.setText(" +" + Integer.toString(totalPlus) + " ");
+      viewHolder.monsterPlus.setText(" +" + Integer.toString(monsterList.get(position).getTotalPlus()) + " ");
       if (monsterList.get(position).getCurrentAwakenings() == monsterList.get(position).getMaxAwakenings()){
          viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
          viewHolder.monsterAwakenings.setText("");
+      }
+      if(monsterList.get(position).getTotalPlus() == 0){
+         viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
       }
 
       return convertView;

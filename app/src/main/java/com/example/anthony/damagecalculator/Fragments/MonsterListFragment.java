@@ -48,9 +48,6 @@ public class MonsterListFragment extends Fragment {
     private Button importButton, orbMatchButton;
     private Team team;
     private Enemy enemy;
-    private Boolean loggedIn = false;
-    private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
-
 
     /**
      * Use this factory method to create a new instance of
@@ -132,6 +129,11 @@ public class MonsterListFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         team.saveMonsters();
+        team.save();
+        if(team.getMonsters() != null){
+            Log.d("Monsters", "is not null");
+            Log.d("Total Plusses", "" + team.getMonsters(0).getTotalPlus());
+        }
 //        for(int i = 0; i < monsters.size(); i++) {
 //            monsters.get(i).save();
 //        }
@@ -219,19 +221,14 @@ public class MonsterListFragment extends Fragment {
         importButton.setOnClickListener(buttonOnClickListener);
         orbMatchButton.setOnClickListener(buttonOnClickListener);
         monsterListView.setOnItemClickListener(monsterListOnClickListener);
-
+        Log.d("TeamId", "" + team.getTeamId());
     }
 
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (v.equals(importButton)) {
-                if (!loggedIn) {
-                    loginDialogFragment.newInstance();
-                    loginDialogFragment.show(getChildFragmentManager(), "Show Login Dialog Fragment");
-                } else {
-                    //Import team list here
-                }
+                ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(team, enemy), TeamListFragment.TAG);
             }
             if (v.equals(orbMatchButton)) {
                 Log.d("Team Health", String.valueOf(team.getTeamHealth()));

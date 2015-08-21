@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/teamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Team Name"
+        android:textSize="18dp" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/teamName"
+        android:gravity="center">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/monster1Picture"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginRight="6dp"
+                android:src="@drawable/monster_1218" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster1Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/monster1Picture"
+                android:layout_alignTop="@+id/monster1Picture"
+                android:text="+297"
+                android:textColor="#f0ff00"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster1Awakenings"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster1Picture"
+                android:layout_alignLeft="@+id/monster1Picture"
+                android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/monster2Picture"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/monster_1218" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster2Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/monster2Picture"
+                android:layout_alignTop="@+id/monster2Picture"
+                android:text="+297"
+                android:textColor="#f0ff00"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster2Awakenings"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster2Picture"
+                android:layout_alignLeft="@+id/monster2Picture"
+                android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/monster3Picture"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/monster_1218" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster3Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/monster3Picture"
+                android:layout_alignTop="@+id/monster3Picture"
+                android:text="+297"
+                android:textColor="#f0ff00"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster3Awakenings"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster3Picture"
+                android:layout_alignLeft="@+id/monster3Picture"
+                android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/monster4Picture"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/monster_1218" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster4Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/monster4Picture"
+                android:layout_alignTop="@+id/monster4Picture"
+                android:text="+297"
+                android:textColor="#f0ff00"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster4Awakenings"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster4Picture"
+                android:layout_alignLeft="@+id/monster4Picture"
+                android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/monster5Picture"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:src="@drawable/monster_1218" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster5Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/monster5Picture"
+                android:layout_alignTop="@+id/monster5Picture"
+                android:text="+297"
+                android:textColor="#f0ff00"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster5Awakenings"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster5Picture"
+                android:layout_alignLeft="@+id/monster5Picture"
+                android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/monster6Picture"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/monster_1218" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster6Plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/monster6Picture"
+                android:layout_alignTop="@+id/monster6Picture"
+                android:text="+297"
+                android:textColor="#f0ff00"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster6Awakenings"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster6Picture"
+                android:layout_alignLeft="@+id/monster6Picture"
+                android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

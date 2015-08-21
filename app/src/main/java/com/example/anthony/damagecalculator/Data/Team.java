@@ -39,11 +39,13 @@ public class Team extends Model implements Parcelable {
     private Boolean hasAwakenings;
 
     public Team() {
+        teamId = 0;
         teamHealth = 0;
         teamRcv = 0;
         orbMatches = new ArrayList<OrbMatch>();
         hasAwakenings = true;
         favorite = false;
+        teamName = "Kirin, boys";
     }
 
     public int getTeamHealth() {

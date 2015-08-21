@@ -3,7 +3,7 @@
     package="com.activeandroid.test" >
 
     <uses-sdk
-        android:minSdkVersion="13"
+        android:minSdkVersion="10"
         android:targetSdkVersion="21" />
 
     <instrumentation

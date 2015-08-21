@@ -396,6 +396,10 @@ public class Monster extends Model implements Parcelable {
         this.rcvPlus = rcvPlus;
     }
 
+    public int getTotalPlus(){
+        return hpPlus + atkPlus + rcvPlus;
+    }
+
     public int getMaxAwakenings() {
         return maxAwakenings;
     }
