@@ -24,8 +24,20 @@ public class Team extends Model implements Parcelable {
     private int totalDamage;
     private ArrayList<Integer> rowAwakenings= new ArrayList<Integer>();
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
-    @Column(name = "monsters")
     private ArrayList<Monster> monsters;
+    @Column(name = "lead", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    private Monster lead;
+    @Column(name = "sub1", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    private Monster sub1;
+    @Column(name = "sub2", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    private Monster sub2;
+    @Column(name = "sub3", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    private Monster sub3;
+    @Column(name = "sub4", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    private Monster sub4;
+    @Column(name = "helper", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    private Monster helper;
+
     private ArrayList<OrbMatch> orbMatches;
     @Column(name = "teamName")
     private String teamName;
@@ -50,8 +62,8 @@ public class Team extends Model implements Parcelable {
 
     public int getTeamHealth() {
         int teamHealth = 0;
-        for (int i = 0; i < monsters.size(); i++) {
-            teamHealth += monsters.get(i).getTotalHp();
+        for (int i = 0; i < getMonsters().size(); i++) {
+            teamHealth += getMonsters().get(i).getTotalHp();
         }
         return teamHealth;
     }
@@ -62,8 +74,8 @@ public class Team extends Model implements Parcelable {
 
     public int getTeamRcv() {
         int teamRcv = 0;
-        for (int i = 0; i < monsters.size(); i++) {
-            teamRcv += monsters.get(i).getTotalRcv();
+        for (int i = 0; i < getMonsters().size(); i++) {
+            teamRcv += getMonsters().get(i).getTotalRcv();
         }
         return teamRcv;
     }
@@ -81,6 +93,15 @@ public class Team extends Model implements Parcelable {
     }
 
     public ArrayList<Monster> getMonsters() {
+        if(monsters == null) {
+            monsters = new ArrayList<>();
+            monsters.add(lead);
+            monsters.add(sub1);
+            monsters.add(sub2);
+            monsters.add(sub3);
+            monsters.add(sub4);
+            monsters.add(helper);
+        }
         return monsters;
     }
 
@@ -160,10 +181,67 @@ public class Team extends Model implements Parcelable {
         this.teamOrder = teamOrder;
     }
 
+    public void setMonsters(Monster monster1, Monster monster2, Monster monster3, Monster monster4, Monster monster5, Monster monster6){
+        setLead(monster1);
+        setSub1(monster2);
+        setSub2(monster3);
+        setSub3(monster4);
+        setSub4(monster5);
+        setHelper(monster6);
+    }
+
+    public Monster getSub1() {
+        return sub1;
+    }
+
+    public void setSub1(Monster sub1) {
+        this.sub1 = sub1;
+    }
+
+    public Monster getSub2() {
+        return sub2;
+    }
+
+    public void setSub2(Monster sub2) {
+        this.sub2 = sub2;
+    }
+
+    public Monster getSub3() {
+        return sub3;
+    }
+
+    public void setSub3(Monster sub3) {
+        this.sub3 = sub3;
+    }
+
+    public Monster getSub4() {
+        return sub4;
+    }
+
+    public void setSub4(Monster sub4) {
+        this.sub4 = sub4;
+    }
+
+    public Monster getLead() {
+        return lead;
+    }
+
+    public void setLead(Monster lead) {
+        this.lead = lead;
+    }
+
+    public Monster getHelper() {
+        return helper;
+    }
+
+    public void setHelper(Monster helper) {
+        this.helper = helper;
+    }
+
     public void saveMonsters(){
-        for (int i = 0; i < monsters.size(); i++){
-            monsters.get(i).setTeamIndex(i);
-            monsters.get(i).save();
+        for (int i = 0; i < getMonsters().size(); i++){
+            getMonsters().get(i).setTeamIndex(i);
+            getMonsters().get(i).save();
         }
     }
     public int getOrbPlusAwakenings(Element element) {
@@ -211,10 +289,10 @@ public class Team extends Model implements Parcelable {
             orbPlusAwakenings.add(0);
             rowAwakenings.add(0);
         }
-        for (int i = 0; i < monsters.size(); i++) {
-            if (!monsters.get(i).isBound() && hasAwakenings) {
-                for (int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
-                    int awokenSkill = monsters.get(i).getAwokenSkils(j);
+        for (int i = 0; i < getMonsters().size(); i++) {
+            if (!getMonsters().get(i).isBound() && hasAwakenings) {
+                for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++){
+                    int awokenSkill = getMonsters().get(i).getAwokenSkils(j);
                     switch (awokenSkill){
                         case 14:
                             orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);

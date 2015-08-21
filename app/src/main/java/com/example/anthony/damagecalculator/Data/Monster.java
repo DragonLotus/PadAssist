@@ -22,8 +22,7 @@ public class Monster extends Model implements Parcelable {
     public static final int HP_MULTIPLIER = 10;
     public static final int ATK_MULTIPLIER = 5;
     public static final int RCV_MULTIPLIER = 3;
-
-    @Column(name = "monsterId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.IGNORE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
     private int monsterId;
     @Column(name = "atkMax")
     private int atkMax;
@@ -543,9 +542,9 @@ public class Monster extends Model implements Parcelable {
         return new Select().from(Monster.class).where("currentLevel = ?", level).execute();
     }
 
-//    public static List<Monster> getMonsterId(int id){
-//        return new Select().from(Monster.class).where("monsterId = ?", id).execute();
-//    }
+    public static Monster getMonsterId(int id){
+        return new Select().from(Monster.class).where("monsterId = ?", id).executeSingle();
+    }
 //
 //    public static List<Monster> getMonsterAtkMax(int attack){
 //        return new Select().from(Monster.class).where("atkMax = ?", attack).execute();

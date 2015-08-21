@@ -128,12 +128,13 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        team.saveMonsters();
         team.save();
-        if(team.getMonsters() != null){
-            Log.d("Monsters", "is not null");
-            Log.d("Total Plusses", "" + team.getMonsters(0).getTotalPlus());
-        }
+//        team.saveMonsters();
+//        team.save();
+//        if(team.getMonsters() != null){
+//            Log.d("Monsters", "is not null");
+//            Log.d("Total Plusses", "" + team.getMonsters(0).getTotalPlus());
+//        }
 //        for(int i = 0; i < monsters.size(); i++) {
 //            monsters.get(i).save();
 //        }
@@ -142,17 +143,17 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(getArguments() != null){
+        if (getArguments() != null) {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
         Log.d("SavedInstanceState2", "SavedInstanceState: " + savedInstanceState);
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             monsters = savedInstanceState.getParcelableArrayList("monsters");
-        }else {
+        } else {
             monsters = (ArrayList) Monster.getAllMonsters();
             Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters);
-            if(monsters == null || monsters.size() == 0) {
+            if (monsters == null || monsters.size() == 0) {
                 monsters = new ArrayList<Monster>();
                 Monster monster1 = new Monster();
                 monster1.setMonsterId(1);
@@ -205,17 +206,25 @@ public class MonsterListFragment extends Fragment {
                 monsters.add(monster4);
                 monsters.add(monster5);
                 monsters.add(monster6);
+
+                for (int i = 0; i < monsters.size(); i++) {
+                    monsters.get(i).setTeamIndex(i);
+                    monsters.get(i).save();
+                }
+
+                Log.d("Is monsters null 3", "" + monsters);
             }
-            for(int i = 0; i < monsters.size(); i++){
+            for (int i = 0; i < monsters.size(); i++) {
                 Log.d("Monster name", "" + monsters.get(i).getName());
                 Log.d("Monster id", "" + monsters.get(i).getMonsterId());
             }
+            Log.d("Is monsters null 1", "" + monsters);
         }
-        if(team.getMonsters() != null){
-            monsters = team.getMonsters();
-        }else{
+        Log.d("monster attack", "" + monsters.get(0).getTotalAtk());
+        if (monsters != null) {
             updateTeam();
         }
+        Log.d("Is monsters null 2", "" + monsters);
         monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
         monsterListView.setAdapter(monsterListAdapter);
         importButton.setOnClickListener(buttonOnClickListener);
@@ -249,8 +258,10 @@ public class MonsterListFragment extends Fragment {
         }
     };
 
-    public void updateTeam(){
-        team.setMonsters(monsters);
+    public void updateTeam() {
+        Log.d("What is monster id 0", "" + Monster.getMonsterId(monsters.get(0).getMonsterId()));
+        team.setMonsters(Monster.getMonsterId(monsters.get(0).getMonsterId()), Monster.getMonsterId(monsters.get(1).getMonsterId()), Monster.getMonsterId(monsters.get(2).getMonsterId()), Monster.getMonsterId(monsters.get(3).getMonsterId()), Monster.getMonsterId(monsters.get(4).getMonsterId()), Monster.getMonsterId(monsters.get(5).getMonsterId()));
+        Log.d("Is monsters null team", "" + team.getMonsters());
         team.update();
         team.setTeamId(1);
     }

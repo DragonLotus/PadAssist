@@ -52,13 +52,11 @@ public class MonsterPageFragment extends Fragment
    private OnFragmentInteractionListener mListener;
    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue;
    private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
-   private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterChoose, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
+   private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
    private ImageView monsterPicture;
    private LinearLayout awakeningHolder;
    private Monster monster;
    private Toast toast;
-   private Boolean loggedIn = false;
-   private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
    private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
    {
       @Override
@@ -208,7 +206,7 @@ public class MonsterPageFragment extends Fragment
       monsterStatsMaxAll = (Button) rootView.findViewById(R.id.monsterStatsMaxAll);
       awakeningMinus = (Button) rootView.findViewById(R.id.awakeningMinus);
       awakeningPlus = (Button) rootView.findViewById(R.id.awakeningPlus);
-      monsterChoose = (Button) rootView.findViewById(R.id.monsterChoose);
+      monsterRemove = (Button) rootView.findViewById(R.id.monsterRemove);
       monsterLevelValue = (EditText) rootView.findViewById(R.id.monsterLevelValue);
       monsterStatsHPPlus = (EditText) rootView.findViewById(R.id.monsterStatsHPPlus);
       monsterStatsATKPlus = (EditText) rootView.findViewById(R.id.monsterStatsATKPlus);
@@ -223,6 +221,7 @@ public class MonsterPageFragment extends Fragment
    public void onActivityCreated(Bundle savedInstanceState)
    {
       super.onActivityCreated(savedInstanceState);
+      monsterName.setText(monster.getName());
       initializeEditTexts();
       monsterStats();
       monsterLevelValue.addTextChangedListener(currentLevelWatcher);
@@ -250,7 +249,7 @@ public class MonsterPageFragment extends Fragment
       monsterStatsRCVMax.setOnClickListener(maxButtons);
       monsterAwakeningsMax.setOnClickListener(maxButtons);
       monsterStatsMaxAll.setOnClickListener(maxButtons);
-      monsterChoose.setOnClickListener(maxButtons);
+      monsterRemove.setOnClickListener(maxButtons);
 
       //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
@@ -418,12 +417,9 @@ public class MonsterPageFragment extends Fragment
             toast = Toast.makeText(getActivity(), "All stats maxed", Toast.LENGTH_SHORT);
             toast.show();
          }
-         else if (v.equals(monsterChoose))
+         else if (v.equals(monsterRemove))
          {
-            if (!loggedIn){
-               loginDialogFragment.newInstance();
-               loginDialogFragment.show(getChildFragmentManager(),"Show Login Dialog Fragment");
-            }
+            //Remove monster. Can choose monster from search bar.
          }
       }
    };

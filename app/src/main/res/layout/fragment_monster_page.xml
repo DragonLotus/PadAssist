@@ -407,11 +407,11 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/monsterChoose"
+        android:id="@+id/monsterRemove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Choose Monster" />
+        android:text="Remove Monster" />
 
     <Button
         android:id="@+id/monsterStatsMaxAll"
