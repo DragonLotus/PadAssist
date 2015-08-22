@@ -4,52 +4,50 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.RadioGroup;
 
 import com.example.anthony.damagecalculator.R;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link MonsterRemoveDialogFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link MonsterRemoveDialogFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class MonsterRemoveDialogFragment extends DialogFragment {
 
-
-
-public class LoginDialogFragment extends DialogFragment {
+    private RadioGroup choiceRadioGroup;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setTitle("Login to PADherder");
-        builder.setView(inflater.inflate(R.layout.fragment_login_dialog, null))
+        View rootView = View.inflate(getActivity(), R.layout.fragment_monster_remove_dialog, null);
+        choiceRadioGroup = (RadioGroup) rootView.findViewById(R.id.choiceRadioGroup);
+        builder.setTitle("Remove Monster?");
+        builder.setView(rootView)
                 // Add action buttons
-                .setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        // sign in the user ...
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        LoginDialogFragment.this.getDialog().cancel();
+                        dialog.dismiss();
                     }
                 });
         return builder.create();
     }
-
-
 
 }

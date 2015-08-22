@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
+    tools:context="com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment">
+
+    <RadioGroup
+        android:id="@+id/choiceRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp">
+
+        <RadioButton
+            android:id="@+id/overWriteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Overwrite Team"
+            android:textSize="16dp"/>
+
+        <RadioButton
+            android:id="@+id/newTeamButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save as new team"
+            android:textSize="16dp"/>
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/teamName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/choiceRadioGroup"
+        android:hint="Team Name"
+        android:inputType="textNoSuggestions"
+        android:singleLine="true"
+        android:textSize="16dp"
+        android:enabled="false"/>
+
+</RelativeLayout>

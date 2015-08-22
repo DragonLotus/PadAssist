@@ -115,7 +115,7 @@ public class TeamListFragment extends Fragment {
         public void onClick(View v) {
             if (v.equals(importButton)) {
                 if (!loggedIn) {
-                    loginDialogFragment.newInstance();
+                    //loginDialogFragment.newInstance();
                     loginDialogFragment.show(getChildFragmentManager(), "Show Login Dialog Fragment");
                 } else {
                     //Do Nothing

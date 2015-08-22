@@ -2,21 +2,13 @@ package com.example.anthony.damagecalculator.Fragments;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.AlphaAnimation;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +49,7 @@ public class MonsterPageFragment extends Fragment
    private LinearLayout awakeningHolder;
    private Monster monster;
    private Toast toast;
+   private MonsterRemoveDialogFragment monsterRemoveDialogFragment = new MonsterRemoveDialogFragment();
    private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats()
    {
       @Override
@@ -420,6 +413,7 @@ public class MonsterPageFragment extends Fragment
          else if (v.equals(monsterRemove))
          {
             //Remove monster. Can choose monster from search bar.
+            monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Save Team");
          }
       }
    };
