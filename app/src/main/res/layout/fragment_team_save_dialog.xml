@@ -14,14 +14,14 @@
         android:paddingTop="8dp">
 
         <RadioButton
-            android:id="@+id/overWriteButton"
+            android:id="@+id/overwriteTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Overwrite Team"
             android:textSize="16dp"/>
 
         <RadioButton
-            android:id="@+id/newTeamButton"
+            android:id="@+id/newTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save as new team"

@@ -45,6 +45,7 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
+            viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             viewHolder.monsterName = (TextView) convertView.findViewById(R.id.monsterName);
             viewHolder.monsterPlus = (TextView) convertView.findViewById(R.id.monsterPlus);
             viewHolder.monsterAwakenings = (TextView) convertView.findViewById(R.id.monsterAwakenings);
@@ -58,13 +59,14 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        int totalPlus = team.getMonsters(position).getAtkPlus() + team.getMonsters(position).getHpPlus() + team.getMonsters(position).getRcvPlus();
-        viewHolder.monsterPlus.setText(" +" + Integer.toString(totalPlus) + " ");
+        viewHolder.monsterName.setText(team.getMonsters(position).getName());
+        viewHolder.monsterPlus.setText(" +" + Integer.toString(team.getMonsters(position).getTotalPlus()) + " ");
         viewHolder.monsterAwakenings.setText(" " + Integer.toString(team.getMonsters(position).getCurrentAwakenings()));
         if (team.getMonsters(position).getCurrentAwakenings() == team.getMonsters(position).getMaxAwakenings()) {
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
         }
+        viewHolder.monsterPicture.setImageResource(team.getMonsters(position).getMonsterPicture());
         //Needs to get # of orb awakenings from team object maybe
         element1Damage = team.getMonsters(position).getElement1Damage(team, combos);
         element2Damage = team.getMonsters(position).getElement2Damage(team, combos);
@@ -113,9 +115,20 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
         }
-//        Log.d("Total Damage", "" + team.getTotalDamage());
-//        Log.d("Ele1%Damage", "" + df.format((double) element1DamageEnemy / team.getTotalDamage()* 100));
-//        Log.d("Ele2%Damage", "" + df.format((double) element2DamageEnemy / team.getTotalDamage()* 100));
+        if (team.getMonsters(position).getTotalPlus() == 0) {
+            viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
+        }
+        if (team.getMonsters(position).getCurrentAwakenings() == 0) {
+            viewHolder.monsterAwakenings.setVisibility(View.INVISIBLE);
+        }
+        if(team.getMonsters(position).getElement1().equals(Element.BLANK)){
+            viewHolder.monsterElement1Damage.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement2Damage.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement1Percent.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement2Percent.setVisibility(View.INVISIBLE);
+        }
 
         setTextColors(position, viewHolder);
         return convertView;

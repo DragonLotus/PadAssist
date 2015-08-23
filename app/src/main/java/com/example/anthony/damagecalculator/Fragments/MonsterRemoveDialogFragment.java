@@ -8,25 +8,32 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
-import com.example.anthony.damagecalculator.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MonsterRemoveDialogFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MonsterRemoveDialogFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.R;
 public class MonsterRemoveDialogFragment extends DialogFragment {
 
+    public interface RemoveMonster{
+        public void removeMonsterDatabase();
+        public void removeMonsterTeam();
+    }
+
     private RadioGroup choiceRadioGroup;
+    private RemoveMonster remove;
+
+    public static MonsterRemoveDialogFragment newInstance(RemoveMonster removeMonster){
+        MonsterRemoveDialogFragment dialogFragment = new MonsterRemoveDialogFragment();
+        dialogFragment.setRemove(removeMonster);
+        Log.d("remove check3", "" + removeMonster);
+        return dialogFragment;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -39,7 +46,14 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
                 .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
+                        Log.d("remove check", "" + remove);
+                        if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.removeTeam) {
+                            remove.removeMonsterTeam();
+                        } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.removeDatabase) {
+                            remove.removeMonsterDatabase();
+                        } else {
+                            dialog.dismiss();
+                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -50,4 +64,8 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    public void setRemove(RemoveMonster remove) {
+        Log.d("remove check2", "" + remove);
+        this.remove = remove;
+    }
 }

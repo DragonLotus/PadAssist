@@ -8,6 +8,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
@@ -80,8 +81,8 @@ public class Monster extends Model implements Parcelable {
     private double currentHp;
     @Column(name = "isBound")
     private boolean isBound;
-    @Column(name = "teamIndex")
-    private int teamIndex;
+    @Column(name = "monsterPicture")
+    private int monsterPicture = R.drawable.monster_1218;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public Monster() {
@@ -281,6 +282,9 @@ public class Monster extends Model implements Parcelable {
 
     public void setType1(int type1) {
         this.type1 = type1;
+        if(type1 == -1){
+            this.type2 = type1;
+        }
     }
 
     public int getType2() {
@@ -297,6 +301,9 @@ public class Monster extends Model implements Parcelable {
 
     public void setElement1(Element element1) {
         this.element1 = element1;
+        if(element1.equals(Element.BLANK)){
+            this.element2 = element1;
+        }
     }
 
     public Element getElement2() {
@@ -431,12 +438,13 @@ public class Monster extends Model implements Parcelable {
         this.monsterId = monsterId;
     }
 
-    public int getTeamIndex() {
-        return teamIndex;
+
+    public int getMonsterPicture() {
+        return monsterPicture;
     }
 
-    public void setTeamIndex(int teamIndex) {
-        this.teamIndex = teamIndex;
+    public void setMonsterPicture(int monsterPicture) {
+        this.monsterPicture = monsterPicture;
     }
 
     public int getTPA() {
@@ -478,7 +486,6 @@ public class Monster extends Model implements Parcelable {
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
         isBound = source.readByte() == 1;
-        teamIndex = source.readInt();
     }
 
     @Override
@@ -516,7 +523,6 @@ public class Monster extends Model implements Parcelable {
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
         dest.writeByte((byte) (isBound ? 1 : 0));
-        dest.writeInt(teamIndex);
     }
 
     public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {
@@ -531,7 +537,7 @@ public class Monster extends Model implements Parcelable {
 
 
     public static List<Monster> getAllMonsters() {
-        return new Select().from(Monster.class).orderBy("teamIndex ASC").execute();
+        return new Select().from(Monster.class).execute();
     }
 
     public static void deleteAllMonsters() {

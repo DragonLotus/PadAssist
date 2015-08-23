@@ -128,16 +128,7 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        team.save();
-//        team.saveMonsters();
-//        team.save();
-//        if(team.getMonsters() != null){
-//            Log.d("Monsters", "is not null");
-//            Log.d("Total Plusses", "" + team.getMonsters(0).getTotalPlus());
-//        }
-//        for(int i = 0; i < monsters.size(); i++) {
-//            monsters.get(i).save();
-//        }
+
     }
 
     @Override
@@ -208,7 +199,6 @@ public class MonsterListFragment extends Fragment {
                 monsters.add(monster6);
 
                 for (int i = 0; i < monsters.size(); i++) {
-                    monsters.get(i).setTeamIndex(i);
                     monsters.get(i).save();
                 }
 

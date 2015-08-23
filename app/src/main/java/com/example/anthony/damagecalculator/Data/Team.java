@@ -238,12 +238,6 @@ public class Team extends Model implements Parcelable {
         this.helper = helper;
     }
 
-    public void saveMonsters(){
-        for (int i = 0; i < getMonsters().size(); i++){
-            getMonsters().get(i).setTeamIndex(i);
-            getMonsters().get(i).save();
-        }
-    }
     public int getOrbPlusAwakenings(Element element) {
         if (element.equals(Element.RED)){
             return orbPlusAwakenings.get(0);
