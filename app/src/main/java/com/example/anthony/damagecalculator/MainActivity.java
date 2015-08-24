@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.widget.FrameLayout;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
@@ -45,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
     private Fragment mContent;
     private Enemy enemy;
     private Team team;
+    private Monster monster;
     private TeamSaveDialogFragment teamSaveDialogFragment;
 
     @Override
@@ -72,8 +75,36 @@ public class MainActivity extends ActionBarActivity {
 //      mViewPager.setAdapter(mSectionsPagerAdapter);
         enemy = new Enemy();
         team = new Team();
-        //switchFragment(MonsterListFragment.newInstance("1", "2"), MonsterListFragment.TAG);
+        if(Monster.getMonsterId(-1) == null){
+            monster = new Monster();
+            monster.setName("Empty");
+            monster.setMaxLevel(0);
+            monster.setHpPlus(0);
+            monster.setAtkPlus(0);
+            monster.setRcvPlus(0);
+            monster.setHpMax(0);
+            monster.setAtkMax(0);
+            monster.setRcvMax(0);
+            monster.setHpMin(0);
+            monster.setAtkMin(0);
+            monster.setRcvMin(0);
+            monster.setHpScale(0);
+            monster.setAtkScale(0);
+            monster.setRcvScale(0);
+            monster.setCurrentAwakenings(0);
+            monster.setMaxAwakenings(0);
+            monster.setType1(-1);
+            monster.setElement1(Element.BLANK);
+            monster.setIsBound(false);
+            monster.setMonsterId(-1);
+            monster.setCurrentLevel(0);
+            monster.setMonsterPicture(R.drawable.monster_blank);
+            monster.setTeamId(-1);
+            monster.save();
+        }
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
+
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         // Get the Default External Cache Directory
         File httpCacheDir = getExternalCacheDir();
@@ -98,10 +129,19 @@ public class MainActivity extends ActionBarActivity {
         getSupportFragmentManager().putFragment(outState, "mContent", mContent);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        menu.setGroupVisible(R.id.saveTeamGroup, false);
+//        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
+//        Log.d("What is fragment", "" + fragment);
+//        if(fragment instanceof MonsterListFragment){
+//            menu.setGroupVisible(R.id.saveTeamGroup, true);
+//        }else {
+//            menu.setGroupVisible(R.id.saveTeamGroup, false);
+//        }
         return true;
     }
 
@@ -115,8 +155,8 @@ public class MainActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id == R.id.saveTeam){
-            if(teamSaveDialogFragment == null){
+        } else if (id == R.id.saveTeam) {
+            if (teamSaveDialogFragment == null) {
                 teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
             }
             teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
@@ -128,12 +168,14 @@ public class MainActivity extends ActionBarActivity {
     private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
         @Override
         public void overwriteTeam() {
+            //Need to save Team name to overwrite
             team.save();
         }
 
         @Override
-        public void saveNewTeam() {
-            teamSaveDialogFragment.dismiss();
+        public void saveNewTeam(String teamName) {
+            team.setTeamName(teamName);
+            team.save();
         }
     };
 
@@ -238,7 +280,6 @@ public class MainActivity extends ActionBarActivity {
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.pager, fragment, tag);
         transaction.addToBackStack(null).commit();
-
     }
 
     @Override

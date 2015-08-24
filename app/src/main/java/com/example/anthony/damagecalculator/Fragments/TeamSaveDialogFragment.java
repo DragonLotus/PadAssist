@@ -13,9 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
@@ -24,10 +26,11 @@ public class TeamSaveDialogFragment extends DialogFragment {
     private RadioGroup choiceRadioGroup;
     private EditText teamName;
     private SaveTeam saveTeam;
+    private Toast toast;
 
     public interface SaveTeam {
         public void overwriteTeam();
-        public void saveNewTeam();
+        public void saveNewTeam(String teamName);
     }
 
     public static TeamSaveDialogFragment newInstance(SaveTeam saveTeam){
@@ -51,11 +54,6 @@ public class TeamSaveDialogFragment extends DialogFragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        if(choiceRadioGroup.getCheckedRadioButtonId() == R.id.overwriteTeam){
-                            saveTeam.overwriteTeam();
-                        }else if(choiceRadioGroup.getCheckedRadioButtonId() == R.id.newTeam){
-                            saveTeam.saveNewTeam();
-                        }
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -64,6 +62,36 @@ public class TeamSaveDialogFragment extends DialogFragment {
                     }
                 });
         return builder.create();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        AlertDialog dialog = (AlertDialog) getDialog();
+        if(dialog != null){
+            Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    if(choiceRadioGroup.getCheckedRadioButtonId() == R.id.overwriteTeam){
+                        saveTeam.overwriteTeam();
+                        dismiss();
+                    }else if(choiceRadioGroup.getCheckedRadioButtonId() == R.id.newTeam){
+                        if(!teamName.getText().toString().equals("")){
+                            Log.d("Team Name", "" + teamName.getText());
+                            saveTeam.saveNewTeam(teamName.getText().toString());
+                            dismiss();
+                        }else {
+                            if (toast != null) {
+                                toast.cancel();
+                            }
+                            toast = Toast.makeText(getActivity(), "Please enter a team name", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+                }
+            });
+        }
     }
 
     @Override

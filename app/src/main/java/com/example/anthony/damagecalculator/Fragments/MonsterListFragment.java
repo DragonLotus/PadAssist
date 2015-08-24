@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -78,6 +80,7 @@ public class MonsterListFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -119,6 +122,12 @@ public class MonsterListFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.setGroupVisible(R.id.saveTeamGroup, true);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d("SavedInstanceState1", "SavedInstanceState: " + outState);
@@ -142,7 +151,7 @@ public class MonsterListFragment extends Fragment {
         if (savedInstanceState != null) {
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         } else {
-            monsters = (ArrayList) Monster.getAllMonsters();
+            monsters = (ArrayList) Monster.getTeamMonsters();
             Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters);
             if (monsters == null || monsters.size() == 0) {
                 monsters = new ArrayList<Monster>();
@@ -199,14 +208,15 @@ public class MonsterListFragment extends Fragment {
                 monsters.add(monster6);
 
                 for (int i = 0; i < monsters.size(); i++) {
+                    monsters.get(i).setTeamId(i);
                     monsters.get(i).save();
                 }
-
                 Log.d("Is monsters null 3", "" + monsters);
             }
             for (int i = 0; i < monsters.size(); i++) {
                 Log.d("Monster name", "" + monsters.get(i).getName());
                 Log.d("Monster id", "" + monsters.get(i).getMonsterId());
+                Log.d("Team id", "" + monsters.get(i).getTeamId());
             }
             Log.d("Is monsters null 1", "" + monsters);
         }
@@ -244,13 +254,13 @@ public class MonsterListFragment extends Fragment {
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(team.getMonsters(position)), MonsterPageFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(monsters.get(position)), MonsterPageFragment.TAG);
         }
     };
 
     public void updateTeam() {
         Log.d("What is monster id 0", "" + Monster.getMonsterId(monsters.get(0).getMonsterId()));
-        team.setMonsters(Monster.getMonsterId(monsters.get(0).getMonsterId()), Monster.getMonsterId(monsters.get(1).getMonsterId()), Monster.getMonsterId(monsters.get(2).getMonsterId()), Monster.getMonsterId(monsters.get(3).getMonsterId()), Monster.getMonsterId(monsters.get(4).getMonsterId()), Monster.getMonsterId(monsters.get(5).getMonsterId()));
+        team.setMonsters(Monster.getTeamMonster(monsters.get(0).getTeamId()), Monster.getTeamMonster(monsters.get(1).getTeamId()), Monster.getTeamMonster(monsters.get(2).getTeamId()), Monster.getTeamMonster(monsters.get(3).getTeamId()), Monster.getTeamMonster(monsters.get(4).getTeamId()), Monster.getTeamMonster(monsters.get(5).getTeamId()));
         Log.d("Is monsters null team", "" + team.getMonsters());
         team.update();
         team.setTeamId(1);

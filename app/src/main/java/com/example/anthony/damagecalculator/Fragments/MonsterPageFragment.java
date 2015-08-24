@@ -40,6 +40,7 @@ public class MonsterPageFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
+    private int teamId;
     private View rootView;
     private OnFragmentInteractionListener mListener;
     private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue;
@@ -185,6 +186,7 @@ public class MonsterPageFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        teamId = monster.getTeamId();
         monsterPicture.setImageResource(monster.getMonsterPicture());
         monsterName.setText(monster.getName());
         initializeEditTexts();
@@ -444,35 +446,19 @@ public class MonsterPageFragment extends Fragment {
 
         @Override
         public void removeMonsterTeam() {
-            monster.setName("Empty");
-            monster.setMaxLevel(0);
-            monster.setHpPlus(0);
-            monster.setAtkPlus(0);
-            monster.setRcvPlus(0);
-            monster.setHpMax(0);
-            monster.setAtkMax(0);
-            monster.setRcvMax(0);
-            monster.setHpMin(0);
-            monster.setAtkMin(0);
-            monster.setRcvMin(0);
-            monster.setHpScale(0);
-            monster.setAtkScale(0);
-            monster.setRcvScale(0);
-            monster.setCurrentAwakenings(0);
-            monster.setMaxAwakenings(0);
-            monster.setType1(-1);
-            monster.setElement1(Element.BLANK);
-            monster.setIsBound(false);
-            monster.setMonsterId(-1);
-            monster.setCurrentLevel(0);
+            Log.d("Team Id", "" + monster.getTeamId());
+            Log.d("Team Id Frag", "" + teamId);
+            monster = Monster.getMonsterId(-1);
+            monster.setTeamId(teamId);
+            Log.d("Team Id Frag2", "" + teamId);
+            Log.d("Team Id2", "" + monster.getTeamId());
             monsterName.setText(monster.getName());
-            monster.setMonsterPicture(R.drawable.monster_blank);
             monsterPicture.setImageResource(monster.getMonsterPicture());
             setTextViewValues();
             initializeEditTexts();
             showAwakenings();
             monsterRemoveDialogFragment.dismiss();
-            getChildFragmentManager().popBackStack();
+            //getChildFragmentManager().popBackStack();
         }
     };
 

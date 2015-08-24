@@ -83,6 +83,8 @@ public class Monster extends Model implements Parcelable {
     private boolean isBound;
     @Column(name = "monsterPicture")
     private int monsterPicture = R.drawable.monster_1218;
+    @Column(name = "teamId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+            private int teamId;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public Monster() {
@@ -447,6 +449,14 @@ public class Monster extends Model implements Parcelable {
         this.monsterPicture = monsterPicture;
     }
 
+    public int getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
+
     public int getTPA() {
         int numOfDoubleProngs = 0;
         for (int i = 0; i < currentAwakenings; i++) {
@@ -486,6 +496,7 @@ public class Monster extends Model implements Parcelable {
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
         isBound = source.readByte() == 1;
+        teamId = source.readInt();
     }
 
     @Override
@@ -523,6 +534,7 @@ public class Monster extends Model implements Parcelable {
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
         dest.writeByte((byte) (isBound ? 1 : 0));
+        dest.writeInt(teamId);
     }
 
     public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {
@@ -550,6 +562,14 @@ public class Monster extends Model implements Parcelable {
 
     public static Monster getMonsterId(int id){
         return new Select().from(Monster.class).where("monsterId = ?", id).executeSingle();
+    }
+
+    public static List<Monster> getTeamMonsters(){
+        return new Select().from(Monster.class).where("teamId > ?", -1).execute();
+    }
+
+    public static Monster getTeamMonster(int teamId){
+        return new Select().from(Monster.class).where("teamId = ?", teamId).executeSingle();
     }
 //
 //    public static List<Monster> getMonsterAtkMax(int attack){
