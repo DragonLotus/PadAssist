@@ -79,7 +79,11 @@ public class MainActivity extends ActionBarActivity {
 //        }else{
 //            team = Team.getTeamById(0);
 //        }
-        team = new Team();
+        if(Team.getAllTeams().size() == 0) {
+            team = new Team();
+        } else {
+            team = Team.getAllTeams().get(0);
+        }
 
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
@@ -158,6 +162,7 @@ public class MainActivity extends ActionBarActivity {
             newTeam.setTeamName(teamName);
             newTeam.setTeamId(Team.getAllTeams().size() + 1);
             for(Monster monster: newTeam.getMonsters()) {
+                Log.d("Monster", "MonsterPlus:" + monster.getTotalPlus());
                 monster.save();
             }
             newTeam.save();

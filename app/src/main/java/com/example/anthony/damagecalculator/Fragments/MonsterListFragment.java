@@ -376,7 +376,7 @@ public class MonsterListFragment extends Fragment {
                 Log.d("Monster name", "" + monsters.get(i).getName());
                 Log.d("Monster id", "" + monsters.get(i).getMonsterId());
             }
-            updateTeam();
+//            updateTeam();
         }
         Log.d("Is monsters null 2", "" + monsters);
         monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
