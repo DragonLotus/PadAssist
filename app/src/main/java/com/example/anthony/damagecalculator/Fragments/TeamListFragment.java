@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +49,7 @@ public class TeamListFragment extends Fragment {
     private Boolean loggedIn=false;
     private TextView savedTeams;
     private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
+    private TeamLoadDialogFragment teamLoadDialogFragment = new TeamLoadDialogFragment();
 
     private OnFragmentInteractionListener mListener;
 
@@ -110,6 +112,7 @@ public class TeamListFragment extends Fragment {
         teamListAdapter = new TeamListAdapter(getActivity(), R.layout.team_list_row, teams);
         teamListView.setAdapter(teamListAdapter);
         importButton.setOnClickListener(buttonOnClickListener);
+        teamListView.setOnItemClickListener(teamListOnClickListener);
     }
 
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
@@ -132,6 +135,23 @@ public class TeamListFragment extends Fragment {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+    private ListView.OnItemClickListener teamListOnClickListener = new ListView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (teamLoadDialogFragment == null) {
+                teamLoadDialogFragment = teamLoadDialogFragment.newInstance(loadTeam);
+            }
+            teamLoadDialogFragment.show(getSupportFragmentManager(), "Show Team Load dialog");
+        }
+    };
+
+    private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam(){
+        @Override
+        public void loadTeam() {
+            teamListView.getChildAt(0);
+        }
+    };
 
     @Override
     public void onDetach() {

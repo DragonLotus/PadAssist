@@ -40,7 +40,6 @@ public class MonsterPageFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private int teamId;
     private View rootView;
     private OnFragmentInteractionListener mListener;
     private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue;
@@ -186,7 +185,6 @@ public class MonsterPageFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        teamId = monster.getTeamId();
         monsterPicture.setImageResource(monster.getMonsterPicture());
         monsterName.setText(monster.getName());
         initializeEditTexts();
@@ -446,19 +444,15 @@ public class MonsterPageFragment extends Fragment {
 
         @Override
         public void removeMonsterTeam() {
-            Log.d("Team Id", "" + monster.getTeamId());
-            Log.d("Team Id Frag", "" + teamId);
-            monster = Monster.getMonsterId(-1);
-            monster.setTeamId(teamId);
-            Log.d("Team Id Frag2", "" + teamId);
-            Log.d("Team Id2", "" + monster.getTeamId());
+            monster = Monster.getMonsterId(0);
             monsterName.setText(monster.getName());
             monsterPicture.setImageResource(monster.getMonsterPicture());
             setTextViewValues();
             initializeEditTexts();
             showAwakenings();
             monsterRemoveDialogFragment.dismiss();
-            //getChildFragmentManager().popBackStack();
+//            getChildFragmentManager().popBackStack();
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 

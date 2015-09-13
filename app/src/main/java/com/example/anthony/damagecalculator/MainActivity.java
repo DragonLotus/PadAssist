@@ -25,6 +25,7 @@ import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -47,7 +48,6 @@ public class MainActivity extends ActionBarActivity {
     private Fragment mContent;
     private Enemy enemy;
     private Team team;
-    private Monster monster;
     private TeamSaveDialogFragment teamSaveDialogFragment;
 
     @Override
@@ -74,34 +74,13 @@ public class MainActivity extends ActionBarActivity {
 //      mViewPager = (ViewPager) findViewById(R.id.pager);
 //      mViewPager.setAdapter(mSectionsPagerAdapter);
         enemy = new Enemy();
+//        if (Team.getTeamById(0) == null){
+//            team = new Team();
+//        }else{
+//            team = Team.getTeamById(0);
+//        }
         team = new Team();
-        if(Monster.getMonsterId(-1) == null){
-            monster = new Monster();
-            monster.setName("Empty");
-            monster.setMaxLevel(0);
-            monster.setHpPlus(0);
-            monster.setAtkPlus(0);
-            monster.setRcvPlus(0);
-            monster.setHpMax(0);
-            monster.setAtkMax(0);
-            monster.setRcvMax(0);
-            monster.setHpMin(0);
-            monster.setAtkMin(0);
-            monster.setRcvMin(0);
-            monster.setHpScale(0);
-            monster.setAtkScale(0);
-            monster.setRcvScale(0);
-            monster.setCurrentAwakenings(0);
-            monster.setMaxAwakenings(0);
-            monster.setType1(-1);
-            monster.setElement1(Element.BLANK);
-            monster.setIsBound(false);
-            monster.setMonsterId(-1);
-            monster.setCurrentLevel(0);
-            monster.setMonsterPicture(R.drawable.monster_blank);
-            monster.setTeamId(-1);
-            monster.save();
-        }
+
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -175,6 +154,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void saveNewTeam(String teamName) {
             team.setTeamName(teamName);
+            team.setTeamId(Team.getAllTeams().size() + 1);
             team.save();
         }
     };

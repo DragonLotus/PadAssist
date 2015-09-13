@@ -2,6 +2,7 @@ package com.example.anthony.damagecalculator.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -23,7 +24,8 @@ public class Monster extends Model implements Parcelable {
     public static final int HP_MULTIPLIER = 10;
     public static final int ATK_MULTIPLIER = 5;
     public static final int RCV_MULTIPLIER = 3;
-    @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.IGNORE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
+    @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
+    //@Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private int monsterId;
     @Column(name = "atkMax")
     private int atkMax;
@@ -60,7 +62,7 @@ public class Monster extends Model implements Parcelable {
     @Column(name = "element2")
     private Element element2;
     @Column(name = "awokenSkills")
-    private ArrayList<Integer> awokenSkills = new ArrayList<Integer>();
+    private ArrayList<Integer> awokenSkills = new ArrayList<>();
     @Column(name = "activeSkill")
     private String activeSkill;
     @Column(name = "leaderSkill")
@@ -82,42 +84,35 @@ public class Monster extends Model implements Parcelable {
     @Column(name = "isBound")
     private boolean isBound;
     @Column(name = "monsterPicture")
-    private int monsterPicture = R.drawable.monster_1218;
-    @Column(name = "teamId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-            private int teamId;
+    private int monsterPicture;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public Monster() {
         currentLevel = 1;
-        atkMax = 1370;
-        atkMin = 913;
-        hpMin = 1271;
-        hpMax = 3528;
-        rcvMin = 256;
-        rcvMax = 384;
-        maxLevel = 99;
-        atkScale = 1;
-        rcvScale = 1;
-        hpScale = 1;
-        maxAwakenings = 7;
-        hpPlus = 99;
-        atkPlus = 99;
-        rcvPlus = 99;
-        currentHp = DamageCalculationUtil.monsterStatCalc(hpMin, hpMax, currentLevel, maxLevel, hpScale);
-        currentAtk = DamageCalculationUtil.monsterStatCalc(atkMin, atkMax, currentLevel, maxLevel, atkScale);
-        currentRcv = DamageCalculationUtil.monsterStatCalc(rcvMin, rcvMax, currentLevel, maxLevel, rcvScale);
-        currentAwakenings = 7;
-        element1 = Element.LIGHT;
-        element2 = Element.LIGHT;
+        monsterId = 0;
+        monsterPicture = R.drawable.monster_blank;
+        atkMax = 0;
+        atkMin = 0;
+        hpMin = 0;
+        hpMax = 0;
+        rcvMin = 0;
+        rcvMax = 0;
+        maxLevel = 0;
+        atkScale = 0;
+        rcvScale = 0;
+        hpScale = 0;
+        maxAwakenings = 0;
+        hpPlus = 0;
+        atkPlus = 0;
+        rcvPlus = 0;
+        currentHp = 0;
+        currentAtk = 0;
+        currentRcv = 0;
+        currentAwakenings = 0;
+        element1 = Element.BLANK;
+        element2 = Element.BLANK;
         isBound = false;
-        name = "Kirin of the Sacred Gleam, Sakuya";
-        awokenSkills.add(17);
-        awokenSkills.add(12);
-        awokenSkills.add(11);
-        awokenSkills.add(28);
-        awokenSkills.add(17);
-        awokenSkills.add(21);
-        awokenSkills.add(19);
+        name = "Empty";
 
     }
 
@@ -284,7 +279,7 @@ public class Monster extends Model implements Parcelable {
 
     public void setType1(int type1) {
         this.type1 = type1;
-        if(type1 == -1){
+        if (type1 == -1) {
             this.type2 = type1;
         }
     }
@@ -303,7 +298,7 @@ public class Monster extends Model implements Parcelable {
 
     public void setElement1(Element element1) {
         this.element1 = element1;
-        if(element1.equals(Element.BLANK)){
+        if (element1.equals(Element.BLANK)) {
             this.element2 = element1;
         }
     }
@@ -320,12 +315,17 @@ public class Monster extends Model implements Parcelable {
         return awokenSkills;
     }
 
-    public int getAwokenSkils(int position) {
+    public int getAwokenSkills(int position) {
+        Log.d("Awakening List", "" + awokenSkills);
         return awokenSkills.get(position);
     }
 
     public void setAwokenSkills(ArrayList<Integer> awokenSkills) {
         this.awokenSkills = awokenSkills;
+    }
+
+    public void addAwokenSkills(int Awakening){
+        awokenSkills.add(Awakening);
     }
 
     public String getActiveSkill() {
@@ -404,7 +404,7 @@ public class Monster extends Model implements Parcelable {
         this.rcvPlus = rcvPlus;
     }
 
-    public int getTotalPlus(){
+    public int getTotalPlus() {
         return hpPlus + atkPlus + rcvPlus;
     }
 
@@ -449,14 +449,6 @@ public class Monster extends Model implements Parcelable {
         this.monsterPicture = monsterPicture;
     }
 
-    public int getTeamId() {
-        return teamId;
-    }
-
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
-    }
-
     public int getTPA() {
         int numOfDoubleProngs = 0;
         for (int i = 0; i < currentAwakenings; i++) {
@@ -496,7 +488,6 @@ public class Monster extends Model implements Parcelable {
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
         isBound = source.readByte() == 1;
-        teamId = source.readInt();
     }
 
     @Override
@@ -534,7 +525,6 @@ public class Monster extends Model implements Parcelable {
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
         dest.writeByte((byte) (isBound ? 1 : 0));
-        dest.writeInt(teamId);
     }
 
     public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {
@@ -560,16 +550,8 @@ public class Monster extends Model implements Parcelable {
         return new Select().from(Monster.class).where("currentLevel = ?", level).execute();
     }
 
-    public static Monster getMonsterId(int id){
+    public static Monster getMonsterId(int id) {
         return new Select().from(Monster.class).where("monsterId = ?", id).executeSingle();
-    }
-
-    public static List<Monster> getTeamMonsters(){
-        return new Select().from(Monster.class).where("teamId > ?", -1).execute();
-    }
-
-    public static Monster getTeamMonster(int teamId){
-        return new Select().from(Monster.class).where("teamId = ?", teamId).executeSingle();
     }
 //
 //    public static List<Monster> getMonsterAtkMax(int attack){

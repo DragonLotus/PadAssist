@@ -147,56 +147,188 @@ public class MonsterListFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+
         Log.d("SavedInstanceState2", "SavedInstanceState: " + savedInstanceState);
         if (savedInstanceState != null) {
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         } else {
-            monsters = (ArrayList) Monster.getTeamMonsters();
-            Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters);
-            if (monsters == null || monsters.size() == 0) {
+            monsters = team.getMonsters();
+            Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters + " " + team.getLead());
+            if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
                 monsters = new ArrayList<Monster>();
+                Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters);
                 Monster monster1 = new Monster();
                 monster1.setMonsterId(1);
+                monster1.setMonsterPicture(R.drawable.monster_1218);
                 monster1.setName("Kirin of the Sacred Gleam, Sakuya #1");
+                monster1.setMaxLevel(99);
+                monster1.setAtkMax(1370);
+                monster1.setAtkMin(913);
+                monster1.setHpMax(3528);
+                monster1.setHpMin(1271);
+                monster1.setRcvMax(384);
+                monster1.setRcvMin(256);
+                monster1.setAtkScale(1);
+                monster1.setHpScale(1);
+                monster1.setRcvScale(1);
+                monster1.setMaxAwakenings(7);
+                monster1.setElement1(Element.LIGHT);
                 monster1.setElement2(Element.RED);
-                monster1.setHpPlus(0);
-                monster1.setAtkPlus(0);
-                monster1.setRcvPlus(0);
+                monster1.addAwokenSkills(17);
+                monster1.addAwokenSkills(12);
+                monster1.addAwokenSkills(11);
+                monster1.addAwokenSkills(28);
+                monster1.addAwokenSkills(17);
+                monster1.addAwokenSkills(21);
+                monster1.addAwokenSkills(19);
+                monster1.setHpPlus(11);
+                monster1.setAtkPlus(11);
+                monster1.setRcvPlus(11);
+                monster1.setCurrentLevel(1);
                 monster1.setCurrentAwakenings(1);
                 Monster monster2 = new Monster();
                 monster2.setMonsterId(2);
+                monster2.setMonsterPicture(R.drawable.monster_1218);
                 monster2.setName("Kirin of the Sacred Gleam, Sakuya #2");
+                monster2.setMaxLevel(99);
+                monster2.setAtkMax(1370);
+                monster2.setAtkMin(913);
+                monster2.setHpMax(3528);
+                monster2.setHpMin(1271);
+                monster2.setRcvMax(384);
+                monster2.setRcvMin(256);
+                monster2.setAtkScale(1);
+                monster2.setHpScale(1);
+                monster2.setRcvScale(1);
+                monster2.setMaxAwakenings(7);
+                monster2.setElement1(Element.LIGHT);
                 monster2.setElement2(Element.BLUE);
+                monster2.addAwokenSkills(17);
+                monster2.addAwokenSkills(12);
+                monster2.addAwokenSkills(11);
+                monster2.addAwokenSkills(28);
+                monster2.addAwokenSkills(17);
+                monster2.addAwokenSkills(21);
+                monster2.addAwokenSkills(19);
                 monster2.setHpPlus(22);
                 monster2.setAtkPlus(22);
                 monster2.setRcvPlus(22);
+                monster2.setCurrentLevel(22);
                 monster2.setCurrentAwakenings(2);
                 Monster monster3 = new Monster();
                 monster3.setMonsterId(3);
+                monster3.setMonsterPicture(R.drawable.monster_1218);
                 monster3.setName("Kirin of the Sacred Gleam, Sakuya #3");
+                monster3.setMaxLevel(99);
+                monster3.setAtkMax(1370);
+                monster3.setAtkMin(913);
+                monster3.setHpMax(3528);
+                monster3.setHpMin(1271);
+                monster3.setRcvMax(384);
+                monster3.setRcvMin(256);
+                monster3.setAtkScale(1);
+                monster3.setHpScale(1);
+                monster3.setRcvScale(1);
+                monster3.setMaxAwakenings(7);
+                monster3.setElement1(Element.LIGHT);
                 monster3.setElement2(Element.GREEN);
+                monster3.addAwokenSkills(17);
+                monster3.addAwokenSkills(12);
+                monster3.addAwokenSkills(11);
+                monster3.addAwokenSkills(28);
+                monster3.addAwokenSkills(17);
+                monster3.addAwokenSkills(21);
+                monster3.addAwokenSkills(19);
                 monster3.setHpPlus(33);
                 monster3.setAtkPlus(33);
                 monster3.setRcvPlus(33);
+                monster3.setCurrentLevel(33);
                 monster3.setCurrentAwakenings(3);
                 Monster monster4 = new Monster();
                 monster4.setMonsterId(4);
+                monster4.setMonsterPicture(R.drawable.monster_1218);
                 monster4.setName("Kirin of the Sacred Gleam, Sakuya #4");
+                monster4.setMaxLevel(99);
+                monster4.setAtkMax(1370);
+                monster4.setAtkMin(913);
+                monster4.setHpMax(3528);
+                monster4.setHpMin(1271);
+                monster4.setRcvMax(384);
+                monster4.setRcvMin(256);
+                monster4.setAtkScale(1);
+                monster4.setHpScale(1);
+                monster4.setRcvScale(1);
+                monster4.setMaxAwakenings(7);
+                monster4.setElement1(Element.LIGHT);
                 monster4.setElement2(Element.DARK);
+                monster4.addAwokenSkills(17);
+                monster4.addAwokenSkills(12);
+                monster4.addAwokenSkills(11);
+                monster4.addAwokenSkills(28);
+                monster4.addAwokenSkills(17);
+                monster4.addAwokenSkills(21);
+                monster4.addAwokenSkills(19);
                 monster4.setHpPlus(44);
                 monster4.setAtkPlus(44);
                 monster4.setRcvPlus(44);
+                monster4.setCurrentLevel(44);
                 monster4.setCurrentAwakenings(4);
                 Monster monster5 = new Monster();
                 monster5.setMonsterId(5);
+                monster5.setMonsterPicture(R.drawable.monster_1218);
                 monster5.setName("Kirin of the Sacred Gleam, Sakuya #5");
+                monster5.setMaxLevel(99);
+                monster5.setAtkMax(1370);
+                monster5.setAtkMin(913);
+                monster5.setHpMax(3528);
+                monster5.setHpMin(1271);
+                monster5.setRcvMax(384);
+                monster5.setRcvMin(256);
+                monster5.setAtkScale(1);
+                monster5.setHpScale(1);
+                monster5.setRcvScale(1);
+                monster5.setMaxAwakenings(7);
+                monster5.setElement1(Element.LIGHT);
+                monster5.setElement2(Element.DARK);
+                monster5.addAwokenSkills(17);
+                monster5.addAwokenSkills(12);
+                monster5.addAwokenSkills(11);
+                monster5.addAwokenSkills(28);
+                monster5.addAwokenSkills(17);
+                monster5.addAwokenSkills(21);
+                monster5.addAwokenSkills(19);
                 monster5.setHpPlus(55);
                 monster5.setAtkPlus(55);
                 monster5.setRcvPlus(55);
+                monster5.setCurrentLevel(55);
                 monster5.setCurrentAwakenings(5);
                 Monster monster6 = new Monster();
                 monster6.setMonsterId(6);
+                monster6.setMonsterPicture(R.drawable.monster_1218);
                 monster6.setName("Kirin of the Sacred Gleam, Sakuya #6");
+                monster6.setMaxLevel(99);
+                monster6.setAtkMax(1370);
+                monster6.setAtkMin(913);
+                monster6.setHpMax(3528);
+                monster6.setHpMin(1271);
+                monster6.setRcvMax(384);
+                monster6.setRcvMin(256);
+                monster6.setAtkScale(1);
+                monster6.setHpScale(1);
+                monster6.setRcvScale(1);
+                monster6.setMaxAwakenings(7);
+                monster6.setElement1(Element.LIGHT);
+                monster6.setElement2(Element.DARK);
+                monster6.addAwokenSkills(17);
+                monster6.addAwokenSkills(12);
+                monster6.addAwokenSkills(11);
+                monster6.addAwokenSkills(28);
+                monster6.addAwokenSkills(17);
+                monster6.addAwokenSkills(21);
+                monster6.addAwokenSkills(19);
+                monster6.setHpPlus(99);
+                monster6.setAtkPlus(99);
+                monster6.setRcvPlus(99);
                 monster6.setCurrentLevel(99);
                 monster6.setCurrentAwakenings(7);
 
@@ -207,21 +339,29 @@ public class MonsterListFragment extends Fragment {
                 monsters.add(monster5);
                 monsters.add(monster6);
 
+                //team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
+
                 for (int i = 0; i < monsters.size(); i++) {
-                    monsters.get(i).setTeamId(i);
                     monsters.get(i).save();
+                    Log.d("Awakening List3", "" + monsters.get(i).getAwokenSkills());
                 }
                 Log.d("Is monsters null 3", "" + monsters);
             }
             for (int i = 0; i < monsters.size(); i++) {
                 Log.d("Monster name", "" + monsters.get(i).getName());
                 Log.d("Monster id", "" + monsters.get(i).getMonsterId());
-                Log.d("Team id", "" + monsters.get(i).getTeamId());
             }
             Log.d("Is monsters null 1", "" + monsters);
         }
+
+        Log.d("Is monsters null 4", "" + monsters);
         Log.d("monster attack", "" + monsters.get(0).getTotalAtk());
+        Log.d("Awakening List2", "" + monsters.get(0).getAwokenSkills());
         if (monsters != null) {
+            for (int i = 0; i < monsters.size(); i++) {
+                Log.d("Monster name", "" + monsters.get(i).getName());
+                Log.d("Monster id", "" + monsters.get(i).getMonsterId());
+            }
             updateTeam();
         }
         Log.d("Is monsters null 2", "" + monsters);
@@ -260,9 +400,18 @@ public class MonsterListFragment extends Fragment {
 
     public void updateTeam() {
         Log.d("What is monster id 0", "" + Monster.getMonsterId(monsters.get(0).getMonsterId()));
-        team.setMonsters(Monster.getTeamMonster(monsters.get(0).getTeamId()), Monster.getTeamMonster(monsters.get(1).getTeamId()), Monster.getTeamMonster(monsters.get(2).getTeamId()), Monster.getTeamMonster(monsters.get(3).getTeamId()), Monster.getTeamMonster(monsters.get(4).getTeamId()), Monster.getTeamMonster(monsters.get(5).getTeamId()));
+        Log.d("Monsters update team", "" + monsters);
+        Log.d("Is monsters null team2", "" + team.getMonsters());
+        team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
         Log.d("Is monsters null team", "" + team.getMonsters());
+        Log.d("Monsters update team", "" + monsters);
+        Log.d("Lead", "" + team.getLead());
+        Log.d("sub1", "" + team.getSub1());
+        Log.d("sub2", "" + team.getSub2());
+        Log.d("sub3", "" + team.getSub3());
+        Log.d("sub4", "" + team.getSub4());
+        Log.d("helper", "" + team.getHelper());
         team.update();
-        team.setTeamId(1);
+        team.save();
     }
 }

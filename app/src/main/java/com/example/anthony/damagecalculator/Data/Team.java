@@ -2,6 +2,7 @@ package com.example.anthony.damagecalculator.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -25,19 +26,18 @@ public class Team extends Model implements Parcelable {
     private ArrayList<Integer> rowAwakenings= new ArrayList<Integer>();
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
     private ArrayList<Monster> monsters;
-    @Column(name = "lead", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    @Column(name = "lead")
     private Monster lead;
-    @Column(name = "sub1", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    @Column(name = "sub1")
     private Monster sub1;
-    @Column(name = "sub2", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    @Column(name = "sub2")
     private Monster sub2;
-    @Column(name = "sub3", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    @Column(name = "sub3")
     private Monster sub3;
-    @Column(name = "sub4", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    @Column(name = "sub4")
     private Monster sub4;
-    @Column(name = "helper", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+    @Column(name = "helper")
     private Monster helper;
-
     private ArrayList<OrbMatch> orbMatches;
     @Column(name = "teamName")
     private String teamName;
@@ -49,6 +49,8 @@ public class Team extends Model implements Parcelable {
     @Column(name = "favorite")
     private Boolean favorite;
     private Boolean hasAwakenings;
+
+    public boolean update;
 
     public Team() {
         teamId = 0;
@@ -93,7 +95,7 @@ public class Team extends Model implements Parcelable {
     }
 
     public ArrayList<Monster> getMonsters() {
-        if(monsters == null) {
+        if(monsters == null || monsters.contains(null)) {
             monsters = new ArrayList<>();
             monsters.add(lead);
             monsters.add(sub1);
@@ -277,6 +279,9 @@ public class Team extends Model implements Parcelable {
     public void update() {
         //Case Switch thing for each color. 5 elements for 5 colors. 0 red, 1 blue, 2 green, 3 light, 4 dark
         //Check for monster bound
+        for(int i = 0; i < getMonsters().size(); i++) {
+            Log.d("What are monsters", "Monsters: " + getMonsters().get(i) + " " + monsters.get(i));
+        }
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
         for(int i = 0; i < 5; i++){
@@ -286,7 +291,8 @@ public class Team extends Model implements Parcelable {
         for (int i = 0; i < getMonsters().size(); i++) {
             if (!getMonsters().get(i).isBound() && hasAwakenings) {
                 for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++){
-                    int awokenSkill = getMonsters().get(i).getAwokenSkils(j);
+                    Log.d("Awakening List", "Monster: " + getMonsters(i) + " List: " + getMonsters(i).getAwokenSkills());
+                    int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
                     switch (awokenSkill){
                         case 14:
                             orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
@@ -369,7 +375,12 @@ public class Team extends Model implements Parcelable {
     };
 
     public static List<Team> getAllTeams() {
-        return new Select().from(Team.class).execute();
+        return new Select().from(Team.class).where("teamId > ?", 0).execute();
+    }
+
+
+    public static Team getTeamById(int id) {
+        return new Select().from(Team.class).where("teamId = ?", id).executeSingle();
     }
 
     public static void deleteAllTeams() {

@@ -1,0 +1,19 @@
+Put Monsters into sub1-4 or lead/helper
+*everytime one of those monsters is updated update the ArrayList of Monster in Team
+*call to getMonster should return an Array of 6 monsters since the array is based on the 4 subs or lead/helper of team Object.
+*If array is Null populate the array with the subs1-4 and lead/helper from teamObject*
+
+remove:
+call blank constructor of monster which should initialize the empty monster
+the new monster should be placed in the old position of the monster i.e. sub1-4 or leader/helper
+Team.update should be called to update the getMonsters arraylist.
+Team update could either set a boolean flag that forces getMonsters to update the arraylist whenever it's called or go through and update it everytime update is called without the need for a flag.
+if flag is used the flag should not be database saveable because we don't care.
+
+to do update:
+if updateflag is true
+clear monster arraylist
+add monsters into arraylist from lead/helper and subs1-4
+ifupdateflag is false
+return monster arraylist as normal
+always set updateflag back to false after getMonster call
