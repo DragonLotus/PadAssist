@@ -66,7 +66,7 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         }
         viewHolder.teamName.setText(teamList.get(position).getTeamName());
         Log.d("Team Name", "" + teamList.get(position).getTeamName());
-        Log.d("Team List Size", "" + teamList.size() + " " + teamList.get(0).getMonsters());
+        Log.d("Team List Size", "" + teamList.size() + " " + teamList.get(position).getMonsters());
         viewHolder.monster1Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(0).getTotalPlus()) + " ");
         viewHolder.monster1Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(0).getCurrentAwakenings()));
         viewHolder.monster1Picture.setImageResource(teamList.get(position).getMonsters(0).getMonsterPicture());

@@ -104,7 +104,9 @@ public class TeamListFragment extends Fragment {
         }
         teams = (ArrayList) Team.getAllTeams();
         if(teams.size() != 0){
-            Log.d("Team log", "Team name: " + teams.get(0).getTeamName() + ", Team Monsters: " + teams.get(0).getMonsters() + ", Team Id: " + teams.get(0).getTeamId());
+            for(int i = 0; i < teams.size(); i++) {
+                Log.d("Team log", "Team name: " + teams.get(i).getTeamName() + ", Team Monsters: " + teams.get(i).getMonsters() + ", Team Id: " + teams.get(i).getTeamId());
+            }
         }
         if(!teams.isEmpty()){
             savedTeams.setVisibility(View.GONE);
@@ -142,7 +144,8 @@ public class TeamListFragment extends Fragment {
             if (teamLoadDialogFragment == null) {
                 teamLoadDialogFragment = teamLoadDialogFragment.newInstance(loadTeam);
             }
-            teamLoadDialogFragment.show(getSupportFragmentManager(), "Show Team Load dialog");
+
+            teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog");
         }
     };
 

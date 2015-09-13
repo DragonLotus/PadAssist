@@ -153,7 +153,7 @@ public class MonsterListFragment extends Fragment {
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         } else {
             monsters = team.getMonsters();
-            Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters + " " + team.getLead());
+            Log.d("Monster Check stuff", "" + monsters + " what else " + team.getMonsters());
             if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
                 monsters = new ArrayList<Monster>();
                 Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters);
@@ -332,25 +332,39 @@ public class MonsterListFragment extends Fragment {
                 monster6.setCurrentLevel(99);
                 monster6.setCurrentAwakenings(7);
 
-                monsters.add(monster1);
-                monsters.add(monster2);
-                monsters.add(monster3);
-                monsters.add(monster4);
-                monsters.add(monster5);
-                monsters.add(monster6);
+                team.setLead(monster1);
+                team.setSub1(monster2);
+                team.setSub2(monster3);
+                team.setSub3(monster4);
+                team.setSub4(monster5);
+                team.setHelper(monster6);
 
                 //team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
 
-                for (int i = 0; i < monsters.size(); i++) {
-                    monsters.get(i).save();
-                    Log.d("Awakening List3", "" + monsters.get(i).getAwokenSkills());
-                }
-                Log.d("Is monsters null 3", "" + monsters);
+//                for (int i = 0; i < monsters.size(); i++) {
+//                    monsters.get(i).save();
+//                    Log.d("Awakening List3", "" + monsters.get(i).getAwokenSkills());
+//                }
             }
-            for (int i = 0; i < monsters.size(); i++) {
-                Log.d("Monster name", "" + monsters.get(i).getName());
-                Log.d("Monster id", "" + monsters.get(i).getMonsterId());
-            }
+
+//            Log.d("Monster Check Preemptive", "" + team.getMonsters());
+//            for (int i = 0; i < team.getMonsters().size(); i++) {
+//                Log.d("Monster Check name", "" + team.getMonsters().get(i).getName());
+//                Log.d("Monster Check id", "" + team.getMonsters().get(i).getMonsterId());
+//                team.getMonsters().get(i).save();
+//            }
+//            team.setTeamId(5);
+//            team.save();
+//
+//            Team test = Team.getTeamById(5);
+//            Log.d("Monster Check2 Preemptive", "" + test.getMonsters());
+//            for (int i = 0; i < team.getMonsters().size(); i++) {
+//                Log.d("Monster Check2 name", "" + test.getMonsters().get(i).getName());
+//                Log.d("Monster Check2 id", "" + test.getMonsters().get(i).getMonsterId());
+//            }
+
+
+            monsters = team.getMonsters();
             Log.d("Is monsters null 1", "" + monsters);
         }
 

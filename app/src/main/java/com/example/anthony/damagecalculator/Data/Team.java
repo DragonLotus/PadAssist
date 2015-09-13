@@ -26,17 +26,17 @@ public class Team extends Model implements Parcelable {
     private ArrayList<Integer> rowAwakenings= new ArrayList<Integer>();
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
     private ArrayList<Monster> monsters;
-    @Column(name = "lead")
+    @Column(name = "lead", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
     private Monster lead;
-    @Column(name = "sub1")
+    @Column(name = "sub1", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
     private Monster sub1;
-    @Column(name = "sub2")
+    @Column(name = "sub2", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
     private Monster sub2;
-    @Column(name = "sub3")
+    @Column(name = "sub3", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
     private Monster sub3;
-    @Column(name = "sub4")
+    @Column(name = "sub4", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
     private Monster sub4;
-    @Column(name = "helper")
+    @Column(name = "helper", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
     private Monster helper;
     private ArrayList<OrbMatch> orbMatches;
     @Column(name = "teamName")
@@ -60,6 +60,22 @@ public class Team extends Model implements Parcelable {
         hasAwakenings = true;
         favorite = false;
         teamName = "Kirin, boys";
+    }
+
+
+    public Team(Team oldTeam) {
+        teamId = oldTeam.getTeamId();
+        lead = oldTeam.getLead();
+        sub1 = oldTeam.getSub1();
+        sub2 = oldTeam.getSub2();
+        sub3 = oldTeam.getSub3();
+        sub4 = oldTeam.getSub4();
+        helper = oldTeam.getHelper();
+        teamName = oldTeam.getTeamName();
+        teamGroup = oldTeam.getTeamGroup();
+        teamOrder = oldTeam.getTeamOrder();
+        favorite = oldTeam.favorite;
+
     }
 
     public int getTeamHealth() {
@@ -148,7 +164,7 @@ public class Team extends Model implements Parcelable {
     }
 
     public Monster getMonsters(int position) {
-        return monsters.get(position);
+        return getMonsters().get(position);
     }
 
     public int getTeamId() {

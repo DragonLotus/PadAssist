@@ -81,6 +81,7 @@ public class MainActivity extends ActionBarActivity {
 //        }
         team = new Team();
 
+
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -153,9 +154,13 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void saveNewTeam(String teamName) {
-            team.setTeamName(teamName);
-            team.setTeamId(Team.getAllTeams().size() + 1);
-            team.save();
+            Team newTeam = new Team(team);
+            newTeam.setTeamName(teamName);
+            newTeam.setTeamId(Team.getAllTeams().size() + 1);
+            for(Monster monster: newTeam.getMonsters()) {
+                monster.save();
+            }
+            newTeam.save();
         }
     };
 
