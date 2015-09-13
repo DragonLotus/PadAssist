@@ -332,13 +332,14 @@ public class MonsterListFragment extends Fragment {
                 monster6.setCurrentLevel(99);
                 monster6.setCurrentAwakenings(7);
 
-                team.setLead(monster1);
-                team.setSub1(monster2);
-                team.setSub2(monster3);
-                team.setSub3(monster4);
-                team.setSub4(monster5);
-                team.setHelper(monster6);
+                monsters.add(monster1);
+                monsters.add(monster2);
+                monsters.add(monster3);
+                monsters.add(monster4);
+                monsters.add(monster5);
+                monsters.add(monster6);
 
+                updateTeam();
                 //team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
 
 //                for (int i = 0; i < monsters.size(); i++) {
@@ -363,7 +364,7 @@ public class MonsterListFragment extends Fragment {
 //                Log.d("Monster Check2 id", "" + test.getMonsters().get(i).getMonsterId());
 //            }
 
-
+            team.update();
             monsters = team.getMonsters();
             Log.d("Is monsters null 1", "" + monsters);
         }
@@ -417,6 +418,9 @@ public class MonsterListFragment extends Fragment {
         Log.d("Monsters update team", "" + monsters);
         Log.d("Is monsters null team2", "" + team.getMonsters());
         team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
+        for(Monster monster: team.getMonsters()) {
+            monster.save();
+        }
         Log.d("Is monsters null team", "" + team.getMonsters());
         Log.d("Monsters update team", "" + monsters);
         Log.d("Lead", "" + team.getLead());
