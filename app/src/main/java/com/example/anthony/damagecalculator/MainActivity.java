@@ -162,7 +162,12 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void saveNewTeam(String teamName) {
-            int teamId = Team.getAllTeams().size() + 1;
+            long teamId;
+            if(Team.getAllTeams().size() == 0){
+                teamId = 1;
+            }else {
+                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1   ).getTeamId() + 1;
+            }
             Team newTeam = new Team(Team.getTeamById(0));
             newTeam.setTeamName(teamName);
             newTeam.setTeamId(teamId);
@@ -175,6 +180,8 @@ public class MainActivity extends ActionBarActivity {
             teamZero.setTeamId(0);
             teamZero.setTeamIdOverwrite(newTeam.getTeamId());
             teamZero.save();
+            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
+
         }
     };
 

@@ -26,7 +26,7 @@ public class Monster extends Model implements Parcelable {
     public static final int RCV_MULTIPLIER = 3;
     @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
     //@Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    private int monsterId;
+    private long monsterId;
     @Column(name = "atkMax")
     private int atkMax;
     @Column(name = "atkMin")
@@ -432,11 +432,11 @@ public class Monster extends Model implements Parcelable {
         this.isBound = isBound;
     }
 
-    public int getMonsterId() {
+    public long getMonsterId() {
         return monsterId;
     }
 
-    public void setMonsterId(int monsterId) {
+    public void setMonsterId(long monsterId) {
         this.monsterId = monsterId;
     }
 
@@ -460,7 +460,7 @@ public class Monster extends Model implements Parcelable {
     }
 
     public Monster(Parcel source) {
-        monsterId = source.readInt();
+        monsterId = source.readLong();
         atkMax = source.readInt();
         atkMin = source.readInt();
         hpMax = source.readInt();
@@ -497,7 +497,7 @@ public class Monster extends Model implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(monsterId);
+        dest.writeLong(monsterId);
         dest.writeInt(atkMax);
         dest.writeInt(atkMin);
         dest.writeInt(hpMax);
@@ -550,7 +550,7 @@ public class Monster extends Model implements Parcelable {
         return new Select().from(Monster.class).where("currentLevel = ?", level).execute();
     }
 
-    public static Monster getMonsterId(int id) {
+    public static Monster getMonsterId(long id) {
         return new Select().from(Monster.class).where("monsterId = ?", id).executeSingle();
     }
 //

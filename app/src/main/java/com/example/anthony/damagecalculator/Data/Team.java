@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = "Team")
 public class Team extends Model implements Parcelable {
     @Column(name = "teamId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    private int teamId;
+    private long teamId;
     private int teamHealth;
     private int teamRcv;
     private int totalDamage;
@@ -50,7 +50,7 @@ public class Team extends Model implements Parcelable {
     private Boolean favorite;
     private Boolean hasAwakenings;
     @Column(name = "teamIdOverwrite")
-    private int teamIdOverwrite;
+    private long teamIdOverwrite;
 
     public boolean update;
 
@@ -170,19 +170,19 @@ public class Team extends Model implements Parcelable {
         return getMonsters().get(position);
     }
 
-    public int getTeamId() {
+    public long getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(int teamId) {
+    public void setTeamId(long teamId) {
         this.teamId = teamId;
     }
 
-    public int getTeamIdOverwrite() {
+    public long getTeamIdOverwrite() {
         return teamIdOverwrite;
     }
 
-    public void setTeamIdOverwrite(int teamIdOverwrite) {
+    public void setTeamIdOverwrite(long teamIdOverwrite) {
         this.teamIdOverwrite = teamIdOverwrite;
     }
 
@@ -367,12 +367,12 @@ public class Team extends Model implements Parcelable {
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
         orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
-        teamId = source.readInt();
+        teamId = source.readLong();
         teamName = source.readString();
         teamGroup = source.readInt();
         teamOrder = source.readInt();
         favorite = source.readByte() == 1;
-        teamIdOverwrite = source.readInt();
+        teamIdOverwrite = source.readLong();
     }
 
     @Override
@@ -388,12 +388,12 @@ public class Team extends Model implements Parcelable {
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);
         dest.writeList(orbMatches);
-        dest.writeInt(teamId);
+        dest.writeLong(teamId);
         dest.writeString(teamName);
         dest.writeInt(teamGroup);
         dest.writeInt(teamOrder);
         dest.writeByte((byte) (favorite ? 1 : 0));
-        dest.writeInt(teamIdOverwrite);
+        dest.writeLong(teamIdOverwrite);
     }
 
     public static final Parcelable.Creator<Team> CREATOR = new Creator<Team>() {
@@ -411,7 +411,7 @@ public class Team extends Model implements Parcelable {
     }
 
 
-    public static Team getTeamById(int id) {
+    public static Team getTeamById(long id) {
         return new Select().from(Team.class).where("teamId = ?", id).executeSingle();
     }
 

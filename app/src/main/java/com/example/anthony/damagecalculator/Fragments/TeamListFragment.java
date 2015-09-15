@@ -165,6 +165,8 @@ public class TeamListFragment extends Fragment {
             Team deleteTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
             Log.d("Team List Log", "Delete Team Name is: " + deleteTeam.getTeamName() + "Team id is: " + deleteTeam.getTeamId());
             deleteTeam.delete();
+            teams.remove(selectedTeam);
+            Log.d("Team List Log", "Team size is: " + teams.size());
             teamListAdapter.notifyDataSetChanged();
         }
     };
