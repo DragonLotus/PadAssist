@@ -87,5 +87,8 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
         ImageView monsterPicture;
 
     }
-
+    public void updateList(ArrayList<Monster> monsterList){
+        this.monsterList = monsterList;
+        notifyDataSetChanged();
+    }
 }

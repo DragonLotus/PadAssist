@@ -74,15 +74,14 @@ public class MainActivity extends ActionBarActivity {
 //      mViewPager = (ViewPager) findViewById(R.id.pager);
 //      mViewPager.setAdapter(mSectionsPagerAdapter);
         enemy = new Enemy();
-//        if (Team.getTeamById(0) == null){
-//            team = new Team();
-//        }else{
-//            team = Team.getTeamById(0);
-//        }
         if(Team.getTeamById(0) == null) {
             team = new Team();
         } else {
             team = Team.getTeamById(0);
+        }
+        if(Monster.getMonsterId(0) == null){
+            Monster monster = new Monster();
+            monster.save();
         }
 
 

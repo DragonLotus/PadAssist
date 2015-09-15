@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
@@ -50,6 +51,7 @@ public class MonsterPageFragment extends Fragment {
     private Monster monster;
     private Toast toast;
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
+    private int position;
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
         @Override
@@ -132,11 +134,12 @@ public class MonsterPageFragment extends Fragment {
      * @return A new instance of fragment MonsterPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MonsterPageFragment newInstance(Monster monster) {
+    public static MonsterPageFragment newInstance(Monster monster, int position) {
         MonsterPageFragment fragment = new MonsterPageFragment();
         Bundle args = new Bundle();
         Log.d("Monster1:", "Monster1: " + monster);
         args.putParcelable("monster", monster);
+        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -151,6 +154,7 @@ public class MonsterPageFragment extends Fragment {
         if (getArguments() != null) {
             monster = getArguments().getParcelable("monster");
             Log.d("Monster2:", "Monster2: " + monster);
+            position = getArguments().getInt("position");
         }
     }
 
@@ -444,12 +448,38 @@ public class MonsterPageFragment extends Fragment {
 
         @Override
         public void removeMonsterTeam() {
-            monster = Monster.getMonsterId(0);
-            monsterName.setText(monster.getName());
-            monsterPicture.setImageResource(monster.getMonsterPicture());
-            setTextViewValues();
-            initializeEditTexts();
-            showAwakenings();
+            Log.d("Monster Page Log","Position is: " + position + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
+            Team newTeam = new Team(Team.getTeamById(0));
+            switch (position){
+                case 0:
+                    newTeam.setLead(Monster.getMonsterId(0));
+                    break;
+                case 1:
+                    newTeam.setSub1(Monster.getMonsterId(0));
+                    break;
+                case 2:
+                    newTeam.setSub2(Monster.getMonsterId(0));
+                    break;
+                case 3:
+                    newTeam.setSub3(Monster.getMonsterId(0));
+                    break;
+                case 4:
+                    newTeam.setSub4(Monster.getMonsterId(0));
+                    break;
+                case 5:
+                    newTeam.setHelper(Monster.getMonsterId(0));
+                    break;
+            }
+            for(int i = 0; i < newTeam.getMonsters().size(); i++){
+                Log.d("Monster Page Log", "Monster name: " + newTeam.getMonsters(i).getName() + " Monster id: " + newTeam.getMonsters(i).getMonsterId());
+            }
+            newTeam.save();
+//            monster = Monster.getMonsterId(0);
+//            monsterName.setText(monster.getName());
+//            monsterPicture.setImageResource(monster.getMonsterPicture());
+//            setTextViewValues();
+//            initializeEditTexts();
+//            showAwakenings();
             monsterRemoveDialogFragment.dismiss();
 //            getChildFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().popBackStack();

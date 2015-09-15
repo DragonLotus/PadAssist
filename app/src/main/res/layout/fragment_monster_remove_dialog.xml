@@ -13,18 +13,20 @@
         android:paddingTop="8dp">
 
         <RadioButton
+            android:id="@+id/removeTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove from team"
+            android:textSize="16dp"/>
+
+        <RadioButton
             android:id="@+id/removeDatabase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remove from database"
             android:textSize="16dp"/>
 
-        <RadioButton
-            android:id="@+id/removeTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remove from team"
-            android:textSize="16dp"/>
+
     </RadioGroup>
 
 </FrameLayout>
