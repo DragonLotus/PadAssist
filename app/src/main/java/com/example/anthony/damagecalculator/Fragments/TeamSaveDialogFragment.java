@@ -30,10 +30,11 @@ public class TeamSaveDialogFragment extends DialogFragment {
 
     public interface SaveTeam {
         public void overwriteTeam();
+
         public void saveNewTeam(String teamName);
     }
 
-    public static TeamSaveDialogFragment newInstance(SaveTeam saveTeam){
+    public static TeamSaveDialogFragment newInstance(SaveTeam saveTeam) {
         TeamSaveDialogFragment dialogFragment = new TeamSaveDialogFragment();
         dialogFragment.setSaveTeam(saveTeam);
         return dialogFragment;
@@ -68,20 +69,20 @@ public class TeamSaveDialogFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         AlertDialog dialog = (AlertDialog) getDialog();
-        if(dialog != null){
+        if (dialog != null) {
             Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
-            positiveButton.setOnClickListener(new View.OnClickListener(){
+            positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(choiceRadioGroup.getCheckedRadioButtonId() == R.id.overwriteTeam){
+                    if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.overwriteTeam) {
                         saveTeam.overwriteTeam();
                         dismiss();
-                    }else if(choiceRadioGroup.getCheckedRadioButtonId() == R.id.newTeam){
-                        if(!teamName.getText().toString().equals("")){
+                    } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.newTeam) {
+                        if (!teamName.getText().toString().equals("")) {
                             Log.d("Team Name", "" + teamName.getText());
                             saveTeam.saveNewTeam(teamName.getText().toString());
                             dismiss();
-                        }else {
+                        } else {
                             if (toast != null) {
                                 toast.cancel();
                             }
@@ -97,7 +98,7 @@ public class TeamSaveDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(Team.getAllTeams() == null || Team.getAllTeams().size() == 0){
+        if (Team.getAllTeams() == null || Team.getAllTeams().size() == 0) {
             Log.d("Teams are null", "I am null");
             choiceRadioGroup.getChildAt(0).setEnabled(false);
         }
@@ -107,9 +108,9 @@ public class TeamSaveDialogFragment extends DialogFragment {
     private RadioGroup.OnCheckedChangeListener choiceOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
-            if(checkedId == R.id.newTeam){
+            if (checkedId == R.id.newTeam) {
                 teamName.setEnabled(true);
-            }else{
+            } else {
                 teamName.setEnabled(false);
             }
         }

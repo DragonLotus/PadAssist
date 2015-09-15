@@ -49,8 +49,8 @@ public class TeamListFragment extends Fragment {
     private Boolean loggedIn=false;
     private TextView savedTeams;
     private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
-    private TeamLoadDialogFragment teamLoadDialogFragment = new TeamLoadDialogFragment();
-
+    private TeamLoadDialogFragment teamLoadDialogFragment;
+    private int selectedTeam;
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -141,8 +141,10 @@ public class TeamListFragment extends Fragment {
     private ListView.OnItemClickListener teamListOnClickListener = new ListView.OnItemClickListener(){
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectedTeam = position;
+            Log.d("Team log", "Selected team position: " + selectedTeam);
             if (teamLoadDialogFragment == null) {
-                teamLoadDialogFragment = teamLoadDialogFragment.newInstance(loadTeam);
+                teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam);
             }
 
             teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog");
@@ -152,7 +154,18 @@ public class TeamListFragment extends Fragment {
     private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam(){
         @Override
         public void loadTeam() {
-            teamListView.getChildAt(0);
+            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+            loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+            loadTeam.setTeamId(0);
+            loadTeam.save();
+        }
+
+        public void deleteTeam() {
+//            Team.deleteTeam(teamListAdapter.getItem(selectedTeam).getTeamId());
+            Team deleteTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
+            Log.d("Team List Log", "Delete Team Name is: " + deleteTeam.getTeamName() + "Team id is: " + deleteTeam.getTeamId());
+            deleteTeam.delete();
+            teamListAdapter.notifyDataSetChanged();
         }
     };
 

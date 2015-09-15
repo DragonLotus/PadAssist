@@ -24,10 +24,13 @@ import com.example.anthony.damagecalculator.R;
 
 public class TeamLoadDialogFragment extends DialogFragment {
 
+    private RadioGroup choiceRadioGroup;
     private LoadTeam loadTeam;
 
     public interface LoadTeam {
         public void loadTeam();
+
+        public void deleteTeam();
     }
 
     public static TeamLoadDialogFragment newInstance(LoadTeam loadTeam) {
@@ -39,23 +42,45 @@ public class TeamLoadDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Load Team");
-        builder.setMessage("Load the selected team?");
-        builder.setPositiveButton("Load", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                loadTeam.loadTeam();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-            }
-        });
+        View rootView = View.inflate(getActivity(), R.layout.fragment_team_load_dialog, null);
+        choiceRadioGroup = (RadioGroup) rootView.findViewById(R.id.choiceRadioGroup);
+        builder.setTitle("Team Options");
+        builder.setView(rootView)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
         return builder.create();
     }
 
-    public void setLoadTeam(LoadTeam loadTeam){
+    @Override
+    public void onStart() {
+        super.onStart();
+        AlertDialog dialog = (AlertDialog) getDialog();
+        if (dialog != null) {
+            Button positiveButton = (Button) dialog.getButton(Dialog.BUTTON_POSITIVE);
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.loadTeam) {
+                        loadTeam.loadTeam();
+                        dismiss();
+                    } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.deleteTeam) {
+                        loadTeam.deleteTeam();
+                        dismiss();
+                    }
+                }
+            });
+        }
+    }
+
+    public void setLoadTeam(LoadTeam loadTeam) {
         this.loadTeam = loadTeam;
     }
 

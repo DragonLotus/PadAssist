@@ -137,7 +137,16 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("Monster Log", "Database Team 0 name before is: " + Team.getTeamById(0).getTeamName() + " Overwrite id is: " + Team.getTeamById(0).getTeamIdOverwrite());
+        team = Team.getTeamById(0);
+        Log.d("Monster Log", "Database Team 0 name after is: " + Team.getTeamById(0).getTeamName() + " Overwrite id is: " + Team.getTeamById(0).getTeamIdOverwrite());
+        Log.d("Monster Log", "Current Team 0 name is: " + team.getTeamName() + " TeamIdOverwrite is: " + team.getTeamIdOverwrite());
+        monsterListAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -154,6 +163,7 @@ public class MonsterListFragment extends Fragment {
         } else {
             monsters = team.getMonsters();
             Log.d("Monster Check stuff", "" + monsters + " what else " + team.getMonsters());
+            Log.d("Team name", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
             if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
                 monsters = new ArrayList<Monster>();
                 Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters);
@@ -382,23 +392,25 @@ public class MonsterListFragment extends Fragment {
         Log.d("Is monsters null 2", "" + monsters);
         monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
         monsterListView.setAdapter(monsterListAdapter);
-        importButton.setOnClickListener(buttonOnClickListener);
-        orbMatchButton.setOnClickListener(buttonOnClickListener);
+        importButton.setOnClickListener(importButtonOnClickListener);
+        orbMatchButton.setOnClickListener(orbMatchOnClickListener);
         monsterListView.setOnItemClickListener(monsterListOnClickListener);
         Log.d("TeamId", "" + team.getTeamId());
     }
 
-    private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
+    private View.OnClickListener importButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (v.equals(importButton)) {
                 ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(team, enemy), TeamListFragment.TAG);
-            }
-            if (v.equals(orbMatchButton)) {
-                Log.d("Team Health", String.valueOf(team.getTeamHealth()));
-                Log.d("Team RCV", String.valueOf(team.getTeamRcv()));
-                ((MainActivity) getActivity()).switchFragment(MainFragment.newInstance(team, enemy), MainFragment.TAG);
-            }
+        }
+    };
+
+    private View.OnClickListener orbMatchOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d("Team Health", String.valueOf(team.getTeamHealth()));
+            Log.d("Team RCV", String.valueOf(team.getTeamRcv()));
+            ((MainActivity) getActivity()).switchFragment(MainFragment.newInstance(team, enemy), MainFragment.TAG);
         }
     };
 
@@ -418,7 +430,7 @@ public class MonsterListFragment extends Fragment {
         Log.d("Monsters update team", "" + monsters);
         Log.d("Is monsters null team2", "" + team.getMonsters());
         team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
-        for(Monster monster: team.getMonsters()) {
+        for (Monster monster : team.getMonsters()) {
             monster.save();
         }
         Log.d("Is monsters null team", "" + team.getMonsters());

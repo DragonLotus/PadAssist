@@ -49,11 +49,14 @@ public class Team extends Model implements Parcelable {
     @Column(name = "favorite")
     private Boolean favorite;
     private Boolean hasAwakenings;
+    @Column(name = "teamIdOverwrite")
+    private int teamIdOverwrite;
 
     public boolean update;
 
     public Team() {
         teamId = 0;
+        teamIdOverwrite = 0;
         teamHealth = 0;
         teamRcv = 0;
         orbMatches = new ArrayList<OrbMatch>();
@@ -65,6 +68,7 @@ public class Team extends Model implements Parcelable {
 
     public Team(Team oldTeam) {
         teamId = oldTeam.getTeamId();
+        teamIdOverwrite = oldTeam.getTeamIdOverwrite();
         lead = oldTeam.getLead();
         sub1 = oldTeam.getSub1();
         sub2 = oldTeam.getSub2();
@@ -75,7 +79,6 @@ public class Team extends Model implements Parcelable {
         teamGroup = oldTeam.getTeamGroup();
         teamOrder = oldTeam.getTeamOrder();
         favorite = oldTeam.favorite;
-
     }
 
     public int getTeamHealth() {
@@ -173,6 +176,14 @@ public class Team extends Model implements Parcelable {
 
     public void setTeamId(int teamId) {
         this.teamId = teamId;
+    }
+
+    public int getTeamIdOverwrite() {
+        return teamIdOverwrite;
+    }
+
+    public void setTeamIdOverwrite(int teamIdOverwrite) {
+        this.teamIdOverwrite = teamIdOverwrite;
     }
 
     public int getTeamGroup() {
@@ -306,40 +317,43 @@ public class Team extends Model implements Parcelable {
         }
         for (int i = 0; i < getMonsters().size(); i++) {
             if (!getMonsters().get(i).isBound() && hasAwakenings) {
-                for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++){
-                    Log.d("Awakening List", "Monster: " + getMonsters(i) + " List: " + getMonsters(i).getAwokenSkills());
-                    int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
-                    switch (awokenSkill){
-                        case 14:
-                            orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
-                            break;
-                        case 15:
-                            orbPlusAwakenings.set(1, orbPlusAwakenings.get(1) + 1);
-                            break;
-                        case 16:
-                            orbPlusAwakenings.set(2, orbPlusAwakenings.get(2) + 1);
-                            break;
-                        case 17:
-                            orbPlusAwakenings.set(3, orbPlusAwakenings.get(3) + 1);
-                            break;
-                        case 18:
-                            orbPlusAwakenings.set(4, orbPlusAwakenings.get(4) + 1);
-                            break;
-                        case 22:
-                            rowAwakenings.set(0, rowAwakenings.get(0) + 1);
-                            break;
-                        case 23:
-                            rowAwakenings.set(1, rowAwakenings.get(1) + 1);
-                            break;
-                        case 24:
-                            rowAwakenings.set(2, rowAwakenings.get(2) + 1);
-                            break;
-                        case 25:
-                            rowAwakenings.set(3, rowAwakenings.get(3) + 1);
-                            break;
-                        case 26:
-                            rowAwakenings.set(4, rowAwakenings.get(4) + 1);
-                            break;
+                Log.d("Awakening count", "Size of awoken skills" + getMonsters(i).getAwokenSkills().size());
+                if(getMonsters().get(i).getAwokenSkills().size() != 0){
+                    for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++){
+                        Log.d("Awakening List", "Monster: " + getMonsters(i) + " List: " + getMonsters(i).getAwokenSkills());
+                        int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
+                        switch (awokenSkill){
+                            case 14:
+                                orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
+                                break;
+                            case 15:
+                                orbPlusAwakenings.set(1, orbPlusAwakenings.get(1) + 1);
+                                break;
+                            case 16:
+                                orbPlusAwakenings.set(2, orbPlusAwakenings.get(2) + 1);
+                                break;
+                            case 17:
+                                orbPlusAwakenings.set(3, orbPlusAwakenings.get(3) + 1);
+                                break;
+                            case 18:
+                                orbPlusAwakenings.set(4, orbPlusAwakenings.get(4) + 1);
+                                break;
+                            case 22:
+                                rowAwakenings.set(0, rowAwakenings.get(0) + 1);
+                                break;
+                            case 23:
+                                rowAwakenings.set(1, rowAwakenings.get(1) + 1);
+                                break;
+                            case 24:
+                                rowAwakenings.set(2, rowAwakenings.get(2) + 1);
+                                break;
+                            case 25:
+                                rowAwakenings.set(3, rowAwakenings.get(3) + 1);
+                                break;
+                            case 26:
+                                rowAwakenings.set(4, rowAwakenings.get(4) + 1);
+                                break;
+                        }
                     }
                 }
             }
@@ -358,6 +372,7 @@ public class Team extends Model implements Parcelable {
         teamGroup = source.readInt();
         teamOrder = source.readInt();
         favorite = source.readByte() == 1;
+        teamIdOverwrite = source.readInt();
     }
 
     @Override
@@ -378,6 +393,7 @@ public class Team extends Model implements Parcelable {
         dest.writeInt(teamGroup);
         dest.writeInt(teamOrder);
         dest.writeByte((byte) (favorite ? 1 : 0));
+        dest.writeInt(teamIdOverwrite);
     }
 
     public static final Parcelable.Creator<Team> CREATOR = new Creator<Team>() {
@@ -401,6 +417,10 @@ public class Team extends Model implements Parcelable {
 
     public static void deleteAllTeams() {
         new Delete().from(Team.class).execute();
+    }
+
+    public static void deleteTeam(int id){
+        new Delete().from(Team.class).where("teamId = ?", id).executeSingle();
     }
 
 //    public static List<Team> getTeamId(int id){

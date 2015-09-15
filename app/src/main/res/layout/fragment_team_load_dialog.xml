@@ -1,9 +1,32 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context="com.example.anthony.damagecalculator.Fragments.TeamLoadDialogFragment">
 
+    <RadioGroup
+        android:id="@+id/choiceRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp">
+
+        <RadioButton
+            android:id="@+id/loadTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Load Team"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/deleteTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete Team"
+            android:textSize="16dp" />
+    </RadioGroup>
 
 
 </RelativeLayout>

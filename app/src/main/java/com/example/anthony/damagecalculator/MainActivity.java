@@ -79,10 +79,10 @@ public class MainActivity extends ActionBarActivity {
 //        }else{
 //            team = Team.getTeamById(0);
 //        }
-        if(Team.getAllTeams().size() == 0) {
+        if(Team.getTeamById(0) == null) {
             team = new Team();
         } else {
-            team = Team.getAllTeams().get(0);
+            team = Team.getTeamById(0);
         }
 
 
@@ -152,20 +152,29 @@ public class MainActivity extends ActionBarActivity {
     private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
         @Override
         public void overwriteTeam() {
-            //Need to save Team name to overwrite
-            team.save();
+            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
+            Team overwriteTeam = new Team(Team.getTeamById(0));
+            overwriteTeam.setTeamId(Team.getTeamById(0).getTeamIdOverwrite());
+            Log.d("Main Activity Log", "Overwrite Team name is: " + overwriteTeam.getTeamName() + " Team id: " + overwriteTeam.getTeamId() + " Team ID overwrite: " + overwriteTeam.getTeamIdOverwrite());
+            overwriteTeam.save();
+
         }
 
         @Override
         public void saveNewTeam(String teamName) {
-            Team newTeam = new Team(team);
+            int teamId = Team.getAllTeams().size() + 1;
+            Team newTeam = new Team(Team.getTeamById(0));
             newTeam.setTeamName(teamName);
-            newTeam.setTeamId(Team.getAllTeams().size() + 1);
+            newTeam.setTeamId(teamId);
             for(Monster monster: newTeam.getMonsters()) {
                 Log.d("Monster", "MonsterPlus:" + monster.getTotalPlus());
                 monster.save();
             }
             newTeam.save();
+            Team teamZero = new Team(newTeam);
+            teamZero.setTeamId(0);
+            teamZero.setTeamIdOverwrite(newTeam.getTeamId());
+            teamZero.save();
         }
     };
 
