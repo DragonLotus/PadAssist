@@ -155,9 +155,19 @@ public class TeamListFragment extends Fragment {
         @Override
         public void loadTeam() {
             Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+            Log.d("Team Log", "Team Name: " + loadTeam.getTeamName());
             loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
             loadTeam.setTeamId(0);
             loadTeam.save();
+        }
+
+        @Override
+        public void editTeam(String teamName) {
+            Team loadTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
+            loadTeam.setTeamName(teamName);
+            loadTeam.save();
+            teams = (ArrayList) Team.getAllTeams();
+            teamListAdapter.updateList(teams);
         }
 
         public void deleteTeam() {

@@ -21,6 +21,13 @@
             android:textSize="16dp" />
 
         <RadioButton
+            android:id="@+id/editTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Team Name"
+            android:textSize="16dp"/>
+
+        <RadioButton
             android:id="@+id/deleteTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -28,5 +35,15 @@
             android:textSize="16dp" />
     </RadioGroup>
 
+    <EditText
+        android:id="@+id/teamName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/choiceRadioGroup"
+        android:hint="Team Name"
+        android:inputType="textNoSuggestions"
+        android:singleLine="true"
+        android:textSize="16dp"
+        android:enabled="false"/>
 
 </RelativeLayout>

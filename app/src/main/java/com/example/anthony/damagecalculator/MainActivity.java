@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
@@ -57,6 +58,7 @@ public class MainActivity extends ActionBarActivity {
             Configuration.Builder configBuilder = new Configuration.Builder(this);
             configBuilder.addModelClasses(Monster.class);
             configBuilder.addModelClasses(Team.class);
+            configBuilder.addModelClass(BaseMonster.class);
             ActiveAndroid.initialize(configBuilder.create());
         } else {
             ActiveAndroid.initialize(this);
@@ -79,8 +81,39 @@ public class MainActivity extends ActionBarActivity {
         } else {
             team = Team.getTeamById(0);
         }
+        if(BaseMonster.getMonsterId(0) == null){
+            BaseMonster monster = new BaseMonster();
+            monster.save();
+        }
         if(Monster.getMonsterId(0) == null){
-            Monster monster = new Monster();
+            Monster monster = new Monster(0);
+            monster.save();
+        }
+        if(BaseMonster.getMonsterId(1218) == null){
+            BaseMonster monster = new BaseMonster();
+            monster.setMonsterId(1218);
+            monster.setMonsterPicture(R.drawable.monster_1218);
+            monster.setName("Kirin of the Sacred Gleam, Sakuya");
+            monster.setMaxLevel(99);
+            monster.setAtkMax(1370);
+            monster.setAtkMin(913);
+            monster.setHpMax(3528);
+            monster.setHpMin(1271);
+            monster.setRcvMax(384);
+            monster.setRcvMin(256);
+            monster.setAtkScale(1);
+            monster.setHpScale(1);
+            monster.setRcvScale(1);
+            monster.setMaxAwakenings(7);
+            monster.setElement1(Element.LIGHT);
+            monster.setElement2(Element.LIGHT);
+            monster.addAwokenSkills(17);
+            monster.addAwokenSkills(12);
+            monster.addAwokenSkills(11);
+            monster.addAwokenSkills(28);
+            monster.addAwokenSkills(17);
+            monster.addAwokenSkills(21);
+            monster.addAwokenSkills(19);
             monster.save();
         }
 
@@ -153,6 +186,7 @@ public class MainActivity extends ActionBarActivity {
         public void overwriteTeam() {
             Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
             Team overwriteTeam = new Team(Team.getTeamById(0));
+            overwriteTeam.setTeamName(Team.getTeamById(overwriteTeam.getTeamIdOverwrite()).getTeamName());
             overwriteTeam.setTeamId(Team.getTeamById(0).getTeamIdOverwrite());
             Log.d("Main Activity Log", "Overwrite Team name is: " + overwriteTeam.getTeamName() + " Team id: " + overwriteTeam.getTeamId() + " Team ID overwrite: " + overwriteTeam.getTeamIdOverwrite());
             overwriteTeam.save();

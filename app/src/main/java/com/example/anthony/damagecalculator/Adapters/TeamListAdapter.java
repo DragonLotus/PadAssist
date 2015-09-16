@@ -163,4 +163,9 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         ImageView monster1Picture, monster2Picture, monster3Picture, monster4Picture, monster5Picture, monster6Picture;
 
     }
+
+    public void updateList(ArrayList<Team> teamList){
+        this.teamList = teamList;
+        notifyDataSetChanged();
+    }
 }

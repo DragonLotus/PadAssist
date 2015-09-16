@@ -27,24 +27,26 @@ public class Monster extends Model implements Parcelable {
     @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
     //@Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long monsterId;
-    @Column(name = "atkMax")
-    private int atkMax;
-    @Column(name = "atkMin")
-    private int atkMin;
-    @Column(name = "hpMax")
-    private int hpMax;
-    @Column(name = "hpMin")
-    private int hpMin;
-    @Column(name = "maxLevel")
-    private int maxLevel;
-    @Column(name = "rcvMin")
-    private int rcvMin;
-    @Column(name = "rcvMax")
-    private int rcvMax;
-    @Column(name = "type1")
-    private int type1;
-    @Column(name = "type2")
-    private int type2;
+    @Column(name = "baseMonster")
+    private BaseMonster baseMonster;
+//    @Column(name = "atkMax")
+//    private int atkMax;
+//    @Column(name = "atkMin")
+//    private int atkMin;
+//    @Column(name = "hpMax")
+//    private int hpMax;
+//    @Column(name = "hpMin")
+//    private int hpMin;
+//    @Column(name = "maxLevel")
+//    private int maxLevel;
+//    @Column(name = "rcvMin")
+//    private int rcvMin;
+//    @Column(name = "rcvMax")
+//    private int rcvMax;
+//    @Column(name = "type1")
+//    private int type1;
+//    @Column(name = "type2")
+//    private int type2;
     @Column(name = "currentLevel")
     private int currentLevel;
     @Column(name = "atkPlus")
@@ -53,28 +55,28 @@ public class Monster extends Model implements Parcelable {
     private int hpPlus;
     @Column(name = "rcvPlus")
     private int rcvPlus;
-    @Column(name = "maxAwakenings")
-    private int maxAwakenings;
+//    @Column(name = "maxAwakenings")
+//    private int maxAwakenings;
     @Column(name = "currentAwakenings")
     private int currentAwakenings;
-    @Column(name = "element1")
-    private Element element1;
-    @Column(name = "element2")
-    private Element element2;
-    @Column(name = "awokenSkills")
-    private ArrayList<Integer> awokenSkills = new ArrayList<>();
-    @Column(name = "activeSkill")
-    private String activeSkill;
-    @Column(name = "leaderSkill")
-    private String leaderSkill;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "atkScale")
-    private double atkScale;
-    @Column(name = "rcvScale")
-    private double rcvScale;
-    @Column(name = "hpScale")
-    private double hpScale;
+//    @Column(name = "element1")
+//    private Element element1;
+//    @Column(name = "element2")
+//    private Element element2;
+//    @Column(name = "awokenSkills")
+//    private ArrayList<Integer> awokenSkills = new ArrayList<>();
+//    @Column(name = "activeSkill")
+//    private String activeSkill;
+//    @Column(name = "leaderSkill")
+//    private String leaderSkill;
+//    @Column(name = "name")
+//    private String name;
+//    @Column(name = "atkScale")
+//    private double atkScale;
+//    @Column(name = "rcvScale")
+//    private double rcvScale;
+//    @Column(name = "hpScale")
+//    private double hpScale;
     @Column(name = "currentAtk")
     private double currentAtk;
     @Column(name = "currentRcv")
@@ -83,25 +85,17 @@ public class Monster extends Model implements Parcelable {
     private double currentHp;
     @Column(name = "isBound")
     private boolean isBound;
-    @Column(name = "monsterPicture")
-    private int monsterPicture;
+//    @Column(name = "monsterPicture")
+//    private int monsterPicture;
     DecimalFormat format = new DecimalFormat("0.00");
 
-    public Monster() {
+    public Monster(){
+    }
+
+    public Monster(int baseMonsterId) {
         currentLevel = 1;
         monsterId = 0;
-        monsterPicture = R.drawable.monster_blank;
-        atkMax = 0;
-        atkMin = 0;
-        hpMin = 0;
-        hpMax = 0;
-        rcvMin = 0;
-        rcvMax = 0;
-        maxLevel = 0;
-        atkScale = 0;
-        rcvScale = 0;
-        hpScale = 0;
-        maxAwakenings = 0;
+        baseMonster = BaseMonster.getMonsterId(baseMonsterId);
         hpPlus = 0;
         atkPlus = 0;
         rcvPlus = 0;
@@ -109,51 +103,47 @@ public class Monster extends Model implements Parcelable {
         currentAtk = 0;
         currentRcv = 0;
         currentAwakenings = 0;
-        element1 = Element.BLANK;
-        element2 = Element.BLANK;
         isBound = false;
-        name = "Empty";
-
     }
 
     public int getElement1Damage(Team team, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos);
+        return (int) DamageCalculationUtil.monsterElement1Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos);
     }
 
     public int getElement1DamageEnemy(Team team, Enemy enemy, int combos) {
-        return (int) Math.ceil(DamageCalculationUtil.monsterElement1DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy));
+        return (int) Math.ceil(DamageCalculationUtil.monsterElement1DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy));
     }
 
     public int getElement2Damage(Team team, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos);
+        return (int) DamageCalculationUtil.monsterElement2Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos);
     }
 
     public int getElement2DamageEnemy(Team team, Enemy enemy, int combos) {
-        return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy));
+        return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy));
     }
 
     public int getElement1DamageReduction(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
+        return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy);
     }
 
     public int getElement2DamageReduction(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
+        return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy);
     }
 
     public int getElement1DamageAbsorb(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
+        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy);
     }
 
     public int getElement2DamageAbsorb(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
+        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy);
     }
 
     public int getElement1DamageThreshold(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element1), combos, enemy);
+        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy);
     }
 
     public int getElement2DamageThreshold(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(element2), combos, enemy);
+        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy);
     }
 
     public int getCurrentLevel() {
@@ -162,9 +152,9 @@ public class Monster extends Model implements Parcelable {
 
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
-        setCurrentHp(DamageCalculationUtil.monsterStatCalc(hpMin, hpMax, currentLevel, maxLevel, hpScale));
-        setCurrentAtk(DamageCalculationUtil.monsterStatCalc(atkMin, atkMax, currentLevel, maxLevel, atkScale));
-        setCurrentRcv(DamageCalculationUtil.monsterStatCalc(rcvMin, rcvMax, currentLevel, maxLevel, rcvScale));
+        setCurrentHp(DamageCalculationUtil.monsterStatCalc(baseMonster.getHpMin(), baseMonster.getHpMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getHpScale()));
+        setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
+        setCurrentRcv(DamageCalculationUtil.monsterStatCalc(baseMonster.getRcvMin(), baseMonster.getRcvMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getRcvScale()));
     }
 
     public int getCurrentAtk() {
@@ -215,165 +205,82 @@ public class Monster extends Model implements Parcelable {
         this.currentRcv = currentRcv;
     }
 
-    public int getAtkMax()
-
-    {
-        return atkMax;
-    }
-
-    public void setAtkMax(int atkMax) {
-        this.atkMax = atkMax;
+    public int getAtkMax()    {
+        return baseMonster.getAtkMax();
     }
 
     public int getAtkMin() {
-        return atkMin;
-    }
-
-    public void setAtkMin(int atkMin) {
-        this.atkMin = atkMin;
+        return baseMonster.getAtkMin();
     }
 
     public int getHpMax() {
-        return hpMax;
-    }
-
-    public void setHpMax(int hpMax) {
-        this.hpMax = hpMax;
+        return baseMonster.getHpMax();
     }
 
     public int getHpMin() {
-        return hpMin;
-    }
-
-    public void setHpMin(int hpMin) {
-        this.hpMin = hpMin;
+        return baseMonster.getHpMin();
     }
 
     public int getMaxLevel() {
-        return maxLevel;
-    }
-
-    public void setMaxLevel(int maxLevel) {
-        this.maxLevel = maxLevel;
+        return baseMonster.getMaxLevel();
     }
 
     public int getRcvMax() {
-        return rcvMax;
-    }
-
-    public void setRcvMax(int rcvMax) {
-        this.rcvMax = rcvMax;
+        return baseMonster.getRcvMax();
     }
 
     public int getRcvMin() {
-        return rcvMin;
-    }
-
-    public void setRcvMin(int rcvMin) {
-        this.rcvMin = rcvMin;
+        return baseMonster.getRcvMin();
     }
 
     public int getType1() {
-        return type1;
-    }
-
-    public void setType1(int type1) {
-        this.type1 = type1;
-        if (type1 == -1) {
-            this.type2 = type1;
-        }
+        return baseMonster.getType1();
     }
 
     public int getType2() {
-        return type2;
-    }
-
-    public void setType2(int type2) {
-        this.type2 = type2;
+        return baseMonster.getType2();
     }
 
     public Element getElement1() {
-        return element1;
-    }
-
-    public void setElement1(Element element1) {
-        this.element1 = element1;
-        if (element1.equals(Element.BLANK)) {
-            this.element2 = element1;
-        }
+        return baseMonster.getElement1();
     }
 
     public Element getElement2() {
-        return element2;
-    }
-
-    public void setElement2(Element element2) {
-        this.element2 = element2;
+        return baseMonster.getElement2();
     }
 
     public ArrayList<Integer> getAwokenSkills() {
-        return awokenSkills;
+        return baseMonster.getAwokenSkills();
     }
 
     public int getAwokenSkills(int position) {
-        Log.d("Awakening List", "" + awokenSkills);
-        return awokenSkills.get(position);
-    }
-
-    public void setAwokenSkills(ArrayList<Integer> awokenSkills) {
-        this.awokenSkills = awokenSkills;
-    }
-
-    public void addAwokenSkills(int Awakening){
-        awokenSkills.add(Awakening);
+        Log.d("Awakening List", "" + baseMonster.getAwokenSkills());
+        return baseMonster.getAwokenSkills(position);
     }
 
     public String getActiveSkill() {
-        return activeSkill;
-    }
-
-    public void setActiveSkill(String activeSkill) {
-        this.activeSkill = activeSkill;
+        return baseMonster.getActiveSkill();
     }
 
     public String getLeaderSkill() {
-        return leaderSkill;
-    }
-
-    public void setLeaderSkill(String leaderSkill) {
-        this.leaderSkill = leaderSkill;
+        return baseMonster.getLeaderSkill();
     }
 
     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        Log.d("Monster Class Log", "Monster name is: " + baseMonster.getName());
+        return baseMonster.getName();
     }
 
     public double getAtkScale() {
-        return atkScale;
-    }
-
-    public void setAtkScale(double atkScale) {
-        this.atkScale = atkScale;
+        return baseMonster.getAtkScale();
     }
 
     public double getRcvScale() {
-        return rcvScale;
-    }
-
-    public void setRcvScale(double rcvScale) {
-        this.rcvScale = rcvScale;
+        return baseMonster.getRcvScale();
     }
 
     public double getHpScale() {
-        return hpScale;
-    }
-
-    public void setHpScale(double hpScale) {
-        this.hpScale = hpScale;
+        return baseMonster.getHpScale();
     }
 
     public void setCurrentHp(double currentHp) {
@@ -409,11 +316,7 @@ public class Monster extends Model implements Parcelable {
     }
 
     public int getMaxAwakenings() {
-        return maxAwakenings;
-    }
-
-    public void setMaxAwakenings(int maxAwakenings) {
-        this.maxAwakenings = maxAwakenings;
+        return baseMonster.getMaxAwakenings();
     }
 
     public int getCurrentAwakenings() {
@@ -442,17 +345,13 @@ public class Monster extends Model implements Parcelable {
 
 
     public int getMonsterPicture() {
-        return monsterPicture;
-    }
-
-    public void setMonsterPicture(int monsterPicture) {
-        this.monsterPicture = monsterPicture;
+        return baseMonster.getMonsterPicture();
     }
 
     public int getTPA() {
         int numOfDoubleProngs = 0;
         for (int i = 0; i < currentAwakenings; i++) {
-            if (awokenSkills.get(i) == 27) {
+            if (baseMonster.getAwokenSkills(i) == 27) {
                 numOfDoubleProngs++;
             }
         }
@@ -461,30 +360,12 @@ public class Monster extends Model implements Parcelable {
 
     public Monster(Parcel source) {
         monsterId = source.readLong();
-        atkMax = source.readInt();
-        atkMin = source.readInt();
-        hpMax = source.readInt();
-        hpMin = source.readInt();
-        maxLevel = source.readInt();
-        rcvMax = source.readInt();
-        rcvMin = source.readInt();
-        type1 = source.readInt();
-        type2 = source.readInt();
+
         currentLevel = source.readInt();
         atkPlus = source.readInt();
         hpPlus = source.readInt();
         rcvPlus = source.readInt();
-        maxAwakenings = source.readInt();
         currentAwakenings = source.readInt();
-        element1 = (Element) source.readSerializable();
-        element2 = (Element) source.readSerializable();
-        awokenSkills = source.readArrayList(String.class.getClassLoader());
-        activeSkill = source.readString();
-        leaderSkill = source.readString();
-        name = source.readString();
-        atkScale = source.readDouble();
-        rcvScale = source.readDouble();
-        hpScale = source.readDouble();
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
         isBound = source.readByte() == 1;
@@ -498,30 +379,11 @@ public class Monster extends Model implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(monsterId);
-        dest.writeInt(atkMax);
-        dest.writeInt(atkMin);
-        dest.writeInt(hpMax);
-        dest.writeInt(hpMin);
-        dest.writeInt(maxLevel);
-        dest.writeInt(rcvMax);
-        dest.writeInt(rcvMin);
-        dest.writeInt(type1);
-        dest.writeInt(type2);
         dest.writeInt(currentLevel);
         dest.writeInt(atkPlus);
         dest.writeInt(hpPlus);
         dest.writeInt(rcvPlus);
-        dest.writeInt(maxAwakenings);
         dest.writeInt(currentAwakenings);
-        dest.writeSerializable(element1);
-        dest.writeSerializable(element2);
-        dest.writeList(awokenSkills);
-        dest.writeString(activeSkill);
-        dest.writeString(leaderSkill);
-        dest.writeString(name);
-        dest.writeDouble(atkScale);
-        dest.writeDouble(rcvScale);
-        dest.writeDouble(hpScale);
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
         dest.writeByte((byte) (isBound ? 1 : 0));

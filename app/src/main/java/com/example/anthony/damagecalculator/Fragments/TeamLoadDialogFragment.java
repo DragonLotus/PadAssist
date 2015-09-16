@@ -25,12 +25,16 @@ import com.example.anthony.damagecalculator.R;
 public class TeamLoadDialogFragment extends DialogFragment {
 
     private RadioGroup choiceRadioGroup;
+    private EditText teamName;
     private LoadTeam loadTeam;
+    private Toast toast;
 
     public interface LoadTeam {
         public void loadTeam();
 
         public void deleteTeam();
+
+        public void editTeam(String teamName);
     }
 
     public static TeamLoadDialogFragment newInstance(LoadTeam loadTeam) {
@@ -44,6 +48,7 @@ public class TeamLoadDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View rootView = View.inflate(getActivity(), R.layout.fragment_team_load_dialog, null);
         choiceRadioGroup = (RadioGroup) rootView.findViewById(R.id.choiceRadioGroup);
+        teamName = (EditText) rootView.findViewById(R.id.teamName);
         builder.setTitle("Team Options");
         builder.setView(rootView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -75,11 +80,40 @@ public class TeamLoadDialogFragment extends DialogFragment {
                     } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.deleteTeam) {
                         loadTeam.deleteTeam();
                         dismiss();
+                    } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.editTeam) {
+                        if (!teamName.getText().toString().equals("")) {
+                            Log.d("Team Name", "" + teamName.getText());
+                            loadTeam.editTeam(teamName.getText().toString());
+                            dismiss();
+                        } else {
+                            if (toast != null) {
+                                toast.cancel();
+                            }
+                            toast = Toast.makeText(getActivity(), "Please enter a team name", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 }
             });
         }
     }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        choiceRadioGroup.setOnCheckedChangeListener(choiceOnCheckedChangeListener);
+    }
+
+    private RadioGroup.OnCheckedChangeListener choiceOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId == R.id.editTeam) {
+                teamName.setEnabled(true);
+            } else {
+                teamName.setEnabled(false);
+            }
+        }
+    };
 
     public void setLoadTeam(LoadTeam loadTeam) {
         this.loadTeam = loadTeam;
