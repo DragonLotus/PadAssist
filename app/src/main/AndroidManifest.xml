@@ -9,10 +9,16 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <!--<meta-data-->
+            <!--android:name="AA_SERIALIZERS"-->
+            <!--android:value="com.example.anthony.damagecalculator.Util.ArrayListIntegerSerializer”/>-->
+
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan"
             android:label="@string/app_name">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,3 +28,4 @@
     </application>
 
 </manifest>
+

@@ -66,33 +66,60 @@ public class BaseMonsterListFragment extends Fragment {
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
-            if(Monster.getAllMonsters().size() == 0){
-                newMonster.setMonsterId(1);
-            }else {
-                newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
-            }
-            newMonster.save();
             Team newTeam = new Team(Team.getTeamById(0));
-            switch (newTeam.getMonsterOverwrite()) {
-                case 0:
-                    newTeam.setLead(newMonster);
-                    break;
-                case 1:
-                    newTeam.setSub1(newMonster);
-                    break;
-                case 2:
-                    newTeam.setSub2(newMonster);
-                    break;
-                case 3:
-                    newTeam.setSub3(newMonster);
-                    break;
-                case 4:
-                    newTeam.setSub4(newMonster);
-                    break;
-                case 5:
-                    newTeam.setHelper(newMonster);
-                    break;
+            Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
+            if(monsterList.get(position).getMonsterId() == 0){
+                newMonster.setMonsterId(0);
+            }else if (Monster.getAllMonsters().size() == 0){
+                newMonster.setMonsterId(1);
+                newMonster.save();
+            }else  {
+                newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
+                newMonster.save();
+            }
+            Log.d("Base Monster Log", "New Monster Id: " + newMonster.getMonsterId());
+            if (newMonster.getMonsterId()== 0){
+                switch (newTeam.getMonsterOverwrite()){
+                    case 0:
+                        newTeam.setLead(Monster.getMonsterId(0));
+                        break;
+                    case 1:
+                        newTeam.setSub1(Monster.getMonsterId(0));
+                        break;
+                    case 2:
+                        newTeam.setSub2(Monster.getMonsterId(0));
+                        break;
+                    case 3:
+                        newTeam.setSub3(Monster.getMonsterId(0));
+                        break;
+                    case 4:
+                        newTeam.setSub4(Monster.getMonsterId(0));
+                        break;
+                    case 5:
+                        newTeam.setHelper(Monster.getMonsterId(0));
+                        break;
+                }
+            }else {
+                switch (newTeam.getMonsterOverwrite()) {
+                    case 0:
+                        newTeam.setLead(newMonster);
+                        break;
+                    case 1:
+                        newTeam.setSub1(newMonster);
+                        break;
+                    case 2:
+                        newTeam.setSub2(newMonster);
+                        break;
+                    case 3:
+                        newTeam.setSub3(newMonster);
+                        break;
+                    case 4:
+                        newTeam.setSub4(newMonster);
+                        break;
+                    case 5:
+                        newTeam.setHelper(newMonster);
+                        break;
+                }
             }
             newTeam.save();
             Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
