@@ -23,6 +23,7 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
     public interface RemoveMonster{
         public void removeMonsterDatabase();
         public void removeMonsterTeam();
+        public void replaceMonster();
     }
 
     private RadioGroup choiceRadioGroup;
@@ -40,10 +41,10 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View rootView = View.inflate(getActivity(), R.layout.fragment_monster_remove_dialog, null);
         choiceRadioGroup = (RadioGroup) rootView.findViewById(R.id.choiceRadioGroup);
-        builder.setTitle("Remove Monster?");
+        builder.setTitle("Monster Options");
         builder.setView(rootView)
                 // Add action buttons
-                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Log.d("remove check", "" + remove);
@@ -51,6 +52,8 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
                             remove.removeMonsterTeam();
                         } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.removeDatabase) {
                             remove.removeMonsterDatabase();
+                        } else if (choiceRadioGroup.getCheckedRadioButtonId()==R.id.replaceTeam) {
+                            remove.replaceMonster();
                         } else {
                             dialog.dismiss();
                         }

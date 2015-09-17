@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/monsterId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/element1"
+        android:layout_alignTop="@+id/element1"
+        android:gravity="center_vertical"
+        android:paddingRight="8dp"
+        android:text="1337"
+        android:textSize="16dp" />
+
+    <ImageView
+        android:id="@+id/element1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/red_orb"
+        android:layout_toRightOf="@+id/monsterId"/>
+
+    <ImageView
+        android:id="@+id/element2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/element1"
+        android:src="@drawable/red_orb" />
+
+    <TextView
+        android:id="@+id/monsterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/element1"
+        android:layout_alignTop="@+id/element1"
+        android:layout_toLeftOf="@+id/type1"
+        android:layout_toRightOf="@+id/element2"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="Monster name"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/type1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/element1"
+        android:layout_alignTop="@+id/element1"
+        android:layout_toLeftOf="@+id/type2"
+        android:gravity="center_vertical"
+        android:text="Type 1"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/type2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/element1"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/element1"
+        android:gravity="center_vertical"
+        android:text="/Type 2"
+        android:textSize="16dp" />
+
+</RelativeLayout>

@@ -20,6 +20,13 @@
             android:textSize="16dp"/>
 
         <RadioButton
+            android:id="@+id/replaceTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Replace Monster"
+            android:textSize="16dp"/>
+
+        <RadioButton
             android:id="@+id/removeDatabase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

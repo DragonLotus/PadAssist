@@ -257,7 +257,57 @@ public class BaseMonster extends Model {
         this.type2 = type2;
     }
 
+    public String getType1String() {
+        if (type1 == 0) {
+            return "Evo Material";
+        } else if (type1 == 1) {
+            return "Balanced";
+        } else if (type1 == 2) {
+            return "Physical";
+        } else if (type1 == 3) {
+            return "Healer";
+        } else if (type1 == 4) {
+            return "Dragon";
+        } else if (type1 == 5) {
+            return "God";
+        } else if (type1 == 6) {
+            return "Attacker";
+        } else if (type1 == 7) {
+            return "Devil";
+        } else if (type1 == 12) {
+            return "Awoken Skill Material";
+        } else if (type1 == 13) {
+            return "Protected";
+        } else if (type1 == 14) {
+            return "Enhance Material";
+        } else return "";
+    }
 
+    public String getType2String() {
+        if (type1 == 0) {
+            return "/Evo Material";
+        } else if (type2 == 1) {
+            return "/Balanced";
+        } else if (type2 == 2) {
+            return "/Physical";
+        } else if (type2 == 3) {
+            return "/Healer";
+        } else if (type2 == 4) {
+            return "/Dragon";
+        } else if (type2 == 5) {
+            return "/God";
+        } else if (type2 == 6) {
+            return "/Attacker";
+        } else if (type2 == 7) {
+            return "/Devil";
+        } else if (type2 == 12) {
+            return "/Awoken Skill Material";
+        } else if (type2 == 13) {
+            return "/Protected";
+        } else if (type2 == 14) {
+            return "/Enhance Material";
+        }else return "";
+    }
 
     public static List<Monster> getAllMonsters() {
         return new Select().from(BaseMonster.class).execute();

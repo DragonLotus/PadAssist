@@ -92,7 +92,7 @@ public class Monster extends Model implements Parcelable {
     public Monster() {
     }
 
-    public Monster(int baseMonsterId) {
+    public Monster(long baseMonsterId) {
         currentLevel = 1;
         monsterId = 0;
         baseMonster = BaseMonster.getMonsterId(baseMonsterId);
@@ -268,7 +268,7 @@ public class Monster extends Model implements Parcelable {
     }
 
     public String getType2String() {
-        if (baseMonster.getType1() == 0) {
+        if (baseMonster.getType2() == 0) {
             return "/Evo Material";
         } else if (baseMonster.getType2() == 1) {
             return "/Balanced";

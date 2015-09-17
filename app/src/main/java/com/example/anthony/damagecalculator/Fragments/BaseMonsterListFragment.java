@@ -12,7 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-import com.example.anthony.damagecalculator.Adapters.SaveMonsterListAdapter;
+import com.example.anthony.damagecalculator.Adapters.BaseMonsterListAdapter;
+import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
@@ -20,21 +21,21 @@ import com.example.anthony.damagecalculator.R;
 import java.util.ArrayList;
 
 
-public class SaveMonsterListFragment extends Fragment {
-    public static final String TAG = SaveMonsterListFragment.class.getSimpleName();
+public class BaseMonsterListFragment extends Fragment {
+    public static final String TAG = BaseMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
     private ListView monsterListView;
-    private ArrayList<Monster> monsterList;
-    private SaveMonsterListAdapter saveMonsterListAdapter;
+    private ArrayList<BaseMonster> monsterList;
+    private BaseMonsterListAdapter baseMonsterListAdapter;
 
-    public static SaveMonsterListFragment newInstance() {
-        SaveMonsterListFragment fragment = new SaveMonsterListFragment();
+    public static BaseMonsterListFragment newInstance() {
+        BaseMonsterListFragment fragment = new BaseMonsterListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public SaveMonsterListFragment() {
+    public BaseMonsterListFragment() {
     }
 
     @Override
@@ -55,40 +56,47 @@ public class SaveMonsterListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
         }
-        monsterList = (ArrayList) Monster.getAllMonsters();
+        monsterList = (ArrayList) BaseMonster.getAllMonsters();
         //disableStuff();
-        saveMonsterListAdapter = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
-        monsterListView.setAdapter(saveMonsterListAdapter);
+        baseMonsterListAdapter = new BaseMonsterListAdapter(getActivity(), R.layout.base_monster_list_row, monsterList);
+        monsterListView.setAdapter(baseMonsterListAdapter);
         monsterListView.setOnItemClickListener(monsterListOnClickListener);
     }
 
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
+            if(Monster.getAllMonsters().size() == 0){
+                newMonster.setMonsterId(1);
+            }else {
+                newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
+            }
+            newMonster.save();
             Team newTeam = new Team(Team.getTeamById(0));
             switch (newTeam.getMonsterOverwrite()) {
                 case 0:
-                    newTeam.setLead(monsterList.get(position));
+                    newTeam.setLead(newMonster);
                     break;
                 case 1:
-                    newTeam.setSub1(monsterList.get(position));
+                    newTeam.setSub1(newMonster);
                     break;
                 case 2:
-                    newTeam.setSub2(monsterList.get(position));
+                    newTeam.setSub2(newMonster);
                     break;
                 case 3:
-                    newTeam.setSub3(monsterList.get(position));
+                    newTeam.setSub3(newMonster);
                     break;
                 case 4:
-                    newTeam.setSub4(monsterList.get(position));
+                    newTeam.setSub4(newMonster);
                     break;
                 case 5:
-                    newTeam.setHelper(monsterList.get(position));
+                    newTeam.setHelper(newMonster);
                     break;
             }
             newTeam.save();
-            Log.d("Save Monster Log", "Team is: " + newTeam.getMonsters());
-            Log.d("Save Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
+            Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
+            Log.d("Base Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };

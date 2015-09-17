@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
+import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
@@ -569,6 +570,12 @@ public class MonsterPageFragment extends Fragment {
             monsterRemoveDialogFragment.dismiss();
 //            getChildFragmentManager().popBackStack();
             getActivity().getSupportFragmentManager().popBackStack();
+        }
+
+        @Override
+        public void replaceMonster() {
+            ((MainActivity) getActivity()).switchFragment(SaveMonsterListFragment.newInstance(), SaveMonsterListFragment.TAG);
+            monsterRemoveDialogFragment.dismiss();
         }
     };
 

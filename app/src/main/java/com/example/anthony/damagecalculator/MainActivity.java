@@ -22,6 +22,7 @@ import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
+import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.SaveMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
@@ -179,8 +180,8 @@ public class MainActivity extends ActionBarActivity {
                 teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
             }
             teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
-        } else if (id == R.id.searchSaved) {
-            switchFragment(SaveMonsterListFragment.newInstance(), SaveMonsterListFragment.TAG);
+        } else if (id == R.id.searchMonsters) {
+            switchFragment(BaseMonsterListFragment.newInstance(), BaseMonsterListFragment.TAG);
         }
 
         return super.onOptionsItemSelected(item);
