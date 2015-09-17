@@ -146,7 +146,7 @@ public class MonsterListFragment extends Fragment {
         team = Team.getTeamById(0);
         Log.d("Monster Log", "Database Team 0 name after is: " + Team.getTeamById(0).getTeamName() + " Overwrite id is: " + Team.getTeamById(0).getTeamIdOverwrite());
         Log.d("Monster Log", "Current Team 0 name is: " + team.getTeamName() + " TeamIdOverwrite is: " + team.getTeamIdOverwrite());
-        for(int i = 0; i < team.getMonsters().size(); i++){
+        for (int i = 0; i < team.getMonsters().size(); i++) {
             Log.d("Monster Log", "Monster name: " + team.getMonsters(i).getName() + " Monster id: " + team.getMonsters(i).getMonsterId());
         }
         monsters = team.getMonsters();
@@ -274,7 +274,7 @@ public class MonsterListFragment extends Fragment {
     private View.OnClickListener importButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-                ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(team, enemy), TeamListFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(team, enemy), TeamListFragment.TAG);
         }
     };
 
@@ -294,7 +294,14 @@ public class MonsterListFragment extends Fragment {
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(monsters.get(position), position), MonsterPageFragment.TAG);
+            team.setMonsterOverwrite(position);
+            team.save();
+            Log.d("Monster List Log", "Team ID is: " + team.getTeamId() + " Monster Overwrite is: " + team.getMonsterOverwrite());
+            if (monsters.get(position).getMonsterId() == 0) {
+                ((MainActivity) getActivity()).switchFragment(SaveMonsterListFragment.newInstance(), SaveMonsterListFragment.TAG);
+            }else {
+                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
+            }
         }
     };
 

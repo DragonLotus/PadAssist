@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+
 
 import com.example.anthony.damagecalculator.Adapters.SaveMonsterListAdapter;
 import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 
 import java.util.ArrayList;
@@ -54,7 +58,39 @@ public class SaveMonsterListFragment extends Fragment {
         monsterList = (ArrayList) Monster.getAllMonsters();
         saveMonsterListAdapter = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
         monsterListView.setAdapter(saveMonsterListAdapter);
+        monsterListView.setOnItemClickListener(monsterListOnClickListener);
     }
+
+    private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Team newTeam = new Team(Team.getTeamById(0));
+            switch (newTeam.getMonsterOverwrite()) {
+                case 0:
+                    newTeam.setLead(monsterList.get(position));
+                    break;
+                case 1:
+                    newTeam.setSub1(monsterList.get(position));
+                    break;
+                case 2:
+                    newTeam.setSub2(monsterList.get(position));
+                    break;
+                case 3:
+                    newTeam.setSub3(monsterList.get(position));
+                    break;
+                case 4:
+                    newTeam.setSub4(monsterList.get(position));
+                    break;
+                case 5:
+                    newTeam.setHelper(monsterList.get(position));
+                    break;
+            }
+            newTeam.save();
+            Log.d("Save Monster Log", "Team is: " + newTeam.getMonsters());
+            Log.d("Save Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    };
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

@@ -51,6 +51,8 @@ public class Team extends Model implements Parcelable {
     private Boolean hasAwakenings;
     @Column(name = "teamIdOverwrite")
     private long teamIdOverwrite;
+    @Column(name = "monsterOverwrite")
+    private int monsterOverwrite;
 
     public boolean update;
 
@@ -62,7 +64,8 @@ public class Team extends Model implements Parcelable {
         orbMatches = new ArrayList<OrbMatch>();
         hasAwakenings = true;
         favorite = false;
-        teamName = "Kirin, boys";
+        teamName = "Default team";
+        monsterOverwrite = 0;
     }
 
 
@@ -79,6 +82,7 @@ public class Team extends Model implements Parcelable {
         teamGroup = oldTeam.getTeamGroup();
         teamOrder = oldTeam.getTeamOrder();
         favorite = oldTeam.favorite;
+        monsterOverwrite = oldTeam.getMonsterOverwrite();
     }
 
     public int getTeamHealth() {
@@ -265,6 +269,14 @@ public class Team extends Model implements Parcelable {
 
     public void setHelper(Monster helper) {
         this.helper = helper;
+    }
+
+    public int getMonsterOverwrite() {
+        return monsterOverwrite;
+    }
+
+    public void setMonsterOverwrite(int monsterOverwrite) {
+        this.monsterOverwrite = monsterOverwrite;
     }
 
     public int getOrbPlusAwakenings(Element element) {

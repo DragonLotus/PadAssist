@@ -54,15 +54,22 @@ public class MonsterPageFragment extends Fragment {
     private Monster monster;
     private Toast toast;
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
-    private int position;
+    private int level, hp, atk, rcv, awakening;
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
         @Override
         public void changeMonsterAttribute(int statToChange, int statValue) {
+
+            Log.d("Monster Page Log", "Monster level8: " + monster.getCurrentLevel());
+            Log.d("Monster Page Log", "Edit Text Level5: " + monsterLevelValue.getText());
+            Log.d("Monster Page Log", "Stat Value: " + statValue);
             if (statToChange == MyTextWatcher.CURRENT_LEVEL) {
                 if (statValue == 0) {
                     statValue = 1;
                 }
+                Log.d("Monster Page Log", "Monster level9: " + monster.getCurrentLevel());
+                Log.d("Monster Page Log", "Edit Text Level5: " + monsterLevelValue.getText());
+                Log.d("Monster Page Log", "Stat Value2: " + statValue);
                 monster.setCurrentLevel(statValue);
                 monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
                 monster.setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getHpMin(), monster.getHpMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getHpScale()));
@@ -137,12 +144,9 @@ public class MonsterPageFragment extends Fragment {
      * @return A new instance of fragment MonsterPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MonsterPageFragment newInstance(Monster monster, int position) {
+    public static MonsterPageFragment newInstance() {
         MonsterPageFragment fragment = new MonsterPageFragment();
         Bundle args = new Bundle();
-        Log.d("Monster1:", "Monster1: " + monster);
-        args.putParcelable("monster", monster);
-        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -155,9 +159,6 @@ public class MonsterPageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            monster = getArguments().getParcelable("monster");
-            Log.d("Monster2:", "Monster2: " + monster);
-            position = getArguments().getInt("position");
         }
         setHasOptionsMenu(true);
     }
@@ -190,6 +191,20 @@ public class MonsterPageFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+//        Log.d("Monster Page Log", "Monster level1: " + monster.getCurrentLevel());
+//        monster = Team.getTeamById(0).getMonsters(Team.getTeamById(0).getMonsterOverwrite());
+//        Log.d("Monster Page Log", "Monster is: " + monster);
+//        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
+        loadBackup();
+        showAwakenings();
+        grayAwakenings();
+        initializeEditTexts();
+        monsterStats();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.searchGroup, true);
@@ -198,16 +213,25 @@ public class MonsterPageFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        monster = Team.getTeamById(0).getMonsters(Team.getTeamById(0).getMonsterOverwrite());
+        disableStuff();
+        initBackup();
+        Log.d("Monster Page Log", "Monster level3: " + monster.getCurrentLevel());
+        Log.d("Monster Page Log", "Edit Text Level: " + monsterLevelValue.getText());
         monsterPicture.setImageResource(monster.getMonsterPicture());
         monsterName.setText(monster.getName());
         initializeEditTexts();
         monsterStats();
+        Log.d("Monster Page Log", "Monster level4: " + monster.getCurrentLevel());
+        Log.d("Monster Page Log", "Edit Text Level2: " + monsterLevelValue.getText());
         monsterLevelValue.addTextChangedListener(currentLevelWatcher);
         monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
         monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
         monsterStatsRCVPlus.addTextChangedListener(rcvPlusWatcher);
         monsterAwakeningsValue.addTextChangedListener(awakeningsWatcher);
 
+        Log.d("Monster Page Log", "Monster level5: " + monster.getCurrentLevel());
+        Log.d("Monster Page Log", "Edit Text Level3: " + monsterLevelValue.getText());
         monsterLevelValue.setOnFocusChangeListener(editTextOnFocusChange);
         monsterStatsHPPlus.setOnFocusChangeListener(editTextOnFocusChange);
         monsterStatsATKPlus.setOnFocusChangeListener(editTextOnFocusChange);
@@ -229,8 +253,16 @@ public class MonsterPageFragment extends Fragment {
         monsterStatsMaxAll.setOnClickListener(maxButtons);
         monsterRemove.setOnClickListener(maxButtons);
 
+        Log.d("Monster Page Log", "Monster level6: " + monster.getCurrentLevel());
+        Log.d("Monster Page Log", "Edit Text Level4: " + monsterLevelValue.getText());
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("Monster Page Log", "Monster level7: " + monster.getCurrentLevel());
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -430,7 +462,6 @@ public class MonsterPageFragment extends Fragment {
         monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
         monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
         monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
-
     }
 
     public void initializeEditTexts() {
@@ -439,6 +470,51 @@ public class MonsterPageFragment extends Fragment {
         monsterStatsATKPlus.setText(String.valueOf(monster.getAtkPlus()));
         monsterStatsRCVPlus.setText(String.valueOf(monster.getRcvPlus()));
         monsterAwakeningsValue.setText(String.valueOf(monster.getCurrentAwakenings()));
+    }
+
+    public void initBackup(){
+        level = monster.getCurrentLevel();
+        hp = monster.getHpPlus();
+        atk = monster.getAtkPlus();
+        rcv = monster.getRcvPlus();
+        awakening = monster.getCurrentAwakenings();
+    }
+
+    public void loadBackup(){
+        if (monster.getMonsterId() == 0){
+            monster.setCurrentLevel(1);
+            monster.setHpPlus(0);
+            monster.setAtkPlus(0);
+            monster.setRcvPlus(0);
+            monster.setCurrentAwakenings(0);
+        }else {
+            monster.setCurrentLevel(level);
+            monster.setHpPlus(hp);
+            monster.setAtkPlus(atk);
+            monster.setRcvPlus(rcv);
+            monster.setCurrentAwakenings(awakening);
+        }
+    }
+
+    public void disableStuff(){
+        if(monster.getMonsterId() == 0){
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+//        if(monster.getMonsterId() == 0){
+//            monsterLevelMax.setEnabled(false);
+//            monsterStatsMax.setEnabled(false);
+//            monsterStatsHPMax.setEnabled(false);
+//            monsterStatsATKMax.setEnabled(false);
+//            monsterStatsRCVMax.setEnabled(false);
+//            monsterAwakeningsMax.setEnabled(false);
+//            monsterStatsMaxAll.setEnabled(false);
+//            monsterRemove.setEnabled(false);
+//            monsterLevelValue.setEnabled(false);
+//            monsterStatsHPPlus.setEnabled(false);
+//            monsterStatsATKPlus.setEnabled(false);
+//            monsterStatsRCVPlus.setEnabled(false);
+//            monsterAwakeningsValue.setEnabled(false);
+//        }
     }
 
     public void clearTextFocus() {
@@ -457,9 +533,10 @@ public class MonsterPageFragment extends Fragment {
 
         @Override
         public void removeMonsterTeam() {
-            Log.d("Monster Page Log","Position is: " + position + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
+            Log.d("Monster Page Log","Position is: " + Team.getTeamById(0).getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
             Team newTeam = new Team(Team.getTeamById(0));
-            switch (position){
+            Log.d("Monster Page Log", "Monster Overwrite is: " + newTeam.getMonsterOverwrite());
+            switch (newTeam.getMonsterOverwrite()){
                 case 0:
                     newTeam.setLead(Monster.getMonsterId(0));
                     break;
