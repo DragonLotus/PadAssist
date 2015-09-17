@@ -23,10 +23,10 @@ import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
+import com.example.anthony.damagecalculator.Fragments.SaveMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -114,6 +114,8 @@ public class MainActivity extends ActionBarActivity {
             monster.addAwokenSkills(17);
             monster.addAwokenSkills(21);
             monster.addAwokenSkills(19);
+            monster.setType1(5);
+            monster.setType2(2);
             monster.save();
         }
 
@@ -151,6 +153,7 @@ public class MainActivity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.setGroupVisible(R.id.saveTeamGroup, false);
+        menu.setGroupVisible(R.id.searchGroup, false);
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
 //        Log.d("What is fragment", "" + fragment);
 //        if(fragment instanceof MonsterListFragment){
@@ -176,6 +179,8 @@ public class MainActivity extends ActionBarActivity {
                 teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
             }
             teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
+        } else if (id == R.id.searchSaved) {
+            switchFragment(SaveMonsterListFragment.newInstance(), SaveMonsterListFragment.TAG);
         }
 
         return super.onOptionsItemSelected(item);

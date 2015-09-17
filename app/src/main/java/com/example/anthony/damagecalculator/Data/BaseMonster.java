@@ -17,6 +17,8 @@ import java.util.List;
 public class BaseMonster extends Model {
     @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
     private long monsterId;
+    @Column(name = "monsterNumber")
+    private long monsterNumber;
     @Column(name = "atkMax")
     private int atkMax;
     @Column(name = "atkMin")
@@ -61,6 +63,7 @@ public class BaseMonster extends Model {
 
     public BaseMonster() {
         monsterId = 0;
+        monsterNumber = 0;
         monsterPicture = R.drawable.monster_blank;
         atkMax = 0;
         atkMin = 0;

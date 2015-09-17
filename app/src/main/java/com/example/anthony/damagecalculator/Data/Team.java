@@ -268,17 +268,18 @@ public class Team extends Model implements Parcelable {
     }
 
     public int getOrbPlusAwakenings(Element element) {
-        if (element.equals(Element.RED)){
-            return orbPlusAwakenings.get(0);
-        } else if (element.equals(Element.BLUE)){
-            return orbPlusAwakenings.get(1);
-        } else if (element.equals(Element.GREEN)){
-            return orbPlusAwakenings.get(2);
-        } else if (element.equals(Element.LIGHT)){
-            return orbPlusAwakenings.get(3);
-        } else if (element.equals(Element.DARK)){
-            return orbPlusAwakenings.get(4);
-        }else return 0;
+//        if (element.equals(Element.RED)){
+//            return orbPlusAwakenings.get(0);
+//        } else if (element.equals(Element.BLUE)){
+//            return orbPlusAwakenings.get(1);
+//        } else if (element.equals(Element.GREEN)){
+//            return orbPlusAwakenings.get(2);
+//        } else if (element.equals(Element.LIGHT)){
+//            return orbPlusAwakenings.get(3);
+//        } else if (element.equals(Element.DARK)){
+//            return orbPlusAwakenings.get(4);
+//        }else return 0;
+        return 0;
     }
 
     public int getRowAwakenings(Element element) {

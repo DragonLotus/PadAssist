@@ -1,0 +1,77 @@
+package com.example.anthony.damagecalculator.Fragments;
+
+import android.app.Activity;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.example.anthony.damagecalculator.Adapters.SaveMonsterListAdapter;
+import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.R;
+
+import java.util.ArrayList;
+
+
+public class SaveMonsterListFragment extends Fragment {
+    public static final String TAG = SaveMonsterListFragment.class.getSimpleName();
+    private OnFragmentInteractionListener mListener;
+    private ListView monsterListView;
+    private ArrayList<Monster> monsterList;
+    private SaveMonsterListAdapter saveMonsterListAdapter;
+
+    public static SaveMonsterListFragment newInstance() {
+        SaveMonsterListFragment fragment = new SaveMonsterListFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public SaveMonsterListFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_save_monster_list, container, false);
+        monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+        return rootView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getArguments() != null) {
+        }
+        monsterList = (ArrayList) Monster.getAllMonsters();
+        saveMonsterListAdapter = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
+        monsterListView.setAdapter(saveMonsterListAdapter);
+    }
+
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
+    }
+
+}

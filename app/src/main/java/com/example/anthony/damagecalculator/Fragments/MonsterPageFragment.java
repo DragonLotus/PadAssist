@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -156,8 +159,8 @@ public class MonsterPageFragment extends Fragment {
             Log.d("Monster2:", "Monster2: " + monster);
             position = getArguments().getInt("position");
         }
+        setHasOptionsMenu(true);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -184,6 +187,12 @@ public class MonsterPageFragment extends Fragment {
         awakeningHolder = (LinearLayout) rootView.findViewById(R.id.awakeningHolder);
 
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.setGroupVisible(R.id.searchGroup, true);
     }
 
     @Override

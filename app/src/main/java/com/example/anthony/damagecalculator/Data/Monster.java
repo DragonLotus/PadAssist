@@ -29,7 +29,7 @@ public class Monster extends Model implements Parcelable {
     private long monsterId;
     @Column(name = "baseMonster")
     private BaseMonster baseMonster;
-//    @Column(name = "atkMax")
+    //    @Column(name = "atkMax")
 //    private int atkMax;
 //    @Column(name = "atkMin")
 //    private int atkMin;
@@ -55,11 +55,11 @@ public class Monster extends Model implements Parcelable {
     private int hpPlus;
     @Column(name = "rcvPlus")
     private int rcvPlus;
-//    @Column(name = "maxAwakenings")
+    //    @Column(name = "maxAwakenings")
 //    private int maxAwakenings;
     @Column(name = "currentAwakenings")
     private int currentAwakenings;
-//    @Column(name = "element1")
+    //    @Column(name = "element1")
 //    private Element element1;
 //    @Column(name = "element2")
 //    private Element element2;
@@ -85,11 +85,11 @@ public class Monster extends Model implements Parcelable {
     private double currentHp;
     @Column(name = "isBound")
     private boolean isBound;
-//    @Column(name = "monsterPicture")
+    //    @Column(name = "monsterPicture")
 //    private int monsterPicture;
     DecimalFormat format = new DecimalFormat("0.00");
 
-    public Monster(){
+    public Monster() {
     }
 
     public Monster(int baseMonsterId) {
@@ -205,7 +205,7 @@ public class Monster extends Model implements Parcelable {
         this.currentRcv = currentRcv;
     }
 
-    public int getAtkMax()    {
+    public int getAtkMax() {
         return baseMonster.getAtkMax();
     }
 
@@ -239,6 +239,58 @@ public class Monster extends Model implements Parcelable {
 
     public int getType2() {
         return baseMonster.getType2();
+    }
+
+    public String getType1String() {
+        if (baseMonster.getType1() == 0) {
+            return "Evo Material";
+        } else if (baseMonster.getType1() == 1) {
+            return "Balanced";
+        } else if (baseMonster.getType1() == 2) {
+            return "Physical";
+        } else if (baseMonster.getType1() == 3) {
+            return "Healer";
+        } else if (baseMonster.getType1() == 4) {
+            return "Dragon";
+        } else if (baseMonster.getType1() == 5) {
+            return "God";
+        } else if (baseMonster.getType1() == 6) {
+            return "Attacker";
+        } else if (baseMonster.getType1() == 7) {
+            return "Devil";
+        } else if (baseMonster.getType1() == 12) {
+            return "Awoken Skill Material";
+        } else if (baseMonster.getType1() == 13) {
+            return "Protected";
+        } else if (baseMonster.getType1() == 14) {
+            return "Enhance Material";
+        } else return "";
+    }
+
+    public String getType2String() {
+        if (baseMonster.getType1() == 0) {
+            return "/Evo Material";
+        } else if (baseMonster.getType2() == 1) {
+            return "/Balanced";
+        } else if (baseMonster.getType2() == 2) {
+            return "/Physical";
+        } else if (baseMonster.getType2() == 3) {
+            return "/Healer";
+        } else if (baseMonster.getType2() == 4) {
+            return "/Dragon";
+        } else if (baseMonster.getType2() == 5) {
+            return "/God";
+        } else if (baseMonster.getType2() == 6) {
+            return "/Attacker";
+        } else if (baseMonster.getType2() == 7) {
+            return "/Devil";
+        } else if (baseMonster.getType2() == 12) {
+            return "/Awoken Skill Material";
+        } else if (baseMonster.getType2() == 13) {
+            return "/Protected";
+        } else if (baseMonster.getType2() == 14) {
+            return "/Enhance Material";
+        }else return "";
     }
 
     public Element getElement1() {
@@ -343,7 +395,6 @@ public class Monster extends Model implements Parcelable {
         this.monsterId = monsterId;
     }
 
-
     public int getMonsterPicture() {
         return baseMonster.getMonsterPicture();
     }
@@ -398,7 +449,6 @@ public class Monster extends Model implements Parcelable {
             return new Monster[size];
         }
     };
-
 
     public static List<Monster> getAllMonsters() {
         return new Select().from(Monster.class).execute();
