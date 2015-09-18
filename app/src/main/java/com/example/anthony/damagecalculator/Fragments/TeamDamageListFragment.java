@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
+
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 
@@ -61,7 +64,7 @@ public class TeamDamageListFragment extends Fragment {
     private boolean hasEnemy;
     //private ArrayList<Monster> monsterList;
     private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0;
-    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold;
+    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, hasAwakeningsCheck;
@@ -140,6 +143,7 @@ public class TeamDamageListFragment extends Fragment {
         hpRecoveredValue = (TextView) rootView.findViewById(R.id.hpRecoveredValue);
         targetReduction = (TextView) rootView.findViewById(R.id.targetReduction);
         targetAbsorb = (TextView) rootView.findViewById(R.id.elementAbsorb);
+        hasAwakenings = (TextView) rootView.findViewById(R.id.hasAwakenings);
         recalculateButton = (Button) rootView.findViewById(R.id.recalculateButton);
         reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
         absorbRadioGroup = (RadioGroup) rootView.findViewById(R.id.absorbOrbRadioGroup);
@@ -256,6 +260,11 @@ public class TeamDamageListFragment extends Fragment {
             damageThreshold.setVisibility(View.GONE);
             reductionCheck.setVisibility(View.GONE);
             absorbCheck.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+            z.addRule(RelativeLayout.BELOW, hpRecoveredValue.getId());
+            z.addRule(RelativeLayout.RIGHT_OF, hasAwakenings.getId());
+            hasAwakeningsCheck.setLayoutParams(z);
             for (int i = 0; i < team.sizeMonsters(); i++) {
                 if (team.getMonsters(i).isBound()) {
                 } else {

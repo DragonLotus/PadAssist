@@ -280,18 +280,17 @@ public class Team extends Model implements Parcelable {
     }
 
     public int getOrbPlusAwakenings(Element element) {
-//        if (element.equals(Element.RED)){
-//            return orbPlusAwakenings.get(0);
-//        } else if (element.equals(Element.BLUE)){
-//            return orbPlusAwakenings.get(1);
-//        } else if (element.equals(Element.GREEN)){
-//            return orbPlusAwakenings.get(2);
-//        } else if (element.equals(Element.LIGHT)){
-//            return orbPlusAwakenings.get(3);
-//        } else if (element.equals(Element.DARK)){
-//            return orbPlusAwakenings.get(4);
-//        }else return 0;
-        return 0;
+        if (element.equals(Element.RED)){
+            return orbPlusAwakenings.get(0);
+        } else if (element.equals(Element.BLUE)){
+            return orbPlusAwakenings.get(1);
+        } else if (element.equals(Element.GREEN)){
+            return orbPlusAwakenings.get(2);
+        } else if (element.equals(Element.LIGHT)){
+            return orbPlusAwakenings.get(3);
+        } else if (element.equals(Element.DARK)){
+            return orbPlusAwakenings.get(4);
+        }else return 0;
     }
 
     public int getRowAwakenings(Element element) {
@@ -331,6 +330,7 @@ public class Team extends Model implements Parcelable {
         for (int i = 0; i < getMonsters().size(); i++) {
             if (!getMonsters().get(i).isBound() && hasAwakenings) {
                 Log.d("Awakening count", "Size of awoken skills" + getMonsters(i).getAwokenSkills().size());
+                //This isn't necessary anymore
                 if(getMonsters().get(i).getAwokenSkills().size() != 0){
                     for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++){
                         Log.d("Awakening List", "Monster: " + getMonsters(i) + " List: " + getMonsters(i).getAwokenSkills());
