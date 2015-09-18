@@ -118,7 +118,10 @@ public class MainActivity extends ActionBarActivity {
             monster.setType1(5);
             monster.setType2(2);
             monster.save();
+            Log.d("Main Activity Log", "Awakenings: " + monster.getAwokenSkills() + " Size: " + monster.getAwokenSkills().size());
         }
+        Log.d("Main Activity Log", "Monster Name: " + BaseMonster.getMonsterId(1218).getName());
+        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + BaseMonster.getMonsterId(1218).getAwokenSkills() + " Size: " + BaseMonster.getMonsterId(1218).getAwokenSkills().size());
 
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);

@@ -22,7 +22,7 @@ public class ArrayListIntegerSerializer extends TypeSerializer {
 
     @Override
     public Object serialize(Object data) {
-
+        Log.d("Serializer Log", "Serializing");
         if (data == null) {
             return null;
         }
@@ -41,6 +41,7 @@ public class ArrayListIntegerSerializer extends TypeSerializer {
 
     @Override
     public Object deserialize(Object data) {
+        Log.d("Serializer Log", "Deserializing");
         if (data == null) {
             return new ArrayList<Integer>();
         }
