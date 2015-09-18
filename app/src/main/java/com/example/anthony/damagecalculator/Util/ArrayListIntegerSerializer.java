@@ -21,8 +21,8 @@ public class ArrayListIntegerSerializer extends TypeSerializer {
     }
 
     @Override
-    public Object serialize(Object data) {
-        Log.d("Serializer Log", "Serializing");
+    public String serialize(Object data) {
+        Log.d("Serialize", "Serialize");
         if (data == null) {
             return null;
         }
@@ -40,8 +40,8 @@ public class ArrayListIntegerSerializer extends TypeSerializer {
     }
 
     @Override
-    public Object deserialize(Object data) {
-        Log.d("Serializer Log", "Deserializing");
+    public ArrayList<Integer> deserialize(Object data) {
+        Log.d("Serialize", "DeSerialize");
         if (data == null) {
             return new ArrayList<Integer>();
         }

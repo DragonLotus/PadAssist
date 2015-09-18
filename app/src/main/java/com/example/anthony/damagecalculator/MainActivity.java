@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
             Monster monster = new Monster(0);
             monster.save();
         }
-        if(BaseMonster.getMonsterId(1218) == null){
+//        if(BaseMonster.getMonsterId(1218) == null){
             BaseMonster monster = new BaseMonster();
             monster.setMonsterId(1218);
             monster.setMonsterPicture(R.drawable.monster_1218);
@@ -118,10 +118,11 @@ public class MainActivity extends ActionBarActivity {
             monster.setType1(5);
             monster.setType2(2);
             monster.save();
-            Log.d("Main Activity Log", "Awakenings: " + monster.getAwokenSkills() + " Size: " + monster.getAwokenSkills().size());
-        }
-        Log.d("Main Activity Log", "Monster Name: " + BaseMonster.getMonsterId(1218).getName());
-        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + BaseMonster.getMonsterId(1218).getAwokenSkills() + " Size: " + BaseMonster.getMonsterId(1218).getAwokenSkills().size());
+            Log.d("Main Activity Log", "Awakenings: " + monster.getAwokenSkills() + " Size: " + monster.getAwokenSkills().size() + " " + monster.getName() + " " + monster.getId());
+//        }
+        BaseMonster newMonster = BaseMonster.getMonsterId(1218);
+        Log.d("Main Activity Log", "Monster Name: " + newMonster.getName());
+        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + newMonster.getId() + " name: " + newMonster.getName() + " " + newMonster.getAwokenSkills() + " Size: " + newMonster.getAwokenSkills().size());
 
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
