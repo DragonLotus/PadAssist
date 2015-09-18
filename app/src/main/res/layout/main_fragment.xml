@@ -1,136 +1,135 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:clickable="true"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
 
-   <!--<LinearLayout-->
-      <!--android:id="@+id/editHolder"-->
-      <!--android:layout_width="match_parent"-->
-      <!--android:layout_height="wrap_content"-->
-      <!--android:layout_below="@+id/section_label"-->
-      <!--android:orientation="horizontal">-->
+    <!--<LinearLayout-->
+    <!--android:id="@+id/editHolder"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/section_label"-->
+    <!--android:orientation="horizontal">-->
 
-      <!--<Button-->
-         <!--android:id="@+id/enemyStats"-->
-         <!--android:layout_width="0dp"-->
-         <!--android:layout_height="match_parent"-->
-         <!--android:layout_weight=".5"-->
-         <!--android:gravity="center"-->
-         <!--android:text="Enemy Stats" />-->
+    <!--<Button-->
+    <!--android:id="@+id/enemyStats"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight=".5"-->
+    <!--android:gravity="center"-->
+    <!--android:text="Enemy Stats" />-->
 
-      <!--<TextView-->
-         <!--android:id="@+id/editTeam"-->
-         <!--android:layout_width="0dp"-->
-         <!--android:layout_height="match_parent"-->
-         <!--android:layout_weight=".5"-->
-         <!--android:gravity="center"-->
-         <!--android:text="Edit Team" />-->
-   <!--</LinearLayout>-->
+    <!--<TextView-->
+    <!--android:id="@+id/editTeam"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_weight=".5"-->
+    <!--android:gravity="center"-->
+    <!--android:text="Edit Team" />-->
+    <!--</LinearLayout>-->
 
-   <TextView
-      android:id="@+id/element"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="10dp"
-      android:layout_marginTop="10dp"
-      android:gravity="center"
-      android:text="Element"
-      android:textSize="20sp" />
+    <TextView
+        android:id="@+id/element"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/orbRadioGroup"
+        android:layout_alignBottom="@+id/orbRadioGroup"
+        android:gravity="center_vertical"
+        android:text="Element"
+        android:textSize="20sp" />
 
-   <TextView
-      android:id="@+id/orbsLinked"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/element"
-      android:text="# of Orbs Linked"
-       android:textSize="16dp"/>
+    <TextView
+        android:id="@+id/orbsLinked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orbRadioGroup"
+        android:text="# of Orbs Linked"
+        android:textSize="16dp" />
 
-   <SeekBar
-      android:id="@+id/orbsLinkedSpinner"
-      android:layout_width="match_parent"
-      android:layout_height="30dp"
-      android:layout_below="@+id/element"
-      android:layout_toRightOf="@+id/orbsLinked"
-      android:max="27" />
+    <SeekBar
+        android:id="@+id/orbsLinkedSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/orbRadioGroup"
+        android:layout_toRightOf="@+id/orbsLinked"
+        android:max="27" />
 
-   <TextView
-      android:id="@+id/orbsLinkedValue"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignRight="@+id/orbsLinkedSpinner"
-      android:layout_alignTop="@+id/orbsLinkedSpinner"
-      android:text="3"
-       android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/orbsLinkedValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/orbsLinkedSpinner"
+        android:layout_alignTop="@+id/orbsLinkedSpinner"
+        android:text="3"
+        android:textSize="16sp" />
 
-   <TextView
-      android:id="@+id/orbsPlus"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/orbsLinkedSpinner"
-      android:text="# of Orbs Plus"
-       android:textSize="16dp"/>
+    <TextView
+        android:id="@+id/orbsPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orbsLinkedSpinner"
+        android:text="# of Orbs Plus"
+        android:textSize="16dp" />
 
-   <SeekBar
-      android:id="@+id/orbsPlusSpinner"
-      android:layout_width="match_parent"
-      android:layout_height="30dp"
-      android:layout_below="@+id/orbsLinkedSpinner"
-      android:layout_toRightOf="@+id/orbsLinked"
-      android:max="3"
-      />
+    <SeekBar
+        android:id="@+id/orbsPlusSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/orbsLinkedSpinner"
+        android:layout_toRightOf="@+id/orbsLinked"
+        android:max="3" />
 
-   <TextView
-      android:id="@+id/orbsPlusValue"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignRight="@+id/orbsPlusSpinner"
-      android:layout_alignTop="@+id/orbsPlusSpinner"
-      android:text="0"
-       android:textSize="16sp"/>
+    <TextView
+        android:id="@+id/orbsPlusValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/orbsPlusSpinner"
+        android:layout_alignTop="@+id/orbsPlusSpinner"
+        android:text="0"
+        android:textSize="16sp" />
 
-   <TextView
-      android:id="@+id/row"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/orbsPlusSpinner"
-      android:text="Is a row:"
-       android:textSize="16dp"
-       android:layout_alignTop="@+id/rowCheckBox"
-       android:layout_alignBottom="@+id/rowCheckBox"
-       android:gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rowCheckBox"
+        android:layout_alignTop="@+id/rowCheckBox"
+        android:layout_below="@+id/orbsPlusSpinner"
+        android:gravity="center_vertical"
+        android:text="Is a row:"
+        android:textSize="16dp" />
 
-   <CheckBox
-      android:id="@+id/rowCheckBox"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/orbsPlusSpinner"
-      android:layout_toRightOf="@+id/row"
-       android:enabled="false"/>
+    <CheckBox
+        android:id="@+id/rowCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orbsPlusSpinner"
+        android:layout_toRightOf="@+id/row"
+        android:enabled="false" />
 
     <TextView
         android:id="@+id/maxLeadMultiplier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/orbsPlusSpinner"
-        android:text="Max Lead Multipliers:"
-        android:textSize="16dp"
-        android:layout_toLeftOf="@+id/maxLeadMultiplierCheckBox"
-        android:layout_alignTop="@+id/rowCheckBox"
         android:layout_alignBottom="@+id/rowCheckBox"
-        android:gravity="center_vertical"/>
+        android:layout_alignTop="@+id/rowCheckBox"
+        android:layout_below="@+id/orbsPlusSpinner"
+        android:layout_toLeftOf="@+id/maxLeadMultiplierCheckBox"
+        android:gravity="center_vertical"
+        android:text="Max Lead Multipliers:"
+        android:textSize="16dp" />
 
     <CheckBox
         android:id="@+id/maxLeadMultiplierCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/orbsPlusSpinner"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/orbsPlusSpinner" />
 
     <LinearLayout
         android:id="@+id/buttonHolder"
@@ -138,13 +137,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rowCheckBox"
         android:orientation="horizontal">
+
         <Button
             android:id="@+id/addMatch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight=".5"
             android:gravity="center"
-            android:text="Add Match"
-            android:layout_weight=".5"/>
+            android:text="Add Match" />
 
         <Button
             android:id="@+id/reset"
@@ -156,20 +156,20 @@
     </LinearLayout>
 
 
-   <TextView
-      android:id="@+id/List"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/buttonHolder"
-      android:text="Orb Matches:"
-       android:textSize="16dp"/>
+    <TextView
+        android:id="@+id/List"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonHolder"
+        android:text="Orb Matches:"
+        android:textSize="16dp" />
 
-   <ListView
-      android:id="@+id/orbMatches"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_above="@+id/additionalComboValue"
-      android:layout_below="@+id/List" />
+    <ListView
+        android:id="@+id/orbMatches"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/additionalComboValue"
+        android:layout_below="@+id/List" />
 
     <Button
         android:id="@+id/calculateButton"
@@ -177,15 +177,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Enemy Attributes" />
+
     <TextView
         android:id="@+id/additionalCombo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Additional Combos: "
-        android:textSize="16dp"
-        android:layout_alignTop="@+id/additionalComboValue"
         android:layout_alignBottom="@+id/additionalComboValue"
-        android:gravity="center_vertical" />
+        android:layout_alignTop="@+id/additionalComboValue"
+        android:gravity="center_vertical"
+        android:text="Additional Combos: "
+        android:textSize="16dp" />
 
     <EditText
         android:id="@+id/additionalComboValue"
@@ -193,84 +194,89 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/calculateButton"
         android:layout_toRightOf="@+id/additionalCombo"
-        android:text="0"
-        android:textSize="16dp"
         android:inputType="number"
-        android:maxLength="5"/>
+        android:maxLength="5"
+        android:text="0"
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/ignoreEnemy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/calculateButton"
-        android:layout_toLeftOf="@+id/ignoreEnemyCheckBox"
-        android:text="Ignore Enemy:"
-        android:textSize="16dp"
-        android:layout_alignTop="@+id/additionalComboValue"
         android:layout_alignBottom="@+id/additionalComboValue"
-        android:gravity="center_vertical"/>
+        android:layout_alignTop="@+id/additionalComboValue"
+        android:layout_toLeftOf="@+id/ignoreEnemyCheckBox"
+        android:gravity="center_vertical"
+        android:text="Ignore Enemy:"
+        android:textSize="16dp" />
 
     <CheckBox
         android:id="@+id/ignoreEnemyCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/additionalComboValue"
         android:layout_alignBottom="@+id/additionalComboValue"
-        android:gravity="center_vertical"
         android:layout_alignParentRight="true"
-        android:enabled="true"/>
+        android:layout_alignTop="@+id/additionalComboValue"
+        android:enabled="true"
+        android:gravity="center_vertical" />
 
-   <RadioGroup
-       android:id="@+id/orbRadioGroup"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:checkedButton="@+id/redOrb"
-       android:orientation="horizontal"
-       android:layout_alignTop="@+id/element"
-       android:layout_alignBottom="@+id/element"
-       android:layout_toRightOf="@+id/element">
-      <RadioButton
-          android:id="@+id/redOrb"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_marginLeft="10dp"
-          android:button="@null"
-          android:background="@drawable/red_orb_selector" />
-      <RadioButton
-          android:id="@+id/blueOrb"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_marginLeft="10dp"
-          android:button="@null"
-          android:background="@drawable/blue_orb_selector" />
-      <RadioButton
-          android:id="@+id/greenOrb"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_marginLeft="10dp"
-          android:button="@null"
-          android:background="@drawable/green_orb_selector" />
-      <RadioButton
-          android:id="@+id/lightOrb"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_marginLeft="10dp"
-          android:button="@null"
-          android:background="@drawable/light_orb_selector" />
-      <RadioButton
-          android:id="@+id/darkOrb"
-          android:layout_width="20dp"
-          android:layout_height="20dp"
-          android:layout_marginLeft="10dp"
-          android:button="@null"
-          android:background="@drawable/dark_orb_selector" />
-       <RadioButton
-           android:id="@+id/heartOrb"
-           android:layout_width="20dp"
-           android:layout_height="20dp"
-           android:layout_marginLeft="10dp"
-           android:button="@null"
-           android:background="@drawable/heart_orb_selector" />
-   </RadioGroup>
+    <RadioGroup
+        android:id="@+id/orbRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/element"
+        android:checkedButton="@+id/redOrb"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <RadioButton
+            android:id="@+id/redOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/red_orb_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/blueOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/blue_orb_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/greenOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/green_orb_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/lightOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/light_orb_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/darkOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/dark_orb_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/heartOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/heart_orb_selector"
+            android:button="@null" />
+    </RadioGroup>
 
 </RelativeLayout>
