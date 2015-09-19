@@ -84,6 +84,12 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.type1.setVisibility(View.GONE);
             viewHolder.type2.setVisibility(View.GONE);
             viewHolder.monsterPlus.setVisibility(View.GONE);
+        }else {
+            viewHolder.type1.setVisibility(View.VISIBLE);
+            viewHolder.type2.setVisibility(View.VISIBLE);
+            viewHolder.monsterPlus.setVisibility(View.VISIBLE);
+            viewHolder.element1.setVisibility(View.VISIBLE);
+            viewHolder.element2.setVisibility(View.VISIBLE);
         }
         return convertView;
     }

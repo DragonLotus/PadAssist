@@ -274,6 +274,10 @@ public class MainFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        for(int i = 0; i < team.getMonsters().size(); i++){
+            Log.d("Orb Match Log","Monster is: " + team.getMonsters(i) + " Awakenings are: " + team.getMonsters(i).getAwokenSkills());
+        }
+        Log.d("Orb Match Log", "Orb Plus Awakenings: " + team.getOrbPlusAwakenings());
         Log.d("Orb Match Log", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
         new DownloadPadApi().start();
         orbsLinked.setOnSeekBarChangeListener(orbsLinkedSeekBarChangeListener);

@@ -208,6 +208,11 @@ public class EnemyTargetFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        for(int i = 0; i < team.getMonsters().size(); i++){
+            Log.d("Enemy Log","Monster is: " + team.getMonsters(i) + " Awakenings are: " + team.getMonsters(i).getAwokenSkills());
+        }
+        Log.d("Enemy Log", "Orb Plus Awakenings: " + team.getOrbPlusAwakenings());
+        Log.d("Enemy Log", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
         tempAbsorb = enemy.getHasAbsorb();
         tempReduction = enemy.getHasReduction();
         tempDamageThreshold = enemy.getHasDamageThreshold();

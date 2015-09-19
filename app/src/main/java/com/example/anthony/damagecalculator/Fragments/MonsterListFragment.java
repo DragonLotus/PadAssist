@@ -152,6 +152,7 @@ public class MonsterListFragment extends Fragment {
         monsters = team.getMonsters();
 //        monsterListAdapter.notifyDataSetChanged();
         monsterListAdapter.updateList(monsters);
+        team.update();
     }
 
     @Override

@@ -171,6 +171,11 @@ public class TeamDamageListFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        for(int i = 0; i < team.getMonsters().size(); i++){
+            Log.d("Team Damage Log","Monster is: " + team.getMonsters(i) + " Awakenings are: " + team.getMonsters(i).getAwokenSkills());
+        }
+        Log.d("Team Damage Log", "Orb Plus Awakenings: " + team.getOrbPlusAwakenings());
+        Log.d("Team Damage Log", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
         if (hasEnemy) {
             temp = enemy.getCurrentHp();
             setReductionOrbs();
