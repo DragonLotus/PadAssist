@@ -26,6 +26,7 @@ public class Team extends Model implements Parcelable {
     private ArrayList<Integer> rowAwakenings= new ArrayList<Integer>();
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
     private ArrayList<Monster> monsters;
+    private ArrayList<Long> baseMonsterId = new ArrayList<Long>();
     @Column(name = "lead", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
     private Monster lead;
     @Column(name = "sub1", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
@@ -132,6 +133,14 @@ public class Team extends Model implements Parcelable {
 
     public void setMonsters(ArrayList<Monster> monsters) {
         this.monsters = monsters;
+    }
+
+    public ArrayList<Long> getBaseMonsterId() {
+        baseMonsterId.clear();
+        for(int i = 0; i < getMonsters().size(); i++){
+            baseMonsterId.add(getMonsters(i).getBaseMonsterId());
+        }
+        return baseMonsterId;
     }
 
     public int getTotalDamage() {

@@ -59,6 +59,12 @@ public class BaseMonster extends Model {
     private double hpScale;
     @Column(name = "monsterPicture")
     private int monsterPicture;
+    @Column(name = "rarity")
+    private int rarity;
+    @Column(name = "teamCost")
+    private int teamCost;
+    @Column(name = "xpCurve")
+    private int xpCurve;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public BaseMonster() {
@@ -117,11 +123,11 @@ public class BaseMonster extends Model {
         return awokenSkills;
     }
 
-    public int getAwokenSkills(int position){
+    public int getAwokenSkills(int position) {
         return awokenSkills.get(position);
     }
 
-    public void addAwokenSkills(int awakening){
+    public void addAwokenSkills(int awakening) {
         awokenSkills.add(awakening);
     }
 
@@ -143,6 +149,38 @@ public class BaseMonster extends Model {
 
     public void setElement2(Element element2) {
         this.element2 = element2;
+    }
+
+    public int getElement1Int(){
+        if (element1 == Element.RED){
+            return 0;
+        }else if(element1 == Element.BLUE) {
+            return 1;
+        }else if(element1 == Element.GREEN) {
+            return 2;
+        }else if(element1 == Element.LIGHT) {
+            return 3;
+        }else if(element1 == Element.DARK) {
+            return 4;
+        }else {
+            return 5;
+        }
+    }
+
+    public int getElement2Int(){
+        if (element2 == Element.RED){
+            return 0;
+        }else if(element2 == Element.BLUE) {
+            return 1;
+        }else if(element2 == Element.GREEN) {
+            return 2;
+        }else if(element2 == Element.LIGHT) {
+            return 3;
+        }else if(element2 == Element.DARK) {
+            return 4;
+        }else {
+            return 5;
+        }
     }
 
     public int getHpMax() {
@@ -306,14 +344,38 @@ public class BaseMonster extends Model {
             return "/Protected";
         } else if (type2 == 14) {
             return "/Enhance Material";
-        }else return "";
+        } else return "";
+    }
+
+    public int getXpCurve() {
+        return xpCurve;
+    }
+
+    public void setXpCurve(int xpCurve) {
+        this.xpCurve = xpCurve;
+    }
+
+    public int getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(int rarity) {
+        this.rarity = rarity;
+    }
+
+    public int getTeamCost() {
+        return teamCost;
+    }
+
+    public void setTeamCost(int teamCost) {
+        this.teamCost = teamCost;
     }
 
     public static List<Monster> getAllMonsters() {
         return new Select().from(BaseMonster.class).execute();
     }
 
-    public static BaseMonster getMonsterId(long id){
+    public static BaseMonster getMonsterId(long id) {
         return new Select().from(BaseMonster.class).where("monsterId = ?", id).executeSingle();
     }
 

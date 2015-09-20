@@ -20,6 +20,7 @@ import com.activeandroid.Configuration;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
+import com.example.anthony.damagecalculator.Data.LeaderSkill;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
@@ -60,6 +61,7 @@ public class MainActivity extends ActionBarActivity {
             configBuilder.addModelClasses(Monster.class);
             configBuilder.addModelClasses(Team.class);
             configBuilder.addModelClass(BaseMonster.class);
+            configBuilder.addModelClass(LeaderSkill.class);
             ActiveAndroid.initialize(configBuilder.create());
         } else {
             ActiveAndroid.initialize(this);
@@ -117,6 +119,9 @@ public class MainActivity extends ActionBarActivity {
             monster.addAwokenSkills(19);
             monster.setType1(5);
             monster.setType2(2);
+            monster.setRarity(7);
+            monster.setTeamCost(35);
+            monster.setXpCurve(4000000);
             monster.save();
             Log.d("Main Activity Log", "Awakenings: " + monster.getAwokenSkills() + " Size: " + monster.getAwokenSkills().size() + " " + monster.getName() + " " + monster.getId());
         }

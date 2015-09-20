@@ -242,55 +242,57 @@ public class Monster extends Model implements Parcelable {
     }
 
     public String getType1String() {
-        if (baseMonster.getType1() == 0) {
-            return "Evo Material";
-        } else if (baseMonster.getType1() == 1) {
-            return "Balanced";
-        } else if (baseMonster.getType1() == 2) {
-            return "Physical";
-        } else if (baseMonster.getType1() == 3) {
-            return "Healer";
-        } else if (baseMonster.getType1() == 4) {
-            return "Dragon";
-        } else if (baseMonster.getType1() == 5) {
-            return "God";
-        } else if (baseMonster.getType1() == 6) {
-            return "Attacker";
-        } else if (baseMonster.getType1() == 7) {
-            return "Devil";
-        } else if (baseMonster.getType1() == 12) {
-            return "Awoken Skill Material";
-        } else if (baseMonster.getType1() == 13) {
-            return "Protected";
-        } else if (baseMonster.getType1() == 14) {
-            return "Enhance Material";
-        } else return "";
+//        if (baseMonster.getType1() == 0) {
+//            return "Evo Material";
+//        } else if (baseMonster.getType1() == 1) {
+//            return "Balanced";
+//        } else if (baseMonster.getType1() == 2) {
+//            return "Physical";
+//        } else if (baseMonster.getType1() == 3) {
+//            return "Healer";
+//        } else if (baseMonster.getType1() == 4) {
+//            return "Dragon";
+//        } else if (baseMonster.getType1() == 5) {
+//            return "God";
+//        } else if (baseMonster.getType1() == 6) {
+//            return "Attacker";
+//        } else if (baseMonster.getType1() == 7) {
+//            return "Devil";
+//        } else if (baseMonster.getType1() == 12) {
+//            return "Awoken Skill Material";
+//        } else if (baseMonster.getType1() == 13) {
+//            return "Protected";
+//        } else if (baseMonster.getType1() == 14) {
+//            return "Enhance Material";
+//        } else return "";
+        return baseMonster.getType1String();
     }
 
     public String getType2String() {
-        if (baseMonster.getType2() == 0) {
-            return "/Evo Material";
-        } else if (baseMonster.getType2() == 1) {
-            return "/Balanced";
-        } else if (baseMonster.getType2() == 2) {
-            return "/Physical";
-        } else if (baseMonster.getType2() == 3) {
-            return "/Healer";
-        } else if (baseMonster.getType2() == 4) {
-            return "/Dragon";
-        } else if (baseMonster.getType2() == 5) {
-            return "/God";
-        } else if (baseMonster.getType2() == 6) {
-            return "/Attacker";
-        } else if (baseMonster.getType2() == 7) {
-            return "/Devil";
-        } else if (baseMonster.getType2() == 12) {
-            return "/Awoken Skill Material";
-        } else if (baseMonster.getType2() == 13) {
-            return "/Protected";
-        } else if (baseMonster.getType2() == 14) {
-            return "/Enhance Material";
-        }else return "";
+//        if (baseMonster.getType2() == 0) {
+//            return "/Evo Material";
+//        } else if (baseMonster.getType2() == 1) {
+//            return "/Balanced";
+//        } else if (baseMonster.getType2() == 2) {
+//            return "/Physical";
+//        } else if (baseMonster.getType2() == 3) {
+//            return "/Healer";
+//        } else if (baseMonster.getType2() == 4) {
+//            return "/Dragon";
+//        } else if (baseMonster.getType2() == 5) {
+//            return "/God";
+//        } else if (baseMonster.getType2() == 6) {
+//            return "/Attacker";
+//        } else if (baseMonster.getType2() == 7) {
+//            return "/Devil";
+//        } else if (baseMonster.getType2() == 12) {
+//            return "/Awoken Skill Material";
+//        } else if (baseMonster.getType2() == 13) {
+//            return "/Protected";
+//        } else if (baseMonster.getType2() == 14) {
+//            return "/Enhance Material";
+//        }else return "";
+        return baseMonster.getType2String();
     }
 
     public Element getElement1() {
@@ -299,6 +301,14 @@ public class Monster extends Model implements Parcelable {
 
     public Element getElement2() {
         return baseMonster.getElement2();
+    }
+
+    public int getElement1Int(){
+        return baseMonster.getElement1Int();
+    }
+
+    public int getElement2Int(){
+        return baseMonster.getElement2Int();
     }
 
     public ArrayList<Integer> getAwokenSkills() {
@@ -395,8 +405,24 @@ public class Monster extends Model implements Parcelable {
         this.monsterId = monsterId;
     }
 
+    public long getBaseMonsterId(){
+        return baseMonster.getMonsterId();
+    }
+
     public int getMonsterPicture() {
         return baseMonster.getMonsterPicture();
+    }
+
+    public int getXpCurve() {
+        return baseMonster.getXpCurve();
+    }
+
+    public int getRarity() {
+        return baseMonster.getRarity();
+    }
+
+    public int getTeamCost() {
+        return baseMonster.getTeamCost();
     }
 
     public int getTPA() {

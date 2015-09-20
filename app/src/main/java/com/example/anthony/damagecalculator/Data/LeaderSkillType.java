@@ -1,0 +1,8 @@
+package com.example.anthony.damagecalculator.Data;
+
+/**
+ * Created by DragonLotus on 9/19/2015.
+ */
+public enum LeaderSkillType {
+    FLAT, COMBO, MATCH_ELEMENT, MONSTER_CONDITIONAL, FLAT_MONSTER_CONDITIONAL, ORB_PLUS, ORB_LINKED, FLAT_MATCH_ELEMENT, MATCH_ELEMENT_ACTIVE, FLAT_ACTIVE, COMBO_ACTIVE, FLAT_COMBO, MULTI_FLAT;
+}
