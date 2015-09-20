@@ -50,6 +50,7 @@ public class Team extends Model implements Parcelable {
     @Column(name = "favorite")
     private Boolean favorite;
     private Boolean hasAwakenings;
+    private Boolean isActiveSkillUsed;
     @Column(name = "teamIdOverwrite")
     private long teamIdOverwrite;
     @Column(name = "monsterOverwrite")
@@ -65,6 +66,7 @@ public class Team extends Model implements Parcelable {
         orbMatches = new ArrayList<OrbMatch>();
         hasAwakenings = true;
         favorite = false;
+        isActiveSkillUsed = false;
         teamName = "Default team";
         monsterOverwrite = 0;
     }
@@ -322,6 +324,14 @@ public class Team extends Model implements Parcelable {
 
     public void setHasAwakenings(Boolean hasAwakenings) {
         this.hasAwakenings = hasAwakenings;
+    }
+
+    public Boolean isActiveSkillUsed() {
+        return isActiveSkillUsed;
+    }
+
+    public void isActiveSkillUsed(Boolean isActiveSkillUsed) {
+        this.isActiveSkillUsed = isActiveSkillUsed;
     }
 
     public void update() {
