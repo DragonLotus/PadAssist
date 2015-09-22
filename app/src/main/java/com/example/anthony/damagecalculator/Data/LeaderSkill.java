@@ -3,6 +3,7 @@ package com.example.anthony.damagecalculator.Data;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
 
@@ -18,7 +19,7 @@ public class LeaderSkill extends Model {
     private ArrayList<Double> atkData;
     @Column(name = "rcvData")
     private ArrayList<Double> rcvData;
-    @Column(name = "name")
+    @Column(name = "name", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String name;
     @Column(name = "description")
     private String description;
@@ -46,7 +47,7 @@ public class LeaderSkill extends Model {
     @Column(name = "matchElements")
     private ArrayList<Element> matchElements;
     @Column(name = "matchMonsters")
-    private ArrayList<Monster> matchMonsters;
+    private ArrayList<Long> matchMonsters;
     @Column(name = "hpSkillType")
     private LeaderSkillType hpSkillType;
     @Column(name = "atkSkillType")
@@ -63,6 +64,18 @@ public class LeaderSkill extends Model {
         atkElement1Multiplier = 1;
         atkElement2Multiplier = 1;
         rcvMultiplier = 1;
+        hpData = new ArrayList<>();
+        atkData = new ArrayList<>();
+        rcvData = new ArrayList<>();
+        hpType = new ArrayList<>();
+        hpElement = new ArrayList<>();
+        atkType = new ArrayList<>();
+        atkElement = new ArrayList<>();
+        rcvType = new ArrayList<>();
+        rcvElement = new ArrayList<>();
+        matchElements = new ArrayList<>();
+        matchMonsters = new ArrayList<>();
+
     }
 
     public ArrayList<Double> getAtkData() {
@@ -73,12 +86,20 @@ public class LeaderSkill extends Model {
         this.atkData = atkData;
     }
 
+    public void addAtkData(Double data){
+        atkData.add(data);
+    }
+
     public ArrayList<Integer> getAtkElement() {
         return atkElement;
     }
 
     public void setAtkElement(ArrayList<Integer> atkElement) {
         this.atkElement = atkElement;
+    }
+
+    public void addAtkElement(int element){
+        atkElement.add(element);
     }
 
     public LeaderSkillType getAtkSkillType() {
@@ -95,6 +116,10 @@ public class LeaderSkill extends Model {
 
     public void setAtkType(ArrayList<Integer> atkType) {
         this.atkType = atkType;
+    }
+
+    public void addAtkType(int type){
+        atkType.add(type);
     }
 
     public int getComboMax2() {
@@ -145,12 +170,20 @@ public class LeaderSkill extends Model {
         this.hpData = hpData;
     }
 
+    public void addHpData (Double data){
+        hpData.add(data);
+    }
+
     public ArrayList<Integer> getHpElement() {
         return hpElement;
     }
 
     public void setHpElement(ArrayList<Integer> hpElement) {
         this.hpElement = hpElement;
+    }
+
+    public void addHpElement(int element){
+        hpElement.add(element);
     }
 
     public LeaderSkillType getHpSkillType() {
@@ -169,6 +202,10 @@ public class LeaderSkill extends Model {
         this.hpType = hpType;
     }
 
+    public void addHpType(int type){
+        hpType.add(type);
+    }
+
     public ArrayList<Element> getMatchElements() {
         return matchElements;
     }
@@ -177,12 +214,20 @@ public class LeaderSkill extends Model {
         this.matchElements = matchElements;
     }
 
-    public ArrayList<Monster> getMatchMonsters() {
+    public void addMatchElements(Element element){
+        matchElements.add(element);
+    }
+
+    public ArrayList<Long> getMatchMonsters() {
         return matchMonsters;
     }
 
-    public void setMatchMonsters(ArrayList<Monster> matchMonsters) {
+    public void setMatchMonsters(ArrayList<Long> matchMonsters) {
         this.matchMonsters = matchMonsters;
+    }
+
+    public void addMatchmonsters(Long monsterId){
+        matchMonsters.add(monsterId);
     }
 
     public String getName() {
@@ -201,12 +246,20 @@ public class LeaderSkill extends Model {
         this.rcvData = rcvData;
     }
 
+    public void addRcvData(Double data){
+        rcvData.add(data);
+    }
+
     public ArrayList<Integer> getRcvElement() {
         return rcvElement;
     }
 
     public void setRcvElement(ArrayList<Integer> rcvElement) {
         this.rcvElement = rcvElement;
+    }
+
+    public void addRcvElement(int element){
+        rcvElement.add(element);
     }
 
     public LeaderSkillType getRcvSkillType() {
@@ -224,6 +277,12 @@ public class LeaderSkill extends Model {
     public void setRcvType(ArrayList<Integer> rcvType) {
         this.rcvType = rcvType;
     }
+
+    public void addRcvType(int type){
+        rcvType.add(type);
+    }
+
+
 
     private double hpMultiplier(Monster monster, Team team) {
         switch (hpSkillType) {
@@ -490,7 +549,7 @@ public class LeaderSkill extends Model {
         //Three kingdoms farmables. Zhao Yun.
         int counter = 0;
         for (int i = 0; i < matchMonsters.size(); i++){
-            if (team.getBaseMonsterId().contains(matchMonsters.get(i).getBaseMonsterId())){
+            if (team.getBaseMonsterId().contains(matchMonsters.get(i))){
                 counter++;
             }
         }
@@ -511,7 +570,7 @@ public class LeaderSkill extends Model {
         //See Awoken Jord and Zhou Yu
         int counter = 0;
         for (int i = 0; i < matchMonsters.size(); i++){
-            if (team.getBaseMonsterId().contains(matchMonsters.get(i).getBaseMonsterId())){
+            if (team.getBaseMonsterId().contains(matchMonsters.get(i))){
                 counter++;
             }
         }
@@ -1088,5 +1147,9 @@ public class LeaderSkill extends Model {
                 }
             }
         }
+    }
+
+    public static LeaderSkill getLeaderSkill(String name) {
+        return new Select().from(LeaderSkill.class).where("name = ?", name).executeSingle();
     }
 }

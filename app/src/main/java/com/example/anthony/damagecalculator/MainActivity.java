@@ -21,6 +21,7 @@ import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.LeaderSkill;
+import com.example.anthony.damagecalculator.Data.LeaderSkillType;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
@@ -122,13 +123,24 @@ public class MainActivity extends ActionBarActivity {
             monster.setRarity(7);
             monster.setTeamCost(35);
             monster.setXpCurve(4000000);
+            monster.setLeaderSkill("Test");
             monster.save();
             Log.d("Main Activity Log", "Awakenings: " + monster.getAwokenSkills() + " Size: " + monster.getAwokenSkills().size() + " " + monster.getName() + " " + monster.getId());
+            Log.d("Main Activity Log", "Leader skill is: " + monster.getLeaderSkill());
         }
 //        BaseMonster newMonster = BaseMonster.getMonsterId(1218);
 //        Log.d("Main Activity Log", "Monster Name: " + newMonster.getName());
 //        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + newMonster.getId() + " name: " + newMonster.getName() + " " + newMonster.getAwokenSkills() + " Size: " + newMonster.getAwokenSkills().size());
 
+        LeaderSkill leaderSkill = new LeaderSkill();
+        leaderSkill.setAtkSkillType(LeaderSkillType.FLAT);
+        leaderSkill.setName("Test");
+        leaderSkill.addAtkData(10.);
+        leaderSkill.addAtkElement(0);
+        leaderSkill.addMatchElements(Element.RED);
+        leaderSkill.save();
+        Log.d("Main Activity Log","Leader Skill Attack Type: " + leaderSkill.getAtkSkillType()+ " Leader skill name: " + leaderSkill.getName() + " Attack Data size: " + leaderSkill.getAtkData().size() + " Leader Skill Multiplier: " + leaderSkill.getAtkData());
+        Log.d("Main Activity Log", "Match Elements: " + leaderSkill.getMatchElements() + " Attack Elements: " + leaderSkill.getAtkElement());
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 
@@ -156,7 +168,6 @@ public class MainActivity extends ActionBarActivity {
         super.onSaveInstanceState(outState, outPersistentState);
         getSupportFragmentManager().putFragment(outState, "mContent", mContent);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

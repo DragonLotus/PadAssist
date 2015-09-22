@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -61,6 +62,7 @@ public class EnemyTargetFragment extends Fragment {
     private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue;
     private TextView percentHpValue, totalGravityValue;
     private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
+    private RadioButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb;
     private Button gravityShowHideButton, clearButton, hpReset, calculate;
     private LinearLayout gravityHolder;
     private GravityListAdapter gravityListAdapter;
@@ -198,6 +200,11 @@ public class EnemyTargetFragment extends Fragment {
         greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
         lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
         darkOrbReduction = (CheckBox) rootView.findViewById(R.id.darkOrbReduction);
+        redOrb = (RadioButton) rootView.findViewById(R.id.redOrb);
+        blueOrb = (RadioButton) rootView.findViewById(R.id.blueOrb);
+        greenOrb = (RadioButton) rootView.findViewById(R.id.greenOrb);
+        lightOrb = (RadioButton) rootView.findViewById(R.id.lightOrb);
+        darkOrb = (RadioButton) rootView.findViewById(R.id.darkOrb);
         return rootView;
     }
 
@@ -315,6 +322,7 @@ public class EnemyTargetFragment extends Fragment {
         setReductionOrbs();
         setAbsorbOrbs();
         setDamageThreshold();
+        setEnemyElement();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -737,6 +745,27 @@ public class EnemyTargetFragment extends Fragment {
         }else {
             damageThresholdValue.setEnabled(false);
             damageThresholdCheck.setChecked(false);
+        }
+    }
+
+    private void setEnemyElement(){
+        switch(enemy.getTargetElement()){
+            case RED:
+                orbRadioGroup.check(redOrb.getId());
+                break;
+            case BLUE:
+                orbRadioGroup.check(blueOrb.getId());
+                break;
+            case GREEN:
+                orbRadioGroup.check(greenOrb.getId());
+                break;
+            case LIGHT:
+                orbRadioGroup.check(lightOrb.getId());
+                break;
+            case DARK:
+                orbRadioGroup.check(darkOrb.getId());
+                break;
+
         }
     }
 
