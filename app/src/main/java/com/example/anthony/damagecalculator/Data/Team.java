@@ -298,6 +298,17 @@ public class Team extends Model implements Parcelable {
         return helper.getLeaderSkill();
     }
 
+    public ArrayList<Element> getOrbMatchElements(){
+        ArrayList<Element> compareElements = new ArrayList<>();
+        for (int i = 0; i < orbMatches.size(); i++){
+            if(!compareElements.contains(orbMatches.get(i).getElement())){
+                compareElements.add(orbMatches.get(i).getElement());
+            }
+        }
+        Log.d("Team Log", "Compare Elements has: " + compareElements);
+        return compareElements;
+    }
+
     public int getOrbPlusAwakenings(Element element) {
         if (element.equals(Element.RED)){
             return orbPlusAwakenings.get(0);

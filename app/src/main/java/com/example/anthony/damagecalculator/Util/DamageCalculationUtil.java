@@ -1,9 +1,13 @@
 package com.example.anthony.damagecalculator.Util;
 
+import android.util.Log;
+
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
+import com.example.anthony.damagecalculator.Data.LeaderSkill;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
+import com.example.anthony.damagecalculator.Data.Team;
 
 import java.util.ArrayList;
 
@@ -12,199 +16,214 @@ import java.util.ArrayList;
  */
 public class DamageCalculationUtil {
 
-    public static double monsterElement1Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos) {
+    public static double monsterElement1Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Team team) {
         double totalOrbDamage = 0;
         for (int i = 0; i < orbMatches.size(); i++) {
             if (orbMatches.get(i).getElement().equals(monster.getElement1())) {
                 totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
-        return comboMultiplier(totalOrbDamage, combos);
+        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + LeaderSkill.getLeaderSkill(team.getLeadSkill1()).atkElement1Multiplier(monster, team) * LeaderSkill.getLeaderSkill(team.getLeadSkill2()).atkElement1Multiplier(monster, team));
+        return Math.ceil(leadOtherMultiplier1(comboMultiplier(totalOrbDamage, combos), monster, team));
     }
 
-    public static double monsterElement2Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos) {
+    public static double monsterElement2Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Team team) {
         double totalOrbDamage = 0;
-        if(monster.getElement1().equals(monster.getElement2())){
-            for(int i = 0; i < orbMatches.size(); i++) {
-                if(orbMatches.get(i).getElement().equals(monster.getElement2())) {
-                    totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, monster.getTPA());
+        if (monster.getElement1().equals(monster.getElement2())) {
+            for (int i = 0; i < orbMatches.size(); i++) {
+                if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
+                    totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, monster.getTPA());
                 }
             }
-            return comboMultiplier(totalOrbDamage, combos);
+            Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + LeaderSkill.getLeaderSkill(team.getLeadSkill1()).atkElement2Multiplier(monster, team) * LeaderSkill.getLeaderSkill(team.getLeadSkill2()).atkElement2Multiplier(monster, team));
+            return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team));
         }
-        for(int i = 0; i < orbMatches.size(); i++) {
-            if(orbMatches.get(i).getElement().equals(monster.getElement2())) {
-                totalOrbDamage += orbMatch((int)Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, monster.getTPA());
+        for (int i = 0; i < orbMatches.size(); i++) {
+            if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
+                totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
-        return comboMultiplier(totalOrbDamage, combos);
+        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + LeaderSkill.getLeaderSkill(team.getLeadSkill1()).atkElement2Multiplier(monster, team) * LeaderSkill.getLeaderSkill(team.getLeadSkill2()).atkElement2Multiplier(monster, team));
+        return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team));
     }
 
-    public static double comboMultiplier(double damage, int combos){
+    public static double comboMultiplier(double damage, int combos) {
         return Math.ceil(damage * ((combos - 1) * .25 + 1.0));
     }
 
-    public static double monsterElement1DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
-        if(damage == 0){
+    public static double leadOtherMultiplier1(double damage, Monster monster, Team team) {
+        //No active skill multiplier
+        double returnDamage = damage;
+        int counter = 0;
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement1())) {
+                if (team.getOrbMatches().get(i).checkIfRow()) {
+                    counter++;
+                }
+            }
+        }
+        returnDamage = returnDamage * LeaderSkill.getLeaderSkill(team.getLeadSkill1()).atkElement1Multiplier(monster, team) * LeaderSkill.getLeaderSkill(team.getLeadSkill2()).atkElement1Multiplier(monster, team) * (team.getRowAwakenings(monster.getElement1()) * 0.1 * counter + 1);
+        return returnDamage;
+    }
+
+    public static double leadOtherMultiplier2(double damage, Monster monster, Team team) {
+        //No active skill multiplier
+        double returnDamage = damage;
+        int counter = 0;
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement2())) {
+                if (team.getOrbMatches().get(i).checkIfRow()) {
+                    counter++;
+                }
+            }
+        }
+        returnDamage = returnDamage * LeaderSkill.getLeaderSkill(team.getLeadSkill1()).atkElement2Multiplier(monster, team) * LeaderSkill.getLeaderSkill(team.getLeadSkill2()).atkElement2Multiplier(monster, team) * (team.getRowAwakenings(monster.getElement2()) * 0.1 * counter + 1);
+        return returnDamage;
+    }
+
+    public static double monsterElement1DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage == 0) {
             return 0;
         }
         damage = monsterDamageEnemyDefense(damage, enemy);
         return damage;
     }
 
-    public static double monsterElement2DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
-        if(damage == 0){
+    public static double monsterElement2DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage == 0) {
             return 0;
         }
         damage = monsterDamageEnemyDefense(damage, enemy);
         return damage;
     }
 
-    public static double monsterElement1DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement1Damage(monster, orbMatches, orbAwakenings, combos);
-        if(monster.getElement1().equals(Element.RED)){
-            if(enemy.getTargetElement().equals(Element.BLUE)){
-                damage = damage/2;
+    public static double monsterElement1DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement1Damage(monster, orbMatches, orbAwakenings, combos, team);
+        if (monster.getElement1().equals(Element.RED)) {
+            if (enemy.getTargetElement().equals(Element.BLUE)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.GREEN)) {
+                damage = damage * 2;
             }
-            else if(enemy.getTargetElement().equals(Element.GREEN)){
-                damage = damage*2;
+        } else if (monster.getElement1().equals(Element.BLUE)) {
+            if (enemy.getTargetElement().equals(Element.GREEN)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.RED)) {
+                damage = damage * 2;
             }
-        }
-        else if(monster.getElement1().equals(Element.BLUE)){
-            if(enemy.getTargetElement().equals(Element.GREEN)){
-                damage = damage/2;
+        } else if (monster.getElement1().equals(Element.GREEN)) {
+            if (enemy.getTargetElement().equals(Element.RED)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.BLUE)) {
+                damage = damage * 2;
             }
-            else if(enemy.getTargetElement().equals(Element.RED)){
-                damage = damage*2;
+        } else if (monster.getElement1().equals(Element.LIGHT)) {
+            if (enemy.getTargetElement().equals(Element.DARK)) {
+                damage = damage * 2;
             }
-        }
-        else if(monster.getElement1().equals(Element.GREEN)){
-            if(enemy.getTargetElement().equals(Element.RED)){
-                damage = damage/2;
-            }
-            else if(enemy.getTargetElement().equals(Element.BLUE)){
-                damage = damage*2;
-            }
-        }
-        else if(monster.getElement1().equals(Element.LIGHT)){
-            if(enemy.getTargetElement().equals(Element.DARK)){
-                damage = damage*2;
-            }
-        }
-        else if(monster.getElement1().equals(Element.DARK)){
-            if(enemy.getTargetElement().equals(Element.LIGHT)){
-                damage = damage*2;
+        } else if (monster.getElement1().equals(Element.DARK)) {
+            if (enemy.getTargetElement().equals(Element.LIGHT)) {
+                damage = damage * 2;
             }
         }
         return damage;
     }
 
-    public static double monsterElement2DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement2Damage(monster, orbMatches, orbAwakenings, combos);
-        if (damage == 0){
+    public static double monsterElement2DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement2Damage(monster, orbMatches, orbAwakenings, combos, team);
+        if (damage == 0) {
             return 0;
         }
-        if(monster.getElement2().equals(Element.RED)){
-            if(enemy.getTargetElement().equals(Element.BLUE)){
-                damage = damage/2;
+        if (monster.getElement2().equals(Element.RED)) {
+            if (enemy.getTargetElement().equals(Element.BLUE)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.GREEN)) {
+                damage = damage * 2;
             }
-            else if(enemy.getTargetElement().equals(Element.GREEN)){
-                damage = damage*2;
+        } else if (monster.getElement2().equals(Element.BLUE)) {
+            if (enemy.getTargetElement().equals(Element.GREEN)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.RED)) {
+                damage = damage * 2;
             }
-        }
-        else if(monster.getElement2().equals(Element.BLUE)){
-            if(enemy.getTargetElement().equals(Element.GREEN)){
-                damage = damage/2;
+        } else if (monster.getElement2().equals(Element.GREEN)) {
+            if (enemy.getTargetElement().equals(Element.RED)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.BLUE)) {
+                damage = damage * 2;
             }
-            else if(enemy.getTargetElement().equals(Element.RED)){
-                damage = damage*2;
+        } else if (monster.getElement2().equals(Element.LIGHT)) {
+            if (enemy.getTargetElement().equals(Element.DARK)) {
+                damage = damage * 2;
             }
-        }
-        else if(monster.getElement2().equals(Element.GREEN)){
-            if(enemy.getTargetElement().equals(Element.RED)){
-                damage = damage/2;
-            }
-            else if(enemy.getTargetElement().equals(Element.BLUE)){
-                damage = damage*2;
-            }
-        }
-        else if(monster.getElement2().equals(Element.LIGHT)){
-            if(enemy.getTargetElement().equals(Element.DARK)){
-                damage = damage*2;
-            }
-        }
-        else if(monster.getElement2().equals(Element.DARK)){
-            if(enemy.getTargetElement().equals(Element.LIGHT)){
-                damage = damage*2;
+        } else if (monster.getElement2().equals(Element.DARK)) {
+            if (enemy.getTargetElement().equals(Element.LIGHT)) {
+                damage = damage * 2;
             }
         }
         return damage;
     }
 
-    public static double monsterDamageEnemyDefense(double damage, Enemy enemy){
-        if(damage-enemy.getTargetDef()<0){
+    public static double monsterDamageEnemyDefense(double damage, Enemy enemy) {
+        if (damage - enemy.getTargetDef() < 0) {
             return 1;
         }
         return damage - enemy.getTargetDef();
     }
 
-    public static double monsterElement1DamageReduction(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
-        if (damage == 0){
+    public static double monsterElement1DamageReduction(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage == 0) {
             return 0;
         }
-        if(enemy.getReduction().isEmpty()){
+        if (enemy.getReduction().isEmpty()) {
             return monsterDamageEnemyDefense(damage, enemy);
-        }
-        else if(enemy.getReduction().contains(monster.getElement1())){
-            return monsterDamageEnemyDefense(damage/2, enemy);
-        }
-        else return monsterDamageEnemyDefense(damage, enemy);
+        } else if (enemy.getReduction().contains(monster.getElement1())) {
+            return monsterDamageEnemyDefense(damage / 2, enemy);
+        } else return monsterDamageEnemyDefense(damage, enemy);
     }
 
-    public static double monsterElement2DamageReduction(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy);
-        if (damage == 0){
+    public static double monsterElement2DamageReduction(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage == 0) {
             return 0;
         }
-        if(enemy.getReduction().isEmpty() || enemy.getReduction() == null){
+        if (enemy.getReduction().isEmpty() || enemy.getReduction() == null) {
             return monsterDamageEnemyDefense(damage, enemy);
-        }
-        else if(enemy.getReduction().contains(monster.getElement2())){
-            return monsterDamageEnemyDefense(damage/2, enemy);
-        }
-        else return monsterDamageEnemyDefense(damage, enemy);
+        } else if (enemy.getReduction().contains(monster.getElement2())) {
+            return monsterDamageEnemyDefense(damage / 2, enemy);
+        } else return monsterDamageEnemyDefense(damage, enemy);
     }
 
-    public static double monsterElement1DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
-        if(enemy.getAbsorb().equals(monster.getElement1())){
+    public static double monsterElement1DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (enemy.getAbsorb().equals(monster.getElement1())) {
             return damage * -1;
         }
         return damage;
     }
 
-    public static double monsterElement2DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement2DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy);
-        if(enemy.getAbsorb().equals(monster.getElement2())){
+    public static double monsterElement2DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement2DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (enemy.getAbsorb().equals(monster.getElement2())) {
             return damage * -1;
-        }
-        else return damage;
+        } else return damage;
     }
 
-    public static double monsterElement1DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage =  monsterElement1DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy);
-        if(damage >= enemy.getDamageThreshold()){
-            return ((damage - enemy.getDamageThreshold())* -1);
+    public static double monsterElement1DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement1DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage >= enemy.getDamageThreshold()) {
+            return ((damage - enemy.getDamageThreshold()) * -1);
         }
         return damage;
     }
-    public static double monsterElement2DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy){
-        double damage = monsterElement2DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy);
-        if(damage >= enemy.getDamageThreshold()){
-            return ((damage - enemy.getDamageThreshold())* -1);
+
+    public static double monsterElement2DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement2DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage >= enemy.getDamageThreshold()) {
+            return ((damage - enemy.getDamageThreshold()) * -1);
         }
         return damage;
     }
@@ -230,7 +249,7 @@ public class DamageCalculationUtil {
         return Math.ceil(damage);
     }
 
-    public static double hpRecovered(int rcv, ArrayList<OrbMatch> orbMatches, int combos){
+    public static double hpRecovered(int rcv, ArrayList<OrbMatch> orbMatches, int combos) {
         double totalOrbDamage = 0;
         for (int i = 0; i < orbMatches.size(); i++) {
             if (orbMatches.get(i).getElement().equals(Element.HEART)) {
@@ -248,9 +267,9 @@ public class DamageCalculationUtil {
             throw new IllegalArgumentException();
         }
         double heal = 0;
-        if (orbMatches.getNumOrbPlus() == 0){
+        if (orbMatches.getNumOrbPlus() == 0) {
             heal = rcv * (((orbMatches.getOrbsLinked() - 3) * .25) + 1);
-        }else {
+        } else {
             heal = rcv * (((orbMatches.getOrbsLinked() - 3) * .25) + 1)
                     * ((orbMatches.getNumOrbPlus() * .06) + 1);
         }

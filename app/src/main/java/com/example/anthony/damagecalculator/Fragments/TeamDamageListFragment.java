@@ -396,13 +396,27 @@ public class TeamDamageListFragment extends Fragment {
                 toast = Toast.makeText(getActivity(), "Monster unbound", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                team.getMonsters(position).setIsBound(true);
-                Log.d("Bound", "monster " + position + " is bound");
-                if (toast != null) {
-                    toast.cancel();
+                int counter = 0;
+                for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++){
+                    if(team.getMonsters(position).getAwokenSkills().get(i) == 10){
+                        counter++;
+                    }
                 }
-                toast = Toast.makeText(getActivity(), "Monster bound", Toast.LENGTH_SHORT);
-                toast.show();
+                if (counter == 2){
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(getActivity(), "Monster cannot be bound", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else {
+                    team.getMonsters(position).setIsBound(true);
+                    Log.d("Bound", "monster " + position + " is bound");
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(getActivity(), "Monster bound", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
             team.update();
             Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));

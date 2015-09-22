@@ -1,5 +1,7 @@
 package com.example.anthony.damagecalculator.Data;
 
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -284,7 +286,8 @@ public class LeaderSkill extends Model {
 
 
 
-    private double hpMultiplier(Monster monster, Team team) {
+    public double hpMultiplier(Monster monster, Team team) {
+        hpMultiplier = 1;
         switch (hpSkillType) {
             case FLAT:
                 flat(monster, 1);
@@ -296,7 +299,8 @@ public class LeaderSkill extends Model {
         return hpMultiplier;
     }
 
-    private double atkElement1Multiplier(Monster monster, Team team) {
+    public double atkElement1Multiplier(Monster monster, Team team) {
+        atkElement1Multiplier = 1;
         switch (atkSkillType) {
             case FLAT:
                 flat(monster, 2);
@@ -362,7 +366,8 @@ public class LeaderSkill extends Model {
         return atkElement1Multiplier;
     }
 
-    private double atkElement2Multiplier(Monster monster, Team team) {
+    public double atkElement2Multiplier(Monster monster, Team team) {
+        atkElement2Multiplier = 1;
         switch (atkSkillType) {
             case FLAT:
                 flat(monster, 2);
@@ -428,7 +433,8 @@ public class LeaderSkill extends Model {
         return atkElement2Multiplier;
     }
 
-    private double getRcvMultiplier(Monster monster, Team team) {
+    public double rcvMultiplier(Monster monster, Team team) {
+        rcvMultiplier = 1;
         switch (rcvSkillType) {
             case FLAT:
                 flat(monster, 3);
@@ -532,11 +538,12 @@ public class LeaderSkill extends Model {
         int comboDiff = comboMax - comboMin;
         int counter = 0;
         for (int i = 0; i < matchElements.size(); i++){
-            if(team.getOrbMatches().contains(matchElements.get(i))){
+            if(team.getOrbMatchElements().contains(matchElements.get(i))){
                 counter++;
             }
         }
-        if (counter >= comboDiff){
+        Log.d("Leader Skill Log", "Match Element counter: " + counter + " Attack 1 Multiplier: " + atkElement1Multiplier + " Attack 2 Multiplier: " + atkElement2Multiplier);
+        if (counter >= comboMax){
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
         } else if (counter >= comboMin){
@@ -664,11 +671,11 @@ public class LeaderSkill extends Model {
         int comboDiff = comboMax - comboMin;
         int counter = 0;
         for (int i = 0; i < matchElements.size(); i++){
-            if(team.getOrbMatches().contains(matchElements.get(i))){
+            if(team.getOrbMatchElements().contains(matchElements.get(i))){
                 counter++;
             }
         }
-        if (counter >= comboDiff){
+        if (counter >= comboMax){
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
         } else if (counter >= comboMin){
@@ -694,11 +701,11 @@ public class LeaderSkill extends Model {
         int comboDiff2 = comboMax2 - comboMin2;
         int counter2 = 0;
         for (int i = 0; i < matchElements.size(); i++){
-            if(team.getOrbMatches().contains(matchElements.get(i))){
+            if(team.getOrbMatchElements().contains(matchElements.get(i))){
                 counter++;
             }
         }
-        if (counter >= comboDiff2){
+        if (counter >= comboDiff2 && comboDiff2 != 0){
             atkElement1Multiplier *= atkData.get(comboDiff2 + comboDiff + 1);
             atkElement2Multiplier *= atkData.get(comboDiff2 + comboDiff + 1);
         } else if (counter >= comboMin2){
@@ -751,11 +758,11 @@ public class LeaderSkill extends Model {
             int comboDiff = comboMax - comboMin;
             int counter = 0;
             for (int i = 0; i < matchElements.size(); i++){
-                if(team.getOrbMatches().contains(matchElements.get(i))){
+                if(team.getOrbMatchElements().contains(matchElements.get(i))){
                     counter++;
                 }
             }
-            if (counter >= comboDiff){
+            if (counter >= comboMax){
                 atkElement1Multiplier *= atkData.get(comboDiff);
                 atkElement2Multiplier *= atkData.get(comboDiff);
             } else if (counter >= comboMin){
@@ -922,7 +929,7 @@ public class LeaderSkill extends Model {
     }
 
     private void multiFlat (Monster monster, Team team){
-        //Goetia?
+        //Goetia? Not Goemon. I'll use this for Goetia and friends.
         //Damn I don't remember
         //atkdata will be {bigger multiplier, smaller multipler}
         int counter = 0;
@@ -1072,11 +1079,11 @@ public class LeaderSkill extends Model {
 
         int counter = 0;
         for (int i = 0; i < matchElements.size(); i++){
-            if(team.getOrbMatches().contains(matchElements.get(i))){
+            if(team.getOrbMatchElements().contains(matchElements.get(i))){
                 counter++;
             }
         }
-        if (counter >= comboDiff){
+        if (counter >= comboMax){
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
         } else if (counter >= comboMin){

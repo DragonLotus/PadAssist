@@ -254,15 +254,22 @@ public class MainActivity extends ActionBarActivity {
 //        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + newMonster.getId() + " name: " + newMonster.getName() + " " + newMonster.getAwokenSkills() + " Size: " + newMonster.getAwokenSkills().size());
 
         LeaderSkill leaderSkill = new LeaderSkill();
-        leaderSkill.setAtkSkillType(LeaderSkillType.FLAT);
+        leaderSkill.setAtkSkillType(LeaderSkillType.MATCH_ELEMENT);
         leaderSkill.setName("Test");
-        leaderSkill.addAtkData(10.);
-        leaderSkill.addAtkElement(0);
+        leaderSkill.addAtkData(5.);
+        //leaderSkill.addAtkData(3.5);
+        //leaderSkill.addAtkData(4.0);
+        //leaderSkill.addAtkElement(0);
         leaderSkill.addAtkType(3);
+        leaderSkill.addAtkType(5);
+        leaderSkill.setComboMin(4);
+        leaderSkill.setComboMax(4);
         leaderSkill.addMatchElements(Element.RED);
         leaderSkill.addMatchElements(Element.BLUE);
         leaderSkill.addMatchElements(Element.GREEN);
         leaderSkill.addMatchElements(Element.LIGHT);
+        //leaderSkill.addMatchElements(Element.DARK);
+        //leaderSkill.addMatchElements(Element.HEART);
         leaderSkill.save();
         Log.d("Main Activity Log","Leader Skill Attack Type: " + leaderSkill.getAtkSkillType()+ " Leader skill name: " + leaderSkill.getName() + " Attack Data size: " + leaderSkill.getAtkData().size() + " Leader Skill Multiplier: " + leaderSkill.getAtkData());
         Log.d("Main Activity Log", "Match Elements: " + leaderSkill.getMatchElements() + " Attack Elements: " + leaderSkill.getAtkElement() + " Attack Type: " + leaderSkill.getAtkType());
