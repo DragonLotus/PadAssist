@@ -452,11 +452,17 @@ public class Monster extends Model implements Parcelable {
 
     public int getTPA() {
         int numOfDoubleProngs = 0;
-        for (int i = 0; i < currentAwakenings; i++) {
-            if (baseMonster.getAwokenSkills(i) == 27) {
-                numOfDoubleProngs++;
+        if(isBound || !Team.getTeamById(0).hasAwakenings()){
+            return numOfDoubleProngs;
+        }else {
+
+            for (int i = 0; i < currentAwakenings; i++) {
+                if (baseMonster.getAwokenSkills(i) == 27) {
+                    numOfDoubleProngs++;
+                }
             }
         }
+
         return numOfDoubleProngs;
     }
 

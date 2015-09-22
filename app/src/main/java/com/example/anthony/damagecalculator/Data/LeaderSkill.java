@@ -289,6 +289,8 @@ public class LeaderSkill extends Model {
     public double hpMultiplier(Monster monster, Team team) {
         hpMultiplier = 1;
         switch (hpSkillType) {
+            case BLANK:
+                break;
             case FLAT:
                 flat(monster, 1);
                 break;
@@ -302,6 +304,8 @@ public class LeaderSkill extends Model {
     public double atkElement1Multiplier(Monster monster, Team team) {
         atkElement1Multiplier = 1;
         switch (atkSkillType) {
+            case BLANK:
+                break;
             case FLAT:
                 flat(monster, 2);
                 break;
@@ -369,6 +373,8 @@ public class LeaderSkill extends Model {
     public double atkElement2Multiplier(Monster monster, Team team) {
         atkElement2Multiplier = 1;
         switch (atkSkillType) {
+            case BLANK:
+                break;
             case FLAT:
                 flat(monster, 2);
                 break;

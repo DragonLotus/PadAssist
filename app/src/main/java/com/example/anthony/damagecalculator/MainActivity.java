@@ -253,12 +253,40 @@ public class MainActivity extends ActionBarActivity {
 //        Log.d("Main Activity Log", "Monster Name: " + newMonster.getName());
 //        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + newMonster.getId() + " name: " + newMonster.getName() + " " + newMonster.getAwokenSkills() + " Size: " + newMonster.getAwokenSkills().size());
 
+
+        LeaderSkill blankLeaderSkill = new LeaderSkill();
+        blankLeaderSkill.setName("Blank");
+        blankLeaderSkill.setHpSkillType(LeaderSkillType.BLANK);
+        blankLeaderSkill.setAtkSkillType(LeaderSkillType.BLANK);
+        blankLeaderSkill.setRcvSkillType(LeaderSkillType.BLANK);
+        blankLeaderSkill.save();
+
         LeaderSkill leaderSkill = new LeaderSkill();
         leaderSkill.setAtkSkillType(LeaderSkillType.MATCH_ELEMENT);
         leaderSkill.setName("Test");
+//        leaderSkill.addAtkData(1.5);
+//        leaderSkill.addAtkData(2.0);
+//        leaderSkill.addAtkData(2.5);
+//        leaderSkill.addAtkData(3.);
+//        leaderSkill.addAtkData(3.5);
+//        leaderSkill.addAtkData(4.0);
+//        leaderSkill.addAtkData(4.5);
         leaderSkill.addAtkData(5.);
-        //leaderSkill.addAtkData(3.5);
-        //leaderSkill.addAtkData(4.0);
+//        leaderSkill.addAtkData(5.5);
+//        leaderSkill.addAtkData(6.);
+//        leaderSkill.addAtkData(6.5);
+//        leaderSkill.addAtkData(7.);
+//        leaderSkill.addAtkData(7.5);
+//        leaderSkill.addAtkData(8.);
+//        leaderSkill.addAtkData(8.5);
+//        leaderSkill.addAtkData(9.);
+//        leaderSkill.addAtkData(9.5);
+//        leaderSkill.addAtkData(10.);
+//        leaderSkill.addAtkData(11.);
+//        leaderSkill.addAtkData(12.);
+//        leaderSkill.addAtkData(13.);
+//        leaderSkill.addAtkData(14.);
+//        leaderSkill.addAtkData(15.);
         //leaderSkill.addAtkElement(0);
         leaderSkill.addAtkType(3);
         leaderSkill.addAtkType(5);

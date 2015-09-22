@@ -291,18 +291,41 @@ public class Team extends Model implements Parcelable {
     }
 
     public String getLeadSkill1(){
-        return lead.getLeaderSkill();
+        if(lead.isBound()){
+            return "Blank";
+        }else {
+            return lead.getLeaderSkill();
+        }
     }
 
     public String getLeadSkill2(){
-        return helper.getLeaderSkill();
+        if(helper.isBound()){
+            return "Blank";
+        }else {
+            return helper.getLeaderSkill();
+        }
     }
 
     public ArrayList<Element> getOrbMatchElements(){
         ArrayList<Element> compareElements = new ArrayList<>();
+        ArrayList<Element> haveElements = new ArrayList();
+        for (int i = 0; i < getMonsters().size(); i++){
+            if(!getMonsters().get(i).isBound()){
+                if(!haveElements.contains(getMonsters().get(i).getElement1())){
+                    haveElements.add(getMonsters().get(i).getElement1());
+                }
+                if(!haveElements.contains(getMonsters().get(i).getElement2())){
+                    haveElements.add(getMonsters().get(i).getElement2());
+                }
+            }
+
+        }
         for (int i = 0; i < orbMatches.size(); i++){
-            if(!compareElements.contains(orbMatches.get(i).getElement())){
+            if(haveElements.contains(orbMatches.get(i).getElement())){
                 compareElements.add(orbMatches.get(i).getElement());
+            }
+            if(orbMatches.get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)){
+                compareElements.add(Element.HEART);
             }
         }
         Log.d("Team Log", "Compare Elements has: " + compareElements);
