@@ -166,15 +166,39 @@ public class Monster extends Model implements Parcelable {
     }
 
     public int getTotalHp() {
-        return (int) currentHp + hpPlus * HP_MULTIPLIER;
+        int totalHp = (int) currentHp + hpPlus * HP_MULTIPLIER;
+        int counter = 0;
+        for (int i = 0; i < currentAwakenings; i++){
+            if(getAwokenSkills().get(i) == 1){
+                counter++;
+            }
+        }
+        totalHp = totalHp + (200*counter);
+        return totalHp;
     }
 
     public int getTotalAtk() {
-        return (int) currentAtk + atkPlus * ATK_MULTIPLIER;
+        int totalAtk = (int) currentAtk + atkPlus * ATK_MULTIPLIER;
+        int counter = 0;
+        for (int i = 0; i < currentAwakenings; i++){
+            if(getAwokenSkills().get(i) == 2){
+                counter++;
+            }
+        }
+        totalAtk = totalAtk + (100*counter);
+        return totalAtk;
     }
 
     public int getTotalRcv() {
-        return (int) currentRcv + rcvPlus * RCV_MULTIPLIER;
+        int totalRcv = (int) currentRcv + rcvPlus * RCV_MULTIPLIER;
+        int counter = 0;
+        for (int i = 0; i < currentAwakenings; i++){
+            if(getAwokenSkills().get(i) == 3){
+                counter++;
+            }
+        }
+        totalRcv = totalRcv + (50*counter);
+        return totalRcv;
     }
 
     public String getWeightedString() {

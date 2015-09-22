@@ -318,12 +318,16 @@ public class MonsterPageFragment extends Fragment {
                     //monster.setCurrentAwakenings(monster.getCurrentAwakenings() - 1);
                     monsterAwakeningsValue.setText("" + (monster.getCurrentAwakenings() - 1));
                 }
+                setTextViewValues();
+                Log.d("Monster Page Log", "Monster Attack: " + monster.getTotalAtk());
             } else if (v.equals(awakeningPlus)) {
                 if (Integer.parseInt(monsterAwakeningsValue.getText().toString()) >= 0 && Integer.parseInt(monsterAwakeningsValue.getText().toString()) < monster.getMaxAwakenings()) {
                     //monster.setCurrentAwakenings(monster.getCurrentAwakenings() + 1);
                     monsterAwakeningsValue.setText("" + (monster.getCurrentAwakenings() + 1));
 
                 }
+                setTextViewValues();
+                Log.d("Monster Page Log", "Monster Attack: " + monster.getTotalAtk());
             }
             grayAwakenings();
 
@@ -380,6 +384,7 @@ public class MonsterPageFragment extends Fragment {
                 monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
                 monster.setCurrentAwakenings(monster.getMaxAwakenings());
                 grayAwakenings();
+                setTextViewValues();
                 if (toast != null) {
                     toast.cancel();
                 }
