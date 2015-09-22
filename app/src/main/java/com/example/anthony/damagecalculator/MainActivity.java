@@ -258,10 +258,14 @@ public class MainActivity extends ActionBarActivity {
         leaderSkill.setName("Test");
         leaderSkill.addAtkData(10.);
         leaderSkill.addAtkElement(0);
+        leaderSkill.addAtkType(3);
         leaderSkill.addMatchElements(Element.RED);
+        leaderSkill.addMatchElements(Element.BLUE);
+        leaderSkill.addMatchElements(Element.GREEN);
+        leaderSkill.addMatchElements(Element.LIGHT);
         leaderSkill.save();
         Log.d("Main Activity Log","Leader Skill Attack Type: " + leaderSkill.getAtkSkillType()+ " Leader skill name: " + leaderSkill.getName() + " Attack Data size: " + leaderSkill.getAtkData().size() + " Leader Skill Multiplier: " + leaderSkill.getAtkData());
-        Log.d("Main Activity Log", "Match Elements: " + leaderSkill.getMatchElements() + " Attack Elements: " + leaderSkill.getAtkElement());
+        Log.d("Main Activity Log", "Match Elements: " + leaderSkill.getMatchElements() + " Attack Elements: " + leaderSkill.getAtkElement() + " Attack Type: " + leaderSkill.getAtkType());
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 

@@ -147,8 +147,8 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#4444FF"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#4444FF"));
         } else if (team.getMonsters(position).getElement1().equals(Element.GREEN)) {
-            viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#00FF00"));
-            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#00FF00"));
+            viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#00CC00"));
+            viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#00CC00"));
         } else if (team.getMonsters(position).getElement1().equals(Element.LIGHT)) {
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#F0F000"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#F0F000"));

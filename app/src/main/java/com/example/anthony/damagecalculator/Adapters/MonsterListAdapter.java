@@ -46,6 +46,8 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterLevelValue = (TextView) convertView.findViewById(R.id.monsterLevelValue);
             viewHolder.monsterLevel = (TextView) convertView.findViewById(R.id.monsterLevel);
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
+            viewHolder.type1 = (TextView) convertView.findViewById(R.id.type1);
+            viewHolder.type2 = (TextView) convertView.findViewById(R.id.type2);
 
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
@@ -63,18 +65,34 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
         }
+        viewHolder.type1.setText(monsterList.get(position).getType1String());
+        viewHolder.type2.setText(monsterList.get(position).getType2String());
         if (monsterList.get(position).getTotalPlus() == 0) {
             viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.monsterPlus.setVisibility(View.VISIBLE);
         }
         if (monsterList.get(position).getCurrentAwakenings() == 0) {
             viewHolder.monsterAwakenings.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
         }
-        if(monsterList.get(position).getElement1().equals(Element.BLANK)){
+        if(monsterList.get(position).getMonsterId() == 0){
             viewHolder.monsterLevelValue.setVisibility(View.INVISIBLE);
             viewHolder.monsterHP.setVisibility(View.INVISIBLE);
             viewHolder.monsterATK.setVisibility(View.INVISIBLE);
             viewHolder.monsterRCV.setVisibility(View.INVISIBLE);
             viewHolder.monsterLevel.setVisibility(View.INVISIBLE);
+            viewHolder.type1.setVisibility(View.INVISIBLE);
+            viewHolder.type2.setVisibility(View.INVISIBLE);
+        }else {
+            viewHolder.monsterLevelValue.setVisibility(View.VISIBLE);
+            viewHolder.monsterHP.setVisibility(View.VISIBLE);
+            viewHolder.monsterATK.setVisibility(View.VISIBLE);
+            viewHolder.monsterRCV.setVisibility(View.VISIBLE);
+            viewHolder.monsterLevel.setVisibility(View.VISIBLE);
+            viewHolder.type1.setVisibility(View.VISIBLE);
+            viewHolder.type2.setVisibility(View.VISIBLE);
         }
 
 
@@ -83,7 +101,7 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
 
 
     static class ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, type1, type2;
         ImageView monsterPicture;
 
     }

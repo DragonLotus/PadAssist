@@ -290,6 +290,14 @@ public class Team extends Model implements Parcelable {
         this.monsterOverwrite = monsterOverwrite;
     }
 
+    public String getLeadSkill1(){
+        return lead.getLeaderSkill();
+    }
+
+    public String getLeadSkill2(){
+        return helper.getLeaderSkill();
+    }
+
     public int getOrbPlusAwakenings(Element element) {
         if (element.equals(Element.RED)){
             return orbPlusAwakenings.get(0);
