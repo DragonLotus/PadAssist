@@ -85,6 +85,7 @@ public class BaseMonster extends Model {
         element1 = Element.BLANK;
         element2 = Element.BLANK;
         name = "Empty";
+        leaderSkill = "Blank";
     }
 
     public String getActiveSkill() {
