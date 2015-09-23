@@ -48,6 +48,7 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             viewHolder.type1 = (TextView) convertView.findViewById(R.id.type1);
             viewHolder.type2 = (TextView) convertView.findViewById(R.id.type2);
+            viewHolder.type3 = (TextView) convertView.findViewById(R.id.type3);
 
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
@@ -67,6 +68,7 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
         }
         viewHolder.type1.setText(monsterList.get(position).getType1String());
         viewHolder.type2.setText(monsterList.get(position).getType2String());
+        viewHolder.type3.setText(monsterList.get(position).getType3String());
         if (monsterList.get(position).getTotalPlus() == 0) {
             viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
         } else {
@@ -93,6 +95,7 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterLevel.setVisibility(View.VISIBLE);
             viewHolder.type1.setVisibility(View.VISIBLE);
             viewHolder.type2.setVisibility(View.VISIBLE);
+            viewHolder.type3.setVisibility(View.VISIBLE);
         }
 
 
@@ -101,7 +104,7 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
 
 
     static class ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, type1, type2;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, type1, type2, type3;
         ImageView monsterPicture;
 
     }

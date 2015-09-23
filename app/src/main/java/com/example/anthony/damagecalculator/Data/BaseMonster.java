@@ -37,6 +37,8 @@ public class BaseMonster extends Model {
     private int type1;
     @Column(name = "type2")
     private int type2;
+    @Column(name = "type3")
+    private int type3;
     @Column(name = "maxAwakenings")
     private int maxAwakenings;
     @Column(name = "element1")
@@ -86,6 +88,9 @@ public class BaseMonster extends Model {
         element2 = Element.BLANK;
         name = "Empty";
         leaderSkill = "Blank";
+        type1 = -1;
+        type2 = -1;
+        type3 = -1;
     }
 
     public String getActiveSkill() {
@@ -296,6 +301,14 @@ public class BaseMonster extends Model {
         this.type2 = type2;
     }
 
+    public int getType3() {
+        return type3;
+    }
+
+    public void setType3(int type3) {
+        this.type3 = type3;
+    }
+
     public String getType1String() {
         if (type1 == 0) {
             return "Evo Material";
@@ -323,7 +336,7 @@ public class BaseMonster extends Model {
     }
 
     public String getType2String() {
-        if (type1 == 0) {
+        if (type2 == 0) {
             return "/Evo Material";
         } else if (type2 == 1) {
             return "/Balanced";
@@ -344,6 +357,32 @@ public class BaseMonster extends Model {
         } else if (type2 == 13) {
             return "/Protected";
         } else if (type2 == 14) {
+            return "/Enhance Material";
+        } else return "";
+    }
+
+    public String getType3String() {
+        if (type3 == 0) {
+            return "/Evo Material";
+        } else if (type3 == 1) {
+            return "/Balanced";
+        } else if (type3 == 2) {
+            return "/Physical";
+        } else if (type3 == 3) {
+            return "/Healer";
+        } else if (type3 == 4) {
+            return "/Dragon";
+        } else if (type3 == 5) {
+            return "/God";
+        } else if (type3 == 6) {
+            return "/Attacker";
+        } else if (type3 == 7) {
+            return "/Devil";
+        } else if (type3 == 12) {
+            return "/Awoken Skill Material";
+        } else if (type3 == 13) {
+            return "/Protected";
+        } else if (type3 == 14) {
             return "/Enhance Material";
         } else return "";
     }

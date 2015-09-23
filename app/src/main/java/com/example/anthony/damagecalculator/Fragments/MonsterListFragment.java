@@ -208,13 +208,13 @@ public class MonsterListFragment extends Fragment {
                 monster5.setRcvPlus(99);
                 monster5.setCurrentLevel(99);
                 monster5.setCurrentAwakenings(7);
-                Monster monster6 = new Monster(1218);
+                Monster monster6 = new Monster(2077);
                 monster6.setMonsterId(6);
                 monster6.setHpPlus(99);
                 monster6.setAtkPlus(99);
                 monster6.setRcvPlus(99);
                 monster6.setCurrentLevel(99);
-                monster6.setCurrentAwakenings(7);
+                monster6.setCurrentAwakenings(9);
 
                 monsters.add(monster1);
                 monsters.add(monster2);

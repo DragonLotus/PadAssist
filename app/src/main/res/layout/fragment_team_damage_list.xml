@@ -347,6 +347,23 @@
                 android:layout_below="@+id/damageThresholdValue"
                 android:layout_toRightOf="@+id/hasAwakenings"/>
 
+            <TextView
+                android:id="@+id/activeUsed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Active Skill Used: "
+                android:layout_alignTop="@+id/activeUsedCheck"
+                android:layout_alignBottom="@+id/activeUsedCheck"
+                android:gravity="center_vertical"
+                android:textSize="18dp"/>
+
+            <CheckBox
+                android:id="@+id/activeUsedCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/hasAwakenings"
+                android:layout_toRightOf="@+id/hasAwakenings"/>
+
 
         </RelativeLayout>
     </ScrollView>

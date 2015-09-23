@@ -198,10 +198,19 @@ public class MainFragment extends Fragment {
 
     private Button.OnClickListener resetOnClickListener = new Button.OnClickListener() {
         public void onClick(View v) {
-            if (dialog == null) {
-                dialog = MyDialogFragment.newInstance(dialogFrag);
+            if (team.getOrbMatches().size() == 0){
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "No matches to reset", Toast.LENGTH_SHORT);
+                toast.show();
+            }else {
+                if (dialog == null) {
+                    dialog = MyDialogFragment.newInstance(dialogFrag);
+                }
+                dialog.show(getChildFragmentManager(), "Thomas Likes Big Butts And He Cannot Lie");
             }
-            dialog.show(getChildFragmentManager(), "Thomas Likes Big Butts And He Cannot Lie");
+
         }
     };
 

@@ -466,7 +466,7 @@ public class LeaderSkill extends Model {
             case 1:
                 if (hpType.size() != 0) {
                     for (int i = 0; i < hpType.size(); i++) {
-                        if (monster.getType1() == hpType.get(i) || monster.getType2() == hpType.get(i)) {
+                        if (monster.getType1() == hpType.get(i) || monster.getType2() == hpType.get(i) || monster.getType3() == hpType.get(i)) {
                             hpMultiplier = hpData.get(0);
                         }
                     }
@@ -482,7 +482,7 @@ public class LeaderSkill extends Model {
             case 2:
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {
-                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)) {
+                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                             atkElement1Multiplier = atkData.get(0);
                             atkElement2Multiplier = atkData.get(0);
                         }
@@ -500,7 +500,7 @@ public class LeaderSkill extends Model {
             case 3:
                 if (rcvType.size() != 0) {
                     for (int i = 0; i < rcvType.size(); i++) {
-                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i)) {
+                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
                             rcvMultiplier = rcvData.get(0);
                         }
                     }
@@ -591,7 +591,7 @@ public class LeaderSkill extends Model {
         if (stat == 1){
             if (hpType.size() != 0) {
                 for (int i = 0; i < hpType.size(); i++) {
-                    if (monster.getType1() == hpType.get(i) || monster.getType2() == hpType.get(i)) {
+                    if (monster.getType1() == hpType.get(i) || monster.getType2() == hpType.get(i) || monster.getType3() == hpType.get(i)) {
                         hpMultiplier = hpData.get(0);
                     }
                 }
@@ -606,7 +606,7 @@ public class LeaderSkill extends Model {
         }else         if (stat == 2){
             if (atkType.size() != 0){
                 for (int i = 0; i < atkType.size(); i++){
-                    if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)){
+                    if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)){
                         atkElement1Multiplier = atkData.get(0);
                         atkElement2Multiplier = atkData.get(0);
                     }
@@ -614,7 +614,7 @@ public class LeaderSkill extends Model {
             }
             if (atkElement.size() != 0) {
                 for (int i = 0; i < atkElement.size(); i++) {
-                    if (monster.getElement1Int() == atkElement.get(i) || monster.getType2() == atkElement.get(i)) {
+                    if (monster.getElement1Int() == atkElement.get(i) || monster.getType2() == atkElement.get(i) || monster.getType3() == atkElement.get(i)) {
                         atkElement1Multiplier = atkData.get(0);
                         atkElement2Multiplier = atkData.get(0);
                     }
@@ -623,7 +623,7 @@ public class LeaderSkill extends Model {
         }else         if (stat == 3){
             if (rcvType.size() != 0) {
                 for (int i = 0; i < rcvType.size(); i++) {
-                    if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i)) {
+                    if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
                         rcvMultiplier = rcvData.get(0);
                     }
                 }
@@ -694,7 +694,7 @@ public class LeaderSkill extends Model {
         // atkdata is {match element multipliers, flat multiplier is last}
         if (atkType.size() != 0) {
             for (int i = 0; i < atkType.size(); i++) {
-                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)) {
+                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                     atkElement1Multiplier = atkData.get(atkData.size() - 1);
                     atkElement2Multiplier = atkData.get(atkData.size() - 1);
                 }
@@ -759,11 +759,12 @@ public class LeaderSkill extends Model {
         //Need active flag in team
         //Awoken Ra, Awoken Horus, Green Kirin
         //atkdata is {match elements first, additional damage with skill last}
+        Log.d("Leader Skill Log", "Active Skill Used: " + team.isActiveSkillUsed());
         if(team.isActiveSkillUsed()){
             if (stat == 2){
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {
-                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)) {
+                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                             atkElement1Multiplier = atkData.get(atkData.size() - 1);
                             atkElement2Multiplier = atkData.get(atkData.size() - 1);
                         }
@@ -780,7 +781,7 @@ public class LeaderSkill extends Model {
             } else if (stat == 3){
                 if (rcvType.size() != 0) {
                     for (int i = 0; i < rcvType.size(); i++) {
-                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i)) {
+                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
                             rcvMultiplier = rcvData.get(rcvData.size() - 1);
                         }
                     }
@@ -820,7 +821,7 @@ public class LeaderSkill extends Model {
             if (stat == 2){
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {
-                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)) {
+                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                             atkElement1Multiplier = atkData.get(1);
                             atkElement2Multiplier = atkData.get(1);
                         }
@@ -837,7 +838,7 @@ public class LeaderSkill extends Model {
             } else if (stat == 3){
                 if (rcvType.size() != 0) {
                     for (int i = 0; i < rcvType.size(); i++) {
-                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i)) {
+                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
                             rcvMultiplier = rcvData.get(1);
                         }
                     }
@@ -854,7 +855,7 @@ public class LeaderSkill extends Model {
         if (stat == 2){
             if (atkType.size() != 0) {
                 for (int i = 0; i < atkType.size(); i++) {
-                    if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)) {
+                    if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                         atkElement1Multiplier *= atkData.get(0);
                         atkElement2Multiplier *= atkData.get(0);
                         break;
@@ -873,7 +874,7 @@ public class LeaderSkill extends Model {
         } else if (stat == 3){
             if (rcvType.size() != 0) {
                 for (int i = 0; i < rcvType.size(); i++) {
-                    if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i)) {
+                    if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
                         rcvMultiplier *= rcvData.get(0);
                         break;
                     }
@@ -897,7 +898,7 @@ public class LeaderSkill extends Model {
             if (stat == 2){
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {
-                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)) {
+                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                             atkElement1Multiplier = atkData.get(comboDiff + 1);
                             atkElement2Multiplier = atkData.get(comboDiff + 1);
                         }
@@ -914,7 +915,7 @@ public class LeaderSkill extends Model {
             } else if (stat == 3){
                 if (rcvType.size() != 0) {
                     for (int i = 0; i < rcvType.size(); i++) {
-                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i)) {
+                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
                             rcvMultiplier = rcvData.get(comboDiff + 1);
                         }
                     }
@@ -945,7 +946,7 @@ public class LeaderSkill extends Model {
         int comboDiff = comboMax - comboMin;
         if (atkType.size() != 0) {
             for (int i = 0; i < atkType.size(); i++) {
-                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)) {
+                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                     atkElement1Multiplier = atkData.get(comboDiff + 1);
                     atkElement2Multiplier = atkData.get(comboDiff + 1);
                 }
@@ -975,15 +976,15 @@ public class LeaderSkill extends Model {
         //atkdata will be {bigger multiplier, smaller multipler}
         int counter = 0;
         if (atkType.size() != 0){
-            if(monster.getType1() == atkType.get(0) || monster.getType2() == atkType.get(0)){
-                if(monster.getType1() == atkType.get(1) || monster.getType2() == atkType.get(1)){
+            if(monster.getType1() == atkType.get(0) || monster.getType2() == atkType.get(0) || monster.getType3() == atkType.get(0)){
+                if(monster.getType1() == atkType.get(1) || monster.getType2() == atkType.get(1) || monster.getType3() == atkType.get(1)){
                     atkElement1Multiplier = atkData.get(0)*atkData.get(1);
                     atkElement2Multiplier = atkData.get(0)*atkData.get(1);
                 }else {
                     atkElement1Multiplier = atkData.get(0);
                     atkElement2Multiplier = atkData.get(0);
                 }
-            } else if (monster.getType1() == atkType.get(1) || monster.getType2() == atkType.get(1)){
+            } else if (monster.getType1() == atkType.get(1) || monster.getType2() == atkType.get(1) || monster.getType3() == atkType.get(1)){
                 atkElement1Multiplier = atkData.get(1);
                 atkElement2Multiplier = atkData.get(1);
             }
@@ -1040,7 +1041,7 @@ public class LeaderSkill extends Model {
         int comboDiff = comboMax - comboMin;
         if (atkType.size() != 0) {
             for (int i = 0; i < atkType.size(); i++) {
-                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)) {
+                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                     atkElement1Multiplier = atkData.get(comboDiff + 1);
                     atkElement2Multiplier = atkData.get(comboDiff + 1);
                 }
@@ -1204,7 +1205,7 @@ public class LeaderSkill extends Model {
         if (atkType.size() != 0 && atkElement1Multiplier != atkData.get(0) * atkData.get(1)){
             int i = 0;
             while(i < atkType.size()){
-                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i)){
+                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)){
                     atkElement1Multiplier *= atkData.get(0);
                     atkElement2Multiplier *= atkData.get(0);
                     i = atkType.size() + 1;

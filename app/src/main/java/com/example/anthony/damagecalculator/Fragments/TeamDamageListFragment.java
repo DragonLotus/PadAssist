@@ -29,8 +29,6 @@ import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
-import org.w3c.dom.Text;
-
 import java.text.DecimalFormat;
 
 
@@ -67,7 +65,7 @@ public class TeamDamageListFragment extends Fragment {
     private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
-    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, hasAwakeningsCheck;
+    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, hasAwakeningsCheck, activeUsedCheck;
     private RadioGroup absorbRadioGroup;
     private Button recalculateButton;
     private DecimalFormat df = new DecimalFormat("#.##");
@@ -158,6 +156,7 @@ public class TeamDamageListFragment extends Fragment {
         damageThreshold = (TextView) rootView.findViewById(R.id.damageThreshold);
         absorbCheck = (CheckBox) rootView.findViewById(R.id.absorbCheck);
         hasAwakeningsCheck = (CheckBox) rootView.findViewById(R.id.hasAwakeningsCheck);
+        activeUsedCheck = (CheckBox) rootView.findViewById(R.id.activeUsedCheck);
 
         return rootView;
     }
@@ -182,7 +181,7 @@ public class TeamDamageListFragment extends Fragment {
             setAbsorbOrbs();
             setDamageThreshold();
         }
-        setAwakenings();
+        setCheckBoxes();
         totalCombos = additionalCombos + team.sizeOrbMatches();
         updateTextView();
         Log.d("totalCombos", String.valueOf(totalCombos));
@@ -205,6 +204,7 @@ public class TeamDamageListFragment extends Fragment {
         lightOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         absorbRadioGroup.setOnCheckedChangeListener(absorbOnCheckChangeListener);
         hasAwakeningsCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+        activeUsedCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
 
     }
 
@@ -599,6 +599,11 @@ public class TeamDamageListFragment extends Fragment {
                 team.update();
                 Log.d("hasAwakenings2", "" + team.hasAwakenings());
                 Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
+            }else if (buttonView.equals(activeUsedCheck)){
+                Log.d("Team Damage List Log", "Active Skill Used Before: " + team.isActiveSkillUsed());
+                team.isActiveSkillUsed(isChecked);
+                Log.d("Team Damage List Log", "Active Skill Used After: " + team.isActiveSkillUsed());
+                team.update();
             }
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
@@ -647,8 +652,9 @@ public class TeamDamageListFragment extends Fragment {
         monsterListAdapter.notifyDataSetChanged();
     }
 
-    private void setAwakenings(){
+    private void setCheckBoxes(){
         hasAwakeningsCheck.setChecked(team.hasAwakenings());
+        activeUsedCheck.setChecked(team.isActiveSkillUsed());
     }
 
     private RadioGroup.OnCheckedChangeListener absorbOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {

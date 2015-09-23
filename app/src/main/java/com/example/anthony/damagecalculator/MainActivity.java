@@ -184,6 +184,7 @@ public class MainActivity extends ActionBarActivity {
             monster.setRarity(8);
             monster.setTeamCost(45);
             monster.setXpCurve(4000000);
+            monster.setLeaderSkill("Test3");
             monster.save();
         }
         if(BaseMonster.getMonsterId(1217) == null){
@@ -247,6 +248,43 @@ public class MainActivity extends ActionBarActivity {
             monster.setRarity(7);
             monster.setTeamCost(35);
             monster.setXpCurve(4000000);
+            monster.setLeaderSkill("Test2");
+            monster.save();
+        }
+        if(BaseMonster.getMonsterId(2077) == null){
+            BaseMonster monster = new BaseMonster();
+            monster.setMonsterId(2077);
+            monster.setMonsterPicture(R.drawable.monster_2077);
+            monster.setName("Green Gleaming Star Kirin, Sakuya");
+            monster.setMaxLevel(99);
+            monster.setAtkMax(1370);
+            monster.setAtkMin(913);
+            monster.setHpMax(4028);
+            monster.setHpMin(1271);
+            monster.setRcvMax(384);
+            monster.setRcvMin(256);
+            monster.setAtkScale(1);
+            monster.setHpScale(1);
+            monster.setRcvScale(1);
+            monster.setMaxAwakenings(9);
+            monster.setElement1(Element.LIGHT);
+            monster.setElement2(Element.GREEN);
+            monster.addAwokenSkills(17);
+            monster.addAwokenSkills(12);
+            monster.addAwokenSkills(11);
+            monster.addAwokenSkills(28);
+            monster.addAwokenSkills(17);
+            monster.addAwokenSkills(21);
+            monster.addAwokenSkills(19);
+            monster.addAwokenSkills(13);
+            monster.addAwokenSkills(27);
+            monster.setType1(5);
+            monster.setType2(2);
+            monster.setType3(4);
+            monster.setRarity(8);
+            monster.setTeamCost(45);
+            monster.setXpCurve(4000000);
+            monster.setLeaderSkill("Test4");
             monster.save();
         }
 //        BaseMonster newMonster = BaseMonster.getMonsterId(1218);
@@ -262,16 +300,16 @@ public class MainActivity extends ActionBarActivity {
         blankLeaderSkill.save();
 
         LeaderSkill leaderSkill = new LeaderSkill();
-        leaderSkill.setAtkSkillType(LeaderSkillType.COMBO_ORB_PLUS);
+        leaderSkill.setAtkSkillType(LeaderSkillType.MATCH_ELEMENT);
         leaderSkill.setName("Test");
 //        leaderSkill.addAtkData(1.2);
 //        leaderSkill.addAtkData(1.3);
 //        leaderSkill.addAtkData(1.5);
 //        leaderSkill.addAtkData(2.0);
 //        leaderSkill.addAtkData(2.5);
-        leaderSkill.addAtkData(3.);
+//        leaderSkill.addAtkData(3.);
 //        leaderSkill.addAtkData(3.5);
-        leaderSkill.addAtkData(4.0);
+//        leaderSkill.addAtkData(4.0);
 //        leaderSkill.addAtkData(4.5);
         leaderSkill.addAtkData(5.);
 //        leaderSkill.addAtkData(5.5);
@@ -289,13 +327,13 @@ public class MainActivity extends ActionBarActivity {
 //        leaderSkill.addAtkData(13.);
 //        leaderSkill.addAtkData(14.);
 //        leaderSkill.addAtkData(15.);
-        leaderSkill.addAtkData(1.2);
+//        leaderSkill.addAtkData(1.2);
         //leaderSkill.addAtkElement(0);
         //leaderSkill.addAtkType(3);
         //leaderSkill.addAtkType(5);
         leaderSkill.addAtkElement(3);
         leaderSkill.addAtkElement(2);
-        leaderSkill.setComboMin(2);
+        leaderSkill.setComboMin(4);
         leaderSkill.setComboMax(4);
         leaderSkill.setComboMin2(4);
         leaderSkill.setComboMax2(4);
@@ -310,8 +348,53 @@ public class MainActivity extends ActionBarActivity {
         //leaderSkill.addMatchElements(Element.DARK);
         //leaderSkill.addMatchElements(Element.HEART);
         leaderSkill.save();
-        Log.d("Main Activity Log","Leader Skill Attack Type: " + leaderSkill.getAtkSkillType()+ " Leader skill name: " + leaderSkill.getName() + " Attack Data size: " + leaderSkill.getAtkData().size() + " Leader Skill Multiplier: " + leaderSkill.getAtkData());
-        Log.d("Main Activity Log", "Match Elements: " + leaderSkill.getMatchElements() + " Attack Elements: " + leaderSkill.getAtkElement() + " Attack Type: " + leaderSkill.getAtkType());
+
+        LeaderSkill leaderSkill2 = new LeaderSkill();
+        leaderSkill2.setAtkSkillType(LeaderSkillType.COMBO);
+        leaderSkill2.setName("Test2");
+        leaderSkill2.addAtkData(1.5);
+        leaderSkill2.addAtkData(2.0);
+        leaderSkill2.addAtkData(2.5);
+        leaderSkill2.addAtkData(3.);
+        leaderSkill2.addAtkData(3.5);
+        leaderSkill2.addAtkData(4.0);
+        leaderSkill2.addAtkData(4.5);
+        leaderSkill2.addAtkData(5.);
+        leaderSkill2.addAtkData(5.5);
+        leaderSkill2.addAtkData(6.);
+        leaderSkill2.addAtkData(6.5);
+        leaderSkill2.addAtkData(7.);
+        leaderSkill2.addAtkData(7.5);
+        leaderSkill2.addAtkData(8.);
+        leaderSkill2.addAtkData(8.5);
+        leaderSkill2.addAtkData(9.);
+        leaderSkill2.addAtkData(9.5);
+        leaderSkill2.addAtkData(10.);
+        leaderSkill2.setComboMin(3);
+        leaderSkill2.setComboMax(20);
+        leaderSkill2.save();
+
+        LeaderSkill leaderSkill3 = new LeaderSkill();
+        leaderSkill3.setAtkSkillType(LeaderSkillType.FLAT);
+        leaderSkill3.setName("Test3");
+        leaderSkill3.addAtkData(3.);
+        leaderSkill3.addAtkType(3);
+        leaderSkill3.addAtkType(5);
+        leaderSkill3.save();
+
+        LeaderSkill leaderSkill4 = new LeaderSkill();
+        leaderSkill4.setAtkSkillType(LeaderSkillType.MATCH_ELEMENT_ACTIVE);
+        leaderSkill4.setName("Test4");
+        leaderSkill4.addAtkData(5.);
+        leaderSkill4.addAtkData(1.2);
+        leaderSkill4.setComboMin(4);
+        leaderSkill4.setComboMax(4);
+        leaderSkill4.addAtkType(5);
+        leaderSkill4.addMatchElements(Element.RED);
+        leaderSkill4.addMatchElements(Element.BLUE);
+        leaderSkill4.addMatchElements(Element.GREEN);
+        leaderSkill4.addMatchElements(Element.LIGHT);
+        leaderSkill4.save();
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 

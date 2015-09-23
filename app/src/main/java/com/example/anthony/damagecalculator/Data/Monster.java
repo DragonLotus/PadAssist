@@ -266,6 +266,10 @@ public class Monster extends Model implements Parcelable {
         return baseMonster.getType2();
     }
 
+    public int getType3() {
+        return baseMonster.getType3();
+    }
+
     public String getType1String() {
 //        if (baseMonster.getType1() == 0) {
 //            return "Evo Material";
@@ -318,6 +322,10 @@ public class Monster extends Model implements Parcelable {
 //            return "/Enhance Material";
 //        }else return "";
         return baseMonster.getType2String();
+    }
+
+    public String getType3String() {
+        return baseMonster.getType3String();
     }
 
     public Element getElement1() {
