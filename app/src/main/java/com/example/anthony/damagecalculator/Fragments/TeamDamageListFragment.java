@@ -271,7 +271,7 @@ public class TeamDamageListFragment extends Fragment {
             z.addRule(RelativeLayout.RIGHT_OF, hasAwakenings.getId());
             hasAwakeningsCheck.setLayoutParams(z);
             for (int i = 0; i < team.sizeMonsters(); i++) {
-                if (team.getMonsters(i).isBound()) {
+                if (team.getIsBound().get(i)) {
                 } else {
                     totalDamage += team.getMonsters(i).getElement1Damage(team, totalCombos);
                     totalDamage += team.getMonsters(i).getElement2Damage(team, totalCombos);
@@ -281,7 +281,7 @@ public class TeamDamageListFragment extends Fragment {
             enemy.setCurrentHp(temp);
             if (enemy.getHasDamageThreshold()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
-                    if (team.getMonsters(i).isBound()) {
+                    if (team.getIsBound().get(i)) {
                     } else {
                         if (enemy.getCurrentHp() - (team.getMonsters(i).getElement1DamageThreshold(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
                             totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
@@ -295,7 +295,7 @@ public class TeamDamageListFragment extends Fragment {
                     }
                 }
                 for (int i = 0; i < team.sizeMonsters(); i++) {
-                    if (team.getMonsters(i).isBound()) {
+                    if (team.getIsBound().get(i)) {
                     } else {
                         if (enemy.getCurrentHp() - (team.getMonsters(i).getElement2DamageThreshold(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
                             totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
@@ -310,7 +310,7 @@ public class TeamDamageListFragment extends Fragment {
                 }
             } else if (enemy.getHasAbsorb()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
-                    if (team.getMonsters(i).isBound()) {
+                    if (team.getIsBound().get(i)) {
                     } else {
                         if (enemy.getCurrentHp() - (team.getMonsters(i).getElement1DamageAbsorb(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
                             totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
@@ -324,7 +324,7 @@ public class TeamDamageListFragment extends Fragment {
                     }
                 }
                 for (int i = 0; i < team.sizeMonsters(); i++) {
-                    if (team.getMonsters(i).isBound()) {
+                    if (team.getIsBound().get(i)) {
                     } else {
                         if (enemy.getCurrentHp() - (team.getMonsters(i).getElement2DamageAbsorb(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
                             totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
@@ -340,7 +340,7 @@ public class TeamDamageListFragment extends Fragment {
                 }
             } else if (enemy.getHasReduction()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
-                    if (team.getMonsters(i).isBound()) {
+                    if (team.getIsBound().get(i)) {
                     } else {
                         totalDamage += team.getMonsters(i).getElement1DamageReduction(team, enemy, totalCombos);
                         totalDamage += team.getMonsters(i).getElement2DamageReduction(team, enemy, totalCombos);
@@ -348,7 +348,7 @@ public class TeamDamageListFragment extends Fragment {
                 }
             } else {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
-                    if (team.getMonsters(i).isBound()) {
+                    if (team.getIsBound().get(i)) {
                     } else {
                         totalDamage += team.getMonsters(i).getElement1DamageEnemy(team, enemy, totalCombos);
                         totalDamage += team.getMonsters(i).getElement2DamageEnemy(team, enemy, totalCombos);
@@ -387,8 +387,8 @@ public class TeamDamageListFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             clearTextFocus();
-            if (team.getMonsters(position).isBound()) {
-                team.getMonsters(position).setIsBound(false);
+            if (team.getIsBound().get(position)) {
+                team.getIsBound().set(position, false);
                 Log.d("Bound", "monster " + position + " is unbound");
                 if (toast != null) {
                     toast.cancel();
@@ -409,7 +409,7 @@ public class TeamDamageListFragment extends Fragment {
                     toast = Toast.makeText(getActivity(), "Monster cannot be bound", Toast.LENGTH_SHORT);
                     toast.show();
                 }else {
-                    team.getMonsters(position).setIsBound(true);
+                    team.getIsBound().set(position, true);
                     Log.d("Bound", "monster " + position + " is bound");
                     if (toast != null) {
                         toast.cancel();

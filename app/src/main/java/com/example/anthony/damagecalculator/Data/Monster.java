@@ -83,8 +83,8 @@ public class Monster extends Model implements Parcelable {
     private double currentRcv;
     @Column(name = "currentHp")
     private double currentHp;
-    @Column(name = "isBound")
-    private boolean isBound;
+//    @Column(name = "isBound")
+//    private boolean isBound;
     //    @Column(name = "monsterPicture")
 //    private int monsterPicture;
     DecimalFormat format = new DecimalFormat("0.00");
@@ -103,7 +103,6 @@ public class Monster extends Model implements Parcelable {
         currentAtk = 0;
         currentRcv = 0;
         currentAwakenings = 0;
-        isBound = false;
     }
 
     public int getElement1Damage(Team team, int combos) {
@@ -422,14 +421,6 @@ public class Monster extends Model implements Parcelable {
         this.currentAwakenings = currentAwakenings;
     }
 
-    public boolean isBound() {
-        return isBound;
-    }
-
-    public void setIsBound(boolean isBound) {
-        this.isBound = isBound;
-    }
-
     public long getMonsterId() {
         return monsterId;
     }
@@ -460,7 +451,7 @@ public class Monster extends Model implements Parcelable {
 
     public int getTPA() {
         int numOfDoubleProngs = 0;
-        if(isBound || !Team.getTeamById(0).hasAwakenings()){
+        if(!Team.getTeamById(0).hasAwakenings()){
             return numOfDoubleProngs;
         }else {
 
@@ -484,7 +475,7 @@ public class Monster extends Model implements Parcelable {
         currentAwakenings = source.readInt();
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
-        isBound = source.readByte() == 1;
+        //isBound = source.readByte() == 1;
     }
 
     @Override
@@ -502,7 +493,7 @@ public class Monster extends Model implements Parcelable {
         dest.writeInt(currentAwakenings);
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
-        dest.writeByte((byte) (isBound ? 1 : 0));
+        //dest.writeByte((byte) (isBound ? 1 : 0));
     }
 
     public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {

@@ -23,7 +23,7 @@ public class Team extends Model implements Parcelable {
     private int teamHealth;
     private int teamRcv;
     private int totalDamage;
-    private ArrayList<Integer> rowAwakenings= new ArrayList<Integer>();
+    private ArrayList<Integer> rowAwakenings = new ArrayList<Integer>();
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
     private ArrayList<Monster> monsters;
     private ArrayList<Long> baseMonsterId = new ArrayList<Long>();
@@ -55,8 +55,7 @@ public class Team extends Model implements Parcelable {
     private long teamIdOverwrite;
     @Column(name = "monsterOverwrite")
     private int monsterOverwrite;
-
-    public boolean update;
+    private ArrayList<Boolean> isBound = new ArrayList<>();
 
     public Team() {
         teamId = 0;
@@ -69,6 +68,10 @@ public class Team extends Model implements Parcelable {
         isActiveSkillUsed = false;
         teamName = "Default team";
         monsterOverwrite = 0;
+        isBound.clear();
+        for (int i = 0; i < 6; i++) {
+            isBound.add(false);
+        }
     }
 
 
@@ -121,7 +124,7 @@ public class Team extends Model implements Parcelable {
     }
 
     public ArrayList<Monster> getMonsters() {
-        if(monsters == null || monsters.contains(null)) {
+        if (monsters == null || monsters.contains(null)) {
             monsters = new ArrayList<>();
             monsters.add(lead);
             monsters.add(sub1);
@@ -139,7 +142,7 @@ public class Team extends Model implements Parcelable {
 
     public ArrayList<Long> getBaseMonsterId() {
         baseMonsterId.clear();
-        for(int i = 0; i < getMonsters().size(); i++){
+        for (int i = 0; i < getMonsters().size(); i++) {
             baseMonsterId.add(getMonsters(i).getBaseMonsterId());
         }
         return baseMonsterId;
@@ -225,7 +228,7 @@ public class Team extends Model implements Parcelable {
         this.teamOrder = teamOrder;
     }
 
-    public void setMonsters(Monster monster1, Monster monster2, Monster monster3, Monster monster4, Monster monster5, Monster monster6){
+    public void setMonsters(Monster monster1, Monster monster2, Monster monster3, Monster monster4, Monster monster5, Monster monster6) {
         setLead(monster1);
         setSub1(monster2);
         setSub2(monster3);
@@ -290,41 +293,49 @@ public class Team extends Model implements Parcelable {
         this.monsterOverwrite = monsterOverwrite;
     }
 
-    public String getLeadSkill1(){
-        if(lead.isBound()){
+    public ArrayList<Boolean> getIsBound() {
+        return isBound;
+    }
+
+    public void setIsBound(ArrayList<Boolean> isBound) {
+        this.isBound = isBound;
+    }
+
+    public String getLeadSkill1() {
+        if (isBound.get(0)) {
             return "Blank";
-        }else {
+        } else {
             return lead.getLeaderSkill();
         }
     }
 
-    public String getLeadSkill2(){
-        if(helper.isBound()){
+    public String getLeadSkill2() {
+        if (isBound.get(5)) {
             return "Blank";
-        }else {
+        } else {
             return helper.getLeaderSkill();
         }
     }
 
-    public ArrayList<Element> getOrbMatchElements(){
+    public ArrayList<Element> getOrbMatchElements() {
         ArrayList<Element> compareElements = new ArrayList<>();
         ArrayList<Element> haveElements = new ArrayList();
-        for (int i = 0; i < getMonsters().size(); i++){
-            if(!getMonsters().get(i).isBound()){
-                if(!haveElements.contains(getMonsters().get(i).getElement1())){
+        for (int i = 0; i < getMonsters().size(); i++) {
+            if (!isBound.get(i)) {
+                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
                     haveElements.add(getMonsters().get(i).getElement1());
                 }
-                if(!haveElements.contains(getMonsters().get(i).getElement2())){
+                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
                     haveElements.add(getMonsters().get(i).getElement2());
                 }
             }
 
         }
-        for (int i = 0; i < orbMatches.size(); i++){
-            if(haveElements.contains(orbMatches.get(i).getElement())){
+        for (int i = 0; i < orbMatches.size(); i++) {
+            if (haveElements.contains(orbMatches.get(i).getElement())) {
                 compareElements.add(orbMatches.get(i).getElement());
             }
-            if(orbMatches.get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)){
+            if (orbMatches.get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
                 compareElements.add(Element.HEART);
             }
         }
@@ -332,40 +343,40 @@ public class Team extends Model implements Parcelable {
         return compareElements;
     }
 
-    public ArrayList<Element> getAllOrbMatchElements(){
+    public ArrayList<Element> getAllOrbMatchElements() {
         ArrayList<Element> compareElements = new ArrayList<>();
-        for(int i = 0; i < orbMatches.size(); i++){
+        for (int i = 0; i < orbMatches.size(); i++) {
             compareElements.add(orbMatches.get(i).getElement());
         }
         return compareElements;
     }
 
     public int getOrbPlusAwakenings(Element element) {
-        if (element.equals(Element.RED)){
+        if (element.equals(Element.RED)) {
             return orbPlusAwakenings.get(0);
-        } else if (element.equals(Element.BLUE)){
+        } else if (element.equals(Element.BLUE)) {
             return orbPlusAwakenings.get(1);
-        } else if (element.equals(Element.GREEN)){
+        } else if (element.equals(Element.GREEN)) {
             return orbPlusAwakenings.get(2);
-        } else if (element.equals(Element.LIGHT)){
+        } else if (element.equals(Element.LIGHT)) {
             return orbPlusAwakenings.get(3);
-        } else if (element.equals(Element.DARK)){
+        } else if (element.equals(Element.DARK)) {
             return orbPlusAwakenings.get(4);
-        }else return 0;
+        } else return 0;
     }
 
     public int getRowAwakenings(Element element) {
-        if (element.equals(Element.RED)){
+        if (element.equals(Element.RED)) {
             return rowAwakenings.get(0);
-        } else if (element.equals(Element.BLUE)){
+        } else if (element.equals(Element.BLUE)) {
             return rowAwakenings.get(1);
-        } else if (element.equals(Element.GREEN)){
+        } else if (element.equals(Element.GREEN)) {
             return rowAwakenings.get(2);
-        } else if (element.equals(Element.LIGHT)){
+        } else if (element.equals(Element.LIGHT)) {
             return rowAwakenings.get(3);
-        } else if (element.equals(Element.DARK)){
+        } else if (element.equals(Element.DARK)) {
             return rowAwakenings.get(4);
-        }else return 0;
+        } else return 0;
     }
 
     public Boolean hasAwakenings() {
@@ -387,24 +398,24 @@ public class Team extends Model implements Parcelable {
     public void update() {
         //Case Switch thing for each color. 5 elements for 5 colors. 0 red, 1 blue, 2 green, 3 light, 4 dark
         //Check for monster bound
-        for(int i = 0; i < getMonsters().size(); i++) {
+        for (int i = 0; i < getMonsters().size(); i++) {
             Log.d("What are monsters", "Monsters: " + getMonsters().get(i) + " " + monsters.get(i));
         }
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++) {
             orbPlusAwakenings.add(0);
             rowAwakenings.add(0);
         }
         for (int i = 0; i < getMonsters().size(); i++) {
-            if (!getMonsters().get(i).isBound() && hasAwakenings) {
+            if (!isBound.get(i) && hasAwakenings) {
                 Log.d("Awakening count", "Size of awoken skills" + getMonsters(i).getAwokenSkills().size());
                 //This isn't necessary anymore
-                if(getMonsters().get(i).getAwokenSkills().size() != 0){
-                    for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++){
+                if (getMonsters().get(i).getAwokenSkills().size() != 0) {
+                    for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++) {
                         Log.d("Awakening List", "Monster: " + getMonsters(i) + " List: " + getMonsters(i).getAwokenSkills());
                         int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
-                        switch (awokenSkill){
+                        switch (awokenSkill) {
                             case 14:
                                 orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
                                 break;
@@ -501,7 +512,7 @@ public class Team extends Model implements Parcelable {
         new Delete().from(Team.class).execute();
     }
 
-    public static void deleteTeam(int id){
+    public static void deleteTeam(int id) {
         new Delete().from(Team.class).where("teamId = ?", id).executeSingle();
     }
 
@@ -520,7 +531,6 @@ public class Team extends Model implements Parcelable {
 //    public static List<Team> getFavorite(boolean favorite){
 //        return new Select().from(Team.class).where("favorite = ?", favorite).execute();
 //    }
-
 
 
 }

@@ -68,6 +68,10 @@ public class ArrayListIntegerSerializer extends TypeSerializer {
             for (int i = 1; i < splitData.length; i++) {
                 dataArray.add(Long.valueOf(splitData[i]));
             }
+        }else if (splitData[0].equals("class java.lang.Boolean")) {
+            for (int i = 1; i < splitData.length; i++) {
+                dataArray.add(Boolean.valueOf(splitData[i]));
+            }
         }
 
         Log.d("Serialize", "dataArray: " + dataArray);

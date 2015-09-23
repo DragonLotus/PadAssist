@@ -180,7 +180,7 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterElement2DamageEnemy.setTextColor(Color.parseColor("#FFBBBB"));
         }
 
-        if(team.getMonsters(position).isBound()){
+        if(team.getIsBound().get(position)){
             viewHolder.monsterElement1Damage.setTextColor(Color.parseColor("#666666"));
             viewHolder.monsterElement1DamageEnemy.setTextColor(Color.parseColor("#666666"));
             viewHolder.monsterElement2Damage.setTextColor(Color.parseColor("#666666"));
