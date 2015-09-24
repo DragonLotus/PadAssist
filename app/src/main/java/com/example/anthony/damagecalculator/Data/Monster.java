@@ -29,6 +29,10 @@ public class Monster extends Model implements Parcelable {
     private long monsterId;
     @Column(name = "baseMonster")
     private BaseMonster baseMonster;
+    @Column(name = "favorite")
+    private boolean favorite;
+    @Column(name = "priority")
+    private int priority;
     //    @Column(name = "atkMax")
 //    private int atkMax;
 //    @Column(name = "atkMin")
@@ -103,6 +107,8 @@ public class Monster extends Model implements Parcelable {
         currentAtk = 0;
         currentRcv = 0;
         currentAwakenings = 0;
+        priority = 2;
+        favorite = false;
     }
 
     public int getElement1Damage(Team team, int combos) {
@@ -447,6 +453,22 @@ public class Monster extends Model implements Parcelable {
 
     public int getTeamCost() {
         return baseMonster.getTeamCost();
+    }
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 
     public int getTPA() {
