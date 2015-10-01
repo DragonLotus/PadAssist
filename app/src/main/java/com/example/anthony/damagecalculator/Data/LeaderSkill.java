@@ -48,6 +48,8 @@ public class LeaderSkill extends Model {
     //Can use for orbs linked, indian 2 skills, etc. need to think about it.
     @Column(name = "matchElements")
     private ArrayList<Element> matchElements;
+    @Column (name = "matchElements")
+    private ArrayList<Element> matchElements2;
     @Column(name = "matchMonsters")
     private ArrayList<Long> matchMonsters;
     @Column(name = "hpSkillType")
@@ -56,6 +58,8 @@ public class LeaderSkill extends Model {
     private LeaderSkillType atkSkillType;
     @Column(name = "rcvSkillType")
     private LeaderSkillType rcvSkillType;
+    @Column(name = "hpPercent")
+    private ArrayList<Double> hpPercent;
     private double hpMultiplier;
     private double atkElement1Multiplier;
     private double atkElement2Multiplier;
@@ -76,7 +80,9 @@ public class LeaderSkill extends Model {
         rcvType = new ArrayList<>();
         rcvElement = new ArrayList<>();
         matchElements = new ArrayList<>();
+        matchElements = new ArrayList<>();
         matchMonsters = new ArrayList<>();
+        hpPercent = new ArrayList<>();
 
     }
 
@@ -220,6 +226,18 @@ public class LeaderSkill extends Model {
         matchElements.add(element);
     }
 
+    public ArrayList<Element> getMatchElements2() {
+        return matchElements2;
+    }
+
+    public void setMatchElements2(ArrayList<Element> matchElements2) {
+        this.matchElements2 = matchElements2;
+    }
+
+    public void addMatchElements2(Element element){
+        matchElements2.add(element);
+    }
+
     public ArrayList<Long> getMatchMonsters() {
         return matchMonsters;
     }
@@ -321,7 +339,7 @@ public class LeaderSkill extends Model {
             case FLAT_MONSTER_CONDITIONAL:
                 flatMonsterConditional(monster, team, 2);
                 break;
-            case ORB_LINKED:
+            case ORB_LINK:
                 orbLink(monster, team);
                 break;
             case MATCH_ELEMENT_FLAT:
@@ -363,7 +381,7 @@ public class LeaderSkill extends Model {
             case ORB_PLUS_FLAT:
                 orbPlusFlat(monster, team);
                 break;
-            case MULTI_FLAT:
+            case GRIMOIRE_FLAT:
                 multiFlat(monster, team);
                 break;
         }
@@ -390,7 +408,7 @@ public class LeaderSkill extends Model {
             case FLAT_MONSTER_CONDITIONAL:
                 flatMonsterConditional(monster, team, 2);
                 break;
-            case ORB_LINKED:
+            case ORB_LINK:
                 orbLink(monster, team);
                 break;
             case MATCH_ELEMENT_FLAT:
@@ -432,7 +450,7 @@ public class LeaderSkill extends Model {
             case ORB_PLUS_FLAT:
                 orbPlusFlat(monster, team);
                 break;
-            case MULTI_FLAT:
+            case GRIMOIRE_FLAT:
                 multiFlat(monster, team);
                 break;
         }
@@ -893,6 +911,7 @@ public class LeaderSkill extends Model {
 
     private void comboActive(Monster monster, Team team, int stat){
         //Awoken Anubis, Awoken Bastet
+        //{Combos, active}
         int comboDiff = comboMax - comboMin;
         if(team.isActiveSkillUsed()){
             if (stat == 2){
