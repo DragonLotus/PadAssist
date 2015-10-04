@@ -397,9 +397,11 @@ public class TeamDamageListFragment extends Fragment {
                 toast.show();
             } else {
                 int counter = 0;
-                for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++){
-                    if(team.getMonsters(position).getAwokenSkills().get(i) == 10){
-                        counter++;
+                if (team.hasAwakenings()){
+                    for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++){
+                        if(team.getMonsters(position).getAwokenSkills().get(i) == 10){
+                            counter++;
+                        }
                     }
                 }
                 if (counter == 2){

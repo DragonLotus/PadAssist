@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -241,6 +242,35 @@ public class MainFragment extends Fragment {
         }
     };
 
+    private ListView.OnItemClickListener orbMatchListViewOnClickListener = new ListView.OnItemClickListener(){
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            orbsLinked.setProgress(orbMatchList.get(position).getOrbsLinked() - 3);
+            orbsPlus.setProgress(orbMatchList.get(position).getNumOrbPlus());
+            rowCheckBox.setChecked(orbMatchList.get(position).isRow());
+            switch(orbMatchList.get(position).getElement()){
+                case RED:
+                    orbRadioGroup.check(R.id.redOrb);
+                    break;
+                case BLUE:
+                    orbRadioGroup.check(R.id.blueOrb);
+                    break;
+                case GREEN:
+                    orbRadioGroup.check(R.id.greenOrb);
+                    break;
+                case LIGHT:
+                    orbRadioGroup.check(R.id.lightOrb);
+                    break;
+                case DARK:
+                    orbRadioGroup.check(R.id.darkOrb);
+                    break;
+                case HEART:
+                    orbRadioGroup.check(R.id.heartOrb);
+                    break;
+            }
+        }
+    };
+
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
@@ -311,6 +341,8 @@ public class MainFragment extends Fragment {
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
         calculateButton.setOnClickListener(calculateOnClickListener);
 
+        orbMatches.setOnItemClickListener(orbMatchListViewOnClickListener);
+
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
 
@@ -321,9 +353,11 @@ public class MainFragment extends Fragment {
         Log.d("Orb Match Log", "Load Orb Matches Before: " + OrbMatch.getAllOrbMatches());
         Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList);
         for(int i = 0; i < OrbMatch.getAllOrbMatches().size(); i++){
+            Log.d("Orb Match Log", "i is: " + i);
             Log.d("Orb Match Log", "Current Match is: " + OrbMatch.getAllOrbMatches().get(i) + " and is it in orbMatchList?: " + orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i)));
             if(!orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i))){
                 OrbMatch.getAllOrbMatches().get(i).delete();
+                i -= 1;
             }
         }
         if (orbMatchList.size() == 0){
