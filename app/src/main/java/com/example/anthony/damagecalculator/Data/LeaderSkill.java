@@ -48,7 +48,7 @@ public class LeaderSkill extends Model {
     //Can use for orbs linked, indian 2 skills, etc. need to think about it.
     @Column(name = "matchElements")
     private ArrayList<Element> matchElements;
-    @Column (name = "matchElements")
+    @Column (name = "matchElements2")
     private ArrayList<Element> matchElements2;
     @Column(name = "matchMonsters")
     private ArrayList<Long> matchMonsters;

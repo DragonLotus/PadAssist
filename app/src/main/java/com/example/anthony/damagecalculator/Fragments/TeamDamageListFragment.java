@@ -182,7 +182,7 @@ public class TeamDamageListFragment extends Fragment {
             setDamageThreshold();
         }
         setCheckBoxes();
-        totalCombos = additionalCombos + team.sizeOrbMatches();
+        totalCombos = additionalCombos + team.getOrbMatches().size();
         updateTextView();
         Log.d("totalCombos", String.valueOf(totalCombos));
         monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, hasEnemy, enemy, totalCombos, team);
@@ -475,8 +475,8 @@ public class TeamDamageListFragment extends Fragment {
             clearTextFocus();
             totalCombos += additionalCombosFragment;
             Log.d("Total Combo 1", "" + totalCombos);
-            if (totalCombos < team.sizeOrbMatches()) {
-                totalCombos = team.sizeOrbMatches();
+            if (totalCombos < team.getOrbMatches().size()) {
+                totalCombos = team.getOrbMatches().size();
             }
             monsterListAdapter.setCombos(totalCombos);
             Log.d("Total Combo 2", "" + totalCombos);

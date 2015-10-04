@@ -25,7 +25,7 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
 {
    private Context mContext;
    private LayoutInflater inflater;
-   private Team team;
+   //private Team team;
    private ArrayList<OrbMatch> orbMatches;
    private int resourceId;
    private Toast toast;
@@ -35,9 +35,9 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       @Override
       public void onClick(View v)
       {
-         if(team.sizeOrbMatches() > 0) {
+         if(orbMatches.size() > 0) {
             int position = (int) v.getTag(R.string.index);
-            team.removeOrbMatches(position);
+            orbMatches.remove(position);
             notifyDataSetChanged();
             if (toast != null) {
                toast.cancel();
@@ -48,12 +48,12 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
       }
    };
 
-   public OrbMatchAdapter(Context context, int textViewResourceId, Team team)
+   public OrbMatchAdapter(Context context, int textViewResourceId, ArrayList<OrbMatch> orbMatches)
    {
-      super(context, textViewResourceId, team.getOrbMatches());
+      super(context, textViewResourceId, orbMatches);
       mContext = context;
-      this.team = team;
-      //this.orbMatches = orbMatches;
+      //this.team = team;
+      this.orbMatches = orbMatches;
       this.resourceId = textViewResourceId;
    }
 
@@ -76,8 +76,8 @@ public class OrbMatchAdapter extends ArrayAdapter<OrbMatch>
          viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
       }
 
-      OrbMatch currentMatch = team.getOrbMatches(position);
-      String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.checkIfRow());
+      OrbMatch currentMatch = orbMatches.get(position);
+      String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.isRow());
       viewHolder.orbMatchTotal.setText(rowResult);
 
       Drawable orbDrawable = getDrawable(R.drawable.red_orb);

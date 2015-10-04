@@ -3,87 +3,110 @@ package com.example.anthony.damagecalculator.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
+
+import java.util.List;
+
 /**
  * Created by Thomas on 7/11/2015.
  */
-public class OrbMatch implements Parcelable
-{
-   private int orbsLinked;
-   private int numOrbPlus;
-   private Element element;
-   private boolean isRow;
+@Table(name = "OrbMatch")
+public class OrbMatch extends Model implements Parcelable {
+    @Column(name = "orbsLinked")
+    private int orbsLinked;
+    @Column(name = "numOrbPlus")
+    private int numOrbPlus;
+    @Column(name = "element")
+    private Element element;
+    @Column(name = "isRow")
+    private boolean isRow;
 
-   public OrbMatch(int orbsLinked, int numOrbPlus, Element element, boolean isRow)
-   {
-      this.orbsLinked = orbsLinked;
-      this.numOrbPlus = numOrbPlus;
-      this.element = element;
-      this.isRow = isRow;
-   }
+    public OrbMatch(){
+    }
 
-   public int getOrbsLinked()
-   {
-      return orbsLinked;
-   }
+    public OrbMatch(int orbsLinked, int numOrbPlus, Element element, boolean isRow) {
+        this.orbsLinked = orbsLinked;
+        this.numOrbPlus = numOrbPlus;
+        this.element = element;
+        this.isRow = isRow;
+    }
 
-   public void setOrbsLinked(int orbsLinked)
-   {
-      this.orbsLinked = orbsLinked;
-   }
+    public int getOrbsLinked() {
+        return orbsLinked;
+    }
 
-   public int getNumOrbPlus()
-   {
-      return numOrbPlus;
-   }
+    public void setOrbsLinked(int orbsLinked) {
+        this.orbsLinked = orbsLinked;
+    }
 
-   public void setNumOrbPlus(int numOrbPlus)
-   {
-      this.numOrbPlus = numOrbPlus;
-   }
+    public int getNumOrbPlus() {
+        return numOrbPlus;
+    }
 
-   public Element getElement()
-   {
-      return element;
-   }
+    public void setNumOrbPlus(int numOrbPlus) {
+        this.numOrbPlus = numOrbPlus;
+    }
 
-   public void setElement(Element element)
-   {
-      this.element = element;
-   }
+    public Element getElement() {
+        return element;
+    }
 
-   public boolean checkIfRow()
-   {
-      return isRow;
-   }
+    public void setElement(Element element) {
+        this.element = element;
+    }
 
-   public OrbMatch(Parcel source) {
-      orbsLinked = source.readInt();
-      numOrbPlus = source.readInt();
-      element = (Element) source.readSerializable();
-      isRow = source.readByte() == 1;
-   }
+//    public boolean checkIfRow() {
+//        return isRow;
+//    }
 
-   @Override
-   public void writeToParcel(Parcel dest, int flags) {
-      dest.writeInt(orbsLinked);
-      dest.writeInt(numOrbPlus);
-      dest.writeSerializable(element);
-      dest.writeByte((byte) (isRow ? 1 : 0));
-   }
+    public boolean isRow() {
+        return isRow;
+    }
 
-   @Override
-   public int describeContents() {
-      return 0;
-   }
+    public void setIsRow(boolean isRow) {
+        this.isRow = isRow;
+    }
 
-   public static final Parcelable.Creator<OrbMatch> CREATOR = new Creator<OrbMatch>() {
-      public OrbMatch createFromParcel(Parcel source) {
-         return new OrbMatch(source);
-      }
+    public OrbMatch(Parcel source) {
+        orbsLinked = source.readInt();
+        numOrbPlus = source.readInt();
+        element = (Element) source.readSerializable();
+        isRow = source.readByte() == 1;
+    }
 
-      public OrbMatch[] newArray(int size) {
-         return new OrbMatch[size];
-      }
-   };
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(orbsLinked);
+        dest.writeInt(numOrbPlus);
+        dest.writeSerializable(element);
+        dest.writeByte((byte) (isRow ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<OrbMatch> CREATOR = new Creator<OrbMatch>() {
+        public OrbMatch createFromParcel(Parcel source) {
+            return new OrbMatch(source);
+        }
+
+        public OrbMatch[] newArray(int size) {
+            return new OrbMatch[size];
+        }
+    };
+
+    public static List<OrbMatch> getAllOrbMatches(){
+        return new Select().from(OrbMatch.class).execute();
+    }
+
+    public static void deleteAllOrbMatches(){
+        new Delete().from(OrbMatch.class).execute();
+    }
 
 }

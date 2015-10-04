@@ -29,6 +29,8 @@ import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
 
+import java.util.ArrayList;
+
 /**
  * Created by Thomas on 7/11/2015.
  */
@@ -50,6 +52,7 @@ public class MainFragment extends Fragment {
     private Toast toast;
     private RadioGroup orbRadioGroup;
     private MyDialogFragment dialog;
+    private ArrayList<OrbMatch> orbMatchList;
 
     private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout() {
         @Override
@@ -63,7 +66,8 @@ public class MainFragment extends Fragment {
 //            ignoreEnemyCheckBox.setChecked(false);
 //            maxLeadMultiplierCheckBox.setChecked(false);
 //            additionalComboValue.setText("0");
-            team.clearOrbMatches();
+            //team.clearOrbMatches();
+            orbMatchAdapter.clear();
             orbMatchAdapter.notifyDataSetChanged();
             if (toast != null) {
                 toast.cancel();
@@ -166,7 +170,7 @@ public class MainFragment extends Fragment {
         @Override
         public void onClick(View v) {
             additionalComboValue.clearFocus();
-            if (team.sizeOrbMatches() == 0) {
+            if (orbMatches.getCount() == 0) {
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -187,9 +191,9 @@ public class MainFragment extends Fragment {
         public void onClick(View v) {
             additionalComboValue.clearFocus();
             orbMatch = new OrbMatch(orbsLinked.getProgress() + 3, orbsPlus.getProgress(), getOrbColor(), isRow);
-            team.addOrbMatches(orbMatch);
+            orbMatchAdapter.add(orbMatch);
             orbMatchAdapter.notifyDataSetChanged();
-            Log.d("size", "" + team.sizeOrbMatches());
+            Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList + " orbMatches size is: " + orbMatches.getCount());
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }
@@ -296,8 +300,12 @@ public class MainFragment extends Fragment {
         ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         addMatch.setOnClickListener(addMatchOnClickListener);
         reset.setOnClickListener(resetOnClickListener);
-        //orbMatchList = new ArrayList<OrbMatch>();
-        orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, team);
+        if(OrbMatch.getAllOrbMatches().size() == 0){
+            orbMatchList = new ArrayList<>();
+        } else {
+            orbMatchList = (ArrayList)OrbMatch.getAllOrbMatches();
+        }
+        orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, orbMatchList);
         orbMatches.setAdapter(orbMatchAdapter);
         additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
@@ -306,4 +314,26 @@ public class MainFragment extends Fragment {
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("Orb Match Log", "I am destroy view.");
+        Log.d("Orb Match Log", "Load Orb Matches Before: " + OrbMatch.getAllOrbMatches());
+        Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList);
+        for(int i = 0; i < OrbMatch.getAllOrbMatches().size(); i++){
+            Log.d("Orb Match Log", "Current Match is: " + OrbMatch.getAllOrbMatches().get(i) + " and is it in orbMatchList?: " + orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i)));
+            if(!orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i))){
+                OrbMatch.getAllOrbMatches().get(i).delete();
+            }
+        }
+        if (orbMatchList.size() == 0){
+            OrbMatch.deleteAllOrbMatches();
+        }
+        for (int i = 0; i < orbMatchList.size(); i++){
+            if(!OrbMatch.getAllOrbMatches().contains(orbMatchList.get(i))){
+                orbMatchList.get(i).save();
+            }
+        }
+        Log.d("Orb Match Log", "Load Orb Matches After: " + OrbMatch.getAllOrbMatches());
+    }
 }

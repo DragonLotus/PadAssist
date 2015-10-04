@@ -57,7 +57,7 @@ public class DamageCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             if (team.getOrbMatches().get(i).getElement().equals(monster.getElement1())) {
-                if (team.getOrbMatches().get(i).checkIfRow()) {
+                if (team.getOrbMatches().get(i).isRow()) {
                     counter++;
                 }
             }
@@ -72,7 +72,7 @@ public class DamageCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             if (team.getOrbMatches().get(i).getElement().equals(monster.getElement2())) {
-                if (team.getOrbMatches().get(i).checkIfRow()) {
+                if (team.getOrbMatches().get(i).isRow()) {
                     counter++;
                 }
             }

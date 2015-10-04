@@ -23,6 +23,7 @@ import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.LeaderSkill;
 import com.example.anthony.damagecalculator.Data.LeaderSkillType;
 import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
@@ -63,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
             configBuilder.addModelClasses(Team.class);
             configBuilder.addModelClass(BaseMonster.class);
             configBuilder.addModelClass(LeaderSkill.class);
+            configBuilder.addModelClass(OrbMatch.class);
             ActiveAndroid.initialize(configBuilder.create());
         } else {
             ActiveAndroid.initialize(this);
