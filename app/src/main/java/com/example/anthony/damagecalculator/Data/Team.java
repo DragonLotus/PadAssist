@@ -89,6 +89,7 @@ public class Team extends Model implements Parcelable {
         teamOrder = oldTeam.getTeamOrder();
         favorite = oldTeam.favorite;
         monsterOverwrite = oldTeam.getMonsterOverwrite();
+        orbMatches = oldTeam.getOrbMatches();
     }
 
     public int getTeamHealth() {
@@ -157,24 +158,29 @@ public class Team extends Model implements Parcelable {
     }
 
     public ArrayList<OrbMatch> getOrbMatches() {
+        if(!orbMatches.equals((ArrayList)OrbMatch.getAllOrbMatches())){
+            orbMatches = (ArrayList)OrbMatch.getAllOrbMatches();
+        }
+
         return orbMatches;
-    }
 
-    public void addOrbMatches(OrbMatch orbMatch) {
-        orbMatches.add(orbMatch);
     }
-
-    public void clearOrbMatches() {
-        orbMatches.clear();
-    }
-
-    public void removeOrbMatches(int position) {
-        orbMatches.remove(position);
-    }
-
-    public int sizeOrbMatches() {
-        return orbMatches.size();
-    }
+//
+//    public void addOrbMatches(OrbMatch orbMatch) {
+//        orbMatches.add(orbMatch);
+//    }
+//
+//    public void clearOrbMatches() {
+//        orbMatches.clear();
+//    }
+//
+//    public void removeOrbMatches(int position) {
+//        orbMatches.remove(position);
+//    }
+//
+//    public int sizeOrbMatches() {
+//        return orbMatches.size();
+//    }
 
     public OrbMatch getOrbMatches(int position) {
         return orbMatches.get(position);
