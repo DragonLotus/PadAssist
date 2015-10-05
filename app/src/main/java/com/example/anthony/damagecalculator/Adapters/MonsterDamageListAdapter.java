@@ -123,10 +123,12 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
         }
         if(team.getMonsters(position).getElement1().equals(Element.BLANK)){
             viewHolder.monsterElement1Damage.setVisibility(View.INVISIBLE);
-            viewHolder.monsterElement2Damage.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
-            viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement1Percent.setVisibility(View.INVISIBLE);
+        }
+        if(team.getMonsters(position).getElement2().equals(Element.BLANK)){
+            viewHolder.monsterElement2Damage.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2Percent.setVisibility(View.INVISIBLE);
         }
 

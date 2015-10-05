@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
+import com.example.anthony.damagecalculator.AbstractFragments.BaseMonsterAbstractFragment;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
@@ -152,9 +153,34 @@ public class MainActivity extends ActionBarActivity {
             monster.addAwokenSkills(3);
             monster.addAwokenSkills(2);
             monster.setType1(3);
-            monster.setType2(-1);
             monster.setRarity(6);
             monster.setTeamCost(23);
+            monster.setXpCurve(4000000);
+            monster.save();
+        }
+        if(BaseMonster.getMonsterId(201) == null){
+            BaseMonster monster = new BaseMonster();
+            monster.setMonsterId(201);
+            monster.setMonsterPicture(R.drawable.monster_201);
+            monster.setName("Empress of Serpents, Echidna");
+            monster.setMaxLevel(99);
+            monster.setAtkMax(949);
+            monster.setAtkMin(452);
+            monster.setHpMax(1277);
+            monster.setHpMin(672);
+            monster.setRcvMax(650);
+            monster.setRcvMin(406);
+            monster.setAtkScale(1);
+            monster.setHpScale(1);
+            monster.setRcvScale(1);
+            monster.setMaxAwakenings(3);
+            monster.setElement1(Element.RED);
+            monster.addAwokenSkills(11);
+            monster.addAwokenSkills(3);
+            monster.addAwokenSkills(2);
+            monster.setType1(3);
+            monster.setRarity(5);
+            monster.setTeamCost(13);
             monster.setXpCurve(4000000);
             monster.save();
         }
@@ -500,6 +526,7 @@ public class MainActivity extends ActionBarActivity {
 
         }
     };
+
 
 
     /**

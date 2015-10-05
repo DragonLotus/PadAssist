@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Data.Element;
@@ -46,9 +47,9 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterLevelValue = (TextView) convertView.findViewById(R.id.monsterLevelValue);
             viewHolder.monsterLevel = (TextView) convertView.findViewById(R.id.monsterLevel);
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
-            viewHolder.type1 = (TextView) convertView.findViewById(R.id.type1);
-            viewHolder.type2 = (TextView) convertView.findViewById(R.id.type2);
-            viewHolder.type3 = (TextView) convertView.findViewById(R.id.type3);
+            viewHolder.type1 = (ImageView) convertView.findViewById(R.id.type1);
+            viewHolder.type2 = (ImageView) convertView.findViewById(R.id.type2);
+            viewHolder.type3 = (ImageView) convertView.findViewById(R.id.type3);
 
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
@@ -66,9 +67,7 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
         }
-        viewHolder.type1.setText(monsterList.get(position).getType1String());
-        viewHolder.type2.setText(monsterList.get(position).getType2String());
-        viewHolder.type3.setText(monsterList.get(position).getType3String());
+
         if (monsterList.get(position).getTotalPlus() == 0) {
             viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
         } else {
@@ -99,13 +98,149 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
         }
 
 
+        switch(monsterList.get(position).getType1()){
+            case 0:
+                viewHolder.type1.setImageResource(R.drawable.type_evo_material);
+                break;
+            case 1:
+                viewHolder.type1.setImageResource(R.drawable.type_balanced);
+                break;
+            case 2:
+                viewHolder.type1.setImageResource(R.drawable.type_physical);
+                break;
+            case 3:
+                viewHolder.type1.setImageResource(R.drawable.type_healer);
+                break;
+            case 4:
+                viewHolder.type1.setImageResource(R.drawable.type_dragon);
+                break;
+            case 5:
+                viewHolder.type1.setImageResource(R.drawable.type_god);
+                break;
+            case 6:
+                viewHolder.type1.setImageResource(R.drawable.type_attacker);
+                break;
+            case 7:
+                viewHolder.type1.setImageResource(R.drawable.type_devil);
+                break;
+            case 8:
+                viewHolder.type1.setImageResource(R.drawable.type_machine);
+                break;
+            case 12:
+                viewHolder.type1.setImageResource(R.drawable.type_awoken);
+                break;
+            case 13:
+                viewHolder.type1.setVisibility(View.INVISIBLE);
+                break;
+            case 14:
+                viewHolder.type1.setImageResource(R.drawable.type_enhance_material);
+                break;
+            default:
+                viewHolder.type1.setVisibility(View.GONE);
+                break;
+        }
+        switch(monsterList.get(position).getType2()){
+            case 0:
+                viewHolder.type2.setImageResource(R.drawable.type_evo_material);
+                break;
+            case 1:
+                viewHolder.type2.setImageResource(R.drawable.type_balanced);
+                break;
+            case 2:
+                viewHolder.type2.setImageResource(R.drawable.type_physical);
+                break;
+            case 3:
+                viewHolder.type2.setImageResource(R.drawable.type_healer);
+                break;
+            case 4:
+                viewHolder.type2.setImageResource(R.drawable.type_dragon);
+                break;
+            case 5:
+                viewHolder.type2.setImageResource(R.drawable.type_god);
+                break;
+            case 6:
+                viewHolder.type2.setImageResource(R.drawable.type_attacker);
+                break;
+            case 7:
+                viewHolder.type2.setImageResource(R.drawable.type_devil);
+                break;
+            case 8:
+                viewHolder.type2.setImageResource(R.drawable.type_machine);
+                break;
+            case 12:
+                viewHolder.type2.setImageResource(R.drawable.type_awoken);
+                break;
+            case 13:
+                viewHolder.type2.setVisibility(View.INVISIBLE);
+                break;
+            case 14:
+                viewHolder.type2.setImageResource(R.drawable.type_enhance_material);
+                break;
+            default:
+                viewHolder.type2.setVisibility(View.GONE);
+                break;
+        }
+        switch(monsterList.get(position).getType3()){
+            case 0:
+                viewHolder.type3.setImageResource(R.drawable.type_evo_material);
+                break;
+            case 1:
+                viewHolder.type3.setImageResource(R.drawable.type_balanced);
+                break;
+            case 2:
+                viewHolder.type3.setImageResource(R.drawable.type_physical);
+                break;
+            case 3:
+                viewHolder.type3.setImageResource(R.drawable.type_healer);
+                break;
+            case 4:
+                viewHolder.type3.setImageResource(R.drawable.type_dragon);
+                break;
+            case 5:
+                viewHolder.type3.setImageResource(R.drawable.type_god);
+                break;
+            case 6:
+                viewHolder.type3.setImageResource(R.drawable.type_attacker);
+                break;
+            case 7:
+                viewHolder.type3.setImageResource(R.drawable.type_devil);
+                break;
+            case 8:
+                viewHolder.type3.setImageResource(R.drawable.type_machine);
+                break;
+            case 12:
+                viewHolder.type3.setImageResource(R.drawable.type_awoken);
+                break;
+            case 13:
+                viewHolder.type3.setVisibility(View.INVISIBLE);
+                break;
+            case 14:
+                viewHolder.type3.setImageResource(R.drawable.type_enhance_material);
+                break;
+            default:
+                viewHolder.type3.setVisibility(View.GONE);
+                break;
+        }
+
+        if(monsterList.get(position).getType2() == -1){
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.type1.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            viewHolder.type1.setLayoutParams(params);
+        }
+
+        if(monsterList.get(position).getType3() == -1){
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.type2.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            viewHolder.type2.setLayoutParams(params);
+        }
+
         return convertView;
     }
 
 
     static class ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, type1, type2, type3;
-        ImageView monsterPicture;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel;
+        ImageView monsterPicture, type1, type2, type3;
 
     }
     public void updateList(ArrayList<Monster> monsterList){

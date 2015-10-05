@@ -10,15 +10,12 @@ import java.util.Comparator;
 public class BaseMonsterElement1Comparator implements Comparator<BaseMonster> {
     @Override
     public int compare(BaseMonster lhs, BaseMonster rhs) {
-//        if (lhs.getMonsterId() == 0){
-//            return -1;
-//        }
-        if (lhs.getElement1Int() > rhs.getElement1Int()) {
-            return 1;
-        } else if (lhs.getElement1Int() == rhs.getElement1Int()) {
-            if (lhs.getElement2Int() > rhs.getElement2Int()) {
+        if (lhs.getMonsterId() == 0) {
+            return -1;
+        } else {
+            if (lhs.getElement1Int() > rhs.getElement1Int()) {
                 return 1;
-            } else if (lhs.getElement2Int() == rhs.getElement2Int()) {
+            } else if (lhs.getElement1Int() == rhs.getElement1Int()) {
                 if (lhs.getMonsterId() > rhs.getMonsterId()) {
                     return 1;
                 } else {
@@ -27,8 +24,6 @@ public class BaseMonsterElement1Comparator implements Comparator<BaseMonster> {
             } else {
                 return -1;
             }
-        } else {
-            return -1;
         }
     }
 }

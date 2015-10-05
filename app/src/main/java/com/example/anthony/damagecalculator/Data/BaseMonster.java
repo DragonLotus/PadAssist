@@ -330,6 +330,8 @@ public class BaseMonster extends Model {
             return "Attacker";
         } else if (type1 == 7) {
             return "Devil";
+        } else if (type1 == 8) {
+            return "Machine";
         } else if (type1 == 12) {
             return "Awoken Skill Material";
         } else if (type1 == 13) {
@@ -356,6 +358,8 @@ public class BaseMonster extends Model {
             return "/Attacker";
         } else if (type2 == 7) {
             return "/Devil";
+        } else if (type2 == 8) {
+            return "/Machine";
         } else if (type2 == 12) {
             return "/Awoken Skill Material";
         } else if (type2 == 13) {
@@ -382,6 +386,8 @@ public class BaseMonster extends Model {
             return "/Attacker";
         } else if (type3 == 7) {
             return "/Devil";
+        }else if (type3 == 8) {
+            return "/Machine";
         } else if (type3 == 12) {
             return "/Awoken Skill Material";
         } else if (type3 == 13) {

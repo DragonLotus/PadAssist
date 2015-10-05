@@ -13,13 +13,19 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
+import com.example.anthony.damagecalculator.AbstractFragments.BaseMonsterAbstractFragment;
 import com.example.anthony.damagecalculator.Adapters.BaseMonsterListAdapter;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.BaseMonsterAlphabeticalComparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterElement1Comparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterElement2Comparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterNumberComparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterType1Comparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterType2Comparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterType3Comparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +40,11 @@ public class BaseMonsterListFragment extends Fragment {
     private BaseMonsterListAdapter baseMonsterListAdapter;
     private Comparator<BaseMonster> monsterNumberComparator = new BaseMonsterNumberComparator();
     private Comparator<BaseMonster> monsterElement1Comparator = new BaseMonsterElement1Comparator();
+    private Comparator<BaseMonster> monsterElement2Comparator = new BaseMonsterElement2Comparator();
+    private Comparator<BaseMonster> monsterType1Comparator = new BaseMonsterType1Comparator();
+    private Comparator<BaseMonster> monsterType2Comparator = new BaseMonsterType2Comparator();
+    private Comparator<BaseMonster> monsterType3Comparator = new BaseMonsterType3Comparator();
+    private Comparator<BaseMonster> monsterAlphabeticalComparator = new BaseMonsterAlphabeticalComparator();
 
     public static BaseMonsterListFragment newInstance() {
         BaseMonsterListFragment fragment = new BaseMonsterListFragment();
@@ -72,9 +83,20 @@ public class BaseMonsterListFragment extends Fragment {
         }
         monsterList = (ArrayList) BaseMonster.getAllMonsters();
         Log.d("Base Monster List Log", "monsterList is before: " + monsterList);
-        //Collections.sort(monsterList, monsterNumberComparator);
-        Collections.sort(monsterList, monsterElement1Comparator);
+        for (int i = 0; i < monsterList.size(); i++){
+            Log.d("Base Monster List Log", "Monster Type 1 before is: " + monsterList.get(i).getType1());
+        }
+        Collections.sort(monsterList, monsterNumberComparator);
+        //Collections.sort(monsterList, monsterElement1Comparator);
+        //Collections.sort(monsterList, monsterElement2Comparator);
+        //Collections.sort(monsterList, monsterType1Comparator);
+        //Collections.sort(monsterList, monsterType2Comparator);
+        //Collections.sort(monsterList, monsterType3Comparator);
+        //Collections.sort(monsterList, monsterAlphabeticalComparator);
         Log.d("Base Monster List Log", "monsterList is after: " + monsterList);
+        for (int i = 0; i < monsterList.size(); i++){
+            Log.d("Base Monster List Log", "Monster Type 1 after is: " + monsterList.get(i).getType1());
+        }
         //disableStuff();
         baseMonsterListAdapter = new BaseMonsterListAdapter(getActivity(), R.layout.base_monster_list_row, monsterList);
         monsterListView.setAdapter(baseMonsterListAdapter);
