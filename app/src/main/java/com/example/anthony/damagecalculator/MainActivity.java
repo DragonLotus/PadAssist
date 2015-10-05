@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
-import com.example.anthony.damagecalculator.AbstractFragments.BaseMonsterAbstractFragment;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
@@ -28,7 +27,6 @@ import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
-import com.example.anthony.damagecalculator.Fragments.SaveMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
 
 import java.io.File;

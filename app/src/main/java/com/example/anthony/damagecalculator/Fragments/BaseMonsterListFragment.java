@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
-import com.example.anthony.damagecalculator.AbstractFragments.BaseMonsterAbstractFragment;
 import com.example.anthony.damagecalculator.Adapters.BaseMonsterListAdapter;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Monster;
