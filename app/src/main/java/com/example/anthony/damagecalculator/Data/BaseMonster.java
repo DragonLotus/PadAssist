@@ -158,7 +158,9 @@ public class BaseMonster extends Model {
     }
 
     public int getElement1Int(){
-        if (element1 == Element.RED){
+        if (element1 == Element.BLANK){
+            return -1;
+        }else if (element1 == Element.RED){
             return 0;
         }else if(element1 == Element.BLUE) {
             return 1;
@@ -174,7 +176,9 @@ public class BaseMonster extends Model {
     }
 
     public int getElement2Int(){
-        if (element2 == Element.RED){
+        if (element2 == Element.BLANK){
+            return -1;
+        }else if (element2 == Element.RED){
             return 0;
         }else if(element2 == Element.BLUE) {
             return 1;

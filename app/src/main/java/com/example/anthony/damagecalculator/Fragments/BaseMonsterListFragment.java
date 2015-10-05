@@ -1,11 +1,12 @@
 package com.example.anthony.damagecalculator.Fragments;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,8 +18,12 @@ import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.BaseMonsterElement1Comparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterNumberComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class BaseMonsterListFragment extends Fragment {
@@ -27,6 +32,8 @@ public class BaseMonsterListFragment extends Fragment {
     private ListView monsterListView;
     private ArrayList<BaseMonster> monsterList;
     private BaseMonsterListAdapter baseMonsterListAdapter;
+    private Comparator<BaseMonster> monsterNumberComparator = new BaseMonsterNumberComparator();
+    private Comparator<BaseMonster> monsterElement1Comparator = new BaseMonsterElement1Comparator();
 
     public static BaseMonsterListFragment newInstance() {
         BaseMonsterListFragment fragment = new BaseMonsterListFragment();
@@ -41,6 +48,7 @@ public class BaseMonsterListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -52,11 +60,21 @@ public class BaseMonsterListFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.setGroupVisible(R.id.baseMonsterGroup, true);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
         }
         monsterList = (ArrayList) BaseMonster.getAllMonsters();
+        Log.d("Base Monster List Log", "monsterList is before: " + monsterList);
+        //Collections.sort(monsterList, monsterNumberComparator);
+        Collections.sort(monsterList, monsterElement1Comparator);
+        Log.d("Base Monster List Log", "monsterList is after: " + monsterList);
         //disableStuff();
         baseMonsterListAdapter = new BaseMonsterListAdapter(getActivity(), R.layout.base_monster_list_row, monsterList);
         monsterListView.setAdapter(baseMonsterListAdapter);
@@ -127,14 +145,16 @@ public class BaseMonsterListFragment extends Fragment {
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };
+//
+//    private void disableStuff(){
+//        for (int i = 0; i < monsterList.size(); i++){
+//            if(monsterList.get(i).getMonsterId() == Team.getTeamById(0).getLead().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub1().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub2().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub3().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub4().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getHelper().getMonsterId()){
+//                monsterList.remove(i);
+//            }
+//        }
+//    }
+//
 
-    private void disableStuff(){
-        for (int i = 0; i < monsterList.size(); i++){
-            if(monsterList.get(i).getMonsterId() == Team.getTeamById(0).getLead().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub1().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub2().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub3().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub4().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getHelper().getMonsterId()){
-                monsterList.remove(i);
-            }
-        }
-    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

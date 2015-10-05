@@ -431,6 +431,7 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.setGroupVisible(R.id.saveTeamGroup, false);
         menu.setGroupVisible(R.id.searchGroup, false);
+        menu.setGroupVisible(R.id.baseMonsterGroup, false);
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
 //        Log.d("What is fragment", "" + fragment);
 //        if(fragment instanceof MonsterListFragment){

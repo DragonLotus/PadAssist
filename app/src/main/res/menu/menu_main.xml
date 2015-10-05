@@ -7,22 +7,55 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
-    <group
-        android:id="@+id/saveTeamGroup">
+    <group android:id="@+id/saveTeamGroup">
         <item
-        android:id="@+id/saveTeam"
-        android:title="Save Team"
-        android:icon="@drawable/save_icon"
-        app:showAsAction="ifRoom"/>
+            android:id="@+id/saveTeam"
+            android:icon="@drawable/save_icon"
+            android:title="Save Team"
+            app:showAsAction="ifRoom" />
     </group>
 
-    <group
-        android:id="@+id/searchGroup">
+    <group android:id="@+id/searchGroup">
         <item
             android:id="@+id/searchMonsters"
-            android:title="Search Monsters"
             android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
-            app:showAsAction="ifRoom"/>
+            android:title="Search Monsters"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group android:id="@+id/baseMonsterGroup">
+        <item
+            android:id="@+id/sortAlphabetical"
+            android:title="Sort A-Z"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sortId"
+            android:title="Sort by #"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sortElement1"
+            android:title="Sort by Element 1"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sortElement2"
+            android:title="Sort by Element 2"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sortType1"
+            android:title="Sort by Type 1"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sortType2"
+            android:title="Sort by Type 2"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sortType3"
+            android:title="Sort by Type 3"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/filter"
+            android:title="Filter Monsters"
+            app:showAsAction="never"/>
     </group>
 
 
