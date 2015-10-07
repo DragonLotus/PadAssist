@@ -32,7 +32,7 @@ import java.util.ArrayList;
  * Use the {@link MonsterListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterListFragment extends Fragment {
+public class MonsterListFragment extends AbstractFragment {
     public static final String TAG = MonsterListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -324,5 +324,10 @@ public class MonsterListFragment extends Fragment {
         Log.d("helper", "" + team.getHelper());
         team.update();
         team.save();
+    }
+
+    @Override
+    public void sortArrayList(int sortMethod) {
+
     }
 }

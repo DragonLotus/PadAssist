@@ -48,7 +48,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 
-public class EnemyTargetFragment extends Fragment {
+public class EnemyTargetFragment extends AbstractFragment {
     public static final String TAG = EnemyTargetFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -805,6 +805,11 @@ public class EnemyTargetFragment extends Fragment {
             ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, additionalCombos, team, enemy), TeamDamageListFragment.TAG);
         }
     };
+
+    @Override
+    public void sortArrayList(int sortMethod) {
+
+    }
 
 
 //   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()

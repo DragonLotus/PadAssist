@@ -2,7 +2,6 @@ package com.example.anthony.damagecalculator.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +30,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class BaseMonsterListFragment extends Fragment {
+public class BaseMonsterListFragment extends AbstractFragment {
     public static final String TAG = BaseMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
     private ListView monsterListView;
@@ -72,7 +71,7 @@ public class BaseMonsterListFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.setGroupVisible(R.id.baseMonsterGroup, true);
+        menu.setGroupVisible(R.id.sortGroup, true);
     }
 
     @Override
@@ -194,4 +193,37 @@ public class BaseMonsterListFragment extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void sortArrayList(int sortMethod) {
+        switch(sortMethod){
+            case 0:
+                Collections.sort(monsterList, monsterAlphabeticalComparator);
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            case 1:
+                Collections.sort(monsterList, monsterNumberComparator);
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            case 2:
+                Collections.sort(monsterList, monsterElement1Comparator);
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            case 3:
+                Collections.sort(monsterList, monsterElement2Comparator);
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            case 4:
+                Collections.sort(monsterList, monsterType1Comparator);
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            case 5:
+                Collections.sort(monsterList, monsterType2Comparator);
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            case 6:
+                Collections.sort(monsterList, monsterType3Comparator);
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+        }
+    }
 }

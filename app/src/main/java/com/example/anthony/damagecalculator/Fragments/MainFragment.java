@@ -35,7 +35,7 @@ import java.util.ArrayList;
 /**
  * Created by Thomas on 7/11/2015.
  */
-public class MainFragment extends Fragment {
+public class MainFragment extends AbstractFragment {
     public static final String TAG = MainFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int additionalCombos = 0;
@@ -369,5 +369,10 @@ public class MainFragment extends Fragment {
             }
         }
         Log.d("Orb Match Log", "Load Orb Matches After: " + OrbMatch.getAllOrbMatches());
+    }
+
+    @Override
+    public void sortArrayList(int sortMethod) {
+
     }
 }

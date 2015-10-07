@@ -7,7 +7,5 @@ import android.support.v4.app.Fragment;
  */
 public abstract class AbstractFragment extends Fragment {
 
-    public interface sortArrayList {
-        public void sortArrayList(int sortOption);
-    }
+    public abstract void sortArrayList(int sortMethod);
 }

@@ -9,50 +9,57 @@
 
     <TextView
         android:id="@+id/monsterId"
-        android:layout_width="wrap_content"
+        android:layout_width="43dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_alignTop="@+id/monsterPicture"
         android:gravity="center_vertical"
-        android:paddingRight="8dp"
-        android:text="1337"
+        android:text="8888"
         android:textSize="16dp" />
 
     <ImageView
-        android:id="@+id/element1"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:id="@+id/monsterPicture"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_toRightOf="@+id/monsterId"
-        android:src="@drawable/red_orb" />
-
-    <ImageView
-        android:id="@+id/element2"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginRight="8dp"
-        android:layout_toRightOf="@+id/element1"
-        android:src="@drawable/red_orb" />
+        android:src="@drawable/monster_1218"
+        android:layout_marginRight="4dp"/>
 
     <TextView
         android:id="@+id/monsterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
-        android:layout_toLeftOf="@+id/type1"
-        android:layout_toRightOf="@+id/element2"
+        android:layout_toRightOf="@+id/monsterPicture"
         android:ellipsize="marquee"
         android:gravity="center_vertical"
         android:singleLine="true"
         android:text="Monster name"
         android:textSize="16dp" />
 
+    <TextView
+        android:id="@+id/rarity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterName"
+        android:layout_toRightOf="@+id/monsterPicture"
+        android:text="8"
+        android:textSize="16dp"/>
+
+    <ImageView
+        android:id="@+id/rarityStar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_toRightOf="@+id/rarity"
+        android:layout_alignTop="@+id/rarity"
+        android:layout_alignBottom="@+id/rarity"
+        android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"/>
+
     <ImageView
         android:id="@+id/type1"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
+        android:layout_alignTop="@+id/rarity"
+        android:layout_alignBottom="@+id/rarity"
         android:layout_toLeftOf="@+id/type2"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced"/>
@@ -61,8 +68,8 @@
         android:id="@+id/type2"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
+        android:layout_alignTop="@+id/rarity"
+        android:layout_alignBottom="@+id/rarity"
         android:layout_toLeftOf="@+id/type3"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced"/>
@@ -71,8 +78,8 @@
         android:id="@+id/type3"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
+        android:layout_alignTop="@+id/rarity"
+        android:layout_alignBottom="@+id/rarity"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced" />

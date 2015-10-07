@@ -25,6 +25,7 @@ import com.example.anthony.damagecalculator.Data.LeaderSkillType;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
+import com.example.anthony.damagecalculator.Fragments.AbstractFragment;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
@@ -49,7 +50,7 @@ public class MainActivity extends ActionBarActivity {
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
     FrameLayout mViewPager;
-    private Fragment mContent;
+    private AbstractFragment mContent;
     private Enemy enemy;
     private Team team;
     private TeamSaveDialogFragment teamSaveDialogFragment;
@@ -69,7 +70,7 @@ public class MainActivity extends ActionBarActivity {
             ActiveAndroid.initialize(this);
         }
         if (savedInstanceState != null) {
-            mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+            mContent = (AbstractFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
         }
         setContentView(R.layout.activity_main);
 
@@ -455,7 +456,7 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         menu.setGroupVisible(R.id.saveTeamGroup, false);
         menu.setGroupVisible(R.id.searchGroup, false);
-        menu.setGroupVisible(R.id.baseMonsterGroup, false);
+        menu.setGroupVisible(R.id.sortGroup, false);
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
 //        Log.d("What is fragment", "" + fragment);
 //        if(fragment instanceof MonsterListFragment){
@@ -483,6 +484,20 @@ public class MainActivity extends ActionBarActivity {
             teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
         } else if (id == R.id.searchMonsters) {
             switchFragment(BaseMonsterListFragment.newInstance(), BaseMonsterListFragment.TAG);
+        } else if (id == R.id.sortAlphabetical){
+            mContent.sortArrayList(0);
+        } else if (id == R.id.sortId){
+            mContent.sortArrayList(1);
+        } else if (id == R.id.sortElement1){
+            mContent.sortArrayList(2);
+        } else if (id == R.id.sortElement2){
+            mContent.sortArrayList(3);
+        } else if (id == R.id.sortType1){
+            mContent.sortArrayList(4);
+        } else if (id == R.id.sortType2){
+            mContent.sortArrayList(5);
+        } else if (id == R.id.sortType3){
+            mContent.sortArrayList(6);
         }
 
         return super.onOptionsItemSelected(item);
@@ -622,10 +637,11 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public void switchFragment(Fragment fragment, String tag) {
+    public void switchFragment(AbstractFragment fragment, String tag) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.pager, fragment, tag);
+        mContent = fragment;
+        transaction.replace(R.id.pager, mContent, tag);
         transaction.addToBackStack(null).commit();
     }
 

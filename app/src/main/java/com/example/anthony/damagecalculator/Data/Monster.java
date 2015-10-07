@@ -471,6 +471,7 @@ public class Monster extends Model implements Parcelable {
         this.priority = priority;
     }
 
+
     public int getTPA() {
         int numOfDoubleProngs = 0;
         if(!Team.getTeamById(0).hasAwakenings()){

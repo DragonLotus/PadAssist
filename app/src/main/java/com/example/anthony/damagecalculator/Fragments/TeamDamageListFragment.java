@@ -24,12 +24,15 @@ import android.widget.Toast;
 import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
+import com.example.anthony.damagecalculator.Data.LeaderSkill;
+import com.example.anthony.damagecalculator.Data.LeaderSkillType;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 
 /**
@@ -40,7 +43,7 @@ import java.text.DecimalFormat;
  * Use the {@link TeamDamageListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamDamageListFragment extends Fragment {
+public class TeamDamageListFragment extends AbstractFragment {
     public static final String TAG = MonsterPageFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -205,6 +208,7 @@ public class TeamDamageListFragment extends Fragment {
         absorbRadioGroup.setOnCheckedChangeListener(absorbOnCheckChangeListener);
         hasAwakeningsCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         activeUsedCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+        showHideConditionals();
 
     }
 
@@ -659,6 +663,24 @@ public class TeamDamageListFragment extends Fragment {
         activeUsedCheck.setChecked(team.isActiveSkillUsed());
     }
 
+    private void showHideConditionals(){
+        LeaderSkill leader, helper;
+        ArrayList<LeaderSkillType> activeSkills = new ArrayList<>();
+        activeSkills.add(LeaderSkillType.ACTIVE);
+        activeSkills.add(LeaderSkillType.COMBO_ACTIVE);
+        activeSkills.add(LeaderSkillType.FLAT_ACTIVE);
+        activeSkills.add(LeaderSkillType.FLAT_ACTIVE_ATTRIBUTE);
+        activeSkills.add(LeaderSkillType.FLAT_ATTRIBUTE_ACTIVE_TYPE);
+        activeSkills.add(LeaderSkillType.MATCH_ELEMENT_ACTIVE);
+        leader = LeaderSkill.getLeaderSkill(team.getLeadSkill1());
+        helper = LeaderSkill.getLeaderSkill(team.getLeadSkill2());
+        if(activeSkills.contains(leader.getAtkSkillType()) || activeSkills.contains(leader.getHpSkillType()) || activeSkills.contains(leader.getRcvSkillType()) || activeSkills.contains(helper.getHpSkillType()) || activeSkills.contains(helper.getAtkSkillType()) || activeSkills.contains(helper.getRcvSkillType())){
+            activeUsedCheck.setVisibility(View.GONE);
+        }else {
+            activeUsedCheck.setVisibility(View.VISIBLE);
+        }
+    }
+
     private RadioGroup.OnCheckedChangeListener absorbOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -692,4 +714,8 @@ public class TeamDamageListFragment extends Fragment {
         damageThresholdValue.clearFocus();
     }
 
+    @Override
+    public void sortArrayList(int sortMethod) {
+
+    }
 }

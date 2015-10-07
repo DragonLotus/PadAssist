@@ -23,7 +23,7 @@
             app:showAsAction="ifRoom" />
     </group>
 
-    <group android:id="@+id/baseMonsterGroup">
+    <group android:id="@+id/sortGroup">
         <item
             android:id="@+id/sortAlphabetical"
             android:title="Sort A-Z"

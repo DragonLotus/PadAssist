@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * Use the {@link TeamListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamListFragment extends Fragment {
+public class TeamListFragment extends AbstractFragment {
     public static final String TAG = TeamListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -180,6 +180,11 @@ public class TeamListFragment extends Fragment {
             teamListAdapter.notifyDataSetChanged();
         }
     };
+
+    @Override
+    public void sortArrayList(int sortMethod) {
+
+    }
 
     @Override
     public void onDetach() {

@@ -37,7 +37,7 @@ import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
  * Use the {@link MonsterPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterPageFragment extends Fragment {
+public class MonsterPageFragment extends AbstractFragment {
     public static final String TAG = MonsterPageFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -587,6 +587,12 @@ public class MonsterPageFragment extends Fragment {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+
+
+    @Override
+    public void sortArrayList(int sortMethod) {
+
     }
 
 //   private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()

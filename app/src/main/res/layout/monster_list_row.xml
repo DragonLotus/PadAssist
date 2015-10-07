@@ -8,7 +8,8 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/monster_1218" />
+        android:src="@drawable/monster_1218"
+        android:layout_marginRight="10dp"/>
 
     <com.example.anthony.damagecalculator.Graphics.TextStroke
         android:id="@+id/monsterPlus"
@@ -53,7 +54,6 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/monsterPicture"
         android:layout_toRightOf="@+id/monsterPicture"
-        android:paddingLeft="10dp"
         android:singleLine="true"
         android:text="Kirin of the Sacred Gleam, Sakuya"
         android:textSize="16dp" />
@@ -65,7 +65,6 @@
         android:layout_below="@+id/monsterName"
         android:layout_toRightOf="@+id/monsterPicture"
         android:gravity="center_vertical"
-        android:paddingLeft="10dp"
         android:text="Level "
         android:textSize="16dp" />
 
@@ -86,7 +85,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/monsterLevel"
         android:layout_toRightOf="@+id/monsterPicture"
-        android:paddingLeft="10dp"
         android:text="1337"
         android:textSize="16dp" />
 
@@ -110,27 +108,30 @@
 
     <ImageView
         android:id="@+id/type1"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_below="@+id/monsterName"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/monsterLevel"
+        android:layout_alignBottom="@+id/monsterLevel"
         android:layout_toLeftOf="@+id/type2"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced"/>
 
     <ImageView
         android:id="@+id/type2"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_below="@+id/monsterName"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/monsterLevel"
+        android:layout_alignBottom="@+id/monsterLevel"
         android:layout_toLeftOf="@+id/type3"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced"/>
 
     <ImageView
         android:id="@+id/type3"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_below="@+id/monsterName"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/monsterLevel"
+        android:layout_alignBottom="@+id/monsterLevel"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced" />

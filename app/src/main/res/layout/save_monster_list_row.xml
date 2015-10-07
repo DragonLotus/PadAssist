@@ -8,51 +8,91 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/element1"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/red_orb" />
-
-    <ImageView
-        android:id="@+id/element2"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginRight="8dp"
-        android:layout_toRightOf="@+id/element1"
-        android:src="@drawable/red_orb" />
+        android:id="@+id/monsterPicture"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/monster_1218"
+        android:layout_marginRight="4dp"/>
 
     <TextView
         android:id="@+id/monsterName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
-        android:layout_toLeftOf="@+id/monsterPlus"
-        android:layout_toRightOf="@+id/element2"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/monsterPicture"
         android:ellipsize="marquee"
         android:gravity="center_vertical"
         android:singleLine="true"
         android:text="Monster name"
         android:textSize="16dp" />
 
-    <TextView
+    <com.example.anthony.damagecalculator.Graphics.TextStroke
         android:id="@+id/monsterPlus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
-        android:layout_toLeftOf="@+id/type1"
-        android:gravity="center_vertical"
-        android:paddingRight="8dp"
-        android:text="(+297)"
+        android:layout_alignRight="@+id/monsterPicture"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:text="+297"
+        android:textColor="#f0ff00"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <com.example.anthony.damagecalculator.Graphics.TextStroke
+        android:id="@+id/monsterAwakenings"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_alignLeft="@+id/monsterPicture"
+        android:background="@drawable/awakening_background"
+        android:gravity="bottom"
+        android:paddingLeft="1dp"
+        android:text="6"
+        android:textColor="#f0ff00"
+        android:textSize="12dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/monsterLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterName"
+        android:layout_toRightOf="@+id/monsterPicture"
+        android:text="Lv. 99"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/monsterHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterName"
+        android:layout_toRightOf="@+id/monsterLevel"
+        android:text="1337"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/monsterATK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterName"
+        android:layout_toRightOf="@+id/monsterHP"
+        android:text="1337"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/monsterRCV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterName"
+        android:layout_toRightOf="@+id/monsterATK"
+        android:text="1337"
         android:textSize="16dp" />
 
     <ImageView
         android:id="@+id/type1"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
+        android:layout_alignBottom="@+id/monsterHP"
+        android:layout_alignTop="@+id/monsterHP"
         android:layout_toLeftOf="@+id/type2"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced"/>
@@ -61,8 +101,8 @@
         android:id="@+id/type2"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
+        android:layout_alignBottom="@+id/monsterHP"
+        android:layout_alignTop="@+id/monsterHP"
         android:layout_toLeftOf="@+id/type3"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced"/>
@@ -71,8 +111,8 @@
         android:id="@+id/type3"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/element1"
-        android:layout_alignTop="@+id/element1"
+        android:layout_alignBottom="@+id/monsterHP"
+        android:layout_alignTop="@+id/monsterHP"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced" />

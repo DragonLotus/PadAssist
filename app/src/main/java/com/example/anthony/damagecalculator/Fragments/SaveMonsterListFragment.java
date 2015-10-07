@@ -20,7 +20,7 @@ import com.example.anthony.damagecalculator.R;
 import java.util.ArrayList;
 
 
-public class SaveMonsterListFragment extends Fragment {
+public class SaveMonsterListFragment extends AbstractFragment {
     public static final String TAG = SaveMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
     private ListView monsterListView;
@@ -116,6 +116,11 @@ public class SaveMonsterListFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void sortArrayList(int sortMethod) {
+
     }
 
 }
