@@ -33,29 +33,45 @@
             android:title="Sort by #"
             app:showAsAction="never" />
         <item
-            android:id="@+id/sortElement1"
-            android:title="Sort by Element 1"
+            android:id="@+id/sortElement"
+            android:title="Sort by Element"
             app:showAsAction="never" />
         <item
-            android:id="@+id/sortElement2"
-            android:title="Sort by Element 2"
+            android:id="@+id/sortType"
+            android:title="Sort by Type"
             app:showAsAction="never" />
         <item
-            android:id="@+id/sortType1"
-            android:title="Sort by Type 1"
+            android:id="@+id/sortStat"
+            android:title="Sort by Stats"
             app:showAsAction="never" />
         <item
-            android:id="@+id/sortType2"
-            android:title="Sort by Type 2"
+            android:id="@+id/sortRarity"
+            android:title="Sort by Rarity"
             app:showAsAction="never" />
         <item
-            android:id="@+id/sortType3"
-            android:title="Sort by Type 3"
+            android:id="@+id/sortAwakenings"
+            android:title="Sort by Awakenings"
+            app:showAsAction="never" />
+        <!--<item-->
+            <!--android:id="@+id/filter"-->
+            <!--android:title="Filter Monsters"-->
+            <!--app:showAsAction="never"-->
+            <!--android:orderInCategory="99"/>-->
+    </group>
+
+    <group android:id="@+id/sortMoreGroup">
+        <item
+            android:id="@+id/sortPlus"
+            android:title="Sort by +"
             app:showAsAction="never" />
         <item
-            android:id="@+id/filter"
-            android:title="Filter Monsters"
-            app:showAsAction="never"/>
+            android:id="@+id/sortFavorite"
+            android:title="Sort by Favorite"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sortLevel"
+            android:title="Sort by Level"
+            app:showAsAction="never" />
     </group>
 
 

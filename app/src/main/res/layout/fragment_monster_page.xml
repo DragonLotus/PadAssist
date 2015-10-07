@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:focusableInTouchMode="true"
-    android:clickable="true">
+    android:paddingTop="@dimen/activity_vertical_margin">
 
     <ImageView
         android:id="@+id/monsterPicture"
@@ -70,6 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/monsterPicture"
         android:stretchColumns="1,3">
+
         <TableRow>
 
             <TextView
@@ -77,8 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Stats"
                 android:paddingRight="20dp"
+                android:text="Stats"
                 android:textSize="20dp" />
 
             <TextView
@@ -156,7 +157,7 @@
                 android:id="@+id/monsterStatsHPMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Max"/>
+                android:text="Max" />
 
         </TableRow>
 
@@ -182,8 +183,8 @@
                 android:id="@+id/monsterStatsATKPlus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:layout_gravity="center"
+                android:clickable="true"
                 android:inputType="number"
                 android:maxLength="2"
                 android:text="69"
@@ -201,209 +202,223 @@
                 android:id="@+id/monsterStatsATKMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Max"/>
+                android:text="Max" />
         </TableRow>
 
         <TableRow>
-            <TextView
-            android:id="@+id/monsterStatsRCV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="RCV"
-            android:textSize="18dp"
-            android:layout_gravity="center_vertical"/>
 
             <TextView
-            android:id="@+id/monsterStatsRCVBase"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1337"
-            android:textSize="18dp"
-            android:layout_gravity="center"/>
+                android:id="@+id/monsterStatsRCV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="RCV"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/monsterStatsRCVBase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="1337"
+                android:textSize="18dp" />
 
             <EditText
-            android:id="@+id/monsterStatsRCVPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="69"
-            android:textSize="18dp"
-            android:inputType="number"
-            android:maxLength="2"
-            android:clickable="true"
-            android:layout_gravity="center"/>
+                android:id="@+id/monsterStatsRCVPlus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:inputType="number"
+                android:maxLength="2"
+                android:text="69"
+                android:textSize="18dp" />
 
             <TextView
-            android:id="@+id/monsterStatsRCVTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1337"
-            android:textSize="18dp"
-            android:layout_gravity="center"/>
+                android:id="@+id/monsterStatsRCVTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="1337"
+                android:textSize="18dp" />
 
 
             <Button
-            android:id="@+id/monsterStatsRCVMax"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Max"/>
+                android:id="@+id/monsterStatsRCVMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max" />
         </TableRow>
 
         <TableRow>
-            <TextView
-            android:id="@+id/monsterStatsWeighted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="WGHT"
-            android:textSize="18dp"
-            android:layout_gravity="center_vertical" />
 
             <TextView
-            android:id="@+id/monsterStatsWeightedValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1337"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-                android:singleLine="true"/>
+                android:id="@+id/monsterStatsWeighted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="WGHT"
+                android:textSize="18dp" />
 
             <TextView
-                android:text=""/>
+                android:id="@+id/monsterStatsWeightedValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:singleLine="true"
+                android:text="1337"
+                android:textSize="18dp" />
+
+            <TextView android:text="" />
 
             <TextView
-            android:id="@+id/monsterStatsTotalWeightedValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1337"
-            android:textSize="18dp"
-            android:layout_gravity="center"
-                android:singleLine="true"/>
+                android:id="@+id/monsterStatsTotalWeightedValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:singleLine="true"
+                android:text="1337"
+                android:textSize="18dp" />
 
             <Button
-            android:id="@+id/monsterStatsWeightedMax"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Max"
-            android:visibility="invisible"/>
+                android:id="@+id/monsterStatsWeightedMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Max"
+                android:visibility="invisible" />
 
         </TableRow>
     </TableLayout>
 
     <TextView
-    android:id="@+id/monsterAwakenings"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Awakenings"
-    android:textSize="18dp"
-    android:layout_marginRight="10dp"
-    android:layout_alignTop="@+id/monsterAwakeningsMax"
-    android:layout_alignBottom="@+id/monsterAwakeningsMax"
-    android:gravity="center_vertical"
-    android:layout_below="@+id/table1"/>
+        android:id="@+id/monsterAwakenings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/monsterAwakeningsMax"
+        android:layout_alignTop="@+id/monsterAwakeningsMax"
+        android:layout_below="@+id/table1"
+        android:layout_marginRight="10dp"
+        android:gravity="center_vertical"
+        android:text="Awakenings"
+        android:textSize="18dp" />
 
     <EditText
-    android:id="@+id/monsterAwakeningsValue"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="5"
-    android:textSize="18dp"
-    android:inputType="number"
-    android:maxLength="1"
-    android:clickable="true"
-    android:layout_alignTop="@+id/monsterAwakeningsMax"
-    android:layout_alignBottom="@+id/monsterAwakeningsMax"
-    android:gravity="center_vertical"
-    android:layout_toRightOf="@+id/monsterAwakenings"/>
-    <Button
-    android:id="@+id/awakeningPlus"
-    android:layout_width="45dp"
-    android:layout_height="wrap_content"
-    android:text="+"
-    android:layout_toLeftOf="@+id/monsterAwakeningsMax"
-    android:layout_alignBottom="@+id/monsterAwakeningsMax"/>
-    <Button
-    android:id="@+id/awakeningMinus"
-    android:layout_width="45dp"
-    android:layout_height="wrap_content"
-    android:text="-"
-    android:layout_toLeftOf="@+id/awakeningPlus"
-    android:layout_alignBottom="@+id/awakeningPlus"/>
-    <Button
-    android:id="@+id/monsterAwakeningsMax"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Max"
-    android:layout_below="@+id/table1"
-    android:layout_alignParentRight="true" />
+        android:id="@+id/monsterAwakeningsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/monsterAwakeningsMax"
+        android:layout_alignTop="@+id/monsterAwakeningsMax"
+        android:layout_toRightOf="@+id/monsterAwakenings"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:inputType="number"
+        android:maxLength="1"
+        android:text="5"
+        android:textSize="18dp" />
 
     <Button
-    android:id="@+id/awakeningHolderMax"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Max"
-    android:visibility="invisible"
-    android:layout_below="@+id/monsterAwakeningsMax"
-    android:layout_alignParentRight="true"/>
+        android:id="@+id/awakeningPlus"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/monsterAwakeningsMax"
+        android:layout_toLeftOf="@+id/monsterAwakeningsMax"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/awakeningMinus"
+        android:layout_width="45dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/awakeningPlus"
+        android:layout_toLeftOf="@+id/awakeningPlus"
+        android:text="-" />
+
+    <Button
+        android:id="@+id/monsterAwakeningsMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/table1"
+        android:text="Max" />
+
+    <Button
+        android:id="@+id/awakeningHolderMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/monsterAwakeningsMax"
+        android:text="Max"
+        android:visibility="invisible" />
 
     <LinearLayout
-    android:id="@+id/awakeningHolder"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignTop="@+id/awakeningHolderMax"
-    android:layout_alignBottom="@+id/awakeningHolderMax"
-    android:gravity="center">
-    <ImageView
-    android:id="@+id/monsterAwakening1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+        android:id="@+id/awakeningHolder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/awakeningHolderMax"
+        android:layout_alignTop="@+id/awakeningHolderMax"
+        android:gravity="center">
 
-    <ImageView
-    android:id="@+id/monsterAwakening2"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015" />
+        <ImageView
+            android:id="@+id/monsterAwakening1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
 
-    <ImageView
-    android:id="@+id/monsterAwakening3"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+        <ImageView
+            android:id="@+id/monsterAwakening2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
 
-    <ImageView
-    android:id="@+id/monsterAwakening4"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+        <ImageView
+            android:id="@+id/monsterAwakening3"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
 
-    <ImageView
-    android:id="@+id/monsterAwakening5"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+        <ImageView
+            android:id="@+id/monsterAwakening4"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
 
-    <ImageView
-    android:id="@+id/monsterAwakening6"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+        <ImageView
+            android:id="@+id/monsterAwakening5"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
 
-    <ImageView
-    android:id="@+id/monsterAwakening7"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+        <ImageView
+            android:id="@+id/monsterAwakening6"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
 
-    <ImageView
-    android:id="@+id/monsterAwakening8"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015"/>
+        <ImageView
+            android:id="@+id/monsterAwakening7"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
 
-    <ImageView
-    android:id="@+id/monsterAwakening9"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/abc_btn_radio_to_on_mtrl_015" />
+        <ImageView
+            android:id="@+id/monsterAwakening8"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
+
+        <ImageView
+            android:id="@+id/monsterAwakening9"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp"/>
     </LinearLayout>
 
     <Button

@@ -18,9 +18,14 @@ import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.BaseMonsterAlphabeticalComparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterAtkComparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterAwakeningComparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterElement1Comparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterElement2Comparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterHpComparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterNumberComparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterRarityComparator;
+import com.example.anthony.damagecalculator.Util.BaseMonsterRcvComparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterType1Comparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterType2Comparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterType3Comparator;
@@ -36,6 +41,9 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private ListView monsterListView;
     private ArrayList<BaseMonster> monsterList;
     private BaseMonsterListAdapter baseMonsterListAdapter;
+    private SortElementDialogFragment sortElementDialogFragment;
+    private SortTypeDialogFragment sortTypeDialogFragment;
+    private SortStatsDialogFragment sortStatsDialogFragment;
     private Comparator<BaseMonster> monsterNumberComparator = new BaseMonsterNumberComparator();
     private Comparator<BaseMonster> monsterElement1Comparator = new BaseMonsterElement1Comparator();
     private Comparator<BaseMonster> monsterElement2Comparator = new BaseMonsterElement2Comparator();
@@ -43,6 +51,11 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private Comparator<BaseMonster> monsterType2Comparator = new BaseMonsterType2Comparator();
     private Comparator<BaseMonster> monsterType3Comparator = new BaseMonsterType3Comparator();
     private Comparator<BaseMonster> monsterAlphabeticalComparator = new BaseMonsterAlphabeticalComparator();
+    private Comparator<BaseMonster> monsterHpComparator = new BaseMonsterHpComparator();
+    private Comparator<BaseMonster> monsterAtkComparator = new BaseMonsterAtkComparator();
+    private Comparator<BaseMonster> monsterRcvComparator = new BaseMonsterRcvComparator();
+    private Comparator<BaseMonster> monsterRarityComparator = new BaseMonsterRarityComparator();
+    private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
 
     public static BaseMonsterListFragment newInstance() {
         BaseMonsterListFragment fragment = new BaseMonsterListFragment();
@@ -193,6 +206,60 @@ public class BaseMonsterListFragment extends AbstractFragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy(){
+        @Override
+        public void sortElement1() {
+            Collections.sort(monsterList, monsterElement1Comparator);
+            baseMonsterListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortElement2() {
+            Collections.sort(monsterList, monsterElement2Comparator);
+            baseMonsterListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy(){
+        @Override
+        public void sortType1() {
+            Collections.sort(monsterList, monsterType1Comparator);
+            baseMonsterListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortType2() {
+            Collections.sort(monsterList, monsterType2Comparator);
+            baseMonsterListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortType3() {
+            Collections.sort(monsterList, monsterType3Comparator);
+            baseMonsterListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private SortStatsDialogFragment.SortBy sortByStats = new SortStatsDialogFragment.SortBy() {
+        @Override
+        public void sortHp() {
+            Collections.sort(monsterList, monsterHpComparator);
+            baseMonsterListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortAtk() {
+            Collections.sort(monsterList, monsterAtkComparator);
+            baseMonsterListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortRcv() {
+            Collections.sort(monsterList, monsterRcvComparator);
+            baseMonsterListAdapter.notifyDataSetChanged();
+        }
+    };
+
     @Override
     public void sortArrayList(int sortMethod) {
         switch(sortMethod){
@@ -205,23 +272,29 @@ public class BaseMonsterListFragment extends AbstractFragment {
                 baseMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 2:
-                Collections.sort(monsterList, monsterElement1Comparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                if (sortElementDialogFragment == null) {
+                    sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
+                }
+                sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
                 break;
             case 3:
-                Collections.sort(monsterList, monsterElement2Comparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                if (sortTypeDialogFragment == null) {
+                    sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
+                }
+                sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
                 break;
             case 4:
-                Collections.sort(monsterList, monsterType1Comparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                if (sortStatsDialogFragment == null) {
+                    sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
+                }
+                sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
                 break;
             case 5:
-                Collections.sort(monsterList, monsterType2Comparator);
+                Collections.sort(monsterList, monsterRarityComparator);
                 baseMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 6:
-                Collections.sort(monsterList, monsterType3Comparator);
+                Collections.sort(monsterList, monsterAwakeningComparator);
                 baseMonsterListAdapter.notifyDataSetChanged();
                 break;
         }

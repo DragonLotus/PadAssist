@@ -457,6 +457,7 @@ public class MainActivity extends ActionBarActivity {
         menu.setGroupVisible(R.id.saveTeamGroup, false);
         menu.setGroupVisible(R.id.searchGroup, false);
         menu.setGroupVisible(R.id.sortGroup, false);
+        menu.setGroupVisible(R.id.sortMoreGroup, false);
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
 //        Log.d("What is fragment", "" + fragment);
 //        if(fragment instanceof MonsterListFragment){
@@ -488,15 +489,15 @@ public class MainActivity extends ActionBarActivity {
             mContent.sortArrayList(0);
         } else if (id == R.id.sortId){
             mContent.sortArrayList(1);
-        } else if (id == R.id.sortElement1){
+        } else if (id == R.id.sortElement){
             mContent.sortArrayList(2);
-        } else if (id == R.id.sortElement2){
+        } else if (id == R.id.sortType){
             mContent.sortArrayList(3);
-        } else if (id == R.id.sortType1){
+        } else if (id == R.id.sortStat){
             mContent.sortArrayList(4);
-        } else if (id == R.id.sortType2){
+        } else if (id == R.id.sortRarity){
             mContent.sortArrayList(5);
-        } else if (id == R.id.sortType3){
+        } else if (id == R.id.sortAwakenings){
             mContent.sortArrayList(6);
         }
 

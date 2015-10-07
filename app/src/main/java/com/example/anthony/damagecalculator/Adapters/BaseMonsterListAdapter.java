@@ -39,6 +39,9 @@ public class BaseMonsterListAdapter extends ArrayAdapter<BaseMonster> {
             viewHolder.monsterName = (TextView) convertView.findViewById(R.id.monsterName);
             viewHolder.monsterId = (TextView) convertView.findViewById(R.id.monsterId);
             viewHolder.rarity = (TextView) convertView.findViewById(R.id.rarity);
+            viewHolder.monsterATK = (TextView) convertView.findViewById(R.id.monsterATK);
+            viewHolder.monsterRCV = (TextView) convertView.findViewById(R.id.monsterRCV);
+            viewHolder.monsterHP = (TextView) convertView.findViewById(R.id.monsterHP);
             viewHolder.type1 = (ImageView) convertView.findViewById(R.id.type1);
             viewHolder.type2 = (ImageView) convertView.findViewById(R.id.type2);
             viewHolder.type3 = (ImageView) convertView.findViewById(R.id.type3);
@@ -54,6 +57,9 @@ public class BaseMonsterListAdapter extends ArrayAdapter<BaseMonster> {
         viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
         viewHolder.rarity.setText("" + monsterList.get(position).getRarity());
         viewHolder.rarityStar.setColorFilter(0xFFD4D421);
+        viewHolder.monsterHP.setText(Integer.toString(monsterList.get(position).getHpMax()) + " / ");
+        viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getAtkMax()) + " / ");
+        viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getRcvMax()));
 
         if (monsterList.get(position).getMonsterId() == 0) {
             viewHolder.type1.setVisibility(View.GONE);
@@ -62,6 +68,9 @@ public class BaseMonsterListAdapter extends ArrayAdapter<BaseMonster> {
             viewHolder.monsterId.setVisibility(View.INVISIBLE);
             viewHolder.rarity.setVisibility(View.GONE);
             viewHolder.rarityStar.setVisibility(View.GONE);
+            viewHolder.monsterHP.setVisibility(View.GONE);
+            viewHolder.monsterATK.setVisibility(View.GONE);
+            viewHolder.monsterRCV.setVisibility(View.GONE);
         }else {
             viewHolder.type1.setVisibility(View.VISIBLE);
             viewHolder.type2.setVisibility(View.VISIBLE);
@@ -70,6 +79,9 @@ public class BaseMonsterListAdapter extends ArrayAdapter<BaseMonster> {
             viewHolder.monsterPicture.setVisibility(View.VISIBLE);
             viewHolder.rarity.setVisibility(View.VISIBLE);
             viewHolder.rarityStar.setVisibility(View.VISIBLE);
+            viewHolder.monsterHP.setVisibility(View.VISIBLE);
+            viewHolder.monsterATK.setVisibility(View.VISIBLE);
+            viewHolder.monsterRCV.setVisibility(View.VISIBLE);
         }
 
         switch(monsterList.get(position).getType1()){
@@ -212,7 +224,7 @@ public class BaseMonsterListAdapter extends ArrayAdapter<BaseMonster> {
     }
 
     static class ViewHolder {
-        TextView monsterName, monsterId, rarity;
+        TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV;
         ImageView monsterPicture, type1, type2, type3, rarityStar;
 
     }
