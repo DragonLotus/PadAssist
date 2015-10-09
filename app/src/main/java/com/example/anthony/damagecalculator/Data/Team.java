@@ -58,6 +58,9 @@ public class Team extends Model implements Parcelable {
     private ArrayList<Boolean> isBound = new ArrayList<>();
     @Column(name = "teamHp")
     private int teamHp;
+    private ArrayList<Element> compareElements = new ArrayList<>();
+    private ArrayList<Element> haveElements = new ArrayList();
+    private ArrayList<Element> compareAllElements = new ArrayList<>();
 
     public Team() {
         teamId = 0;
@@ -93,7 +96,6 @@ public class Team extends Model implements Parcelable {
         teamOrder = oldTeam.getTeamOrder();
         favorite = oldTeam.favorite;
         monsterOverwrite = oldTeam.getMonsterOverwrite();
-        orbMatches = oldTeam.getOrbMatches();
     }
 
     public int getTeamHealth() {
@@ -337,37 +339,11 @@ public class Team extends Model implements Parcelable {
     }
 
     public ArrayList<Element> getOrbMatchElements() {
-        ArrayList<Element> compareElements = new ArrayList<>();
-        ArrayList<Element> haveElements = new ArrayList();
-        for (int i = 0; i < getMonsters().size(); i++) {
-            if (!isBound.get(i)) {
-                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
-                    haveElements.add(getMonsters().get(i).getElement1());
-                }
-                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
-                    haveElements.add(getMonsters().get(i).getElement2());
-                }
-            }
-
-        }
-        for (int i = 0; i < orbMatches.size(); i++) {
-            if (haveElements.contains(orbMatches.get(i).getElement())) {
-                compareElements.add(orbMatches.get(i).getElement());
-            }
-            if (orbMatches.get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
-                compareElements.add(Element.HEART);
-            }
-        }
-        Log.d("Team Log", "Compare Elements has: " + compareElements);
         return compareElements;
     }
 
     public ArrayList<Element> getAllOrbMatchElements() {
-        ArrayList<Element> compareElements = new ArrayList<>();
-        for (int i = 0; i < orbMatches.size(); i++) {
-            compareElements.add(orbMatches.get(i).getElement());
-        }
-        return compareElements;
+        return compareAllElements;
     }
 
     public int getOrbPlusAwakenings(Element element) {
@@ -420,8 +396,38 @@ public class Team extends Model implements Parcelable {
         for (int i = 0; i < getMonsters().size(); i++) {
             Log.d("What are monsters", "Monsters: " + getMonsters().get(i) + " " + monsters.get(i));
         }
+        compareAllElements.clear();
+        haveElements.clear();
+        compareElements.clear();
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
+        for (int i = 0; i < getOrbMatches().size(); i++) {
+            compareAllElements.add(getOrbMatches().get(i).getElement());
+        }
+        for (int i = 0; i < getMonsters().size(); i++) {
+            if (!isBound.get(i)) {
+                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
+                    haveElements.add(getMonsters().get(i).getElement1());
+                }
+                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
+                    haveElements.add(getMonsters().get(i).getElement2());
+                }
+            }
+
+        }
+        Log.d("Team Log", "Have Elements is: " + haveElements);
+        Log.d("Team Log", "Orb matches is: " + orbMatches);
+        for (int i = 0; i < getOrbMatches().size(); i++) {
+            Log.d("Team Log", "Have Elements loop is: " + haveElements);
+            if (haveElements.contains(getOrbMatches().get(i).getElement())) {
+                compareElements.add(getOrbMatches().get(i).getElement());
+            }
+            if (getOrbMatches().get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
+                compareElements.add(Element.HEART);
+            }
+            Log.d("Team Log", "Compare Elements loop has: " + compareElements);
+        }
+        Log.d("Team Log", "Compare Elements has: " + compareElements);
         for (int i = 0; i < 5; i++) {
             orbPlusAwakenings.add(0);
             rowAwakenings.add(0);
@@ -479,6 +485,8 @@ public class Team extends Model implements Parcelable {
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
         orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
+        haveElements = source.readArrayList(Element.class.getClassLoader());
+        compareElements = source.readArrayList(Element.class.getClassLoader());
         teamId = source.readLong();
         teamName = source.readString();
         teamGroup = source.readInt();
@@ -500,6 +508,8 @@ public class Team extends Model implements Parcelable {
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);
         dest.writeList(orbMatches);
+        dest.writeList(haveElements);
+        dest.writeList(compareElements);
         dest.writeLong(teamId);
         dest.writeString(teamName);
         dest.writeInt(teamGroup);
