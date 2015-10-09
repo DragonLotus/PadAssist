@@ -48,7 +48,7 @@ public class LeaderSkill extends Model {
     //Can use for orbs linked, indian 2 skills, etc. need to think about it.
     @Column(name = "matchElements")
     private ArrayList<Element> matchElements;
-    @Column (name = "matchElements2")
+    @Column(name = "matchElements2")
     private ArrayList<Element> matchElements2;
     @Column(name = "matchMonsters")
     private ArrayList<Long> matchMonsters;
@@ -59,7 +59,7 @@ public class LeaderSkill extends Model {
     @Column(name = "rcvSkillType")
     private LeaderSkillType rcvSkillType;
     @Column(name = "hpPercent")
-    private ArrayList<Double> hpPercent;
+    private ArrayList<Integer> hpPercent;
     private double hpMultiplier;
     private double atkElement1Multiplier;
     private double atkElement2Multiplier;
@@ -94,7 +94,7 @@ public class LeaderSkill extends Model {
         this.atkData = atkData;
     }
 
-    public void addAtkData(Double data){
+    public void addAtkData(Double data) {
         atkData.add(data);
     }
 
@@ -106,7 +106,7 @@ public class LeaderSkill extends Model {
         this.atkElement = atkElement;
     }
 
-    public void addAtkElement(int element){
+    public void addAtkElement(int element) {
         atkElement.add(element);
     }
 
@@ -126,7 +126,7 @@ public class LeaderSkill extends Model {
         this.atkType = atkType;
     }
 
-    public void addAtkType(int type){
+    public void addAtkType(int type) {
         atkType.add(type);
     }
 
@@ -178,7 +178,7 @@ public class LeaderSkill extends Model {
         this.hpData = hpData;
     }
 
-    public void addHpData (Double data){
+    public void addHpData(Double data) {
         hpData.add(data);
     }
 
@@ -190,7 +190,7 @@ public class LeaderSkill extends Model {
         this.hpElement = hpElement;
     }
 
-    public void addHpElement(int element){
+    public void addHpElement(int element) {
         hpElement.add(element);
     }
 
@@ -210,7 +210,7 @@ public class LeaderSkill extends Model {
         this.hpType = hpType;
     }
 
-    public void addHpType(int type){
+    public void addHpType(int type) {
         hpType.add(type);
     }
 
@@ -222,7 +222,7 @@ public class LeaderSkill extends Model {
         this.matchElements = matchElements;
     }
 
-    public void addMatchElements(Element element){
+    public void addMatchElements(Element element) {
         matchElements.add(element);
     }
 
@@ -234,7 +234,7 @@ public class LeaderSkill extends Model {
         this.matchElements2 = matchElements2;
     }
 
-    public void addMatchElements2(Element element){
+    public void addMatchElements2(Element element) {
         matchElements2.add(element);
     }
 
@@ -246,7 +246,7 @@ public class LeaderSkill extends Model {
         this.matchMonsters = matchMonsters;
     }
 
-    public void addMatchmonsters(Long monsterId){
+    public void addMatchmonsters(Long monsterId) {
         matchMonsters.add(monsterId);
     }
 
@@ -266,7 +266,7 @@ public class LeaderSkill extends Model {
         this.rcvData = rcvData;
     }
 
-    public void addRcvData(Double data){
+    public void addRcvData(Double data) {
         rcvData.add(data);
     }
 
@@ -278,7 +278,7 @@ public class LeaderSkill extends Model {
         this.rcvElement = rcvElement;
     }
 
-    public void addRcvElement(int element){
+    public void addRcvElement(int element) {
         rcvElement.add(element);
     }
 
@@ -298,11 +298,49 @@ public class LeaderSkill extends Model {
         this.rcvType = rcvType;
     }
 
-    public void addRcvType(int type){
+    public void addRcvType(int type) {
         rcvType.add(type);
     }
 
+    public double getAtkElement1Multiplier() {
+        return atkElement1Multiplier;
+    }
 
+    public void setAtkElement1Multiplier(double atkElement1Multiplier) {
+        this.atkElement1Multiplier = atkElement1Multiplier;
+    }
+
+    public double getAtkElement2Multiplier() {
+        return atkElement2Multiplier;
+    }
+
+    public void setAtkElement2Multiplier(double atkElement2Multiplier) {
+        this.atkElement2Multiplier = atkElement2Multiplier;
+    }
+
+    public double getHpMultiplier() {
+        return hpMultiplier;
+    }
+
+    public void setHpMultiplier(double hpMultiplier) {
+        this.hpMultiplier = hpMultiplier;
+    }
+
+    public ArrayList<Integer> getHpPercent() {
+        return hpPercent;
+    }
+
+    public void setHpPercent(ArrayList<Integer> hpPercent) {
+        this.hpPercent = hpPercent;
+    }
+
+    public double getRcvMultiplier() {
+        return rcvMultiplier;
+    }
+
+    public void setRcvMultiplier(double rcvMultiplier) {
+        this.rcvMultiplier = rcvMultiplier;
+    }
 
     public double hpMultiplier(Monster monster, Team team) {
         hpMultiplier = 1;
@@ -384,6 +422,9 @@ public class LeaderSkill extends Model {
             case GRIMOIRE_FLAT:
                 multiFlat(monster, team);
                 break;
+            case HP_FLAT:
+                hpFlat(monster, team, 2);
+                break;
         }
         return atkElement1Multiplier;
     }
@@ -453,6 +494,9 @@ public class LeaderSkill extends Model {
             case GRIMOIRE_FLAT:
                 multiFlat(monster, team);
                 break;
+            case HP_FLAT:
+                hpFlat(monster, team, 2);
+                break;
         }
         return atkElement2Multiplier;
     }
@@ -473,7 +517,10 @@ public class LeaderSkill extends Model {
                 flatActive(monster, team, 3);
                 break;
             case COMBO_ACTIVE:
-                comboActive(monster, team, 2);
+                comboActive(monster, team, 3);
+                break;
+            case HP_FLAT:
+                hpFlat(monster, team, 3);
                 break;
         }
         return rcvMultiplier;
@@ -548,10 +595,10 @@ public class LeaderSkill extends Model {
 //            }
 //        }
         int counter = team.getOrbMatches().size() - comboMin;
-        if (counter >= comboDiff){
+        if (counter >= comboDiff) {
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
-        }else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (team.getOrbMatches().size() >= comboMin) {
             atkElement1Multiplier = atkData.get(counter);
             atkElement2Multiplier = atkData.get(counter);
         }
@@ -561,31 +608,31 @@ public class LeaderSkill extends Model {
         //Kirin, Horus, Ra
         int comboDiff = comboMax - comboMin;
         int counter = 0;
-        for (int i = 0; i < matchElements.size(); i++){
-            if(team.getOrbMatchElements().contains(matchElements.get(i))){
+        for (int i = 0; i < matchElements.size(); i++) {
+            if (team.getOrbMatchElements().contains(matchElements.get(i))) {
                 counter++;
             }
         }
         Log.d("Leader Skill Log", "Match Element counter: " + counter + " Attack 1 Multiplier: " + atkElement1Multiplier + " Attack 2 Multiplier: " + atkElement2Multiplier);
-        if (counter >= comboMax){
+        if (counter >= comboMax) {
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
-        } else if (counter >= comboMin){
+        } else if (counter >= comboMin) {
             atkElement1Multiplier = atkData.get(counter - comboMin);
             atkElement2Multiplier = atkData.get(counter - comboMin);
         }
     }
 
-    private void monsterConditional(Monster monster, Team team, int stat){
+    private void monsterConditional(Monster monster, Team team, int stat) {
         //Three kingdoms farmables. Zhao Yun.
         int counter = 0;
-        for (int i = 0; i < matchMonsters.size(); i++){
-            if (team.getBaseMonsterId().contains(matchMonsters.get(i))){
+        for (int i = 0; i < matchMonsters.size(); i++) {
+            if (team.getBaseMonsterId().contains(matchMonsters.get(i))) {
                 counter++;
             }
         }
-        if (counter == matchMonsters.size()){
-            if(stat == 1){
+        if (counter == matchMonsters.size()) {
+            if (stat == 1) {
                 hpMultiplier = hpData.get(0);
             } else if (stat == 2) {
                 atkElement1Multiplier = atkData.get(0);
@@ -596,17 +643,17 @@ public class LeaderSkill extends Model {
         }
     }
 
-    private void flatMonsterConditional (Monster monster, Team team, int stat){
+    private void flatMonsterConditional(Monster monster, Team team, int stat) {
         //Attack Data will look like {flat multiplier, monster conditional multiplier}
         //See Awoken Jord and Zhou Yu
         int counter = 0;
-        for (int i = 0; i < matchMonsters.size(); i++){
-            if (team.getBaseMonsterId().contains(matchMonsters.get(i))){
+        for (int i = 0; i < matchMonsters.size(); i++) {
+            if (team.getBaseMonsterId().contains(matchMonsters.get(i))) {
                 counter++;
             }
         }
         Log.d("Leader Skill Log", "Flat Monster Conditional Counter: " + counter);
-        if (stat == 1){
+        if (stat == 1) {
             if (hpType.size() != 0) {
                 for (int i = 0; i < hpType.size(); i++) {
                     if (monster.getType1() == hpType.get(i) || monster.getType2() == hpType.get(i) || monster.getType3() == hpType.get(i)) {
@@ -621,10 +668,10 @@ public class LeaderSkill extends Model {
                     }
                 }
             }
-        }else         if (stat == 2){
-            if (atkType.size() != 0){
-                for (int i = 0; i < atkType.size(); i++){
-                    if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)){
+        } else if (stat == 2) {
+            if (atkType.size() != 0) {
+                for (int i = 0; i < atkType.size(); i++) {
+                    if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                         atkElement1Multiplier = atkData.get(0);
                         atkElement2Multiplier = atkData.get(0);
                     }
@@ -638,7 +685,7 @@ public class LeaderSkill extends Model {
                     }
                 }
             }
-        }else         if (stat == 3){
+        } else if (stat == 3) {
             if (rcvType.size() != 0) {
                 for (int i = 0; i < rcvType.size(); i++) {
                     if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
@@ -654,8 +701,8 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        if (counter == matchMonsters.size()){
-            if(stat == 1){
+        if (counter == matchMonsters.size()) {
+            if (stat == 1) {
                 hpMultiplier *= hpData.get(1);
             } else if (stat == 2) {
                 atkElement1Multiplier *= atkData.get(1);
@@ -667,41 +714,41 @@ public class LeaderSkill extends Model {
 
     }
 
-    private void orbPlus (Monster monster, Team team){
+    private void orbPlus(Monster monster, Team team) {
         //Akechi Mitsuhide
         //atkData will be one number
-        for(int i = 0; i < team.getOrbMatches().size(); i++){
-            if(team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5){
-                if(monster.getElement1().equals(team.getOrbMatches().get(i).getElement())){
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement1Multiplier = atkData.get(0);
                 }
-                if(monster.getElement2().equals(team.getOrbMatches().get(i).getElement())){
+                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement2Multiplier = atkData.get(0);
                 }
             }
         }
     }
 
-    private void orbLink (Monster monster, Team team){
+    private void orbLink(Monster monster, Team team) {
         //Heroes
         //matchElements is the elements you can link, 2 for beach pandora and such.
         int comboDiff = comboMax - comboMin;
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++){
-            for (int j = 0; j < matchElements.size(); j++){
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            for (int j = 0; j < matchElements.size(); j++) {
                 Log.d("Leader Skill Log", "i is; " + i + " j is: " + j);
-                if (team.getOrbMatches().get(i).getElement().equals(matchElements.get(j))){
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()){
+                if (team.getOrbMatches().get(i).getElement().equals(matchElements.get(j))) {
+                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
                 }
             }
 
         }
-        if (counter >= comboMax){
+        if (counter >= comboMax) {
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
-        }else if (counter >= comboMin){
+        } else if (counter >= comboMin) {
             atkElement1Multiplier = atkData.get(counter - comboMin);
             atkElement2Multiplier = atkData.get(counter - comboMin);
         }
@@ -728,58 +775,58 @@ public class LeaderSkill extends Model {
         }
         int comboDiff = comboMax - comboMin;
         int counter = 0;
-        for (int i = 0; i < matchElements.size(); i++){
-            if(team.getOrbMatchElements().contains(matchElements.get(i))){
+        for (int i = 0; i < matchElements.size(); i++) {
+            if (team.getOrbMatchElements().contains(matchElements.get(i))) {
                 counter++;
             }
         }
-        if (counter >= comboMax){
+        if (counter >= comboMax) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        } else if (counter >= comboMin){
+        } else if (counter >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter - comboMin);
             atkElement2Multiplier *= atkData.get(counter - comboMin);
         }
 
     }
 
-    private void comboMatchElement (Monster monster, Team team){
+    private void comboMatchElement(Monster monster, Team team) {
         //Lkali ult, Awoken Kirin
         //atkdata is {combo multipliers first, match element multipliers last}
         int comboDiff = comboMax - comboMin;
         int counter = team.getOrbMatches().size() - comboMin;
-        if (counter >= comboDiff){
+        if (counter >= comboDiff) {
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
-        }else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (team.getOrbMatches().size() >= comboMin) {
             atkElement1Multiplier = atkData.get(counter);
             atkElement2Multiplier = atkData.get(counter);
         }
 
         int comboDiff2 = comboMax2 - comboMin2;
         int counter2 = 0;
-        for (int i = 0; i < matchElements.size(); i++){
-            if(team.getOrbMatchElements().contains(matchElements.get(i))){
+        for (int i = 0; i < matchElements.size(); i++) {
+            if (team.getOrbMatchElements().contains(matchElements.get(i))) {
                 counter2++;
             }
         }
-        if (counter2 >= comboMax2){
+        if (counter2 >= comboMax2) {
             atkElement1Multiplier *= atkData.get(comboDiff2 + comboDiff + 1);
             atkElement2Multiplier *= atkData.get(comboDiff2 + comboDiff + 1);
-        } else if (counter2 >= comboMin2){
+        } else if (counter2 >= comboMin2) {
             atkElement1Multiplier *= atkData.get(counter2 - comboMin2 + comboDiff + 1);
             atkElement2Multiplier *= atkData.get(counter2 - comboMin2 + comboDiff + 1);
         }
 
     }
 
-    private void matchElementActive (Monster monster, Team team, int stat){
+    private void matchElementActive(Monster monster, Team team, int stat) {
         //Need active flag in team
         //Awoken Ra, Awoken Horus, Green Kirin
         //atkdata is {match elements first, additional damage with skill last}
         Log.d("Leader Skill Log", "Active Skill Used: " + team.isActiveSkillUsed());
-        if(team.isActiveSkillUsed()){
-            if (stat == 2){
+        if (team.isActiveSkillUsed()) {
+            if (stat == 2) {
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {
                         if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
@@ -796,7 +843,7 @@ public class LeaderSkill extends Model {
                         }
                     }
                 }
-            } else if (stat == 3){
+            } else if (stat == 3) {
                 if (rcvType.size() != 0) {
                     for (int i = 0; i < rcvType.size(); i++) {
                         if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
@@ -813,18 +860,18 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        if (stat == 2){
+        if (stat == 2) {
             int comboDiff = comboMax - comboMin;
             int counter = 0;
-            for (int i = 0; i < matchElements.size(); i++){
-                if(team.getOrbMatchElements().contains(matchElements.get(i))){
+            for (int i = 0; i < matchElements.size(); i++) {
+                if (team.getOrbMatchElements().contains(matchElements.get(i))) {
                     counter++;
                 }
             }
-            if (counter >= comboMax){
+            if (counter >= comboMax) {
                 atkElement1Multiplier *= atkData.get(comboDiff);
                 atkElement2Multiplier *= atkData.get(comboDiff);
-            } else if (counter >= comboMin){
+            } else if (counter >= comboMin) {
                 atkElement1Multiplier *= atkData.get(counter - comboMin);
                 atkElement2Multiplier *= atkData.get(counter - comboMin);
             }
@@ -835,8 +882,8 @@ public class LeaderSkill extends Model {
     private void flatActive(Monster monster, Team team, int stat) {
         //Red/dark Cao cao
         //atkData will be {flat, active}
-        if(team.isActiveSkillUsed()){
-            if (stat == 2){
+        if (team.isActiveSkillUsed()) {
+            if (stat == 2) {
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {
                         if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
@@ -853,7 +900,7 @@ public class LeaderSkill extends Model {
                         }
                     }
                 }
-            } else if (stat == 3){
+            } else if (stat == 3) {
                 if (rcvType.size() != 0) {
                     for (int i = 0; i < rcvType.size(); i++) {
                         if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
@@ -870,7 +917,7 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        if (stat == 2){
+        if (stat == 2) {
             if (atkType.size() != 0) {
                 for (int i = 0; i < atkType.size(); i++) {
                     if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
@@ -889,7 +936,7 @@ public class LeaderSkill extends Model {
                     }
                 }
             }
-        } else if (stat == 3){
+        } else if (stat == 3) {
             if (rcvType.size() != 0) {
                 for (int i = 0; i < rcvType.size(); i++) {
                     if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
@@ -909,12 +956,12 @@ public class LeaderSkill extends Model {
         }
     }
 
-    private void comboActive(Monster monster, Team team, int stat){
+    private void comboActive(Monster monster, Team team, int stat) {
         //Awoken Anubis, Awoken Bastet
         //{Combos, active}
         int comboDiff = comboMax - comboMin;
-        if(team.isActiveSkillUsed()){
-            if (stat == 2){
+        if (team.isActiveSkillUsed()) {
+            if (stat == 2) {
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {
                         if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
@@ -931,7 +978,7 @@ public class LeaderSkill extends Model {
                         }
                     }
                 }
-            } else if (stat == 3){
+            } else if (stat == 3) {
                 if (rcvType.size() != 0) {
                     for (int i = 0; i < rcvType.size(); i++) {
                         if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
@@ -950,16 +997,16 @@ public class LeaderSkill extends Model {
         }
 
         int counter = team.getOrbMatches().size() - comboMin;
-        if (counter >= comboDiff){
+        if (counter >= comboDiff) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        }else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (team.getOrbMatches().size() >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter);
             atkElement2Multiplier *= atkData.get(counter);
         }
     }
 
-    private void comboFlat(Monster monster, Team team){
+    private void comboFlat(Monster monster, Team team) {
         //Ronia ult
         //{combo multiplier, flat multiplier}
         int comboDiff = comboMax - comboMin;
@@ -980,44 +1027,44 @@ public class LeaderSkill extends Model {
             }
         }
         int counter = team.getOrbMatches().size() - comboMin;
-        if (counter >= comboDiff){
+        if (counter >= comboDiff) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        }else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (team.getOrbMatches().size() >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter);
             atkElement2Multiplier *= atkData.get(counter);
         }
     }
 
-    private void multiFlat (Monster monster, Team team){
+    private void multiFlat(Monster monster, Team team) {
         //Goetia? Not Goemon. I'll use this for Goetia and friends.
         //Damn I don't remember
         //atkdata will be {bigger multiplier, smaller multipler}
         int counter = 0;
-        if (atkType.size() != 0){
-            if(monster.getType1() == atkType.get(0) || monster.getType2() == atkType.get(0) || monster.getType3() == atkType.get(0)){
-                if(monster.getType1() == atkType.get(1) || monster.getType2() == atkType.get(1) || monster.getType3() == atkType.get(1)){
-                    atkElement1Multiplier = atkData.get(0)*atkData.get(1);
-                    atkElement2Multiplier = atkData.get(0)*atkData.get(1);
-                }else {
+        if (atkType.size() != 0) {
+            if (monster.getType1() == atkType.get(0) || monster.getType2() == atkType.get(0) || monster.getType3() == atkType.get(0)) {
+                if (monster.getType1() == atkType.get(1) || monster.getType2() == atkType.get(1) || monster.getType3() == atkType.get(1)) {
+                    atkElement1Multiplier = atkData.get(0) * atkData.get(1);
+                    atkElement2Multiplier = atkData.get(0) * atkData.get(1);
+                } else {
                     atkElement1Multiplier = atkData.get(0);
                     atkElement2Multiplier = atkData.get(0);
                 }
-            } else if (monster.getType1() == atkType.get(1) || monster.getType2() == atkType.get(1) || monster.getType3() == atkType.get(1)){
+            } else if (monster.getType1() == atkType.get(1) || monster.getType2() == atkType.get(1) || monster.getType3() == atkType.get(1)) {
                 atkElement1Multiplier = atkData.get(1);
                 atkElement2Multiplier = atkData.get(1);
             }
         }
-        if (atkElement.size() != 0){
-            if(monster.getElement1Int() == atkElement.get(0) || monster.getElement2Int() == atkElement.get(0)){
-                if(monster.getElement1Int() == atkElement.get(1) || monster.getElement2Int() == atkElement.get(1)){
-                    atkElement1Multiplier = atkData.get(0)*atkData.get(1);
-                    atkElement2Multiplier = atkData.get(0)*atkData.get(1);
-                }else {
+        if (atkElement.size() != 0) {
+            if (monster.getElement1Int() == atkElement.get(0) || monster.getElement2Int() == atkElement.get(0)) {
+                if (monster.getElement1Int() == atkElement.get(1) || monster.getElement2Int() == atkElement.get(1)) {
+                    atkElement1Multiplier = atkData.get(0) * atkData.get(1);
+                    atkElement2Multiplier = atkData.get(0) * atkData.get(1);
+                } else {
                     atkElement1Multiplier = atkData.get(0);
                     atkElement2Multiplier = atkData.get(0);
                 }
-            } else if (monster.getElement1Int() == atkElement.get(1) || monster.getElement2Int() == atkElement.get(1)){
+            } else if (monster.getElement1Int() == atkElement.get(1) || monster.getElement2Int() == atkElement.get(1)) {
                 atkElement1Multiplier = atkData.get(1);
                 atkElement2Multiplier = atkData.get(1);
             }
@@ -1025,18 +1072,18 @@ public class LeaderSkill extends Model {
 
     }
 
-    private void indian (Monster monster, Team team){
+    private void indian(Monster monster, Team team) {
         //matchElement will be {fire, fire, fire} or something for Krishna
         //comboMin = 2, comboMax = 3 for Krishna. 3/3 for Sarasvati. 3/4 for Zuoh.
         int comboDiff = comboMax - comboMin;
         int counter = 0;
         ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
-        for(int i = 0, j = 0; j < matchElements.size(); i++){
-            if(i == orbMatchElements.size()){
+        for (int i = 0, j = 0; j < matchElements.size(); i++) {
+            if (i == orbMatchElements.size()) {
                 j++;
                 i = -1;
-            }else {
-                if(orbMatchElements.get(i).equals(matchElements.get(j))){
+            } else {
+                if (orbMatchElements.get(i).equals(matchElements.get(j))) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -1044,16 +1091,16 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        if (counter >= comboMax){
+        if (counter >= comboMax) {
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
-        }else if (counter >= comboMin){
+        } else if (counter >= comboMin) {
             atkElement1Multiplier = atkData.get(counter - comboMin);
             atkElement2Multiplier = atkData.get(counter - comboMin);
         }
     }
 
-    private void indianFlat (Monster monster, Team team){
+    private void indianFlat(Monster monster, Team team) {
         //matchElement will be {fire, fire, fire} or something for Krishna
         //comboMin = 2, comboMax = 3 for Krishna. 3/3 for Sarasvati. 3/4 for Zuoh.
         //Ruel. atkData {match multiplier, flat multiplier}
@@ -1076,12 +1123,12 @@ public class LeaderSkill extends Model {
         }
         int counter = 0;
         ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
-        for(int i = 0, j = 0; j < matchElements.size(); i++){
-            if(i == orbMatchElements.size()){
+        for (int i = 0, j = 0; j < matchElements.size(); i++) {
+            if (i == orbMatchElements.size()) {
                 j++;
                 i = -1;
-            }else {
-                if(orbMatchElements.get(i).equals(matchElements.get(j))){
+            } else {
+                if (orbMatchElements.get(i).equals(matchElements.get(j))) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -1089,25 +1136,25 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        if (counter >= comboMax){
+        if (counter >= comboMax) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        }else if (counter >= comboMin){
+        } else if (counter >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter - comboMin);
             atkElement2Multiplier *= atkData.get(counter - comboMin);
         }
     }
 
-    private void indianOrbPlus(Monster monster, Team team){
+    private void indianOrbPlus(Monster monster, Team team) {
         //Ult Krishna and ult Sarasvati
         //atkData will be {match elements, orb plus multiplier}
         int comboDiff = comboMax - comboMin;
-        for(int i = 0; i < team.getOrbMatches().size(); i++){
-            if(team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5){
-                if(monster.getElement1().equals(team.getOrbMatches().get(i).getElement())){
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement1Multiplier = atkData.get(comboDiff + 1);
                 }
-                if(monster.getElement2().equals(team.getOrbMatches().get(i).getElement())){
+                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement2Multiplier = atkData.get(comboDiff + 1);
                 }
             }
@@ -1115,12 +1162,12 @@ public class LeaderSkill extends Model {
 
         int counter = 0;
         ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
-        for(int i = 0, j = 0; j < matchElements.size(); i++){
-            if(i == orbMatchElements.size()){
+        for (int i = 0, j = 0; j < matchElements.size(); i++) {
+            if (i == orbMatchElements.size()) {
                 j++;
                 i = -1;
-            }else {
-                if(orbMatchElements.get(i).equals(matchElements.get(j))){
+            } else {
+                if (orbMatchElements.get(i).equals(matchElements.get(j))) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -1128,55 +1175,55 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        if (counter >= comboMax){
+        if (counter >= comboMax) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        }else if (counter >= comboMin){
+        } else if (counter >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter - comboMin);
             atkElement2Multiplier *= atkData.get(counter - comboMin);
         }
     }
 
-    private void matchElementOrbPlus(Monster monster, Team team){
+    private void matchElementOrbPlus(Monster monster, Team team) {
         //Kite
         //atkData will be {match elements, orb plus multiplier}
         int comboDiff = comboMax - comboMin;
-        for(int i = 0; i < team.getOrbMatches().size(); i++){
-            if(team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5){
-                if(monster.getElement1().equals(team.getOrbMatches().get(i).getElement())){
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement1Multiplier = atkData.get(comboDiff + 1);
                 }
-                if(monster.getElement2().equals(team.getOrbMatches().get(i).getElement())){
+                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement2Multiplier = atkData.get(comboDiff + 1);
                 }
             }
         }
 
         int counter = 0;
-        for (int i = 0; i < matchElements.size(); i++){
-            if(team.getOrbMatchElements().contains(matchElements.get(i))){
+        for (int i = 0; i < matchElements.size(); i++) {
+            if (team.getOrbMatchElements().contains(matchElements.get(i))) {
                 counter++;
             }
         }
-        if (counter >= comboMax){
+        if (counter >= comboMax) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        } else if (counter >= comboMin){
+        } else if (counter >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter - comboMin);
             atkElement2Multiplier *= atkData.get(counter - comboMin);
         }
     }
 
-    private void comboOrbPlus(Monster monster, Team team){
+    private void comboOrbPlus(Monster monster, Team team) {
         //Awoken Yomi
         //atkData will be {combo multipliers, orb plus multiplier}
         int comboDiff = comboMax - comboMin;
-        for(int i = 0; i < team.getOrbMatches().size(); i++){
-            if(team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5){
-                if(monster.getElement1().equals(team.getOrbMatches().get(i).getElement())){
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement1Multiplier = atkData.get(comboDiff + 1);
                 }
-                if(monster.getElement2().equals(team.getOrbMatches().get(i).getElement())){
+                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement2Multiplier = atkData.get(comboDiff + 1);
                 }
             }
@@ -1185,10 +1232,10 @@ public class LeaderSkill extends Model {
         Log.d("Leader Skill Log", "Atk Multiplier 2: " + atkElement2Multiplier);
 
         int counter = team.getOrbMatches().size() - comboMin;
-        if (counter >= comboDiff){
+        if (counter >= comboDiff) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        }else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (team.getOrbMatches().size() >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter);
             atkElement2Multiplier *= atkData.get(counter);
         }
@@ -1196,23 +1243,23 @@ public class LeaderSkill extends Model {
         Log.d("Leader Skill Log", "Atk Multiplier 2: " + atkElement2Multiplier);
     }
 
-    private void orbPlusFlat(Monster monster, Team team){
+    private void orbPlusFlat(Monster monster, Team team) {
         //Sanada Yukimura
         //atkData is {flat, orb plus multiplier
-        for(int i = 0; i < team.getOrbMatches().size(); i++){
-            if(team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5){
-                if(monster.getElement1().equals(team.getOrbMatches().get(i).getElement())){
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement1Multiplier = atkData.get(1);
                 }
-                if(monster.getElement2().equals(team.getOrbMatches().get(i).getElement())){
+                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement())) {
                     atkElement2Multiplier = atkData.get(1);
                 }
             }
         }
-        if (atkElement.size() != 0){
+        if (atkElement.size() != 0) {
             int i = 0;
-            while(i < atkElement.size()){
-                if (monster.getElement1Int() == atkElement.get(i) || monster.getElement2Int() == atkElement.get(i)){
+            while (i < atkElement.size()) {
+                if (monster.getElement1Int() == atkElement.get(i) || monster.getElement2Int() == atkElement.get(i)) {
                     atkElement1Multiplier *= atkData.get(0);
                     atkElement2Multiplier *= atkData.get(0);
                     i = atkElement.size() + 1;
@@ -1221,15 +1268,129 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        if (atkType.size() != 0 && atkElement1Multiplier != atkData.get(0) * atkData.get(1)){
+        if (atkType.size() != 0 && atkElement1Multiplier != atkData.get(0) * atkData.get(1)) {
             int i = 0;
-            while(i < atkType.size()){
-                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)){
+            while (i < atkType.size()) {
+                if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
                     atkElement1Multiplier *= atkData.get(0);
                     atkElement2Multiplier *= atkData.get(0);
                     i = atkType.size() + 1;
                 } else {
                     i++;
+                }
+            }
+        }
+    }
+
+    private void active(Monster monster, Team team, int stat) {
+        if (team.isActiveSkillUsed()) {
+            if (stat == 2) {
+                if (atkType.size() != 0) {
+                    for (int i = 0; i < atkType.size(); i++) {
+                        if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
+                            atkElement1Multiplier = atkData.get(0);
+                            atkElement2Multiplier = atkData.get(0);
+                        }
+                    }
+                }
+                if (atkElement.size() != 0) {
+                    for (int i = 0; i < atkElement.size(); i++) {
+                        if (monster.getElement1Int() == atkElement.get(i) || monster.getElement2Int() == atkElement.get(i)) {
+                            atkElement1Multiplier = atkData.get(0);
+                            atkElement2Multiplier = atkData.get(0);
+                        }
+                    }
+                }
+            } else if (stat == 3) {
+                if (rcvType.size() != 0) {
+                    for (int i = 0; i < rcvType.size(); i++) {
+                        if (monster.getType1() == rcvType.get(i) || monster.getType2() == rcvType.get(i) || monster.getType3() == rcvType.get(i)) {
+                            rcvMultiplier = rcvData.get(0);
+                        }
+                    }
+                }
+                if (rcvElement.size() != 0) {
+                    for (int i = 0; i < rcvElement.size(); i++) {
+                        if (monster.getElement1Int() == rcvElement.get(i) || monster.getElement2Int() == rcvElement.get(i)) {
+                            rcvMultiplier = rcvData.get(0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void comboAttribute(Monster monster, Team team) {
+        int comboDiff = comboMax - comboMin;
+        int counter = team.getOrbMatches().size() - comboMin;
+        if (counter >= comboDiff) {
+            if (atkType.contains(monster.getElement1Int()) || atkType.contains(monster.getElement2Int())) {
+                atkElement1Multiplier = atkData.get(comboDiff);
+                atkElement2Multiplier = atkData.get(comboDiff);
+            }
+        } else if (team.getOrbMatches().size() >= comboMin) {
+            if (atkType.contains(monster.getElement1Int()) || atkType.contains(monster.getElement2Int())) {
+                atkElement1Multiplier = atkData.get(counter);
+                atkElement2Multiplier = atkData.get(counter);
+            }
+        }
+
+    }
+
+    private void hpFlat(Monster monster, Team team, int stat) {
+        Log.d("Leader Skill Log", "teamHp is: " + team.getTeamHp());
+        Log.d("Leader Skill Log", "HpPercent is: " + hpPercent);
+        if (stat == 2) {
+            Log.d("Leader Skill Log", "Stat is 2");
+            if (hpPercent.size() == 1) {
+                Log.d("Leader Skill Log", "I am enter HpPercent size 1");
+                Log.d("Leader Skill Log", "HpPercent * 100 is: " + hpPercent.get(0));
+                Log.d("Leader Skill Log", "AtkType is: " + atkType + " AtkElement is: " + atkElement);
+                Log.d("Leader Skill Log", "Monster Type 1 is: " + monster.getType1() + " Monster Type 2 is: " + monster.getType2());
+                if (team.getTeamHp() == hpPercent.get(0)) {
+                    if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                        atkElement1Multiplier = atkData.get(0);
+                        atkElement2Multiplier = atkData.get(0);
+                    } else if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2())) {
+                        atkElement1Multiplier = atkData.get(0);
+                        atkElement2Multiplier = atkData.get(0);
+                    }
+                }
+            } else {
+                for (int i = 0; i < atkData.size(); i++) {
+                    if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
+                        if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                                atkElement1Multiplier = atkData.get(i);
+                                atkElement2Multiplier = atkData.get(i);
+                        } else if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2())) {
+                            atkElement1Multiplier = atkData.get(i);
+                            atkElement2Multiplier = atkData.get(i);
+                        }
+                    }
+                }
+            }
+            Log.d("Leader Skill Log", "AtkMultiplier 1 is: " + atkElement1Multiplier);
+            Log.d("Leader Skill Log", "AtkMultiplier 2 is: " + atkElement2Multiplier);
+        } else if (stat == 3) {
+            if (team.getTeamHp() == hpPercent.get(0)) {
+                if (rcvElement.contains(monster.getElement1Int()) || rcvElement.contains(monster.getElement2Int())) {
+                    rcvMultiplier = rcvData.get(0);
+                } else if (rcvType.contains(monster.getType1()) || rcvType.contains(monster.getType2())) {
+                    rcvMultiplier = atkData.get(0);
+                }
+            }
+        } else {
+            for (int i = 0; i < atkData.size(); i++) {
+                if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
+                    if (rcvElement.contains(monster.getElement1Int()) || rcvElement.contains(monster.getElement2Int())) {
+                        if (rcvMultiplier < rcvData.get(i)){
+                            rcvMultiplier = rcvData.get(i);
+                        }
+                    } else if (rcvType.contains(monster.getType1()) || rcvType.contains(monster.getType2())) {
+                        if (rcvMultiplier < rcvData.get(i)){
+                            rcvMultiplier = rcvData.get(i);
+                        }
+                    }
                 }
             }
         }

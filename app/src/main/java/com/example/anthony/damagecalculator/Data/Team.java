@@ -56,6 +56,8 @@ public class Team extends Model implements Parcelable {
     @Column(name = "monsterOverwrite")
     private int monsterOverwrite;
     private ArrayList<Boolean> isBound = new ArrayList<>();
+    @Column(name = "teamHp")
+    private int teamHp;
 
     public Team() {
         teamId = 0;
@@ -68,6 +70,8 @@ public class Team extends Model implements Parcelable {
         isActiveSkillUsed = false;
         teamName = "Default team";
         monsterOverwrite = 0;
+        teamHp = 100;
+        Log.d("Team Data Log", "hp is: " + teamHp);
         isBound.clear();
         for (int i = 0; i < 6; i++) {
             isBound.add(false);
@@ -321,6 +325,15 @@ public class Team extends Model implements Parcelable {
         } else {
             return helper.getLeaderSkill();
         }
+    }
+
+    public int getTeamHp() {
+        return teamHp;
+    }
+
+    public void setTeamHp(int teamHp) {
+        this.teamHp = teamHp;
+        Log.d("Team Data Log", "setTeamHp hp is: " + teamHp);
     }
 
     public ArrayList<Element> getOrbMatchElements() {

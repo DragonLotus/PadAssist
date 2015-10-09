@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,13 +65,14 @@ public class TeamDamageListFragment extends AbstractFragment {
     private Toast toast;
     private boolean hasEnemy;
     //private ArrayList<Monster> monsterList;
-    private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0;
-    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings;
+    private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0, hp;
+    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings, teamHpValue;
     private RadioGroup reductionRadioGroup;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, hasAwakeningsCheck, activeUsedCheck;
     private RadioGroup absorbRadioGroup;
     private Button recalculateButton;
+    private SeekBar teamHp;
     private DecimalFormat df = new DecimalFormat("#.##");
 
     /**
@@ -160,6 +162,8 @@ public class TeamDamageListFragment extends AbstractFragment {
         absorbCheck = (CheckBox) rootView.findViewById(R.id.absorbCheck);
         hasAwakeningsCheck = (CheckBox) rootView.findViewById(R.id.hasAwakeningsCheck);
         activeUsedCheck = (CheckBox) rootView.findViewById(R.id.activeUsedCheck);
+        teamHp = (SeekBar) rootView.findViewById(R.id.teamHpSeekBar);
+        teamHpValue = (TextView) rootView.findViewById(R.id.teamHpValue);
 
         return rootView;
     }
@@ -173,8 +177,8 @@ public class TeamDamageListFragment extends AbstractFragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
-        for(int i = 0; i < team.getMonsters().size(); i++){
-            Log.d("Team Damage Log","Monster is: " + team.getMonsters(i) + " Awakenings are: " + team.getMonsters(i).getAwokenSkills());
+        for (int i = 0; i < team.getMonsters().size(); i++) {
+            Log.d("Team Damage Log", "Monster is: " + team.getMonsters(i) + " Awakenings are: " + team.getMonsters(i).getAwokenSkills());
         }
         Log.d("Team Damage Log", "Orb Plus Awakenings: " + team.getOrbPlusAwakenings());
         Log.d("Team Damage Log", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
@@ -187,6 +191,7 @@ public class TeamDamageListFragment extends AbstractFragment {
         setCheckBoxes();
         totalCombos = additionalCombos + team.getOrbMatches().size();
         updateTextView();
+        setupHpSeekBar();
         Log.d("totalCombos", String.valueOf(totalCombos));
         monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, hasEnemy, enemy, totalCombos, team);
         monsterListView.setAdapter(monsterListAdapter);
@@ -208,8 +213,7 @@ public class TeamDamageListFragment extends AbstractFragment {
         absorbRadioGroup.setOnCheckedChangeListener(absorbOnCheckChangeListener);
         hasAwakeningsCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         activeUsedCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
-        showHideConditionals();
-
+        teamHp.setOnSeekBarChangeListener(teamHpSeekBarListener);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -370,19 +374,19 @@ public class TeamDamageListFragment extends AbstractFragment {
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
                 enemy.setIsDamaged(true);
             }
-            if(totalDamage == 0 && enemy.getCurrentHp() == enemy.getTargetHp()){
+            if (totalDamage == 0 && enemy.getCurrentHp() == enemy.getTargetHp()) {
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
             }
-            enemyHPValue.setText(" "+ String.valueOf(enemy.getCurrentHp()) + " ");
+            enemyHPValue.setText(" " + String.valueOf(enemy.getCurrentHp()) + " ");
             enemyHPPercentValue.setText(String.valueOf(df.format((double) enemy.getCurrentHp() / enemy.getTargetHp() * 100) + "%"));
         }
         team.setTotalDamage(totalDamage);
-        totalDamageValue.setText(" "+ String.valueOf(totalDamage) + " ");
-        hpRecoveredValue.setText(" "+ String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), team.getOrbMatches(), totalCombos)) + " ");
+        totalDamageValue.setText(" " + String.valueOf(totalDamage) + " ");
+        hpRecoveredValue.setText(" " + String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), team.getOrbMatches(), totalCombos)) + " ");
         totalComboValue.setText(String.valueOf(totalCombos));
         if (totalDamage < 0) {
             totalDamageValue.setTextColor(Color.parseColor("#FFBBBB"));
-        }else {
+        } else {
             totalDamageValue.setTextColor(Color.parseColor("#BBBBBB"));
         }
     }
@@ -401,20 +405,20 @@ public class TeamDamageListFragment extends AbstractFragment {
                 toast.show();
             } else {
                 int counter = 0;
-                if (team.hasAwakenings()){
-                    for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++){
-                        if(team.getMonsters(position).getAwokenSkills().get(i) == 10){
+                if (team.hasAwakenings()) {
+                    for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++) {
+                        if (team.getMonsters(position).getAwokenSkills().get(i) == 10) {
                             counter++;
                         }
                     }
                 }
-                if (counter == 2){
+                if (counter == 2) {
                     if (toast != null) {
                         toast.cancel();
                     }
                     toast = Toast.makeText(getActivity(), "Monster cannot be bound", Toast.LENGTH_SHORT);
                     toast.show();
-                }else {
+                } else {
                     team.getIsBound().set(position, true);
                     Log.d("Bound", "monster " + position + " is bound");
                     if (toast != null) {
@@ -599,13 +603,13 @@ public class TeamDamageListFragment extends AbstractFragment {
                         absorbRadioGroup.getChildAt(i).setEnabled(false);
                     }
                 }
-            }else if (buttonView.equals(hasAwakeningsCheck)){
+            } else if (buttonView.equals(hasAwakeningsCheck)) {
                 Log.d("hasAwakenings1", "" + team.hasAwakenings());
                 team.setHasAwakenings(isChecked);
                 team.update();
                 Log.d("hasAwakenings2", "" + team.hasAwakenings());
                 Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
-            }else if (buttonView.equals(activeUsedCheck)){
+            } else if (buttonView.equals(activeUsedCheck)) {
                 Log.d("Team Damage List Log", "Active Skill Used Before: " + team.isActiveSkillUsed());
                 team.isActiveSkillUsed(isChecked);
                 Log.d("Team Damage List Log", "Active Skill Used After: " + team.isActiveSkillUsed());
@@ -658,27 +662,9 @@ public class TeamDamageListFragment extends AbstractFragment {
         monsterListAdapter.notifyDataSetChanged();
     }
 
-    private void setCheckBoxes(){
+    private void setCheckBoxes() {
         hasAwakeningsCheck.setChecked(team.hasAwakenings());
         activeUsedCheck.setChecked(team.isActiveSkillUsed());
-    }
-
-    private void showHideConditionals(){
-        LeaderSkill leader, helper;
-        ArrayList<LeaderSkillType> activeSkills = new ArrayList<>();
-        activeSkills.add(LeaderSkillType.ACTIVE);
-        activeSkills.add(LeaderSkillType.COMBO_ACTIVE);
-        activeSkills.add(LeaderSkillType.FLAT_ACTIVE);
-        activeSkills.add(LeaderSkillType.FLAT_ACTIVE_ATTRIBUTE);
-        activeSkills.add(LeaderSkillType.FLAT_ATTRIBUTE_ACTIVE_TYPE);
-        activeSkills.add(LeaderSkillType.MATCH_ELEMENT_ACTIVE);
-        leader = LeaderSkill.getLeaderSkill(team.getLeadSkill1());
-        helper = LeaderSkill.getLeaderSkill(team.getLeadSkill2());
-        if(activeSkills.contains(leader.getAtkSkillType()) || activeSkills.contains(leader.getHpSkillType()) || activeSkills.contains(leader.getRcvSkillType()) || activeSkills.contains(helper.getHpSkillType()) || activeSkills.contains(helper.getAtkSkillType()) || activeSkills.contains(helper.getRcvSkillType())){
-            activeUsedCheck.setVisibility(View.GONE);
-        }else {
-            activeUsedCheck.setVisibility(View.VISIBLE);
-        }
     }
 
     private RadioGroup.OnCheckedChangeListener absorbOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
@@ -709,7 +695,67 @@ public class TeamDamageListFragment extends AbstractFragment {
         }
     };
 
-    private void clearTextFocus(){
+    private void setupHpSeekBar() {
+        int position = 0;
+        if(LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getHpPercent().isEmpty()){
+            if (LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getHpPercent().isEmpty()){
+                team.setTeamHp(100);
+            }else {
+                for(int i = 0; i < LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getAtkData().size(); i++){
+                    if (i == 0){
+                        position = i;
+                    }else {
+                        if (LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getAtkData().get(i) > LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getAtkData().get(i-1)){
+                            position = i;
+                        }
+                    }
+                }
+                team.setTeamHp(LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getHpPercent().get(0 + 2*position));
+            }
+        } else {
+            for(int i = 0; i < LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getAtkData().size(); i++){
+                if (i == 0){
+                    position = i;
+                }else {
+                    if (LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getAtkData().get(i) > LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getAtkData().get(i-1)){
+                        position = i;
+                    }
+                }
+            }
+            team.setTeamHp(LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getHpPercent().get(0 + 2*position));
+        }
+        team.save();
+        teamHp.setProgress(team.getTeamHp());
+        updateTextView();
+        teamHpValue.setText("" + teamHp.getProgress());
+    }
+
+    private SeekBar.OnSeekBarChangeListener teamHpSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            if (fromUser) {
+                team.setTeamHp(progress);
+            }
+            teamHpValue.setText("" + progress);
+            team.save();
+            Log.d("Team Damage Log", "hp is: " + team.getTeamHp());
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            Log.d("Team Damage Log", "I am stop tracking touch");
+            team.update();
+            updateTextView();
+            monsterListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private void clearTextFocus() {
         additionalComboValue.clearFocus();
         damageThresholdValue.clearFocus();
     }

@@ -364,6 +364,36 @@
                 android:layout_below="@+id/hasAwakenings"
                 android:layout_toRightOf="@+id/hasAwakenings"/>
 
+            <TextView
+                android:id="@+id/teamHp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/teamHpSeekBar"
+                android:layout_alignBottom="@+id/teamHpSeekBar"
+                android:gravity="center_vertical"
+                android:text="HP %"
+                android:textSize="18dp"/>
+
+            <TextView
+                android:id="@+id/teamHpValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/teamHpSeekBar"
+                android:layout_alignBottom="@+id/teamHpSeekBar"
+                android:gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:text="100"
+                android:textSize="18dp"/>
+
+            <SeekBar
+                android:id="@+id/teamHpSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/activeUsedCheck"
+                android:layout_toRightOf="@+id/teamHp"
+                android:layout_toLeftOf="@id/teamHpValue"
+                />
+
 
         </RelativeLayout>
     </ScrollView>

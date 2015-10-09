@@ -243,6 +243,7 @@ public class MainActivity extends ActionBarActivity {
             monster.setRarity(7);
             monster.setTeamCost(60);
             monster.setXpCurve(5000000);
+            monster.setLeaderSkill("Test5");
             monster.save();
         }
         if(BaseMonster.getMonsterId(1298) == null){
@@ -422,6 +423,16 @@ public class MainActivity extends ActionBarActivity {
         leaderSkill4.addMatchElements(Element.GREEN);
         leaderSkill4.addMatchElements(Element.LIGHT);
         leaderSkill4.save();
+
+        LeaderSkill leaderSkill5 = new LeaderSkill();
+        leaderSkill5.setAtkSkillType(LeaderSkillType.HP_FLAT);
+        leaderSkill5.setName("Test5");
+        leaderSkill5.addAtkData(3.5);
+        leaderSkill5.addAtkType(3);
+        leaderSkill5.getHpPercent().add(100);
+        leaderSkill5.getHpPercent().add(50);
+        leaderSkill5.save();
+        Log.d("Main Activity Log", "HpPercent is: " + LeaderSkill.getLeaderSkill("Test5").getHpPercent());
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 
