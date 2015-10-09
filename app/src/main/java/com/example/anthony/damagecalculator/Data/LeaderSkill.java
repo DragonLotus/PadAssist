@@ -1357,7 +1357,7 @@ public class LeaderSkill extends Model {
                     }
                 }
             } else {
-                for (int i = 0; i < atkData.size(); i++) {
+                for (int i = 0; i < hpPercent.size()/2; i++) {
                     if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
                         if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
                             atkElement1Multiplier = atkData.get(i);
@@ -1380,7 +1380,7 @@ public class LeaderSkill extends Model {
                 }
             }
         } else {
-            for (int i = 0; i < atkData.size(); i++) {
+            for (int i = 0; i < hpPercent.size()/2; i++) {
                 if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
                     if (rcvElement.contains(monster.getElement1Int()) || rcvElement.contains(monster.getElement2Int()) || atkType.contains(monster.getType3())) {
                         if (rcvMultiplier < rcvData.get(i)) {
@@ -1478,6 +1478,107 @@ public class LeaderSkill extends Model {
             atkElement1Multiplier *= atkData.get(counter2 - comboMin2 + comboDiff + 1);
             atkElement2Multiplier *= atkData.get(counter2 - comboMin2 + comboDiff + 1);
         }
+    }
+
+    private void flatHpFlat(Monster monster, Team team){
+        if (hpPercent.size() == 1) {
+            if (team.getTeamHp() == hpPercent.get(0)) {
+                if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                    atkElement1Multiplier = atkData.get(0);
+                    atkElement2Multiplier = atkData.get(0);
+                } else if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2())) {
+                    atkElement1Multiplier = atkData.get(0);
+                    atkElement2Multiplier = atkData.get(0);
+                }
+            }
+        } else {
+            for (int i = 0; i < hpPercent.size()/2; i++) {
+                if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
+                    if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                        atkElement1Multiplier = atkData.get(i);
+                        atkElement2Multiplier = atkData.get(i);
+                    } else if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
+                        atkElement1Multiplier = atkData.get(i);
+                        atkElement2Multiplier = atkData.get(i);
+                    }
+                }
+            }
+        }
+        if(atkElement1Multiplier < atkDataMax()*atkData.get(hpPercent.size()/2)){
+            if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                atkElement1Multiplier = atkData.get(hpPercent.size()/2);
+            } else if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
+                atkElement1Multiplier = atkData.get(hpPercent.size()/2);
+            }
+        }
+        if(atkElement2Multiplier < atkDataMax()*atkData.get(hpPercent.size()/2)){
+            if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                atkElement2Multiplier = atkData.get(hpPercent.size()/2);
+            } else if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
+                atkElement2Multiplier = atkData.get(hpPercent.size()/2);
+            }
+        }
+
+    }
+
+    private void flatAttributeActiveAttribute(Monster monster, Team team){
+        //All attributes on the active skill used so yea. Cheating.
+        if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+            atkElement1Multiplier = atkData.get(0);
+            atkElement2Multiplier = atkData.get(0);
+        }
+        if(team.isActiveSkillUsed()){
+            atkElement1Multiplier *= atkData.get(1);
+            atkElement2Multiplier *= atkData.get(1);
+        }
+    }
+
+    private void flatTypeFlatAttribute(Monster monster, Team team){
+        if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+            atkElement1Multiplier = atkData.get(1);
+            atkElement2Multiplier = atkData.get(1);
+        }
+        if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
+            atkElement1Multiplier *= atkData.get(0);
+            atkElement2Multiplier *= atkData.get(0);
+        }
+    }
+
+    private void hpFlatAttributeFlatType(Monster monster, Team team){
+        //Goemon Ult
+        if (hpPercent.size() == 1) {
+            if (team.getTeamHp() == hpPercent.get(0)) {
+                if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                    atkElement1Multiplier = atkData.get(0);
+                    atkElement2Multiplier = atkData.get(0);
+                }
+            }
+        } else {
+            for (int i = 0; i < hpPercent.size()/2; i++) {
+                if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
+                    if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                        atkElement1Multiplier = atkData.get(i);
+                        atkElement2Multiplier = atkData.get(i);
+                    }
+                }
+            }
+        }
+        if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
+            atkElement1Multiplier *= atkData.get(0);
+            atkElement2Multiplier *= atkData.get(0);
+        }
+    }
+
+    private double atkDataMax(){
+        double max = 1;
+        for(int i = 0; i < atkData.size(); i++){
+            if(i == 0){
+                max = atkData.get(i);
+            }else if (atkData.get(i) > atkData.get(i-1)){
+                max = atkData.get(i);
+            }
+        }
+        return max;
     }
 
     public static LeaderSkill getLeaderSkill(String name) {
