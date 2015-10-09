@@ -63,7 +63,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/monsterName"
-        android:layout_toRightOf="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/rarityStar"
         android:gravity="center_vertical"
         android:text="Level "
         android:textSize="16dp" />
@@ -135,5 +135,24 @@
         android:layout_alignParentRight="true"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced" />
+
+    <TextView
+        android:id="@+id/rarity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterName"
+        android:layout_toRightOf="@+id/monsterPicture"
+        android:text="8"
+        android:textSize="16dp"/>
+
+    <ImageView
+        android:id="@+id/rarityStar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_toRightOf="@+id/rarity"
+        android:layout_alignTop="@+id/rarity"
+        android:layout_alignBottom="@+id/rarity"
+        android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"
+        android:layout_marginRight="4dp"/>
 
 </RelativeLayout>

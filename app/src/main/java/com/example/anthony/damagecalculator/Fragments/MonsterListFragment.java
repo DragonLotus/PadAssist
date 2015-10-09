@@ -275,7 +275,7 @@ public class MonsterListFragment extends AbstractFragment {
     private View.OnClickListener importButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(team, enemy), TeamListFragment.TAG);
+//            ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
         }
     };
 

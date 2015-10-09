@@ -404,35 +404,8 @@ public class Team extends Model implements Parcelable {
             Log.d("What are monsters", "Monsters: " + getMonsters().get(i) + " " + monsters.get(i));
         }
 //        compareAllElements.clear();
-        haveElements.clear();
-        compareElements.clear();
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
-        Log.d("Team Log", "Compare All Elements has: " + compareAllElements);
-        for (int i = 0; i < getMonsters().size(); i++) {
-            if (!isBound.get(i)) {
-                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
-                    haveElements.add(getMonsters().get(i).getElement1());
-                }
-                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
-                    haveElements.add(getMonsters().get(i).getElement2());
-                }
-            }
-
-        }
-        Log.d("Team Log", "Have Elements is: " + haveElements);
-        Log.d("Team Log", "Orb matches is: " + orbMatches);
-        for (int i = 0; i < getOrbMatches().size(); i++) {
-            Log.d("Team Log", "Have Elements loop is: " + haveElements);
-            if (haveElements.contains(getOrbMatches().get(i).getElement())) {
-                compareElements.add(getOrbMatches().get(i).getElement());
-            }
-            if (getOrbMatches().get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
-                compareElements.add(Element.HEART);
-            }
-            Log.d("Team Log", "Compare Elements loop has: " + compareElements);
-        }
-        Log.d("Team Log", "Compare Elements has: " + compareElements);
         for (int i = 0; i < 5; i++) {
             orbPlusAwakenings.add(0);
             rowAwakenings.add(0);
@@ -481,6 +454,36 @@ public class Team extends Model implements Parcelable {
                 }
             }
         }
+    }
+
+    public void updateOrbs(){
+        haveElements.clear();
+        compareElements.clear();
+        Log.d("Team Log", "Compare All Elements has: " + compareAllElements);
+        for (int i = 0; i < getMonsters().size(); i++) {
+            if (!isBound.get(i)) {
+                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
+                    haveElements.add(getMonsters().get(i).getElement1());
+                }
+                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
+                    haveElements.add(getMonsters().get(i).getElement2());
+                }
+            }
+
+        }
+        Log.d("Team Log", "Have Elements is: " + haveElements);
+        Log.d("Team Log", "Orb matches is: " + orbMatches);
+        for (int i = 0; i < getOrbMatches().size(); i++) {
+            Log.d("Team Log", "Have Elements loop is: " + haveElements);
+            if (haveElements.contains(getOrbMatches().get(i).getElement())) {
+                compareElements.add(getOrbMatches().get(i).getElement());
+            }
+            if (getOrbMatches().get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
+                compareElements.add(Element.HEART);
+            }
+            Log.d("Team Log", "Compare Elements loop has: " + compareElements);
+        }
+        Log.d("Team Log", "Compare Elements has: " + compareElements);
     }
 
     public Team(Parcel source) {

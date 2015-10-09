@@ -44,8 +44,6 @@ public class TeamListFragment extends AbstractFragment {
     private ArrayList<Team> teams;
     private TeamListAdapter teamListAdapter;
     private Button importButton;
-    private Team team;
-    private Enemy enemy;
     private Boolean loggedIn=false;
     private TextView savedTeams;
     private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
@@ -62,11 +60,9 @@ public class TeamListFragment extends AbstractFragment {
      * @return A new instance of fragment TeamListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TeamListFragment newInstance(Team team, Enemy enemy) {
+    public static TeamListFragment newInstance() {
         TeamListFragment fragment = new TeamListFragment();
         Bundle args = new Bundle();
-        args.putParcelable("team", team);
-        args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
     }
@@ -99,8 +95,7 @@ public class TeamListFragment extends AbstractFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(getArguments() != null){
-            team = getArguments().getParcelable("team");
-            enemy = getArguments().getParcelable("enemy");
+
         }
         teams = (ArrayList) Team.getAllTeams();
         if(teams.size() != 0){
@@ -178,6 +173,11 @@ public class TeamListFragment extends AbstractFragment {
             teams.remove(selectedTeam);
             Log.d("Team List Log", "Team size is: " + teams.size());
             teamListAdapter.notifyDataSetChanged();
+            if(teams.size() == 0){
+                savedTeams.setVisibility(View.VISIBLE);
+            }else {
+                savedTeams.setVisibility(View.GONE);
+            }
         }
     };
 

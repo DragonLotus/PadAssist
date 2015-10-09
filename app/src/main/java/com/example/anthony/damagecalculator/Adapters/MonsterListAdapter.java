@@ -50,6 +50,8 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.type1 = (ImageView) convertView.findViewById(R.id.type1);
             viewHolder.type2 = (ImageView) convertView.findViewById(R.id.type2);
             viewHolder.type3 = (ImageView) convertView.findViewById(R.id.type3);
+            viewHolder.rarity = (TextView) convertView.findViewById(R.id.rarity);
+            viewHolder.rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
 
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
@@ -63,6 +65,8 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
         viewHolder.monsterName.setText(monsterList.get(position).getName());
         viewHolder.monsterLevelValue.setText(Integer.toString(monsterList.get(position).getCurrentLevel()));
         viewHolder.monsterPlus.setText(" +" + Integer.toString(monsterList.get(position).getTotalPlus()) + " ");
+        viewHolder.rarity.setText("" + monsterList.get(position).getRarity());
+        viewHolder.rarityStar.setColorFilter(0xFFD4D421);
         if (monsterList.get(position).getCurrentAwakenings() == monsterList.get(position).getMaxAwakenings()) {
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
@@ -239,8 +243,8 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
 
 
     static class ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel;
-        ImageView monsterPicture, type1, type2, type3;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, rarity;
+        ImageView monsterPicture, type1, type2, type3, rarityStar;
 
     }
     public void updateList(ArrayList<Monster> monsterList){

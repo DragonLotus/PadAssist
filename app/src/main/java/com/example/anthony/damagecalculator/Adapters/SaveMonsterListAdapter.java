@@ -52,7 +52,7 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
         viewHolder.monsterName.setText(monsterList.get(position).getName());
-        viewHolder.monsterLevel.setText("Lv. " + monsterList.get(position).getCurrentLevel() + " / ");
+        viewHolder.monsterLevel.setText("Lv. " + monsterList.get(position).getCurrentLevel() + " - ");
         viewHolder.monsterPlus.setText(" +"+ monsterList.get(position).getTotalPlus() + " ");
         viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()) + " / ");
         viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));

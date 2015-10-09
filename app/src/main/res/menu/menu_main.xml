@@ -10,8 +10,14 @@
     <group android:id="@+id/saveTeamGroup">
         <item
             android:id="@+id/saveTeam"
-            android:icon="@drawable/save_icon"
+            android:icon="@drawable/add"
             android:title="Save Team"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/loadTeam"
+            android:icon="@drawable/list_view"
+            android:title="Load Team"
             app:showAsAction="ifRoom" />
     </group>
 
@@ -24,6 +30,11 @@
     </group>
 
     <group android:id="@+id/sortGroup">
+        <item
+            android:id="@+id/swapVertical"
+            android:icon="@drawable/swap_vertical"
+            android:title="Reverse List"
+            app:showAsAction="ifRoom" />
         <item
             android:id="@+id/sortAlphabetical"
             android:title="Sort A-Z"

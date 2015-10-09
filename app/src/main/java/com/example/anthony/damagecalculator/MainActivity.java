@@ -28,6 +28,7 @@ import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.AbstractFragment;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
+import com.example.anthony.damagecalculator.Fragments.TeamListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
 
 import java.io.File;
@@ -328,18 +329,18 @@ public class MainActivity extends ActionBarActivity {
         blankLeaderSkill.save();
 
         LeaderSkill leaderSkill = new LeaderSkill();
-        leaderSkill.setAtkSkillType(LeaderSkillType.ORB_LINK_EXACT_FLAT);
+        leaderSkill.setAtkSkillType(LeaderSkillType.MATCH_ELEMENT);
         leaderSkill.setName("Test");
 //        leaderSkill.addAtkData(1.2);
 //        leaderSkill.addAtkData(1.3);
 //        leaderSkill.addAtkData(1.5);
-        leaderSkill.addAtkData(2.0);
-        leaderSkill.addAtkData(2.5);
+//        leaderSkill.addAtkData(2.0);
+//        leaderSkill.addAtkData(2.5);
 //        leaderSkill.addAtkData(3.);
 //        leaderSkill.addAtkData(3.5);
 //        leaderSkill.addAtkData(4.0);
 //        leaderSkill.addAtkData(4.5);
-//        leaderSkill.addAtkData(5.);
+        leaderSkill.addAtkData(5.);
 //        leaderSkill.addAtkData(5.5);
 //        leaderSkill.addAtkData(6.);
 //        leaderSkill.addAtkData(6.5);
@@ -361,20 +362,20 @@ public class MainActivity extends ActionBarActivity {
         leaderSkill.addAtkType(5);
         leaderSkill.addAtkElement(3);
 //        leaderSkill.addAtkElement(2);
-        leaderSkill.setComboMin(5);
-        leaderSkill.setComboMax(5);
+        leaderSkill.setComboMin(4);
+        leaderSkill.setComboMax(4);
         leaderSkill.setComboMin2(2);
         leaderSkill.setComboMax2(2);
         leaderSkill.addMatchmonsters((long) 1099);
         leaderSkill.addMatchmonsters((long) 1217);
-//        leaderSkill.addMatchElements(Element.RED);
-//        leaderSkill.addMatchElements(Element.BLUE);
-//        leaderSkill.addMatchElements(Element.GREEN);
-//        leaderSkill.addMatchElements(Element.LIGHT);
+        leaderSkill.addMatchElements(Element.RED);
+        leaderSkill.addMatchElements(Element.BLUE);
+        leaderSkill.addMatchElements(Element.GREEN);
+        leaderSkill.addMatchElements(Element.LIGHT);
 //        leaderSkill.addMatchElements(Element.LIGHT);
 //        leaderSkill.addMatchElements(Element.LIGHT);
         //leaderSkill.addMatchElements(Element.DARK);
-        leaderSkill.addMatchElements(Element.HEART);
+//        leaderSkill.addMatchElements(Element.HEART);
         leaderSkill.getMatchElements2().add(Element.HEART);
 //        leaderSkill.getMatchElements2().add(Element.HEART);
 //        leaderSkill.getHpPercent().add(20);
@@ -501,6 +502,8 @@ public class MainActivity extends ActionBarActivity {
                 teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
             }
             teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
+        }else if (id == R.id.loadTeam){
+            switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
         } else if (id == R.id.searchMonsters) {
             switchFragment(BaseMonsterListFragment.newInstance(), BaseMonsterListFragment.TAG);
         } else if (id == R.id.sortAlphabetical){

@@ -47,10 +47,10 @@ public class MonsterPageFragment extends AbstractFragment {
     // TODO: Rename and change types of parameters
     private View rootView;
     private OnFragmentInteractionListener mListener;
-    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue;
+    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity;
     private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
     private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
-    private ImageView monsterPicture;
+    private ImageView monsterPicture, rarityStar;
     private LinearLayout awakeningHolder;
     private Monster monster;
     private Toast toast;
@@ -256,6 +256,9 @@ public class MonsterPageFragment extends AbstractFragment {
 
         Log.d("Monster Page Log", "Monster level6: " + monster.getCurrentLevel());
         Log.d("Monster Page Log", "Edit Text Level4: " + monsterLevelValue.getText());
+
+        rarity.setText("" + monster.getRarity());
+        rarityStar.setColorFilter(0xFFD4D421);
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
     }
@@ -302,6 +305,8 @@ public class MonsterPageFragment extends AbstractFragment {
         monsterStatsRCVTotal = (TextView) rootView.findViewById(R.id.monsterStatsRCVTotal);
         monsterStatsWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsWeightedValue);
         monsterStatsTotalWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsTotalWeightedValue);
+        rarity = (TextView) rootView.findViewById(R.id.rarity);
+        rarityStar = (ImageView) rootView.findViewById(R.id.rarityStar);
 
     }
 

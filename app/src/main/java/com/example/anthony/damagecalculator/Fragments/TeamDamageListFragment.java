@@ -429,6 +429,7 @@ public class TeamDamageListFragment extends AbstractFragment {
                 }
             }
             team.update();
+            team.updateOrbs();
             Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();

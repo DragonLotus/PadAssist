@@ -22,7 +22,7 @@
             android:id="@+id/importButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Choose Team"
+            android:text="Team Overview"
             android:layout_weight=".5"/>
         <Button
             android:id="@+id/orbMatchButton"

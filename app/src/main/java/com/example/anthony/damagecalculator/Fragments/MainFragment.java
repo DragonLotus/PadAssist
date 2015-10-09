@@ -368,6 +368,7 @@ public class MainFragment extends AbstractFragment {
                 orbMatchList.get(i).save();
             }
         }
+        team.updateOrbs();
         Log.d("Orb Match Log", "Load Orb Matches After: " + OrbMatch.getAllOrbMatches());
     }
 
