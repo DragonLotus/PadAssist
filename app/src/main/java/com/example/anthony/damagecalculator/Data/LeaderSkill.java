@@ -80,7 +80,7 @@ public class LeaderSkill extends Model {
         rcvType = new ArrayList<>();
         rcvElement = new ArrayList<>();
         matchElements = new ArrayList<>();
-        matchElements = new ArrayList<>();
+        matchElements2 = new ArrayList<>();
         matchMonsters = new ArrayList<>();
         hpPercent = new ArrayList<>();
 
@@ -1400,13 +1400,7 @@ public class LeaderSkill extends Model {
                 atkElement1Multiplier = atkData.get(comboDiff);
                 atkElement2Multiplier = atkData.get(comboDiff);
             }
-        } else if (team.getOrbMatches().size() >= comboMin) {
-            if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
-                atkElement1Multiplier = atkData.get(counter);
-                atkElement2Multiplier = atkData.get(counter);
-            }
         }
-
     }
 
     private void hpFlat(Monster monster, Team team, int stat) {
@@ -1469,6 +1463,7 @@ public class LeaderSkill extends Model {
     }
 
     private void orbLinkFlat(Monster monster, Team team) {
+        //{Combos, flat}
         int comboDiff = comboMax - comboMin;
         if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
             atkElement1Multiplier = atkData.get(comboDiff + 1);
@@ -1530,12 +1525,12 @@ public class LeaderSkill extends Model {
         int comboDiff2 = comboMax2 - comboMin2;
         int counter2 = 0;
         ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
-        for (int i = 0, j = 0; j < matchElements.size(); i++) {
+        for (int i = 0, j = 0; j < matchElements2.size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(matchElements.get(j))) {
+                if (orbMatchElements.get(i).equals(matchElements2.get(j))) {
                     orbMatchElements.remove(i);
                     j++;
                     counter2++;
@@ -1553,6 +1548,7 @@ public class LeaderSkill extends Model {
     }
 
     private void flatHpFlat(Monster monster, Team team){
+        //{HP flats, flat}
         if (hpPercent.size() == 1) {
             if (team.getTeamHp() == hpPercent.get(0)) {
                 if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
@@ -1629,15 +1625,19 @@ public class LeaderSkill extends Model {
             for (int i = 0; i < hpPercent.size()/2; i++) {
                 if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
                     if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
-                        atkElement1Multiplier = atkData.get(i);
-                        atkElement2Multiplier = atkData.get(i);
+                        if(atkElement1Multiplier < atkData.get(i)){
+                            atkElement1Multiplier = atkData.get(i);
+                        }
+                        if(atkElement2Multiplier < atkData.get(i)){
+                            atkElement2Multiplier = atkData.get(i);
+                        }
                     }
                 }
             }
         }
         if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
-            atkElement1Multiplier *= atkData.get(0);
-            atkElement2Multiplier *= atkData.get(0);
+            atkElement1Multiplier *= atkData.get(hpPercent.size()/2);
+            atkElement2Multiplier *= atkData.get(hpPercent.size()/2);
         }
     }
 

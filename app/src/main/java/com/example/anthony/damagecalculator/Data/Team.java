@@ -343,6 +343,13 @@ public class Team extends Model implements Parcelable {
     }
 
     public ArrayList<Element> getAllOrbMatchElements() {
+        if(compareAllElements.size() != 0){
+            compareAllElements.clear();
+        }
+        for (int i = 0; i < getOrbMatches().size(); i++) {
+            compareAllElements.add(getOrbMatches().get(i).getElement());
+        }
+        Log.d("Team Log", "Compare All Elements method has: " + compareAllElements);
         return compareAllElements;
     }
 
@@ -396,14 +403,12 @@ public class Team extends Model implements Parcelable {
         for (int i = 0; i < getMonsters().size(); i++) {
             Log.d("What are monsters", "Monsters: " + getMonsters().get(i) + " " + monsters.get(i));
         }
-        compareAllElements.clear();
+//        compareAllElements.clear();
         haveElements.clear();
         compareElements.clear();
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
-        for (int i = 0; i < getOrbMatches().size(); i++) {
-            compareAllElements.add(getOrbMatches().get(i).getElement());
-        }
+        Log.d("Team Log", "Compare All Elements has: " + compareAllElements);
         for (int i = 0; i < getMonsters().size(); i++) {
             if (!isBound.get(i)) {
                 if (!haveElements.contains(getMonsters().get(i).getElement1())) {
