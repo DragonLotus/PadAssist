@@ -90,6 +90,8 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterLevel.setVisibility(View.INVISIBLE);
             viewHolder.type1.setVisibility(View.INVISIBLE);
             viewHolder.type2.setVisibility(View.INVISIBLE);
+            viewHolder.rarity.setVisibility(View.INVISIBLE);
+            viewHolder.rarityStar.setVisibility(View.INVISIBLE);
         }else {
             viewHolder.monsterLevelValue.setVisibility(View.VISIBLE);
             viewHolder.monsterHP.setVisibility(View.VISIBLE);
@@ -99,6 +101,8 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.type1.setVisibility(View.VISIBLE);
             viewHolder.type2.setVisibility(View.VISIBLE);
             viewHolder.type3.setVisibility(View.VISIBLE);
+            viewHolder.rarity.setVisibility(View.VISIBLE);
+            viewHolder.rarityStar.setVisibility(View.VISIBLE);
         }
 
 

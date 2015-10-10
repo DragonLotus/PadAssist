@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,6 +29,7 @@ import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.AbstractFragment;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
+import com.example.anthony.damagecalculator.Fragments.MonsterTabLayoutFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
 
@@ -35,7 +37,7 @@ import java.io.File;
 import java.util.Locale;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -83,20 +85,20 @@ public class MainActivity extends ActionBarActivity {
 //      mViewPager = (ViewPager) findViewById(R.id.pager);
 //      mViewPager.setAdapter(mSectionsPagerAdapter);
         enemy = new Enemy();
-        if(Team.getTeamById(0) == null) {
+        if (Team.getTeamById(0) == null) {
             team = new Team();
         } else {
             team = Team.getTeamById(0);
         }
-        if(BaseMonster.getMonsterId(0) == null){
+        if (BaseMonster.getMonsterId(0) == null) {
             BaseMonster monster = new BaseMonster();
             monster.save();
         }
-        if(Monster.getMonsterId(0) == null){
+        if (Monster.getMonsterId(0) == null) {
             Monster monster = new Monster(0);
             monster.save();
         }
-        if(BaseMonster.getMonsterId(1218) == null){
+        if (BaseMonster.getMonsterId(1218) == null) {
             BaseMonster monster = new BaseMonster();
             monster.setMonsterId(1218);
             monster.setMonsterPicture(R.drawable.monster_1218);
@@ -131,7 +133,7 @@ public class MainActivity extends ActionBarActivity {
             Log.d("Main Activity Log", "Awakenings: " + monster.getAwokenSkills() + " Size: " + monster.getAwokenSkills().size() + " " + monster.getName() + " " + monster.getId());
             Log.d("Main Activity Log", "Leader skill is: " + monster.getLeaderSkill());
         }
-        if(BaseMonster.getMonsterId(1099) == null){
+        if (BaseMonster.getMonsterId(1099) == null) {
             BaseMonster monster = new BaseMonster();
             monster.setMonsterId(1099);
             monster.setMonsterPicture(R.drawable.monster_1099);
@@ -158,7 +160,7 @@ public class MainActivity extends ActionBarActivity {
             monster.setXpCurve(4000000);
             monster.save();
         }
-        if(BaseMonster.getMonsterId(201) == null){
+        if (BaseMonster.getMonsterId(201) == null) {
             BaseMonster monster = new BaseMonster();
             monster.setMonsterId(201);
             monster.setMonsterPicture(R.drawable.monster_201);
@@ -184,7 +186,7 @@ public class MainActivity extends ActionBarActivity {
             monster.setXpCurve(4000000);
             monster.save();
         }
-        if(BaseMonster.getMonsterId(1727) == null){
+        if (BaseMonster.getMonsterId(1727) == null) {
             BaseMonster monster = new BaseMonster();
             monster.setMonsterId(1727);
             monster.setMonsterPicture(R.drawable.monster_1727);
@@ -215,7 +217,7 @@ public class MainActivity extends ActionBarActivity {
             monster.setLeaderSkill("Test3");
             monster.save();
         }
-        if(BaseMonster.getMonsterId(1217) == null){
+        if (BaseMonster.getMonsterId(1217) == null) {
             BaseMonster monster = new BaseMonster();
             monster.setMonsterId(1217);
             monster.setMonsterPicture(R.drawable.monster_1217);
@@ -247,7 +249,7 @@ public class MainActivity extends ActionBarActivity {
             monster.setLeaderSkill("Test5");
             monster.save();
         }
-        if(BaseMonster.getMonsterId(1298) == null){
+        if (BaseMonster.getMonsterId(1298) == null) {
             BaseMonster monster = new BaseMonster();
             monster.setMonsterId(1298);
             monster.setMonsterPicture(R.drawable.monster_1298);
@@ -280,7 +282,7 @@ public class MainActivity extends ActionBarActivity {
             monster.setLeaderSkill("Test2");
             monster.save();
         }
-        if(BaseMonster.getMonsterId(2077) == null){
+        if (BaseMonster.getMonsterId(2077) == null) {
             BaseMonster monster = new BaseMonster();
             monster.setMonsterId(2077);
             monster.setMonsterPicture(R.drawable.monster_2077);
@@ -502,23 +504,26 @@ public class MainActivity extends ActionBarActivity {
                 teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
             }
             teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
-        }else if (id == R.id.loadTeam){
+        } else if (id == R.id.loadTeam) {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
         } else if (id == R.id.searchMonsters) {
-            switchFragment(BaseMonsterListFragment.newInstance(), BaseMonsterListFragment.TAG);
-        } else if (id == R.id.sortAlphabetical){
+            //switchFragment(BaseMonsterListFragment.newInstance(), BaseMonsterListFragment.TAG);
+            switchFragment(MonsterTabLayoutFragment.newInstance(), MonsterTabLayoutFragment.TAG);
+        } else if (id == R.id.reverseList) {
+            mContent.reverseArrayList();
+        } else if (id == R.id.sortAlphabetical) {
             mContent.sortArrayList(0);
-        } else if (id == R.id.sortId){
+        } else if (id == R.id.sortId) {
             mContent.sortArrayList(1);
-        } else if (id == R.id.sortElement){
+        } else if (id == R.id.sortElement) {
             mContent.sortArrayList(2);
-        } else if (id == R.id.sortType){
+        } else if (id == R.id.sortType) {
             mContent.sortArrayList(3);
-        } else if (id == R.id.sortStat){
+        } else if (id == R.id.sortStat) {
             mContent.sortArrayList(4);
-        } else if (id == R.id.sortRarity){
+        } else if (id == R.id.sortRarity) {
             mContent.sortArrayList(5);
-        } else if (id == R.id.sortAwakenings){
+        } else if (id == R.id.sortAwakenings) {
             mContent.sortArrayList(6);
         }
 
@@ -540,15 +545,15 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public void saveNewTeam(String teamName) {
             long teamId;
-            if(Team.getAllTeams().size() == 0){
+            if (Team.getAllTeams().size() == 0) {
                 teamId = 1;
-            }else {
-                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1   ).getTeamId() + 1;
+            } else {
+                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
             }
             Team newTeam = new Team(Team.getTeamById(0));
             newTeam.setTeamName(teamName);
             newTeam.setTeamId(teamId);
-            for(Monster monster: newTeam.getMonsters()) {
+            for (Monster monster : newTeam.getMonsters()) {
                 Log.d("Monster", "MonsterPlus:" + monster.getTotalPlus());
                 monster.save();
             }
@@ -561,7 +566,6 @@ public class MainActivity extends ActionBarActivity {
 
         }
     };
-
 
 
     /**

@@ -811,8 +811,12 @@ public class EnemyTargetFragment extends AbstractFragment {
 
     }
 
+    @Override
+    public void reverseArrayList() {
 
-//   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()
+    }
+
+    //   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()
 //   {
 //      @Override
 //      public boolean onKey(View v, int keyCode, KeyEvent event)

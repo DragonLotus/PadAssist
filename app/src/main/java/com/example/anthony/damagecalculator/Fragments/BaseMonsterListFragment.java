@@ -38,6 +38,8 @@ import java.util.Comparator;
 public class BaseMonsterListFragment extends AbstractFragment {
     public static final String TAG = BaseMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
+    private int sortMethod;
+    private boolean reverse;
     private ListView monsterListView;
     private ArrayList<BaseMonster> monsterList;
     private BaseMonsterListAdapter baseMonsterListAdapter;
@@ -98,12 +100,6 @@ public class BaseMonsterListFragment extends AbstractFragment {
             Log.d("Base Monster List Log", "Monster Type 1 before is: " + monsterList.get(i).getType1());
         }
         Collections.sort(monsterList, monsterNumberComparator);
-        //Collections.sort(monsterList, monsterElement1Comparator);
-        //Collections.sort(monsterList, monsterElement2Comparator);
-        //Collections.sort(monsterList, monsterType1Comparator);
-        //Collections.sort(monsterList, monsterType2Comparator);
-        //Collections.sort(monsterList, monsterType3Comparator);
-        //Collections.sort(monsterList, monsterAlphabeticalComparator);
         Log.d("Base Monster List Log", "monsterList is after: " + monsterList);
         for (int i = 0; i < monsterList.size(); i++){
             Log.d("Base Monster List Log", "Monster Type 1 after is: " + monsterList.get(i).getType1());
@@ -209,12 +205,14 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy(){
         @Override
         public void sortElement1() {
+            sortMethod = 201;
             Collections.sort(monsterList, monsterElement1Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortElement2() {
+            sortMethod = 202;
             Collections.sort(monsterList, monsterElement2Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
@@ -223,18 +221,21 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy(){
         @Override
         public void sortType1() {
+            sortMethod = 301;
             Collections.sort(monsterList, monsterType1Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType2() {
+            sortMethod = 302;
             Collections.sort(monsterList, monsterType2Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType3() {
+            sortMethod = 303;
             Collections.sort(monsterList, monsterType3Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
@@ -243,18 +244,21 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private SortStatsDialogFragment.SortBy sortByStats = new SortStatsDialogFragment.SortBy() {
         @Override
         public void sortHp() {
+            sortMethod = 401;
             Collections.sort(monsterList, monsterHpComparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
+            sortMethod = 402;
             Collections.sort(monsterList, monsterAtkComparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
+            sortMethod = 403;
             Collections.sort(monsterList, monsterRcvComparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
@@ -262,6 +266,8 @@ public class BaseMonsterListFragment extends AbstractFragment {
 
     @Override
     public void sortArrayList(int sortMethod) {
+        this.sortMethod = sortMethod;
+        Log.d("Base Monster List", "sortArrayList sortMethod is: " + sortMethod);
         switch(sortMethod){
             case 0:
                 Collections.sort(monsterList, monsterAlphabeticalComparator);
@@ -298,5 +304,86 @@ public class BaseMonsterListFragment extends AbstractFragment {
                 baseMonsterListAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    @Override
+    public void reverseArrayList() {
+        Log.d("Base Monster List", "reverseArrayList sortMethod is: " + sortMethod);
+        switch(sortMethod){
+            case 202:
+                element2Reverse();
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            case 302:
+                type2Reverse();
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            case 303:
+                type3Reverse();
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+            default:
+                defaultReverse();
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+
+        }
+    }
+
+    private void defaultReverse(){
+        Collections.reverse(monsterList);
+        monsterList.remove(BaseMonster.getMonsterId(0));
+        monsterList.add(0, BaseMonster.getMonsterId(0));
+    }
+
+    private void element2Reverse(){
+        ArrayList<BaseMonster> sorting = new ArrayList<>();
+        for (int i = 0; i < monsterList.size(); i++){
+            if(monsterList.get(i).getElement2Int() >= 0){
+                sorting.add(monsterList.get(i));
+                monsterList.remove(i);
+                i--;
+            }
+        }
+        Collections.reverse(sorting);
+        for(int i = 0; i < sorting.size(); i++){
+            monsterList.add(i, sorting.get(i));
+        }
+        monsterList.remove(BaseMonster.getMonsterId(0));
+        monsterList.add(0, BaseMonster.getMonsterId(0));
+    }
+
+    private void type2Reverse(){
+        ArrayList<BaseMonster> sorting = new ArrayList<>();
+        for (int i = 0; i < monsterList.size(); i++){
+            if(monsterList.get(i).getType2() >= 0){
+                sorting.add(monsterList.get(i));
+                monsterList.remove(i);
+                i--;
+            }
+        }
+        Collections.reverse(sorting);
+        for(int i = 0; i < sorting.size(); i++){
+            monsterList.add(i, sorting.get(i));
+        }
+        monsterList.remove(BaseMonster.getMonsterId(0));
+        monsterList.add(0, BaseMonster.getMonsterId(0));
+    }
+
+    private void type3Reverse(){
+        ArrayList<BaseMonster> sorting = new ArrayList<>();
+        for (int i = 0; i < monsterList.size(); i++){
+            if(monsterList.get(i).getType3() >= 0){
+                sorting.add(monsterList.get(i));
+                monsterList.remove(i);
+                i--;
+            }
+        }
+        Collections.reverse(sorting);
+        for(int i = 0; i < sorting.size(); i++){
+            monsterList.add(i, sorting.get(i));
+        }
+        monsterList.remove(BaseMonster.getMonsterId(0));
+        monsterList.add(0, BaseMonster.getMonsterId(0));
     }
 }

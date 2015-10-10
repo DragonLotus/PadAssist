@@ -330,4 +330,9 @@ public class MonsterListFragment extends AbstractFragment {
     public void sortArrayList(int sortMethod) {
 
     }
+
+    @Override
+    public void reverseArrayList() {
+
+    }
 }

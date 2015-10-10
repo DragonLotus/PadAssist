@@ -376,4 +376,9 @@ public class MainFragment extends AbstractFragment {
     public void sortArrayList(int sortMethod) {
 
     }
+
+    @Override
+     public void reverseArrayList() {
+
+    }
 }

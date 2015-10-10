@@ -187,6 +187,11 @@ public class TeamListFragment extends AbstractFragment {
     }
 
     @Override
+    public void reverseArrayList() {
+
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;

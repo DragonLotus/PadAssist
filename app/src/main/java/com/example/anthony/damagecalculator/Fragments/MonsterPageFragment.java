@@ -777,6 +777,11 @@ public class MonsterPageFragment extends AbstractFragment {
 
     }
 
+    @Override
+    public void reverseArrayList() {
+
+    }
+
 //   private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()
 //   {
 //      @Override

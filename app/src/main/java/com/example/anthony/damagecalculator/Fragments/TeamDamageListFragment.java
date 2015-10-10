@@ -765,4 +765,9 @@ public class TeamDamageListFragment extends AbstractFragment {
     public void sortArrayList(int sortMethod) {
 
     }
+
+    @Override
+    public void reverseArrayList() {
+
+    }
 }

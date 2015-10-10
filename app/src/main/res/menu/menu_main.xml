@@ -31,7 +31,7 @@
 
     <group android:id="@+id/sortGroup">
         <item
-            android:id="@+id/swapVertical"
+            android:id="@+id/reverseList"
             android:icon="@drawable/swap_vertical"
             android:title="Reverse List"
             app:showAsAction="ifRoom" />
@@ -61,7 +61,7 @@
             app:showAsAction="never" />
         <item
             android:id="@+id/sortAwakenings"
-            android:title="Sort by Awakenings"
+            android:title="Sort by # of Awakenings"
             app:showAsAction="never" />
         <!--<item-->
             <!--android:id="@+id/filter"-->
