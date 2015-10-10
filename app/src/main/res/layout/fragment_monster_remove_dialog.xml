@@ -1,16 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingRight="16dp"
     android:paddingLeft="16dp"
     tools:context="com.example.anthony.damagecalculator.Fragments.MonsterRemoveDialogFragment">
 
-    <RadioGroup
-        android:id="@+id/choiceRadioGroup"
+    <CheckBox
+        android:id="@+id/favoriteCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="8dp">
+        android:textSize="16dp"
+        android:text="Favorite"
+        android:paddingTop="8dp"/>
+
+    <RadioGroup
+        android:id="@+id/choiceRadioGroup"
+        android:layout_below="@id/favoriteCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <RadioButton
             android:id="@+id/removeTeam"
@@ -20,20 +28,11 @@
             android:textSize="16dp"/>
 
         <RadioButton
-            android:id="@+id/replaceTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Replace Monster"
-            android:textSize="16dp"/>
-
-        <RadioButton
             android:id="@+id/removeDatabase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remove from database"
             android:textSize="16dp"/>
-
-
     </RadioGroup>
 
-</FrameLayout>
+</RelativeLayout>

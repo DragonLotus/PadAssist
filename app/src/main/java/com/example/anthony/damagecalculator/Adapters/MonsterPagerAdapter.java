@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class MonsterPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] {"New Monster", "Saved Monsters" };
+    private String tabTitles[] = new String[] {"Saved Monsters", "New Monster" };
     private Context context;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
 //    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
@@ -26,8 +26,8 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
 
     public MonsterPagerAdapter(FragmentManager fragmentManager, Context context){
         super(fragmentManager);
-        fragmentList.add(BaseMonsterListFragment.newInstance());
         fragmentList.add(SaveMonsterListFragment.newInstance());
+        fragmentList.add(BaseMonsterListFragment.newInstance());
         this.context = context;
     }
 

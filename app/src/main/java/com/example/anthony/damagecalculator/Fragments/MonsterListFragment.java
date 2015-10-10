@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterListAdapter;
 import com.example.anthony.damagecalculator.Data.Element;
@@ -50,6 +51,7 @@ public class MonsterListFragment extends AbstractFragment {
     private Button importButton, orbMatchButton;
     private Team team;
     private Enemy enemy;
+    private Toast toast;
 
     /**
      * Use this factory method to create a new instance of
@@ -284,7 +286,15 @@ public class MonsterListFragment extends AbstractFragment {
         public void onClick(View v) {
             Log.d("Team Health", String.valueOf(team.getTeamHealth()));
             Log.d("Team RCV", String.valueOf(team.getTeamRcv()));
-            ((MainActivity) getActivity()).switchFragment(MainFragment.newInstance(team, enemy), MainFragment.TAG);
+            if (team.getLead().getMonsterId() == 0){
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                ((MainActivity) getActivity()).switchFragment(MainFragment.newInstance(team, enemy), MainFragment.TAG);
+            }
         }
     };
 
@@ -299,7 +309,7 @@ public class MonsterListFragment extends AbstractFragment {
             team.save();
             Log.d("Monster List Log", "Team ID is: " + team.getTeamId() + " Monster Overwrite is: " + team.getMonsterOverwrite());
             if (monsters.get(position).getMonsterId() == 0) {
-                ((MainActivity) getActivity()).switchFragment(SaveMonsterListFragment.newInstance(), SaveMonsterListFragment.TAG);
+                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(), MonsterTabLayoutFragment.TAG);
             }else {
                 ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
             }

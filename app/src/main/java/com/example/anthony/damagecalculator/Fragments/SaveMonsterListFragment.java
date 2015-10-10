@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.anthony.damagecalculator.Adapters.SaveMonsterListAdapter;
@@ -23,6 +25,7 @@ import com.example.anthony.damagecalculator.Util.MonsterAtkComparator;
 import com.example.anthony.damagecalculator.Util.MonsterAwakeningComparator;
 import com.example.anthony.damagecalculator.Util.MonsterElement1Comparator;
 import com.example.anthony.damagecalculator.Util.MonsterElement2Comparator;
+import com.example.anthony.damagecalculator.Util.MonsterFavoriteComparator;
 import com.example.anthony.damagecalculator.Util.MonsterHpComparator;
 import com.example.anthony.damagecalculator.Util.MonsterLevelComparator;
 import com.example.anthony.damagecalculator.Util.MonsterNumberComparator;
@@ -48,6 +51,8 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private ListView monsterListView;
     private ArrayList<Monster> monsterList;
     private SaveMonsterListAdapter saveMonsterListAdapter;
+    private Toast toast;
+    private TextView savedMonsters;
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -69,6 +74,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private Comparator<Monster> monsterPlusAtkComparator = new MonsterPlusAtkComparator();
     private Comparator<Monster> monsterPlusRcvComparator = new MonsterPlusRcvComparator();
     private Comparator<Monster> monsterLevelComparator = new MonsterLevelComparator();
+    private Comparator<Monster> monsterFavoriteComparator = new MonsterFavoriteComparator();
 
     public static SaveMonsterListFragment newInstance() {
         SaveMonsterListFragment fragment = new SaveMonsterListFragment();
@@ -98,6 +104,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_save_monster_list, container, false);
         monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+        savedMonsters = (TextView) rootView.findViewById(R.id.savedMonsters);
         return rootView;
     }
 
@@ -107,6 +114,11 @@ public class SaveMonsterListFragment extends AbstractFragment {
         if (getArguments() != null) {
         }
         monsterList = (ArrayList) Monster.getAllMonsters();
+        if(monsterList.size() == 0){
+            savedMonsters.setVisibility(View.VISIBLE);
+        }else{
+            savedMonsters.setVisibility(View.GONE);
+        }
         //disableStuff();
         saveMonsterListAdapter = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
         monsterListView.setAdapter(saveMonsterListAdapter);
@@ -117,30 +129,38 @@ public class SaveMonsterListFragment extends AbstractFragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Team newTeam = new Team(Team.getTeamById(0));
-            switch (newTeam.getMonsterOverwrite()) {
-                case 0:
-                    newTeam.setLead(monsterList.get(position));
-                    break;
-                case 1:
-                    newTeam.setSub1(monsterList.get(position));
-                    break;
-                case 2:
-                    newTeam.setSub2(monsterList.get(position));
-                    break;
-                case 3:
-                    newTeam.setSub3(monsterList.get(position));
-                    break;
-                case 4:
-                    newTeam.setSub4(monsterList.get(position));
-                    break;
-                case 5:
-                    newTeam.setHelper(monsterList.get(position));
-                    break;
+            if(monsterList.get(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0){
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+                toast.show();
+            }else {
+                switch (newTeam.getMonsterOverwrite()) {
+                    case 0:
+                        newTeam.setLead(monsterList.get(position));
+                        break;
+                    case 1:
+                        newTeam.setSub1(monsterList.get(position));
+                        break;
+                    case 2:
+                        newTeam.setSub2(monsterList.get(position));
+                        break;
+                    case 3:
+                        newTeam.setSub3(monsterList.get(position));
+                        break;
+                    case 4:
+                        newTeam.setSub4(monsterList.get(position));
+                        break;
+                    case 5:
+                        newTeam.setHelper(monsterList.get(position));
+                        break;
+                }
+                newTeam.save();
+                Log.d("Save Monster Log", "Team is: " + newTeam.getMonsters());
+                Log.d("Save Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
+                getActivity().getSupportFragmentManager().popBackStack();
             }
-            newTeam.save();
-            Log.d("Save Monster Log", "Team is: " + newTeam.getMonsters());
-            Log.d("Save Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
-            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 
@@ -304,6 +324,10 @@ public class SaveMonsterListFragment extends AbstractFragment {
                     sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
                 }
                 sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+                break;
+            case 8:
+                Collections.sort(monsterList, monsterFavoriteComparator);
+                saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 9:
                 Collections.sort(monsterList, monsterLevelComparator);

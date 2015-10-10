@@ -50,7 +50,7 @@ public class MonsterPageFragment extends AbstractFragment {
     private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity;
     private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
     private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
-    private ImageView monsterPicture, rarityStar;
+    private ImageView monsterPicture, rarityStar, type1, type2, type3, favorite, favoriteOutline;
     private LinearLayout awakeningHolder;
     private Monster monster;
     private Toast toast;
@@ -169,8 +169,12 @@ public class MonsterPageFragment extends AbstractFragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_monster_page, container, false);
         initTextView(rootView);
-        initImageView(rootView);
         monsterPicture = (ImageView) rootView.findViewById(R.id.monsterPicture);
+        type1 = (ImageView) rootView.findViewById(R.id.type1);
+        type2 = (ImageView) rootView.findViewById(R.id.type2);
+        type3 = (ImageView) rootView.findViewById(R.id.type3);
+        favorite = (ImageView) rootView.findViewById(R.id.favorite);
+        favoriteOutline = (ImageView) rootView.findViewById(R.id.favoriteOutline);
         monsterLevelMax = (Button) rootView.findViewById(R.id.monsterLevelMax);
         monsterStatsMax = (Button) rootView.findViewById(R.id.monsterStatsMax);
         monsterStatsHPMax = (Button) rootView.findViewById(R.id.monsterStatsHPMax);
@@ -202,6 +206,7 @@ public class MonsterPageFragment extends AbstractFragment {
         showAwakenings();
         grayAwakenings();
         initializeEditTexts();
+        setImageViews();
         monsterStats();
     }
 
@@ -259,6 +264,8 @@ public class MonsterPageFragment extends AbstractFragment {
 
         rarity.setText("" + monster.getRarity());
         rarityStar.setColorFilter(0xFFD4D421);
+
+        monsterPicture.setOnClickListener(monsterPictureOnClickListener);
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
     }
@@ -308,10 +315,6 @@ public class MonsterPageFragment extends AbstractFragment {
         rarity = (TextView) rootView.findViewById(R.id.rarity);
         rarityStar = (ImageView) rootView.findViewById(R.id.rarityStar);
 
-    }
-
-    private void initImageView(View rootView) {
-        monsterPicture = (ImageView) rootView.findViewById(R.id.monsterPicture);
     }
 
     private View.OnClickListener awakeningButtons = new View.OnClickListener() {
@@ -410,11 +413,34 @@ public class MonsterPageFragment extends AbstractFragment {
                 toast = Toast.makeText(getActivity(), "All stats maxed", Toast.LENGTH_SHORT);
                 toast.show();
             } else if (v.equals(monsterRemove)) {
-                //Remove monster. Can choose monster from search bar.
+                Log.d("Monster Page Log", "Monster favorite before Dialog is: " + monster.isFavorite());
                 if (monsterRemoveDialogFragment == null) {
-                    monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster);
+                    monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster, monster.isFavorite());
                 }
-                monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster");
+                monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster.isFavorite());
+            }
+        }
+    };
+
+    private View.OnClickListener monsterPictureOnClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            if(monster.isFavorite()){
+                monster.setFavorite(false);
+                setFavorite();
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Monster unfavorited", Toast.LENGTH_SHORT);
+                toast.show();
+            }else {
+                monster.setFavorite(true);
+                setFavorite();
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Monster favorited", Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
     };
@@ -432,8 +458,8 @@ public class MonsterPageFragment extends AbstractFragment {
     //Gray out depending on monsterAwakeningsValue
     //@TargetApi(11)
     public void grayAwakenings() {
-        for (int j = 0; j < monster.getCurrentAwakenings(); j++){
-            switch(monster.getAwokenSkills().get(j)){
+        for (int j = 0; j < monster.getCurrentAwakenings(); j++) {
+            switch (monster.getAwokenSkills().get(j)) {
                 case 1:
                     awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
                     break;
@@ -521,8 +547,8 @@ public class MonsterPageFragment extends AbstractFragment {
             }
         }
 
-        for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++){
-            switch(monster.getAwokenSkills().get(j)){
+        for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++) {
+            switch (monster.getAwokenSkills().get(j)) {
                 case 1:
                     awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1_disabled);
                     break;
@@ -623,6 +649,144 @@ public class MonsterPageFragment extends AbstractFragment {
 //        }
     }
 
+    private void setImageViews() {
+        switch (monster.getType1()) {
+            case 0:
+                type1.setImageResource(R.drawable.type_evo_material);
+                break;
+            case 1:
+                type1.setImageResource(R.drawable.type_balanced);
+                break;
+            case 2:
+                type1.setImageResource(R.drawable.type_physical);
+                break;
+            case 3:
+                type1.setImageResource(R.drawable.type_healer);
+                break;
+            case 4:
+                type1.setImageResource(R.drawable.type_dragon);
+                break;
+            case 5:
+                type1.setImageResource(R.drawable.type_god);
+                break;
+            case 6:
+                type1.setImageResource(R.drawable.type_attacker);
+                break;
+            case 7:
+                type1.setImageResource(R.drawable.type_devil);
+                break;
+            case 8:
+                type1.setImageResource(R.drawable.type_machine);
+                break;
+            case 12:
+                type1.setImageResource(R.drawable.type_awoken);
+                break;
+            case 13:
+                type1.setVisibility(View.INVISIBLE);
+                break;
+            case 14:
+                type1.setImageResource(R.drawable.type_enhance_material);
+                break;
+            default:
+                type1.setVisibility(View.GONE);
+                break;
+        }
+        switch (monster.getType2()) {
+            case 0:
+                type2.setImageResource(R.drawable.type_evo_material);
+                break;
+            case 1:
+                type2.setImageResource(R.drawable.type_balanced);
+                break;
+            case 2:
+                type2.setImageResource(R.drawable.type_physical);
+                break;
+            case 3:
+                type2.setImageResource(R.drawable.type_healer);
+                break;
+            case 4:
+                type2.setImageResource(R.drawable.type_dragon);
+                break;
+            case 5:
+                type2.setImageResource(R.drawable.type_god);
+                break;
+            case 6:
+                type2.setImageResource(R.drawable.type_attacker);
+                break;
+            case 7:
+                type2.setImageResource(R.drawable.type_devil);
+                break;
+            case 8:
+                type2.setImageResource(R.drawable.type_machine);
+                break;
+            case 12:
+                type2.setImageResource(R.drawable.type_awoken);
+                break;
+            case 13:
+                type2.setVisibility(View.INVISIBLE);
+                break;
+            case 14:
+                type2.setImageResource(R.drawable.type_enhance_material);
+                break;
+            default:
+                type2.setVisibility(View.GONE);
+                break;
+        }
+        switch (monster.getType3()) {
+            case 0:
+                type3.setImageResource(R.drawable.type_evo_material);
+                break;
+            case 1:
+                type3.setImageResource(R.drawable.type_balanced);
+                break;
+            case 2:
+                type3.setImageResource(R.drawable.type_physical);
+                break;
+            case 3:
+                type3.setImageResource(R.drawable.type_healer);
+                break;
+            case 4:
+                type3.setImageResource(R.drawable.type_dragon);
+                break;
+            case 5:
+                type3.setImageResource(R.drawable.type_god);
+                break;
+            case 6:
+                type3.setImageResource(R.drawable.type_attacker);
+                break;
+            case 7:
+                type3.setImageResource(R.drawable.type_devil);
+                break;
+            case 8:
+                type3.setImageResource(R.drawable.type_machine);
+                break;
+            case 12:
+                type3.setImageResource(R.drawable.type_awoken);
+                break;
+            case 13:
+                type3.setVisibility(View.INVISIBLE);
+                break;
+            case 14:
+                type3.setImageResource(R.drawable.type_enhance_material);
+                break;
+            default:
+                type3.setVisibility(View.GONE);
+                break;
+        }
+        favorite.setColorFilter(0xFFFFAADD);
+        setFavorite();
+    }
+
+    public void setFavorite(){
+        if(monster.isFavorite()){
+            favorite.setVisibility(View.VISIBLE);
+            favoriteOutline.setVisibility(View.VISIBLE);
+        }else {
+            favorite.setVisibility(View.INVISIBLE);
+            favoriteOutline.setVisibility(View.INVISIBLE);
+        }
+    }
+
     public void monsterStats() {
         //Update method because our TextWatcher no work
         setMonsterStats();
@@ -660,7 +824,7 @@ public class MonsterPageFragment extends AbstractFragment {
         monsterAwakeningsValue.setText(String.valueOf(monster.getCurrentAwakenings()));
     }
 
-    public void initBackup(){
+    public void initBackup() {
         level = monster.getCurrentLevel();
         hp = monster.getHpPlus();
         atk = monster.getAtkPlus();
@@ -668,14 +832,14 @@ public class MonsterPageFragment extends AbstractFragment {
         awakening = monster.getCurrentAwakenings();
     }
 
-    public void loadBackup(){
-        if (monster.getMonsterId() == 0){
+    public void loadBackup() {
+        if (monster.getMonsterId() == 0) {
             monster.setCurrentLevel(1);
             monster.setHpPlus(0);
             monster.setAtkPlus(0);
             monster.setRcvPlus(0);
             monster.setCurrentAwakenings(0);
-        }else {
+        } else {
             monster.setCurrentLevel(level);
             monster.setHpPlus(hp);
             monster.setAtkPlus(atk);
@@ -684,8 +848,8 @@ public class MonsterPageFragment extends AbstractFragment {
         }
     }
 
-    public void disableStuff(){
-        if(monster.getMonsterId() == 0){
+    public void disableStuff() {
+        if (monster.getMonsterId() == 0) {
             getActivity().getSupportFragmentManager().popBackStack();
         }
 //        if(monster.getMonsterId() == 0){
@@ -716,15 +880,15 @@ public class MonsterPageFragment extends AbstractFragment {
     private MonsterRemoveDialogFragment.RemoveMonster removeMonster = new MonsterRemoveDialogFragment.RemoveMonster() {
         @Override
         public void removeMonsterDatabase() {
-            ((MainActivity) getActivity()).switchFragment(BaseMonsterListFragment.newInstance(), BaseMonsterListFragment.TAG);
             monsterRemoveDialogFragment.dismiss();
         }
+
         @Override
         public void removeMonsterTeam() {
-            Log.d("Monster Page Log","Position is: " + Team.getTeamById(0).getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
+            Log.d("Monster Page Log", "Position is: " + Team.getTeamById(0).getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
             Team newTeam = new Team(Team.getTeamById(0));
             Log.d("Monster Page Log", "Monster Overwrite is: " + newTeam.getMonsterOverwrite());
-            switch (newTeam.getMonsterOverwrite()){
+            switch (newTeam.getMonsterOverwrite()) {
                 case 0:
                     newTeam.setLead(Monster.getMonsterId(0));
                     break;
@@ -744,7 +908,7 @@ public class MonsterPageFragment extends AbstractFragment {
                     newTeam.setHelper(Monster.getMonsterId(0));
                     break;
             }
-            for(int i = 0; i < newTeam.getMonsters().size(); i++){
+            for (int i = 0; i < newTeam.getMonsters().size(); i++) {
                 Log.d("Monster Page Log", "Monster name: " + newTeam.getMonsters(i).getName() + " Monster id: " + newTeam.getMonsters(i).getMonsterId());
             }
             newTeam.save();
@@ -760,9 +924,12 @@ public class MonsterPageFragment extends AbstractFragment {
         }
 
         @Override
-        public void replaceMonster() {
-            ((MainActivity) getActivity()).switchFragment(SaveMonsterListFragment.newInstance(), SaveMonsterListFragment.TAG);
-            monsterRemoveDialogFragment.dismiss();
+        public void favoriteMonster(boolean favorite) {
+            Log.d("Monster Page Log", "favorite is: " + favorite);
+            monster.setFavorite(favorite);
+            monster.save();
+            setFavorite();
+            Log.d("Monster Page Log", "Monster favorite is: " + monster.isFavorite());
         }
     };
 

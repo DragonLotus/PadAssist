@@ -5,8 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:src="@drawable/favorite"
+        android:layout_marginRight="6dp"/>
+
+    <ImageView
+        android:id="@+id/favoriteOutline"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:src="@drawable/not_favorite"
+        android:layout_marginRight="6dp"/>
+
     <ImageView
         android:id="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/favorite"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/monster_1218"

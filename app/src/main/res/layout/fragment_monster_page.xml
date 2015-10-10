@@ -31,6 +31,46 @@
         android:text="Kirin of the Sacred Gleam, Sakuya"
         android:textSize="25dp" />
 
+    <ImageView
+        android:id="@+id/type1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_alignLeft="@+id/monsterPicture"
+        android:src="@drawable/type_balanced" />
+
+    <ImageView
+        android:id="@+id/type2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/type1"
+        android:src="@drawable/type_balanced" />
+
+    <ImageView
+        android:id="@+id/type3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/type2"
+        android:src="@drawable/type_balanced" />
+
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignRight="@+id/monsterPicture"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:src="@drawable/favorite" />
+
+    <ImageView
+        android:id="@+id/favoriteOutline"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignRight="@+id/monsterPicture"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:src="@drawable/not_favorite" />
+
     <TextView
         android:id="@+id/monsterLevel"
         android:layout_width="wrap_content"
@@ -361,64 +401,64 @@
             android:id="@+id/monsterAwakening1"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
 
         <ImageView
             android:id="@+id/monsterAwakening2"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
 
         <ImageView
             android:id="@+id/monsterAwakening3"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
 
         <ImageView
             android:id="@+id/monsterAwakening4"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
 
         <ImageView
             android:id="@+id/monsterAwakening5"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
 
         <ImageView
             android:id="@+id/monsterAwakening6"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
 
         <ImageView
             android:id="@+id/monsterAwakening7"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
 
         <ImageView
             android:id="@+id/monsterAwakening8"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
 
         <ImageView
             android:id="@+id/monsterAwakening9"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginLeft="3dp"/>
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp" />
     </LinearLayout>
 
     <Button
@@ -442,20 +482,20 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/monsterLevelMax"
         android:layout_alignTop="@+id/monsterLevelMax"
-        android:gravity="center_vertical"
         android:layout_toRightOf="@+id/monsterPicture"
+        android:gravity="center_vertical"
         android:text="8"
-        android:textSize="20dp"/>
+        android:textSize="20dp" />
 
     <ImageView
         android:id="@+id/rarityStar"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_toRightOf="@+id/rarity"
-        android:layout_alignTop="@+id/rarity"
         android:layout_alignBottom="@+id/rarity"
-        android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"
-        android:layout_marginRight="8dp"/>
+        android:layout_alignTop="@+id/rarity"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@+id/rarity"
+        android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha" />
 
 
 </RelativeLayout>

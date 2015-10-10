@@ -45,6 +45,8 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.type1 = (ImageView) convertView.findViewById(R.id.type1);
             viewHolder.type2 = (ImageView) convertView.findViewById(R.id.type2);
             viewHolder.type3 = (ImageView) convertView.findViewById(R.id.type3);
+            viewHolder.favorite = (ImageView) convertView.findViewById(R.id.favorite);
+            viewHolder.favoriteOutline = (ImageView) convertView.findViewById(R.id.favoriteOutline);
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
 
             convertView.setTag(R.string.viewHolder, viewHolder);
@@ -63,7 +65,6 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
         }
-
         if (monsterList.get(position).getMonsterId() == 0) {
             viewHolder.type1.setVisibility(View.GONE);
             viewHolder.type2.setVisibility(View.GONE);
@@ -74,6 +75,8 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterATK.setVisibility(View.GONE);
             viewHolder.monsterRCV.setVisibility(View.GONE);
             viewHolder.monsterLevel.setVisibility(View.GONE);
+            viewHolder.favorite.setVisibility(View.INVISIBLE);
+            viewHolder.favoriteOutline.setVisibility(View.INVISIBLE);
         }else {
             viewHolder.type1.setVisibility(View.VISIBLE);
             viewHolder.type2.setVisibility(View.VISIBLE);
@@ -85,6 +88,15 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
             viewHolder.monsterATK.setVisibility(View.VISIBLE);
             viewHolder.monsterRCV.setVisibility(View.VISIBLE);
             viewHolder.monsterLevel.setVisibility(View.VISIBLE);
+            viewHolder.favorite.setVisibility(View.VISIBLE);
+            viewHolder.favoriteOutline.setVisibility(View.VISIBLE);
+        }
+
+        viewHolder.favorite.setColorFilter(0xFFFFAADD);
+        if(monsterList.get(position).isFavorite()){
+            viewHolder.favorite.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.favorite.setVisibility(View.INVISIBLE);
         }
 
         if (monsterList.get(position).getTotalPlus() == 0) {
@@ -239,7 +251,7 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
 
     static class ViewHolder {
         TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV, monsterLevel;
-        ImageView monsterPicture, type1, type2, type3;
+        ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline;
 
     }
 }
