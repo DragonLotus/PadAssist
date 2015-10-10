@@ -18,8 +18,14 @@ public class MonsterRarityComparator implements Comparator<Monster> {
             if (lhs.getRarity() < rhs.getRarity()) {
                 return 1;
             } else if (lhs.getRarity() == rhs.getRarity()) {
-                if (lhs.getMonsterId() > rhs.getMonsterId()) {
+                if (lhs.getElement1Int() > rhs.getElement1Int()) {
                     return 1;
+                } else if (lhs.getElement1Int() == rhs.getElement1Int()) {
+                    if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
+                        return 1;
+                    } else {
+                        return -1;
+                    }
                 } else {
                     return -1;
                 }

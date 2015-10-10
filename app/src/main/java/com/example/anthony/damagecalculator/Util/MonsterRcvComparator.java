@@ -15,10 +15,10 @@ public class MonsterRcvComparator implements Comparator<Monster> {
         } else if (rhs.getMonsterId() == 0) {
             return 1;
         } else {
-            if (lhs.getRcvMax() < rhs.getRcvMax()) {
+            if (lhs.getTotalRcv() < rhs.getTotalRcv()) {
                 return 1;
-            } else if (lhs.getRcvMax() == rhs.getRcvMax()) {
-                if (lhs.getMonsterId() > rhs.getMonsterId()) {
+            } else if (lhs.getTotalRcv() == rhs.getTotalRcv()) {
+                if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
                     return 1;
                 } else {
                     return -1;

@@ -15,10 +15,10 @@ public class MonsterHpComparator implements Comparator<Monster> {
         } else if (rhs.getMonsterId() == 0) {
             return 1;
         } else {
-            if (lhs.getHpMax() < rhs.getHpMax()) {
+            if (lhs.getTotalHp() < rhs.getTotalHp()) {
                 return 1;
-            } else if (lhs.getHpMax() == rhs.getHpMax()) {
-                if (lhs.getMonsterId() > rhs.getMonsterId()) {
+            } else if (lhs.getTotalHp() == rhs.getTotalHp()) {
+                if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
                     return 1;
                 } else {
                     return -1;

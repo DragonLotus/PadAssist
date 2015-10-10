@@ -13,7 +13,7 @@ public class MonsterType1Comparator implements Comparator<Monster> {
         if (lhs.getType1() > rhs.getType1()) {
             return 1;
         } else if (lhs.getType1() == rhs.getType1()) {
-            if (lhs.getMonsterId() > rhs.getMonsterId()) {
+            if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
                 return 1;
             } else {
                 return -1;

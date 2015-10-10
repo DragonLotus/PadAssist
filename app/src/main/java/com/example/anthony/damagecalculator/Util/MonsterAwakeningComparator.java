@@ -18,7 +18,7 @@ public class MonsterAwakeningComparator implements Comparator<Monster> {
             if (lhs.getMaxAwakenings() < rhs.getMaxAwakenings()) {
                 return 1;
             } else if (lhs.getMaxAwakenings() == rhs.getMaxAwakenings()) {
-                if (lhs.getMonsterId() > rhs.getMonsterId()) {
+                if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
                     return 1;
                 } else {
                     return -1;

@@ -15,7 +15,7 @@ public class MonsterType3Comparator implements Comparator<Monster> {
         }else if (rhs.getMonsterId() == 0){
             return 1;
         }else if (lhs.getType3() == -1 && rhs.getType3() == -1){
-            if (lhs.getMonsterId() > rhs.getMonsterId()){
+            if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()){
                 return 1;
             }else {
                 return -1;
@@ -28,7 +28,7 @@ public class MonsterType3Comparator implements Comparator<Monster> {
             if (lhs.getType3() > rhs.getType3()) {
                 return 1;
             } else if (lhs.getType3() == rhs.getType3()) {
-                if (lhs.getMonsterId() > rhs.getMonsterId()) {
+                if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
                     return 1;
                 } else {
                     return -1;

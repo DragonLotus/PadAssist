@@ -15,7 +15,7 @@ public class MonsterElement2Comparator implements Comparator<Monster> {
         }else if (rhs.getMonsterId() == 0){
             return 1;
         }else if (lhs.getElement2Int() == -1 && rhs.getElement2Int() == -1){
-            if (lhs.getMonsterId() > rhs.getMonsterId()){
+            if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()){
                 return 1;
             }else {
                 return -1;
@@ -28,7 +28,7 @@ public class MonsterElement2Comparator implements Comparator<Monster> {
             if (lhs.getElement2Int() > rhs.getElement2Int()) {
                 return 1;
             } else if (lhs.getElement2Int() == rhs.getElement2Int()) {
-                if (lhs.getMonsterId() > rhs.getMonsterId()) {
+                if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
                     return 1;
                 } else {
                     return -1;

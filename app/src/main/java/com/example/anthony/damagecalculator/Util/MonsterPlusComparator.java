@@ -20,7 +20,7 @@ public class MonsterPlusComparator implements Comparator<Monster> {
             if (lhs.getElement1Int() > rhs.getElement1Int()) {
                 return 1;
             } else if (lhs.getElement1Int() == rhs.getElement1Int()) {
-                if (lhs.getMonsterId() > rhs.getMonsterId()) {
+                if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
                     return 1;
                 } else {
                     return -1;

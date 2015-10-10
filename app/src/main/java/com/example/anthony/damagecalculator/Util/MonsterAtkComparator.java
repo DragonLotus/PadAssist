@@ -16,10 +16,10 @@ public class MonsterAtkComparator implements Comparator<Monster> {
         } else if (rhs.getMonsterId() == 0) {
             return 1;
         } else {
-            if (lhs.getAtkMax() < rhs.getAtkMax()) {
+            if (lhs.getTotalAtk() < rhs.getTotalAtk()) {
                 return 1;
-            } else if (lhs.getAtkMax() == rhs.getAtkMax()) {
-                if (lhs.getMonsterId() > rhs.getMonsterId()) {
+            } else if (lhs.getTotalAtk() == rhs.getTotalAtk()) {
+                if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
                     return 1;
                 } else {
                     return -1;
