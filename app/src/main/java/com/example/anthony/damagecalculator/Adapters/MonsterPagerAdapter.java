@@ -6,6 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.anthony.damagecalculator.Data.BaseMonster;
+import com.example.anthony.damagecalculator.Fragments.AbstractFragment;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.SaveMonsterListFragment;
 
@@ -14,8 +16,10 @@ import com.example.anthony.damagecalculator.Fragments.SaveMonsterListFragment;
  */
 public class MonsterPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
-    private String tabTitles[] = new String[] {"Base Monsters", "Saved Monsters" };
+    private String tabTitles[] = new String[] {"New Monster", "Saved Monsters" };
     private Context context;
+    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
+    private Fragment saveMonsterListFragment = SaveMonsterListFragment.newInstance();
 
     public MonsterPagerAdapter(FragmentManager fragmentManager, Context context){
         super(fragmentManager);
@@ -25,9 +29,9 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 0){
-            return BaseMonsterListFragment.newInstance();
+            return baseMonsterListFragment;
         }else {
-            return SaveMonsterListFragment.newInstance();
+            return saveMonsterListFragment;
         }
     }
 

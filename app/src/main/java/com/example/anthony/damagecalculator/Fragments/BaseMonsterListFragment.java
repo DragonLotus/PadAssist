@@ -268,6 +268,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
     public void sortArrayList(int sortMethod) {
         this.sortMethod = sortMethod;
         Log.d("Base Monster List", "sortArrayList sortMethod is: " + sortMethod);
+        Log.d("Base Monster List", "monsterList is: " + monsterList);
         switch(sortMethod){
             case 0:
                 Collections.sort(monsterList, monsterAlphabeticalComparator);

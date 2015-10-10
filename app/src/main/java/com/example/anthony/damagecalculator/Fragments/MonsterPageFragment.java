@@ -716,9 +716,9 @@ public class MonsterPageFragment extends AbstractFragment {
     private MonsterRemoveDialogFragment.RemoveMonster removeMonster = new MonsterRemoveDialogFragment.RemoveMonster() {
         @Override
         public void removeMonsterDatabase() {
+            ((MainActivity) getActivity()).switchFragment(BaseMonsterListFragment.newInstance(), BaseMonsterListFragment.TAG);
             monsterRemoveDialogFragment.dismiss();
         }
-
         @Override
         public void removeMonsterTeam() {
             Log.d("Monster Page Log","Position is: " + Team.getTeamById(0).getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
