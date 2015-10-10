@@ -525,6 +525,12 @@ public class MainActivity extends AppCompatActivity {
             mContent.sortArrayList(5);
         } else if (id == R.id.sortAwakenings) {
             mContent.sortArrayList(6);
+        } else if (id == R.id.sortPlus) {
+            mContent.sortArrayList(7);
+        } else if (id == R.id.sortFavorite) {
+            mContent.sortArrayList(8);
+        } else if (id == R.id.sortLevel) {
+            mContent.sortArrayList(9);
         }
 
         return super.onOptionsItemSelected(item);

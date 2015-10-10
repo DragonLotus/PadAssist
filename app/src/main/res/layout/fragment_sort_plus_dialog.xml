@@ -1,0 +1,46 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context="com.example.anthony.damagecalculator.Fragments.SortStatsDialogFragment">
+
+    <RadioGroup
+        android:id="@+id/choiceRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp">
+
+        <RadioButton
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/hp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HP"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/atk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ATK"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/rcv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RCV"
+            android:textSize="16dp" />
+
+    </RadioGroup>
+
+</FrameLayout>

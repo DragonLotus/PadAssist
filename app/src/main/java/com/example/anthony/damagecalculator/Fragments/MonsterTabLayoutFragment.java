@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -47,6 +49,7 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -63,7 +66,7 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        monsterPagerAdapter = new MonsterPagerAdapter(getActivity().getSupportFragmentManager(), getActivity());
+        monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), getActivity());
         Log.d("MonsterTab", "monsterPagerAdapter is: " + monsterPagerAdapter);
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -107,4 +110,5 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
             ((AbstractFragment)monsterPagerAdapter.getItem(1)).sortArrayList(sortMethod);
         }
     }
+
 }

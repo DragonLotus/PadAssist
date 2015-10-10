@@ -11,6 +11,8 @@ import com.example.anthony.damagecalculator.Fragments.AbstractFragment;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.SaveMonsterListFragment;
 
+import java.util.ArrayList;
+
 /**
  * Created by DragonLotus on 10/10/2015.
  */
@@ -18,21 +20,20 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] {"New Monster", "Saved Monsters" };
     private Context context;
-    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
-    private Fragment saveMonsterListFragment = SaveMonsterListFragment.newInstance();
+    private ArrayList<Fragment> fragmentList = new ArrayList<>();
+//    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
+//    private Fragment saveMonsterListFragment = SaveMonsterListFragment.newInstance();
 
     public MonsterPagerAdapter(FragmentManager fragmentManager, Context context){
         super(fragmentManager);
+        fragmentList.add(BaseMonsterListFragment.newInstance());
+        fragmentList.add(SaveMonsterListFragment.newInstance());
         this.context = context;
     }
 
     @Override
     public Fragment getItem(int position) {
-        if(position == 0){
-            return baseMonsterListFragment;
-        }else {
-            return saveMonsterListFragment;
-        }
+        return fragmentList.get(position);
     }
 
     @Override
