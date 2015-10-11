@@ -80,7 +80,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_save_monster_list, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_base_monster_list, container, false);
         monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
         return rootView;
     }

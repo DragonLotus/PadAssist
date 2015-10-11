@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:text="Favorite"
-        android:paddingTop="8dp"/>
+        android:layout_marginTop="8dp"/>
 
     <RadioGroup
         android:id="@+id/choiceRadioGroup"
@@ -19,6 +19,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/replaceAllTeams"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Overwrite monster"
+            android:textSize="16dp"/>
+
+        <RadioButton
+            android:id="@+id/replaceTeam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Replace monster"
+            android:textSize="16dp"/>
 
         <RadioButton
             android:id="@+id/removeTeam"

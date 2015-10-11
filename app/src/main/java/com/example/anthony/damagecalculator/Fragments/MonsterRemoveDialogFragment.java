@@ -30,6 +30,11 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         public void removeMonsterTeam();
 
         public void favoriteMonster(boolean favorite);
+
+        public void replaceAllTeam();
+
+        public void replaceMonster();
+
     }
 
     private RadioGroup choiceRadioGroup;
@@ -62,6 +67,10 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
                             remove.removeMonsterTeam();
                         } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.removeDatabase) {
                             remove.removeMonsterDatabase();
+                        }else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.replaceAllTeams) {
+                            remove.replaceAllTeam();
+                        }else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.replaceTeam) {
+                            remove.replaceMonster();
                         } else {
                             dialog.dismiss();
                         }
@@ -83,9 +92,9 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         Log.d("Monster Remove Dialog", "favoriteBoolean is: " + favoriteBoolean);
         favorite.setChecked(favoriteBoolean);
         if(favoriteBoolean){
-            choiceRadioGroup.getChildAt(1).setEnabled(false);
+            choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount()-1).setEnabled(false);
         }else{
-            choiceRadioGroup.getChildAt(1).setEnabled(true);
+            choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount()-1).setEnabled(true);
         }
         favorite.setOnCheckedChangeListener(favoriteCheckListener);
     }
@@ -94,9 +103,9 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(isChecked){
-                choiceRadioGroup.getChildAt(1).setEnabled(false);
+                choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount()-1).setEnabled(false);
             }else{
-                choiceRadioGroup.getChildAt(1).setEnabled(true);
+                choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount()-1).setEnabled(true);
             }
         }
     };

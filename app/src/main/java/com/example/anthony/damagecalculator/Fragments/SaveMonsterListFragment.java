@@ -53,6 +53,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private SaveMonsterListAdapter saveMonsterListAdapter;
     private Toast toast;
     private TextView savedMonsters;
+    private boolean replaceAll;
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -76,9 +77,10 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private Comparator<Monster> monsterLevelComparator = new MonsterLevelComparator();
     private Comparator<Monster> monsterFavoriteComparator = new MonsterFavoriteComparator();
 
-    public static SaveMonsterListFragment newInstance() {
+    public static SaveMonsterListFragment newInstance(boolean replaceAll) {
         SaveMonsterListFragment fragment = new SaveMonsterListFragment();
         Bundle args = new Bundle();
+        args.putBoolean("replaceAll", replaceAll);
         fragment.setArguments(args);
         return fragment;
     }
@@ -112,6 +114,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
+            replaceAll = getArguments().getBoolean("replaceAll");
         }
         monsterList = (ArrayList) Monster.getAllMonsters();
         if(monsterList.size() == 0){
@@ -119,6 +122,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         }else{
             savedMonsters.setVisibility(View.GONE);
         }
+        Collections.sort(monsterList, monsterFavoriteComparator);
         //disableStuff();
         saveMonsterListAdapter = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
         monsterListView.setAdapter(saveMonsterListAdapter);

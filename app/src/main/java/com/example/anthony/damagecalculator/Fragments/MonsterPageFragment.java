@@ -55,6 +55,8 @@ public class MonsterPageFragment extends AbstractFragment {
     private Monster monster;
     private Toast toast;
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
+    private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
+    private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
     private int level, hp, atk, rcv, awakening;
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
@@ -880,9 +882,12 @@ public class MonsterPageFragment extends AbstractFragment {
     private MonsterRemoveDialogFragment.RemoveMonster removeMonster = new MonsterRemoveDialogFragment.RemoveMonster() {
         @Override
         public void removeMonsterDatabase() {
+            if (deleteConfirmationDialog == null) {
+                deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster);
+            }
+            deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
             monsterRemoveDialogFragment.dismiss();
         }
-
         @Override
         public void removeMonsterTeam() {
             Log.d("Monster Page Log", "Position is: " + Team.getTeamById(0).getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
@@ -930,6 +935,34 @@ public class MonsterPageFragment extends AbstractFragment {
             monster.save();
             setFavorite();
             Log.d("Monster Page Log", "Monster favorite is: " + monster.isFavorite());
+        }
+
+        @Override
+        public void replaceAllTeam() {
+            if (replaceConfirmationDialog == null) {
+                replaceConfirmationDialog = ReplaceAllConfirmationDialogFragment.newInstance(replaceAllMonster);
+            }
+            replaceConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+        }
+
+        @Override
+        public void replaceMonster() {
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false), MonsterTabLayoutFragment.TAG);
+            monsterRemoveDialogFragment.dismiss();
+        }
+    };
+
+    private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout(){
+        @Override
+        public void resetLayout() {
+
+        }
+    };
+
+    private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
+        @Override
+        public void resetLayout() {
+
         }
     };
 

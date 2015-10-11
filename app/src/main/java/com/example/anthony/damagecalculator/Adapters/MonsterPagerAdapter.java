@@ -24,9 +24,9 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
 //    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
 //    private Fragment saveMonsterListFragment = SaveMonsterListFragment.newInstance();
 
-    public MonsterPagerAdapter(FragmentManager fragmentManager, Context context){
+    public MonsterPagerAdapter(FragmentManager fragmentManager, Context context, boolean replaceAll){
         super(fragmentManager);
-        fragmentList.add(SaveMonsterListFragment.newInstance());
+        fragmentList.add(SaveMonsterListFragment.newInstance(replaceAll));
         fragmentList.add(BaseMonsterListFragment.newInstance());
         this.context = context;
     }

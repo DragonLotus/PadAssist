@@ -17,11 +17,14 @@ import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Adapters.TeamListAdapter;
 import com.example.anthony.damagecalculator.Data.Enemy;
+import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.TeamAlphabeticalComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,8 +51,9 @@ public class TeamListFragment extends AbstractFragment {
     private TextView savedTeams;
     private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
     private TeamLoadDialogFragment teamLoadDialogFragment;
-    private int selectedTeam;
+    private int selectedTeam, sortMethod;
     private OnFragmentInteractionListener mListener;
+    private TeamAlphabeticalComparator teamAlphabeticalComparator = new TeamAlphabeticalComparator();
 
     /**
      * Use this factory method to create a new instance of
@@ -78,6 +82,14 @@ public class TeamListFragment extends AbstractFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.findItem(R.id.sortAlphabetical).setVisible(true);
+        menu.findItem(R.id.reverseList).setVisible(true);
     }
 
     @Override
@@ -106,6 +118,7 @@ public class TeamListFragment extends AbstractFragment {
         if(!teams.isEmpty()){
             savedTeams.setVisibility(View.GONE);
         }
+        Collections.sort(teams, teamAlphabeticalComparator);
         teamListAdapter = new TeamListAdapter(getActivity(), R.layout.team_list_row, teams);
         teamListView.setAdapter(teamListAdapter);
         importButton.setOnClickListener(buttonOnClickListener);
@@ -183,12 +196,23 @@ public class TeamListFragment extends AbstractFragment {
 
     @Override
     public void sortArrayList(int sortMethod) {
-
+        this.sortMethod = sortMethod;
+        switch(sortMethod) {
+            case 0:
+                Collections.sort(teams, teamAlphabeticalComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
     @Override
     public void reverseArrayList() {
-
+        switch(sortMethod){
+            default:
+                Collections.reverse(teams);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 
     @Override

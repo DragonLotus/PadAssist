@@ -309,7 +309,7 @@ public class MonsterListFragment extends AbstractFragment {
             team.save();
             Log.d("Monster List Log", "Team ID is: " + team.getTeamId() + " Monster Overwrite is: " + team.getMonsterOverwrite());
             if (monsters.get(position).getMonsterId() == 0) {
-                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(), MonsterTabLayoutFragment.TAG);
+                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false), MonsterTabLayoutFragment.TAG);
             }else {
                 ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
             }
