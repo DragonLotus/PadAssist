@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context="com.example.anthony.damagecalculator.Fragments.SortStatsDialogFragment">
+
+    <RadioGroup
+        android:id="@+id/choiceRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="8dp">
+
+        <RadioButton
+            android:id="@+id/element"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Element"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/stats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stats"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Plus"
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/rarity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rarity"
+            android:textSize="16dp" />
+
+    </RadioGroup>
+
+</RelativeLayout>

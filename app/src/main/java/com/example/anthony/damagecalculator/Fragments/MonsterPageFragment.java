@@ -426,10 +426,10 @@ public class MonsterPageFragment extends AbstractFragment {
         }
     };
 
-    private View.OnClickListener monsterPictureOnClickListener = new View.OnClickListener(){
+    private View.OnClickListener monsterPictureOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(monster.isFavorite()){
+            if (monster.isFavorite()) {
                 monster.setFavorite(false);
                 setFavorite();
                 if (toast != null) {
@@ -437,7 +437,7 @@ public class MonsterPageFragment extends AbstractFragment {
                 }
                 toast = Toast.makeText(getActivity(), "Monster unfavorited", Toast.LENGTH_SHORT);
                 toast.show();
-            }else {
+            } else {
                 monster.setFavorite(true);
                 setFavorite();
                 if (toast != null) {
@@ -781,11 +781,11 @@ public class MonsterPageFragment extends AbstractFragment {
         setFavorite();
     }
 
-    public void setFavorite(){
-        if(monster.isFavorite()){
+    public void setFavorite() {
+        if (monster.isFavorite()) {
             favorite.setVisibility(View.VISIBLE);
             favoriteOutline.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             favorite.setVisibility(View.INVISIBLE);
             favoriteOutline.setVisibility(View.INVISIBLE);
         }
@@ -890,44 +890,53 @@ public class MonsterPageFragment extends AbstractFragment {
             deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
             monsterRemoveDialogFragment.dismiss();
         }
+
         @Override
         public void removeMonsterTeam() {
-            Log.d("Monster Page Log", "Position is: " + Team.getTeamById(0).getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
-            Team newTeam = new Team(Team.getTeamById(0));
-            Log.d("Monster Page Log", "Monster Overwrite is: " + newTeam.getMonsterOverwrite());
-            switch (newTeam.getMonsterOverwrite()) {
-                case 0:
-                    newTeam.setLead(Monster.getMonsterId(0));
-                    break;
-                case 1:
-                    newTeam.setSub1(Monster.getMonsterId(0));
-                    break;
-                case 2:
-                    newTeam.setSub2(Monster.getMonsterId(0));
-                    break;
-                case 3:
-                    newTeam.setSub3(Monster.getMonsterId(0));
-                    break;
-                case 4:
-                    newTeam.setSub4(Monster.getMonsterId(0));
-                    break;
-                case 5:
-                    newTeam.setHelper(Monster.getMonsterId(0));
-                    break;
-            }
-            for (int i = 0; i < newTeam.getMonsters().size(); i++) {
-                Log.d("Monster Page Log", "Monster name: " + newTeam.getMonsters(i).getName() + " Monster id: " + newTeam.getMonsters(i).getMonsterId());
-            }
-            newTeam.save();
+            if (Team.getTeamById(0).getMonsterOverwrite() == 0) {
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Log.d("Monster Page Log", "Position is: " + Team.getTeamById(0).getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
+                Team newTeam = new Team(Team.getTeamById(0));
+                Log.d("Monster Page Log", "Monster Overwrite is: " + newTeam.getMonsterOverwrite());
+                switch (newTeam.getMonsterOverwrite()) {
+                    case 0:
+                        newTeam.setLead(Monster.getMonsterId(0));
+                        break;
+                    case 1:
+                        newTeam.setSub1(Monster.getMonsterId(0));
+                        break;
+                    case 2:
+                        newTeam.setSub2(Monster.getMonsterId(0));
+                        break;
+                    case 3:
+                        newTeam.setSub3(Monster.getMonsterId(0));
+                        break;
+                    case 4:
+                        newTeam.setSub4(Monster.getMonsterId(0));
+                        break;
+                    case 5:
+                        newTeam.setHelper(Monster.getMonsterId(0));
+                        break;
+                }
+                for (int i = 0; i < newTeam.getMonsters().size(); i++) {
+                    Log.d("Monster Page Log", "Monster name: " + newTeam.getMonsters(i).getName() + " Monster id: " + newTeam.getMonsters(i).getMonsterId());
+                }
+                newTeam.save();
 //            monster = Monster.getMonsterId(0);
 //            monsterName.setText(monster.getName());
 //            monsterPicture.setImageResource(monster.getMonsterPicture());
 //            setTextViewValues();
 //            initializeEditTexts();
 //            showAwakenings();
-            monsterRemoveDialogFragment.dismiss();
+                monsterRemoveDialogFragment.dismiss();
 //            getChildFragmentManager().popBackStack();
-            getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
         }
 
         @Override
@@ -954,7 +963,7 @@ public class MonsterPageFragment extends AbstractFragment {
         }
     };
 
-    private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout(){
+    private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
             ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId()), MonsterTabLayoutFragment.TAG);
@@ -967,10 +976,10 @@ public class MonsterPageFragment extends AbstractFragment {
         public void resetLayout() {
             ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
             Team newTeam;
-            for(int i = 0; i < teamList.size(); i++){
+            for (int i = 0; i < teamList.size(); i++) {
                 newTeam = teamList.get(i);
-                for(int j = 0; j < newTeam.getMonsters().size(); j++){
-                    if(newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()){
+                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
+                    if (newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()) {
                         newTeam.setMonsters(j, Monster.getMonsterId(0));
                     }
                 }

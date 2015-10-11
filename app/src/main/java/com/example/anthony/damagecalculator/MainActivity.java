@@ -479,6 +479,7 @@ public class MainActivity extends AppCompatActivity {
         menu.setGroupVisible(R.id.searchGroup, false);
         menu.setGroupVisible(R.id.sortGroup, false);
         menu.setGroupVisible(R.id.sortMoreGroup, false);
+        menu.setGroupVisible(R.id.sortTeam, false);
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
 //        Log.d("What is fragment", "" + fragment);
 //        if(fragment instanceof MonsterListFragment){
@@ -530,6 +531,10 @@ public class MainActivity extends AppCompatActivity {
             mContent.sortArrayList(8);
         } else if (id == R.id.sortLevel) {
             mContent.sortArrayList(9);
+        } else if (id == R.id.sortLead) {
+            mContent.sortArrayList(10);
+        } else if (id == R.id.sortHelper) {
+            mContent.sortArrayList(11);
         }
 
         return super.onOptionsItemSelected(item);

@@ -85,5 +85,16 @@
             app:showAsAction="never" />
     </group>
 
+    <group android:id="@+id/sortTeam">
+        <item
+            android:id="@+id/sortLead"
+            android:title="Sort by Leader"
+            app:showAsAction="never" />
+        <item
+            android:id="@+id/sortHelper"
+            android:title="Sort by Helper"
+            app:showAsAction="never" />
+    </group>
+
 
 </menu>

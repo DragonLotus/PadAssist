@@ -59,6 +59,8 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
             viewHolder.monster4Picture = (ImageView) convertView.findViewById(R.id.monster4Picture);
             viewHolder.monster5Picture = (ImageView) convertView.findViewById(R.id.monster5Picture);
             viewHolder.monster6Picture = (ImageView) convertView.findViewById(R.id.monster6Picture);
+            viewHolder.favorite = (ImageView) convertView.findViewById(R.id.favorite);
+            viewHolder.favoriteOutline = (ImageView) convertView.findViewById(R.id.favoriteOutline);
 
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
@@ -86,6 +88,13 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         viewHolder.monster6Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(5).getTotalPlus()) + " ");
         viewHolder.monster6Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(5).getCurrentAwakenings()));
         viewHolder.monster6Picture.setImageResource(teamList.get(position).getMonsters(5).getMonsterPicture());
+
+        viewHolder.favorite.setColorFilter(0xFFFFAADD);
+        if(teamList.get(position).isFavorite()){
+            viewHolder.favorite.setVisibility(View.VISIBLE);
+        }else {
+            viewHolder.favorite.setVisibility(View.INVISIBLE);
+        }
 
         if (teamList.get(position).getMonsters(0).getCurrentAwakenings() == teamList.get(position).getMonsters(0).getMaxAwakenings()) {
             viewHolder.monster1Awakenings.setBackgroundResource(R.drawable.awakening_max);
@@ -160,7 +169,7 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
 
     static class ViewHolder {
         TextView teamName, monster1Plus, monster1Awakenings, monster2Plus, monster2Awakenings, monster3Plus, monster3Awakenings, monster4Plus, monster4Awakenings, monster5Plus, monster5Awakenings, monster6Plus, monster6Awakenings;
-        ImageView monster1Picture, monster2Picture, monster3Picture, monster4Picture, monster5Picture, monster6Picture;
+        ImageView monster1Picture, monster2Picture, monster3Picture, monster4Picture, monster5Picture, monster6Picture, favorite, favoriteOutline;
 
     }
 

@@ -421,6 +421,14 @@ public class Team extends Model implements Parcelable {
         this.isActiveSkillUsed = isActiveSkillUsed;
     }
 
+    public Boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        this.favorite = favorite;
+    }
+
     public void update() {
         //Case Switch thing for each color. 5 elements for 5 colors. 0 red, 1 blue, 2 green, 3 light, 4 dark
         //Check for monster bound

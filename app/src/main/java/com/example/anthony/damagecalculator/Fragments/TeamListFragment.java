@@ -1,6 +1,5 @@
 package com.example.anthony.damagecalculator.Fragments;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,15 +15,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Adapters.TeamListAdapter;
-import com.example.anthony.damagecalculator.Data.Enemy;
-import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
-import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.TeamAlphabeticalComparator;
+import com.example.anthony.damagecalculator.Util.TeamFavoriteComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderAtkComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderElement1Comparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderElement2Comparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderHpComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderPlusAtkComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderPlusComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderPlusHpComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderPlusRcvComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderRarityComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderRcvComparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderType1Comparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderType2Comparator;
+import com.example.anthony.damagecalculator.Util.TeamLeaderType3Comparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,13 +58,32 @@ public class TeamListFragment extends AbstractFragment {
     private ArrayList<Team> teams;
     private TeamListAdapter teamListAdapter;
     private Button importButton;
-    private Boolean loggedIn=false;
+    private Boolean loggedIn = false;
     private TextView savedTeams;
     private LoginDialogFragment loginDialogFragment = new LoginDialogFragment();
+    private SortElementDialogFragment sortElementDialogFragment;
+    private SortTypeDialogFragment sortTypeDialogFragment;
+    private SortStatsDialogFragment sortStatsDialogFragment;
+    private SortPlusDialogFragment sortPlusDialogFragment;
     private TeamLoadDialogFragment teamLoadDialogFragment;
     private int selectedTeam, sortMethod;
     private OnFragmentInteractionListener mListener;
+    private SortLeaderDialogFragment sortLeaderDialogFragment;
     private TeamAlphabeticalComparator teamAlphabeticalComparator = new TeamAlphabeticalComparator();
+    private Comparator<Team> teamLeaderElement1Comparator = new TeamLeaderElement1Comparator();
+    private Comparator<Team> teamLeaderElement2Comparator = new TeamLeaderElement2Comparator();
+    private Comparator<Team> teamLeaderType1Comparator = new TeamLeaderType1Comparator();
+    private Comparator<Team> teamLeaderType2Comparator = new TeamLeaderType2Comparator();
+    private Comparator<Team> teamLeaderType3Comparator = new TeamLeaderType3Comparator();
+    private Comparator<Team> teamLeaderHpComparator = new TeamLeaderHpComparator();
+    private Comparator<Team> teamLeaderAtkComparator = new TeamLeaderAtkComparator();
+    private Comparator<Team> teamLeaderRcvComparator = new TeamLeaderRcvComparator();
+    private Comparator<Team> teamLeaderPlusComparator = new TeamLeaderPlusComparator();
+    private Comparator<Team> teamLeaderPlusHpComparator = new TeamLeaderPlusHpComparator();
+    private Comparator<Team> teamLeaderPlusAtkComparator = new TeamLeaderPlusAtkComparator();
+    private Comparator<Team> teamLeaderPlusRcvComparator = new TeamLeaderPlusRcvComparator();
+    private Comparator<Team> teamLeaderRarityComparator = new TeamLeaderRarityComparator();
+    private Comparator<Team> teamFavoriteComparator = new TeamFavoriteComparator();
 
     /**
      * Use this factory method to create a new instance of
@@ -90,6 +120,8 @@ public class TeamListFragment extends AbstractFragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.findItem(R.id.sortAlphabetical).setVisible(true);
         menu.findItem(R.id.reverseList).setVisible(true);
+        menu.setGroupVisible(R.id.sortTeam, true);
+        menu.findItem(R.id.sortFavorite).setVisible(true);
     }
 
     @Override
@@ -106,19 +138,19 @@ public class TeamListFragment extends AbstractFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(getArguments() != null){
+        if (getArguments() != null) {
 
         }
         teams = (ArrayList) Team.getAllTeams();
-        if(teams.size() != 0){
-            for(int i = 0; i < teams.size(); i++) {
+        if (teams.size() != 0) {
+            for (int i = 0; i < teams.size(); i++) {
                 Log.d("Team log", "Team name: " + teams.get(i).getTeamName() + ", Team Monsters: " + teams.get(i).getMonsters() + ", Team Id: " + teams.get(i).getTeamId());
             }
         }
-        if(!teams.isEmpty()){
+        if (!teams.isEmpty()) {
             savedTeams.setVisibility(View.GONE);
         }
-        Collections.sort(teams, teamAlphabeticalComparator);
+        Collections.sort(teams, teamLeaderElement1Comparator);
         teamListAdapter = new TeamListAdapter(getActivity(), R.layout.team_list_row, teams);
         teamListView.setAdapter(teamListAdapter);
         importButton.setOnClickListener(buttonOnClickListener);
@@ -146,7 +178,7 @@ public class TeamListFragment extends AbstractFragment {
         }
     }
 
-    private ListView.OnItemClickListener teamListOnClickListener = new ListView.OnItemClickListener(){
+    private ListView.OnItemClickListener teamListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectedTeam = position;
@@ -159,7 +191,7 @@ public class TeamListFragment extends AbstractFragment {
         }
     };
 
-    private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam(){
+    private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam() {
         @Override
         public void loadTeam() {
             Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
@@ -186,9 +218,9 @@ public class TeamListFragment extends AbstractFragment {
             teams.remove(selectedTeam);
             Log.d("Team List Log", "Team size is: " + teams.size());
             teamListAdapter.notifyDataSetChanged();
-            if(teams.size() == 0){
+            if (teams.size() == 0) {
                 savedTeams.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 savedTeams.setVisibility(View.GONE);
             }
         }
@@ -197,8 +229,22 @@ public class TeamListFragment extends AbstractFragment {
     @Override
     public void sortArrayList(int sortMethod) {
         this.sortMethod = sortMethod;
-        switch(sortMethod) {
+        switch (sortMethod) {
             case 0:
+                Collections.sort(teams, teamAlphabeticalComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 8:
+                Collections.sort(teams, teamFavoriteComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 10:
+                if (sortLeaderDialogFragment == null) {
+                    sortLeaderDialogFragment = SortLeaderDialogFragment.newInstance(sortByLead);
+                }
+                sortLeaderDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                break;
+            case 11:
                 Collections.sort(teams, teamAlphabeticalComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
@@ -207,13 +253,146 @@ public class TeamListFragment extends AbstractFragment {
 
     @Override
     public void reverseArrayList() {
-        switch(sortMethod){
+        switch (sortMethod) {
             default:
                 Collections.reverse(teams);
                 teamListAdapter.notifyDataSetChanged();
                 break;
         }
     }
+
+    private SortLeaderDialogFragment.SortBy sortByLead = new SortLeaderDialogFragment.SortBy() {
+        @Override
+        public void sortElement() {
+            if (sortElementDialogFragment == null) {
+                sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
+            }
+            sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+        }
+
+        @Override
+        public void sortType() {
+            if (sortTypeDialogFragment == null) {
+                sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
+            }
+            sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+        }
+
+        @Override
+        public void sortStats() {
+            if (sortStatsDialogFragment == null) {
+                sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
+            }
+            sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+        }
+
+        @Override
+        public void sortPlus() {
+            if (sortPlusDialogFragment == null) {
+                sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
+            }
+            sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+        }
+
+        @Override
+        public void sortRarity() {
+            sortMethod = 1001;
+            Collections.sort(teams, teamLeaderRarityComparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy() {
+        @Override
+        public void sortElement1() {
+            sortMethod = 201;
+            Collections.sort(teams, teamLeaderElement1Comparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortElement2() {
+            sortMethod = 202;
+            Collections.sort(teams, teamLeaderElement2Comparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy() {
+        @Override
+        public void sortType1() {
+            sortMethod = 301;
+            Collections.sort(teams, teamLeaderType1Comparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortType2() {
+            sortMethod = 302;
+            Collections.sort(teams, teamLeaderType2Comparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortType3() {
+            sortMethod = 303;
+            Collections.sort(teams, teamLeaderType3Comparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private SortStatsDialogFragment.SortBy sortByStats = new SortStatsDialogFragment.SortBy() {
+        @Override
+        public void sortHp() {
+            sortMethod = 401;
+            Collections.sort(teams, teamLeaderHpComparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortAtk() {
+            sortMethod = 402;
+            Collections.sort(teams, teamLeaderAtkComparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortRcv() {
+            sortMethod = 403;
+            Collections.sort(teams, teamLeaderRcvComparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private SortPlusDialogFragment.SortBy sortByPlus = new SortPlusDialogFragment.SortBy() {
+        @Override
+        public void sortTotal() {
+            sortMethod = 701;
+            Collections.sort(teams, teamLeaderPlusComparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortHp() {
+            sortMethod = 702;
+            Collections.sort(teams, teamLeaderPlusHpComparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortAtk() {
+            sortMethod = 703;
+            Collections.sort(teams, teamLeaderPlusAtkComparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortRcv() {
+            sortMethod = 704;
+            Collections.sort(teams, teamLeaderPlusRcvComparator);
+            teamListAdapter.notifyDataSetChanged();
+        }
+    };
 
     @Override
     public void onDetach() {

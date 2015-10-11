@@ -28,7 +28,19 @@ public class MonsterFavoriteComparator implements Comparator<Monster> {
             } else {
                 return -1;
             }
-        } else {
+        } else if(!lhs.isFavorite() && !rhs.isFavorite()){
+            if (lhs.getElement1Int() > rhs.getElement1Int()) {
+                return 1;
+            } else if (lhs.getElement1Int() == rhs.getElement1Int()) {
+                if (lhs.getBaseMonsterId() > rhs.getBaseMonsterId()) {
+                    return 1;
+                } else {
+                    return -1;
+                }
+            } else {
+                return -1;
+            }
+        }else {
             return -1;
         }
     }
