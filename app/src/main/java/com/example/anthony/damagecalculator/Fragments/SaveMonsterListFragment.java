@@ -117,10 +117,12 @@ public class SaveMonsterListFragment extends AbstractFragment {
             replaceAll = getArguments().getBoolean("replaceAll");
         }
         monsterList = (ArrayList) Monster.getAllMonsters();
-        if(monsterList.size() == 0){
+        if(monsterList.size() == 1){
             savedMonsters.setVisibility(View.VISIBLE);
+            monsterListView.setVisibility(View.GONE);
         }else{
             savedMonsters.setVisibility(View.GONE);
+            monsterListView.setVisibility(View.VISIBLE);
         }
         Collections.sort(monsterList, monsterFavoriteComparator);
         //disableStuff();

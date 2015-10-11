@@ -496,6 +496,10 @@ public class Monster extends Model implements Parcelable {
         new Delete().from(Monster.class).execute();
     }
 
+    public static void deleteMonsterById(long id){
+        new Delete().from(Monster.class).where("monsterId = ?", id).executeSingle();
+    }
+
     public static List<Monster> getAllMonstersLevel(int level) {
         return new Select().from(Monster.class).where("currentLevel = ?", level).execute();
     }

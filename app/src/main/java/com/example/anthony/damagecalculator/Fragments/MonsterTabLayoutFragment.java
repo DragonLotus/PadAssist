@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterPagerAdapter;
+import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.R;
 
 /**
@@ -74,6 +75,10 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
         Log.d("MonsterTab", "monsterPagerAdapter is: " + monsterPagerAdapter);
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        if(Monster.getAllMonsters().size() <= 1){
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            tab.select();
+        }
     }
 
     @Override

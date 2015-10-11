@@ -249,6 +249,30 @@ public class Team extends Model implements Parcelable {
         setHelper(monster6);
     }
 
+    public void setMonsters(int position, Monster monster){
+        monsters.set(position, monster);
+        switch(position){
+            case 0:
+                setLead(monster);
+                break;
+            case 1:
+                setSub1(monster);
+                break;
+            case 2:
+                setSub2(monster);
+                break;
+            case 3:
+                setSub3(monster);
+                break;
+            case 4:
+                setSub4(monster);
+                break;
+            case 5:
+                setHelper(monster);
+                break;
+        }
+    }
+
     public Monster getSub1() {
         return sub1;
     }
@@ -540,6 +564,9 @@ public class Team extends Model implements Parcelable {
         return new Select().from(Team.class).where("teamId > ?", 0).execute();
     }
 
+    public static List<Team> getAllTeamsAndZero(){
+        return new Select().from(Team.class).execute();
+    }
 
     public static Team getTeamById(long id) {
         return new Select().from(Team.class).where("teamId = ?", id).executeSingle();

@@ -28,6 +28,8 @@ import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
+import java.util.ArrayList;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -962,7 +964,23 @@ public class MonsterPageFragment extends AbstractFragment {
     private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-
+            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+            Team newTeam;
+            long removeMonsterId = monster.getMonsterId();
+            for(int i = 0; i < teamList.size(); i++){
+                newTeam = teamList.get(i);
+                Log.d("Monster Page Log", "newTeam is: " + newTeam);
+                for(int j = 0; j < newTeam.getMonsters().size(); j++){
+                    if(newTeam.getMonsters().get(j).getMonsterId() == removeMonsterId){
+                        newTeam.setMonsters(j, Monster.getMonsterId(0));
+                    }
+                }
+                newTeam.save();
+            }
+            Log.d("Monster Page Log", "removeMonsterId is: " + removeMonsterId);
+            Log.d("Monster Page Log", "monsterId is: " + monster.getMonsterId());
+            monster.delete();
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 
