@@ -17,6 +17,7 @@ import com.example.anthony.damagecalculator.Adapters.BaseMonsterListAdapter;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
+import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.BaseMonsterAlphabeticalComparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterAtkComparator;
@@ -40,7 +41,8 @@ public class BaseMonsterListFragment extends AbstractFragment {
     public static final String TAG = BaseMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
     private int sortMethod;
-    private boolean reverse;
+    private boolean replaceAll;
+    private long replaceMonsterId;
     private ListView monsterListView;
     private ArrayList<BaseMonster> monsterList;
     private BaseMonsterListAdapter baseMonsterListAdapter;
@@ -61,9 +63,11 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private Comparator<BaseMonster> monsterRarityComparator = new BaseMonsterRarityComparator();
     private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
 
-    public static BaseMonsterListFragment newInstance() {
+    public static BaseMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId) {
         BaseMonsterListFragment fragment = new BaseMonsterListFragment();
         Bundle args = new Bundle();
+        args.putLong("replaceMonsterId", replaceMonsterId);
+        args.putBoolean("replaceAll", replaceAll);
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,6 +99,8 @@ public class BaseMonsterListFragment extends AbstractFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
+            replaceAll = getArguments().getBoolean("replaceAll");
+            replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
         monsterList = (ArrayList) BaseMonster.getAllMonsters();
         Log.d("Base Monster List Log", "monsterList is before: " + monsterList);
@@ -115,6 +121,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             Team newTeam = new Team(Team.getTeamById(0));
             Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
             if (monsterList.get(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0) {
@@ -133,55 +140,75 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
                     newMonster.save();
                 }
-                Log.d("Base Monster Log", "New Monster Id: " + newMonster.getMonsterId());
-                if (newMonster.getMonsterId() == 0) {
-                    switch (newTeam.getMonsterOverwrite()) {
-                        case 0:
-                            newTeam.setLead(Monster.getMonsterId(0));
-                            break;
-                        case 1:
-                            newTeam.setSub1(Monster.getMonsterId(0));
-                            break;
-                        case 2:
-                            newTeam.setSub2(Monster.getMonsterId(0));
-                            break;
-                        case 3:
-                            newTeam.setSub3(Monster.getMonsterId(0));
-                            break;
-                        case 4:
-                            newTeam.setSub4(Monster.getMonsterId(0));
-                            break;
-                        case 5:
-                            newTeam.setHelper(Monster.getMonsterId(0));
-                            break;
+                if (replaceAll) {
+                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+                    Team replaceTeam;
+                    for (int i = 0; i < teamList.size(); i++) {
+                        replaceTeam = teamList.get(i);
+                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
+                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
+                                replaceTeam.setMonsters(j, newMonster);
+                            }
+                        }
+                        replaceTeam.save();
                     }
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    //getActivity().getSupportFragmentManager().popBackStack();
                 } else {
-                    switch (newTeam.getMonsterOverwrite()) {
-                        case 0:
-                            newTeam.setLead(newMonster);
-                            break;
-                        case 1:
-                            newTeam.setSub1(newMonster);
-                            break;
-                        case 2:
-                            newTeam.setSub2(newMonster);
-                            break;
-                        case 3:
-                            newTeam.setSub3(newMonster);
-                            break;
-                        case 4:
-                            newTeam.setSub4(newMonster);
-                            break;
-                        case 5:
-                            newTeam.setHelper(newMonster);
-                            break;
+                    Log.d("Base Monster Log", "New Monster Id: " + newMonster.getMonsterId());
+                    if (newMonster.getMonsterId() == 0) {
+                        switch (newTeam.getMonsterOverwrite()) {
+                            case 0:
+                                newTeam.setLead(Monster.getMonsterId(0));
+                                break;
+                            case 1:
+                                newTeam.setSub1(Monster.getMonsterId(0));
+                                break;
+                            case 2:
+                                newTeam.setSub2(Monster.getMonsterId(0));
+                                break;
+                            case 3:
+                                newTeam.setSub3(Monster.getMonsterId(0));
+                                break;
+                            case 4:
+                                newTeam.setSub4(Monster.getMonsterId(0));
+                                break;
+                            case 5:
+                                newTeam.setHelper(Monster.getMonsterId(0));
+                                break;
+                        }
+                    } else {
+                        switch (newTeam.getMonsterOverwrite()) {
+                            case 0:
+                                newTeam.setLead(newMonster);
+                                break;
+                            case 1:
+                                newTeam.setSub1(newMonster);
+                                break;
+                            case 2:
+                                newTeam.setSub2(newMonster);
+                                break;
+                            case 3:
+                                newTeam.setSub3(newMonster);
+                                break;
+                            case 4:
+                                newTeam.setSub4(newMonster);
+                                break;
+                            case 5:
+                                newTeam.setHelper(newMonster);
+                                break;
+                        }
+                    }
+                    newTeam.save();
+                    Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
+                    Log.d("Base Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    if (replaceMonsterId == 0){
+                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
                     }
                 }
-                newTeam.save();
-                Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
-                Log.d("Base Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
-                getActivity().getSupportFragmentManager().popBackStack();
             }
+
 
         }
     };

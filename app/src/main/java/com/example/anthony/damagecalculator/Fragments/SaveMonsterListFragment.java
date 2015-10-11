@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.anthony.damagecalculator.Adapters.SaveMonsterListAdapter;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
+import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.MonsterAlphabeticalComparator;
 import com.example.anthony.damagecalculator.Util.MonsterAtkComparator;
@@ -54,6 +55,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private Toast toast;
     private TextView savedMonsters;
     private boolean replaceAll;
+    private long replaceMonsterId;
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -77,10 +79,11 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private Comparator<Monster> monsterLevelComparator = new MonsterLevelComparator();
     private Comparator<Monster> monsterFavoriteComparator = new MonsterFavoriteComparator();
 
-    public static SaveMonsterListFragment newInstance(boolean replaceAll) {
+    public static SaveMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId) {
         SaveMonsterListFragment fragment = new SaveMonsterListFragment();
         Bundle args = new Bundle();
         args.putBoolean("replaceAll", replaceAll);
+        args.putLong("replaceMonsterId", replaceMonsterId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -115,12 +118,13 @@ public class SaveMonsterListFragment extends AbstractFragment {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
             replaceAll = getArguments().getBoolean("replaceAll");
+            replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
         monsterList = (ArrayList) Monster.getAllMonsters();
-        if(monsterList.size() == 1){
+        if (monsterList.size() == 1) {
             savedMonsters.setVisibility(View.VISIBLE);
             monsterListView.setVisibility(View.GONE);
-        }else{
+        } else {
             savedMonsters.setVisibility(View.GONE);
             monsterListView.setVisibility(View.VISIBLE);
         }
@@ -134,49 +138,73 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
             Team newTeam = new Team(Team.getTeamById(0));
-            if(monsterList.get(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0){
+            if (monsterList.get(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0) {
                 if (toast != null) {
                     toast.cancel();
                 }
                 toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
                 toast.show();
-            }else {
-                switch (newTeam.getMonsterOverwrite()) {
-                    case 0:
-                        newTeam.setLead(monsterList.get(position));
-                        break;
-                    case 1:
-                        newTeam.setSub1(monsterList.get(position));
-                        break;
-                    case 2:
-                        newTeam.setSub2(monsterList.get(position));
-                        break;
-                    case 3:
-                        newTeam.setSub3(monsterList.get(position));
-                        break;
-                    case 4:
-                        newTeam.setSub4(monsterList.get(position));
-                        break;
-                    case 5:
-                        newTeam.setHelper(monsterList.get(position));
-                        break;
+            } else {
+                if (replaceAll) {
+                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+                    Team replaceTeam;
+                    for (int i = 0; i < teamList.size(); i++) {
+                        replaceTeam = teamList.get(i);
+                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
+                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
+                                replaceTeam.setMonsters(j, monsterList.get(position));
+                            }
+                        }
+                        replaceTeam.save();
+                    }
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+
+
+                    switch (newTeam.getMonsterOverwrite()) {
+                        case 0:
+                            newTeam.setLead(monsterList.get(position));
+                            break;
+                        case 1:
+                            newTeam.setSub1(monsterList.get(position));
+                            break;
+                        case 2:
+                            newTeam.setSub2(monsterList.get(position));
+                            break;
+                        case 3:
+                            newTeam.setSub3(monsterList.get(position));
+                            break;
+                        case 4:
+                            newTeam.setSub4(monsterList.get(position));
+                            break;
+                        case 5:
+                            newTeam.setHelper(monsterList.get(position));
+                            break;
+                    }
+                    newTeam.save();
+                    Log.d("Save Monster Log", "Team is: " + newTeam.getMonsters());
+                    Log.d("Save Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
+                    getActivity().getSupportFragmentManager().popBackStack();
+//                    if (replaceMonsterId == 0){
+//                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
+//                    }
                 }
-                newTeam.save();
-                Log.d("Save Monster Log", "Team is: " + newTeam.getMonsters());
-                Log.d("Save Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
-                getActivity().getSupportFragmentManager().popBackStack();
             }
+
         }
     };
 
-    private void disableStuff(){
-        for (int i = 0; i < monsterList.size(); i++){
-            if(monsterList.get(i).getMonsterId() == Team.getTeamById(0).getLead().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub1().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub2().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub3().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub4().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getHelper().getMonsterId()){
+    private void disableStuff() {
+        for (int i = 0; i < monsterList.size(); i++) {
+            if (monsterList.get(i).getMonsterId() == Team.getTeamById(0).getLead().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub1().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub2().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub3().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub4().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getHelper().getMonsterId()) {
                 monsterList.remove(i);
             }
         }
     }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -195,7 +223,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void onFragmentInteraction(Uri uri);
     }
 
-    private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy(){
+    private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy() {
         @Override
         public void sortElement1() {
             sortMethod = 201;
@@ -211,7 +239,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         }
     };
 
-    private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy(){
+    private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy() {
         @Override
         public void sortType1() {
             sortMethod = 301;
@@ -290,7 +318,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     @Override
     public void sortArrayList(int sortMethod) {
         this.sortMethod = sortMethod;
-        switch(sortMethod){
+        switch (sortMethod) {
             case 0:
                 Collections.sort(monsterList, monsterAlphabeticalComparator);
                 saveMonsterListAdapter.notifyDataSetChanged();
@@ -344,7 +372,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
 
     @Override
     public void reverseArrayList() {
-        switch(sortMethod){
+        switch (sortMethod) {
             case 202:
                 element2Reverse();
                 saveMonsterListAdapter.notifyDataSetChanged();
@@ -365,57 +393,57 @@ public class SaveMonsterListFragment extends AbstractFragment {
         }
     }
 
-    private void defaultReverse(){
+    private void defaultReverse() {
         Collections.reverse(monsterList);
         monsterList.remove(Monster.getMonsterId(0));
         monsterList.add(0, Monster.getMonsterId(0));
     }
 
-    private void element2Reverse(){
+    private void element2Reverse() {
         ArrayList<Monster> sorting = new ArrayList<>();
-        for (int i = 0; i < monsterList.size(); i++){
-            if(monsterList.get(i).getElement2Int() >= 0){
+        for (int i = 0; i < monsterList.size(); i++) {
+            if (monsterList.get(i).getElement2Int() >= 0) {
                 sorting.add(monsterList.get(i));
                 monsterList.remove(i);
                 i--;
             }
         }
         Collections.reverse(sorting);
-        for(int i = 0; i < sorting.size(); i++){
+        for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
         monsterList.remove(Monster.getMonsterId(0));
         monsterList.add(0, Monster.getMonsterId(0));
     }
 
-    private void type2Reverse(){
+    private void type2Reverse() {
         ArrayList<Monster> sorting = new ArrayList<>();
-        for (int i = 0; i < monsterList.size(); i++){
-            if(monsterList.get(i).getType2() >= 0){
+        for (int i = 0; i < monsterList.size(); i++) {
+            if (monsterList.get(i).getType2() >= 0) {
                 sorting.add(monsterList.get(i));
                 monsterList.remove(i);
                 i--;
             }
         }
         Collections.reverse(sorting);
-        for(int i = 0; i < sorting.size(); i++){
+        for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
         monsterList.remove(Monster.getMonsterId(0));
         monsterList.add(0, Monster.getMonsterId(0));
     }
 
-    private void type3Reverse(){
+    private void type3Reverse() {
         ArrayList<Monster> sorting = new ArrayList<>();
-        for (int i = 0; i < monsterList.size(); i++){
-            if(monsterList.get(i).getType3() >= 0){
+        for (int i = 0; i < monsterList.size(); i++) {
+            if (monsterList.get(i).getType3() >= 0) {
                 sorting.add(monsterList.get(i));
                 monsterList.remove(i);
                 i--;
             }
         }
         Collections.reverse(sorting);
-        for(int i = 0; i < sorting.size(); i++){
+        for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
         monsterList.remove(Monster.getMonsterId(0));

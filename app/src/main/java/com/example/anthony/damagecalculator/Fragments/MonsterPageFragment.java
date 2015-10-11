@@ -949,7 +949,7 @@ public class MonsterPageFragment extends AbstractFragment {
 
         @Override
         public void replaceMonster() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false), MonsterTabLayoutFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 1), MonsterTabLayoutFragment.TAG);
             monsterRemoveDialogFragment.dismiss();
         }
     };
@@ -957,7 +957,8 @@ public class MonsterPageFragment extends AbstractFragment {
     private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout(){
         @Override
         public void resetLayout() {
-
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId()), MonsterTabLayoutFragment.TAG);
+            replaceConfirmationDialog.dismiss();
         }
     };
 
@@ -966,18 +967,15 @@ public class MonsterPageFragment extends AbstractFragment {
         public void resetLayout() {
             ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
             Team newTeam;
-            long removeMonsterId = monster.getMonsterId();
             for(int i = 0; i < teamList.size(); i++){
                 newTeam = teamList.get(i);
-                Log.d("Monster Page Log", "newTeam is: " + newTeam);
                 for(int j = 0; j < newTeam.getMonsters().size(); j++){
-                    if(newTeam.getMonsters().get(j).getMonsterId() == removeMonsterId){
+                    if(newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()){
                         newTeam.setMonsters(j, Monster.getMonsterId(0));
                     }
                 }
                 newTeam.save();
             }
-            Log.d("Monster Page Log", "removeMonsterId is: " + removeMonsterId);
             Log.d("Monster Page Log", "monsterId is: " + monster.getMonsterId());
             monster.delete();
             getActivity().getSupportFragmentManager().popBackStack();
