@@ -102,6 +102,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.sortGroup, true);
         menu.setGroupVisible(R.id.sortMoreGroup, true);
+        menu.findItem(R.id.search).setVisible(true);
     }
 
     @Override

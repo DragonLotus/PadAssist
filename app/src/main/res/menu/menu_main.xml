@@ -2,6 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/search"
+        android:title="Search"
+        android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
+        android:actionViewClass="android.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom"/>
+
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
@@ -23,9 +31,9 @@
 
     <group android:id="@+id/searchGroup">
         <item
-            android:id="@+id/searchMonsters"
-            android:icon="@drawable/abc_ic_search_api_mtrl_alpha"
-            android:title="Search Monsters"
+            android:id="@+id/monsterList"
+            android:icon="@drawable/list_view"
+            android:title="Monster List"
             app:showAsAction="ifRoom" />
     </group>
 

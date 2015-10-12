@@ -93,6 +93,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.sortGroup, true);
+        menu.findItem(R.id.search).setVisible(true);
     }
 
     @Override

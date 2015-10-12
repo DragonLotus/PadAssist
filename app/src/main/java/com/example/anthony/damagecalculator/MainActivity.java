@@ -1,12 +1,14 @@
 package com.example.anthony.damagecalculator;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.support.v7.widget.SearchView;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
@@ -27,7 +30,6 @@ import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.AbstractFragment;
-import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterTabLayoutFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamListFragment;
@@ -56,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
     private AbstractFragment mContent;
     private Enemy enemy;
     private Team team;
+    private MenuItem searchMenuItem;
+    private SearchView searchView;
     private TeamSaveDialogFragment teamSaveDialogFragment;
 
     @Override
@@ -484,6 +488,11 @@ public class MainActivity extends AppCompatActivity {
         menu.setGroupVisible(R.id.sortGroup, false);
         menu.setGroupVisible(R.id.sortMoreGroup, false);
         menu.setGroupVisible(R.id.sortTeam, false);
+        menu.findItem(R.id.search).setVisible(false);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        searchView.setSearchableInfo();
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
 //        Log.d("What is fragment", "" + fragment);
 //        if(fragment instanceof MonsterListFragment){
@@ -511,7 +520,7 @@ public class MainActivity extends AppCompatActivity {
             teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
         } else if (id == R.id.loadTeam) {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
-        } else if (id == R.id.searchMonsters) {
+        } else if (id == R.id.monsterList) {
             switchFragment(MonsterTabLayoutFragment.newInstance(false, 1), MonsterTabLayoutFragment.TAG);
         } else if (id == R.id.reverseList) {
             mContent.reverseArrayList();
