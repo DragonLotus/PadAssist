@@ -452,11 +452,12 @@ public class MonsterPageFragment extends AbstractFragment {
 
     public void showAwakenings() {
         // Show max # of awakenings
-        int i = 0;
-        View view = null;
-        for (i = monster.getMaxAwakenings(); i < 9; i++) {
-            view = awakeningHolder.getChildAt(i);
-            view.setVisibility(View.GONE);
+        for(int i = 0; i < 9; i++){
+            if(i >= monster.getMaxAwakenings()){
+                awakeningHolder.getChildAt(i).setVisibility(View.GONE);
+            }else {
+                awakeningHolder.getChildAt(i).setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -971,7 +972,8 @@ public class MonsterPageFragment extends AbstractFragment {
                     monster.setCurrentAwakenings(monster.getMaxAwakenings());
                 }
                 monster.save();
-                Log.d("Monster Page Log", "Monster attack is: " + monster.getTotalAtk());
+                rarity.setText("" + monster.getRarity());
+                Log.d("Monster Page Log", "Monster attack is: " + monster.getTotalAtk() + " Monster max awakenings is: " + monster.getMaxAwakenings() + " Monster rarity is: " + monster.getRarity());
                 initBackup();
                 monsterPicture.setImageResource(monster.getMonsterPicture());
                 monsterName.setText(monster.getName());
