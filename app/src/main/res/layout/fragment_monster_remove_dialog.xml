@@ -1,23 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingRight="16dp"
     android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context="com.example.anthony.damagecalculator.Fragments.MonsterRemoveDialogFragment">
 
     <CheckBox
         android:id="@+id/favoriteCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:layout_marginTop="8dp"
         android:text="Favorite"
-        android:layout_marginTop="8dp"/>
+        android:textSize="16dp" />
 
     <RadioGroup
         android:id="@+id/choiceRadioGroup"
-        android:layout_below="@id/favoriteCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/favoriteCheck"
         android:orientation="vertical">
 
         <RadioButton
@@ -25,28 +26,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Replace on current team"
-            android:textSize="16dp"/>
+            android:textSize="16dp" />
 
         <RadioButton
             android:id="@+id/replaceAllTeams"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Replace on all teams"
-            android:textSize="16dp"/>
+            android:textSize="16dp" />
 
         <RadioButton
             android:id="@+id/removeTeam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remove from team"
-            android:textSize="16dp"/>
+            android:textSize="16dp" />
+
+        <RadioButton
+            android:id="@+id/evolveMonster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Evolve monster"
+            android:textSize="16dp" />
 
         <RadioButton
             android:id="@+id/removeDatabase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Remove saved monster"
-            android:textSize="16dp"/>
+            android:textSize="16dp" />
     </RadioGroup>
+
+    <Spinner
+        android:id="@+id/evolutionSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/choiceRadioGroup"/>
 
 </RelativeLayout>

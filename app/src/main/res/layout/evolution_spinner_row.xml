@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/monsterPicture"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/monster_1218"
+        android:layout_marginRight="4dp"/>
+
+    <TextView
+        android:id="@+id/monsterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:layout_toRightOf="@+id/monsterPicture"
+        android:ellipsize="marquee"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="Monster name"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/rarity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterName"
+        android:layout_toRightOf="@+id/monsterPicture"
+        android:text="8"
+        android:textSize="16dp"/>
+
+    <ImageView
+        android:id="@+id/rarityStar"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_toRightOf="@+id/rarity"
+        android:layout_alignTop="@+id/rarity"
+        android:layout_alignBottom="@+id/rarity"
+        android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"
+        android:layout_marginRight="4dp"/>
+
+    <!--<TextView-->
+        <!--android:id="@+id/monsterHP"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/monsterName"-->
+        <!--android:layout_toRightOf="@+id/rarityStar"-->
+        <!--android:text="1337"-->
+        <!--android:textSize="16dp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/monsterATK"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/monsterName"-->
+        <!--android:layout_toRightOf="@+id/monsterHP"-->
+        <!--android:text="1337"-->
+        <!--android:textSize="16dp" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/monsterRCV"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@+id/monsterName"-->
+        <!--android:layout_toRightOf="@+id/monsterATK"-->
+        <!--android:text="1337"-->
+        <!--android:textSize="16dp" />-->
+
+    <ImageView
+        android:id="@+id/type1"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/rarityStar"
+        android:layout_alignTop="@+id/rarityStar"
+        android:layout_toRightOf="@+id/rarityStar"
+        android:gravity="center_vertical"
+        android:src="@drawable/type_balanced"/>
+
+    <ImageView
+        android:id="@+id/type2"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/rarityStar"
+        android:layout_alignTop="@+id/rarityStar"
+        android:layout_toRightOf="@+id/type1"
+        android:gravity="center_vertical"
+        android:src="@drawable/type_balanced"/>
+
+    <ImageView
+        android:id="@+id/type3"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignBottom="@+id/rarityStar"
+        android:layout_alignTop="@+id/rarityStar"
+        android:layout_toRightOf="@+id/type2"
+        android:gravity="center_vertical"
+        android:src="@drawable/type_balanced" />
+
+</RelativeLayout>

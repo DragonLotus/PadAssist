@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
@@ -960,6 +961,26 @@ public class MonsterPageFragment extends AbstractFragment {
         public void replaceMonster() {
             ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 1), MonsterTabLayoutFragment.TAG);
             monsterRemoveDialogFragment.dismiss();
+        }
+
+        @Override
+        public void evolveMonster(long baseMonsterId) {
+            if (baseMonsterId != 0){
+                monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
+                if(monster.getCurrentAwakenings() > monster.getMaxAwakenings()){
+                    monster.setCurrentAwakenings(monster.getMaxAwakenings());
+                }
+                monster.save();
+                Log.d("Monster Page Log", "Monster attack is: " + monster.getTotalAtk());
+                initBackup();
+                monsterPicture.setImageResource(monster.getMonsterPicture());
+                monsterName.setText(monster.getName());
+                showAwakenings();
+                grayAwakenings();
+                initializeEditTexts();
+                setImageViews();
+                monsterStats();
+            }
         }
     };
 

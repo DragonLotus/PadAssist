@@ -102,9 +102,13 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         }
         if (teamList.get(position).getMonsters(0).getTotalPlus() == 0) {
             viewHolder.monster1Plus.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(0).getMonsterId() != 0){
+            viewHolder.monster1Plus.setVisibility(View.VISIBLE);
         }
         if (teamList.get(position).getMonsters(0).getCurrentAwakenings() == 0) {
             viewHolder.monster1Awakenings.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(0).getMonsterId() != 0){
+            viewHolder.monster1Awakenings.setVisibility(View.VISIBLE);
         }
 
         if (teamList.get(position).getMonsters(1).getCurrentAwakenings() == teamList.get(position).getMonsters(1).getMaxAwakenings()) {
@@ -113,9 +117,13 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         }
         if (teamList.get(position).getMonsters(1).getTotalPlus() == 0) {
             viewHolder.monster2Plus.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(1).getMonsterId() != 0){
+            viewHolder.monster2Plus.setVisibility(View.VISIBLE);
         }
         if (teamList.get(position).getMonsters(1).getCurrentAwakenings() == 0) {
             viewHolder.monster2Awakenings.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(1).getMonsterId() != 0){
+            viewHolder.monster2Awakenings.setVisibility(View.VISIBLE);
         }
 
         if (teamList.get(position).getMonsters(2).getCurrentAwakenings() == teamList.get(position).getMonsters(2).getMaxAwakenings()) {
@@ -124,9 +132,13 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         }
         if (teamList.get(position).getMonsters(2).getTotalPlus() == 0) {
             viewHolder.monster3Plus.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(2).getMonsterId() != 0){
+            viewHolder.monster3Plus.setVisibility(View.VISIBLE);
         }
         if (teamList.get(position).getMonsters(2).getCurrentAwakenings() == 0) {
             viewHolder.monster3Awakenings.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(2).getMonsterId() != 0){
+            viewHolder.monster3Awakenings.setVisibility(View.VISIBLE);
         }
 
         if (teamList.get(position).getMonsters(3).getCurrentAwakenings() == teamList.get(position).getMonsters(3).getMaxAwakenings()) {
@@ -135,9 +147,13 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         }
         if (teamList.get(position).getMonsters(3).getTotalPlus() == 0) {
             viewHolder.monster4Plus.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(3).getMonsterId() != 0){
+            viewHolder.monster4Plus.setVisibility(View.VISIBLE);
         }
         if (teamList.get(position).getMonsters(3).getCurrentAwakenings() == 0) {
             viewHolder.monster4Awakenings.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(3).getMonsterId() != 0){
+            viewHolder.monster4Awakenings.setVisibility(View.VISIBLE);
         }
 
         if (teamList.get(position).getMonsters(4).getCurrentAwakenings() == teamList.get(position).getMonsters(4).getMaxAwakenings()) {
@@ -146,9 +162,14 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         }
         if (teamList.get(position).getMonsters(4).getTotalPlus() == 0) {
             viewHolder.monster5Plus.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(4).getMonsterId() != 0){
+            viewHolder.monster5Plus.setVisibility(View.VISIBLE);
         }
+
         if (teamList.get(position).getMonsters(4).getCurrentAwakenings() == 0) {
             viewHolder.monster5Awakenings.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(4).getMonsterId() != 0){
+            viewHolder.monster5Awakenings.setVisibility(View.VISIBLE);
         }
 
         if (teamList.get(position).getMonsters(5).getCurrentAwakenings() == teamList.get(position).getMonsters(5).getMaxAwakenings()) {
@@ -157,9 +178,13 @@ public class TeamListAdapter extends ArrayAdapter<Team> {
         }
         if (teamList.get(position).getMonsters(5).getTotalPlus() == 0) {
             viewHolder.monster6Plus.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(5).getMonsterId() != 0){
+            viewHolder.monster6Plus.setVisibility(View.VISIBLE);
         }
         if (teamList.get(position).getMonsters(5).getCurrentAwakenings() == 0) {
             viewHolder.monster6Awakenings.setVisibility(View.INVISIBLE);
+        } else if (teamList.get(position).getMonsters(5).getMonsterId() != 0){
+            viewHolder.monster6Awakenings.setVisibility(View.VISIBLE);
         }
 
 

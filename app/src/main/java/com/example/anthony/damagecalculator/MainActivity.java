@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
             monster.setRarity(7);
             monster.setTeamCost(35);
             monster.setXpCurve(4000000);
+            monster.getEvolutions().add(Long.valueOf(2077));
             monster.setLeaderSkill("Test");
             monster.save();
             Log.d("Main Activity Log", "Awakenings: " + monster.getAwokenSkills() + " Size: " + monster.getAwokenSkills().size() + " " + monster.getName() + " " + monster.getId());
@@ -158,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
             monster.setRarity(6);
             monster.setTeamCost(23);
             monster.setXpCurve(4000000);
+            monster.getEvolutions().add(Long.valueOf(201));
             monster.save();
         }
         if (BaseMonster.getMonsterId(201) == null) {
@@ -184,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
             monster.setRarity(5);
             monster.setTeamCost(13);
             monster.setXpCurve(4000000);
+            monster.getEvolutions().add(Long.valueOf(1099));
             monster.save();
         }
         if (BaseMonster.getMonsterId(1727) == null) {
@@ -315,6 +318,7 @@ public class MainActivity extends AppCompatActivity {
             monster.setRarity(8);
             monster.setTeamCost(45);
             monster.setXpCurve(4000000);
+            monster.getEvolutions().add(Long.valueOf(1218));
             monster.setLeaderSkill("Test4");
             monster.save();
         }

@@ -430,6 +430,17 @@ public class Monster extends Model implements Parcelable {
         this.priority = priority;
     }
 
+    public ArrayList<Long> getEvolutions() {
+        return baseMonster.getEvolutions();
+    }
+
+    public BaseMonster getBaseMonster() {
+        return baseMonster;
+    }
+
+    public void setBaseMonster(BaseMonster baseMonster) {
+        this.baseMonster = baseMonster;
+    }
 
     public int getTPA() {
         int numOfDoubleProngs = 0;

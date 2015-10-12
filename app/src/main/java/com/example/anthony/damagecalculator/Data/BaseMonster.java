@@ -67,6 +67,8 @@ public class BaseMonster extends Model {
     private int teamCost;
     @Column(name = "xpCurve")
     private int xpCurve;
+    @Column(name = "evolutions")
+    private ArrayList<Long> evolutions = new ArrayList<>();
     DecimalFormat format = new DecimalFormat("0.00");
 
     public BaseMonster() {
@@ -419,6 +421,14 @@ public class BaseMonster extends Model {
 
     public void setTeamCost(int teamCost) {
         this.teamCost = teamCost;
+    }
+
+    public ArrayList<Long> getEvolutions() {
+        return evolutions;
+    }
+
+    public void setEvolutions(ArrayList<Long> evolutions) {
+        this.evolutions = evolutions;
     }
 
     public static List<Monster> getAllMonsters() {

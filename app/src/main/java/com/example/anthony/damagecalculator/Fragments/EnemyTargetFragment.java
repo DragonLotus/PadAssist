@@ -512,7 +512,6 @@ public class EnemyTargetFragment extends AbstractFragment {
                 defenseBreakValue = 1.0;
             } else if (position == 1) {
                 defenseBreakValue = .75;
-
             } else if (position == 2) {
                 defenseBreakValue = .50;
             } else if (position == 3) {
