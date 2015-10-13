@@ -770,4 +770,9 @@ public class TeamDamageListFragment extends AbstractFragment {
     public void reverseArrayList() {
 
     }
+
+    @Override
+    public void searchFilter(String query) {
+
+    }
 }

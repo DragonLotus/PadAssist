@@ -426,4 +426,9 @@ public class BaseMonsterListFragment extends AbstractFragment {
         monsterList.remove(BaseMonster.getMonsterId(0));
         monsterList.add(0, BaseMonster.getMonsterId(0));
     }
+
+    @Override
+    public void searchFilter(String query) {
+
+    }
 }

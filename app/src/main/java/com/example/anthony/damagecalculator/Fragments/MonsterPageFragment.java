@@ -1030,6 +1030,11 @@ public class MonsterPageFragment extends AbstractFragment {
 
     }
 
+    @Override
+    public void searchFilter(String query) {
+
+    }
+
 //   private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()
 //   {
 //      @Override

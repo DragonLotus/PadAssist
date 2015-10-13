@@ -141,7 +141,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             Team newTeam = new Team(Team.getTeamById(0));
-            if (monsterList.get(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0) {
+            if (saveMonsterListAdapter.getItem(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0) {
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -155,7 +155,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
                         replaceTeam = teamList.get(i);
                         for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
                             if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
-                                replaceTeam.setMonsters(j, monsterList.get(position));
+                                replaceTeam.setMonsters(j, saveMonsterListAdapter.getItem(position));
                             }
                         }
                         replaceTeam.save();
@@ -167,22 +167,22 @@ public class SaveMonsterListFragment extends AbstractFragment {
 
                     switch (newTeam.getMonsterOverwrite()) {
                         case 0:
-                            newTeam.setLead(monsterList.get(position));
+                            newTeam.setLead(saveMonsterListAdapter.getItem(position));
                             break;
                         case 1:
-                            newTeam.setSub1(monsterList.get(position));
+                            newTeam.setSub1(saveMonsterListAdapter.getItem(position));
                             break;
                         case 2:
-                            newTeam.setSub2(monsterList.get(position));
+                            newTeam.setSub2(saveMonsterListAdapter.getItem(position));
                             break;
                         case 3:
-                            newTeam.setSub3(monsterList.get(position));
+                            newTeam.setSub3(saveMonsterListAdapter.getItem(position));
                             break;
                         case 4:
-                            newTeam.setSub4(monsterList.get(position));
+                            newTeam.setSub4(saveMonsterListAdapter.getItem(position));
                             break;
                         case 5:
-                            newTeam.setHelper(monsterList.get(position));
+                            newTeam.setHelper(saveMonsterListAdapter.getItem(position));
                             break;
                     }
                     newTeam.save();
@@ -449,5 +449,16 @@ public class SaveMonsterListFragment extends AbstractFragment {
         }
         monsterList.remove(Monster.getMonsterId(0));
         monsterList.add(0, Monster.getMonsterId(0));
+    }
+
+    @Override
+    public void searchFilter(String query) {
+        if(saveMonsterListAdapter!=null){
+            Log.d("Save Monster List", "Query is: " + query);
+            saveMonsterListAdapter.getFilter().filter(query);
+            for(int i = 0; i< saveMonsterListAdapter.getCount(); i++){
+                Log.d("Save Monster List", "monsterFilterList is:  " + saveMonsterListAdapter.getItem(i));
+            }
+        }
     }
 }

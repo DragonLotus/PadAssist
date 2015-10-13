@@ -492,7 +492,20 @@ public class MainActivity extends AppCompatActivity {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchMenuItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
-        searchView.setSearchableInfo();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(false);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mContent.searchFilter(newText);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+        });
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
 //        Log.d("What is fragment", "" + fragment);
 //        if(fragment instanceof MonsterListFragment){

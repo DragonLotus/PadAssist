@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/favorite"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_alignTop="@+id/monsterPicture"
         android:layout_alignBottom="@+id/monsterPicture"
         android:src="@drawable/favorite"
@@ -16,12 +16,11 @@
 
     <ImageView
         android:id="@+id/favoriteOutline"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_alignTop="@+id/monsterPicture"
         android:layout_alignBottom="@+id/monsterPicture"
-        android:src="@drawable/not_favorite"
-        android:layout_marginRight="6dp"/>
+        android:src="@drawable/not_favorite"/>
 
     <ImageView
         android:id="@+id/monsterPicture"

@@ -123,4 +123,13 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
         }
     }
 
+    @Override
+    public void searchFilter(String query) {
+        if(tabLayout.getSelectedTabPosition() == 0){
+            ((AbstractFragment)monsterPagerAdapter.getItem(0)).searchFilter(query);
+        }else if(tabLayout.getSelectedTabPosition() == 1){
+            ((AbstractFragment)monsterPagerAdapter.getItem(1)).searchFilter(query);
+        }
+    }
+
 }

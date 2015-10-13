@@ -1,12 +1,15 @@
 package com.example.anthony.damagecalculator.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.R;
@@ -20,13 +23,42 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
+    private ArrayList<Monster> monsterListBackup;
+    private MonsterFilter monsterFilter;
     private int resourceId;
+    private Toast toast;
 
     public SaveMonsterListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList){
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
+        this.monsterListBackup = monsterList;
         this.resourceId = textViewResourceId;
+
+        getFilter();
+    }
+
+    @Override
+     public int getCount() {
+        return monsterList.size();
+    }
+
+    @Override
+    public Monster getItem(int position) {
+        return monsterList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public Filter getFilter() {
+        if (monsterFilter == null){
+            monsterFilter = new MonsterFilter();
+        }
+        return monsterFilter;
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
@@ -246,12 +278,73 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
 //            viewHolder.type2.setLayoutParams(params);
 //        }
 
+        viewHolder.favorite.setTag(R.string.index, position);
+        viewHolder.favoriteOutline.setTag(R.string.index, position);
+        viewHolder.favorite.setOnClickListener(favoriteOnClickListener);
+        viewHolder.favoriteOutline.setOnClickListener(favoriteOnClickListener);
+
         return convertView;
     }
+
+    private View.OnClickListener favoriteOnClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.string.index);
+            if (!monsterList.get(position).isFavorite()){
+                monsterList.get(position).setFavorite(true);
+                monsterList.get(position).save();
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(mContext, "Monster favorited", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                monsterList.get(position).setFavorite(false);
+                monsterList.get(position).save();
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(mContext, "Monster unfavorited", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            notifyDataSetChanged();
+        }
+    };
 
     static class ViewHolder {
         TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV, monsterLevel;
         ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline;
 
+    }
+    private class MonsterFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults filterResults = new FilterResults();
+            if(constraint != null && constraint.length()>0){
+                ArrayList<Monster> tempList = new ArrayList<>();
+
+                for(Monster monster : monsterList){
+                    if (monster.getName().toLowerCase().contains(constraint.toString().toLowerCase())){
+                        Log.d("Save Monster Adapter", "Query is:  " + constraint + " Monster name is: " + monster.getName().toLowerCase());
+                        tempList.add(monster);
+                    }
+                }
+
+                filterResults.count = tempList.size();
+                filterResults.values = tempList;
+            }else {
+                filterResults.count = monsterListBackup.size();
+                filterResults.values = monsterListBackup;
+            }
+            return filterResults;
+        }
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+//            monsterFilterList.addAll((ArrayList<Monster>)results.values);
+            monsterList = (ArrayList<Monster>) results.values;
+            Log.d("Save Monster Adapter", "monsterFilterList is: " + monsterList);
+            notifyDataSetChanged();
+        }
     }
 }

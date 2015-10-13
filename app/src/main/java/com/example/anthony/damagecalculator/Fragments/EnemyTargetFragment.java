@@ -815,6 +815,11 @@ public class EnemyTargetFragment extends AbstractFragment {
 
     }
 
+    @Override
+     public void searchFilter(String query) {
+
+    }
+
     //   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()
 //   {
 //      @Override

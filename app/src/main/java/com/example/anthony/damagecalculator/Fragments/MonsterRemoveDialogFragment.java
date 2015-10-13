@@ -52,7 +52,6 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
     private Spinner evolutionSpinner;
     private ArrayList<Long> evolutions = new ArrayList<>();
     private EvolutionSpinnerAdapter evolutionSpinnerAdapter;
-    private int evolutionPosition;
     //private Long[] evolutions;
 
     public static MonsterRemoveDialogFragment newInstance(RemoveMonster removeMonster, boolean favorite) {
@@ -86,7 +85,7 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
                         } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.replaceTeam) {
                             remove.replaceMonster();
                         } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.evolveMonster) {
-                            remove.evolveMonster(evolutions.get(evolutionPosition));
+                            remove.evolveMonster(evolutions.get(evolutionSpinner.getSelectedItemPosition()));
                         } else {
                             dialog.dismiss();
                         }
@@ -116,7 +115,6 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         setupEvolutions();
         evolutionSpinnerAdapter = new EvolutionSpinnerAdapter(getActivity(), R.layout.evolution_spinner_row, R.id.monsterName, evolutions);
         evolutionSpinner.setAdapter(evolutionSpinnerAdapter);
-        evolutionSpinner.setOnItemSelectedListener(evolutionSpinnerListener);
         choiceRadioGroup.setOnCheckedChangeListener(radioGroupCheckChangeListener);
 
     }
@@ -170,18 +168,6 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
 //        }
 //        Log.d("Monster Remove Dialog", "evolutions is: " + evolutions);
     }
-
-    private Spinner.OnItemSelectedListener evolutionSpinnerListener = new Spinner.OnItemSelectedListener(){
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            evolutionPosition = position;
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
 
     public void show(FragmentManager manager, String tag, boolean favorite) {
         super.show(manager, tag);

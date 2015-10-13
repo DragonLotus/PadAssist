@@ -345,4 +345,9 @@ public class MonsterListFragment extends AbstractFragment {
     public void reverseArrayList() {
 
     }
+
+    @Override
+    public void searchFilter(String query) {
+
+    }
 }

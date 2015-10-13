@@ -381,4 +381,9 @@ public class MainFragment extends AbstractFragment {
      public void reverseArrayList() {
 
     }
+
+    @Override
+    public void searchFilter(String query) {
+
+    }
 }
