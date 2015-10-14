@@ -35,31 +35,31 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
         this.monsterListBackup = monsterList;
         this.resourceId = textViewResourceId;
 
-        getFilter();
+//        getFilter();
     }
-
-    @Override
-     public int getCount() {
-        return monsterList.size();
-    }
-
-    @Override
-    public Monster getItem(int position) {
-        return monsterList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public Filter getFilter() {
-        if (monsterFilter == null){
-            monsterFilter = new MonsterFilter();
-        }
-        return monsterFilter;
-    }
+//
+//    @Override
+//     public int getCount() {
+//        return monsterList.size();
+//    }
+//
+//    @Override
+//    public Monster getItem(int position) {
+//        return monsterList.get(position);
+//    }
+//
+//    @Override
+//    public long getItemId(int position) {
+//        return position;
+//    }
+//
+//    @Override
+//    public Filter getFilter() {
+//        if (monsterFilter == null){
+//            monsterFilter = new MonsterFilter();
+//        }
+//        return monsterFilter;
+//    }
 
     public View getView(int position, View convertView, ViewGroup parent){
         ViewHolder viewHolder = null;

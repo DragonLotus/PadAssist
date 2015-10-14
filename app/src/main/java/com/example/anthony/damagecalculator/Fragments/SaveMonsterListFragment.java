@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 
 import com.example.anthony.damagecalculator.Adapters.SaveMonsterListAdapter;
+import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
@@ -52,6 +56,8 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private ListView monsterListView;
     private ArrayList<Monster> monsterList;
     private ArrayList<Monster> monsterListAll;
+    private MenuItem searchMenuItem;
+    private SearchView searchView;
     private SaveMonsterListAdapter saveMonsterListAdapter;
     private Toast toast;
     private TextView savedMonsters;
@@ -93,6 +99,14 @@ public class SaveMonsterListFragment extends AbstractFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(MenuItemCompat.isActionViewExpanded(searchMenuItem)){
+            MenuItemCompat.collapseActionView(searchMenuItem);
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
@@ -104,6 +118,8 @@ public class SaveMonsterListFragment extends AbstractFragment {
         menu.setGroupVisible(R.id.sortGroup, true);
         menu.setGroupVisible(R.id.sortMoreGroup, true);
         menu.findItem(R.id.search).setVisible(true);
+        searchMenuItem = menu.findItem(R.id.search);
+//        searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
     }
 
     @Override
@@ -122,13 +138,16 @@ public class SaveMonsterListFragment extends AbstractFragment {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
-        monsterList = (ArrayList) Monster.getAllMonsters();
-//        monsterListAll = (ArrayList) Monster.getAllMonsters();
+//        monsterList = (ArrayList) Monster.getAllMonsters();
+        monsterListAll = (ArrayList) Monster.getAllMonsters();
+        if (monsterList == null) {
+            monsterList = new ArrayList<>();
+        }
 //        if (monsterListAll.size() == 1) {
 //            savedMonsters.setVisibility(View.VISIBLE);
 //            monsterListView.setVisibility(View.GONE);
 //        } else {
-            savedMonsters.setVisibility(View.GONE);
+        savedMonsters.setVisibility(View.GONE);
 //            monsterListView.setVisibility(View.VISIBLE);
 //        }
         searchFilter("");
@@ -144,7 +163,6 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
             Team newTeam = new Team(Team.getTeamById(0));
             if (saveMonsterListAdapter.getItem(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0) {
                 if (toast != null) {
@@ -425,7 +443,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
 
     private void defaultReverse() {
         Collections.reverse(monsterList);
-        if(monsterList.contains(Monster.getMonsterId(0))){
+        if (monsterList.contains(Monster.getMonsterId(0))) {
             monsterList.remove(Monster.getMonsterId(0));
             monsterList.add(0, Monster.getMonsterId(0));
         }
@@ -444,7 +462,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if(monsterList.contains(Monster.getMonsterId(0))){
+        if (monsterList.contains(Monster.getMonsterId(0))) {
             monsterList.remove(Monster.getMonsterId(0));
             monsterList.add(0, Monster.getMonsterId(0));
         }
@@ -463,7 +481,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if(monsterList.contains(Monster.getMonsterId(0))){
+        if (monsterList.contains(Monster.getMonsterId(0))) {
             monsterList.remove(Monster.getMonsterId(0));
             monsterList.add(0, Monster.getMonsterId(0));
         }
@@ -482,7 +500,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if(monsterList.contains(Monster.getMonsterId(0))){
+        if (monsterList.contains(Monster.getMonsterId(0))) {
             monsterList.remove(Monster.getMonsterId(0));
             monsterList.add(0, Monster.getMonsterId(0));
         }
@@ -490,40 +508,86 @@ public class SaveMonsterListFragment extends AbstractFragment {
 
     @Override
     public void searchFilter(String query) {
-//        Log.d("Save Monster List", "monsterList initial query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
-//        if (query != null && query.length() > 0) {
-//            Log.d("Save Monster List", "monsterList before query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
-//            if(!monsterList.isEmpty()){
-//                monsterList = new ArrayList<>();
-//            }
-//            Log.d("Save Monster List", "monsterList after clear is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
-//            filterMonsterName(query);
-//            Log.d("Save Monster List", "monsterList after query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
-//        } else {
-//            Log.d("Save Monster List", "monsterList if query is nothing is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
-//            monsterList = monsterListAll;
-//        }
-//        if(saveMonsterListAdapter!=null){
-//            saveMonsterListAdapter.notifyDataSetChanged(monsterList);
-//        }
-//        Log.d("Save Monster List", "monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+        if (saveMonsterListAdapter != null) {
+            Log.d("Save Monster List", "monsterList initial query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+            if (query != null && query.length() > 0) {
+                Log.d("Save Monster List", "monsterList before query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+                if (!monsterList.isEmpty()) {
+                    monsterList.clear();
+                }
+                Log.d("Save Monster List", "monsterList after clear is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+                filterMonsterName(query);
+                filterMonsterType(query);
+//                filterMonsterElement(query);
+                Log.d("Save Monster List", "monsterList after query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+            } else {
+                Log.d("Save Monster List", "monsterList if query is nothing is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+                monsterList.clear();
+                monsterList.addAll(monsterListAll);
+            }
+            Log.d("Save Monster List", "saveMonsterListAdapter is: " + saveMonsterListAdapter.getMonsterList() + " query is: " + query);
+            saveMonsterListAdapter.notifyDataSetChanged(monsterList);
 
-
-        if(saveMonsterListAdapter!=null){
-            Log.d("Save Monster List", "Query is: " + query);
-            saveMonsterListAdapter.getFilter().filter(query);
-            monsterList = saveMonsterListAdapter.getMonsterList();
-            Log.d("Save Monster List", "monsterList is search filter:  " + monsterList);
+            Log.d("Save Monster List", "monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
         }
+
+
+//        if(saveMonsterListAdapter!=null){
+//            Log.d("Save Monster List", "Query is: " + query);
+//            saveMonsterListAdapter.getFilter().filter(query);
+//            monsterList = saveMonsterListAdapter.getMonsterList();
+//            Log.d("Save Monster List", "monsterList is search filter:  " + monsterList);
+//        }
     }
 
     private void filterMonsterName(String query) {
-        Log.d("Save Monster List", "monsterList filter is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+        Log.d("Save Monster List", "monsterList filter name is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
         for (Monster monster : monsterListAll) {
             if (monster.getName().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
                 monsterList.add(monster);
             }
         }
-        Log.d("Save Monster List", "monsterList after filter is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+        Log.d("Save Monster List", "monsterList after filter name is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+    }
+
+    private void filterMonsterType(String query) {
+        Log.d("Save Monster List", "monsterList filter type is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+        for (Monster monster : monsterListAll) {
+            if (monster.getType1String().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+                monsterList.add(monster);
+            } else if (monster.getType2String().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+                monsterList.add(monster);
+            } else if (monster.getType3String().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+                monsterList.add(monster);
+            }
+        }
+        Log.d("Save Monster List", "monsterList after filter type is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+    }
+
+    private void filterMonsterElement(String query) {
+        for (Monster monster : monsterListAll) {
+            if (query.toLowerCase().equals("fire") || query.toLowerCase().equals("red")) {
+                Log.d("Save Monster List", "monsterList entering FIIRERERE");
+                if (monster.getElement1().equals(Element.RED) || monster.getElement2().equals(Element.RED) && !monsterList.contains(monster)) {
+                    monsterList.add(monster);
+                }
+            } else if (query.toLowerCase().equals("water") || query.toLowerCase().equals("blue")) {
+                if (monster.getElement1().equals(Element.BLUE) || monster.getElement2().equals(Element.BLUE) && !monsterList.contains(monster)) {
+                    monsterList.add(monster);
+                }
+            } else if (query.toLowerCase().equals("wood") || query.toLowerCase().equals("green")) {
+                if (monster.getElement1().equals(Element.GREEN) || monster.getElement2().equals(Element.GREEN) && !monsterList.contains(monster)) {
+                    monsterList.add(monster);
+                }
+            } else if (query.toLowerCase().equals("light") || query.toLowerCase().equals("yellow")) {
+                if (monster.getElement1().equals(Element.LIGHT) || monster.getElement2().equals(Element.LIGHT) && !monsterList.contains(monster)) {
+                    monsterList.add(monster);
+                }
+            } else if (query.toLowerCase().equals("dark") || query.toLowerCase().equals("purple")) {
+                if (monster.getElement1().equals(Element.DARK) || monster.getElement2().equals(Element.DARK) && !monsterList.contains(monster)) {
+                    monsterList.add(monster);
+                }
+            }
+        }
     }
 }

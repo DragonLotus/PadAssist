@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.support.v7.widget.SearchView;
 
@@ -493,7 +494,7 @@ public class MainActivity extends AppCompatActivity {
         searchMenuItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(false);
+        searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -503,7 +504,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mContent.searchFilter(query);
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//                imm.hideSoftInputFromWindow(edittext.getWindowToken(), 0);
                 return true;
             }
         });
