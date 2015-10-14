@@ -2,6 +2,7 @@ package com.example.anthony.damagecalculator.Adapters;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -227,5 +228,18 @@ public class BaseMonsterListAdapter extends ArrayAdapter<BaseMonster> {
         TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV;
         ImageView monsterPicture, type1, type2, type3, rarityStar;
 
+    }
+    public void notifyDataSetChanged(ArrayList<BaseMonster> monsterList) {
+        this.monsterList = monsterList;
+        notifyDataSetChanged();
+        Log.d("Save Monster Adapter", "monsterList notify is: " + monsterList);
+    }
+
+    public ArrayList<BaseMonster> getMonsterList() {
+        return monsterList;
+    }
+
+    public void setMonsterList(ArrayList<BaseMonster> monsterList) {
+        this.monsterList = monsterList;
     }
 }
