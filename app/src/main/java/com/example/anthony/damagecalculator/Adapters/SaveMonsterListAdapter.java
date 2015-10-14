@@ -317,6 +317,7 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
 
     }
     private class MonsterFilter extends Filter {
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults filterResults = new FilterResults();
@@ -346,5 +347,19 @@ public class SaveMonsterListAdapter extends ArrayAdapter<Monster> {
             Log.d("Save Monster Adapter", "monsterFilterList is: " + monsterList);
             notifyDataSetChanged();
         }
+    }
+
+    public void notifyDataSetChanged(ArrayList<Monster> monsterList) {
+        this.monsterList = monsterList;
+        notifyDataSetChanged();
+        Log.d("Save Monster Adapter", "monsterList notify is: " + monsterList);
+    }
+
+    public ArrayList<Monster> getMonsterList() {
+        return monsterList;
+    }
+
+    public void setMonsterList(ArrayList<Monster> monsterList) {
+        this.monsterList = monsterList;
     }
 }

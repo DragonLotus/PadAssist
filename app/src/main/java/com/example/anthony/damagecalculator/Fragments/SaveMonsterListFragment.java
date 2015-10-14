@@ -51,6 +51,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private int sortMethod;
     private ListView monsterListView;
     private ArrayList<Monster> monsterList;
+    private ArrayList<Monster> monsterListAll;
     private SaveMonsterListAdapter saveMonsterListAdapter;
     private Toast toast;
     private TextView savedMonsters;
@@ -122,18 +123,22 @@ public class SaveMonsterListFragment extends AbstractFragment {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
         monsterList = (ArrayList) Monster.getAllMonsters();
-        if (monsterList.size() == 1) {
-            savedMonsters.setVisibility(View.VISIBLE);
-            monsterListView.setVisibility(View.GONE);
-        } else {
+//        monsterListAll = (ArrayList) Monster.getAllMonsters();
+//        if (monsterListAll.size() == 1) {
+//            savedMonsters.setVisibility(View.VISIBLE);
+//            monsterListView.setVisibility(View.GONE);
+//        } else {
             savedMonsters.setVisibility(View.GONE);
-            monsterListView.setVisibility(View.VISIBLE);
-        }
-        Collections.sort(monsterList, monsterFavoriteComparator);
+//            monsterListView.setVisibility(View.VISIBLE);
+//        }
+        searchFilter("");
+        Log.d("Save Monster List", "onActivityCreated monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll);
+//        Collections.sort(monsterList, monsterFavoriteComparator);
         //disableStuff();
         saveMonsterListAdapter = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
         monsterListView.setAdapter(saveMonsterListAdapter);
         monsterListView.setOnItemClickListener(monsterListOnClickListener);
+        Log.d("Save Monster List", "onActivityCreated After monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll);
     }
 
     private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
@@ -229,6 +234,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortElement1() {
             sortMethod = 201;
             Collections.sort(monsterList, monsterElement1Comparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
@@ -236,6 +242,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortElement2() {
             sortMethod = 202;
             Collections.sort(monsterList, monsterElement2Comparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
     };
@@ -245,6 +252,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortType1() {
             sortMethod = 301;
             Collections.sort(monsterList, monsterType1Comparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
@@ -252,6 +260,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortType2() {
             sortMethod = 302;
             Collections.sort(monsterList, monsterType2Comparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
@@ -259,6 +268,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortType3() {
             sortMethod = 303;
             Collections.sort(monsterList, monsterType3Comparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
     };
@@ -268,6 +278,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortHp() {
             sortMethod = 401;
             Collections.sort(monsterList, monsterHpComparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
@@ -275,6 +286,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortAtk() {
             sortMethod = 402;
             Collections.sort(monsterList, monsterAtkComparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
@@ -282,6 +294,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortRcv() {
             sortMethod = 403;
             Collections.sort(monsterList, monsterRcvComparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
     };
@@ -291,6 +304,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortTotal() {
             sortMethod = 701;
             Collections.sort(monsterList, monsterPlusComparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
@@ -298,6 +312,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortHp() {
             sortMethod = 702;
             Collections.sort(monsterList, monsterPlusHpComparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
@@ -305,6 +320,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortAtk() {
             sortMethod = 703;
             Collections.sort(monsterList, monsterPlusAtkComparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
@@ -312,6 +328,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         public void sortRcv() {
             sortMethod = 704;
             Collections.sort(monsterList, monsterPlusRcvComparator);
+            saveMonsterListAdapter.setMonsterList(monsterList);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
     };
@@ -319,13 +336,16 @@ public class SaveMonsterListFragment extends AbstractFragment {
     @Override
     public void sortArrayList(int sortMethod) {
         this.sortMethod = sortMethod;
+        Log.d("Save Monster List", "monsterList before sort is:  " + monsterList);
         switch (sortMethod) {
             case 0:
                 Collections.sort(monsterList, monsterAlphabeticalComparator);
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 1:
                 Collections.sort(monsterList, monsterNumberComparator);
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 2:
@@ -348,10 +368,12 @@ public class SaveMonsterListFragment extends AbstractFragment {
                 break;
             case 5:
                 Collections.sort(monsterList, monsterRarityComparator);
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 6:
                 Collections.sort(monsterList, monsterAwakeningComparator);
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 7:
@@ -362,13 +384,16 @@ public class SaveMonsterListFragment extends AbstractFragment {
                 break;
             case 8:
                 Collections.sort(monsterList, monsterFavoriteComparator);
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 9:
                 Collections.sort(monsterList, monsterLevelComparator);
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
         }
+        Log.d("Save Monster List", "monsterList after sort is:  " + monsterList);
     }
 
     @Override
@@ -376,18 +401,22 @@ public class SaveMonsterListFragment extends AbstractFragment {
         switch (sortMethod) {
             case 202:
                 element2Reverse();
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 302:
                 type2Reverse();
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             case 303:
                 type3Reverse();
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
             default:
                 defaultReverse();
+                saveMonsterListAdapter.setMonsterList(monsterList);
                 saveMonsterListAdapter.notifyDataSetChanged();
                 break;
 
@@ -396,8 +425,10 @@ public class SaveMonsterListFragment extends AbstractFragment {
 
     private void defaultReverse() {
         Collections.reverse(monsterList);
-        monsterList.remove(Monster.getMonsterId(0));
-        monsterList.add(0, Monster.getMonsterId(0));
+        if(monsterList.contains(Monster.getMonsterId(0))){
+            monsterList.remove(Monster.getMonsterId(0));
+            monsterList.add(0, Monster.getMonsterId(0));
+        }
     }
 
     private void element2Reverse() {
@@ -413,8 +444,10 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        monsterList.remove(Monster.getMonsterId(0));
-        monsterList.add(0, Monster.getMonsterId(0));
+        if(monsterList.contains(Monster.getMonsterId(0))){
+            monsterList.remove(Monster.getMonsterId(0));
+            monsterList.add(0, Monster.getMonsterId(0));
+        }
     }
 
     private void type2Reverse() {
@@ -430,8 +463,10 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        monsterList.remove(Monster.getMonsterId(0));
-        monsterList.add(0, Monster.getMonsterId(0));
+        if(monsterList.contains(Monster.getMonsterId(0))){
+            monsterList.remove(Monster.getMonsterId(0));
+            monsterList.add(0, Monster.getMonsterId(0));
+        }
     }
 
     private void type3Reverse() {
@@ -447,18 +482,48 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        monsterList.remove(Monster.getMonsterId(0));
-        monsterList.add(0, Monster.getMonsterId(0));
+        if(monsterList.contains(Monster.getMonsterId(0))){
+            monsterList.remove(Monster.getMonsterId(0));
+            monsterList.add(0, Monster.getMonsterId(0));
+        }
     }
 
     @Override
     public void searchFilter(String query) {
+//        Log.d("Save Monster List", "monsterList initial query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+//        if (query != null && query.length() > 0) {
+//            Log.d("Save Monster List", "monsterList before query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+//            if(!monsterList.isEmpty()){
+//                monsterList = new ArrayList<>();
+//            }
+//            Log.d("Save Monster List", "monsterList after clear is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+//            filterMonsterName(query);
+//            Log.d("Save Monster List", "monsterList after query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+//        } else {
+//            Log.d("Save Monster List", "monsterList if query is nothing is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+//            monsterList = monsterListAll;
+//        }
+//        if(saveMonsterListAdapter!=null){
+//            saveMonsterListAdapter.notifyDataSetChanged(monsterList);
+//        }
+//        Log.d("Save Monster List", "monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+
+
         if(saveMonsterListAdapter!=null){
             Log.d("Save Monster List", "Query is: " + query);
             saveMonsterListAdapter.getFilter().filter(query);
-            for(int i = 0; i< saveMonsterListAdapter.getCount(); i++){
-                Log.d("Save Monster List", "monsterFilterList is:  " + saveMonsterListAdapter.getItem(i));
+            monsterList = saveMonsterListAdapter.getMonsterList();
+            Log.d("Save Monster List", "monsterList is search filter:  " + monsterList);
+        }
+    }
+
+    private void filterMonsterName(String query) {
+        Log.d("Save Monster List", "monsterList filter is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+        for (Monster monster : monsterListAll) {
+            if (monster.getName().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+                monsterList.add(monster);
             }
         }
+        Log.d("Save Monster List", "monsterList after filter is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
     }
 }

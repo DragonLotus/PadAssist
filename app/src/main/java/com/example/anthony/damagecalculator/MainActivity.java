@@ -503,7 +503,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                mContent.searchFilter(query);
+                return true;
             }
         });
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
