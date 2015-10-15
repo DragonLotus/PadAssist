@@ -289,8 +289,8 @@ public class MonsterPageFragment extends AbstractFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         monster.save();
     }
 

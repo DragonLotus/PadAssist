@@ -552,6 +552,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
                 Log.d("Save Monster List", "monsterList after clear is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
                 filterMonsterName(query);
                 filterMonsterType(query);
+                filterMonsterNumber(query);
 //                filterMonsterElement(query);
                 Log.d("Save Monster List", "monsterList after query is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
             } else {
@@ -583,6 +584,14 @@ public class SaveMonsterListFragment extends AbstractFragment {
             }
         }
         Log.d("Save Monster List", "monsterList after filter name is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+    }
+
+    private void filterMonsterNumber(String query) {
+        for (Monster monster : monsterListAll) {
+            if (String.valueOf(monster.getBaseMonsterId()).toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+                monsterList.add(monster);
+            }
+        }
     }
 
     private void filterMonsterType(String query) {

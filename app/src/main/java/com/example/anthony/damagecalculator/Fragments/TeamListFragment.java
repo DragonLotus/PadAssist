@@ -3,10 +3,12 @@ package com.example.anthony.damagecalculator.Fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Adapters.TeamListAdapter;
+import com.example.anthony.damagecalculator.Data.BaseMonster;
+import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.TeamAlphabeticalComparator;
@@ -55,8 +59,10 @@ public class TeamListFragment extends AbstractFragment {
     private String mParam1;
     private String mParam2;
     private ListView teamListView;
-    private ArrayList<Team> teams;
+    private ArrayList<Team> teamList;
+    private ArrayList<Team> teamListAll;
     private TeamListAdapter teamListAdapter;
+    private MenuItem searchMenuItem;
     private Button importButton;
     private Boolean loggedIn = false;
     private TextView savedTeams;
@@ -106,6 +112,16 @@ public class TeamListFragment extends AbstractFragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (searchMenuItem != null) {
+            if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
+                MenuItemCompat.collapseActionView(searchMenuItem);
+            }
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
@@ -122,6 +138,8 @@ public class TeamListFragment extends AbstractFragment {
         menu.findItem(R.id.reverseList).setVisible(true);
         menu.setGroupVisible(R.id.sortTeam, true);
         menu.findItem(R.id.sortFavorite).setVisible(true);
+        menu.findItem(R.id.search).setVisible(true);
+        searchMenuItem = menu.findItem(R.id.search);
     }
 
     @Override
@@ -141,17 +159,18 @@ public class TeamListFragment extends AbstractFragment {
         if (getArguments() != null) {
 
         }
-        teams = (ArrayList) Team.getAllTeams();
-        if (teams.size() != 0) {
-            for (int i = 0; i < teams.size(); i++) {
-                Log.d("Team log", "Team name: " + teams.get(i).getTeamName() + ", Team Monsters: " + teams.get(i).getMonsters() + ", Team Id: " + teams.get(i).getTeamId());
+        teamListAll = (ArrayList) Team.getAllTeams();
+        teamList = new ArrayList<>();
+        if (teamListAll.size() != 0) {
+            for (int i = 0; i < teamList.size(); i++) {
+                Log.d("Team log", "Team name: " + teamList.get(i).getTeamName() + ", Team Monsters: " + teamList.get(i).getMonsters() + ", Team Id: " + teamList.get(i).getTeamId());
             }
         }
-        if (!teams.isEmpty()) {
+        if (!teamListAll.isEmpty()) {
             savedTeams.setVisibility(View.GONE);
         }
-        Collections.sort(teams, teamLeaderElement1Comparator);
-        teamListAdapter = new TeamListAdapter(getActivity(), R.layout.team_list_row, teams);
+//        Collections.sort(teamList, teamLeaderElement1Comparator);
+        teamListAdapter = new TeamListAdapter(getActivity(), R.layout.team_list_row, teamList);
         teamListView.setAdapter(teamListAdapter);
         importButton.setOnClickListener(buttonOnClickListener);
         teamListView.setOnItemClickListener(teamListOnClickListener);
@@ -206,8 +225,8 @@ public class TeamListFragment extends AbstractFragment {
             Team loadTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
             loadTeam.setTeamName(teamName);
             loadTeam.save();
-            teams = (ArrayList) Team.getAllTeams();
-            teamListAdapter.updateList(teams);
+            teamList = (ArrayList) Team.getAllTeams();
+            teamListAdapter.updateList(teamList);
         }
 
         public void deleteTeam() {
@@ -215,10 +234,10 @@ public class TeamListFragment extends AbstractFragment {
             Team deleteTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
             Log.d("Team List Log", "Delete Team Name is: " + deleteTeam.getTeamName() + "Team id is: " + deleteTeam.getTeamId());
             deleteTeam.delete();
-            teams.remove(selectedTeam);
-            Log.d("Team List Log", "Team size is: " + teams.size());
+            teamList.remove(selectedTeam);
+            Log.d("Team List Log", "Team size is: " + teamList.size());
             teamListAdapter.notifyDataSetChanged();
-            if (teams.size() == 0) {
+            if (teamList.size() == 0) {
                 savedTeams.setVisibility(View.VISIBLE);
             } else {
                 savedTeams.setVisibility(View.GONE);
@@ -231,11 +250,11 @@ public class TeamListFragment extends AbstractFragment {
         this.sortMethod = sortMethod;
         switch (sortMethod) {
             case 0:
-                Collections.sort(teams, teamAlphabeticalComparator);
+                Collections.sort(teamList, teamAlphabeticalComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
             case 8:
-                Collections.sort(teams, teamFavoriteComparator);
+                Collections.sort(teamList, teamFavoriteComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
             case 10:
@@ -245,7 +264,55 @@ public class TeamListFragment extends AbstractFragment {
                 sortLeaderDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
                 break;
             case 11:
-                Collections.sort(teams, teamAlphabeticalComparator);
+                Collections.sort(teamList, teamAlphabeticalComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 201:
+                Collections.sort(teamList, teamLeaderElement1Comparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 202:
+                Collections.sort(teamList, teamLeaderElement2Comparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 301:
+                Collections.sort(teamList, teamLeaderType1Comparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 302:
+                Collections.sort(teamList, teamLeaderType2Comparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 303:
+                Collections.sort(teamList, teamLeaderType3Comparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 401:
+                Collections.sort(teamList, teamLeaderHpComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 402:
+                Collections.sort(teamList, teamLeaderAtkComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 403:
+                Collections.sort(teamList, teamLeaderRcvComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 701:
+                Collections.sort(teamList, teamLeaderPlusComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 702:
+                Collections.sort(teamList, teamLeaderPlusHpComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 703:
+                Collections.sort(teamList, teamLeaderPlusAtkComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 704:
+                Collections.sort(teamList, teamLeaderPlusRcvComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
         }
@@ -255,7 +322,7 @@ public class TeamListFragment extends AbstractFragment {
     public void reverseArrayList() {
         switch (sortMethod) {
             default:
-                Collections.reverse(teams);
+                Collections.reverse(teamList);
                 teamListAdapter.notifyDataSetChanged();
                 break;
         }
@@ -297,7 +364,7 @@ public class TeamListFragment extends AbstractFragment {
         @Override
         public void sortRarity() {
             sortMethod = 1001;
-            Collections.sort(teams, teamLeaderRarityComparator);
+            Collections.sort(teamList, teamLeaderRarityComparator);
             teamListAdapter.notifyDataSetChanged();
         }
     };
@@ -306,14 +373,14 @@ public class TeamListFragment extends AbstractFragment {
         @Override
         public void sortElement1() {
             sortMethod = 201;
-            Collections.sort(teams, teamLeaderElement1Comparator);
+            Collections.sort(teamList, teamLeaderElement1Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortElement2() {
             sortMethod = 202;
-            Collections.sort(teams, teamLeaderElement2Comparator);
+            Collections.sort(teamList, teamLeaderElement2Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
     };
@@ -322,21 +389,21 @@ public class TeamListFragment extends AbstractFragment {
         @Override
         public void sortType1() {
             sortMethod = 301;
-            Collections.sort(teams, teamLeaderType1Comparator);
+            Collections.sort(teamList, teamLeaderType1Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType2() {
             sortMethod = 302;
-            Collections.sort(teams, teamLeaderType2Comparator);
+            Collections.sort(teamList, teamLeaderType2Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType3() {
             sortMethod = 303;
-            Collections.sort(teams, teamLeaderType3Comparator);
+            Collections.sort(teamList, teamLeaderType3Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
     };
@@ -345,21 +412,21 @@ public class TeamListFragment extends AbstractFragment {
         @Override
         public void sortHp() {
             sortMethod = 401;
-            Collections.sort(teams, teamLeaderHpComparator);
+            Collections.sort(teamList, teamLeaderHpComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
             sortMethod = 402;
-            Collections.sort(teams, teamLeaderAtkComparator);
+            Collections.sort(teamList, teamLeaderAtkComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
             sortMethod = 403;
-            Collections.sort(teams, teamLeaderRcvComparator);
+            Collections.sort(teamList, teamLeaderRcvComparator);
             teamListAdapter.notifyDataSetChanged();
         }
     };
@@ -368,28 +435,28 @@ public class TeamListFragment extends AbstractFragment {
         @Override
         public void sortTotal() {
             sortMethod = 701;
-            Collections.sort(teams, teamLeaderPlusComparator);
+            Collections.sort(teamList, teamLeaderPlusComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortHp() {
             sortMethod = 702;
-            Collections.sort(teams, teamLeaderPlusHpComparator);
+            Collections.sort(teamList, teamLeaderPlusHpComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
             sortMethod = 703;
-            Collections.sort(teams, teamLeaderPlusAtkComparator);
+            Collections.sort(teamList, teamLeaderPlusAtkComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
             sortMethod = 704;
-            Collections.sort(teams, teamLeaderPlusRcvComparator);
+            Collections.sort(teamList, teamLeaderPlusRcvComparator);
             teamListAdapter.notifyDataSetChanged();
         }
     };
@@ -402,7 +469,42 @@ public class TeamListFragment extends AbstractFragment {
 
     @Override
     public void searchFilter(String query) {
+        if (teamListAdapter != null) {
+            if (query != null && query.length() > 0) {
+                if (!teamList.isEmpty()) {
+                    teamList.clear();
+                }
+                filterTeamName(query);
+                filterContainsMonster(query);
+            } else {
+                teamList.clear();
+                teamList.addAll(teamListAll);
+            }
+            sortArrayList(sortMethod);
+        }
+    }
 
+    private void filterTeamName(String query) {
+        for (Team team : teamListAll) {
+            if (team.getTeamName().toLowerCase().contains(query.toLowerCase()) && !teamList.contains(team)) {
+                teamList.add(team);
+            }
+        }
+    }
+
+    private void filterContainsMonster(String query) {
+        boolean hasMonster = false;
+        for(Team team : teamListAll){
+            for(Monster monster : team.getMonsters()){
+                if(monster.getName().toLowerCase().contains(query.toLowerCase())){
+                    hasMonster = true;
+                }
+            }
+            if(!teamList.contains(team) && hasMonster){
+                teamList.add(team);
+                hasMonster = false;
+            }
+        }
     }
 
     /**
