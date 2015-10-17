@@ -43,6 +43,7 @@ import com.example.anthony.damagecalculator.Util.MonsterRcvComparator;
 import com.example.anthony.damagecalculator.Util.MonsterType1Comparator;
 import com.example.anthony.damagecalculator.Util.MonsterType2Comparator;
 import com.example.anthony.damagecalculator.Util.MonsterType3Comparator;
+import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +53,6 @@ import java.util.Comparator;
 public class SaveMonsterListFragment extends AbstractFragment {
     public static final String TAG = SaveMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
-    private int sortMethod;
     private ListView monsterListView;
     private ArrayList<Monster> monsterList;
     private ArrayList<Monster> monsterListAll;
@@ -106,6 +106,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
                 MenuItemCompat.collapseActionView(searchMenuItem);
             }
         }
+        Log.d("Save Monster List Log" , "Singleton sortMethod is: " + Singleton.getInstance().getSaveSortMethod());
     }
 
     @Override
@@ -156,7 +157,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         Log.d("Save Monster List", "onActivityCreated monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll);
         //disableStuff();
 //        Collections.sort(monsterList, monsterFavoriteComparator);
-        sortMethod = 8;
+//        sortMethod = Singleton.getInstance().getSaveSortMethod();
         saveMonsterListAdapter = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
         monsterListView.setAdapter(saveMonsterListAdapter);
         monsterListView.setOnItemClickListener(monsterListOnClickListener);
@@ -253,14 +254,14 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy() {
         @Override
         public void sortElement1() {
-            sortMethod = 201;
+            Singleton.getInstance().setSaveSortMethod(201);
             Collections.sort(monsterList, monsterElement1Comparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortElement2() {
-            sortMethod = 202;
+            Singleton.getInstance().setSaveSortMethod(202);
             Collections.sort(monsterList, monsterElement2Comparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
@@ -269,21 +270,21 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy() {
         @Override
         public void sortType1() {
-            sortMethod = 301;
+            Singleton.getInstance().setSaveSortMethod(301);
             Collections.sort(monsterList, monsterType1Comparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType2() {
-            sortMethod = 302;
+            Singleton.getInstance().setSaveSortMethod(302);
             Collections.sort(monsterList, monsterType2Comparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType3() {
-            sortMethod = 303;
+            Singleton.getInstance().setSaveSortMethod(303);
             Collections.sort(monsterList, monsterType3Comparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
@@ -292,21 +293,21 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private SortStatsDialogFragment.SortBy sortByStats = new SortStatsDialogFragment.SortBy() {
         @Override
         public void sortHp() {
-            sortMethod = 401;
+            Singleton.getInstance().setSaveSortMethod(401);
             Collections.sort(monsterList, monsterHpComparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
-            sortMethod = 402;
+            Singleton.getInstance().setSaveSortMethod(402);
             Collections.sort(monsterList, monsterAtkComparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
-            sortMethod = 403;
+            Singleton.getInstance().setSaveSortMethod(403);
             Collections.sort(monsterList, monsterRcvComparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
@@ -315,28 +316,28 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private SortPlusDialogFragment.SortBy sortByPlus = new SortPlusDialogFragment.SortBy() {
         @Override
         public void sortTotal() {
-            sortMethod = 701;
+            Singleton.getInstance().setSaveSortMethod(701);
             Collections.sort(monsterList, monsterPlusComparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortHp() {
-            sortMethod = 702;
+            Singleton.getInstance().setSaveSortMethod(702);
             Collections.sort(monsterList, monsterPlusHpComparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
-            sortMethod = 703;
+            Singleton.getInstance().setSaveSortMethod(703);
             Collections.sort(monsterList, monsterPlusAtkComparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
-            sortMethod = 704;
+            Singleton.getInstance().setSaveSortMethod(704);
             Collections.sort(monsterList, monsterPlusRcvComparator);
             saveMonsterListAdapter.notifyDataSetChanged();
         }
@@ -344,7 +345,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
 
     @Override
     public void sortArrayList(int sortMethod) {
-        this.sortMethod = sortMethod;
+        Singleton.getInstance().setSaveSortMethod(sortMethod);
         Log.d("Save Monster List", "monsterList before sort is:  " + monsterList);
         switch (sortMethod) {
             case 0:
@@ -450,7 +451,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
 
     @Override
     public void reverseArrayList() {
-        switch (sortMethod) {
+        switch (Singleton.getInstance().getSaveSortMethod()) {
             case 202:
                 element2Reverse();
                 saveMonsterListAdapter.setMonsterList(monsterList);
@@ -560,7 +561,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
                 monsterList.clear();
                 monsterList.addAll(monsterListAll);
             }
-            sortArrayList(sortMethod);
+            sortArrayList(Singleton.getInstance().getSaveSortMethod());
             Log.d("Save Monster List", "saveMonsterListAdapter is: " + saveMonsterListAdapter.getMonsterList() + " query is: " + query);
 //            saveMonsterListAdapter.notifyDataSetChanged(monsterList);
 

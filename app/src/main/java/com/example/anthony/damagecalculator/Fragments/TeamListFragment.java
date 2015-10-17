@@ -21,6 +21,7 @@ import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.Singleton;
 import com.example.anthony.damagecalculator.Util.TeamAlphabeticalComparator;
 import com.example.anthony.damagecalculator.Util.TeamFavoriteComparator;
 import com.example.anthony.damagecalculator.Util.TeamLeaderAtkComparator;
@@ -72,7 +73,7 @@ public class TeamListFragment extends AbstractFragment {
     private SortStatsDialogFragment sortStatsDialogFragment;
     private SortPlusDialogFragment sortPlusDialogFragment;
     private TeamLoadDialogFragment teamLoadDialogFragment;
-    private int selectedTeam, sortMethod;
+    private int selectedTeam;
     private OnFragmentInteractionListener mListener;
     private SortLeaderDialogFragment sortLeaderDialogFragment;
     private TeamAlphabeticalComparator teamAlphabeticalComparator = new TeamAlphabeticalComparator();
@@ -247,7 +248,7 @@ public class TeamListFragment extends AbstractFragment {
 
     @Override
     public void sortArrayList(int sortMethod) {
-        this.sortMethod = sortMethod;
+        Singleton.getInstance().setTeamSortMethod(sortMethod);
         switch (sortMethod) {
             case 0:
                 Collections.sort(teamList, teamAlphabeticalComparator);
@@ -267,52 +268,56 @@ public class TeamListFragment extends AbstractFragment {
                 Collections.sort(teamList, teamAlphabeticalComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 201:
+            case 1001:
                 Collections.sort(teamList, teamLeaderElement1Comparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 202:
+            case 1002:
                 Collections.sort(teamList, teamLeaderElement2Comparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 301:
+            case 1003:
                 Collections.sort(teamList, teamLeaderType1Comparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 302:
+            case 1004:
                 Collections.sort(teamList, teamLeaderType2Comparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 303:
+            case 1005:
                 Collections.sort(teamList, teamLeaderType3Comparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 401:
+            case 1006:
                 Collections.sort(teamList, teamLeaderHpComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 402:
+            case 1007:
                 Collections.sort(teamList, teamLeaderAtkComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 403:
+            case 1008:
                 Collections.sort(teamList, teamLeaderRcvComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 701:
+            case 1009:
                 Collections.sort(teamList, teamLeaderPlusComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 702:
+            case 1010:
                 Collections.sort(teamList, teamLeaderPlusHpComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 703:
+            case 1011:
                 Collections.sort(teamList, teamLeaderPlusAtkComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
-            case 704:
+            case 1012:
                 Collections.sort(teamList, teamLeaderPlusRcvComparator);
+                teamListAdapter.notifyDataSetChanged();
+                break;
+            case 1013:
+                Collections.sort(teamList, teamLeaderRarityComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
         }
@@ -320,7 +325,7 @@ public class TeamListFragment extends AbstractFragment {
 
     @Override
     public void reverseArrayList() {
-        switch (sortMethod) {
+        switch (Singleton.getInstance().getTeamSortMethod()) {
             default:
                 Collections.reverse(teamList);
                 teamListAdapter.notifyDataSetChanged();
@@ -363,7 +368,7 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortRarity() {
-            sortMethod = 1001;
+            Singleton.getInstance().setTeamSortMethod(1013);
             Collections.sort(teamList, teamLeaderRarityComparator);
             teamListAdapter.notifyDataSetChanged();
         }
@@ -372,14 +377,14 @@ public class TeamListFragment extends AbstractFragment {
     private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy() {
         @Override
         public void sortElement1() {
-            sortMethod = 201;
+            Singleton.getInstance().setTeamSortMethod(1001);
             Collections.sort(teamList, teamLeaderElement1Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortElement2() {
-            sortMethod = 202;
+            Singleton.getInstance().setTeamSortMethod(1002);
             Collections.sort(teamList, teamLeaderElement2Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
@@ -388,21 +393,21 @@ public class TeamListFragment extends AbstractFragment {
     private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy() {
         @Override
         public void sortType1() {
-            sortMethod = 301;
+            Singleton.getInstance().setTeamSortMethod(1003);
             Collections.sort(teamList, teamLeaderType1Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType2() {
-            sortMethod = 302;
+            Singleton.getInstance().setTeamSortMethod(1004);
             Collections.sort(teamList, teamLeaderType2Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType3() {
-            sortMethod = 303;
+            Singleton.getInstance().setTeamSortMethod(1005);
             Collections.sort(teamList, teamLeaderType3Comparator);
             teamListAdapter.notifyDataSetChanged();
         }
@@ -411,21 +416,21 @@ public class TeamListFragment extends AbstractFragment {
     private SortStatsDialogFragment.SortBy sortByStats = new SortStatsDialogFragment.SortBy() {
         @Override
         public void sortHp() {
-            sortMethod = 401;
+            Singleton.getInstance().setTeamSortMethod(1006);
             Collections.sort(teamList, teamLeaderHpComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
-            sortMethod = 402;
+            Singleton.getInstance().setTeamSortMethod(1007);
             Collections.sort(teamList, teamLeaderAtkComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
-            sortMethod = 403;
+            Singleton.getInstance().setTeamSortMethod(1008);
             Collections.sort(teamList, teamLeaderRcvComparator);
             teamListAdapter.notifyDataSetChanged();
         }
@@ -434,28 +439,28 @@ public class TeamListFragment extends AbstractFragment {
     private SortPlusDialogFragment.SortBy sortByPlus = new SortPlusDialogFragment.SortBy() {
         @Override
         public void sortTotal() {
-            sortMethod = 701;
+            Singleton.getInstance().setTeamSortMethod(1009);
             Collections.sort(teamList, teamLeaderPlusComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortHp() {
-            sortMethod = 702;
+            Singleton.getInstance().setTeamSortMethod(1010);
             Collections.sort(teamList, teamLeaderPlusHpComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
-            sortMethod = 703;
+            Singleton.getInstance().setTeamSortMethod(1011);
             Collections.sort(teamList, teamLeaderPlusAtkComparator);
             teamListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
-            sortMethod = 704;
+            Singleton.getInstance().setTeamSortMethod(1012);
             Collections.sort(teamList, teamLeaderPlusRcvComparator);
             teamListAdapter.notifyDataSetChanged();
         }
@@ -480,7 +485,7 @@ public class TeamListFragment extends AbstractFragment {
                 teamList.clear();
                 teamList.addAll(teamListAll);
             }
-            sortArrayList(sortMethod);
+            sortArrayList(Singleton.getInstance().getTeamSortMethod());
         }
     }
 

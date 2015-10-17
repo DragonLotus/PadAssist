@@ -34,6 +34,7 @@ import com.example.anthony.damagecalculator.Util.BaseMonsterRcvComparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterType1Comparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterType2Comparator;
 import com.example.anthony.damagecalculator.Util.BaseMonsterType3Comparator;
+import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +44,6 @@ import java.util.Comparator;
 public class BaseMonsterListFragment extends AbstractFragment {
     public static final String TAG = BaseMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
-    private int sortMethod;
     private boolean replaceAll;
     private long replaceMonsterId;
     private ListView monsterListView;
@@ -130,7 +130,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
         }
 //        searchFilter("");
 //        Collections.sort(monsterList, monsterNumberComparator);
-        sortMethod = 1;
+//        sortMethod = 1;
         Log.d("Base Monster List Log", "monsterList is after: " + monsterList);
         for (int i = 0; i < monsterList.size(); i++) {
             Log.d("Base Monster List Log", "Monster Type 1 after is: " + monsterList.get(i).getType1());
@@ -266,14 +266,14 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy() {
         @Override
         public void sortElement1() {
-            sortMethod = 201;
+            Singleton.getInstance().setBaseSortMethod(201);
             Collections.sort(monsterList, monsterElement1Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortElement2() {
-            sortMethod = 202;
+            Singleton.getInstance().setBaseSortMethod(202);
             Collections.sort(monsterList, monsterElement2Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
@@ -282,21 +282,21 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy() {
         @Override
         public void sortType1() {
-            sortMethod = 301;
+            Singleton.getInstance().setBaseSortMethod(301);
             Collections.sort(monsterList, monsterType1Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType2() {
-            sortMethod = 302;
+            Singleton.getInstance().setBaseSortMethod(302);
             Collections.sort(monsterList, monsterType2Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortType3() {
-            sortMethod = 303;
+            Singleton.getInstance().setBaseSortMethod(303);
             Collections.sort(monsterList, monsterType3Comparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
@@ -305,21 +305,21 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private SortStatsDialogFragment.SortBy sortByStats = new SortStatsDialogFragment.SortBy() {
         @Override
         public void sortHp() {
-            sortMethod = 401;
+            Singleton.getInstance().setBaseSortMethod(401);
             Collections.sort(monsterList, monsterHpComparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
-            sortMethod = 402;
+            Singleton.getInstance().setBaseSortMethod(402);
             Collections.sort(monsterList, monsterAtkComparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
-            sortMethod = 403;
+            Singleton.getInstance().setBaseSortMethod(403);
             Collections.sort(monsterList, monsterRcvComparator);
             baseMonsterListAdapter.notifyDataSetChanged();
         }
@@ -327,7 +327,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
 
     @Override
     public void sortArrayList(int sortMethod) {
-        this.sortMethod = sortMethod;
+        Singleton.getInstance().setBaseSortMethod(sortMethod);
         Log.d("Base Monster List", "sortArrayList sortMethod is: " + sortMethod);
         Log.d("Base Monster List", "monsterList is: " + monsterList);
         switch (sortMethod) {
@@ -402,8 +402,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
 
     @Override
     public void reverseArrayList() {
-        Log.d("Base Monster List", "reverseArrayList sortMethod is: " + sortMethod);
-        switch (sortMethod) {
+        switch (Singleton.getInstance().getBaseSortMethod()) {
             case 202:
                 element2Reverse();
                 baseMonsterListAdapter.notifyDataSetChanged();
@@ -504,7 +503,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                 monsterList.clear();
                 monsterList.addAll(monsterListAll);
             }
-            sortArrayList(sortMethod);
+            sortArrayList(Singleton.getInstance().getBaseSortMethod());
         }
     }
 
