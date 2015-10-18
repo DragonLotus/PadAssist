@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class TeamOverviewFragment extends AbstractFragment {
     public static final String TAG = TeamOverviewFragment.class.getSimpleName();
-    private TextView teamHpValue, teamRcvValue;
+    private TextView teamHpValue, teamRcvValue, utilityAwakeningText, damageAwakeningText, monsterSpecificText;
     private ListView monsterSpecific;
     private ExpandableHeightGridView utilityAwakenings, damageAwakenings;
     private ArrayList<Monster> monsterList;
@@ -62,6 +62,9 @@ public class TeamOverviewFragment extends AbstractFragment {
         View rootView = inflater.inflate(R.layout.fragment_team_overview, container, false);
         teamHpValue = (TextView) rootView.findViewById(R.id.teamHpValue);
         teamRcvValue = (TextView) rootView.findViewById(R.id.teamRcvValue);
+        utilityAwakeningText = (TextView) rootView.findViewById(R.id.utilityAwakeningText);
+        damageAwakeningText = (TextView) rootView.findViewById(R.id.damageAwakeningText);
+        monsterSpecificText = (TextView) rootView.findViewById(R.id.monsterSpecificText);
         utilityAwakenings = (ExpandableHeightGridView) rootView.findViewById(R.id.utilityAwakenings);
         damageAwakenings = (ExpandableHeightGridView) rootView.findViewById(R.id.damageAwakenings);
         monsterSpecific = (ListView) rootView.findViewById(R.id.monsterSpecific);
@@ -163,9 +166,31 @@ public class TeamOverviewFragment extends AbstractFragment {
             }
             if(tempAwakenings.size() == 0){
                 monsterList.remove(i);
+                i--;
             }else {
                 tempAwakenings.clear();
             }
+        }
+        if(utilityAwakeningList.size() == 0){
+            utilityAwakenings.setVisibility(View.GONE);
+            utilityAwakeningText.setText("No Utility Awakenings!");
+        }else {
+            utilityAwakenings.setVisibility(View.VISIBLE);
+            utilityAwakeningText.setText("Utility Awakenings");
+        }
+        if(damageAwakeningList.size() == 0){
+            damageAwakenings.setVisibility(View.GONE);
+            damageAwakeningText.setText("No Damage Awakenings!");
+        }else {
+            damageAwakenings.setVisibility(View.VISIBLE);
+            damageAwakeningText.setText("Damage Awakenings");
+        }
+        if(monsterList.size() == 0){
+            monsterSpecific.setVisibility(View.GONE);
+            monsterSpecificText.setText("No Monster Specific Awakenings!");
+        }else {
+            monsterSpecific.setVisibility(View.VISIBLE);
+            monsterSpecificText.setText("Monster Specific Awakenings");
         }
     }
 
