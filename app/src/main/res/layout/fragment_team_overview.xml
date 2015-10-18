@@ -1,12 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
     android:focusableInTouchMode="true"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingBottom="8dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingTop="8dp"
     tools:context="com.example.anthony.damagecalculator.Fragments.TeamOverviewFragment">
 
     <TextView
@@ -14,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Team HP: "
-        android:textSize="18dp"/>
+        android:textSize="18dp" />
 
     <com.example.anthony.damagecalculator.Graphics.ThinStroke
         android:id="@+id/teamHpValue"
@@ -22,33 +23,86 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/teamHp"
         android:text="99999"
-        android:textSize="18dp"
-        android:textColor="#00FF00"/>
+        android:textColor="#00FF00"
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/teamRcv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/teamHpValue"
+        android:layout_toLeftOf="@+id/teamRcvValue"
         android:text="Team RCV: "
-        android:textSize="18dp"/>
+        android:textSize="18dp" />
 
     <com.example.anthony.damagecalculator.Graphics.ThinStroke
         android:id="@+id/teamRcvValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/teamHpValue"
-        android:layout_toRightOf="@+id/teamRcv"
+        android:layout_alignParentRight="true"
         android:text="99999"
-        android:textSize="18dp"
-        android:textColor="#FF9999"/>
+        android:textColor="#FF9999"
+        android:textSize="18dp" />
 
-    <GridView
-        android:id="@+id/awakenings"
+    <ScrollView
+        android:id="@+id/awakeningScrollView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/teamRcvValue"
-        android:numColumns="5"
-        android:verticalSpacing="0dp"/>
+        android:layout_height="fill_parent"
+        android:layout_below="@id/teamRcvValue">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/utilityAwakeningText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Utility Awakenings"
+                android:textSize="18dp" />
+
+            <com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView
+                android:id="@+id/utilityAwakenings"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/utilityAwakeningText"
+                android:gravity="center_horizontal"
+                android:numColumns="5"/>
+
+            <TextView
+                android:id="@+id/damageAwakeningText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/utilityAwakenings"
+                android:text="Damage Awakenings"
+                android:textSize="18dp" />
+
+            <com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView
+                android:id="@+id/damageAwakenings"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/utilityAwakenings"
+                android:gravity="center_horizontal"
+                android:numColumns="5"/>
+
+            <TextView
+                android:id="@+id/monsterSpecificText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/damageAwakenings"
+                android:text="Monster Specific Awakenings"
+                android:textSize="18dp" />
+
+            <ListView
+                android:id="@+id/monsterSpecific"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/monsterSpecificText"
+                android:gravity="center_horizontal"
+                android:numColumns="5" />
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </RelativeLayout>

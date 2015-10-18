@@ -4,8 +4,9 @@
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/awakeningPicture"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/awakening_1"/>
 
     <TextView
@@ -15,7 +16,7 @@
         android:layout_below="@+id/awakeningPicture"
         android:layout_alignLeft="@+id/awakeningPicture"
         android:layout_alignRight="@+id/awakeningPicture"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:text="x3"
         android:textSize="18dp"/>
 

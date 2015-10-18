@@ -449,7 +449,9 @@ public class Team extends Model implements Parcelable {
     public ArrayList<Integer> getAwakenings(){
         if(awakeningsList.size() == 0){
             for (int i = 0; i < monsters.size(); i++){
-                awakeningsList.addAll(monsters.get(i).getAwokenSkills());
+                for(int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
+                    awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+                }
             }
             Collections.sort(awakeningsList, numberComparator);
         }

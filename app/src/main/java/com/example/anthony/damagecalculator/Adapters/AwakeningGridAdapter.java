@@ -28,7 +28,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
     public AwakeningGridAdapter(Context context, ArrayList<Integer> awakenings){
         mContext = context;
         awakeningListAll = awakenings;
-        trimAwakeningList();
+        trimAwakenings();
     }
 
     @Override
@@ -158,7 +158,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
 
     }
 
-    private void trimAwakeningList(){
+    private void trimAwakenings(){
         if(awakeningList != null){
             awakeningList.clear();
         } else {
