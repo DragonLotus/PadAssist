@@ -281,6 +281,7 @@ public class MonsterListFragment extends AbstractFragment {
         @Override
         public void onClick(View v) {
 //            ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(TeamOverviewFragment.newInstance(team), TeamOverviewFragment.TAG);
         }
     };
 

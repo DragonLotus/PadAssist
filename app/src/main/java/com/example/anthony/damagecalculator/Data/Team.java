@@ -9,8 +9,11 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.example.anthony.damagecalculator.Util.NumberComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -65,6 +68,8 @@ public class Team extends Model implements Parcelable {
     private LeaderSkill leadSkill;
     @Column(name = "helperSkill")
     private LeaderSkill helperSkill;
+    private ArrayList<Integer> awakeningsList = new ArrayList<>();
+    private Comparator<Integer> numberComparator = new NumberComparator();
 
     public Team() {
         teamId = 0;
@@ -441,6 +446,16 @@ public class Team extends Model implements Parcelable {
         this.favorite = favorite;
     }
 
+    public ArrayList<Integer> getAwakenings(){
+        if(awakeningsList.size() == 0){
+            for (int i = 0; i < monsters.size(); i++){
+                awakeningsList.addAll(monsters.get(i).getAwokenSkills());
+            }
+            Collections.sort(awakeningsList, numberComparator);
+        }
+        return awakeningsList;
+    }
+
     public void update() {
         //Case Switch thing for each color. 5 elements for 5 colors. 0 red, 1 blue, 2 green, 3 light, 4 dark
         //Check for monster bound
@@ -448,6 +463,7 @@ public class Team extends Model implements Parcelable {
             Log.d("What are monsters", "Monsters: " + getMonsters().get(i) + " " + monsters.get(i));
         }
 //        compareAllElements.clear();
+        awakeningsList.clear();
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
         for (int i = 0; i < 5; i++) {
