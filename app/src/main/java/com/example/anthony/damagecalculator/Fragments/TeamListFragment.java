@@ -204,10 +204,10 @@ public class TeamListFragment extends AbstractFragment {
             selectedTeam = position;
             Log.d("Team log", "Selected team position: " + selectedTeam);
             if (teamLoadDialogFragment == null) {
-                teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam);
+                teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(position));
             }
 
-            teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog");
+            teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(position));
         }
     };
 

@@ -1,5 +1,7 @@
 package com.example.anthony.damagecalculator.Data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.activeandroid.Model;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
  * Created by DragonLotus on 9/18/2015.
  */
 @Table(name = "LeaderSkill")
-public class LeaderSkill extends Model {
+public class LeaderSkill extends Model{
 
     @Column(name = "hpData")
     private ArrayList<Double> hpData;
@@ -1714,4 +1716,5 @@ public class LeaderSkill extends Model {
     public static LeaderSkill getLeaderSkill(String name) {
         return new Select().from(LeaderSkill.class).where("name = ?", name).executeSingle();
     }
+
 }

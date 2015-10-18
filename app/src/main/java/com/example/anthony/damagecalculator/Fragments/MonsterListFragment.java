@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -52,6 +53,7 @@ public class MonsterListFragment extends AbstractFragment {
     private Team team;
     private Enemy enemy;
     private Toast toast;
+    private TeamSaveDialogFragment teamSaveDialogFragment;
 
     /**
      * Use this factory method to create a new instance of
@@ -127,6 +129,7 @@ public class MonsterListFragment extends AbstractFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.saveTeamGroup, true);
+        menu.findItem(R.id.saveTeam).setVisible(true);
     }
 
     @Override
@@ -293,6 +296,8 @@ public class MonsterListFragment extends AbstractFragment {
                 toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
+                team.updateLeaderSkills();
+                team.save();
                 ((MainActivity) getActivity()).switchFragment(MainFragment.newInstance(team, enemy), MainFragment.TAG);
             }
         }
@@ -343,8 +348,48 @@ public class MonsterListFragment extends AbstractFragment {
 
     @Override
     public void reverseArrayList() {
-
+//        if (teamSaveDialogFragment == null) {
+//            teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
+//        }
+//        teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), "Show Team Save Dialog");
     }
+
+//    private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
+//        @Override
+//        public void overwriteTeam() {
+//            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
+//            Team overwriteTeam = new Team(Team.getTeamById(0));
+//            overwriteTeam.setTeamName(Team.getTeamById(overwriteTeam.getTeamIdOverwrite()).getTeamName());
+//            overwriteTeam.setTeamId(Team.getTeamById(0).getTeamIdOverwrite());
+//            Log.d("Main Activity Log", "Overwrite Team name is: " + overwriteTeam.getTeamName() + " Team id: " + overwriteTeam.getTeamId() + " Team ID overwrite: " + overwriteTeam.getTeamIdOverwrite());
+//            overwriteTeam.save();
+//
+//        }
+//
+//        @Override
+//        public void saveNewTeam(String teamName) {
+//            long teamId;
+//            if (Team.getAllTeams().size() == 0) {
+//                teamId = 1;
+//            } else {
+//                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
+//            }
+//            Team newTeam = new Team(Team.getTeamById(0));
+//            newTeam.setTeamName(teamName);
+//            newTeam.setTeamId(teamId);
+//            for (Monster monster : newTeam.getMonsters()) {
+//                Log.d("Monster", "MonsterPlus:" + monster.getTotalPlus());
+//                monster.save();
+//            }
+//            newTeam.save();
+//            Team teamZero = new Team(newTeam);
+//            teamZero.setTeamId(0);
+//            teamZero.setTeamIdOverwrite(newTeam.getTeamId());
+//            teamZero.save();
+//            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
+//
+//        }
+//    };
 
     @Override
     public void searchFilter(String query) {

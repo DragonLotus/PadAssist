@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 
@@ -28,6 +30,7 @@ public class TeamLoadDialogFragment extends DialogFragment {
     private EditText teamName;
     private LoadTeam loadTeam;
     private Toast toast;
+    private Team team;
 
     public interface LoadTeam {
         public void loadTeam();
@@ -37,9 +40,11 @@ public class TeamLoadDialogFragment extends DialogFragment {
         public void editTeam(String teamName);
     }
 
-    public static TeamLoadDialogFragment newInstance(LoadTeam loadTeam) {
+    public static TeamLoadDialogFragment newInstance(LoadTeam loadTeam, Team team) {
         TeamLoadDialogFragment dialogFragment = new TeamLoadDialogFragment();
         dialogFragment.setLoadTeam(loadTeam);
+        Bundle args = new Bundle();
+        args.putParcelable("team", team);
         return dialogFragment;
     }
 
@@ -101,6 +106,10 @@ public class TeamLoadDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if(getArguments() != null){
+            team = getArguments().getParcelable("team");
+        }
+        teamName.setText(team.getTeamName());
         choiceRadioGroup.setOnCheckedChangeListener(choiceOnCheckedChangeListener);
     }
 
@@ -117,6 +126,11 @@ public class TeamLoadDialogFragment extends DialogFragment {
 
     public void setLoadTeam(LoadTeam loadTeam) {
         this.loadTeam = loadTeam;
+    }
+
+    public void show(FragmentManager manager, String tag, Team team) {
+        super.show(manager, tag);
+        this.team = team;
     }
 
 }

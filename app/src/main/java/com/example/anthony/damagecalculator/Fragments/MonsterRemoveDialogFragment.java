@@ -48,17 +48,20 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
     private RadioGroup choiceRadioGroup;
     private CheckBox favorite;
     private RemoveMonster remove;
-    private static boolean favoriteBoolean;
     private Spinner evolutionSpinner;
     private ArrayList<Long> evolutions = new ArrayList<>();
     private EvolutionSpinnerAdapter evolutionSpinnerAdapter;
+    private Monster monster;
     //private Long[] evolutions;
 
-    public static MonsterRemoveDialogFragment newInstance(RemoveMonster removeMonster, boolean favorite) {
+    public static MonsterRemoveDialogFragment newInstance(RemoveMonster removeMonster, Monster monster) {
         MonsterRemoveDialogFragment dialogFragment = new MonsterRemoveDialogFragment();
         dialogFragment.setRemove(removeMonster);
+        Bundle args = new Bundle();
         Log.d("remove check3", "" + removeMonster);
-        favoriteBoolean = favorite;
+        args.putParcelable("monster", monster);
+//        favoriteBoolean = favorite;
+//        monsterEvolve = monster;
         return dialogFragment;
     }
 
@@ -104,9 +107,11 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("Monster Remove Dialog", "favoriteBoolean is: " + favoriteBoolean);
-        favorite.setChecked(favoriteBoolean);
-        if (favoriteBoolean) {
+        if (getArguments() != null) {
+            monster = getArguments().getParcelable("monster");
+        }
+        favorite.setChecked(monster.isFavorite());
+        if (monster.isFavorite()) {
             choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 1).setEnabled(false);
         } else {
             choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 1).setEnabled(true);
@@ -155,8 +160,8 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
             choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 2).setEnabled(false);
         }else {
             choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 2).setEnabled(true);
-            Monster evolveMonster = Monster.getMonsterId(Team.getTeamById(0).getMonsters().get(Team.getTeamById(0).getMonsterOverwrite()).getMonsterId());
-            evolutions = evolveMonster.getEvolutions();
+//            Monster evolveMonster = Monster.getMonsterId(Team.getTeamById(0).getMonsters().get(Team.getTeamById(0).getMonsterOverwrite()).getMonsterId());
+            evolutions = monster.getEvolutions();
             if(!evolutions.contains(Long.valueOf(0))){
                 evolutions.add(0, Long.valueOf(0));
             }
@@ -169,8 +174,8 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
 //        Log.d("Monster Remove Dialog", "evolutions is: " + evolutions);
     }
 
-    public void show(FragmentManager manager, String tag, boolean favorite) {
+    public void show(FragmentManager manager, String tag, Monster monster) {
         super.show(manager, tag);
-        favoriteBoolean = favorite;
+        this.monster = monster;
     }
 }

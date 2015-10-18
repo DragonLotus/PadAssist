@@ -698,32 +698,32 @@ public class TeamDamageListFragment extends AbstractFragment {
 
     private void setupHpSeekBar() {
         int position = 0;
-        if(LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getHpPercent().isEmpty()){
-            if (LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getHpPercent().isEmpty()){
+        if(team.getLeadSkill().getHpPercent().isEmpty()){
+            if (team.getHelperSkill().getHpPercent().isEmpty()){
                 team.setTeamHp(100);
             }else {
-                for(int i = 0; i < LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getAtkData().size(); i++){
+                for(int i = 0; i < team.getHelperSkill().getAtkData().size(); i++){
                     if (i == 0){
                         position = i;
                     }else {
-                        if (LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getAtkData().get(i) > LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getAtkData().get(i-1)){
+                        if (team.getHelperSkill().getAtkData().get(i) > team.getHelperSkill().getAtkData().get(i-1)){
                             position = i;
                         }
                     }
                 }
-                team.setTeamHp(LeaderSkill.getLeaderSkill(team.getLeadSkill2()).getHpPercent().get(0 + 2*position));
+                team.setTeamHp(team.getHelperSkill().getHpPercent().get(0 + 2*position));
             }
         } else {
-            for(int i = 0; i < LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getAtkData().size(); i++){
+            for(int i = 0; i < team.getLeadSkill().getAtkData().size(); i++){
                 if (i == 0){
                     position = i;
                 }else {
-                    if (LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getAtkData().get(i) > LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getAtkData().get(i-1)){
+                    if (team.getLeadSkill().getAtkData().get(i) > team.getLeadSkill().getAtkData().get(i-1)){
                         position = i;
                     }
                 }
             }
-            team.setTeamHp(LeaderSkill.getLeaderSkill(team.getLeadSkill1()).getHpPercent().get(0 + 2*position));
+            team.setTeamHp(team.getLeadSkill().getHpPercent().get(0 + 2*position));
         }
         team.save();
         teamHp.setProgress(team.getTeamHp());
@@ -750,7 +750,7 @@ public class TeamDamageListFragment extends AbstractFragment {
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             Log.d("Team Damage Log", "I am stop tracking touch");
-            team.update();
+//            team.update();
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }

@@ -420,9 +420,9 @@ public class MonsterPageFragment extends AbstractFragment {
             } else if (v.equals(monsterRemove)) {
                 Log.d("Monster Page Log", "Monster favorite before Dialog is: " + monster.isFavorite());
                 if (monsterRemoveDialogFragment == null) {
-                    monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster, monster.isFavorite());
+                    monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster, monster);
                 }
-                monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster.isFavorite());
+                monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);
             }
         }
     };

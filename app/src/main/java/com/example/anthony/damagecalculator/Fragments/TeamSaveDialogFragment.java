@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.R;
 
@@ -27,6 +29,7 @@ public class TeamSaveDialogFragment extends DialogFragment {
     private EditText teamName;
     private SaveTeam saveTeam;
     private Toast toast;
+    private Team team;
 
     public interface SaveTeam {
         public void overwriteTeam();
@@ -37,6 +40,8 @@ public class TeamSaveDialogFragment extends DialogFragment {
     public static TeamSaveDialogFragment newInstance(SaveTeam saveTeam) {
         TeamSaveDialogFragment dialogFragment = new TeamSaveDialogFragment();
         dialogFragment.setSaveTeam(saveTeam);
+//        Bundle args = new Bundle();
+//        args.putParcelable("team", team);
         return dialogFragment;
     }
 
@@ -102,7 +107,11 @@ public class TeamSaveDialogFragment extends DialogFragment {
             Log.d("Teams are null", "I am null");
             choiceRadioGroup.getChildAt(0).setEnabled(false);
         }
+        if (getArguments() != null) {
+//            team = getArguments().getParcelable("team");
+        }
         choiceRadioGroup.setOnCheckedChangeListener(choiceOnCheckedChangeListener);
+//        Log.d("Team Save Dialog", "Team Name is: " + team.getTeamName());
     }
 
     private RadioGroup.OnCheckedChangeListener choiceOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
@@ -113,11 +122,21 @@ public class TeamSaveDialogFragment extends DialogFragment {
             } else {
                 teamName.setEnabled(false);
             }
+            if (checkedId == R.id.overwriteTeam) {
+                teamName.setText(Team.getTeamById(0).getTeamName());
+            } else {
+                teamName.setText("");
+            }
         }
     };
 
     public void setSaveTeam(SaveTeam saveTeam) {
         this.saveTeam = saveTeam;
+    }
+
+    public void show(FragmentManager manager, String tag, Team team) {
+        super.show(manager, tag);
+        this.team = team;
     }
 }
 //

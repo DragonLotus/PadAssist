@@ -63,6 +63,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private TextView savedMonsters;
     private boolean replaceAll;
     private long replaceMonsterId;
+    private Monster monsterZero = Monster.getMonsterId(0);
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -478,9 +479,9 @@ public class SaveMonsterListFragment extends AbstractFragment {
 
     private void defaultReverse() {
         Collections.reverse(monsterList);
-        if (monsterList.contains(Monster.getMonsterId(0))) {
-            monsterList.remove(Monster.getMonsterId(0));
-            monsterList.add(0, Monster.getMonsterId(0));
+        if (monsterList.contains(monsterZero)) {
+            monsterList.remove(monsterZero);
+            monsterList.add(0, monsterZero);
         }
     }
 
@@ -497,9 +498,9 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(Monster.getMonsterId(0))) {
-            monsterList.remove(Monster.getMonsterId(0));
-            monsterList.add(0, Monster.getMonsterId(0));
+        if (monsterList.contains(monsterZero)) {
+            monsterList.remove(monsterZero);
+            monsterList.add(0, monsterZero);
         }
     }
 
@@ -516,9 +517,9 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(Monster.getMonsterId(0))) {
-            monsterList.remove(Monster.getMonsterId(0));
-            monsterList.add(0, Monster.getMonsterId(0));
+        if (monsterList.contains(monsterZero)) {
+            monsterList.remove(monsterZero);
+            monsterList.add(0, monsterZero);
         }
     }
 
@@ -535,9 +536,9 @@ public class SaveMonsterListFragment extends AbstractFragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(Monster.getMonsterId(0))) {
-            monsterList.remove(Monster.getMonsterId(0));
-            monsterList.add(0, Monster.getMonsterId(0));
+        if (monsterList.contains(monsterZero)) {
+            monsterList.remove(monsterZero);
+            monsterList.add(0, monsterZero);
         }
     }
 

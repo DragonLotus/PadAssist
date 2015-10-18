@@ -535,6 +535,7 @@ public class MainActivity extends AppCompatActivity {
                 teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
             }
             teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
+//            mContent.reverseArrayList();
         } else if (id == R.id.loadTeam) {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
         } else if (id == R.id.monsterList) {

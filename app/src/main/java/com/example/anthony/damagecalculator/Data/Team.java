@@ -48,9 +48,9 @@ public class Team extends Model implements Parcelable {
     @Column(name = "teamOrder")
     private int teamOrder;
     @Column(name = "favorite")
-    private Boolean favorite;
-    private Boolean hasAwakenings;
-    private Boolean isActiveSkillUsed;
+    private boolean favorite;
+    private boolean hasAwakenings;
+    private boolean isActiveSkillUsed;
     @Column(name = "teamIdOverwrite")
     private long teamIdOverwrite;
     @Column(name = "monsterOverwrite")
@@ -61,6 +61,10 @@ public class Team extends Model implements Parcelable {
     private ArrayList<Element> compareElements = new ArrayList<>();
     private ArrayList<Element> haveElements = new ArrayList();
     private ArrayList<Element> compareAllElements = new ArrayList<>();
+    @Column(name = "leadSkill")
+    private LeaderSkill leadSkill;
+    @Column(name = "helperSkill")
+    private LeaderSkill helperSkill;
 
     public Team() {
         teamId = 0;
@@ -164,8 +168,8 @@ public class Team extends Model implements Parcelable {
     }
 
     public ArrayList<OrbMatch> getOrbMatches() {
-        if(!orbMatches.equals((ArrayList)OrbMatch.getAllOrbMatches())){
-            orbMatches = (ArrayList)OrbMatch.getAllOrbMatches();
+        if (!orbMatches.equals((ArrayList) OrbMatch.getAllOrbMatches())) {
+            orbMatches = (ArrayList) OrbMatch.getAllOrbMatches();
         }
 
         return orbMatches;
@@ -249,9 +253,9 @@ public class Team extends Model implements Parcelable {
         setHelper(monster6);
     }
 
-    public void setMonsters(int position, Monster monster){
+    public void setMonsters(int position, Monster monster) {
         monsters.set(position, monster);
-        switch(position){
+        switch (position) {
             case 0:
                 setLead(monster);
                 break;
@@ -337,20 +341,28 @@ public class Team extends Model implements Parcelable {
         this.isBound = isBound;
     }
 
-    public String getLeadSkill1() {
+    public LeaderSkill getLeadSkill() {
         if (isBound.get(0)) {
-            return "Blank";
+            return LeaderSkill.getLeaderSkill("Blank");
         } else {
-            return lead.getLeaderSkill();
+            return leadSkill;
         }
     }
 
-    public String getLeadSkill2() {
+    public void setLeadSkill(LeaderSkill leadSkill) {
+        this.leadSkill = leadSkill;
+    }
+
+    public LeaderSkill getHelperSkill() {
         if (isBound.get(5)) {
-            return "Blank";
+            return LeaderSkill.getLeaderSkill("Blank");
         } else {
-            return helper.getLeaderSkill();
+            return helperSkill;
         }
+    }
+
+    public void setHelperSkill(LeaderSkill helperSkill) {
+        this.helperSkill = helperSkill;
     }
 
     public int getTeamHp() {
@@ -367,7 +379,7 @@ public class Team extends Model implements Parcelable {
     }
 
     public ArrayList<Element> getAllOrbMatchElements() {
-        if(compareAllElements.size() != 0){
+        if (compareAllElements.size() != 0) {
             compareAllElements.clear();
         }
         for (int i = 0; i < getOrbMatches().size(); i++) {
@@ -405,27 +417,27 @@ public class Team extends Model implements Parcelable {
         } else return 0;
     }
 
-    public Boolean hasAwakenings() {
+    public boolean hasAwakenings() {
         return hasAwakenings;
     }
 
-    public void setHasAwakenings(Boolean hasAwakenings) {
+    public void setHasAwakenings(boolean hasAwakenings) {
         this.hasAwakenings = hasAwakenings;
     }
 
-    public Boolean isActiveSkillUsed() {
+    public boolean isActiveSkillUsed() {
         return isActiveSkillUsed;
     }
 
-    public void isActiveSkillUsed(Boolean isActiveSkillUsed) {
+    public void isActiveSkillUsed(boolean isActiveSkillUsed) {
         this.isActiveSkillUsed = isActiveSkillUsed;
     }
 
-    public Boolean isFavorite() {
+    public boolean isFavorite() {
         return favorite;
     }
 
-    public void setFavorite(Boolean favorite) {
+    public void setFavorite(boolean favorite) {
         this.favorite = favorite;
     }
 
@@ -488,7 +500,7 @@ public class Team extends Model implements Parcelable {
         }
     }
 
-    public void updateOrbs(){
+    public void updateOrbs() {
         haveElements.clear();
         compareElements.clear();
         Log.d("Team Log", "Compare All Elements has: " + compareAllElements);
@@ -516,6 +528,11 @@ public class Team extends Model implements Parcelable {
             Log.d("Team Log", "Compare Elements loop has: " + compareElements);
         }
         Log.d("Team Log", "Compare Elements has: " + compareElements);
+    }
+
+    public void updateLeaderSkills() {
+        leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
+        helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
     }
 
     public Team(Parcel source) {
@@ -572,7 +589,7 @@ public class Team extends Model implements Parcelable {
         return new Select().from(Team.class).where("teamId > ?", 0).execute();
     }
 
-    public static List<Team> getAllTeamsAndZero(){
+    public static List<Team> getAllTeamsAndZero() {
         return new Select().from(Team.class).execute();
     }
 
