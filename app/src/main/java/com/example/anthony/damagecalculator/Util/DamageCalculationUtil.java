@@ -295,4 +295,19 @@ public class DamageCalculationUtil {
         //return (int) Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) ((currentLevel - 1) / (maxLevel - 1)), statScale)));
         return Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) (currentLevel - 1) / (maxLevel - 1), statScale)));
     }
+
+    public static int monsterHpCalc(Monster monster, Team team){
+        double monsterHp = 0;
+        monsterHp = monster.getTotalHp();
+        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " hpData is: " + team.getLeadSkill().getHpData() + " multiplier is: " + team.getLeadSkill().hpMultiplier(monster, team));
+        monsterHp = monsterHp * team.getLeadSkill().hpMultiplier(monster, team) * team.getHelperSkill().hpMultiplier(monster, team);
+        return (int) Math.ceil(monsterHp);
+    }
+
+    public static int monsterRcvCalc(Monster monster, Team team){
+        double monsterRcv = 0;
+        monsterRcv = monster.getTotalRcv();
+        monsterRcv = monsterRcv * team.getLeadSkill().rcvMultiplier(monster, team) * team.getHelperSkill().rcvMultiplier(monster, team);
+        return (int) Math.ceil(monsterRcv);
+    }
 }

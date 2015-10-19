@@ -17,6 +17,7 @@ import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 
 import java.util.ArrayList;
 
@@ -81,6 +82,8 @@ public class TeamOverviewFragment extends AbstractFragment {
         utilityAwakeningList = new ArrayList<>();
         damageAwakeningList = new ArrayList<>();
         monsterList = new ArrayList<>();
+        monsterList.addAll(team.getMonsters());
+        setTeamStats();
         setupAwakeningFilters();
         trimAwakenings();
         utilityAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), utilityAwakeningList);
@@ -154,9 +157,9 @@ public class TeamOverviewFragment extends AbstractFragment {
                 damageAwakeningList.add(awakeningListAll.get(i));
             }
         }
-        if (monsterList.size() == 0) {
-            monsterList.addAll(team.getMonsters());
-        }
+//        if (monsterList.size() == 0) {
+//            monsterList.addAll(team.getMonsters());
+//        }
         ArrayList<Integer> tempAwakenings = new ArrayList<>();
         for(int i = 0; i < monsterList.size(); i++){
             for(int j = 0; j < monsterList.get(i).getCurrentAwakenings(); j++){
@@ -211,6 +214,18 @@ public class TeamOverviewFragment extends AbstractFragment {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+    }
+
+    private void setTeamStats(){
+        int teamHp = 0;
+        int teamRcv = 0;
+        Log.d("Team Overview", "Leadskill is: " + team.getLeadSkill());
+        for(int i = 0; i < team.getMonsters().size(); i++){
+            teamHp += DamageCalculationUtil.monsterHpCalc(team.getMonsters(i), team);
+            teamRcv += DamageCalculationUtil.monsterRcvCalc(team.getMonsters(i), team);
+        }
+        teamHpValue.setText(String.valueOf(teamHp));
+        teamRcvValue.setText(String.valueOf(teamRcv));
     }
 
     @Override

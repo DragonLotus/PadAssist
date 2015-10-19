@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by DragonLotus on 9/18/2015.
  */
 @Table(name = "LeaderSkill")
-public class LeaderSkill extends Model{
+public class LeaderSkill extends Model {
 
     @Column(name = "hpData")
     private ArrayList<Double> hpData;
@@ -346,256 +346,265 @@ public class LeaderSkill extends Model{
 
     public double hpMultiplier(Monster monster, Team team) {
         hpMultiplier = 1;
-        switch (hpSkillType) {
-            case BLANK:
-                break;
-            case FLAT:
-                flat(monster, 1);
-                break;
-            case MONSTER_CONDITIONAL:
-                monsterConditional(monster, team, 1);
-                break;
+        if (hpSkillType != null) {
+            switch (hpSkillType) {
+                case BLANK:
+                    break;
+                case FLAT:
+                    flat(monster, 1);
+                    break;
+                case MONSTER_CONDITIONAL:
+                    monsterConditional(monster, team, 1);
+                    break;
+            }
         }
         return hpMultiplier;
     }
 
     public double atkElement1Multiplier(Monster monster, Team team) {
         atkElement1Multiplier = 1;
-        switch (atkSkillType) {
-            case BLANK:
-                break;
-            case FLAT:
-                flat(monster, 2);
-                break;
-            case FLAT_ATTRIBUTE_ACTIVE_ATTRIBUTE:
-                flatAttributeActiveAttribute(monster, team);
-                break;
-            case FLAT_TYPE_FLAT_ATTRIBUTE:
-                flatTypeFlatAttribute(monster, team);
-                break;
-            case COMBO:
-                combo(monster, team);
-                break;
-            case MATCH_ELEMENT:
-                matchElement(monster, team);
-                break;
-            case MONSTER_CONDITIONAL:
-                monsterConditional(monster, team, 2);
-                break;
-            case FLAT_MONSTER_CONDITIONAL:
-                flatMonsterConditional(monster, team, 2);
-                break;
-            case ORB_LINK:
-                orbLink(monster, team);
-                break;
-            case ORB_LINK_FLAT:
-                orbLinkFlat(monster, team);
-                break;
-            case ORB_LINK_INDIAN:
-                orbLinkIndian(monster, team);
-                break;
-            case MATCH_ELEMENT_FLAT:
-                matchElementFlat(monster, team);
-                break;
-            case COMBO_MATCH_ELEMENT:
-                comboMatchElement(monster, team);
-                break;
-            case MATCH_ELEMENT_ACTIVE:
-                matchElementActive(monster, team, 2);
-                break;
-            case FLAT_ACTIVE:
-                flatActive(monster, team, 2);
-                break;
-            case COMBO_ACTIVE:
-                comboActive(monster, team, 2);
-                break;
-            case COMBO_FLAT:
-                comboFlat(monster, team);
-                break;
-            case COMBO_ATTRIBUTE:
-                comboAttribute(monster, team);
-                break;
-            case COMBO_EXACT:
-                comboExact(monster, team);
-                break;
-            case INDIAN:
-                indian(monster, team);
-                break;
-            case INDIAN_FLAT:
-                indianFlat(monster, team);
-                break;
-            case ORB_PLUS:
-                orbPlus(monster, team);
-                break;
-            case ORB_PLUS_FLAT:
-                orbPlusFlat(monster, team);
-                break;
-            case INDIAN_ORB_PLUS:
-                indianOrbPlus(monster, team);
-                break;
-            case MATCH_ELEMENT_ORB_PLUS:
-                matchElementOrbPlus(monster, team);
-                break;
-            case COMBO_ORB_PLUS:
-                comboOrbPlus(monster, team);
-                break;
-            case GRIMOIRE_FLAT:
-                multiFlat(monster, team);
-                break;
-            case HP_FLAT:
-                hpFlat(monster, team, 2);
-                break;
-            case FLAT_HP_FLAT:
-                flatHpFlat(monster, team);
-                break;
-            case HP_FLAT_ATTRIBUTE_FLAT_TYPE:
-                hpFlatAttributeFlatType(monster, team);
-                break;
-            case ACTIVE:
-                active(monster, team, 2);
-                break;
-            case FLAT_TYPE_ACTIVE_ATTRIBUTE:
-                flatTypeActiveAttribute(monster, team);
-                break;
-            case ORB_LINK_EXACT_FLAT:
-                orbLinkExactFlat(monster, team);
-                break;
-            case ORB_LINK_EXACT:
-                orbLinkExact(monster, team);
-                break;
+        if (atkSkillType != null) {
+            switch (atkSkillType) {
+                case BLANK:
+                    break;
+                case FLAT:
+                    flat(monster, 2);
+                    break;
+                case FLAT_ATTRIBUTE_ACTIVE_ATTRIBUTE:
+                    flatAttributeActiveAttribute(monster, team);
+                    break;
+                case FLAT_TYPE_FLAT_ATTRIBUTE:
+                    flatTypeFlatAttribute(monster, team);
+                    break;
+                case COMBO:
+                    combo(monster, team);
+                    break;
+                case MATCH_ELEMENT:
+                    matchElement(monster, team);
+                    break;
+                case MONSTER_CONDITIONAL:
+                    monsterConditional(monster, team, 2);
+                    break;
+                case FLAT_MONSTER_CONDITIONAL:
+                    flatMonsterConditional(monster, team, 2);
+                    break;
+                case ORB_LINK:
+                    orbLink(monster, team);
+                    break;
+                case ORB_LINK_FLAT:
+                    orbLinkFlat(monster, team);
+                    break;
+                case ORB_LINK_INDIAN:
+                    orbLinkIndian(monster, team);
+                    break;
+                case MATCH_ELEMENT_FLAT:
+                    matchElementFlat(monster, team);
+                    break;
+                case COMBO_MATCH_ELEMENT:
+                    comboMatchElement(monster, team);
+                    break;
+                case MATCH_ELEMENT_ACTIVE:
+                    matchElementActive(monster, team, 2);
+                    break;
+                case FLAT_ACTIVE:
+                    flatActive(monster, team, 2);
+                    break;
+                case COMBO_ACTIVE:
+                    comboActive(monster, team, 2);
+                    break;
+                case COMBO_FLAT:
+                    comboFlat(monster, team);
+                    break;
+                case COMBO_ATTRIBUTE:
+                    comboAttribute(monster, team);
+                    break;
+                case COMBO_EXACT:
+                    comboExact(monster, team);
+                    break;
+                case INDIAN:
+                    indian(monster, team);
+                    break;
+                case INDIAN_FLAT:
+                    indianFlat(monster, team);
+                    break;
+                case ORB_PLUS:
+                    orbPlus(monster, team);
+                    break;
+                case ORB_PLUS_FLAT:
+                    orbPlusFlat(monster, team);
+                    break;
+                case INDIAN_ORB_PLUS:
+                    indianOrbPlus(monster, team);
+                    break;
+                case MATCH_ELEMENT_ORB_PLUS:
+                    matchElementOrbPlus(monster, team);
+                    break;
+                case COMBO_ORB_PLUS:
+                    comboOrbPlus(monster, team);
+                    break;
+                case GRIMOIRE_FLAT:
+                    multiFlat(monster, team);
+                    break;
+                case HP_FLAT:
+                    hpFlat(monster, team, 2);
+                    break;
+                case FLAT_HP_FLAT:
+                    flatHpFlat(monster, team);
+                    break;
+                case HP_FLAT_ATTRIBUTE_FLAT_TYPE:
+                    hpFlatAttributeFlatType(monster, team);
+                    break;
+                case ACTIVE:
+                    active(monster, team, 2);
+                    break;
+                case FLAT_TYPE_ACTIVE_ATTRIBUTE:
+                    flatTypeActiveAttribute(monster, team);
+                    break;
+                case ORB_LINK_EXACT_FLAT:
+                    orbLinkExactFlat(monster, team);
+                    break;
+                case ORB_LINK_EXACT:
+                    orbLinkExact(monster, team);
+                    break;
+            }
         }
+
         return atkElement1Multiplier;
     }
 
     public double atkElement2Multiplier(Monster monster, Team team) {
         atkElement2Multiplier = 1;
-        switch (atkSkillType) {
-            case BLANK:
-                break;
-            case FLAT:
-                flat(monster, 2);
-                break;
-            case FLAT_ATTRIBUTE_ACTIVE_ATTRIBUTE:
-                flatAttributeActiveAttribute(monster, team);
-                break;
-            case FLAT_TYPE_FLAT_ATTRIBUTE:
-                flatTypeFlatAttribute(monster, team);
-                break;
-            case COMBO:
-                combo(monster, team);
-                break;
-            case MATCH_ELEMENT:
-                matchElement(monster, team);
-                break;
-            case MONSTER_CONDITIONAL:
-                monsterConditional(monster, team, 2);
-                break;
-            case FLAT_MONSTER_CONDITIONAL:
-                flatMonsterConditional(monster, team, 2);
-                break;
-            case ORB_LINK:
-                orbLink(monster, team);
-                break;
-            case ORB_LINK_FLAT:
-                orbLinkFlat(monster, team);
-                break;
-            case ORB_LINK_INDIAN:
-                orbLinkIndian(monster, team);
-                break;
-            case MATCH_ELEMENT_FLAT:
-                matchElementFlat(monster, team);
-                break;
-            case COMBO_MATCH_ELEMENT:
-                comboMatchElement(monster, team);
-                break;
-            case MATCH_ELEMENT_ACTIVE:
-                matchElementActive(monster, team, 2);
-                break;
-            case FLAT_ACTIVE:
-                flatActive(monster, team, 2);
-                break;
-            case COMBO_ACTIVE:
-                comboActive(monster, team, 2);
-                break;
-            case COMBO_FLAT:
-                comboFlat(monster, team);
-                break;
-            case COMBO_ATTRIBUTE:
-                comboAttribute(monster, team);
-                break;
-            case COMBO_EXACT:
-                comboExact(monster, team);
-                break;
-            case INDIAN:
-                indian(monster, team);
-                break;
-            case INDIAN_FLAT:
-                indianFlat(monster, team);
-                break;
-            case ORB_PLUS:
-                orbPlus(monster, team);
-                break;
-            case ORB_PLUS_FLAT:
-                orbPlusFlat(monster, team);
-                break;
-            case INDIAN_ORB_PLUS:
-                indianOrbPlus(monster, team);
-                break;
-            case MATCH_ELEMENT_ORB_PLUS:
-                matchElementOrbPlus(monster, team);
-                break;
-            case COMBO_ORB_PLUS:
-                comboOrbPlus(monster, team);
-                break;
-            case GRIMOIRE_FLAT:
-                multiFlat(monster, team);
-                break;
-            case HP_FLAT:
-                hpFlat(monster, team, 2);
-                break;
-            case FLAT_HP_FLAT:
-                flatHpFlat(monster, team);
-                break;
-            case HP_FLAT_ATTRIBUTE_FLAT_TYPE:
-                hpFlatAttributeFlatType(monster, team);
-                break;
-            case ACTIVE:
-                active(monster, team, 2);
-                break;
-            case FLAT_TYPE_ACTIVE_ATTRIBUTE:
-                flatTypeActiveAttribute(monster, team);
-                break;
-            case ORB_LINK_EXACT_FLAT:
-                orbLinkExactFlat(monster, team);
-                break;
-            case ORB_LINK_EXACT:
-                orbLinkExact(monster, team);
-                break;
+        if (atkSkillType != null) {
+            switch (atkSkillType) {
+                case BLANK:
+                    break;
+                case FLAT:
+                    flat(monster, 2);
+                    break;
+                case FLAT_ATTRIBUTE_ACTIVE_ATTRIBUTE:
+                    flatAttributeActiveAttribute(monster, team);
+                    break;
+                case FLAT_TYPE_FLAT_ATTRIBUTE:
+                    flatTypeFlatAttribute(monster, team);
+                    break;
+                case COMBO:
+                    combo(monster, team);
+                    break;
+                case MATCH_ELEMENT:
+                    matchElement(monster, team);
+                    break;
+                case MONSTER_CONDITIONAL:
+                    monsterConditional(monster, team, 2);
+                    break;
+                case FLAT_MONSTER_CONDITIONAL:
+                    flatMonsterConditional(monster, team, 2);
+                    break;
+                case ORB_LINK:
+                    orbLink(monster, team);
+                    break;
+                case ORB_LINK_FLAT:
+                    orbLinkFlat(monster, team);
+                    break;
+                case ORB_LINK_INDIAN:
+                    orbLinkIndian(monster, team);
+                    break;
+                case MATCH_ELEMENT_FLAT:
+                    matchElementFlat(monster, team);
+                    break;
+                case COMBO_MATCH_ELEMENT:
+                    comboMatchElement(monster, team);
+                    break;
+                case MATCH_ELEMENT_ACTIVE:
+                    matchElementActive(monster, team, 2);
+                    break;
+                case FLAT_ACTIVE:
+                    flatActive(monster, team, 2);
+                    break;
+                case COMBO_ACTIVE:
+                    comboActive(monster, team, 2);
+                    break;
+                case COMBO_FLAT:
+                    comboFlat(monster, team);
+                    break;
+                case COMBO_ATTRIBUTE:
+                    comboAttribute(monster, team);
+                    break;
+                case COMBO_EXACT:
+                    comboExact(monster, team);
+                    break;
+                case INDIAN:
+                    indian(monster, team);
+                    break;
+                case INDIAN_FLAT:
+                    indianFlat(monster, team);
+                    break;
+                case ORB_PLUS:
+                    orbPlus(monster, team);
+                    break;
+                case ORB_PLUS_FLAT:
+                    orbPlusFlat(monster, team);
+                    break;
+                case INDIAN_ORB_PLUS:
+                    indianOrbPlus(monster, team);
+                    break;
+                case MATCH_ELEMENT_ORB_PLUS:
+                    matchElementOrbPlus(monster, team);
+                    break;
+                case COMBO_ORB_PLUS:
+                    comboOrbPlus(monster, team);
+                    break;
+                case GRIMOIRE_FLAT:
+                    multiFlat(monster, team);
+                    break;
+                case HP_FLAT:
+                    hpFlat(monster, team, 2);
+                    break;
+                case FLAT_HP_FLAT:
+                    flatHpFlat(monster, team);
+                    break;
+                case HP_FLAT_ATTRIBUTE_FLAT_TYPE:
+                    hpFlatAttributeFlatType(monster, team);
+                    break;
+                case ACTIVE:
+                    active(monster, team, 2);
+                    break;
+                case FLAT_TYPE_ACTIVE_ATTRIBUTE:
+                    flatTypeActiveAttribute(monster, team);
+                    break;
+                case ORB_LINK_EXACT_FLAT:
+                    orbLinkExactFlat(monster, team);
+                    break;
+                case ORB_LINK_EXACT:
+                    orbLinkExact(monster, team);
+                    break;
+            }
         }
         return atkElement2Multiplier;
     }
 
     public double rcvMultiplier(Monster monster, Team team) {
         rcvMultiplier = 1;
-        switch (rcvSkillType) {
-            case FLAT:
-                flat(monster, 3);
-                break;
-            case MONSTER_CONDITIONAL:
-                monsterConditional(monster, team, 3);
-                break;
-            case MATCH_ELEMENT_ACTIVE:
-                matchElementActive(monster, team, 3);
-                break;
-            case FLAT_ACTIVE:
-                flatActive(monster, team, 3);
-                break;
-            case COMBO_ACTIVE:
-                comboActive(monster, team, 3);
-                break;
-            case HP_FLAT:
-                hpFlat(monster, team, 3);
-                break;
+        if(rcvSkillType != null){
+            switch (rcvSkillType) {
+                case FLAT:
+                    flat(monster, 3);
+                    break;
+                case MONSTER_CONDITIONAL:
+                    monsterConditional(monster, team, 3);
+                    break;
+                case MATCH_ELEMENT_ACTIVE:
+                    matchElementActive(monster, team, 3);
+                    break;
+                case FLAT_ACTIVE:
+                    flatActive(monster, team, 3);
+                    break;
+                case COMBO_ACTIVE:
+                    comboActive(monster, team, 3);
+                    break;
+                case HP_FLAT:
+                    hpFlat(monster, team, 3);
+                    break;
+            }
         }
         return rcvMultiplier;
     }
@@ -1425,7 +1434,7 @@ public class LeaderSkill extends Model{
                     }
                 }
             } else {
-                for (int i = 0; i < hpPercent.size()/2; i++) {
+                for (int i = 0; i < hpPercent.size() / 2; i++) {
                     if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
                         if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
                             atkElement1Multiplier = atkData.get(i);
@@ -1448,7 +1457,7 @@ public class LeaderSkill extends Model{
                 }
             }
         } else {
-            for (int i = 0; i < hpPercent.size()/2; i++) {
+            for (int i = 0; i < hpPercent.size() / 2; i++) {
                 if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
                     if (rcvElement.contains(monster.getElement1Int()) || rcvElement.contains(monster.getElement2Int()) || atkType.contains(monster.getType3())) {
                         if (rcvMultiplier < rcvData.get(i)) {
@@ -1497,13 +1506,13 @@ public class LeaderSkill extends Model{
     }
 
     private void comboExact(Monster monster, Team team) {
-        if (team.getOrbMatches().size() == comboMin){
+        if (team.getOrbMatches().size() == comboMin) {
             atkElement1Multiplier = atkData.get(0);
             atkElement2Multiplier = atkData.get(0);
         }
     }
 
-    private void orbLinkIndian(Monster monster, Team team){
+    private void orbLinkIndian(Monster monster, Team team) {
         int comboDiff = comboMax - comboMin;
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
@@ -1549,7 +1558,7 @@ public class LeaderSkill extends Model{
         }
     }
 
-    private void flatHpFlat(Monster monster, Team team){
+    private void flatHpFlat(Monster monster, Team team) {
         //{HP flats, flat}
         if (hpPercent.size() == 1) {
             if (team.getTeamHp() == hpPercent.get(0)) {
@@ -1562,7 +1571,7 @@ public class LeaderSkill extends Model{
                 }
             }
         } else {
-            for (int i = 0; i < hpPercent.size()/2; i++) {
+            for (int i = 0; i < hpPercent.size() / 2; i++) {
                 if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
                     if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
                         atkElement1Multiplier = atkData.get(i);
@@ -1574,36 +1583,36 @@ public class LeaderSkill extends Model{
                 }
             }
         }
-        if(atkElement1Multiplier < atkDataMax()*atkData.get(hpPercent.size()/2)){
+        if (atkElement1Multiplier < atkDataMax() * atkData.get(hpPercent.size() / 2)) {
             if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
-                atkElement1Multiplier *= atkData.get(hpPercent.size()/2);
+                atkElement1Multiplier *= atkData.get(hpPercent.size() / 2);
             } else if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
-                atkElement1Multiplier *= atkData.get(hpPercent.size()/2);
+                atkElement1Multiplier *= atkData.get(hpPercent.size() / 2);
             }
         }
-        if(atkElement2Multiplier < atkDataMax()*atkData.get(hpPercent.size()/2)){
+        if (atkElement2Multiplier < atkDataMax() * atkData.get(hpPercent.size() / 2)) {
             if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
-                atkElement2Multiplier *= atkData.get(hpPercent.size()/2);
+                atkElement2Multiplier *= atkData.get(hpPercent.size() / 2);
             } else if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
-                atkElement2Multiplier *= atkData.get(hpPercent.size()/2);
+                atkElement2Multiplier *= atkData.get(hpPercent.size() / 2);
             }
         }
 
     }
 
-    private void flatAttributeActiveAttribute(Monster monster, Team team){
+    private void flatAttributeActiveAttribute(Monster monster, Team team) {
         //All attributes on the active skill used so yea. Cheating.
         if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
             atkElement1Multiplier = atkData.get(0);
             atkElement2Multiplier = atkData.get(0);
         }
-        if(team.isActiveSkillUsed()){
+        if (team.isActiveSkillUsed()) {
             atkElement1Multiplier *= atkData.get(1);
             atkElement2Multiplier *= atkData.get(1);
         }
     }
 
-    private void flatTypeFlatAttribute(Monster monster, Team team){
+    private void flatTypeFlatAttribute(Monster monster, Team team) {
         if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
             atkElement1Multiplier = atkData.get(1);
             atkElement2Multiplier = atkData.get(1);
@@ -1614,7 +1623,7 @@ public class LeaderSkill extends Model{
         }
     }
 
-    private void hpFlatAttributeFlatType(Monster monster, Team team){
+    private void hpFlatAttributeFlatType(Monster monster, Team team) {
         //Goemon Ult
         if (hpPercent.size() == 1) {
             if (team.getTeamHp() == hpPercent.get(0)) {
@@ -1624,13 +1633,13 @@ public class LeaderSkill extends Model{
                 }
             }
         } else {
-            for (int i = 0; i < hpPercent.size()/2; i++) {
+            for (int i = 0; i < hpPercent.size() / 2; i++) {
                 if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
                     if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
-                        if(atkElement1Multiplier < atkData.get(i)){
+                        if (atkElement1Multiplier < atkData.get(i)) {
                             atkElement1Multiplier = atkData.get(i);
                         }
-                        if(atkElement2Multiplier < atkData.get(i)){
+                        if (atkElement2Multiplier < atkData.get(i)) {
                             atkElement2Multiplier = atkData.get(i);
                         }
                     }
@@ -1638,13 +1647,13 @@ public class LeaderSkill extends Model{
             }
         }
         if (atkType.contains(monster.getType1()) || atkType.contains(monster.getType2()) || atkType.contains(monster.getType3())) {
-            atkElement1Multiplier *= atkData.get(hpPercent.size()/2);
-            atkElement2Multiplier *= atkData.get(hpPercent.size()/2);
+            atkElement1Multiplier *= atkData.get(hpPercent.size() / 2);
+            atkElement2Multiplier *= atkData.get(hpPercent.size() / 2);
         }
     }
 
-    private void flatTypeActiveAttribute(Monster monster, Team team){
-        if (team.isActiveSkillUsed()){
+    private void flatTypeActiveAttribute(Monster monster, Team team) {
+        if (team.isActiveSkillUsed()) {
             if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
                 atkElement1Multiplier = atkData.get(1);
                 atkElement2Multiplier = atkData.get(1);
@@ -1656,7 +1665,7 @@ public class LeaderSkill extends Model{
         }
     }
 
-    private void orbLinkExactFlat(Monster monster, Team team){
+    private void orbLinkExactFlat(Monster monster, Team team) {
         if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
             atkElement1Multiplier = atkData.get(1);
             atkElement2Multiplier = atkData.get(1);
@@ -1682,7 +1691,7 @@ public class LeaderSkill extends Model{
         }
     }
 
-    private void orbLinkExact(Monster monster, Team team){
+    private void orbLinkExact(Monster monster, Team team) {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < matchElements.size(); j++) {
@@ -1701,12 +1710,12 @@ public class LeaderSkill extends Model{
         }
     }
 
-    private double atkDataMax(){
+    private double atkDataMax() {
         double max = 1;
-        for(int i = 0; i < atkData.size(); i++){
-            if(i == 0){
+        for (int i = 0; i < atkData.size(); i++) {
+            if (i == 0) {
                 max = atkData.get(i);
-            }else if (atkData.get(i) > atkData.get(i-1)){
+            } else if (atkData.get(i) > atkData.get(i - 1)) {
                 max = atkData.get(i);
             }
         }

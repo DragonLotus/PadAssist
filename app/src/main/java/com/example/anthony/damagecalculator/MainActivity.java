@@ -445,6 +445,7 @@ public class MainActivity extends AppCompatActivity {
 
         LeaderSkill leaderSkill5 = new LeaderSkill();
         leaderSkill5.setAtkSkillType(LeaderSkillType.HP_FLAT);
+        leaderSkill5.setHpSkillType(LeaderSkillType.FLAT);
         leaderSkill5.setName("Test5");
         leaderSkill5.addHpData(1.25);
         leaderSkill5.addHpType(3);
