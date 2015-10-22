@@ -304,10 +304,11 @@ public class DamageCalculationUtil {
         return (int) Math.ceil(monsterHp);
     }
 
-    public static int monsterRcvCalc(Monster monster, Team team){
+    public static double monsterRcvCalc(Monster monster, Team team){
         double monsterRcv = 0;
         monsterRcv = monster.getTotalRcv();
+        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " RcvData is: " + team.getLeadSkill().getRcvData() + " multiplier is: " + team.getLeadSkill().rcvMultiplier(monster, team));
         monsterRcv = monsterRcv * team.getLeadSkill().rcvMultiplier(monster, team) * team.getHelperSkill().rcvMultiplier(monster, team);
-        return (int) Math.ceil(monsterRcv);
+        return monsterRcv;
     }
 }
