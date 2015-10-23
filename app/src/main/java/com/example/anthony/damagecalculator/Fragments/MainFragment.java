@@ -29,6 +29,7 @@ import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
+import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.util.ArrayList;
 
@@ -88,7 +89,7 @@ public class MainFragment extends AbstractFragment {
             } else if (buttonView.equals(maxLeadMultiplierCheckBox)) {
                 maxLeadMultiplier = isChecked;
             } else if (buttonView.equals(ignoreEnemyCheckBox)) {
-                hasEnemy = !isChecked;
+                Singleton.getInstance().setIgnoreEnemy(isChecked);
                 if (isChecked) {
                     calculateButton.setText("Calculate");
 //               if(orbMatches.getCount() == 0){
@@ -178,7 +179,7 @@ public class MainFragment extends AbstractFragment {
                 toast = Toast.makeText(getActivity(), "No orb matches", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                if (!hasEnemy) {
+                if (Singleton.getInstance().isIgnoreEnemy()) {
                     ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, team), TeamDamageListFragment.TAG);
                 } else {
                     ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, team, enemy), EnemyTargetFragment.TAG);
@@ -342,6 +343,8 @@ public class MainFragment extends AbstractFragment {
         calculateButton.setOnClickListener(calculateOnClickListener);
 
         orbMatches.setOnItemClickListener(orbMatchListViewOnClickListener);
+
+        ignoreEnemyCheckBox.setChecked(Singleton.getInstance().isIgnoreEnemy());
 
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }

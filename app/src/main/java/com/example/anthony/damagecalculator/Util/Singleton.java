@@ -8,6 +8,7 @@ public class Singleton {
     private int saveSortMethod = 8;
     private int baseSortMethod = 1;
     private int teamSortMethod = 1;
+    private boolean ignoreEnemy = false;
 
     public static Singleton getInstance() {
         if(instance == null){
@@ -41,5 +42,13 @@ public class Singleton {
 
     public void setTeamSortMethod(int teamSortMethod) {
         this.teamSortMethod = teamSortMethod;
+    }
+
+    public boolean isIgnoreEnemy() {
+        return ignoreEnemy;
+    }
+
+    public void setIgnoreEnemy(boolean ignoreEnemy) {
+        this.ignoreEnemy = ignoreEnemy;
     }
 }

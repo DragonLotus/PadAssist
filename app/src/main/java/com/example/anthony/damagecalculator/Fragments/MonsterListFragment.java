@@ -158,6 +158,7 @@ public class MonsterListFragment extends AbstractFragment {
 //        monsterListAdapter.notifyDataSetChanged();
         monsterListAdapter.updateList(monsters);
         team.update();
+        team.setTeamStats();
     }
 
     @Override
@@ -281,8 +282,8 @@ public class MonsterListFragment extends AbstractFragment {
         @Override
         public void onClick(View v) {
 //            ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
-            team.updateLeaderSkills();
-            team.save();
+//            team.updateLeaderSkills();
+//            team.save();
             ((MainActivity) getActivity()).switchFragment(TeamOverviewFragment.newInstance(team), TeamOverviewFragment.TAG);
         }
     };
@@ -341,6 +342,7 @@ public class MonsterListFragment extends AbstractFragment {
         Log.d("sub4", "" + team.getSub4());
         Log.d("helper", "" + team.getHelper());
         team.update();
+        team.setTeamStats();
         team.save();
     }
 

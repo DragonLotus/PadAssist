@@ -9,6 +9,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 import com.example.anthony.damagecalculator.Util.NumberComparator;
 
 import java.util.ArrayList;
@@ -108,10 +109,6 @@ public class Team extends Model implements Parcelable {
     }
 
     public int getTeamHealth() {
-        int teamHealth = 0;
-        for (int i = 0; i < getMonsters().size(); i++) {
-            teamHealth += getMonsters().get(i).getTotalHp();
-        }
         return teamHealth;
     }
 
@@ -120,10 +117,6 @@ public class Team extends Model implements Parcelable {
     }
 
     public int getTeamRcv() {
-        int teamRcv = 0;
-        for (int i = 0; i < getMonsters().size(); i++) {
-            teamRcv += getMonsters().get(i).getTotalRcv();
-        }
         return teamRcv;
     }
 
@@ -546,6 +539,18 @@ public class Team extends Model implements Parcelable {
             Log.d("Team Log", "Compare Elements loop has: " + compareElements);
         }
         Log.d("Team Log", "Compare Elements has: " + compareElements);
+    }
+
+    public void setTeamStats(){
+        int hp = 0;
+        double rcv = 0;
+        Log.d("Team Overview", "Leadskill is: " + getLeadSkill());
+        for(int i = 0; i < getMonsters().size(); i++){
+            hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this);
+            rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this);
+        }
+        this.teamHealth = hp;
+        this.teamRcv = (int) rcv;
     }
 
     public void updateLeaderSkills() {

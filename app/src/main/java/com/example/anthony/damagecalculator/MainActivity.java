@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
             monster.setMonsterPicture(R.drawable.monster_1728);
             monster.setName("Phoenix Goddess, Valkyrie Femme");
             monster.setMaxLevel(99);
-            monster.setAtkMax(1486);
+            monster.setAtkMax(1489);
             monster.setAtkMin(996);
             monster.setHpMax(2508);
             monster.setHpMin(1593);
@@ -485,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
             monster.addAwokenSkills(15);
             monster.setType1(5);
             monster.setType2(2);
-            monster.setRarity(7);
+            monster.setRarity(6);
             monster.setTeamCost(35);
             monster.setXpCurve(4000000);
             monster.setLeaderSkill("Test8");
@@ -517,7 +517,7 @@ public class MainActivity extends AppCompatActivity {
             monster.addAwokenSkills(15);
             monster.setType1(5);
             monster.setType2(2);
-            monster.setRarity(7);
+            monster.setRarity(6);
             monster.setTeamCost(35);
             monster.setXpCurve(4000000);
             monster.setLeaderSkill("Test8");
@@ -559,6 +559,9 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d("Main Activity Log", "Monster Name: " + newMonster.getName());
 //        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + newMonster.getId() + " name: " + newMonster.getName() + " " + newMonster.getAwokenSkills() + " Size: " + newMonster.getAwokenSkills().size());
 
+        BaseMonster temp = BaseMonster.getMonsterId(1728);
+        temp.setAtkMax(1489);
+        temp.save();
 
         LeaderSkill blankLeaderSkill = new LeaderSkill();
         blankLeaderSkill.setName("Blank");

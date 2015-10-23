@@ -217,15 +217,15 @@ public class TeamOverviewFragment extends AbstractFragment {
     }
 
     private void setTeamStats(){
-        int teamHp = 0;
-        double teamRcv = 0;
-        Log.d("Team Overview", "Leadskill is: " + team.getLeadSkill());
-        for(int i = 0; i < team.getMonsters().size(); i++){
-            teamHp += DamageCalculationUtil.monsterHpCalc(team.getMonsters(i), team);
-            teamRcv += DamageCalculationUtil.monsterRcvCalc(team.getMonsters(i), team);
-        }
-        teamHpValue.setText(String.valueOf(teamHp));
-        teamRcvValue.setText(String.valueOf((int)teamRcv));
+//        int teamHp = 0;
+//        double teamRcv = 0;
+//        Log.d("Team Overview", "Leadskill is: " + team.getLeadSkill());
+//        for(int i = 0; i < team.getMonsters().size(); i++){
+//            teamHp += DamageCalculationUtil.monsterHpCalc(team.getMonsters(i), team);
+//            teamRcv += DamageCalculationUtil.monsterRcvCalc(team.getMonsters(i), team);
+//        }
+        teamHpValue.setText(String.valueOf(team.getTeamHealth()));
+        teamRcvValue.setText(String.valueOf(team.getTeamRcv()));
     }
 
     @Override
