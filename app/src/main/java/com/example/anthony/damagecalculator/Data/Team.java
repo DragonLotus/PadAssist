@@ -544,13 +544,15 @@ public class Team extends Model implements Parcelable {
     public void setTeamStats(){
         int hp = 0;
         double rcv = 0;
-        Log.d("Team Overview", "Leadskill is: " + getLeadSkill());
-        for(int i = 0; i < getMonsters().size(); i++){
+        Log.d("Team Fragment", "Leadskill is: " + getLeadSkill());
+        Log.d("Team Fragment", "getMonsters size is: " + getMonsters().size());
+        for(int i = 0; i < getMonsters().size(); i++) {
             hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this);
             rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this);
         }
+        Log.d("Team Fragment", "rcv is: " + rcv);
         this.teamHealth = hp;
-        this.teamRcv = (int) rcv;
+        this.teamRcv = (int)Math.floor(rcv + 0.5d);
     }
 
     public void updateLeaderSkills() {

@@ -158,6 +158,7 @@ public class MonsterListFragment extends AbstractFragment {
 //        monsterListAdapter.notifyDataSetChanged();
         monsterListAdapter.updateList(monsters);
         team.update();
+        team.updateLeaderSkills();
         team.setTeamStats();
     }
 
@@ -342,6 +343,7 @@ public class MonsterListFragment extends AbstractFragment {
         Log.d("sub4", "" + team.getSub4());
         Log.d("helper", "" + team.getHelper());
         team.update();
+        team.updateLeaderSkills();
         team.setTeamStats();
         team.save();
     }

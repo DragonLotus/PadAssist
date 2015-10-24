@@ -559,10 +559,6 @@ public class MainActivity extends AppCompatActivity {
 //        Log.d("Main Activity Log", "Monster Name: " + newMonster.getName());
 //        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + newMonster.getId() + " name: " + newMonster.getName() + " " + newMonster.getAwokenSkills() + " Size: " + newMonster.getAwokenSkills().size());
 
-        BaseMonster temp = BaseMonster.getMonsterId(1728);
-        temp.setAtkMax(1489);
-        temp.save();
-
         LeaderSkill blankLeaderSkill = new LeaderSkill();
         blankLeaderSkill.setName("Blank");
         blankLeaderSkill.setHpSkillType(LeaderSkillType.BLANK);
