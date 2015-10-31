@@ -340,7 +340,7 @@ public class Team extends Model implements Parcelable {
     }
 
     public LeaderSkill getLeadSkill() {
-        if (isBound.get(0)) {
+        if (isBound.get(0) || monsters.get(0).getMonsterId() == 0) {
             return LeaderSkill.getLeaderSkill("Blank");
         } else {
             return leadSkill;
@@ -352,7 +352,7 @@ public class Team extends Model implements Parcelable {
     }
 
     public LeaderSkill getHelperSkill() {
-        if (isBound.get(5)) {
+        if (isBound.get(5) || monsters.get(5).getMonsterId() == 0) {
             return LeaderSkill.getLeaderSkill("Blank");
         } else {
             return helperSkill;

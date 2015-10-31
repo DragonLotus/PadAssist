@@ -726,6 +726,7 @@ public class MainActivity extends AppCompatActivity {
         leaderSkill8.addAtkData(3.15);
         leaderSkill8.addAtkData(3.3);
         leaderSkill8.addAtkElement(1);
+        leaderSkill8.addRcvData(1.35);
         leaderSkill8.addRcvElement(0);
         leaderSkill8.getHpPercent().add(50);
         leaderSkill8.getHpPercent().add(0);
@@ -733,7 +734,7 @@ public class MainActivity extends AppCompatActivity {
         leaderSkill8.getHpPercent().add(50);
         leaderSkill8.getHpPercent().add(100);
         leaderSkill8.getHpPercent().add(100);
-        leaderSkill7.save();
+        leaderSkill8.save();
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 
