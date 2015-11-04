@@ -371,6 +371,7 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1013);
             Collections.sort(teamList, teamLeaderRarityComparator);
             teamListAdapter.notifyDataSetChanged();
+            sortLeaderDialogFragment.dismiss();
         }
     };
 
@@ -380,6 +381,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1001);
             Collections.sort(teamList, teamLeaderElement1Comparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
 
         @Override
@@ -387,6 +391,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1002);
             Collections.sort(teamList, teamLeaderElement2Comparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
     };
 
@@ -396,6 +403,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1003);
             Collections.sort(teamList, teamLeaderType1Comparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
 
         @Override
@@ -403,6 +413,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1004);
             Collections.sort(teamList, teamLeaderType2Comparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
 
         @Override
@@ -410,6 +423,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1005);
             Collections.sort(teamList, teamLeaderType3Comparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
     };
 
@@ -419,6 +435,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1006);
             Collections.sort(teamList, teamLeaderHpComparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
 
         @Override
@@ -426,6 +445,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1007);
             Collections.sort(teamList, teamLeaderAtkComparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
 
         @Override
@@ -433,6 +455,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1008);
             Collections.sort(teamList, teamLeaderRcvComparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
     };
 
@@ -442,6 +467,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1009);
             Collections.sort(teamList, teamLeaderPlusComparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
 
         @Override
@@ -449,6 +477,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1010);
             Collections.sort(teamList, teamLeaderPlusHpComparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
 
         @Override
@@ -456,6 +487,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1011);
             Collections.sort(teamList, teamLeaderPlusAtkComparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
 
         @Override
@@ -463,6 +497,9 @@ public class TeamListFragment extends AbstractFragment {
             Singleton.getInstance().setTeamSortMethod(1012);
             Collections.sort(teamList, teamLeaderPlusRcvComparator);
             teamListAdapter.notifyDataSetChanged();
+            if(sortLeaderDialogFragment != null){
+                sortLeaderDialogFragment.dismiss();
+            }
         }
     };
 

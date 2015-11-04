@@ -4,50 +4,47 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
+    android:paddingBottom="16dp"
     tools:context="com.example.anthony.damagecalculator.Fragments.SortStatsDialogFragment">
 
-    <RadioGroup
-        android:id="@+id/choiceRadioGroup"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/element"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="8dp">
+        android:text="Element"
+        android:textSize="16dp"
+        android:layout_marginTop="8dp"/>
 
-        <RadioButton
-            android:id="@+id/element"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Element"
-            android:textSize="16dp" />
+    <Button
+        android:id="@+id/type"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/element"
+        android:text="Type"
+        android:textSize="16dp" />
 
-        <RadioButton
-            android:id="@+id/type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Type"
-            android:textSize="16dp" />
+    <Button
+        android:id="@+id/stats"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/type"
+        android:text="Stats"
+        android:textSize="16dp" />
 
-        <RadioButton
-            android:id="@+id/stats"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stats"
-            android:textSize="16dp" />
+    <Button
+        android:id="@+id/plus"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats"
+        android:text="Plus"
+        android:textSize="16dp" />
 
-        <RadioButton
-            android:id="@+id/plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Plus"
-            android:textSize="16dp" />
-
-        <RadioButton
-            android:id="@+id/rarity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Rarity"
-            android:textSize="16dp" />
-
-    </RadioGroup>
+    <Button
+        android:id="@+id/rarity"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/plus"
+        android:text="Rarity"
+        android:textSize="16dp" />
 
 </RelativeLayout>
