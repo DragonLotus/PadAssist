@@ -292,7 +292,11 @@ public class BaseMonster extends Model {
     }
 
     public int getType1() {
-        return type1;
+        if(type1 == 0){
+            return 11;
+        } else {
+            return type1;
+        }
     }
 
     public void setType1(int type1) {
@@ -300,7 +304,11 @@ public class BaseMonster extends Model {
     }
 
     public int getType2() {
-        return type2;
+        if(type1 == 0){
+            return 11;
+        } else {
+            return type2;
+        }
     }
 
     public void setType2(int type2) {
@@ -308,7 +316,11 @@ public class BaseMonster extends Model {
     }
 
     public int getType3() {
-        return type3;
+        if(type1 == 0){
+            return 11;
+        } else {
+            return type3;
+        }
     }
 
     public void setType3(int type3) {

@@ -10,22 +10,62 @@ import java.util.Comparator;
 public class TeamLeaderElement2Comparator implements Comparator<Team> {
     @Override
     public int compare(Team lhs, Team rhs) {
-        if (lhs.getLead().getElement2Int() == -1 && rhs.getLead().getElement2Int() == -1) {
-            if (lhs.getLead().getBaseMonsterId() > rhs.getLead().getBaseMonsterId()) {
+        if (lhs.getLead().getMonsterId() == 0){
+            return -1;
+        }else if (rhs.getLead().getMonsterId() == 0){
+            return 1;
+        }else if (lhs.getLead().getElement2Int() == -1 && rhs.getLead().getElement2Int() == -1){
+            if (lhs.getLead().getRarity() < rhs.getLead().getRarity()) {
                 return 1;
+            } else if (lhs.getLead().getRarity() == rhs.getLead().getRarity()) {
+                if(lhs.getLead().getElement1Int() > rhs.getLead().getElement1Int()){
+                    return 1;
+                } else if (lhs.getLead().getElement1Int() == rhs.getLead().getElement2Int()){
+                    if (lhs.getLead().getRarity() < rhs.getLead().getRarity()) {
+                        return 1;
+                    } else if (lhs.getLead().getRarity() == rhs.getLead().getRarity()) {
+                        if (lhs.getLead().getBaseMonsterId() > rhs.getLead().getBaseMonsterId()) {
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    } else {
+                        return -1;
+                    }
+                } else {
+                    return -1;
+                }
             } else {
                 return -1;
             }
-        } else if (lhs.getLead().getElement2Int() == -1) {
+        }else if (lhs.getLead().getElement2Int() == -1){
             return 1;
-        } else if (rhs.getLead().getElement2Int() == -1) {
+        }else if (rhs.getLead().getElement2Int() == -1){
             return -1;
-        } else {
+        }else {
             if (lhs.getLead().getElement2Int() > rhs.getLead().getElement2Int()) {
                 return 1;
             } else if (lhs.getLead().getElement2Int() == rhs.getLead().getElement2Int()) {
-                if (lhs.getLead().getBaseMonsterId() > rhs.getLead().getBaseMonsterId()) {
+                if (lhs.getLead().getRarity() < rhs.getLead().getRarity()) {
                     return 1;
+                } else if (lhs.getLead().getRarity() == rhs.getLead().getRarity()) {
+                    if(lhs.getLead().getElement1Int() > rhs.getLead().getElement1Int()){
+                        return 1;
+                    } else if (lhs.getLead().getElement1Int() == rhs.getLead().getElement2Int()){
+                        if (lhs.getLead().getRarity() < rhs.getLead().getRarity()) {
+                            return 1;
+                        } else if (lhs.getLead().getRarity() == rhs.getLead().getRarity()) {
+                            if (lhs.getLead().getBaseMonsterId() > rhs.getLead().getBaseMonsterId()) {
+                                return 1;
+                            } else {
+                                return -1;
+                            }
+                        } else {
+                            return -1;
+                        }
+                    } else {
+                        return -1;
+                    }
                 } else {
                     return -1;
                 }

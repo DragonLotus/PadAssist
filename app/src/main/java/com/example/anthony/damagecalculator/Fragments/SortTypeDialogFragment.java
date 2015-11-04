@@ -34,6 +34,7 @@ public class SortTypeDialogFragment extends DialogFragment {
         View rootView = View.inflate(getActivity(), R.layout.fragment_sort_type_dialog, null);
         choiceRadioGroup = (RadioGroup) rootView.findViewById(R.id.choiceRadioGroup);
         builder.setTitle("Sort by Type");
+        builder.setMessage("Default order is Balanced, Physical, Healer, Dragon, God, Attacker, Devil, Machine, Evo Material, Awoken Material, Enhance Material");
         builder.setView(rootView)
                 // Add action buttons
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
