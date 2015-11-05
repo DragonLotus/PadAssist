@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import com.example.anthony.damagecalculator.R;
 public class TeamLoadDialogFragment extends DialogFragment {
 
     private RadioGroup choiceRadioGroup;
+    private CheckBox favorite;
     private EditText teamName;
     private LoadTeam loadTeam;
     private Toast toast;
@@ -38,6 +41,8 @@ public class TeamLoadDialogFragment extends DialogFragment {
         public void deleteTeam();
 
         public void editTeam(String teamName);
+
+        public void favoriteTeam(boolean favorite);
     }
 
     public static TeamLoadDialogFragment newInstance(LoadTeam loadTeam, Team team) {
@@ -54,6 +59,7 @@ public class TeamLoadDialogFragment extends DialogFragment {
         View rootView = View.inflate(getActivity(), R.layout.fragment_team_load_dialog, null);
         choiceRadioGroup = (RadioGroup) rootView.findViewById(R.id.choiceRadioGroup);
         teamName = (EditText) rootView.findViewById(R.id.teamName);
+        favorite = (CheckBox) rootView.findViewById(R.id.favorite);
         builder.setTitle("Team Options");
         builder.setView(rootView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -98,10 +104,22 @@ public class TeamLoadDialogFragment extends DialogFragment {
                             toast.show();
                         }
                     }
+                    loadTeam.favoriteTeam(favorite.isChecked());
                 }
             });
         }
     }
+
+    private CheckBox.OnCheckedChangeListener favoriteCheckListener = new CheckBox.OnCheckedChangeListener(){
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 1).setEnabled(false);
+            } else {
+                choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 1).setEnabled(true);
+            }
+        }
+    };
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -111,6 +129,7 @@ public class TeamLoadDialogFragment extends DialogFragment {
         }
         teamName.setText(team.getTeamName());
         choiceRadioGroup.setOnCheckedChangeListener(choiceOnCheckedChangeListener);
+        favorite.setOnCheckedChangeListener(favoriteCheckListener);
     }
 
     private RadioGroup.OnCheckedChangeListener choiceOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {

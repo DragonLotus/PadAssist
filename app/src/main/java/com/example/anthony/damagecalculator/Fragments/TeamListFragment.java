@@ -257,6 +257,7 @@ public class TeamListFragment extends AbstractFragment {
             teamListAdapter.updateList(teamList);
         }
 
+        @Override
         public void deleteTeam() {
 //            Team.deleteTeam(teamListAdapter.getItem(selectedTeam).getTeamId());
             Team deleteTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
@@ -270,6 +271,14 @@ public class TeamListFragment extends AbstractFragment {
             } else {
                 savedTeams.setVisibility(View.GONE);
             }
+        }
+
+        @Override
+        public void favoriteTeam(boolean favorite) {
+            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+            loadTeam.setFavorite(favorite);
+            loadTeam.save();
+            teamListAdapter.notifyDataSetChanged();
         }
     };
 

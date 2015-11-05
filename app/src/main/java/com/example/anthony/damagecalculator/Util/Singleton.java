@@ -7,7 +7,7 @@ public class Singleton {
     private static Singleton instance;
     private int saveSortMethod = 8;
     private int baseSortMethod = 1;
-    private int teamSortMethod = 1;
+    private int teamSortMethod = 8;
     private int monsterOverwrite = 0;
     private boolean ignoreEnemy = false;
 
