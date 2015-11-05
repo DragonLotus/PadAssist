@@ -143,13 +143,23 @@ public class SaveMonsterListFragment extends AbstractFragment {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
 //        monsterList = (ArrayList) Monster.getAllMonsters();
-        monsterListAll = (ArrayList) Monster.getAllMonsters();
+        if(Singleton.getInstance().getMonsterOverwrite() == 5){
+            monsterListAll = (ArrayList) Monster.getAllHelperMonsters();
+        } else {
+            monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
+        }
         if (monsterList == null) {
             monsterList = new ArrayList<>();
         }
         if (monsterListAll.size() == 1) {
-            savedMonsters.setVisibility(View.VISIBLE);
-            monsterListView.setVisibility(View.GONE);
+            if(monsterListAll.get(0).getMonsterId() != 0){
+                monsterListAll.add(0, monsterZero);
+                savedMonsters.setVisibility(View.GONE);
+                monsterListView.setVisibility(View.VISIBLE);
+            }else {
+                savedMonsters.setVisibility(View.VISIBLE);
+                monsterListView.setVisibility(View.GONE);
+            }
         } else {
             savedMonsters.setVisibility(View.GONE);
             monsterListView.setVisibility(View.VISIBLE);

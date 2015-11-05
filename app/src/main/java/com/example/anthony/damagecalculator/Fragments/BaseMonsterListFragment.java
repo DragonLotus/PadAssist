@@ -161,6 +161,9 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     newMonster.save();
                 } else {
                     newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
+                    if(Singleton.getInstance().getMonsterOverwrite() == 5){
+                        newMonster.setHelper(true);
+                    }
                     newMonster.save();
                 }
                 if (replaceAll) {

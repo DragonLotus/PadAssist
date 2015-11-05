@@ -227,6 +227,7 @@ public class MonsterListFragment extends AbstractFragment {
                 monster6.setRcvPlus(99);
                 monster6.setCurrentLevel(99);
                 monster6.setCurrentAwakenings(9);
+                monster6.setHelper(true);
 
                 monsters.add(monster1);
                 monsters.add(monster2);

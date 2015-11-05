@@ -10,6 +10,7 @@ import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Fragments.AbstractFragment;
 import com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.SaveMonsterListFragment;
+import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 public class MonsterPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] {"Saved Monsters", "New Monster" };
+    private String tabTitlesHelper[] = new String[] {"Saved Helpers", "New Helper" };
     private Context context;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
 //    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
@@ -43,6 +45,10 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitles[position];
+        if(Singleton.getInstance().getMonsterOverwrite() == 5){
+            return tabTitlesHelper[position];
+        } else {
+            return tabTitles[position];
+        }
     }
 }

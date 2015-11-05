@@ -25,7 +25,6 @@ public class Monster extends Model implements Parcelable {
     public static final int ATK_MULTIPLIER = 5;
     public static final int RCV_MULTIPLIER = 3;
     @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
-    //@Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private long monsterId;
     @Column(name = "baseMonster")
     private BaseMonster baseMonster;
@@ -33,24 +32,6 @@ public class Monster extends Model implements Parcelable {
     private boolean favorite;
     @Column(name = "priority")
     private int priority;
-    //    @Column(name = "atkMax")
-//    private int atkMax;
-//    @Column(name = "atkMin")
-//    private int atkMin;
-//    @Column(name = "hpMax")
-//    private int hpMax;
-//    @Column(name = "hpMin")
-//    private int hpMin;
-//    @Column(name = "maxLevel")
-//    private int maxLevel;
-//    @Column(name = "rcvMin")
-//    private int rcvMin;
-//    @Column(name = "rcvMax")
-//    private int rcvMax;
-//    @Column(name = "type1")
-//    private int type1;
-//    @Column(name = "type2")
-//    private int type2;
     @Column(name = "currentLevel")
     private int currentLevel;
     @Column(name = "atkPlus")
@@ -59,38 +40,16 @@ public class Monster extends Model implements Parcelable {
     private int hpPlus;
     @Column(name = "rcvPlus")
     private int rcvPlus;
-    //    @Column(name = "maxAwakenings")
-//    private int maxAwakenings;
     @Column(name = "currentAwakenings")
     private int currentAwakenings;
-    //    @Column(name = "element1")
-//    private Element element1;
-//    @Column(name = "element2")
-//    private Element element2;
-//    @Column(name = "awokenSkills")
-//    private ArrayList<Integer> awokenSkills = new ArrayList<>();
-//    @Column(name = "activeSkill")
-//    private String activeSkill;
-//    @Column(name = "leaderSkill")
-//    private String leaderSkill;
-//    @Column(name = "name")
-//    private String name;
-//    @Column(name = "atkScale")
-//    private double atkScale;
-//    @Column(name = "rcvScale")
-//    private double rcvScale;
-//    @Column(name = "hpScale")
-//    private double hpScale;
     @Column(name = "currentAtk")
     private double currentAtk;
     @Column(name = "currentRcv")
     private double currentRcv;
     @Column(name = "currentHp")
     private double currentHp;
-//    @Column(name = "isBound")
-//    private boolean isBound;
-    //    @Column(name = "monsterPicture")
-//    private int monsterPicture;
+    @Column(name = "helper")
+    private boolean helper;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public Monster() {
@@ -109,6 +68,7 @@ public class Monster extends Model implements Parcelable {
         currentAwakenings = 0;
         priority = 2;
         favorite = false;
+        helper = false;
         if(baseMonsterId != 0){
             setCurrentHp(DamageCalculationUtil.monsterStatCalc(baseMonster.getHpMin(), baseMonster.getHpMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getHpScale()));
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
@@ -442,6 +402,14 @@ public class Monster extends Model implements Parcelable {
         this.baseMonster = baseMonster;
     }
 
+    public boolean isHelper() {
+        return helper;
+    }
+
+    public void setHelper(boolean helper) {
+        this.helper = helper;
+    }
+
     public int getTPA() {
         int numOfDoubleProngs = 0;
         if(!Team.getTeamById(0).hasAwakenings()){
@@ -501,6 +469,14 @@ public class Monster extends Model implements Parcelable {
 
     public static List<Monster> getAllMonsters() {
         return new Select().from(Monster.class).execute();
+    }
+
+    public static List<Monster> getAllSavedMonsters() {
+        return new Select().from(Monster.class).where("helper = ?", false).execute();
+    }
+
+    public static List<Monster> getAllHelperMonsters() {
+        return new Select().from(Monster.class).where("helper = ?", true).execute();
     }
 
     public static void deleteAllMonsters() {
