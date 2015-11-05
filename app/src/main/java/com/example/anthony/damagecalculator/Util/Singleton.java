@@ -8,6 +8,7 @@ public class Singleton {
     private int saveSortMethod = 8;
     private int baseSortMethod = 1;
     private int teamSortMethod = 1;
+    private int monsterOverwrite = 0;
     private boolean ignoreEnemy = false;
 
     public static Singleton getInstance() {
@@ -50,5 +51,13 @@ public class Singleton {
 
     public void setIgnoreEnemy(boolean ignoreEnemy) {
         this.ignoreEnemy = ignoreEnemy;
+    }
+
+    public int getMonsterOverwrite() {
+        return monsterOverwrite;
+    }
+
+    public void setMonsterOverwrite(int monsterOverwrite) {
+        this.monsterOverwrite = monsterOverwrite;
     }
 }

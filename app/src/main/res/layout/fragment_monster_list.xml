@@ -1,35 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
 
-   <ListView
-      android:id="@+id/monsterListView"
-      android:layout_width="match_parent"
-      android:layout_height="fill_parent"
-       android:layout_above="@+id/buttonHolder"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/monsterListView"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/buttonHolder" />
 
     <LinearLayout
         android:id="@+id/buttonHolder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
+
         <Button
             android:id="@+id/importButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Team Overview"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5"
+            android:text="Team Overview" />
+
         <Button
             android:id="@+id/orbMatchButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Orb Matches"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5"
+            android:text="Orb Matches" />
     </LinearLayout>
 
 

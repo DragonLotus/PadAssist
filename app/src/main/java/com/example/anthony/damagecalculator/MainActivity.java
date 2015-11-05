@@ -555,6 +555,67 @@ public class MainActivity extends AppCompatActivity {
             monster.setLeaderSkill("Blank");
             monster.save();
         }
+
+        if (BaseMonster.getMonsterId(1317) == null) {
+            BaseMonster monster = new BaseMonster();
+            monster.setMonsterId(1317);
+            monster.setMonsterPicture(R.drawable.monster_1317);
+            monster.setName("King Mastering");
+            monster.setMaxLevel(99);
+            monster.setAtkMax(1300);
+            monster.setAtkMin(500);
+            monster.setHpMax(4500);
+            monster.setHpMin(1000);
+            monster.setRcvMax(200);
+            monster.setRcvMin(50);
+            monster.setAtkScale(1.5);
+            monster.setHpScale(1.5);
+            monster.setRcvScale(1.5);
+            monster.setMaxAwakenings(2);
+            monster.setElement1(Element.RED);
+            monster.setElement2(Element.RED);
+            monster.addAwokenSkills(13);
+            monster.addAwokenSkills(14);
+            monster.setType1(2);
+            monster.setRarity(6);
+            monster.setTeamCost(60);
+            monster.setXpCurve(4000000);
+            monster.setLeaderSkill("Test9");
+            monster.save();
+        }
+
+        if (BaseMonster.getMonsterId(1848) == null) {
+            BaseMonster monster = new BaseMonster();
+            monster.setMonsterId(1848);
+            monster.setMonsterPicture(R.drawable.monster_1848);
+            monster.setName("Angel of Secret Destiny, Elia");
+            monster.setMaxLevel(99);
+            monster.setAtkMax(1523);
+            monster.setAtkMin(435);
+            monster.setHpMax(2651);
+            monster.setHpMin(589);
+            monster.setRcvMax(614);
+            monster.setRcvMin(186);
+            monster.setAtkScale(1.5);
+            monster.setHpScale(1.5);
+            monster.setRcvScale(1.5);
+            monster.setMaxAwakenings(6);
+            monster.setElement1(Element.LIGHT);
+            monster.setElement2(Element.LIGHT);
+            monster.addAwokenSkills(27);
+            monster.addAwokenSkills(27);
+            monster.addAwokenSkills(21);
+            monster.addAwokenSkills(28);
+            monster.addAwokenSkills(8);
+            monster.addAwokenSkills(8);
+            monster.setType1(5);
+            monster.setType2(3);
+            monster.setRarity(7);
+            monster.setTeamCost(99);
+            monster.setXpCurve(6000000);
+            monster.setLeaderSkill("Blank");
+            monster.save();
+        }
 //        BaseMonster newMonster = BaseMonster.getMonsterId(1218);
 //        Log.d("Main Activity Log", "Monster Name: " + newMonster.getName());
 //        Log.d("Main Activity Log", "Monster 1218 Awakenings: " + newMonster.getId() + " name: " + newMonster.getName() + " " + newMonster.getAwokenSkills() + " Size: " + newMonster.getAwokenSkills().size());
@@ -735,6 +796,16 @@ public class MainActivity extends AppCompatActivity {
         leaderSkill8.getHpPercent().add(100);
         leaderSkill8.getHpPercent().add(100);
         leaderSkill8.save();
+
+        LeaderSkill leaderSkill9 = new LeaderSkill();
+        leaderSkill9.setName("Test9");
+        leaderSkill9.setHpSkillType(LeaderSkillType.FLAT);
+        leaderSkill9.setAtkSkillType(LeaderSkillType.FLAT);
+        leaderSkill9.addHpData(2.5);
+        leaderSkill9.addAtkData(1.5);
+        leaderSkill9.addHpType(2);
+        leaderSkill9.addAtkType(2);
+        leaderSkill9.save();
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 

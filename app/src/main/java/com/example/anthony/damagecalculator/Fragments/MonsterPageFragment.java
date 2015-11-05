@@ -28,6 +28,7 @@ import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
+import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.util.ArrayList;
 
@@ -224,7 +225,9 @@ public class MonsterPageFragment extends AbstractFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        monster = Team.getTeamById(0).getMonsters(Team.getTeamById(0).getMonsterOverwrite());
+        if (getArguments() != null) {
+        }
+        monster = Team.getTeamById(0).getMonsters(Singleton.getInstance().getMonsterOverwrite());
         disableStuff();
         initBackup();
         Log.d("Monster Page Log", "Monster level3: " + monster.getCurrentLevel());
@@ -895,17 +898,17 @@ public class MonsterPageFragment extends AbstractFragment {
 
         @Override
         public void removeMonsterTeam() {
-            if (Team.getTeamById(0).getMonsterOverwrite() == 0) {
+            if (Singleton.getInstance().getMonsterOverwrite() == 0) {
                 if (toast != null) {
                     toast.cancel();
                 }
                 toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                Log.d("Monster Page Log", "Position is: " + Team.getTeamById(0).getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
+                Log.d("Monster Page Log", "Position is: " + Singleton.getInstance().getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
                 Team newTeam = new Team(Team.getTeamById(0));
-                Log.d("Monster Page Log", "Monster Overwrite is: " + newTeam.getMonsterOverwrite());
-                switch (newTeam.getMonsterOverwrite()) {
+                Log.d("Monster Page Log", "Monster Overwrite is: " + Singleton.getInstance().getMonsterOverwrite());
+                switch (Singleton.getInstance().getMonsterOverwrite()) {
                     case 0:
                         newTeam.setLead(Monster.getMonsterId(0));
                         break;

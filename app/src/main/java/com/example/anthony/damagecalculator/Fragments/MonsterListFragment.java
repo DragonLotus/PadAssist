@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterListAdapter;
+import com.example.anthony.damagecalculator.Adapters.MonsterListRecycler;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
@@ -46,9 +49,10 @@ public class MonsterListFragment extends AbstractFragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private ListView monsterListView;
+    private RecyclerView monsterListView;
     private ArrayList<Monster> monsters;
     private MonsterListAdapter monsterListAdapter;
+    private MonsterListRecycler monsterListRecycler;
     private Button importButton, orbMatchButton;
     private Team team;
     private Enemy enemy;
@@ -91,7 +95,7 @@ public class MonsterListFragment extends AbstractFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_monster_list, container, false);
-        monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+        monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
         importButton = (Button) rootView.findViewById(R.id.importButton);
         orbMatchButton = (Button) rootView.findViewById(R.id.orbMatchButton);
         return rootView;
@@ -156,7 +160,8 @@ public class MonsterListFragment extends AbstractFragment {
         }
         monsters = team.getMonsters();
 //        monsterListAdapter.notifyDataSetChanged();
-        monsterListAdapter.updateList(monsters);
+//        monsterListAdapter.updateList(monsters);
+        monsterListRecycler.updateList(monsters);
         team.update();
         team.updateLeaderSkills();
         team.setTeamStats();
@@ -271,11 +276,14 @@ public class MonsterListFragment extends AbstractFragment {
 //            updateTeam();
         }
         Log.d("Is monsters null 2", "" + monsters);
-        monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
-        monsterListView.setAdapter(monsterListAdapter);
+        //monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
+        //monsterListView.setAdapter(monsterListAdapter);
+        //monsterListView.setOnItemClickListener(monsterListOnClickListener);
+        monsterListRecycler = new MonsterListRecycler(getActivity(), monsters, team);
+        monsterListView.setAdapter(monsterListRecycler);
+        monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         importButton.setOnClickListener(importButtonOnClickListener);
         orbMatchButton.setOnClickListener(orbMatchOnClickListener);
-        monsterListView.setOnItemClickListener(monsterListOnClickListener);
         Log.d("TeamId", "" + team.getTeamId());
     }
 
@@ -312,19 +320,19 @@ public class MonsterListFragment extends AbstractFragment {
         monsterListAdapter.notifyDataSetChanged();
     }
 
-    private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            team.setMonsterOverwrite(position);
-            team.save();
-            Log.d("Monster List Log", "Team ID is: " + team.getTeamId() + " Monster Overwrite is: " + team.getMonsterOverwrite());
-            if (monsters.get(position).getMonsterId() == 0) {
-                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0), MonsterTabLayoutFragment.TAG);
-            }else {
-                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
-            }
-        }
-    };
+//    private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            team.setMonsterOverwrite(position);
+//            team.save();
+//            Log.d("Monster List Log", "Team ID is: " + team.getTeamId() + " Monster Overwrite is: " + team.getMonsterOverwrite());
+//            if (monsters.get(position).getMonsterId() == 0) {
+//                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0), MonsterTabLayoutFragment.TAG);
+//            }else {
+//                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
+//            }
+//        }
+//    };
 
     public void updateTeam() {
         Log.d("What is monster id 0", "" + Monster.getMonsterId(monsters.get(0).getMonsterId()));

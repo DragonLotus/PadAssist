@@ -147,7 +147,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
 
             Team newTeam = new Team(Team.getTeamById(0));
             Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
-            if (monsterList.get(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0) {
+            if (monsterList.get(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -180,7 +180,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                 } else {
                     Log.d("Base Monster Log", "New Monster Id: " + newMonster.getMonsterId());
                     if (newMonster.getMonsterId() == 0) {
-                        switch (newTeam.getMonsterOverwrite()) {
+                        switch (Singleton.getInstance().getMonsterOverwrite()) {
                             case 0:
                                 newTeam.setLead(Monster.getMonsterId(0));
                                 break;
@@ -201,7 +201,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                                 break;
                         }
                     } else {
-                        switch (newTeam.getMonsterOverwrite()) {
+                        switch (Singleton.getInstance().getMonsterOverwrite()) {
                             case 0:
                                 newTeam.setLead(newMonster);
                                 break;

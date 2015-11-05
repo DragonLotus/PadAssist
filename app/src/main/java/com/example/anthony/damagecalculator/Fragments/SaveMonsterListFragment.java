@@ -169,7 +169,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Team newTeam = new Team(Team.getTeamById(0));
-            if (saveMonsterListAdapter.getItem(position).getMonsterId() == 0 && newTeam.getMonsterOverwrite() == 0) {
+            if (saveMonsterListAdapter.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -193,7 +193,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
                 } else {
 
 
-                    switch (newTeam.getMonsterOverwrite()) {
+                    switch (Singleton.getInstance().getMonsterOverwrite()) {
                         case 0:
                             newTeam.setLead(saveMonsterListAdapter.getItem(position));
                             break;

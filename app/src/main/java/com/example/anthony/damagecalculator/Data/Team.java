@@ -57,8 +57,6 @@ public class Team extends Model implements Parcelable {
     private boolean isActiveSkillUsed;
     @Column(name = "teamIdOverwrite")
     private long teamIdOverwrite;
-    @Column(name = "monsterOverwrite")
-    private int monsterOverwrite;
     private ArrayList<Boolean> isBound = new ArrayList<>();
     @Column(name = "teamHp")
     private int teamHp;
@@ -82,7 +80,6 @@ public class Team extends Model implements Parcelable {
         favorite = false;
         isActiveSkillUsed = false;
         teamName = "Default team";
-        monsterOverwrite = 0;
         teamHp = 100;
         Log.d("Team Data Log", "hp is: " + teamHp);
         isBound.clear();
@@ -90,7 +87,6 @@ public class Team extends Model implements Parcelable {
             isBound.add(false);
         }
     }
-
 
     public Team(Team oldTeam) {
         teamId = oldTeam.getTeamId();
@@ -105,7 +101,6 @@ public class Team extends Model implements Parcelable {
         teamGroup = oldTeam.getTeamGroup();
         teamOrder = oldTeam.getTeamOrder();
         favorite = oldTeam.favorite;
-        monsterOverwrite = oldTeam.getMonsterOverwrite();
     }
 
     public int getTeamHealth() {
@@ -321,14 +316,6 @@ public class Team extends Model implements Parcelable {
 
     public void setHelper(Monster helper) {
         this.helper = helper;
-    }
-
-    public int getMonsterOverwrite() {
-        return monsterOverwrite;
-    }
-
-    public void setMonsterOverwrite(int monsterOverwrite) {
-        this.monsterOverwrite = monsterOverwrite;
     }
 
     public ArrayList<Boolean> getIsBound() {
