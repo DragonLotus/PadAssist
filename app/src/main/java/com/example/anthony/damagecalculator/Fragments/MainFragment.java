@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.OrbMatchAdapter;
+import com.example.anthony.damagecalculator.Adapters.OrbMatchRecycler;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
@@ -45,8 +48,9 @@ public class MainFragment extends AbstractFragment {
     private Button addMatch, calculateButton, reset;
     private SeekBar orbsLinked, orbsPlus;
     private CheckBox rowCheckBox, maxLeadMultiplierCheckBox, ignoreEnemyCheckBox;
-    private ListView orbMatches;
+    private RecyclerView orbMatches;
     private OrbMatchAdapter orbMatchAdapter;
+    private OrbMatchRecycler orbMatchRecycler;
     private boolean isRow, maxLeadMultiplier = false, hasEnemy = true;
     private OrbMatch orbMatch;
     private Team team;
@@ -172,7 +176,7 @@ public class MainFragment extends AbstractFragment {
         @Override
         public void onClick(View v) {
             additionalComboValue.clearFocus();
-            if (orbMatches.getCount() == 0) {
+            if (orbMatches.getChildCount() == 0) {
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -195,7 +199,7 @@ public class MainFragment extends AbstractFragment {
             orbMatch = new OrbMatch(orbsLinked.getProgress() + 3, orbsPlus.getProgress(), getOrbColor(), isRow);
             orbMatchAdapter.add(orbMatch);
             orbMatchAdapter.notifyDataSetChanged();
-            Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList + " orbMatches size is: " + orbMatches.getCount());
+            Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList + " orbMatches size is: " + orbMatches.getChildCount());
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }
@@ -301,7 +305,7 @@ public class MainFragment extends AbstractFragment {
         addMatch = (Button) rootView.findViewById(R.id.addMatch);
         calculateButton = (Button) rootView.findViewById(R.id.calculateButton);
         reset = (Button) rootView.findViewById(R.id.reset);
-        orbMatches = (ListView) rootView.findViewById(R.id.orbMatches);
+        orbMatches = (RecyclerView) rootView.findViewById(R.id.orbMatches);
         orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
         //editTeam = (TextView) rootView.findViewById(R.id.editTeam);
         orbsLinkedValue = (TextView) rootView.findViewById(R.id.orbsLinkedValue);
@@ -336,13 +340,14 @@ public class MainFragment extends AbstractFragment {
         } else {
             orbMatchList = (ArrayList)OrbMatch.getAllOrbMatches();
         }
-        orbMatchAdapter = new OrbMatchAdapter(getActivity(), R.layout.orb_match_row, orbMatchList);
-        orbMatches.setAdapter(orbMatchAdapter);
+        orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchListViewOnClickListener);
+        orbMatches.setAdapter(orbMatchRecycler);
+        orbMatches.setLayoutManager(new LinearLayoutManager(getActivity()));
         additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
         calculateButton.setOnClickListener(calculateOnClickListener);
 
-        orbMatches.setOnItemClickListener(orbMatchListViewOnClickListener);
+ //       orbMatches.setOnItemClickListener(orbMatchListViewOnClickListener);
 
         ignoreEnemyCheckBox.setChecked(Singleton.getInstance().isIgnoreEnemy());
 
