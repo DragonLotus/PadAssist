@@ -275,9 +275,9 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void favoriteTeam(boolean favorite) {
-            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
-            loadTeam.setFavorite(favorite);
-            loadTeam.save();
+            teamListAdapter.getItem(selectedTeam).setFavorite(favorite);
+            teamListAdapter.getItem(selectedTeam).save();
+            Log.d("TeamListFragment", "Team 0 is favorite: " + teamList.get(0).isFavorite());
             teamListAdapter.notifyDataSetChanged();
         }
     };

@@ -59,7 +59,7 @@ public class TeamLoadDialogFragment extends DialogFragment {
         View rootView = View.inflate(getActivity(), R.layout.fragment_team_load_dialog, null);
         choiceRadioGroup = (RadioGroup) rootView.findViewById(R.id.choiceRadioGroup);
         teamName = (EditText) rootView.findViewById(R.id.teamName);
-        favorite = (CheckBox) rootView.findViewById(R.id.favorite);
+        favorite = (CheckBox) rootView.findViewById(R.id.favoriteCheck);
         builder.setTitle("Team Options");
         builder.setView(rootView)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -86,16 +86,13 @@ public class TeamLoadDialogFragment extends DialogFragment {
                 public void onClick(View v) {
                     if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.loadTeam) {
                         loadTeam.loadTeam();
-                        dismiss();
                         getActivity().getSupportFragmentManager().popBackStack();
                     } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.deleteTeam) {
                         loadTeam.deleteTeam();
-                        dismiss();
                     } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.editTeam) {
                         if (!teamName.getText().toString().equals("")) {
                             Log.d("Team Name", "" + teamName.getText());
                             loadTeam.editTeam(teamName.getText().toString());
-                            dismiss();
                         } else {
                             if (toast != null) {
                                 toast.cancel();
@@ -104,6 +101,7 @@ public class TeamLoadDialogFragment extends DialogFragment {
                             toast.show();
                         }
                     }
+                    dismiss();
                     loadTeam.favoriteTeam(favorite.isChecked());
                 }
             });
@@ -126,6 +124,12 @@ public class TeamLoadDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         if(getArguments() != null){
             team = getArguments().getParcelable("team");
+        }
+        favorite.setChecked(team.isFavorite());
+        if (team.isFavorite()) {
+            choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 1).setEnabled(false);
+        } else {
+            choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 1).setEnabled(true);
         }
         teamName.setText(team.getTeamName());
         choiceRadioGroup.setOnCheckedChangeListener(choiceOnCheckedChangeListener);
