@@ -73,8 +73,8 @@ public class MainFragment extends AbstractFragment {
 //            maxLeadMultiplierCheckBox.setChecked(false);
 //            additionalComboValue.setText("0");
             //team.clearOrbMatches();
-            orbMatchAdapter.clear();
-            orbMatchAdapter.notifyDataSetChanged();
+            orbMatchRecycler.clear();
+            orbMatchRecycler.notifyDataSetChanged();
             if (toast != null) {
                 toast.cancel();
             }
@@ -197,8 +197,8 @@ public class MainFragment extends AbstractFragment {
         public void onClick(View v) {
             additionalComboValue.clearFocus();
             orbMatch = new OrbMatch(orbsLinked.getProgress() + 3, orbsPlus.getProgress(), getOrbColor(), isRow);
-            orbMatchAdapter.add(orbMatch);
-            orbMatchAdapter.notifyDataSetChanged();
+            orbMatchRecycler.add(orbMatch);
+            orbMatchRecycler.notifyDataSetChanged();
             Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList + " orbMatches size is: " + orbMatches.getChildCount());
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
@@ -208,7 +208,7 @@ public class MainFragment extends AbstractFragment {
 
     private Button.OnClickListener resetOnClickListener = new Button.OnClickListener() {
         public void onClick(View v) {
-            if (team.getOrbMatches().size() == 0){
+            if (orbMatchRecycler.getItemCount() == 0){
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -243,6 +243,36 @@ public class MainFragment extends AbstractFragment {
                 if ((additionalComboValue.getText().toString().equals(""))) {
                     additionalComboValue.setText("0");
                 }
+            }
+        }
+    };
+
+    private View.OnClickListener orbMatchOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.string.index);
+            orbsLinked.setProgress(orbMatchList.get(position).getOrbsLinked() - 3);
+            orbsPlus.setProgress(orbMatchList.get(position).getNumOrbPlus());
+            rowCheckBox.setChecked(orbMatchList.get(position).isRow());
+            switch(orbMatchList.get(position).getElement()){
+                case RED:
+                    orbRadioGroup.check(R.id.redOrb);
+                    break;
+                case BLUE:
+                    orbRadioGroup.check(R.id.blueOrb);
+                    break;
+                case GREEN:
+                    orbRadioGroup.check(R.id.greenOrb);
+                    break;
+                case LIGHT:
+                    orbRadioGroup.check(R.id.lightOrb);
+                    break;
+                case DARK:
+                    orbRadioGroup.check(R.id.darkOrb);
+                    break;
+                case HEART:
+                    orbRadioGroup.check(R.id.heartOrb);
+                    break;
             }
         }
     };
@@ -340,7 +370,7 @@ public class MainFragment extends AbstractFragment {
         } else {
             orbMatchList = (ArrayList)OrbMatch.getAllOrbMatches();
         }
-        orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchListViewOnClickListener);
+        orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchOnClickListener);
         orbMatches.setAdapter(orbMatchRecycler);
         orbMatches.setLayoutManager(new LinearLayoutManager(getActivity()));
         additionalComboValue.addTextChangedListener(additionalComboTextWatcher);

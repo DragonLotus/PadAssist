@@ -34,7 +34,7 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
     private ArrayList<OrbMatch> orbMatches;
     private Context mContext;
     private LayoutInflater inflater;
-    private ListView.OnItemClickListener thomasIsntGlobal;
+    private View.OnClickListener thomasIsntGlobal;
     private Toast toast;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
@@ -62,7 +62,7 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
         }
     };
 
-    public OrbMatchRecycler(Context context, ArrayList<OrbMatch> orbMatches, ListView.OnItemClickListener thomasIsntGlobal){
+    public OrbMatchRecycler(Context context, ArrayList<OrbMatch> orbMatches, View.OnClickListener thomasIsntGlobal){
         mContext = context;
         this.orbMatches = orbMatches;
         this.thomasIsntGlobal = thomasIsntGlobal;
@@ -103,7 +103,7 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
         viewHolder.remove.setOnClickListener(removeOnClickListener);
 
         viewHolder.itemView.setOnClickListener(thomasIsntGlobal);
-        viewHolder.itemView.setTag(viewHolder);
+        viewHolder.itemView.setTag(R.string.index, position);
     }
 
     @Override
