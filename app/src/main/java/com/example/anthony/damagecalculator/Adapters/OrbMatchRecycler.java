@@ -71,7 +71,6 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-
         OrbMatch currentMatch = orbMatches.get(position);
         String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.isRow());
         viewHolder.orbMatchTotal.setText(rowResult);

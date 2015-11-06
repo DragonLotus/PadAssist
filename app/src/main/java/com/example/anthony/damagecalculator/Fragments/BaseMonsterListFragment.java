@@ -3,6 +3,8 @@ package com.example.anthony.damagecalculator.Fragments;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 
 import com.example.anthony.damagecalculator.Adapters.BaseMonsterListAdapter;
+import com.example.anthony.damagecalculator.Adapters.BaseMonsterListRecycler;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Monster;
@@ -46,10 +49,10 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private OnFragmentInteractionListener mListener;
     private boolean replaceAll;
     private long replaceMonsterId;
-    private ListView monsterListView;
+    private RecyclerView monsterListView;
     private ArrayList<BaseMonster> monsterList;
     private ArrayList<BaseMonster> monsterListAll;
-    private BaseMonsterListAdapter baseMonsterListAdapter;
+    private BaseMonsterListRecycler baseMonsterListAdapter;
     private MenuItem searchMenuItem;
     private Toast toast;
     private SortElementDialogFragment sortElementDialogFragment;
@@ -100,7 +103,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_base_monster_list, container, false);
-        monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+        monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
         return rootView;
     }
 
@@ -136,15 +139,16 @@ public class BaseMonsterListFragment extends AbstractFragment {
             Log.d("Base Monster List Log", "Monster Type 1 after is: " + monsterList.get(i).getType1());
         }
         //disableStuff();
-        baseMonsterListAdapter = new BaseMonsterListAdapter(getActivity(), R.layout.base_monster_list_row, monsterList);
+        baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListOnClickListener);
         monsterListView.setAdapter(baseMonsterListAdapter);
-        monsterListView.setOnItemClickListener(monsterListOnClickListener);
+        monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        monsterListView.setOnItemClickListener(monsterListOnClickListener);
     }
 
-    private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
+    private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.string.index);
             Team newTeam = new Team(Team.getTeamById(0));
             Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
             if (monsterList.get(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
@@ -234,10 +238,104 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     }
                 }
             }
-
-
         }
     };
+
+//    private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            Team newTeam = new Team(Team.getTeamById(0));
+//            Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
+//            if (monsterList.get(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
+//                if (toast != null) {
+//                    toast.cancel();
+//                }
+//                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+//                toast.show();
+//            } else {
+//                if (monsterList.get(position).getMonsterId() == 0) {
+//                    newMonster.setMonsterId(0);
+//                } else if (Monster.getAllMonsters().size() == 0) {
+//                    newMonster.setMonsterId(1);
+//                    newMonster.save();
+//                } else {
+//                    newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
+//                    if(Singleton.getInstance().getMonsterOverwrite() == 5){
+//                        newMonster.setHelper(true);
+//                    }
+//                    newMonster.save();
+//                }
+//                if (replaceAll) {
+//                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+//                    Team replaceTeam;
+//                    for (int i = 0; i < teamList.size(); i++) {
+//                        replaceTeam = teamList.get(i);
+//                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
+//                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
+//                                replaceTeam.setMonsters(j, newMonster);
+//                            }
+//                        }
+//                        replaceTeam.save();
+//                    }
+//                    getActivity().getSupportFragmentManager().popBackStack();
+//                    //getActivity().getSupportFragmentManager().popBackStack();
+//                } else {
+//                    Log.d("Base Monster Log", "New Monster Id: " + newMonster.getMonsterId());
+//                    if (newMonster.getMonsterId() == 0) {
+//                        switch (Singleton.getInstance().getMonsterOverwrite()) {
+//                            case 0:
+//                                newTeam.setLead(Monster.getMonsterId(0));
+//                                break;
+//                            case 1:
+//                                newTeam.setSub1(Monster.getMonsterId(0));
+//                                break;
+//                            case 2:
+//                                newTeam.setSub2(Monster.getMonsterId(0));
+//                                break;
+//                            case 3:
+//                                newTeam.setSub3(Monster.getMonsterId(0));
+//                                break;
+//                            case 4:
+//                                newTeam.setSub4(Monster.getMonsterId(0));
+//                                break;
+//                            case 5:
+//                                newTeam.setHelper(Monster.getMonsterId(0));
+//                                break;
+//                        }
+//                    } else {
+//                        switch (Singleton.getInstance().getMonsterOverwrite()) {
+//                            case 0:
+//                                newTeam.setLead(newMonster);
+//                                break;
+//                            case 1:
+//                                newTeam.setSub1(newMonster);
+//                                break;
+//                            case 2:
+//                                newTeam.setSub2(newMonster);
+//                                break;
+//                            case 3:
+//                                newTeam.setSub3(newMonster);
+//                                break;
+//                            case 4:
+//                                newTeam.setSub4(newMonster);
+//                                break;
+//                            case 5:
+//                                newTeam.setHelper(newMonster);
+//                                break;
+//                        }
+//                    }
+//                    newTeam.save();
+//                    Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
+//                    Log.d("Base Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
+//                    getActivity().getSupportFragmentManager().popBackStack();
+//                    if (replaceMonsterId == 0){
+//                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
+//                    }
+//                }
+//            }
+//
+//        }
+//    };
 //
 //    private void disableStuff(){
 //        for (int i = 0; i < monsterList.size(); i++){
@@ -246,7 +344,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
 //            }
 //        }
 //    }
-//
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

@@ -10,9 +10,9 @@ import java.util.Comparator;
 public class TeamFavoriteComparator implements Comparator<Team> {
     @Override
     public int compare(Team lhs, Team rhs) {
-        if (!lhs.getLead().isFavorite() && rhs.getLead().isFavorite()) {
+        if (!lhs.isFavorite() && rhs.isFavorite()) {
             return 1;
-        } else if (lhs.getLead().isFavorite() && rhs.getLead().isFavorite()) {
+        } else if (lhs.isFavorite() && rhs.isFavorite()) {
             if (lhs.getLead().getElement1Int() > rhs.getLead().getElement1Int()) {
                 return 1;
             } else if (lhs.getLead().getElement1Int() == rhs.getLead().getElement1Int()) {
@@ -48,7 +48,7 @@ public class TeamFavoriteComparator implements Comparator<Team> {
             } else {
                 return -1;
             }
-        } else if(!lhs.getLead().isFavorite() && !rhs.getLead().isFavorite()){
+        } else if(!lhs.isFavorite() && !rhs.isFavorite()){
             if (lhs.getLead().getElement1Int() > rhs.getLead().getElement1Int()) {
                 return 1;
             } else if (lhs.getLead().getElement1Int() == rhs.getLead().getElement1Int()) {
