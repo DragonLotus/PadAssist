@@ -5,10 +5,13 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.example.anthony.damagecalculator.R;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by DragonLotus on 9/15/2015.
@@ -143,8 +146,37 @@ public class BaseMonster extends Model {
         this.awokenSkills = awokenSkills;
     }
 
+    public void setAwokenSkills(JsonNode awokenNode) {
+        this.awokenSkills = new ArrayList<>();
+        for(JsonNode awakening: awokenNode) {
+            this.awokenSkills.add(awakening.asInt());
+        }
+    }
+
     public Element getElement1() {
         return element1;
+    }
+
+
+    public void setElement1(int element1) {
+        if(element1 == -1) {
+            this.element1 = Element.BLANK;
+        }
+        if(element1 == 0) {
+            this.element1 = Element.RED;
+        }
+        if(element1 == 1) {
+            this.element1 = Element.BLUE;
+        }
+        if(element1 == 2) {
+            this.element1 = Element.GREEN;
+        }
+        if(element1 == 3) {
+            this.element1 = Element.LIGHT;
+        }
+        if(element1 == 4) {
+            this.element1 = Element.DARK;
+        }
     }
 
     public void setElement1(Element element1) {
@@ -153,6 +185,27 @@ public class BaseMonster extends Model {
 
     public Element getElement2() {
         return element2;
+    }
+
+    public void setElement2(int element2) {
+        if(element2 == -1) {
+            this.element2 = Element.BLANK;
+        }
+        if(element2 == 0) {
+            this.element2 = Element.RED;
+        }
+        if(element2 == 1) {
+            this.element2 = Element.BLUE;
+        }
+        if(element2 == 2) {
+            this.element2 = Element.GREEN;
+        }
+        if(element2 == 3) {
+            this.element2 = Element.LIGHT;
+        }
+        if(element2 == 4) {
+            this.element2 = Element.DARK;
+        }
     }
 
     public void setElement2(Element element2) {

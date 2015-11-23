@@ -1,5 +1,7 @@
 package com.example.anthony.damagecalculator.Util;
 
+import android.content.Context;
+
 /**
  * Created by DragonLotus on 10/17/2015.
  */
@@ -11,6 +13,7 @@ public class Singleton {
     private int monsterOverwrite = 0;
     private boolean ignoreEnemy = false;
 
+    private Context _context;
     public static Singleton getInstance() {
         if(instance == null){
             instance = new Singleton();
@@ -59,5 +62,15 @@ public class Singleton {
 
     public void setMonsterOverwrite(int monsterOverwrite) {
         this.monsterOverwrite = monsterOverwrite;
+    }
+
+    public Context getContext()
+    {
+        return _context;
+    }
+
+    public void setContext(Context context)
+    {
+        this._context = context;
     }
 }

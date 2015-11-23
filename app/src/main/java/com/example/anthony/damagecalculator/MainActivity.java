@@ -35,6 +35,8 @@ import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterTabLayoutFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
+import com.example.anthony.damagecalculator.Threads.ParseMonsterDatabaseThread;
+import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.io.File;
 import java.util.Locale;
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Singleton.getInstance().setContext(getApplicationContext());
+        ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
+        parseMonsterDatabaseThread.start();
         if (android.os.Build.VERSION.SDK_INT >= 20) {
             Configuration.Builder configBuilder = new Configuration.Builder(this);
             configBuilder.addModelClasses(Monster.class);
