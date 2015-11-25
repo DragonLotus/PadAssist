@@ -361,7 +361,7 @@ public class LeaderSkill extends Model {
         return hpMultiplier;
     }
 
-    public double atkElement1Multiplier(Monster monster, Team team) {
+    public double atkElement1Multiplier(Monster monster, Team team, int totalCombos) {
         atkElement1Multiplier = 1;
         if (atkSkillType != null) {
             switch (atkSkillType) {
@@ -377,7 +377,7 @@ public class LeaderSkill extends Model {
                     flatTypeFlatAttribute(monster, team);
                     break;
                 case COMBO:
-                    combo(monster, team);
+                    combo(monster, team, totalCombos);
                     break;
                 case MATCH_ELEMENT:
                     matchElement(monster, team);
@@ -401,7 +401,7 @@ public class LeaderSkill extends Model {
                     matchElementFlat(monster, team);
                     break;
                 case COMBO_MATCH_ELEMENT:
-                    comboMatchElement(monster, team);
+                    comboMatchElement(monster, team, totalCombos);
                     break;
                 case MATCH_ELEMENT_ACTIVE:
                     matchElementActive(monster, team, 2);
@@ -410,16 +410,16 @@ public class LeaderSkill extends Model {
                     flatActive(monster, team, 2);
                     break;
                 case COMBO_ACTIVE:
-                    comboActive(monster, team, 2);
+                    comboActive(monster, team, totalCombos, 2);
                     break;
                 case COMBO_FLAT:
-                    comboFlat(monster, team);
+                    comboFlat(monster, team, totalCombos);
                     break;
                 case COMBO_ATTRIBUTE:
-                    comboAttribute(monster, team);
+                    comboAttribute(monster, team, totalCombos);
                     break;
                 case COMBO_EXACT:
-                    comboExact(monster, team);
+                    comboExact(monster, team, totalCombos);
                     break;
                 case INDIAN:
                     indian(monster, team);
@@ -440,7 +440,7 @@ public class LeaderSkill extends Model {
                     matchElementOrbPlus(monster, team);
                     break;
                 case COMBO_ORB_PLUS:
-                    comboOrbPlus(monster, team);
+                    comboOrbPlus(monster, team, totalCombos);
                     break;
                 case GRIMOIRE_FLAT:
                     multiFlat(monster, team);
@@ -472,7 +472,7 @@ public class LeaderSkill extends Model {
         return atkElement1Multiplier;
     }
 
-    public double atkElement2Multiplier(Monster monster, Team team) {
+    public double atkElement2Multiplier(Monster monster, Team team, int totalCombos) {
         atkElement2Multiplier = 1;
         if (atkSkillType != null) {
             switch (atkSkillType) {
@@ -488,7 +488,7 @@ public class LeaderSkill extends Model {
                     flatTypeFlatAttribute(monster, team);
                     break;
                 case COMBO:
-                    combo(monster, team);
+                    combo(monster, team, totalCombos);
                     break;
                 case MATCH_ELEMENT:
                     matchElement(monster, team);
@@ -512,7 +512,7 @@ public class LeaderSkill extends Model {
                     matchElementFlat(monster, team);
                     break;
                 case COMBO_MATCH_ELEMENT:
-                    comboMatchElement(monster, team);
+                    comboMatchElement(monster, team, totalCombos);
                     break;
                 case MATCH_ELEMENT_ACTIVE:
                     matchElementActive(monster, team, 2);
@@ -521,16 +521,16 @@ public class LeaderSkill extends Model {
                     flatActive(monster, team, 2);
                     break;
                 case COMBO_ACTIVE:
-                    comboActive(monster, team, 2);
+                    comboActive(monster, team, totalCombos, 2);
                     break;
                 case COMBO_FLAT:
-                    comboFlat(monster, team);
+                    comboFlat(monster, team, totalCombos);
                     break;
                 case COMBO_ATTRIBUTE:
-                    comboAttribute(monster, team);
+                    comboAttribute(monster, team, totalCombos);
                     break;
                 case COMBO_EXACT:
-                    comboExact(monster, team);
+                    comboExact(monster, team, totalCombos);
                     break;
                 case INDIAN:
                     indian(monster, team);
@@ -551,7 +551,7 @@ public class LeaderSkill extends Model {
                     matchElementOrbPlus(monster, team);
                     break;
                 case COMBO_ORB_PLUS:
-                    comboOrbPlus(monster, team);
+                    comboOrbPlus(monster, team, totalCombos);
                     break;
                 case GRIMOIRE_FLAT:
                     multiFlat(monster, team);
@@ -599,7 +599,7 @@ public class LeaderSkill extends Model {
                     flatActive(monster, team, 3);
                     break;
                 case COMBO_ACTIVE:
-                    comboActive(monster, team, 3);
+                    comboActive(monster, team, 0, 3);
                     break;
                 case HP_FLAT:
                     hpFlat(monster, team, 3);
@@ -665,7 +665,7 @@ public class LeaderSkill extends Model {
 
     }
 
-    private void combo(Monster monster, Team team) {
+    private void combo(Monster monster, Team team, int totalCombos) {
         //Bastet, Anubis
         int comboDiff = comboMax - comboMin;
 //        if (team.getOrbMatches().size() >= comboMax){
@@ -677,11 +677,11 @@ public class LeaderSkill extends Model {
 //                }
 //            }
 //        }
-        int counter = team.getOrbMatches().size() - comboMin;
+        int counter = totalCombos - comboMin;
         if (counter >= comboDiff) {
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
-        } else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (totalCombos >= comboMin) {
             atkElement1Multiplier = atkData.get(counter);
             atkElement2Multiplier = atkData.get(counter);
         }
@@ -873,15 +873,15 @@ public class LeaderSkill extends Model {
 
     }
 
-    private void comboMatchElement(Monster monster, Team team) {
+    private void comboMatchElement(Monster monster, Team team, int totalCombos) {
         //Lkali ult, Awoken Kirin
         //atkdata is {combo multipliers first, match element multipliers last}
         int comboDiff = comboMax - comboMin;
-        int counter = team.getOrbMatches().size() - comboMin;
+        int counter = totalCombos - comboMin;
         if (counter >= comboDiff) {
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
-        } else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (totalCombos >= comboMin) {
             atkElement1Multiplier = atkData.get(counter);
             atkElement2Multiplier = atkData.get(counter);
         }
@@ -1039,7 +1039,7 @@ public class LeaderSkill extends Model {
         }
     }
 
-    private void comboActive(Monster monster, Team team, int stat) {
+    private void comboActive(Monster monster, Team team, int totalCombos, int stat) {
         //Awoken Anubis, Awoken Bastet
         //{Combos, active}
         int comboDiff = comboMax - comboMin;
@@ -1079,17 +1079,17 @@ public class LeaderSkill extends Model {
             }
         }
 
-        int counter = team.getOrbMatches().size() - comboMin;
+        int counter = totalCombos - comboMin;
         if (counter >= comboDiff) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        } else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (totalCombos >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter);
             atkElement2Multiplier *= atkData.get(counter);
         }
     }
 
-    private void comboFlat(Monster monster, Team team) {
+    private void comboFlat(Monster monster, Team team, int totalCombos) {
         //Ronia ult
         //{combo multiplier, flat multiplier}
         int comboDiff = comboMax - comboMin;
@@ -1109,11 +1109,11 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        int counter = team.getOrbMatches().size() - comboMin;
+        int counter = totalCombos - comboMin;
         if (counter >= comboDiff) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        } else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (totalCombos >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter);
             atkElement2Multiplier *= atkData.get(counter);
         }
@@ -1297,7 +1297,7 @@ public class LeaderSkill extends Model {
         }
     }
 
-    private void comboOrbPlus(Monster monster, Team team) {
+    private void comboOrbPlus(Monster monster, Team team, int totalCombos) {
         //Awoken Yomi
         //atkData will be {combo multipliers, orb plus multiplier}
         int comboDiff = comboMax - comboMin;
@@ -1314,11 +1314,11 @@ public class LeaderSkill extends Model {
         Log.d("Leader Skill Log", "Atk Multiplier 1: " + atkElement1Multiplier);
         Log.d("Leader Skill Log", "Atk Multiplier 2: " + atkElement2Multiplier);
 
-        int counter = team.getOrbMatches().size() - comboMin;
+        int counter = totalCombos - comboMin;
         if (counter >= comboDiff) {
             atkElement1Multiplier *= atkData.get(comboDiff);
             atkElement2Multiplier *= atkData.get(comboDiff);
-        } else if (team.getOrbMatches().size() >= comboMin) {
+        } else if (totalCombos >= comboMin) {
             atkElement1Multiplier *= atkData.get(counter);
             atkElement2Multiplier *= atkData.get(counter);
         }
@@ -1403,9 +1403,9 @@ public class LeaderSkill extends Model {
         }
     }
 
-    private void comboAttribute(Monster monster, Team team) {
+    private void comboAttribute(Monster monster, Team team, int totalCombos) {
         int comboDiff = comboMax - comboMin;
-        int counter = team.getOrbMatches().size() - comboMin;
+        int counter = totalCombos - comboMin;
         if (counter >= comboDiff) {
             if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
                 atkElement1Multiplier = atkData.get(comboDiff);
@@ -1505,8 +1505,8 @@ public class LeaderSkill extends Model {
         }
     }
 
-    private void comboExact(Monster monster, Team team) {
-        if (team.getOrbMatches().size() == comboMin) {
+    private void comboExact(Monster monster, Team team, int totalCombos) {
+        if (totalCombos == comboMin) {
             atkElement1Multiplier = atkData.get(0);
             atkElement2Multiplier = atkData.get(0);
         }

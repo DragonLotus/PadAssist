@@ -23,8 +23,8 @@ public class DamageCalculationUtil {
                 totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
-        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement1Multiplier(monster, team) * team.getHelperSkill().atkElement1Multiplier(monster, team));
-        return Math.ceil(leadOtherMultiplier1(comboMultiplier(totalOrbDamage, combos), monster, team));
+        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement1Multiplier(monster, team, combos) * team.getHelperSkill().atkElement1Multiplier(monster, team, combos));
+        return Math.ceil(leadOtherMultiplier1(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
     }
 
     public static double monsterElement2Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Team team) {
@@ -35,23 +35,23 @@ public class DamageCalculationUtil {
                     totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, monster.getTPA());
                 }
             }
-            Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement2Multiplier(monster, team) * team.getHelperSkill().atkElement2Multiplier(monster, team));
-            return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team));
+            Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement2Multiplier(monster, team, combos) * team.getHelperSkill().atkElement2Multiplier(monster, team, combos));
+            return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
         }
         for (int i = 0; i < orbMatches.size(); i++) {
             if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
                 totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
-        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement2Multiplier(monster, team) * team.getHelperSkill().atkElement2Multiplier(monster, team));
-        return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team));
+        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement2Multiplier(monster, team, combos) * team.getHelperSkill().atkElement2Multiplier(monster, team, combos));
+        return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
     }
 
     public static double comboMultiplier(double damage, int combos) {
         return Math.ceil(damage * ((combos - 1) * .25 + 1.0));
     }
 
-    public static double leadOtherMultiplier1(double damage, Monster monster, Team team) {
+    public static double leadOtherMultiplier1(double damage, Monster monster, Team team, int totalCombos) {
         //No active skill multiplier
         double returnDamage = damage;
         int counter = 0;
@@ -62,11 +62,11 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        returnDamage = returnDamage * team.getLeadSkill().atkElement1Multiplier(monster, team) * team.getHelperSkill().atkElement1Multiplier(monster, team) * (team.getRowAwakenings(monster.getElement1()) * 0.1 * counter + 1);
+        returnDamage = returnDamage * team.getLeadSkill().atkElement1Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement1Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement1()) * 0.1 * counter + 1);
         return returnDamage;
     }
 
-    public static double leadOtherMultiplier2(double damage, Monster monster, Team team) {
+    public static double leadOtherMultiplier2(double damage, Monster monster, Team team, int totalCombos) {
         //No active skill multiplier
         double returnDamage = damage;
         int counter = 0;
@@ -77,7 +77,7 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        returnDamage = returnDamage * team.getLeadSkill().atkElement2Multiplier(monster, team) * team.getHelperSkill().atkElement2Multiplier(monster, team) * (team.getRowAwakenings(monster.getElement2()) * 0.1 * counter + 1);
+        returnDamage = returnDamage * team.getLeadSkill().atkElement2Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement2Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement2()) * 0.1 * counter + 1);
         return returnDamage;
     }
 
