@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Adapters.TeamListAdapter;
+import com.example.anthony.damagecalculator.Adapters.TeamListRecycler;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
@@ -72,10 +75,10 @@ public class TeamListFragment extends AbstractFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ListView teamListView;
+    private RecyclerView teamListView;
     private ArrayList<Team> teamList;
     private ArrayList<Team> teamListAll;
-    private TeamListAdapter teamListAdapter;
+    private TeamListRecycler teamListAdapter;
     private MenuItem searchMenuItem;
     private Button importButton;
     private Boolean loggedIn = false;
@@ -175,7 +178,7 @@ public class TeamListFragment extends AbstractFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_team_list, container, false);
-        teamListView = (ListView) rootView.findViewById(R.id.teamListView);
+        teamListView = (RecyclerView) rootView.findViewById(R.id.teamListView);
         importButton = (Button) rootView.findViewById(R.id.importButton);
         savedTeams = (TextView) rootView.findViewById(R.id.savedTeams);
         return rootView;
@@ -198,10 +201,11 @@ public class TeamListFragment extends AbstractFragment {
             savedTeams.setVisibility(View.GONE);
         }
 //        Collections.sort(teamList, teamLeaderElement1Comparator);
-        teamListAdapter = new TeamListAdapter(getActivity(), R.layout.team_list_row, teamList);
+        teamListAdapter = new TeamListRecycler(getActivity(), teamList, teamListOnClickListener);
         teamListView.setAdapter(teamListAdapter);
+        teamListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         importButton.setOnClickListener(buttonOnClickListener);
-        teamListView.setOnItemClickListener(teamListOnClickListener);
+//        teamListView.setOnItemClickListener(teamListOnClickListener);
     }
 
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
@@ -225,18 +229,31 @@ public class TeamListFragment extends AbstractFragment {
         }
     }
 
-    private ListView.OnItemClickListener teamListOnClickListener = new ListView.OnItemClickListener() {
+    private View.OnClickListener teamListOnClickListener = new View.OnClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectedTeam = position;
+        public void onClick(View v) {
+            selectedTeam = (int)v.getTag(R.string.index);
             Log.d("Team log", "Selected team position: " + selectedTeam);
             if (teamLoadDialogFragment == null) {
-                teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(position));
+                teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(selectedTeam));
             }
 
-            teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(position));
+            teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(selectedTeam));
         }
     };
+
+//    private ListView.OnItemClickListener teamListOnClickListener = new ListView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            selectedTeam = position;
+//            Log.d("Team log", "Selected team position: " + selectedTeam);
+//            if (teamLoadDialogFragment == null) {
+//                teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(position));
+//            }
+//
+//            teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(position));
+//        }
+//    };
 
     private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam() {
         @Override

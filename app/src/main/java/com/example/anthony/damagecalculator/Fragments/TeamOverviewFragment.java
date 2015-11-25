@@ -2,6 +2,9 @@ package com.example.anthony.damagecalculator.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 
 import com.example.anthony.damagecalculator.Adapters.AwakeningGridAdapter;
+import com.example.anthony.damagecalculator.Adapters.AwakeningGridRecycler;
 import com.example.anthony.damagecalculator.Adapters.MonsterSpecificAwakeningsListAdapter;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
@@ -26,6 +30,7 @@ public class TeamOverviewFragment extends AbstractFragment {
     private TextView teamHpValue, teamRcvValue, utilityAwakeningText, damageAwakeningText, monsterSpecificText;
     private ListView monsterSpecific;
     private ExpandableHeightGridView utilityAwakenings, damageAwakenings;
+//    private RecyclerView utilityAwakenings, damageAwakenings;
     private ArrayList<Monster> monsterList;
     private ArrayList<Integer> utilityAwakeningList, damageAwakeningList, awakeningListAll;
     private ArrayList<Integer> utilityFilter = new ArrayList<>();
@@ -88,9 +93,12 @@ public class TeamOverviewFragment extends AbstractFragment {
         trimAwakenings();
         utilityAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), utilityAwakeningList);
         utilityAwakenings.setAdapter(utilityAwakeningGridAdapter);
+//        utilityAwakenings.setHasFixedSize(true);
+//        utilityAwakenings.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         utilityAwakenings.setExpanded(true);
         damageAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), damageAwakeningList);
         damageAwakenings.setAdapter(damageAwakeningGridAdapter);
+//        damageAwakenings.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         damageAwakenings.setExpanded(true);
         monsterSpecificAwakeningsListAdapter = new MonsterSpecificAwakeningsListAdapter(getActivity(), R.layout.monster_specific_awakening_list_row, monsterList);
         monsterSpecific.setAdapter(monsterSpecificAwakeningsListAdapter);

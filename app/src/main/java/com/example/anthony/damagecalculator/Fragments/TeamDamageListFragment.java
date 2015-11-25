@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterDamageListAdapter;
+import com.example.anthony.damagecalculator.Adapters.MonsterDamageListRecycler;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.LeaderSkill;
@@ -57,9 +60,9 @@ public class TeamDamageListFragment extends AbstractFragment {
 
 
     private OnFragmentInteractionListener mListener;
-    private ListView monsterListView;
+    private RecyclerView monsterListView;
     private EditText additionalComboValue, damageThresholdValue;
-    private MonsterDamageListAdapter monsterListAdapter;
+    private MonsterDamageListRecycler monsterListAdapter;
     private Enemy enemy;
     private Team team;
     private Toast toast;
@@ -134,7 +137,7 @@ public class TeamDamageListFragment extends AbstractFragment {
         // Inflate the layout for this fragment
 
         View rootView = inflater.inflate(R.layout.fragment_team_damage_list, container, false);
-        monsterListView = (ListView) rootView.findViewById(R.id.monsterListView);
+        monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
         additionalComboValue = (EditText) rootView.findViewById(R.id.additionalComboValue);
         monsterListToggle = (TextView) rootView.findViewById(R.id.monsterListToggle);
         enemyHP = (TextView) rootView.findViewById(R.id.enemyHP);
@@ -193,12 +196,13 @@ public class TeamDamageListFragment extends AbstractFragment {
         updateTextView();
         setupHpSeekBar();
         Log.d("totalCombos", String.valueOf(totalCombos));
-        monsterListAdapter = new MonsterDamageListAdapter(getActivity(), R.layout.monster_damage_row, hasEnemy, enemy, totalCombos, team);
+        monsterListAdapter = new MonsterDamageListRecycler(getActivity(), hasEnemy, enemy, totalCombos, team, bindMonsterOnClickListener);
         monsterListView.setAdapter(monsterListAdapter);
+        monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
         additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
-        monsterListView.setOnItemClickListener(bindMonsterOnClickListener);
+//        monsterListView.setOnItemClickListener(bindMonsterOnClickListener);
         recalculateButton.setOnClickListener(recalculateButtonOnClickListener);
         absorbCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         reductionCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
@@ -391,9 +395,10 @@ public class TeamDamageListFragment extends AbstractFragment {
         }
     }
 
-    private ListView.OnItemClickListener bindMonsterOnClickListener = new AdapterView.OnItemClickListener() {
+    private View.OnClickListener bindMonsterOnClickListener = new View.OnClickListener(){
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.string.index);
             clearTextFocus();
             if (team.getIsBound().get(position)) {
                 team.getIsBound().set(position, false);
@@ -435,6 +440,51 @@ public class TeamDamageListFragment extends AbstractFragment {
             monsterListAdapter.notifyDataSetChanged();
         }
     };
+
+//    private ListView.OnItemClickListener bindMonsterOnClickListener = new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            clearTextFocus();
+//            if (team.getIsBound().get(position)) {
+//                team.getIsBound().set(position, false);
+//                Log.d("Bound", "monster " + position + " is unbound");
+//                if (toast != null) {
+//                    toast.cancel();
+//                }
+//                toast = Toast.makeText(getActivity(), "Monster unbound", Toast.LENGTH_SHORT);
+//                toast.show();
+//            } else {
+//                int counter = 0;
+//                if (team.hasAwakenings()) {
+//                    for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++) {
+//                        if (team.getMonsters(position).getAwokenSkills().get(i) == 10) {
+//                            counter++;
+//                        }
+//                    }
+//                }
+//                if (counter == 2) {
+//                    if (toast != null) {
+//                        toast.cancel();
+//                    }
+//                    toast = Toast.makeText(getActivity(), "Monster cannot be bound", Toast.LENGTH_SHORT);
+//                    toast.show();
+//                } else {
+//                    team.getIsBound().set(position, true);
+//                    Log.d("Bound", "monster " + position + " is bound");
+//                    if (toast != null) {
+//                        toast.cancel();
+//                    }
+//                    toast = Toast.makeText(getActivity(), "Monster bound", Toast.LENGTH_SHORT);
+//                    toast.show();
+//                }
+//            }
+//            team.update();
+//            team.updateOrbs();
+//            Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
+//            updateTextView();
+//            monsterListAdapter.notifyDataSetChanged();
+//        }
+//    };
 
     private void setTextColors() {
         if (enemy.getTargetElement().equals(Element.RED)) {

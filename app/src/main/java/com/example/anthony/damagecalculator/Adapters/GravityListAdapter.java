@@ -10,65 +10,58 @@ import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.R;
+
 import java.util.ArrayList;
 
 /**
  * Created by Anthony on 7/16/2015.
  */
-public class GravityListAdapter extends ArrayAdapter<Integer>
-{
-   private Context mContext;
-   private LayoutInflater inflater;
-   private Enemy enemy;
-   private int resourceId;
-   private UpdateGravityPercent updateGravityPercent;
+public class GravityListAdapter extends ArrayAdapter<Integer> {
+    private Context mContext;
+    private LayoutInflater inflater;
+    private Enemy enemy;
+    private int resourceId;
+    private UpdateGravityPercent updateGravityPercent;
 
-   public GravityListAdapter(Context context, int textViewResourceId, Enemy enemy, UpdateGravityPercent updateGravityPercent)
-   {
-      super(context, textViewResourceId, enemy.getGravityList());
-      mContext = context;
-      this.enemy = enemy;
-      this.resourceId = textViewResourceId;
-      this.updateGravityPercent = updateGravityPercent;
-   }
+    public GravityListAdapter(Context context, int textViewResourceId, Enemy enemy, UpdateGravityPercent updateGravityPercent) {
+        super(context, textViewResourceId, enemy.getGravityList());
+        mContext = context;
+        this.enemy = enemy;
+        this.resourceId = textViewResourceId;
+        this.updateGravityPercent = updateGravityPercent;
+    }
 
-   public View getView(int position, View convertView, ViewGroup parent)
-   {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-      ViewHolder viewHolder = null;
-      if (convertView == null)
-      {
-         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-         convertView = inflater.inflate(resourceId, parent, false);
-         viewHolder = new ViewHolder();
-         viewHolder.gravityText = (TextView) convertView.findViewById(R.id.gravityText);
-         convertView.setTag(R.string.viewHolder, viewHolder);
-      } else
-      {
-         viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
-      }
-      viewHolder.gravityText.setText(String.valueOf(enemy.getGravityList(position)) + "%");
+        ViewHolder viewHolder = null;
+        if (convertView == null) {
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(resourceId, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.gravityText = (TextView) convertView.findViewById(R.id.gravityText);
+            convertView.setTag(R.string.viewHolder, viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
+        }
+        viewHolder.gravityText.setText(String.valueOf(enemy.getGravityList(position)) + "%");
 
-      return convertView;
-   }
+        return convertView;
+    }
 
-   public interface UpdateGravityPercent
-   {
-      public void updatePercent();
-   }
+    public interface UpdateGravityPercent {
+        public void updatePercent();
+    }
 
-   static class ViewHolder
-   {
-      TextView gravityText;
-   }
+    static class ViewHolder {
+        TextView gravityText;
+    }
 
-   @Override
-   public void notifyDataSetChanged()
-   {
-      super.notifyDataSetChanged();
-      //update the textview here by looping trhrough all objects and then setting the total percent
-      updateGravityPercent.updatePercent();
-   }
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        //update the textview here by looping trhrough all objects and then setting the total percent
+        updateGravityPercent.updatePercent();
+    }
 
 
 }

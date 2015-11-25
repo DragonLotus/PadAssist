@@ -61,11 +61,18 @@
                 android:text="Utility Awakenings"
                 android:textSize="18dp" />
 
+            <!--<com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView-->
+                <!--android:id="@+id/utilityAwakenings"-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@+id/utilityAwakeningText"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:numColumns="5"/>-->
+
             <com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView
                 android:id="@+id/utilityAwakenings"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/utilityAwakeningText"
                 android:gravity="center_horizontal"
                 android:numColumns="5"/>
 
@@ -81,7 +88,6 @@
                 android:id="@+id/damageAwakenings"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/utilityAwakenings"
                 android:gravity="center_horizontal"
                 android:numColumns="5"/>
 
@@ -89,7 +95,6 @@
                 android:id="@+id/monsterSpecificText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/damageAwakenings"
                 android:text="Monster Specific Awakenings"
                 android:textSize="18dp" />
 
@@ -97,7 +102,6 @@
                 android:id="@+id/monsterSpecific"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/monsterSpecificText"
                 android:gravity="center_horizontal"
                 android:numColumns="5" />
         </LinearLayout>

@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.anthony.damagecalculator.Data.Monster;
-import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterTabLayoutFragment;
 import com.example.anthony.damagecalculator.MainActivity;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by DragonLotus on 11/4/2015.
  */
-public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycler.ViewHolder> {
+public class GravityListRecycler extends RecyclerView.Adapter<GravityListRecycler.ViewHolder> {
     private ArrayList<Monster> monsterList;
     private Context mContext;
     private LayoutInflater inflater;
@@ -43,7 +42,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         }
     };
 
-    public MonsterListRecycler(Context context, ArrayList<Monster> monsterList){
+    public GravityListRecycler(Context context, ArrayList<Monster> monsterList){
         mContext = context;
         this.monsterList = monsterList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

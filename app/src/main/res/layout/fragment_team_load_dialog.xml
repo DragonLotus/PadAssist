@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/choiceRadioGroup"
         android:hint="Team Name"
-        android:inputType="textNoSuggestions"
+        android:inputType="textNoSuggestions|textCapSentences"
         android:singleLine="true"
         android:textSize="16dp"
         android:enabled="false"/>

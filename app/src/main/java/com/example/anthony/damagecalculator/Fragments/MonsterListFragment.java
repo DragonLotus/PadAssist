@@ -280,7 +280,7 @@ public class MonsterListFragment extends AbstractFragment {
         //monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
         //monsterListView.setAdapter(monsterListAdapter);
         //monsterListView.setOnItemClickListener(monsterListOnClickListener);
-        monsterListRecycler = new MonsterListRecycler(getActivity(), monsters, team);
+        monsterListRecycler = new MonsterListRecycler(getActivity(), monsters);
         monsterListView.setAdapter(monsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         importButton.setOnClickListener(importButtonOnClickListener);
