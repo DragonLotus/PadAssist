@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/C:/Users/Thomas/Documents/GitHub/DamageCalculator/ActiveAndroid/build/intermediates/bundles/debug/res/values/values.xml -->
+    <!-- From: file:/E:/Users/DragonLotus/Documents/GitHub/DamageCalculator/ActiveAndroid/build/intermediates/bundles/debug/res/values/values.xml -->
     <eat-comment/>
     <string name="app_name">ActiveAndroid</string>
     <style name="AppBaseTheme" parent="android:Theme.Light">

@@ -1,5 +1,7 @@
 package com.example.anthony.damagecalculator.Data;
 
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -49,7 +51,7 @@ public class BaseMonster extends Model {
     @Column(name = "element2")
     private Element element2;
     @Column(name = "awokenSkills")
-    private ArrayList<Integer> awokenSkills = new ArrayList<>();
+    private ArrayList<Integer> awokenSkills;
     @Column(name = "activeSkill")
     private String activeSkill;
     @Column(name = "leaderSkill")
@@ -71,7 +73,7 @@ public class BaseMonster extends Model {
     @Column(name = "xpCurve")
     private int xpCurve;
     @Column(name = "evolutions")
-    private ArrayList<Long> evolutions = new ArrayList<>();
+    private ArrayList<Long> evolutions;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public BaseMonster() {
@@ -96,6 +98,8 @@ public class BaseMonster extends Model {
         type1 = -1;
         type2 = -1;
         type3 = -1;
+        awokenSkills = new ArrayList<>();
+        evolutions = new ArrayList<>();
     }
 
     public String getActiveSkill() {
@@ -131,6 +135,7 @@ public class BaseMonster extends Model {
     }
 
     public ArrayList<Integer> getAwokenSkills() {
+        Log.d("BaseMonster", awokenSkills.toString());
         return awokenSkills;
     }
 
