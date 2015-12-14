@@ -107,7 +107,7 @@ public class TeamOverviewFragment extends AbstractFragment {
         Log.d("Team Overview Log", "Damage filter is: " + damageFilter);
         Log.d("Team Overview Log", "Monster Specific filter is: " + monsterSpecificFilter);
         Log.d("Team Overview Log", "Leader skills are: " + team.getLeadSkill().getName() + " " + team.getHelperSkill().getName());
-        Log.d("Team Overview Log", "Leader skill details are: " + team.getLeadSkill().getAtkSkillType() + " " + team.getLeadSkill().getMatchElements());
+        Log.d("Team Overview Log", "Leader skill details are: " + team.getLeadSkill().getAtkSkillType() + " " + team.getLeadSkill().getMatchElements() + " " + team.getLeadSkill().getAtkData());
     }
 
     // TODO: Rename method, update argument and hook method into UI event

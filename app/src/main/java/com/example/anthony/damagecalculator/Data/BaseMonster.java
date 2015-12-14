@@ -286,7 +286,7 @@ public class BaseMonster extends Model {
     }
 
     public int getMaxAwakenings() {
-        return maxAwakenings;
+        return awokenSkills.size();
     }
 
     public void setMaxAwakenings(int maxAwakenings) {

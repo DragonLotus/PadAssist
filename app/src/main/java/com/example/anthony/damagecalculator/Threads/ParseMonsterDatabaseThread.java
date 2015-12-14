@@ -206,7 +206,7 @@ public class ParseMonsterDatabaseThread extends Thread {
 
                 leaderSkill.save();
             }
-            Log.d("himom", "himom3");
+//            Log.d("himom", "himom3");
             ActiveAndroid.setTransactionSuccessful();
         } catch (Exception e) {
             Log.d("himom", "himom4");

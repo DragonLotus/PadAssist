@@ -230,6 +230,7 @@ public class MonsterPageFragment extends AbstractFragment {
         monster = Team.getTeamById(0).getMonsters(Singleton.getInstance().getMonsterOverwrite());
         disableStuff();
         initBackup();
+        Log.d("Monster Page Log", "Monster awakenings " + monster.getAwokenSkills());
         Log.d("Monster Page Log", "Monster level3: " + monster.getCurrentLevel());
         Log.d("Monster Page Log", "Edit Text Level: " + monsterLevelValue.getText());
         monsterPicture.setImageResource(monster.getMonsterPicture());
@@ -455,6 +456,7 @@ public class MonsterPageFragment extends AbstractFragment {
 
     public void showAwakenings() {
         // Show max # of awakenings
+        Log.d("Monster Page Fragment", "Monster Awakenings in Show Awakenings is: " + monster.getAwokenSkills() + "Monster Max Awakenings is: " + monster.getMaxAwakenings());
         for(int i = 0; i < 9; i++){
             if(i >= monster.getMaxAwakenings()){
                 awakeningHolder.getChildAt(i).setVisibility(View.GONE);
@@ -553,6 +555,9 @@ public class MonsterPageFragment extends AbstractFragment {
                 case 28:
                     awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28);
                     break;
+                case 29:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29);
+                    break;
             }
         }
 
@@ -641,6 +646,9 @@ public class MonsterPageFragment extends AbstractFragment {
                     break;
                 case 28:
                     awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28_disabled);
+                    break;
+                case 29:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29_disabled);
                     break;
             }
         }

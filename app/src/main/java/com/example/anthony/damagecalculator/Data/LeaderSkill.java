@@ -909,6 +909,7 @@ public class LeaderSkill extends Model {
         //atkdata is {match elements first, additional damage with skill last}
         Log.d("Leader Skill Log", "Active Skill Used: " + team.isActiveSkillUsed());
         if (team.isActiveSkillUsed()) {
+            Log.d("Leader Skill Log", "I am enter Active Skill used.");
             if (stat == 2) {
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {

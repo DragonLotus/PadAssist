@@ -309,7 +309,6 @@ public class MonsterListFragment extends AbstractFragment {
         public void onClick(View v) {
             Log.d("Team Health", String.valueOf(team.getTeamHealth()));
             Log.d("Team RCV", String.valueOf(team.getTeamRcv()));
-            Log.d("PressMe", String.valueOf(BaseMonster.getAllMonsters().size()));
             if (team.getLead().getMonsterId() == 0){
                 if (toast != null) {
                     toast.cancel();
