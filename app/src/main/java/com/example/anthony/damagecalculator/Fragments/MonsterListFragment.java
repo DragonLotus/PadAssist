@@ -3,6 +3,7 @@ package com.example.anthony.damagecalculator.Fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -147,6 +148,7 @@ public class MonsterListFragment extends AbstractFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d("MonsterListFragment", "On Destroy Monster 0 awakenings: " + monsters.get(0).getAwokenSkills());
     }
 
     @Override
@@ -267,6 +269,13 @@ public class MonsterListFragment extends AbstractFragment {
 //                Log.d("Monster Check2 id", "" + test.getMonsters().get(i).getMonsterId());
 //            }
 
+            Log.d("MonsterListFragment", "OnActivityCreated BaseMonsters are: " + BaseMonster.getAllMonsters().size());
+//            Log.d("MonsterListFragment", "On ActivityCreated BaseMonster kirin is: " + BaseMonster.getMonsterId(2077).getName());
+            Log.d("MonsterListFragment", "On ActivityCreated monsters are: " + monsters);
+            Log.d("MonsterListFragment", "On ActivityCreated Monster 0 is: " + monsters.get(0));
+            Log.d("MonsterListFragment", "On ActivityCreated Monster 0 BaseMonster is: " + monsters.get(0).getBaseMonster());
+            Log.d("MonsterListFragment", "On ActivityCreated Monster 0 name is: " + monsters.get(0).getName());
+            Log.d("MonsterListFragment", "On ActivityCreated Monster 0 awakenings: " + monsters.get(0).getAwokenSkills());
             team.update();
             monsters = team.getMonsters();
             Log.d("Is monsters null 1", "" + monsters);
@@ -309,6 +318,7 @@ public class MonsterListFragment extends AbstractFragment {
         public void onClick(View v) {
             Log.d("Team Health", String.valueOf(team.getTeamHealth()));
             Log.d("Team RCV", String.valueOf(team.getTeamRcv()));
+            Log.d("MonsterListFragment", "Button press Monster 0 BaseMonster is: " + monsters.get(0).getBaseMonster());
             if (team.getLead().getMonsterId() == 0){
                 if (toast != null) {
                     toast.cancel();

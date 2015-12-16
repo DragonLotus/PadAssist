@@ -58,11 +58,24 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.monsterName.setText(team.getMonsters(position).getName());
-        viewHolder.monsterPlus.setText(" +" + Integer.toString(team.getMonsters(position).getTotalPlus()) + " ");
-        viewHolder.monsterAwakenings.setText(" " + Integer.toString(team.getMonsters(position).getCurrentAwakenings()));
-        if (team.getMonsters(position).getCurrentAwakenings() == team.getMonsters(position).getMaxAwakenings()) {
-            viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
+        if (team.getMonsters(position).getTotalPlus() == 0) {
+            viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
+        }else {
+            viewHolder.monsterPlus.setVisibility(View.VISIBLE);
+            viewHolder.monsterPlus.setText(" +" + Integer.toString(team.getMonsters(position).getTotalPlus()) + " ");
+        }
+        if (team.getMonsters(position).getCurrentAwakenings() == 0) {
+            viewHolder.monsterAwakenings.setVisibility(View.INVISIBLE);
             viewHolder.monsterAwakenings.setText("");
+        } else {
+            viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
+            if (team.getMonsters(position).getCurrentAwakenings() == team.getMonsters(position).getMaxAwakenings()) {
+                viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
+                viewHolder.monsterAwakenings.setText("");
+            } else {
+                viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_background);
+                viewHolder.monsterAwakenings.setText(" " + Integer.toString(team.getMonsters(position).getCurrentAwakenings()));
+            }
         }
         viewHolder.monsterPicture.setImageResource(team.getMonsters(position).getMonsterPicture());
         //Needs to get # of orb awakenings from team object maybe
@@ -112,12 +125,6 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
             }
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
-        }
-        if (team.getMonsters(position).getTotalPlus() == 0) {
-            viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
-        }
-        if (team.getMonsters(position).getCurrentAwakenings() == 0) {
-            viewHolder.monsterAwakenings.setVisibility(View.INVISIBLE);
         }
         if(team.getMonsters(position).getElement1().equals(Element.BLANK)){
             viewHolder.monsterElement1Damage.setVisibility(View.INVISIBLE);

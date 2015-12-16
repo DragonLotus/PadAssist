@@ -547,8 +547,16 @@ public class Team extends Model implements Parcelable {
     }
 
     public void updateLeaderSkills() {
-        leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
-        helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
+        if(LeaderSkill.getLeaderSkill(lead.getLeaderSkill()) == null){
+            leadSkill = LeaderSkill.getLeaderSkill("Blank");
+        } else {
+            leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
+        }
+        if(LeaderSkill.getLeaderSkill(helper.getLeaderSkill()) == null){
+            helperSkill = LeaderSkill.getLeaderSkill("Blank");
+        } else {
+            helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
+        }
     }
 
     public Team(Parcel source) {

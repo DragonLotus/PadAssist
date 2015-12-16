@@ -10,6 +10,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DragonLotus on 9/18/2015.
@@ -907,7 +908,9 @@ public class LeaderSkill extends Model {
         //Need active flag in team
         //Awoken Ra, Awoken Horus, Green Kirin
         //atkdata is {match elements first, additional damage with skill last}
-        Log.d("Leader Skill Log", "Active Skill Used: " + team.isActiveSkillUsed());
+        Log.d("LeaderSkillLog", "Active Skill Used: " + team.isActiveSkillUsed());
+        Log.d("LeaderSkillLog", "atkElement1Multiplier before is: " + atkElement1Multiplier + " atkElement2Multipler before is: " + atkElement2Multiplier);
+        Log.d("LeaderSkillLog", "atkData is: " + atkData);
         if (team.isActiveSkillUsed()) {
             Log.d("Leader Skill Log", "I am enter Active Skill used.");
             if (stat == 2) {
@@ -944,6 +947,7 @@ public class LeaderSkill extends Model {
                 }
             }
         }
+        Log.d("LeaderSkillLog", "atkElement1Multiplier middle is: " + atkElement1Multiplier + " atkElement2Multipler middle is: " + atkElement2Multiplier);
         if (stat == 2) {
             int comboDiff = comboMax - comboMin;
             int counter = 0;
@@ -961,6 +965,7 @@ public class LeaderSkill extends Model {
             }
         }
 
+        Log.d("LeaderSkillLog", "atkElement1Multiplier after is: " + atkElement1Multiplier + " atkElement2Multipler after is: " + atkElement2Multiplier);
     }
 
     private void flatActive(Monster monster, Team team, int stat) {
@@ -1721,6 +1726,10 @@ public class LeaderSkill extends Model {
             }
         }
         return max;
+    }
+
+    public static List<Monster> getAllLeaderSkills() {
+        return new Select().from(LeaderSkill.class).execute();
     }
 
     public static LeaderSkill getLeaderSkill(String name) {

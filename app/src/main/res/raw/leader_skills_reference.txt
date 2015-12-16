@@ -99,3 +99,16 @@ ORB_LINK_EXACT_FLAT: 32
 
 
 ORB_LINK_EXACT: 33
+
+0:Evo Material
+1:Balanced
+2:Physical
+3:Healer
+4:Dragon
+5:God
+6:Attacker
+7:Devil
+8:Machine
+12:Awoken Skill Material
+13:Protected
+14:Enhance Material

@@ -127,17 +127,17 @@ public class BaseMonsterListFragment extends AbstractFragment {
             monsterList = new ArrayList<>();
             monsterList.addAll(monsterListAll);
         }
-        Log.d("Base Monster List Log", "monsterList is before: " + monsterList);
-        for (int i = 0; i < monsterList.size(); i++) {
-            Log.d("Base Monster List Log", "Monster Type 1 before is: " + monsterList.get(i).getType1());
-        }
+//        Log.d("Base Monster List Log", "monsterList is before: " + monsterList);
+//        for (int i = 0; i < monsterList.size(); i++) {
+//            Log.d("Base Monster List Log", "Monster Type 1 before is: " + monsterList.get(i).getType1());
+//        }
 //        searchFilter("");
 //        Collections.sort(monsterList, monsterNumberComparator);
 //        sortMethod = 1;
-        Log.d("Base Monster List Log", "monsterList is after: " + monsterList);
-        for (int i = 0; i < monsterList.size(); i++) {
-            Log.d("Base Monster List Log", "Monster Type 1 after is: " + monsterList.get(i).getType1());
-        }
+//        Log.d("Base Monster List Log", "monsterList is after: " + monsterList);
+//        for (int i = 0; i < monsterList.size(); i++) {
+//            Log.d("Base Monster List Log", "Monster Type 1 after is: " + monsterList.get(i).getType1());
+//        }
         //disableStuff();
         baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListOnClickListener);
         monsterListView.setAdapter(baseMonsterListAdapter);

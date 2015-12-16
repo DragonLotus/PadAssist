@@ -31099,10 +31099,10 @@
 
 
 
+	"atkType": [5],
 
 
-
-
+	
     "comboMin": 4,
     "comboMax": 4,
 
@@ -31896,7 +31896,7 @@
     "atkData": [5, 2],
 
 
-
+	"atkType": [5, 7],
 
 
 
