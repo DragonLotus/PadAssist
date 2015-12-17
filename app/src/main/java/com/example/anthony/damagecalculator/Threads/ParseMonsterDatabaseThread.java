@@ -26,12 +26,8 @@ public class ParseMonsterDatabaseThread extends Thread {
 
     public void run() {
         super.run();
-        if(BaseMonster.getAllMonsters().size() <= 1){
-            parseMonsterDatabase();
-        }
-        if(LeaderSkill.getAllLeaderSkills().size() <= 1){
-            parseLeaderSkillDatabase();
-        }
+        parseMonsterDatabase();
+        parseLeaderSkillDatabase();
     }
 
     private void parseMonsterDatabase() {
