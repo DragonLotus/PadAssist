@@ -82,29 +82,6 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
         } else {
             viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
         }
-        if(monsterList.get(position).getMonsterId() == 0){
-            viewHolder.monsterLevelValue.setVisibility(View.INVISIBLE);
-            viewHolder.monsterHP.setVisibility(View.INVISIBLE);
-            viewHolder.monsterATK.setVisibility(View.INVISIBLE);
-            viewHolder.monsterRCV.setVisibility(View.INVISIBLE);
-            viewHolder.monsterLevel.setVisibility(View.INVISIBLE);
-            viewHolder.type1.setVisibility(View.INVISIBLE);
-            viewHolder.type2.setVisibility(View.INVISIBLE);
-            viewHolder.rarity.setVisibility(View.INVISIBLE);
-            viewHolder.rarityStar.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.monsterLevelValue.setVisibility(View.VISIBLE);
-            viewHolder.monsterHP.setVisibility(View.VISIBLE);
-            viewHolder.monsterATK.setVisibility(View.VISIBLE);
-            viewHolder.monsterRCV.setVisibility(View.VISIBLE);
-            viewHolder.monsterLevel.setVisibility(View.VISIBLE);
-            viewHolder.type1.setVisibility(View.VISIBLE);
-            viewHolder.type2.setVisibility(View.VISIBLE);
-            viewHolder.type3.setVisibility(View.VISIBLE);
-            viewHolder.rarity.setVisibility(View.VISIBLE);
-            viewHolder.rarityStar.setVisibility(View.VISIBLE);
-        }
-
 
         switch(monsterList.get(position).getType1()){
             case 0:
@@ -228,6 +205,29 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
             default:
                 viewHolder.type3.setVisibility(View.GONE);
                 break;
+        }
+
+        if(monsterList.get(position).getMonsterId() == 0){
+            viewHolder.monsterLevelValue.setVisibility(View.INVISIBLE);
+            viewHolder.monsterHP.setVisibility(View.INVISIBLE);
+            viewHolder.monsterATK.setVisibility(View.INVISIBLE);
+            viewHolder.monsterRCV.setVisibility(View.INVISIBLE);
+            viewHolder.monsterLevel.setVisibility(View.INVISIBLE);
+            viewHolder.type1.setVisibility(View.INVISIBLE);
+            viewHolder.type2.setVisibility(View.INVISIBLE);
+            viewHolder.rarity.setVisibility(View.INVISIBLE);
+            viewHolder.rarityStar.setVisibility(View.INVISIBLE);
+        }else {
+            viewHolder.monsterLevelValue.setVisibility(View.VISIBLE);
+            viewHolder.monsterHP.setVisibility(View.VISIBLE);
+            viewHolder.monsterATK.setVisibility(View.VISIBLE);
+            viewHolder.monsterRCV.setVisibility(View.VISIBLE);
+            viewHolder.monsterLevel.setVisibility(View.VISIBLE);
+            viewHolder.type1.setVisibility(View.VISIBLE);
+            viewHolder.type2.setVisibility(View.VISIBLE);
+            viewHolder.type3.setVisibility(View.VISIBLE);
+            viewHolder.rarity.setVisibility(View.VISIBLE);
+            viewHolder.rarityStar.setVisibility(View.VISIBLE);
         }
 
         if(monsterList.get(position).getType2() == -1){

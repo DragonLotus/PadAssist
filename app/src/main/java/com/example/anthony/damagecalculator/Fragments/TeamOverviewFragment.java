@@ -142,6 +142,7 @@ public class TeamOverviewFragment extends AbstractFragment {
         utilityFilter.add(20);
         utilityFilter.add(21);
         utilityFilter.add(28);
+        utilityFilter.add(29);
         damageFilter.add(14);
         damageFilter.add(15);
         damageFilter.add(16);

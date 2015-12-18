@@ -275,6 +275,8 @@ public class MonsterPageFragment extends AbstractFragment {
         rarityStar.setColorFilter(0xFFD4D421);
 
         monsterPicture.setOnClickListener(monsterPictureOnClickListener);
+
+        Log.d("MonsterPageLog", "Monster type 1 is: " + monster.getType1());
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
     }
@@ -868,6 +870,33 @@ public class MonsterPageFragment extends AbstractFragment {
     public void disableStuff() {
         if (monster.getMonsterId() == 0) {
             getActivity().getSupportFragmentManager().popBackStack();
+        }
+        if (monster.getType1() == 0 || monster.getType1() == 14 || monster.getType1() == 11){
+            monsterStatsHPPlus.setEnabled(false);
+            monsterStatsATKPlus.setEnabled(false);
+            monsterStatsRCVPlus.setEnabled(false);
+            monsterAwakeningsValue.setEnabled(false);
+            monsterStatsMax.setEnabled(false);
+            monsterStatsHPMax.setEnabled(false);
+            monsterStatsATKMax.setEnabled(false);
+            monsterStatsRCVMax.setEnabled(false);
+            monsterAwakeningsMax.setEnabled(false);
+            awakeningPlus.setEnabled(false);
+            awakeningMinus.setEnabled(false);
+            monsterStatsMaxAll.setEnabled(false);
+        } else {
+            monsterStatsHPPlus.setEnabled(true);
+            monsterStatsATKPlus.setEnabled(true);
+            monsterStatsRCVPlus.setEnabled(true);
+            monsterAwakeningsValue.setEnabled(true);
+            monsterStatsMax.setEnabled(true);
+            monsterStatsHPMax.setEnabled(true);
+            monsterStatsATKMax.setEnabled(true);
+            monsterStatsRCVMax.setEnabled(true);
+            monsterAwakeningsMax.setEnabled(true);
+            awakeningPlus.setEnabled(true);
+            awakeningMinus.setEnabled(true);
+            monsterStatsMaxAll.setEnabled(true);
         }
 //        if(monster.getMonsterId() == 0){
 //            monsterLevelMax.setEnabled(false);
