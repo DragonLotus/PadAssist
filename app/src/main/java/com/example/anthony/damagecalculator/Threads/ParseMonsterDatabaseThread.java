@@ -26,8 +26,13 @@ public class ParseMonsterDatabaseThread extends Thread {
 
     public void run() {
         super.run();
-        parseMonsterDatabase();
-        parseLeaderSkillDatabase();
+        if(BaseMonster.getAllMonsters().size()<=1){
+            parseMonsterDatabase();
+        }
+        if(LeaderSkill.getAllLeaderSkills().size()<=1){
+            parseLeaderSkillDatabase();
+        }
+
     }
 
     private void parseMonsterDatabase() {
@@ -106,6 +111,9 @@ public class ParseMonsterDatabaseThread extends Thread {
                 }
                 if (monsterNode.hasNonNull("atk_max")) {
                     monster.setAtkMax(monsterNode.get("atk_max").asInt());
+                }
+                if (monsterNode.hasNonNull("evolutions")) {
+                    monster.setEvolutions(parseLongArrayList(monsterNode.get("evolutions")));
                 }
 //                if(monsterNode.hasNonNull("image40_href")) {
 //                    monster.setMonsterPicture(monsterNode.get("image40_href").asText());
@@ -351,6 +359,15 @@ public class ParseMonsterDatabaseThread extends Thread {
         }
         if (elementType == 5) {
             return Element.HEART;
+        }
+        if (elementType == 6) {
+            return Element.JAMMER;
+        }
+        if (elementType == 7) {
+            return Element.POISON;
+        }
+        if (elementType == 8) {
+            return Element.MORTAL_POISON;
         }
         return Element.BLANK;
     }
