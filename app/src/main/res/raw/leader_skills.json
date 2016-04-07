@@ -1017,11 +1017,14 @@
 },
 
 {
-"atkSkillType": 27,
-"atkData": [4],
-"atkType": [5,6],
-"hpPercent": [100,80],
-"effect": "God & Attacker type cards ATK x4 when HP is less than 80%.",
+"hpSkillType": 1,
+"atkSkillType": 28,
+"hpData": [1.35],
+"atkData": [3,4,1.35],
+"hpElement": [4],
+"atkElement": [4],
+"hpPercent": [80, 50, 50, 0],
+"effect": "Dark attribute cards HP x1.35, ATK x1.35. Fire, Water, Wood, Light & Dark attribute cards ATK x4 when HP is less than 50%. ATK x3 when HP is less than 80%.",
 "name": "Arbiter's Word"
 },
 

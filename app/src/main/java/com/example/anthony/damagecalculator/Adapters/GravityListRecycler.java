@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Fragments.MonsterPageFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterTabLayoutFragment;
@@ -26,6 +27,8 @@ public class GravityListRecycler extends RecyclerView.Adapter<GravityListRecycle
     private ArrayList<Monster> monsterList;
     private Context mContext;
     private LayoutInflater inflater;
+    private Enemy enemy;
+    private GravityListAdapter.UpdateGravityPercent updateGravityPercent;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override

@@ -1,6 +1,7 @@
 package com.example.anthony.damagecalculator.Threads;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
@@ -118,6 +119,10 @@ public class ParseMonsterDatabaseThread extends Thread {
 //                if(monsterNode.hasNonNull("image40_href")) {
 //                    monster.setMonsterPicture(monsterNode.get("image40_href").asText());
 //                }
+                String picture = "monster_" + monster.getMonsterId();
+//                Log.d("himom", picture + " " + R.drawable.class.getField(picture).getInt(null) + " " + R.drawable.monster_2591);
+//                monster.setMonsterPicture(Integer.getInteger(picture));
+                monster.setMonsterPicture(R.drawable.class.getField(picture).getInt(null));
                 monster.save();
             }
             ActiveAndroid.setTransactionSuccessful();
