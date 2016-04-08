@@ -83,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
             ActiveAndroid.initialize(this);
         }
 
-        if(BuildConfig.VERSION_CODE != SharedPreferencesUtil.loadPreferenceInt(Constants.VERSION)) {
+//        if(BuildConfig.VERSION_CODE != SharedPreferencesUtil.loadPreferenceInt(Constants.VERSION)) {
             ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
             parseMonsterDatabaseThread.start();
-        }
+//        }
         if (savedInstanceState != null) {
             mContent = (AbstractFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
         }

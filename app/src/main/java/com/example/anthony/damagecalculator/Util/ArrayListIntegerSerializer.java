@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator.Util;
 
+
 import android.util.Log;
 
 import com.activeandroid.serializer.TypeSerializer;
@@ -23,7 +24,6 @@ public class ArrayListIntegerSerializer extends TypeSerializer {
 
     @Override
     public String serialize(Object data) {
-//        Log.d("Serialize", "Serialize");
 //        Log.d("Serialize", "data is: " + data);
         if (data == null) {
             return null;
@@ -51,7 +51,6 @@ public class ArrayListIntegerSerializer extends TypeSerializer {
             return new ArrayList<Object>();
         }
         String[] splitData = ((String) data).split(",");
-//        Log.d("Serialize", "Data 0 is: " + splitData[0]);
         if(splitData[0].equals("class java.lang.Integer")) {
             for (int i = 1; i < splitData.length; i++) {
                 dataArray.add(Integer.valueOf(splitData[i]));

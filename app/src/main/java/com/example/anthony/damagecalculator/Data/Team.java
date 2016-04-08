@@ -455,7 +455,6 @@ public class Team extends Model implements Parcelable {
         orbPlusAwakenings.add(0);
         for (int i = 0; i < getMonsters().size(); i++) {
             if (!isBound.get(i) && hasAwakenings) {
-                Log.d("Awakening count", "Size of awoken skills" + getMonsters(i).getAwokenSkills().size());
                 //This isn't necessary anymore
                 if (getMonsters().get(i).getAwokenSkills().size() != 0) {
                     for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++) {

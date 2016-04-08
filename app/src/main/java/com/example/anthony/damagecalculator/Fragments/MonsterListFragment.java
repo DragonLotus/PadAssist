@@ -187,57 +187,6 @@ public class MonsterListFragment extends AbstractFragment {
             Log.d("Team name", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
             if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
                 monsters = new ArrayList<Monster>();
-                Log.d("What is monsters", "Monsters: " + monsters.size() + " " + monsters);
-//                Monster monster1 = new Monster(1218);
-//                monster1.setMonsterId(1);
-//                monster1.setHpPlus(99);
-//                monster1.setAtkPlus(99);
-//                monster1.setRcvPlus(99);
-//                monster1.setCurrentLevel(99);
-//                monster1.setCurrentAwakenings(7);
-//                Monster monster2 = new Monster(1099);
-//                monster2.setMonsterId(2);
-//                monster2.setHpPlus(99);
-//                monster2.setAtkPlus(17);
-//                monster2.setRcvPlus(99);
-//                monster2.setCurrentLevel(99);
-//                monster2.setCurrentAwakenings(3);
-//                Monster monster3 = new Monster(1727);
-//                monster3.setMonsterId(3);
-//                monster3.setHpPlus(0);
-//                monster3.setAtkPlus(99);
-//                monster3.setRcvPlus(0);
-//                monster3.setCurrentLevel(99);
-//                monster3.setCurrentAwakenings(5);
-//                Monster monster4 = new Monster(1217);
-//                monster4.setMonsterId(4);
-//                monster4.setHpPlus(99);
-//                monster4.setAtkPlus(99);
-//                monster4.setRcvPlus(99);
-//                monster4.setCurrentLevel(99);
-//                monster4.setCurrentAwakenings(6);
-//                Monster monster5 = new Monster(1298);
-//                monster5.setMonsterId(5);
-//                monster5.setHpPlus(99);
-//                monster5.setAtkPlus(99);
-//                monster5.setRcvPlus(99);
-//                monster5.setCurrentLevel(99);
-//                monster5.setCurrentAwakenings(7);
-//                Monster monster6 = new Monster(2077);
-//                monster6.setMonsterId(6);
-//                monster6.setHpPlus(99);
-//                monster6.setAtkPlus(99);
-//                monster6.setRcvPlus(99);
-//                monster6.setCurrentLevel(99);
-//                monster6.setCurrentAwakenings(9);
-//                monster6.setHelper(true);
-//
-//                monsters.add(monster1);
-//                monsters.add(monster2);
-//                monsters.add(monster3);
-//                monsters.add(monster4);
-//                monsters.add(monster5);
-//                monsters.add(monster6);
 
                 Monster monster0 = Monster.getMonsterId(0);
                 for (int i = 0; i < 6; i++){
@@ -245,45 +194,12 @@ public class MonsterListFragment extends AbstractFragment {
                 }
 
                 updateTeam();
-                //team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
-
-//                for (int i = 0; i < monsters.size(); i++) {
-//                    monsters.get(i).save();
-//                    Log.d("Awakening List3", "" + monsters.get(i).getAwokenSkills());
-//                }
             }
 
-//            Log.d("Monster Check Preemptive", "" + team.getMonsters());
-//            for (int i = 0; i < team.getMonsters().size(); i++) {
-//                Log.d("Monster Check name", "" + team.getMonsters().get(i).getName());
-//                Log.d("Monster Check id", "" + team.getMonsters().get(i).getMonsterId());
-//                team.getMonsters().get(i).save();
-//            }
-//            team.setTeamId(5);
-//            team.save();
-//
-//            Team test = Team.getTeamById(5);
-//            Log.d("Monster Check2 Preemptive", "" + test.getMonsters());
-//            for (int i = 0; i < team.getMonsters().size(); i++) {
-//                Log.d("Monster Check2 name", "" + test.getMonsters().get(i).getName());
-//                Log.d("Monster Check2 id", "" + test.getMonsters().get(i).getMonsterId());
-//            }
-
-            Log.d("MonsterListFragment", "OnActivityCreated BaseMonsters are: " + BaseMonster.getAllMonsters().size());
-//            Log.d("MonsterListFragment", "On ActivityCreated BaseMonster kirin is: " + BaseMonster.getMonsterId(2077).getName());
-            Log.d("MonsterListFragment", "On ActivityCreated monsters are: " + monsters);
-            Log.d("MonsterListFragment", "On ActivityCreated Monster 0 is: " + monsters.get(0));
-            Log.d("MonsterListFragment", "On ActivityCreated Monster 0 BaseMonster is: " + monsters.get(0).getBaseMonster());
-            Log.d("MonsterListFragment", "On ActivityCreated Monster 0 name is: " + monsters.get(0).getName());
-            Log.d("MonsterListFragment", "On ActivityCreated Monster 0 awakenings: " + monsters.get(0).getAwokenSkills());
             team.update();
             monsters = team.getMonsters();
-            Log.d("Is monsters null 1", "" + monsters);
         }
 
-        Log.d("Is monsters null 4", "" + monsters);
-        Log.d("monster attack", "" + monsters.get(0).getTotalAtk());
-        Log.d("Awakening List2", "" + monsters.get(0).getAwokenSkills());
         if (monsters != null) {
             for (int i = 0; i < monsters.size(); i++) {
                 Log.d("Monster name", "" + monsters.get(i).getName());

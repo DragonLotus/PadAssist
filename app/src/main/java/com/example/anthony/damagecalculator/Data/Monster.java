@@ -26,7 +26,7 @@ public class Monster extends Model implements Parcelable {
     public static final int RCV_MULTIPLIER = 3;
     @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
     private long monsterId;
-    @Column(name = "baseMonster")
+    @Column(name = "baseMonster", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
     private BaseMonster baseMonster;
     @Column(name = "favorite")
     private boolean favorite;
@@ -269,6 +269,7 @@ public class Monster extends Model implements Parcelable {
     }
 
     public ArrayList<Integer> getAwokenSkills() {
+        Log.d("Monster", "Monster: " + baseMonster);
         return baseMonster.getAwokenSkills();
     }
 
@@ -286,7 +287,6 @@ public class Monster extends Model implements Parcelable {
     }
 
     public String getName() {
-        Log.d("Monster Class Log", "Monster name is: " + baseMonster.getName());
         return baseMonster.getName();
     }
 
