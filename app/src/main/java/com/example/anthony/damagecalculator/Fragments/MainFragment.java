@@ -32,6 +32,7 @@ import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
+import com.example.anthony.damagecalculator.Threads.ParseMonsterDatabaseThread;
 import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.util.ArrayList;
@@ -168,9 +169,40 @@ public class MainFragment extends AbstractFragment {
                 return Element.DARK;
             case R.id.heartOrb:
                 return Element.HEART;
+            case R.id.jammerOrb:
+                return Element.JAMMER;
+            case R.id.poisonOrb:
+                return Element.POISON;
+            case R.id.mortalPoisonOrb:
+                return Element.MORTAL_POISON;
         }
         return Element.RED;
     }
+
+    private RadioGroup.OnCheckedChangeListener orbRadioGroupOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch(checkedId){
+                case R.id.jammerOrb:
+                    orbsPlus.setProgress(0);
+                    orbsPlus.setEnabled(false);
+                    break;
+                case R.id.poisonOrb:
+                    orbsPlus.setProgress(0);
+                    orbsPlus.setEnabled(false);
+                    break;
+                case R.id.mortalPoisonOrb:
+                    orbsPlus.setProgress(0);
+                    orbsPlus.setEnabled(false);
+                    break;
+                default:
+                    if(!orbsPlus.isEnabled()){
+                        orbsPlus.setEnabled(true);
+                    }
+                    break;
+            }
+        }
+    };
 
     private View.OnClickListener calculateOnClickListener = new View.OnClickListener() {
         @Override
@@ -272,6 +304,15 @@ public class MainFragment extends AbstractFragment {
                     break;
                 case HEART:
                     orbRadioGroup.check(R.id.heartOrb);
+                    break;
+                case JAMMER:
+                    orbRadioGroup.check(R.id.jammerOrb);
+                    break;
+                case POISON:
+                    orbRadioGroup.check(R.id.poisonOrb);
+                    break;
+                case MORTAL_POISON:
+                    orbRadioGroup.check(R.id.mortalPoisonOrb);
                     break;
             }
         }
@@ -380,6 +421,8 @@ public class MainFragment extends AbstractFragment {
  //       orbMatches.setOnItemClickListener(orbMatchListViewOnClickListener);
 
         ignoreEnemyCheckBox.setChecked(Singleton.getInstance().isIgnoreEnemy());
+
+        orbRadioGroup.setOnCheckedChangeListener(orbRadioGroupOnCheckChangeListener);
 
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }

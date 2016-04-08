@@ -33,15 +33,15 @@
     <!--android:text="Edit Team" />-->
     <!--</LinearLayout>-->
 
-    <TextView
-        android:id="@+id/element"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/orbRadioGroup"
-        android:layout_alignBottom="@+id/orbRadioGroup"
-        android:gravity="center_vertical"
-        android:text="Element"
-        android:textSize="20sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/element"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/orbRadioGroup"-->
+        <!--android:layout_alignBottom="@+id/orbRadioGroup"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="Orb"-->
+        <!--android:textSize="20dp" />-->
 
     <TextView
         android:id="@+id/orbsLinked"
@@ -223,18 +223,20 @@
 
     <RadioGroup
         android:id="@+id/orbRadioGroup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/element"
         android:checkedButton="@+id/redOrb"
         android:orientation="horizontal"
         android:layout_marginBottom="8dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"/>
 
         <RadioButton
             android:id="@+id/redOrb"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginLeft="10dp"
             android:background="@drawable/red_orb_selector"
             android:button="@null" />
 
@@ -277,6 +279,34 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/heart_orb_selector"
             android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/jammerOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/jammer_orb_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/poisonOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/poison_orb_selector"
+            android:button="@null" />
+
+        <RadioButton
+            android:id="@+id/mortalPoisonOrb"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/mortal_poison_orb_selector"
+            android:button="@null" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"/>
     </RadioGroup>
 
 </RelativeLayout>

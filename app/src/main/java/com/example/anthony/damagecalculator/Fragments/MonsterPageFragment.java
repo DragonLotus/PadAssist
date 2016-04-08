@@ -560,6 +560,30 @@ public class MonsterPageFragment extends AbstractFragment {
                 case 29:
                     awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29);
                     break;
+                case 30:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30);
+                    break;
+                case 31:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31);
+                    break;
+                case 32:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32);
+                    break;
+                case 33:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33);
+                    break;
+                case 34:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34);
+                    break;
+                case 35:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35);
+                    break;
+                case 36:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36);
+                    break;
+                case 37:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
+                    break;
             }
         }
 
@@ -651,6 +675,30 @@ public class MonsterPageFragment extends AbstractFragment {
                     break;
                 case 29:
                     awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29_disabled);
+                    break;
+                case 30:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30_disabled);
+                    break;
+                case 31:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31_disabled);
+                    break;
+                case 32:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32_disabled);
+                    break;
+                case 33:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33_disabled);
+                    break;
+                case 34:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34_disabled);
+                    break;
+                case 35:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35_disabled);
+                    break;
+                case 36:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36_disabled);
+                    break;
+                case 37:
+                    awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37_disabled);
                     break;
             }
         }

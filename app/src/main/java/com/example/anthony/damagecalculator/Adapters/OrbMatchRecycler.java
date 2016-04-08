@@ -96,6 +96,18 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
         {
             orbDrawable = getDrawable(R.drawable.heart_orb);
         }
+        if (currentMatch.getElement() == Element.JAMMER)
+        {
+            orbDrawable = getDrawable(R.drawable.jammer_orb);
+        }
+        if (currentMatch.getElement() == Element.POISON)
+        {
+            orbDrawable = getDrawable(R.drawable.poison_orb);
+        }
+        if (currentMatch.getElement() == Element.MORTAL_POISON)
+        {
+            orbDrawable = getDrawable(R.drawable.mortal_poison_orb);
+        }
 
         viewHolder.orbImage.setImageDrawable(orbDrawable);
         viewHolder.remove.setTag(R.string.index, position);
