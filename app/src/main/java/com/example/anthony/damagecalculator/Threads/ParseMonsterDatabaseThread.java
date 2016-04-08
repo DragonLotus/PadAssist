@@ -1,16 +1,20 @@
 package com.example.anthony.damagecalculator.Threads;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.activeandroid.ActiveAndroid;
+import com.example.anthony.damagecalculator.BuildConfig;
+import com.example.anthony.damagecalculator.Constants;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.LeaderSkill;
 import com.example.anthony.damagecalculator.Data.LeaderSkillType;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.R;
+import com.example.anthony.damagecalculator.Util.SharedPreferencesUtil;
 import com.example.anthony.damagecalculator.Util.Singleton;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,13 +31,10 @@ public class ParseMonsterDatabaseThread extends Thread {
 
     public void run() {
         super.run();
-        if(BaseMonster.getAllMonsters().size()<=1){
             parseMonsterDatabase();
-        }
-        if(LeaderSkill.getAllLeaderSkills().size()<=1){
             parseLeaderSkillDatabase();
-        }
 
+            SharedPreferencesUtil.savePreferences(Constants.VERSION, BuildConfig.VERSION_CODE);
     }
 
     private void parseMonsterDatabase() {
