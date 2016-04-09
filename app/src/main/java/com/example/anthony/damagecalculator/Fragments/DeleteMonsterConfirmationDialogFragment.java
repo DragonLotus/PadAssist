@@ -20,7 +20,7 @@ public class DeleteMonsterConfirmationDialogFragment extends DialogFragment {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle("Delete monster?");
-        alertDialogBuilder.setMessage("This will delete all instances of the saved monster.");
+        alertDialogBuilder.setMessage("This will delete all instances of the saved monster. This action cannot be undone.");
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 reset.resetLayout();

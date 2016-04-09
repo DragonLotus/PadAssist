@@ -74,6 +74,14 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         monsterSpecificFilter.add(3);
         monsterSpecificFilter.add(10);
         monsterSpecificFilter.add(27);
+        monsterSpecificFilter.add(30);
+        monsterSpecificFilter.add(31);
+        monsterSpecificFilter.add(32);
+        monsterSpecificFilter.add(33);
+        monsterSpecificFilter.add(34);
+        monsterSpecificFilter.add(35);
+        monsterSpecificFilter.add(36);
+        monsterSpecificFilter.add(37);
     }
 
     private void trimAwakenings(int position) {

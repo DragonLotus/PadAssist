@@ -38,7 +38,7 @@ public class GravityListRecycler extends RecyclerView.Adapter<GravityListRecycle
 //            team.save();
             Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
             if (monsterList.get(holder.getAdapterPosition()).getMonsterId() == 0) {
-                ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0), MonsterTabLayoutFragment.TAG);
+                ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG);
             }else {
                 ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
             }

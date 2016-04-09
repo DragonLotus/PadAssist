@@ -919,7 +919,7 @@ public class MonsterPageFragment extends AbstractFragment {
         if (monster.getMonsterId() == 0) {
             getActivity().getSupportFragmentManager().popBackStack();
         }
-        if (monster.getType1() == 0 || monster.getType1() == 14 || monster.getType1() == 11){
+        if (monster.getType1() == 0 || monster.getType1() == 14){
             monsterStatsHPPlus.setEnabled(false);
             monsterStatsATKPlus.setEnabled(false);
             monsterStatsRCVPlus.setEnabled(false);
@@ -1048,7 +1048,7 @@ public class MonsterPageFragment extends AbstractFragment {
 
         @Override
         public void replaceMonster() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 1), MonsterTabLayoutFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG);
             monsterRemoveDialogFragment.dismiss();
         }
 
@@ -1077,7 +1077,7 @@ public class MonsterPageFragment extends AbstractFragment {
     private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId()), MonsterTabLayoutFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId(), 99), MonsterTabLayoutFragment.TAG);
             replaceConfirmationDialog.dismiss();
         }
     };

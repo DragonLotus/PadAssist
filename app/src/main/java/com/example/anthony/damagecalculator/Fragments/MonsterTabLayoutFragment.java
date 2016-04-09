@@ -33,14 +33,16 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
     private ViewPager viewPager;
     private boolean replaceAll;
     private long replaceMonsterId;
+    private int monsterPosition;
     private MonsterPagerAdapter monsterPagerAdapter;
 
     // TODO: Rename and change types and number of parameters
-    public static MonsterTabLayoutFragment newInstance(boolean replaceAll, long replaceMonsterId) {
+    public static MonsterTabLayoutFragment newInstance(boolean replaceAll, long replaceMonsterId, int monsterPosition) {
         MonsterTabLayoutFragment fragment = new MonsterTabLayoutFragment();
         Bundle args = new Bundle();
         args.putBoolean("replaceAll", replaceAll);
         args.putLong("replaceMonsterId", replaceMonsterId);
+        args.putInt("monsterPosition", monsterPosition);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,12 +75,16 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
         if (getArguments() != null) {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
+            monsterPosition = getArguments().getInt("monsterPosition");
         }
         monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), getActivity(), replaceAll, replaceMonsterId);
         Log.d("MonsterTab", "monsterPagerAdapter is: " + monsterPagerAdapter);
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        if(Monster.getAllMonsters().size() <= 1){
+        if(Monster.getAllHelperMonsters().size() < 1 && monsterPosition == 5 && replaceMonsterId == 0){
+            TabLayout.Tab tab = tabLayout.getTabAt(1);
+            tab.select();
+        }else if(Monster.getAllMonsters().size() <= 1){
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
         }

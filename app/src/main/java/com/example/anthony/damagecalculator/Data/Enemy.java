@@ -14,15 +14,15 @@ public class Enemy implements Parcelable {
     private Element targetElement, absorb;
     private ArrayList<Element> reduction;
     private ArrayList<Integer> gravityList;
-    private Boolean hasAbsorb = false, hasReduction = false, hasDamageThreshold = false, isDamaged;
+    private Boolean hasAbsorb = false, hasReduction, hasDamageThreshold = false, isDamaged;
 
 
     //default is satan from  Lord of Hell - Mythical
     public Enemy() {
         reduction = new ArrayList<Element>();
         gravityList = new ArrayList<Integer>();
-        targetHp = 6666666;
-        targetDef = 368;
+        targetHp = 33012222;
+        targetDef = 0;
         currentHp = targetHp;
         beforeGravityHP = currentHp;
         beforeDefenseBreak = targetDef;
@@ -31,6 +31,12 @@ public class Enemy implements Parcelable {
         gravityPercent = 1;
         damageThreshold = 200000;
         isDamaged = false;
+        hasReduction = true;
+        reduction.add(Element.RED);
+        reduction.add(Element.BLUE);
+        reduction.add(Element.GREEN);
+        reduction.add(Element.LIGHT);
+        reduction.add(Element.DARK);
     }
 
 

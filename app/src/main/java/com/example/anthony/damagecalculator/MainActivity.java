@@ -204,7 +204,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.loadTeam) {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
         } else if (id == R.id.monsterList) {
-            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1), MonsterTabLayoutFragment.TAG);
+            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG);
         } else if (id == R.id.reverseList) {
             mContent.reverseArrayList();
         } else if (id == R.id.sortAlphabetical) {

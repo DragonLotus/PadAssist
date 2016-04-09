@@ -186,18 +186,27 @@ public class MainFragment extends AbstractFragment {
                 case R.id.jammerOrb:
                     orbsPlus.setProgress(0);
                     orbsPlus.setEnabled(false);
+                    rowCheckBox.setChecked(false);
+                    rowCheckBox.setEnabled(false);
                     break;
                 case R.id.poisonOrb:
                     orbsPlus.setProgress(0);
                     orbsPlus.setEnabled(false);
+                    rowCheckBox.setChecked(false);
+                    rowCheckBox.setEnabled(false);
                     break;
                 case R.id.mortalPoisonOrb:
                     orbsPlus.setProgress(0);
                     orbsPlus.setEnabled(false);
+                    rowCheckBox.setChecked(false);
+                    rowCheckBox.setEnabled(false);
                     break;
                 default:
                     if(!orbsPlus.isEnabled()){
                         orbsPlus.setEnabled(true);
+                    }
+                    if(!rowCheckBox.isEnabled()){
+                        rowCheckBox.setEnabled(true);
                     }
                     break;
             }

@@ -17,7 +17,7 @@
         android:layout_alignLeft="@+id/awakeningPicture"
         android:layout_alignRight="@+id/awakeningPicture"
         android:gravity="center"
-        android:text="x3"
-        android:textSize="18dp"/>
+        android:text="x31"
+        android:textSize="16dp"/>
 
 </RelativeLayout>

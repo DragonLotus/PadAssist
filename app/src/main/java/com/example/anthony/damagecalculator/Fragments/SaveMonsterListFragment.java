@@ -149,6 +149,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
 //        monsterList = (ArrayList) Monster.getAllMonsters();
         if(Singleton.getInstance().getMonsterOverwrite() == 5){
             monsterListAll = (ArrayList) Monster.getAllHelperMonsters();
+            monsterListAll.add(monsterZero);
         } else {
             monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
         }
