@@ -9,6 +9,7 @@ import com.activeandroid.query.Select;
 import com.example.anthony.damagecalculator.R;
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -64,8 +65,6 @@ public class BaseMonster extends Model {
     private double rcvScale;
     @Column(name = "hpScale")
     private double hpScale;
-    @Column(name = "monsterPicture")
-    private int monsterPicture;
     @Column(name = "rarity")
     private int rarity;
     @Column(name = "teamCost")
@@ -79,7 +78,6 @@ public class BaseMonster extends Model {
     public BaseMonster() {
         monsterId = 0;
         monsterNumber = 0;
-        monsterPicture = R.drawable.monster_blank;
         atkMax = 0;
         atkMin = 0;
         hpMin = 0;
@@ -310,12 +308,23 @@ public class BaseMonster extends Model {
     }
 
     public int getMonsterPicture() {
-        return monsterPicture;
+        try {
+            String picture = "monster_" + monsterId;
+            Class res = R.drawable.class;
+            Field field = res.getField(picture);
+            int drawableId = field.getInt(null);
+            return drawableId;
+        } catch(NoSuchFieldException e) {
+            Log.e("drawableId", "Unable to get drawable id");
+        } catch(IllegalAccessException e){
+            Log.e("IllegalTag", "Illegal Access Exception");
+        }
+        return R.drawable.monster_0;
     }
 
-    public void setMonsterPicture(int monsterPicture) {
-        this.monsterPicture = monsterPicture;
-    }
+//    public void setMonsterPicture(int monsterPicture) {
+//        this.monsterPicture = monsterPicture;
+//    }
 
     public String getName() {
         return name;
