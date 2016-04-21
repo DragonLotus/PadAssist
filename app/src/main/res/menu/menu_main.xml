@@ -18,13 +18,13 @@
     <group android:id="@+id/saveTeamGroup">
         <item
             android:id="@+id/saveTeam"
-            android:icon="@drawable/add"
+            android:icon="@drawable/people_add"
             android:title="Save Team"
             app:showAsAction="ifRoom" />
 
         <item
             android:id="@+id/loadTeam"
-            android:icon="@drawable/list_view"
+            android:icon="@drawable/people_swap"
             android:title="Load Team"
             app:showAsAction="ifRoom" />
     </group>
@@ -32,7 +32,7 @@
     <group android:id="@+id/searchGroup">
         <item
             android:id="@+id/monsterList"
-            android:icon="@drawable/list_view"
+            android:icon="@drawable/person_swap"
             android:title="Monster List"
             app:showAsAction="ifRoom" />
     </group>
