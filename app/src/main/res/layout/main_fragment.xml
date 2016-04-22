@@ -34,64 +34,49 @@
     <!--</LinearLayout>-->
 
     <!--<TextView-->
-        <!--android:id="@+id/element"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignTop="@+id/orbRadioGroup"-->
-        <!--android:layout_alignBottom="@+id/orbRadioGroup"-->
-        <!--android:gravity="center_vertical"-->
-        <!--android:text="Orb"-->
-        <!--android:textSize="20dp" />-->
+    <!--android:id="@+id/element"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignTop="@+id/orbRadioGroup"-->
+    <!--android:layout_alignBottom="@+id/orbRadioGroup"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:text="Orb"-->
+    <!--android:textSize="20dp" />-->
 
-    <TextView
-        android:id="@+id/orbsLinked"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/orbRadioGroup"
-        android:text="# of Orbs Linked"
-        android:textSize="16dp" />
-
-    <SeekBar
-        android:id="@+id/orbsLinkedSpinner"
+    <LinearLayout
+        android:id="@+id/orbsLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_below="@+id/orbRadioGroup"
-        android:layout_toRightOf="@+id/orbsLinked"
-        android:max="27" />
-
-    <TextView
-        android:id="@+id/orbsLinkedValue"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/orbsLinkedSpinner"
-        android:layout_alignTop="@+id/orbsLinkedSpinner"
-        android:text="3"
-        android:textSize="16sp" />
+        android:layout_below="@+id/orbRadioGroup">
 
-    <TextView
-        android:id="@+id/orbsPlus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/orbsLinkedSpinner"
-        android:text="# of Orbs Plus"
-        android:textSize="16dp" />
+        <TextView
+            android:id="@+id/orbsLinked"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".25"
+            android:text="# Orbs:"
+            android:textSize="16dp" />
 
-    <SeekBar
-        android:id="@+id/orbsPlusSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_below="@+id/orbsLinkedSpinner"
-        android:layout_toRightOf="@+id/orbsLinked"
-        android:max="3" />
+        <Spinner
+            android:id="@+id/orbsLinkedSpinner"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight=".25" />
 
-    <TextView
-        android:id="@+id/orbsPlusValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/orbsPlusSpinner"
-        android:layout_alignTop="@+id/orbsPlusSpinner"
-        android:text="0"
-        android:textSize="16sp" />
+        <TextView
+            android:id="@+id/orbsPlus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="# + Orbs:"
+            android:textSize="16dp"
+            android:layout_weight=".25"/>
+
+        <Spinner
+            android:id="@+id/orbsPlusSpinner"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight=".25" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/row"
@@ -99,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/rowCheckBox"
         android:layout_alignTop="@+id/rowCheckBox"
-        android:layout_below="@+id/orbsPlusSpinner"
+        android:layout_below="@+id/orbsLinearLayout"
         android:gravity="center_vertical"
         android:text="Is a row:"
         android:textSize="16dp" />
@@ -108,28 +93,31 @@
         android:id="@+id/rowCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/orbsPlusSpinner"
+        android:layout_below="@+id/orbsLinearLayout"
         android:layout_toRightOf="@+id/row"
         android:enabled="false" />
 
     <TextView
-        android:id="@+id/maxLeadMultiplier"
+        android:id="@+id/boardSize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/rowCheckBox"
         android:layout_alignTop="@+id/rowCheckBox"
-        android:layout_below="@+id/orbsPlusSpinner"
-        android:layout_toLeftOf="@+id/maxLeadMultiplierCheckBox"
+        android:layout_below="@+id/orbsLinearLayout"
+        android:layout_toLeftOf="@+id/boardSizeSpinner"
         android:gravity="center_vertical"
-        android:text="Max Lead Multipliers:"
-        android:textSize="16dp" />
+        android:text="Board Size: "
+        android:textSize="16dp"/>
 
-    <CheckBox
-        android:id="@+id/maxLeadMultiplierCheckBox"
+    <Spinner
+        android:id="@+id/boardSizeSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/orbsPlusSpinner" />
+        android:layout_alignBottom="@+id/rowCheckBox"
+        android:layout_alignTop="@+id/rowCheckBox"
+        android:layout_below="@+id/orbsLinearLayout"
+        android:gravity="center_vertical"/>
 
     <LinearLayout
         android:id="@+id/buttonHolder"
@@ -225,13 +213,14 @@
         android:id="@+id/orbRadioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:checkedButton="@+id/redOrb"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:orientation="horizontal">
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
 
         <RadioButton
             android:id="@+id/redOrb"
@@ -303,10 +292,11 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/mortal_poison_orb_selector"
             android:button="@null" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight=".5"/>
+            android:layout_weight=".5" />
     </RadioGroup>
 
 </RelativeLayout>

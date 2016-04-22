@@ -12,6 +12,7 @@ public class Singleton {
     private int teamSortMethod = 8;
     private int monsterOverwrite = 0;
     private boolean ignoreEnemy = false;
+    private int boardSize = 1;
 
     private Context _context;
     public static Singleton getInstance() {
@@ -62,6 +63,14 @@ public class Singleton {
 
     public void setMonsterOverwrite(int monsterOverwrite) {
         this.monsterOverwrite = monsterOverwrite;
+    }
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
+    public void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
     }
 
     public Context getContext()
