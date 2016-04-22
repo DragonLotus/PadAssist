@@ -223,7 +223,7 @@ public class MainFragment extends AbstractFragment {
                     for (int i = 3; i < 21; i++) {
                         orbsLinkedItems.add("" + i);
                     }
-                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + 4; i++) {
+                    for (int i = 0; i < orbsLinkedItems.size() + 3; i++) {
                         orbsPlusItems.add("" + i);
                     }
                     Singleton.getInstance().setBoardSize(0);
@@ -240,7 +240,7 @@ public class MainFragment extends AbstractFragment {
                     for (int i = 3; i < 31; i++) {
                         orbsLinkedItems.add("" + i);
                     }
-                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + 4; i++) {
+                    for (int i = 0; i < orbsLinkedItems.size() + 3; i++) {
                         orbsPlusItems.add("" + i);
                     }
                     Singleton.getInstance().setBoardSize(1);
@@ -251,7 +251,7 @@ public class MainFragment extends AbstractFragment {
                     for (int i = 3; i < 43; i++) {
                         orbsLinkedItems.add("" + i);
                     }
-                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + 4; i++) {
+                    for (int i = 0; i < orbsLinkedItems.size() + 3; i++) {
                         orbsPlusItems.add("" + i);
                     }
                     Singleton.getInstance().setBoardSize(2);
@@ -336,7 +336,23 @@ public class MainFragment extends AbstractFragment {
                         orbsPlus.setEnabled(true);
                     }
                     if (!rowCheckBox.isEnabled()) {
-                        rowCheckBox.setEnabled(true);
+                        switch(boardSize.getSelectedItemPosition()){
+                            case 0:
+                                if((orbsLinked.getSelectedItemPosition() + 3) < 17){
+                                    rowCheckBox.setEnabled(true);
+                                }
+                                break;
+                            case 1:
+                                if((orbsLinked.getSelectedItemPosition() + 3) < 26){
+                                    rowCheckBox.setEnabled(true);
+                                }
+                                break;
+                            case 2:
+                                if((orbsLinked.getSelectedItemPosition() + 3) < 37){
+                                    rowCheckBox.setEnabled(true);
+                                }
+                                break;
+                        }
                     }
                     break;
             }
@@ -422,8 +438,17 @@ public class MainFragment extends AbstractFragment {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            orbsLinked.setSelection(orbMatchList.get(position).getOrbsLinked() - 3);
-            orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
+            if((orbMatchList.get(position).getOrbsLinked() - 3) > orbsLinkedItems.size()){
+                boardSize.setSelection(boardSize.getSelectedItemPosition() + 1);
+                Singleton.getInstance().setBoardSize(boardSize.getSelectedItemPosition());
+            } else {
+                orbsLinked.setSelection(orbMatchList.get(position).getOrbsLinked() - 3);
+            }
+            if(orbMatchList.get(position).getNumOrbPlus() > orbsPlusItems.size()){
+
+            }else {
+                orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
+            }
             rowCheckBox.setChecked(orbMatchList.get(position).isRow());
             switch (orbMatchList.get(position).getElement()) {
                 case RED:
