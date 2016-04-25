@@ -37,6 +37,8 @@
         android:layout_alignTop="@+id/monsterPicture"
         android:layout_toRightOf="@+id/monsterPicture"
         android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        android:marqueeRepeatLimit="marquee_forever"
         android:gravity="center_vertical"
         android:singleLine="true"
         android:text="Monster name"

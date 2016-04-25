@@ -198,6 +198,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
                 break;
         }
 
+        viewHolder.monsterName.setSelected(true);
         viewHolder.itemView.setTag(R.string.index, position);
         viewHolder.itemView.setOnClickListener(monsterListOnClickListener);
     }

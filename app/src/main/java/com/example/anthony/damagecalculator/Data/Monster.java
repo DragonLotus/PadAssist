@@ -50,6 +50,8 @@ public class Monster extends Model implements Parcelable {
     private double currentHp;
     @Column(name = "helper")
     private boolean helper;
+    @Column(name = "latents")
+    private ArrayList<Integer> latents;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public Monster() {
@@ -69,6 +71,13 @@ public class Monster extends Model implements Parcelable {
         priority = 2;
         favorite = false;
         helper = false;
+//        latents = new int[] {0,0,0,0,0};
+        latents = new ArrayList<>();
+        latents.add(0);
+        latents.add(0);
+        latents.add(0);
+        latents.add(0);
+        latents.add(0);
         if(baseMonsterId != 0){
             setCurrentHp(DamageCalculationUtil.monsterStatCalc(baseMonster.getHpMin(), baseMonster.getHpMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getHpScale()));
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
@@ -144,7 +153,14 @@ public class Monster extends Model implements Parcelable {
                 counter++;
             }
         }
-        totalHp = totalHp + (200*counter);
+        int counter2 = 0;
+        for(int i = 0; i < latents.size(); i++){
+            if(latents.get(i) == 1){
+                counter2++;
+            }
+        }
+        int latentHp = (int) Math.floor(currentHp * counter2 * 0.015 + .5);
+        totalHp = totalHp + (200*counter) + latentHp;
         return totalHp;
     }
 
@@ -156,7 +172,15 @@ public class Monster extends Model implements Parcelable {
                 counter++;
             }
         }
-        totalAtk = totalAtk + (100*counter);
+        int counter2 = 0;
+        for(int i = 0; i < latents.size(); i++){
+            if(latents.get(i) == 2){
+                counter2++;
+            }
+        }
+        int latentAtk = (int) Math.floor(currentAtk * counter2 * 0.01 + .5);
+        totalAtk = totalAtk + (100*counter) + latentAtk;
+
         return totalAtk;
     }
 
@@ -168,7 +192,14 @@ public class Monster extends Model implements Parcelable {
                 counter++;
             }
         }
-        totalRcv = totalRcv + (50*counter);
+        int counter2 = 0;
+        for(int i = 0; i < latents.size(); i++){
+            if(latents.get(i) == 3){
+                counter2++;
+            }
+        }
+        int latentRcv = (int) Math.floor(currentRcv * counter2 * 0.04 + .5);
+        totalRcv = totalRcv + (50*counter) + latentRcv;
         return totalRcv;
     }
 
@@ -408,6 +439,14 @@ public class Monster extends Model implements Parcelable {
 
     public void setHelper(boolean helper) {
         this.helper = helper;
+    }
+
+    public ArrayList<Integer> getLatents() {
+        return latents;
+    }
+
+    public void setLatents(ArrayList<Integer> latents) {
+        this.latents = latents;
     }
 
     public int getTPA() {

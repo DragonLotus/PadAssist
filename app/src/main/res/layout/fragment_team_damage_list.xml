@@ -48,8 +48,8 @@
                 android:id="@+id/totalComboValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/totalDamageValue"
-                android:layout_toRightOf="@+id/totalCombo"
+                android:layout_below="@+id/hpRecovered"
+                android:layout_alignParentRight="true"
                 android:text="69"
                 android:textSize="18dp" />
 
@@ -57,16 +57,16 @@
                 android:id="@+id/hpRecovered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/totalCombo"
-                android:text="Team HP Recovered:"
+                android:layout_below="@+id/totalDamageValue"
+                android:text="HP Recovered:"
                 android:textSize="18dp" />
 
             <com.example.anthony.damagecalculator.Graphics.ThinStroke
                 android:id="@+id/hpRecoveredValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/totalCombo"
-                android:layout_toRightOf="@+id/hpRecovered"
+                android:layout_below="@+id/totalDamageValue"
+                android:layout_alignParentRight="true"
                 android:text="1337"
                 android:textColor="#FF9999"
                 android:textSize="18dp" />
@@ -84,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/monsterListView"
-                android:layout_toRightOf="@+id/totalDamage"
+                android:layout_alignParentRight="true"
                 android:text="133333333337"
                 android:textColor="#BBBBBB"
                 android:textSize="18dp" />
@@ -93,16 +93,16 @@
                 android:id="@+id/enemyHP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/hpRecovered"
-                android:text="Enemy Remaining HP:"
+                android:layout_below="@+id/totalCombo"
+                android:text="Enemy HP Remaining:"
                 android:textSize="18dp" />
 
             <com.example.anthony.damagecalculator.Graphics.ThinStroke
                 android:id="@+id/enemyHPValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/hpRecovered"
-                android:layout_toRightOf="@+id/enemyHP"
+                android:layout_below="@+id/totalCombo"
+                android:layout_alignParentRight="true"
                 android:text="1333337"
                 android:textColor="#550055"
                 android:textSize="18dp" />
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/enemyHP"
-                android:text="Enemy % Remaining HP: "
+                android:text="Enemy % HP Remaining: "
                 android:textSize="18dp" />
 
             <TextView
@@ -120,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/enemyHP"
-                android:layout_toRightOf="@+id/enemyHPPercent"
+                android:layout_alignParentRight="true"
                 android:text="100%"
                 android:textSize="18dp" />
 
@@ -139,7 +139,7 @@
                 android:layout_alignBottom="@+id/absorbAlign"
                 android:layout_alignTop="@+id/absorbAlign"
                 android:gravity="center_vertical"
-                android:text="Element Absorb"
+                android:text="Absorb"
                 android:textSize="18dp" />
 
             <RadioGroup
@@ -148,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/absorbAlign"
                 android:layout_alignTop="@+id/absorbAlign"
-                android:layout_toRightOf="@+id/targetReduction"
+                android:layout_toLeftOf="@+id/absorbCheck"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -223,7 +223,7 @@
                 android:layout_alignBottom="@+id/reductionAlign"
                 android:layout_alignTop="@+id/reductionAlign"
                 android:gravity="center_vertical"
-                android:text="Element Reduction "
+                android:text="Reduction "
                 android:textSize="18dp"
                 android:layout_marginRight="-10dp"/>
 
@@ -233,7 +233,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/reductionAlign"
                 android:layout_alignTop="@+id/reductionAlign"
-                android:layout_toRightOf="@+id/targetReduction"
+                android:layout_toLeftOf="@+id/reductionCheck"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 

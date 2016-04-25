@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    tools:context="com.example.anthony.damagecalculator.Fragments.MonsterRemoveDialogFragment">
+
+    <TextView
+        android:id="@+id/latent1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latent 1: "
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/latent1Spinner"
+        android:layout_alignBottom="@+id/latent1Spinner"
+        android:gravity="center_vertical"/>
+
+    <Spinner
+        android:id="@+id/latent1Spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/latent1"/>
+
+    <TextView
+        android:id="@+id/latent2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latent 2: "
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/latent2Spinner"
+        android:layout_alignBottom="@+id/latent2Spinner"
+        android:gravity="center_vertical"/>
+
+    <Spinner
+        android:id="@+id/latent2Spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/latent2"
+        android:layout_below="@+id/latent1Spinner"/>
+
+    <TextView
+        android:id="@+id/latent3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latent 3: "
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/latent3Spinner"
+        android:layout_alignBottom="@+id/latent3Spinner"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/latent2Spinner"/>
+
+    <Spinner
+        android:id="@+id/latent3Spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/latent3"
+        android:layout_below="@+id/latent2Spinner"/>
+
+    <TextView
+        android:id="@+id/latent4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latent 4: "
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/latent4Spinner"
+        android:layout_alignBottom="@+id/latent4Spinner"
+        android:gravity="center_vertical"/>
+
+    <Spinner
+        android:id="@+id/latent4Spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/latent4"
+        android:layout_below="@+id/latent3Spinner"/>
+
+    <TextView
+        android:id="@+id/latent5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latent 5: "
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/latent5Spinner"
+        android:layout_alignBottom="@+id/latent5Spinner"
+        android:gravity="center_vertical"/>
+
+    <Spinner
+        android:id="@+id/latent5Spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/latent5"
+        android:layout_below="@+id/latent4Spinner"/>
+
+</RelativeLayout>

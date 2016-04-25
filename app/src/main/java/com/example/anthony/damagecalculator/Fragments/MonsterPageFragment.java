@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,16 +53,18 @@ public class MonsterPageFragment extends AbstractFragment {
     // TODO: Rename and change types of parameters
     private View rootView;
     private OnFragmentInteractionListener mListener;
-    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity;
+    private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity, monsterAwakenings;
     private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
     private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
     private ImageView monsterPicture, rarityStar, type1, type2, type3, favorite, favoriteOutline;
-    private LinearLayout awakeningHolder;
+    private LinearLayout awakeningHolder, latentHolder;
+    private TableLayout table1;
     private Monster monster;
     private Toast toast;
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
+    private LatentAwakeningDialogFragment latentAwakeningDialogFragment;
     private int level, hp, atk, rcv, awakening;
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
@@ -87,20 +91,20 @@ public class MonsterPageFragment extends AbstractFragment {
                 monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
                 monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
                 monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
-                monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
-                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+//                monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.ATK_STAT) {
                 monster.setAtkPlus(statValue);
                 monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
-                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.RCV_STAT) {
                 monster.setRcvPlus(statValue);
                 monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
-                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.HP_STAT) {
                 monster.setHpPlus(statValue);
                 monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
-                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.AWAKENINGS) {
                 monster.setCurrentAwakenings(statValue);
                 if (monster.getCurrentAwakenings() > monster.getMaxAwakenings()) {
@@ -197,6 +201,9 @@ public class MonsterPageFragment extends AbstractFragment {
         monsterStatsRCVPlus = (EditText) rootView.findViewById(R.id.monsterStatsRCVPlus);
         monsterAwakeningsValue = (EditText) rootView.findViewById(R.id.monsterAwakeningsValue);
         awakeningHolder = (LinearLayout) rootView.findViewById(R.id.awakeningHolder);
+        monsterAwakenings = (TextView) rootView.findViewById(R.id.monsterAwakenings);
+        table1 = (TableLayout) rootView.findViewById(R.id.table1);
+        latentHolder = (LinearLayout) rootView.findViewById(R.id.latentHolder);
 
         return rootView;
     }
@@ -213,6 +220,7 @@ public class MonsterPageFragment extends AbstractFragment {
         grayAwakenings();
         initializeEditTexts();
         setImageViews();
+        setLatents();
         monsterStats();
     }
 
@@ -275,6 +283,9 @@ public class MonsterPageFragment extends AbstractFragment {
         rarityStar.setColorFilter(0xFFD4D421);
 
         monsterPicture.setOnClickListener(monsterPictureOnClickListener);
+        latentHolder.setOnClickListener(latentOnClickListener);
+
+        monsterName.setSelected(true);
 
         Log.d("MonsterPageLog", "Monster type 1 is: " + monster.getType1());
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
@@ -321,8 +332,8 @@ public class MonsterPageFragment extends AbstractFragment {
         monsterStatsATKTotal = (TextView) rootView.findViewById(R.id.monsterStatsATKTotal);
         monsterStatsRCVBase = (TextView) rootView.findViewById(R.id.monsterStatsRCVBase);
         monsterStatsRCVTotal = (TextView) rootView.findViewById(R.id.monsterStatsRCVTotal);
-        monsterStatsWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsWeightedValue);
-        monsterStatsTotalWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsTotalWeightedValue);
+ //       monsterStatsWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsWeightedValue);
+ //       monsterStatsTotalWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsTotalWeightedValue);
         rarity = (TextView) rootView.findViewById(R.id.rarity);
         rarityStar = (ImageView) rootView.findViewById(R.id.rarityStar);
 
@@ -879,8 +890,8 @@ public class MonsterPageFragment extends AbstractFragment {
         monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
         monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
         monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
-        monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
-        monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+//        monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+//        monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
     }
 
     public void initializeEditTexts() {
@@ -932,6 +943,7 @@ public class MonsterPageFragment extends AbstractFragment {
             awakeningPlus.setEnabled(false);
             awakeningMinus.setEnabled(false);
             monsterStatsMaxAll.setEnabled(false);
+            latentHolder.setVisibility(View.GONE);
         } else {
             monsterStatsHPPlus.setEnabled(true);
             monsterStatsATKPlus.setEnabled(true);
@@ -945,6 +957,25 @@ public class MonsterPageFragment extends AbstractFragment {
             awakeningPlus.setEnabled(true);
             awakeningMinus.setEnabled(true);
             monsterStatsMaxAll.setEnabled(true);
+            latentHolder.setVisibility(View.VISIBLE);
+        }
+        if(monster.getMaxAwakenings() == 0){
+            monsterAwakenings.setVisibility(View.GONE);
+            awakeningHolder.setVisibility(View.GONE);
+            awakeningPlus.setVisibility(View.GONE);
+            awakeningMinus.setVisibility(View.GONE);
+            monsterAwakeningsMax.setVisibility(View.GONE);
+            monsterAwakeningsValue.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            z.addRule(RelativeLayout.BELOW, table1.getId());
+            latentHolder.setLayoutParams(z);
+        }else {
+            monsterAwakenings.setVisibility(View.VISIBLE);
+            awakeningHolder.setVisibility(View.VISIBLE);
+            awakeningPlus.setVisibility(View.VISIBLE);
+            awakeningMinus.setVisibility(View.VISIBLE);
+            monsterAwakeningsMax.setVisibility(View.VISIBLE);
+            monsterAwakeningsValue.setVisibility(View.VISIBLE);
         }
 //        if(monster.getMonsterId() == 0){
 //            monsterLevelMax.setEnabled(false);
@@ -1101,6 +1132,68 @@ public class MonsterPageFragment extends AbstractFragment {
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };
+
+    private View.OnClickListener latentOnClickListener = new View.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            if (latentAwakeningDialogFragment == null) {
+                latentAwakeningDialogFragment = LatentAwakeningDialogFragment.newInstance(setLatents, monster);
+            }
+            latentAwakeningDialogFragment.show(getChildFragmentManager(), "LAATENTSNTSNTS", monster);
+            Log.d("MonsterPageFragment", "Latent Awakenings are: " + monster.getLatents());
+        }
+    };
+
+    private LatentAwakeningDialogFragment.ResetLatents setLatents = new LatentAwakeningDialogFragment.ResetLatents(){
+        @Override
+        public void refreshLatents() {
+            setLatents();
+            setTextViewValues();
+        }
+    };
+
+    private void setLatents(){
+        for (int i = 0; i < monster.getLatents().size(); i++){
+            switch(monster.getLatents().get(i)){
+                case 0:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_blank);
+                    break;
+                case 1:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_1);
+                    break;
+                case 2:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_2);
+                    break;
+                case 3:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_3);
+                    break;
+                case 4:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_4);
+                    break;
+                case 5:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_5);
+                    break;
+                case 6:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_6);
+                    break;
+                case 7:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_7);
+                    break;
+                case 8:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_8);
+                    break;
+                case 9:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_9);
+                    break;
+                case 10:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_10);
+                    break;
+                case 11:
+                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_11);
+                    break;
+            }
+        }
+    }
 
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);

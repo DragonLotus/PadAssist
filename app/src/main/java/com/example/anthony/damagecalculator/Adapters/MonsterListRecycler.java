@@ -77,6 +77,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         } else {
             viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
         }
+
         if(monsterList.get(position).getMonsterId() == 0){
             viewHolder.monsterLevelValue.setVisibility(View.INVISIBLE);
             viewHolder.monsterHP.setVisibility(View.INVISIBLE);
@@ -99,7 +100,6 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             viewHolder.rarity.setVisibility(View.VISIBLE);
             viewHolder.rarityStar.setVisibility(View.VISIBLE);
         }
-
 
         switch(monsterList.get(position).getType1()){
             case 0:
@@ -236,6 +236,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             viewHolder.type2.setLayoutParams(params);
         }
+        viewHolder.monsterName.setSelected(true);
 
         viewHolder.itemView.setOnClickListener(onItemClickListener);
         viewHolder.itemView.setTag(viewHolder);

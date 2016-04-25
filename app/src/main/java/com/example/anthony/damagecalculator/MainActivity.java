@@ -41,6 +41,7 @@ import com.example.anthony.damagecalculator.Util.SharedPreferencesUtil;
 import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -110,6 +111,20 @@ public class MainActivity extends AppCompatActivity {
         if (Monster.getMonsterId(0) == null) {
             Monster monster = new Monster(0);
             monster.save();
+        }
+
+        if(OrbMatch.getAllOrbMatches().size() != 0){
+            ArrayList<OrbMatch> orbMatchList;
+            orbMatchList = (ArrayList) OrbMatch.getAllOrbMatches();
+            int i = 0;
+            while (Singleton.getInstance().getBoardSize() == 1 && i < orbMatchList.size()) {
+                if (orbMatchList.get(i).getOrbsLinked() > 30 || (orbMatchList.get(i).getOrbsLinked() == 7 && orbMatchList.get(i).isRow())) {
+                    Singleton.getInstance().setBoardSize(2);
+                } else if(orbMatchList.get(i).getOrbsLinked() == 5 && orbMatchList.get(i).isRow()){
+                    Singleton.getInstance().setBoardSize(0);
+                }
+                i++;
+            }
         }
 
         LeaderSkill blankLeaderSkill = new LeaderSkill();

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/latentIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/latent_awakening_blank"
+        android:layout_marginRight="4dp"/>
+
+    <TextView
+        android:id="@+id/latentName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/latentIcon"
+        android:layout_alignBottom="@+id/latentIcon"
+        android:layout_toRightOf="@+id/latentIcon"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="Latent Name: "
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/latentDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/latentIcon"
+        android:layout_alignBottom="@+id/latentIcon"
+        android:layout_toRightOf="@+id/latentName"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="Latent does this."
+        android:textSize="16dp"
+        android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        android:marqueeRepeatLimit="marquee_forever" />
+
+</RelativeLayout>

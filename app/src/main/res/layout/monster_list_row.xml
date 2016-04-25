@@ -57,7 +57,10 @@
         android:layout_toRightOf="@+id/monsterPicture"
         android:singleLine="true"
         android:text="Kirin of the Sacred Gleam, Sakuya"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        android:marqueeRepeatLimit="marquee_forever" />
 
     <TextView
         android:id="@+id/monsterLevel"

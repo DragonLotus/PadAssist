@@ -69,6 +69,7 @@ public class MainFragment extends AbstractFragment {
     private RadioGroup orbRadioGroup;
     private MyDialogFragment dialog;
     private ArrayList<OrbMatch> orbMatchList;
+    private boolean firstRun = true;
 
     private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout() {
         @Override
@@ -210,6 +211,7 @@ public class MainFragment extends AbstractFragment {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            Log.d("Main Fragment Log", "firstRun onItemSelectedListener is: " + firstRun);
             switch (position) {
                 case 0:
                     if (orbsLinked.getSelectedItemPosition() > 17) {
@@ -257,13 +259,17 @@ public class MainFragment extends AbstractFragment {
                     Singleton.getInstance().setBoardSize(2);
                     break;
             }
-//            orbMatchRecycler.clear();
-//            orbMatchRecycler.notifyDataSetChanged();
-//            if (toast != null) {
-//                toast.cancel();
-//            }
-//            toast = Toast.makeText(getActivity(), "Board Size Changed", Toast.LENGTH_SHORT);
-//            toast.show();
+            if (!firstRun) {
+//                orbMatchRecycler.clear();
+//                orbMatchRecycler.notifyDataSetChanged();
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Board Size Changed", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                firstRun = false;
+            }
         }
     };
 
@@ -336,19 +342,19 @@ public class MainFragment extends AbstractFragment {
                         orbsPlus.setEnabled(true);
                     }
                     if (!rowCheckBox.isEnabled()) {
-                        switch(boardSize.getSelectedItemPosition()){
+                        switch (boardSize.getSelectedItemPosition()) {
                             case 0:
-                                if((orbsLinked.getSelectedItemPosition() + 3) < 17){
+                                if ((orbsLinked.getSelectedItemPosition() + 3) < 17) {
                                     rowCheckBox.setEnabled(true);
                                 }
                                 break;
                             case 1:
-                                if((orbsLinked.getSelectedItemPosition() + 3) < 26){
+                                if ((orbsLinked.getSelectedItemPosition() + 3) < 26) {
                                     rowCheckBox.setEnabled(true);
                                 }
                                 break;
                             case 2:
-                                if((orbsLinked.getSelectedItemPosition() + 3) < 37){
+                                if ((orbsLinked.getSelectedItemPosition() + 3) < 37) {
                                     rowCheckBox.setEnabled(true);
                                 }
                                 break;
@@ -438,15 +444,15 @@ public class MainFragment extends AbstractFragment {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            if((orbMatchList.get(position).getOrbsLinked() - 3) > orbsLinkedItems.size()){
+            if ((orbMatchList.get(position).getOrbsLinked() - 3) > orbsLinkedItems.size()) {
                 boardSize.setSelection(boardSize.getSelectedItemPosition() + 1);
                 Singleton.getInstance().setBoardSize(boardSize.getSelectedItemPosition());
             } else {
                 orbsLinked.setSelection(orbMatchList.get(position).getOrbsLinked() - 3);
             }
-            if(orbMatchList.get(position).getNumOrbPlus() > orbsPlusItems.size()){
+            if (orbMatchList.get(position).getNumOrbPlus() > orbsPlusItems.size()) {
 
-            }else {
+            } else {
                 orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
             }
             rowCheckBox.setChecked(orbMatchList.get(position).isRow());
@@ -602,6 +608,7 @@ public class MainFragment extends AbstractFragment {
         boardSize.setSelection(Singleton.getInstance().getBoardSize());
         orbsLinked.setOnItemSelectedListener(orbsLinkedSpinnerSelectedListener);
         boardSize.setOnItemSelectedListener(boardSizeSpinnerSelectedListener);
+        Log.d("Main Fragment Log", "firstRun in onActivityCreated is: " + firstRun);
 
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
@@ -629,6 +636,7 @@ public class MainFragment extends AbstractFragment {
             }
         }
         team.updateOrbs();
+        firstRun = true;
         Log.d("Orb Match Log", "Load Orb Matches After: " + OrbMatch.getAllOrbMatches());
     }
 

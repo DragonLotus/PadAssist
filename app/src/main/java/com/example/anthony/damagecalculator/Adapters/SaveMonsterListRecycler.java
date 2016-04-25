@@ -231,6 +231,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
         viewHolder.favorite.setOnClickListener(favoriteOnClickListener);
         viewHolder.favoriteOutline.setOnClickListener(favoriteOnClickListener);
 
+        viewHolder.monsterName.setSelected(true);
         viewHolder.itemView.setTag(R.string.index, position);
         viewHolder.itemView.setOnClickListener(monsterListOnClickListener);
     }

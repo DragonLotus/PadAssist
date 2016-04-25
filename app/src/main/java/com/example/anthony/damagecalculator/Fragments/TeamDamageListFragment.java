@@ -279,7 +279,7 @@ public class TeamDamageListFragment extends AbstractFragment {
             absorbCheck.setVisibility(View.GONE);
             RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
-            z.addRule(RelativeLayout.BELOW, hpRecoveredValue.getId());
+            z.addRule(RelativeLayout.BELOW, totalComboValue.getId());
             z.addRule(RelativeLayout.RIGHT_OF, hasAwakenings.getId());
             hasAwakeningsCheck.setLayoutParams(z);
             for (int i = 0; i < team.sizeMonsters(); i++) {

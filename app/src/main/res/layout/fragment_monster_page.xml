@@ -102,7 +102,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/monsterPicture"
         android:layout_alignParentRight="true"
-        android:text="Max" />
+        android:text="Max Lvl" />
 
     <TableLayout
         android:id="@+id/table1"
@@ -153,7 +153,7 @@
                 android:id="@+id/monsterStatsMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Max" />
+                android:text="Max +" />
         </TableRow>
 
         <TableRow>
@@ -290,44 +290,44 @@
                 android:text="Max" />
         </TableRow>
 
-        <TableRow>
+        <!--<TableRow>-->
 
-            <TextView
-                android:id="@+id/monsterStatsWeighted"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="WGHT"
-                android:textSize="18dp" />
+        <!--<TextView-->
+        <!--android:id="@+id/monsterStatsWeighted"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:text="WGHT"-->
+        <!--android:textSize="18dp" />-->
 
-            <TextView
-                android:id="@+id/monsterStatsWeightedValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:singleLine="true"
-                android:text="1337"
-                android:textSize="18dp" />
+        <!--<TextView-->
+        <!--android:id="@+id/monsterStatsWeightedValue"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="1337"-->
+        <!--android:textSize="18dp" />-->
 
-            <TextView android:text="" />
+        <!--<TextView android:text="" />-->
 
-            <TextView
-                android:id="@+id/monsterStatsTotalWeightedValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:singleLine="true"
-                android:text="1337"
-                android:textSize="18dp" />
+        <!--<TextView-->
+        <!--android:id="@+id/monsterStatsTotalWeightedValue"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:singleLine="true"-->
+        <!--android:text="1337"-->
+        <!--android:textSize="18dp" />-->
 
-            <Button
-                android:id="@+id/monsterStatsWeightedMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Max"
-                android:visibility="invisible" />
+        <!--<Button-->
+        <!--android:id="@+id/monsterStatsWeightedMax"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Max"-->
+        <!--android:visibility="invisible" />-->
 
-        </TableRow>
+        <!--</TableRow>-->
     </TableLayout>
 
     <TextView
@@ -496,6 +496,69 @@
         android:layout_marginRight="8dp"
         android:layout_toRightOf="@+id/rarity"
         android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha" />
+
+    <!--<TextView-->
+    <!--android:id="@+id/monsterLatents"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignBottom="@+id/monsterLatentsSet"-->
+    <!--android:layout_alignTop="@+id/monsterLatentsSet"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:text="Latents:"-->
+    <!--android:textSize="18dp" />-->
+
+    <!--<Button-->
+    <!--android:id="@+id/monsterLatentsSet"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_below="@+id/awakeningHolder"-->
+    <!--android:text="Set ALL" />-->
+
+    <LinearLayout
+        android:id="@+id/latentHolder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/awakeningHolder"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/monsterLatentAwakening1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"/>
+
+        <ImageView
+            android:id="@+id/monsterLatentAwakening2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"/>
+
+        <ImageView
+            android:id="@+id/monsterLatentAwakening3"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"/>
+
+        <ImageView
+            android:id="@+id/monsterLatentAwakening4"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"/>
+
+        <ImageView
+            android:id="@+id/monsterLatentAwakening5"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:gravity="center_vertical"/>
+    </LinearLayout>
 
 
 </RelativeLayout>

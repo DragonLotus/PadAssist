@@ -68,6 +68,7 @@ public class Team extends Model implements Parcelable {
     @Column(name = "helperSkill")
     private LeaderSkill helperSkill;
     private ArrayList<Integer> awakeningsList = new ArrayList<>();
+    private ArrayList<Integer> latentsList = new ArrayList<>();
     private Comparator<Integer> numberComparator = new NumberComparator();
 
     public Team() {
@@ -436,6 +437,19 @@ public class Team extends Model implements Parcelable {
             Collections.sort(awakeningsList, numberComparator);
         }
         return awakeningsList;
+    }
+    public ArrayList<Integer> getLatents(){
+        if(latentsList.size() == 0){
+            for (int i = 0; i < monsters.size(); i++){
+                for(int j = 0; j < monsters.get(i).getLatents().size(); j++){
+                    if(monsters.get(i).getLatents().get(j) != 0){
+                        latentsList.add(monsters.get(i).getLatents().get(j));
+                    }
+                }
+            }
+            Collections.sort(latentsList, numberComparator);
+        }
+        return latentsList;
     }
 
     public void update() {
