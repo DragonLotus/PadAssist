@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -55,7 +56,7 @@ public class MonsterPageFragment extends AbstractFragment {
     private OnFragmentInteractionListener mListener;
     private TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity, monsterAwakenings;
     private EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
-    private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus;
+    private Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus, awakeningHolderMax;
     private ImageView monsterPicture, rarityStar, type1, type2, type3, favorite, favoriteOutline;
     private LinearLayout awakeningHolder, latentHolder;
     private TableLayout table1;
@@ -204,6 +205,7 @@ public class MonsterPageFragment extends AbstractFragment {
         monsterAwakenings = (TextView) rootView.findViewById(R.id.monsterAwakenings);
         table1 = (TableLayout) rootView.findViewById(R.id.table1);
         latentHolder = (LinearLayout) rootView.findViewById(R.id.latentHolder);
+        awakeningHolderMax = (Button) rootView.findViewById(R.id.awakeningHolderMax);
 
         return rootView;
     }
@@ -968,6 +970,10 @@ public class MonsterPageFragment extends AbstractFragment {
             monsterAwakeningsValue.setVisibility(View.GONE);
             RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             z.addRule(RelativeLayout.BELOW, table1.getId());
+            z.addRule(RelativeLayout.ALIGN_TOP, awakeningHolderMax.getId());
+            z.addRule(RelativeLayout.ALIGN_BOTTOM, awakeningHolderMax.getId());
+            z.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            z.addRule(RelativeLayout.CENTER_VERTICAL);
             latentHolder.setLayoutParams(z);
         }else {
             monsterAwakenings.setVisibility(View.VISIBLE);
