@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/latentDesc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/latentIcon"
         android:layout_alignBottom="@+id/latentIcon"

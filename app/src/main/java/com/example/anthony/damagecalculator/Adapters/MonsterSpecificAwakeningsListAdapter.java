@@ -45,6 +45,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             viewHolder = new ViewHolder();
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             viewHolder.monsterAwakenings = (ExpandableHeightGridView) convertView.findViewById(R.id.monsterAwakenings);
+            viewHolder.monsterLatentAwakenings = (ExpandableHeightGridView) convertView.findViewById(R.id.monsterLatentAwakenings);
             trimAwakenings(position);
             monsterAwakeningsGridAdapter = new AwakeningGridAdapter(mContext, awakeningList);
             viewHolder.monsterAwakenings.setAdapter(monsterAwakeningsGridAdapter);
@@ -64,7 +65,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
 
     static class ViewHolder {
         ImageView monsterPicture;
-        ExpandableHeightGridView monsterAwakenings;
+        ExpandableHeightGridView monsterAwakenings, monsterLatentAwakenings;
 
     }
 

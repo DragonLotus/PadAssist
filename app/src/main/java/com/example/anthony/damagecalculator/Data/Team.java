@@ -460,6 +460,7 @@ public class Team extends Model implements Parcelable {
         }
 //        compareAllElements.clear();
         awakeningsList.clear();
+        latentsList.clear();
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
         for (int i = 0; i < 5; i++) {

@@ -32,10 +32,12 @@ public class TeamOverviewFragment extends AbstractFragment {
     private ExpandableHeightGridView utilityAwakenings, damageAwakenings;
 //    private RecyclerView utilityAwakenings, damageAwakenings;
     private ArrayList<Monster> monsterList;
-    private ArrayList<Integer> utilityAwakeningList, damageAwakeningList, awakeningListAll;
+    private ArrayList<Integer> utilityAwakeningList, damageAwakeningList, awakeningListAll, latentListAll;
     private ArrayList<Integer> utilityFilter = new ArrayList<>();
+    private ArrayList<Integer> latentUtilityFilter = new ArrayList<>();
     private ArrayList<Integer> damageFilter = new ArrayList<>();
     private ArrayList<Integer> monsterSpecificFilter = new ArrayList<>();
+    private ArrayList<Integer> latentMonsterSpecificFilter = new ArrayList<>();
     private AwakeningGridAdapter utilityAwakeningGridAdapter, damageAwakeningGridAdapter;
     private MonsterSpecificAwakeningsListAdapter monsterSpecificAwakeningsListAdapter;
     private Team team;
@@ -84,6 +86,8 @@ public class TeamOverviewFragment extends AbstractFragment {
             team = getArguments().getParcelable("team");
         }
         awakeningListAll = team.getAwakenings();
+        latentListAll = team.getLatents();
+        Log.d("TeamOverview", "Team Latents are: " + latentListAll);
         utilityAwakeningList = new ArrayList<>();
         damageAwakeningList = new ArrayList<>();
         monsterList = new ArrayList<>();
@@ -166,6 +170,17 @@ public class TeamOverviewFragment extends AbstractFragment {
         monsterSpecificFilter.add(35);
         monsterSpecificFilter.add(36);
         monsterSpecificFilter.add(37);
+        latentUtilityFilter.add(4);
+        latentUtilityFilter.add(5);
+        latentUtilityFilter.add(6);
+        latentUtilityFilter.add(7);
+        latentUtilityFilter.add(8);
+        latentUtilityFilter.add(9);
+        latentUtilityFilter.add(10);
+        latentMonsterSpecificFilter.add(1);
+        latentMonsterSpecificFilter.add(2);
+        latentMonsterSpecificFilter.add(3);
+        latentMonsterSpecificFilter.add(11);
     }
 
     private void trimAwakenings() {

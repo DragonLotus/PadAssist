@@ -69,7 +69,6 @@ public class MainFragment extends AbstractFragment {
     private RadioGroup orbRadioGroup;
     private MyDialogFragment dialog;
     private ArrayList<OrbMatch> orbMatchList;
-    private boolean firstRun = true;
 
     private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout() {
         @Override
@@ -211,7 +210,6 @@ public class MainFragment extends AbstractFragment {
 
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            Log.d("Main Fragment Log", "firstRun onItemSelectedListener is: " + firstRun);
             switch (position) {
                 case 0:
                     if (orbsLinked.getSelectedItemPosition() > 17) {
@@ -259,17 +257,13 @@ public class MainFragment extends AbstractFragment {
                     Singleton.getInstance().setBoardSize(2);
                     break;
             }
-            if (!firstRun) {
-//                orbMatchRecycler.clear();
-//                orbMatchRecycler.notifyDataSetChanged();
-                if (toast != null) {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(getActivity(), "Board Size Changed", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                firstRun = false;
+            orbMatchRecycler.clear();
+            orbMatchRecycler.notifyDataSetChanged();
+            if (toast != null) {
+                toast.cancel();
             }
+            toast = Toast.makeText(getActivity(), "Board Size Changed", Toast.LENGTH_SHORT);
+            toast.show();
         }
     };
 
@@ -605,10 +599,9 @@ public class MainFragment extends AbstractFragment {
         ArrayAdapter<String> boardSizeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, boardSizeItems);
         boardSize.setAdapter(boardSizeAdapter);
 
-        boardSize.setSelection(Singleton.getInstance().getBoardSize());
+        boardSize.setSelection(Singleton.getInstance().getBoardSize(), false);
         orbsLinked.setOnItemSelectedListener(orbsLinkedSpinnerSelectedListener);
         boardSize.setOnItemSelectedListener(boardSizeSpinnerSelectedListener);
-        Log.d("Main Fragment Log", "firstRun in onActivityCreated is: " + firstRun);
 
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
@@ -636,7 +629,6 @@ public class MainFragment extends AbstractFragment {
             }
         }
         team.updateOrbs();
-        firstRun = true;
         Log.d("Orb Match Log", "Load Orb Matches After: " + OrbMatch.getAllOrbMatches());
     }
 
