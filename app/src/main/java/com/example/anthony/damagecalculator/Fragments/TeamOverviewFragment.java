@@ -32,7 +32,7 @@ public class TeamOverviewFragment extends AbstractFragment {
     private ExpandableHeightGridView utilityAwakenings, damageAwakenings;
 //    private RecyclerView utilityAwakenings, damageAwakenings;
     private ArrayList<Monster> monsterList;
-    private ArrayList<Integer> utilityAwakeningList, damageAwakeningList, awakeningListAll, latentListAll;
+    private ArrayList<Integer> utilityAwakeningList, damageAwakeningList, awakeningListAll, latentListAll, latentUtilityAwakeningList, latentDamageAwakeningList;
     private ArrayList<Integer> utilityFilter = new ArrayList<>();
     private ArrayList<Integer> latentUtilityFilter = new ArrayList<>();
     private ArrayList<Integer> damageFilter = new ArrayList<>();
@@ -89,18 +89,20 @@ public class TeamOverviewFragment extends AbstractFragment {
         latentListAll = team.getLatents();
         Log.d("TeamOverview", "Team Latents are: " + latentListAll);
         utilityAwakeningList = new ArrayList<>();
+        latentUtilityAwakeningList = new ArrayList<>();
         damageAwakeningList = new ArrayList<>();
+        latentDamageAwakeningList = new ArrayList<>();
         monsterList = new ArrayList<>();
         monsterList.addAll(team.getMonsters());
         setTeamStats();
         setupAwakeningFilters();
         trimAwakenings();
-        utilityAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), utilityAwakeningList);
+        utilityAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), utilityAwakeningList, latentUtilityAwakeningList);
         utilityAwakenings.setAdapter(utilityAwakeningGridAdapter);
 //        utilityAwakenings.setHasFixedSize(true);
 //        utilityAwakenings.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         utilityAwakenings.setExpanded(true);
-        damageAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), damageAwakeningList);
+        damageAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), damageAwakeningList, latentDamageAwakeningList);
         damageAwakenings.setAdapter(damageAwakeningGridAdapter);
 //        damageAwakenings.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         damageAwakenings.setExpanded(true);
@@ -171,7 +173,6 @@ public class TeamOverviewFragment extends AbstractFragment {
         monsterSpecificFilter.add(36);
         monsterSpecificFilter.add(37);
         latentUtilityFilter.add(4);
-        latentUtilityFilter.add(5);
         latentUtilityFilter.add(6);
         latentUtilityFilter.add(7);
         latentUtilityFilter.add(8);
@@ -180,6 +181,7 @@ public class TeamOverviewFragment extends AbstractFragment {
         latentMonsterSpecificFilter.add(1);
         latentMonsterSpecificFilter.add(2);
         latentMonsterSpecificFilter.add(3);
+        latentMonsterSpecificFilter.add(5);
         latentMonsterSpecificFilter.add(11);
     }
 
@@ -191,24 +193,33 @@ public class TeamOverviewFragment extends AbstractFragment {
                 damageAwakeningList.add(awakeningListAll.get(i));
             }
         }
+
+        for(int i = 0; i < latentListAll.size(); i++){
+            if(latentUtilityFilter.contains(latentListAll.get(i))){
+                latentUtilityAwakeningList.add(latentListAll.get(i));
+            }
+        }
+        Log.d("TeamOverview", "latentListAll is: " + latentListAll + " latentUtilityAwakeningList is: " + latentUtilityAwakeningList);
 //        if (monsterList.size() == 0) {
 //            monsterList.addAll(team.getMonsters());
 //        }
         ArrayList<Integer> tempAwakenings = new ArrayList<>();
         for(int i = 0; i < monsterList.size(); i++){
-            for(int j = 0; j < monsterList.get(i).getCurrentAwakenings(); j++){
-                if (monsterSpecificFilter.contains(monsterList.get(i).getAwokenSkills(j))){
-                    tempAwakenings.add(monsterList.get(i).getAwokenSkills(j));
+            if(!latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(0)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(1)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(2)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(3)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(4))){
+                for(int j = 0; j < monsterList.get(i).getCurrentAwakenings(); j++){
+                    if (monsterSpecificFilter.contains(monsterList.get(i).getAwokenSkills(j))){
+                        tempAwakenings.add(monsterList.get(i).getAwokenSkills(j));
+                    }
+                }
+                if(tempAwakenings.size() == 0){
+                    monsterList.remove(i);
+                    i--;
+                }else {
+                    tempAwakenings.clear();
                 }
             }
-            if(tempAwakenings.size() == 0){
-                monsterList.remove(i);
-                i--;
-            }else {
-                tempAwakenings.clear();
-            }
         }
-        if(utilityAwakeningList.size() == 0){
+        if(utilityAwakeningList.size() == 0 && latentUtilityAwakeningList.size() == 0){
             utilityAwakenings.setVisibility(View.GONE);
             utilityAwakeningText.setText("No Utility Awakenings!");
         }else {

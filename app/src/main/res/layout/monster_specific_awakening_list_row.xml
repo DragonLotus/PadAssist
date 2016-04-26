@@ -20,15 +20,4 @@
         android:numColumns="6"
         android:gravity="center"/>
 
-    <com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView
-        android:id="@+id/monsterLatentAwakenings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/monsterPicture"
-        android:layout_alignBottom="@+id/monsterPicture"
-        android:layout_toRightOf="@+id/monsterAwakenings"
-        android:layout_alignParentRight="true"
-        android:numColumns="6"
-        android:gravity="center"/>
-
 </RelativeLayout>

@@ -20,7 +20,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Monster> monsterList;
-    private ArrayList<Integer> awakeningList, awakeningListAll, monsterSpecificFilter;
+    private ArrayList<Integer> awakeningList, awakeningListAll, monsterSpecificFilter, latentList, latentListAll, latentMonsterSpecificFilter;
     private AwakeningGridAdapter monsterAwakeningsGridAdapter;
     private int resourceId;
 
@@ -32,6 +32,9 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         awakeningList = new ArrayList<>();
         awakeningListAll = new ArrayList<>();
         monsterSpecificFilter = new ArrayList<>();
+        latentList = new ArrayList<>();
+        latentListAll = new ArrayList<>();
+        latentMonsterSpecificFilter = new ArrayList<>();
 
         setupAwakeningFilters();
     }
@@ -45,9 +48,8 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             viewHolder = new ViewHolder();
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             viewHolder.monsterAwakenings = (ExpandableHeightGridView) convertView.findViewById(R.id.monsterAwakenings);
-            viewHolder.monsterLatentAwakenings = (ExpandableHeightGridView) convertView.findViewById(R.id.monsterLatentAwakenings);
             trimAwakenings(position);
-            monsterAwakeningsGridAdapter = new AwakeningGridAdapter(mContext, awakeningList);
+            monsterAwakeningsGridAdapter = new AwakeningGridAdapter(mContext, awakeningList, latentList);
             viewHolder.monsterAwakenings.setAdapter(monsterAwakeningsGridAdapter);
             viewHolder.monsterAwakenings.setExpanded(true);
             convertView.setTag(R.string.viewHolder, viewHolder);
@@ -65,7 +67,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
 
     static class ViewHolder {
         ImageView monsterPicture;
-        ExpandableHeightGridView monsterAwakenings, monsterLatentAwakenings;
+        ExpandableHeightGridView monsterAwakenings;
 
     }
 
@@ -83,6 +85,11 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         monsterSpecificFilter.add(35);
         monsterSpecificFilter.add(36);
         monsterSpecificFilter.add(37);
+        latentMonsterSpecificFilter.add(1);
+        latentMonsterSpecificFilter.add(2);
+        latentMonsterSpecificFilter.add(3);
+        latentMonsterSpecificFilter.add(5);
+        latentMonsterSpecificFilter.add(11);
     }
 
     private void trimAwakenings(int position) {
@@ -102,5 +109,22 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             }
         }
         Log.d("Monster Specific", "AwakeningList is: " + awakeningListAll);
+
+        if(monsterList.get(position).getLatents().get(0) != 0 && monsterList.get(position).getLatents().get(1) != 0 && monsterList.get(position).getLatents().get(2) != 0 && monsterList.get(position).getLatents().get(3) != 0 && monsterList.get(position).getLatents().get(4) != 0){
+            if(latentList.size() !=0){
+                latentList.clear();
+            }
+            if (latentListAll.size() != 0){
+                latentListAll.clear();
+            }
+            for(int i = 0; i < monsterList.get(position).getLatents().size(); i++){
+                latentListAll.add(monsterList.get(position).getLatents().get(i));
+            }
+            for(int i = 0; i < latentListAll.size(); i++){
+                if(latentMonsterSpecificFilter.contains(latentListAll.get(i))){
+                    latentList.add(latentListAll.get(i));
+                }
+            }
+        }
     }
 }

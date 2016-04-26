@@ -76,13 +76,6 @@
                 android:gravity="center_horizontal"
                 android:numColumns="5"/>
 
-            <com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView
-                android:id="@+id/latentUtilityAwakenings"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:numColumns="5"/>
-
             <TextView
                 android:id="@+id/damageAwakeningText"
                 android:layout_width="wrap_content"
