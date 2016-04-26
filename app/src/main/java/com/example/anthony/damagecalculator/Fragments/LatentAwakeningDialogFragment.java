@@ -1,11 +1,13 @@
 package com.example.anthony.damagecalculator.Fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -18,6 +20,7 @@ import com.example.anthony.damagecalculator.Adapters.LatentSpinnerAdapter;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public class LatentAwakeningDialogFragment extends DialogFragment {
@@ -51,6 +54,27 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         latent3Spinner = (Spinner) rootView.findViewById(R.id.latent3Spinner);
         latent4Spinner = (Spinner) rootView.findViewById(R.id.latent4Spinner);
         latent5Spinner = (Spinner) rootView.findViewById(R.id.latent5Spinner);
+        try {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            float logicalDensity = displayMetrics.density;
+            int px = (int) Math.ceil(200 * logicalDensity);
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+            android.widget.ListPopupWindow popupWindow1 = (android.widget.ListPopupWindow) popup.get(latent1Spinner);
+            android.widget.ListPopupWindow popupWindow2 = (android.widget.ListPopupWindow) popup.get(latent2Spinner);
+            android.widget.ListPopupWindow popupWindow3 = (android.widget.ListPopupWindow) popup.get(latent3Spinner);
+            android.widget.ListPopupWindow popupWindow4 = (android.widget.ListPopupWindow) popup.get(latent4Spinner);
+            android.widget.ListPopupWindow popupWindow5 = (android.widget.ListPopupWindow) popup.get(latent5Spinner);
+            popupWindow1.setHeight(px);
+            popupWindow2.setHeight(px);
+            popupWindow3.setHeight(px);
+            popupWindow4.setHeight(px);
+            popupWindow5.setHeight(px);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
         if (latents.size() == 0) {
             for (int i = 0; i < 12; i++) {
                 latents.add(i);

@@ -27,6 +27,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     private ArrayList<Monster> monsterList;
     private Context mContext;
     private LayoutInflater inflater;
+    private ArrayList<Integer> latentList;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
@@ -67,6 +68,28 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             viewHolder.monsterAwakenings.setText("");
         }
 
+        if(latentList == null){
+            latentList = new ArrayList<>();
+        } else {
+            latentList.clear();
+        }
+
+        for(int i = 0; i < monsterList.get(position).getLatents().size(); i++){
+            if(monsterList.get(position).getLatents().get(i) != 0){
+                latentList.add(1);
+            }
+        }
+        if(latentList.size() == 5){
+            viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+            viewHolder.monsterLatents.setText("");
+            viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+        }else if(latentList.size() == 0) {
+            viewHolder.monsterLatents.setVisibility(View.INVISIBLE);
+        }else {
+            viewHolder.monsterLatents.setText(" "+latentList.size());
+            viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+        }
+
         if (monsterList.get(position).getTotalPlus() == 0) {
             viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
         } else {
@@ -74,6 +97,10 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         }
         if (monsterList.get(position).getCurrentAwakenings() == 0) {
             viewHolder.monsterAwakenings.setVisibility(View.INVISIBLE);
+            if(latentList.size() != 0){
+                ViewGroup.LayoutParams z = viewHolder.monsterAwakenings.getLayoutParams();
+                viewHolder.monsterLatents.setLayoutParams(z);
+            }
         } else {
             viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
         }
@@ -253,7 +280,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, rarity;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, rarity, monsterLatents;
         ImageView monsterPicture, type1, type2, type3, rarityStar;
 
         public ViewHolder(View convertView){
@@ -261,6 +288,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             monsterName = (TextView) convertView.findViewById(R.id.monsterName);
             monsterPlus = (TextView) convertView.findViewById(R.id.monsterPlus);
             monsterAwakenings = (TextView) convertView.findViewById(R.id.monsterAwakenings);
+            monsterLatents = (TextView) convertView.findViewById(R.id.monsterLatents);
             monsterATK = (TextView) convertView.findViewById(R.id.monsterATK);
             monsterRCV = (TextView) convertView.findViewById(R.id.monsterRCV);
             monsterHP = (TextView) convertView.findViewById(R.id.monsterHP);

@@ -70,6 +70,20 @@
                 android:textColor="#f0ff00"
                 android:textSize="12dp"
                 android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster1Latents"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster1Picture"
+                android:layout_toRightOf="@+id/monster1Awakenings"
+                android:background="@drawable/latent_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -100,6 +114,20 @@
                 android:layout_alignBottom="@+id/monster2Picture"
                 android:layout_alignLeft="@+id/monster2Picture"
                 android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster2Latents"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster2Picture"
+                android:layout_toRightOf="@+id/monster2Awakenings"
+                android:background="@drawable/latent_background"
                 android:gravity="bottom"
                 android:paddingLeft="1dp"
                 android:text="6"
@@ -142,6 +170,20 @@
                 android:textColor="#f0ff00"
                 android:textSize="12dp"
                 android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster3Latents"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster3Picture"
+                android:layout_toRightOf="@+id/monster3Awakenings"
+                android:background="@drawable/latent_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -172,6 +214,20 @@
                 android:layout_alignBottom="@+id/monster4Picture"
                 android:layout_alignLeft="@+id/monster4Picture"
                 android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster4Latents"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster4Picture"
+                android:layout_toRightOf="@+id/monster4Awakenings"
+                android:background="@drawable/latent_background"
                 android:gravity="bottom"
                 android:paddingLeft="1dp"
                 android:text="6"
@@ -214,6 +270,20 @@
                 android:textColor="#f0ff00"
                 android:textSize="12dp"
                 android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster5Latents"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster5Picture"
+                android:layout_toRightOf="@+id/monster5Awakenings"
+                android:background="@drawable/latent_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -245,6 +315,20 @@
                 android:layout_alignBottom="@+id/monster6Picture"
                 android:layout_alignLeft="@+id/monster6Picture"
                 android:background="@drawable/awakening_background"
+                android:gravity="bottom"
+                android:paddingLeft="1dp"
+                android:text="6"
+                android:textColor="#f0ff00"
+                android:textSize="12dp"
+                android:textStyle="bold" />
+
+            <com.example.anthony.damagecalculator.Graphics.TextStroke
+                android:id="@+id/monster6Latents"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/monster6Picture"
+                android:layout_toRightOf="@+id/monster6Awakenings"
+                android:background="@drawable/latent_background"
                 android:gravity="bottom"
                 android:paddingLeft="1dp"
                 android:text="6"
