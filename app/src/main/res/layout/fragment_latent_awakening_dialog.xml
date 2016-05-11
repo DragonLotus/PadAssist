@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/latent1"
-        android:dropDownWidth="250dp"
+        android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"/>
 
     <TextView
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/latent2"
         android:layout_below="@+id/latent1Spinner"
-        android:dropDownWidth="250dp"
+        android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"/>
 
     <TextView
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/latent3"
         android:layout_below="@+id/latent2Spinner"
-        android:dropDownWidth="250dp"
+        android:dropDownWidth="300dp"
         android:spinnerMode="dropdown" />
 
     <TextView
@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/latent4"
         android:layout_below="@+id/latent3Spinner"
-        android:dropDownWidth="250dp"
+        android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"
         android:dropDownVerticalOffset="-130dp"/>
 
@@ -100,7 +100,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/latent5"
         android:layout_below="@+id/latent4Spinner"
-        android:dropDownWidth="250dp"
+        android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"
         android:dropDownVerticalOffset="-145dp"/>
 

@@ -110,13 +110,15 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         }
         Log.d("Monster Specific", "AwakeningList is: " + awakeningListAll);
 
+        if(latentList.size() !=0){
+            latentList.clear();
+        }
+        if (latentListAll.size() != 0){
+            latentListAll.clear();
+        }
+
         if(monsterList.get(position).getLatents().get(0) != 0 && monsterList.get(position).getLatents().get(1) != 0 && monsterList.get(position).getLatents().get(2) != 0 && monsterList.get(position).getLatents().get(3) != 0 && monsterList.get(position).getLatents().get(4) != 0){
-            if(latentList.size() !=0){
-                latentList.clear();
-            }
-            if (latentListAll.size() != 0){
-                latentListAll.clear();
-            }
+
             for(int i = 0; i < monsterList.get(position).getLatents().size(); i++){
                 latentListAll.add(monsterList.get(position).getLatents().get(i));
             }
@@ -126,5 +128,6 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
                 }
             }
         }
+
     }
 }
