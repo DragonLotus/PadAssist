@@ -2,6 +2,7 @@ package com.example.anthony.damagecalculator.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public class Enemy implements Parcelable {
     private double gravityPercent;
     private Element targetElement, absorb;
     private ArrayList<Element> reduction;
-    private ArrayList<Integer> gravityList;
+    private ArrayList<Integer> gravityList, types;
     private Boolean hasAbsorb = false, hasReduction, hasDamageThreshold = false, isDamaged;
 
 
@@ -21,6 +22,7 @@ public class Enemy implements Parcelable {
     public Enemy() {
         reduction = new ArrayList<Element>();
         gravityList = new ArrayList<Integer>();
+        types = new ArrayList<Integer>();
         targetHp = 33012222;
         targetDef = 0;
         currentHp = targetHp;
@@ -37,6 +39,9 @@ public class Enemy implements Parcelable {
         reduction.add(Element.GREEN);
         reduction.add(Element.LIGHT);
         reduction.add(Element.DARK);
+        types.add(5);
+        types.add(4);
+        types.add(1337);
     }
 
 
@@ -188,6 +193,14 @@ public class Enemy implements Parcelable {
 
     public void clearGravityList(){
         gravityList.clear();
+    }
+
+    public ArrayList<Integer> getTypes() {
+        return types;
+    }
+
+    public void setTypes(ArrayList<Integer> types) {
+        this.types = types;
     }
 
     public Enemy(Parcel source) {

@@ -124,7 +124,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/targetDefenseValue"
         android:layout_alignBottom="@+id/targetDefenseValue"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical" />
 
     <EditText
         android:id="@+id/elementAlign"
@@ -141,7 +141,7 @@
         android:layout_alignTop="@+id/elementAlign"
         android:layout_alignBottom="@+id/elementAlign"
         android:gravity="center"
-        android:text="Element"
+        android:text="Element: "
         android:textSize="18dp"/>
 
       <RadioGroup
@@ -196,11 +196,52 @@
             android:button="@null" />
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/element"
+        android:layout_alignTop="@+id/typeSpinnerLinearLayout"
+        android:layout_alignBottom="@+id/typeSpinnerLinearLayout"
+        android:gravity="center"
+        android:text="Type: "
+        android:textSize="18dp"/>
+
+    <LinearLayout
+        android:id="@+id/typeSpinnerLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/type"
+        android:layout_below="@+id/elementAlign"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/type1Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_weight=".33"/>
+
+        <Spinner
+            android:id="@+id/type2Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_weight=".33"/>
+
+        <Spinner
+            android:id="@+id/type3Spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_weight=".33"/>
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/overallScrollView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/elementAlign"
+        android:layout_below="@+id/type"
         android:layout_above="@+id/calculate">
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -281,7 +322,7 @@
                 android:layout_alignBottom="@+id/absorbAlign"
                 android:layout_alignTop="@+id/absorbAlign"
                 android:gravity="center_vertical"
-                android:text="Element Absorb"
+                android:text="Absorb: "
                 android:textSize="18dp"/>
 
             <RadioGroup
@@ -291,7 +332,7 @@
                 android:layout_alignBottom="@+id/absorbAlign"
                 android:layout_alignTop="@+id/absorbAlign"
                 android:gravity="center_vertical"
-                android:layout_toRightOf="@+id/elementReduction"
+                android:layout_toLeftOf="@+id/reductionCheck"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -365,8 +406,29 @@
                 android:layout_alignBottom="@+id/reductionAlign"
                 android:layout_alignTop="@+id/reductionAlign"
                 android:gravity="center_vertical"
-                android:text="Element Reduction"
-                android:layout_marginRight="-6dp"
+                android:text="Reduction: "
+                android:textSize="18dp"/>
+
+            <EditText
+                android:id="@+id/reductionValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/absorbCheck"
+                android:layout_toRightOf="@+id/elementReduction"
+                android:inputType="number"
+                android:text="50"
+                android:textSize="18dp"
+                android:maxLength="3"/>
+
+            <TextView
+                android:id="@+id/reductionPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/reductionAlign"
+                android:layout_alignTop="@+id/reductionAlign"
+                android:layout_toRightOf="@+id/reductionValue"
+                android:gravity="center_vertical"
+                android:text="%"
                 android:textSize="18dp"/>
 
             <RadioGroup
@@ -376,7 +438,7 @@
                 android:layout_alignBottom="@+id/reductionAlign"
                 android:layout_alignTop="@+id/reductionAlign"
                 android:gravity="center_vertical"
-                android:layout_toRightOf="@+id/elementReduction"
+                android:layout_toLeftOf="@+id/reductionCheck"
                 android:orientation="horizontal">
 
                 <CheckBox
@@ -469,6 +531,38 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/damageThresholdValue"
                 android:layout_alignBottom="@+id/damageThresholdValue"
+                android:gravity="center_vertical"
+                android:checked="false"/>
+
+            <TextView
+                android:id="@+id/damageImmunity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Damage Immunity: "
+                android:textSize="18dp"
+                android:layout_alignTop="@+id/damageImmunityValue"
+                android:layout_alignBottom="@+id/damageImmunityValue"
+                android:gravity="center_vertical"/>
+
+            <EditText
+                android:id="@+id/damageImmunityValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/damageThresholdValue"
+                android:layout_toRightOf="@+id/damageImmunity"
+                android:textSize="18dp"
+                android:text="200000"
+                android:maxLength="9"
+                android:inputType="number"
+                android:enabled="false"/>
+
+            <CheckBox
+                android:id="@+id/damageImmunityCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/damageImmunityValue"
+                android:layout_alignBottom="@+id/damageImmunityValue"
                 android:gravity="center_vertical"
                 android:checked="false"/>
         </RelativeLayout>

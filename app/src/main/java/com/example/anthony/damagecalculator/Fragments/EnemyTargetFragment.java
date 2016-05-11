@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.GravityButtonAdapter;
 import com.example.anthony.damagecalculator.Adapters.GravityListAdapter;
+import com.example.anthony.damagecalculator.Adapters.TypeSpinnerAdapter;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Team;
@@ -59,7 +60,7 @@ public class EnemyTargetFragment extends AbstractFragment {
     private String mParam1;
     private String mParam2;
     private Team team;
-    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue;
+    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, reductionValue;
     private TextView percentHpValue, totalGravityValue;
     private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
     private RadioButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb;
@@ -73,8 +74,10 @@ public class EnemyTargetFragment extends AbstractFragment {
     private DecimalFormat df;
     private OnFragmentInteractionListener mListener;
     private Toast toast;
-    private Spinner defenseBreakSpinner;
+    private Spinner defenseBreakSpinner, type1Spinner, type2Spinner, type3Spinner;
     private String[] defenseBreakItems;
+    private TypeSpinnerAdapter typeSpinnerAdapter;
+    private ArrayList<Integer> typeItems;
     private int additionalCombos, tempDamageThresholdValue;
     private Boolean tempAbsorb, tempReduction, tempDamageThreshold;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
@@ -205,6 +208,10 @@ public class EnemyTargetFragment extends AbstractFragment {
         greenOrb = (RadioButton) rootView.findViewById(R.id.greenOrb);
         lightOrb = (RadioButton) rootView.findViewById(R.id.lightOrb);
         darkOrb = (RadioButton) rootView.findViewById(R.id.darkOrb);
+        type1Spinner = (Spinner) rootView.findViewById(R.id.type1Spinner);
+        type2Spinner = (Spinner) rootView.findViewById(R.id.type2Spinner);
+        type3Spinner = (Spinner) rootView.findViewById(R.id.type3Spinner);
+        reductionValue = (EditText) rootView.findViewById(R.id.reductionValue);
         return rootView;
     }
 
@@ -263,9 +270,34 @@ public class EnemyTargetFragment extends AbstractFragment {
         hpReset.setOnClickListener(hpResetOnClickListener);
 
         defenseBreakItems = new String[]{"0%", "25%", "50%", "75%", "100%"};
-        ArrayAdapter<String> defenseBreakAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, defenseBreakItems);
+        ArrayAdapter<String> defenseBreakAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, defenseBreakItems);
         defenseBreakSpinner.setAdapter(defenseBreakAdapter);
         defenseBreakSpinner.setOnItemSelectedListener(defenseBreakOnItemSelectedListener);
+
+        typeItems = new ArrayList<>();
+
+        typeItems.add(1337);
+        typeItems.add(0);
+        typeItems.add(1);
+        typeItems.add(2);
+        typeItems.add(3);
+        typeItems.add(4);
+        typeItems.add(5);
+        typeItems.add(6);
+        typeItems.add(7);
+        typeItems.add(8);
+        typeItems.add(12);
+        typeItems.add(14);
+
+        typeSpinnerAdapter = new TypeSpinnerAdapter(getActivity(), R.layout.type_spinner_row, typeItems);
+        type1Spinner.setAdapter(typeSpinnerAdapter);
+        type2Spinner.setAdapter(typeSpinnerAdapter);
+        type3Spinner.setAdapter(typeSpinnerAdapter);
+
+        setSpinner();
+        type1Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
+        type2Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
+        type3Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
 
         gravityList.setOnTouchListener(listViewScroll);
         gravityButtonList.setOnTouchListener(listViewScroll);
@@ -773,7 +805,143 @@ public class EnemyTargetFragment extends AbstractFragment {
         currentHpValue.clearFocus();
         targetDefenseValue.clearFocus();
         damageThresholdValue.clearFocus();
+        reductionValue.clearFocus();
     }
+
+    private void setSpinner(){
+        switch (enemy.getTypes().get(0)){
+            case 0:
+                type1Spinner.setSelection(1);
+                break;
+            case 1:
+                type1Spinner.setSelection(2);
+                break;
+            case 2:
+                type1Spinner.setSelection(3);
+                break;
+            case 3:
+                type1Spinner.setSelection(4);
+                break;
+            case 4:
+                type1Spinner.setSelection(5);
+                break;
+            case 5:
+                type1Spinner.setSelection(6);
+                break;
+            case 6:
+                type1Spinner.setSelection(7);
+                break;
+            case 7:
+                type1Spinner.setSelection(8);
+                break;
+            case 8:
+                type1Spinner.setSelection(9);
+                break;
+            case 12:
+                type1Spinner.setSelection(10);
+                break;
+            case 14:
+                type1Spinner.setSelection(11);
+                break;
+            default:
+                type1Spinner.setSelection(0);
+                break;
+        }
+        switch (enemy.getTypes().get(1)){
+            case 0:
+                type2Spinner.setSelection(1);
+                break;
+            case 1:
+                type2Spinner.setSelection(2);
+                break;
+            case 2:
+                type2Spinner.setSelection(3);
+                break;
+            case 3:
+                type2Spinner.setSelection(4);
+                break;
+            case 4:
+                type2Spinner.setSelection(5);
+                break;
+            case 5:
+                type2Spinner.setSelection(6);
+                break;
+            case 6:
+                type2Spinner.setSelection(7);
+                break;
+            case 7:
+                type2Spinner.setSelection(8);
+                break;
+            case 8:
+                type2Spinner.setSelection(9);
+                break;
+            case 12:
+                type2Spinner.setSelection(10);
+                break;
+            case 14:
+                type2Spinner.setSelection(11);
+                break;
+            default:
+                type2Spinner.setSelection(0);
+                break;
+        }
+        switch (enemy.getTypes().get(2)){
+            case 0:
+                type3Spinner.setSelection(1);
+                break;
+            case 1:
+                type3Spinner.setSelection(2);
+                break;
+            case 2:
+                type3Spinner.setSelection(3);
+                break;
+            case 3:
+                type3Spinner.setSelection(4);
+                break;
+            case 4:
+                type3Spinner.setSelection(5);
+                break;
+            case 5:
+                type3Spinner.setSelection(6);
+                break;
+            case 6:
+                type3Spinner.setSelection(7);
+                break;
+            case 7:
+                type3Spinner.setSelection(8);
+                break;
+            case 8:
+                type3Spinner.setSelection(9);
+                break;
+            case 12:
+                type3Spinner.setSelection(10);
+                break;
+            case 14:
+                type3Spinner.setSelection(11);
+                break;
+            default:
+                type3Spinner.setSelection(0);
+                break;
+        }
+    }
+
+    private Spinner.OnItemSelectedListener typeOnItemSelectedListener = new Spinner.OnItemSelectedListener(){
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if(parent==type1Spinner){
+                enemy.getTypes().set(0, typeItems.get(type1Spinner.getSelectedItemPosition()));
+            } else if (parent == type2Spinner){
+                enemy.getTypes().set(1, typeItems.get(type2Spinner.getSelectedItemPosition()));
+            } else if (parent == type3Spinner){
+                enemy.getTypes().set(2, typeItems.get(type3Spinner.getSelectedItemPosition()));
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
