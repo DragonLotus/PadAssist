@@ -109,7 +109,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             }
         }
         Log.d("Monster Specific", "AwakeningList is: " + awakeningListAll);
-
+        Log.d("latentListTag", "1. latentList is: " + latentList + " latentListAll is: " + latentListAll);
         if(latentList.size() !=0){
             latentList.clear();
         }
@@ -117,7 +117,8 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             latentListAll.clear();
         }
 
-        if(monsterList.get(position).getLatents().get(0) != 0 && monsterList.get(position).getLatents().get(1) != 0 && monsterList.get(position).getLatents().get(2) != 0 && monsterList.get(position).getLatents().get(3) != 0 && monsterList.get(position).getLatents().get(4) != 0){
+        Log.d("latentListTag", "2. latentList is: " + latentList + " latentListAll is: " + latentListAll);
+        if(monsterList.get(position).getLatents().get(0) != 0 || monsterList.get(position).getLatents().get(1) != 0 || monsterList.get(position).getLatents().get(2) != 0 || monsterList.get(position).getLatents().get(3) != 0 || monsterList.get(position).getLatents().get(4) != 0){
 
             for(int i = 0; i < monsterList.get(position).getLatents().size(); i++){
                 latentListAll.add(monsterList.get(position).getLatents().get(i));
@@ -128,6 +129,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
                 }
             }
         }
+        Log.d("latentListTag", "3. latentList is: " + latentList + " latentListAll is: " + latentListAll + " monster is: " + monsterList.get(position).getName() + " monster latents are: " + monsterList.get(position).getLatents());
 
     }
 }

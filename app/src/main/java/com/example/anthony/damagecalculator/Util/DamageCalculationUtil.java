@@ -86,6 +86,47 @@ public class DamageCalculationUtil {
         if (damage == 0) {
             return 0;
         }
+        if(monster.getKillerAwakenings().size() != 0){
+            for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
+                switch(monster.getKillerAwakenings().get(i)){
+                    case 31:
+                        if(enemy.getTypes().contains(4)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 32:
+                        if(enemy.getTypes().contains(5)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 33:
+                        if(enemy.getTypes().contains(7)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 34:
+                        if(enemy.getTypes().contains(8)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 35:
+                        if(enemy.getTypes().contains(6)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 36:
+                        if(enemy.getTypes().contains(2)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 37:
+                        if(enemy.getTypes().contains(3)){
+                            damage *= 3;
+                        }
+                        break;
+                }
+            }
+        }
         damage = monsterDamageEnemyDefense(damage, enemy);
         return damage;
     }
@@ -94,6 +135,48 @@ public class DamageCalculationUtil {
         double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
         if (damage == 0) {
             return 0;
+        }
+        if(monster.getKillerAwakenings().size() != 0){
+            Log.d("DamageCalcTag", "Monster has killer awakenings.");
+            for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
+                switch(monster.getKillerAwakenings().get(i)){
+                    case 31:
+                        if(enemy.getTypes().contains(4)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 32:
+                        if(enemy.getTypes().contains(5)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 33:
+                        if(enemy.getTypes().contains(7)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 34:
+                        if(enemy.getTypes().contains(8)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 35:
+                        if(enemy.getTypes().contains(6)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 36:
+                        if(enemy.getTypes().contains(2)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 37:
+                        if(enemy.getTypes().contains(3)){
+                            damage *= 3;
+                        }
+                        break;
+                }
+            }
         }
         damage = monsterDamageEnemyDefense(damage, enemy);
         return damage;

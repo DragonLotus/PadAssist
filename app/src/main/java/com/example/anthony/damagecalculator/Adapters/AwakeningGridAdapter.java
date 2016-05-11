@@ -111,6 +111,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                 case 11:
                     viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_11);
                     break;
+                default:
+                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_blank);
+                    break;
             }
             viewHolder.awakeningAmount.setText("x" + latentAmountList.get(position - awakeningList.size()));
         } else {
@@ -225,6 +228,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                     break;
                 case 37:
                     viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_37);
+                    break;
+                default:
+                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening);
                     break;
             }
             viewHolder.awakeningAmount.setText("x" + awakeningAmountList.get(position));

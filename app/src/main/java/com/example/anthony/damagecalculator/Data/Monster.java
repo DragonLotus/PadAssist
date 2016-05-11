@@ -52,6 +52,8 @@ public class Monster extends Model implements Parcelable {
     private boolean helper;
     @Column(name = "latents")
     private ArrayList<Integer> latents;
+    @Column(name = "killerAwakenings")
+    private ArrayList<Integer> killerAwakenings;
     DecimalFormat format = new DecimalFormat("0.00");
 
     public Monster() {
@@ -71,13 +73,13 @@ public class Monster extends Model implements Parcelable {
         priority = 2;
         favorite = false;
         helper = false;
-//        latents = new int[] {0,0,0,0,0};
         latents = new ArrayList<>();
         latents.add(0);
         latents.add(0);
         latents.add(0);
         latents.add(0);
         latents.add(0);
+        killerAwakenings = new ArrayList<>();
         if(baseMonsterId != 0){
             setCurrentHp(DamageCalculationUtil.monsterStatCalc(baseMonster.getHpMin(), baseMonster.getHpMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getHpScale()));
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
@@ -374,6 +376,35 @@ public class Monster extends Model implements Parcelable {
     }
 
     public void setCurrentAwakenings(int currentAwakenings) {
+        if (getAwokenSkills().contains(31) || getAwokenSkills().contains(32) || getAwokenSkills().contains(33) || getAwokenSkills().contains(34) || getAwokenSkills().contains(35) || getAwokenSkills().contains(36) || getAwokenSkills().contains(37)){
+            killerAwakenings.clear();
+            for (int i = 0; i < currentAwakenings; i++){
+                switch(baseMonster.getAwokenSkills(i)){
+                    case 31:
+                        killerAwakenings.add(31);
+                        break;
+                    case 32:
+                        killerAwakenings.add(32);
+                        break;
+                    case 33:
+                        killerAwakenings.add(33);
+                        break;
+                    case 34:
+                        killerAwakenings.add(34);
+                        break;
+                    case 35:
+                        killerAwakenings.add(35);
+                        break;
+                    case 36:
+                        killerAwakenings.add(36);
+                        break;
+                    case 37:
+                        killerAwakenings.add(37);
+                        break;
+                }
+            }
+            Log.d("KillerAwakenings","killerAwakenings is: " + killerAwakenings);
+        }
         this.currentAwakenings = currentAwakenings;
     }
 
@@ -447,6 +478,10 @@ public class Monster extends Model implements Parcelable {
 
     public void setLatents(ArrayList<Integer> latents) {
         this.latents = latents;
+    }
+
+    public ArrayList<Integer> getKillerAwakenings(){
+        return killerAwakenings;
     }
 
     public int getTPA() {
