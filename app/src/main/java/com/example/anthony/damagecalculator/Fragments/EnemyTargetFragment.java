@@ -310,6 +310,7 @@ public class EnemyTargetFragment extends AbstractFragment {
         typeItems.add(14);
 
         typeSpinnerAdapter = new TypeSpinnerAdapter(getActivity(), R.layout.type_spinner_row, typeItems);
+//        typeSpinnerAdapter.setDropDownViewResource(R.layout.type_spinner_dropdown_row);
         type1Spinner.setAdapter(typeSpinnerAdapter);
         type2Spinner.setAdapter(typeSpinnerAdapter);
         type3Spinner.setAdapter(typeSpinnerAdapter);

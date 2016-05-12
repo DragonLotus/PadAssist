@@ -9,6 +9,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -55,10 +56,7 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         latent4Spinner = (Spinner) rootView.findViewById(R.id.latent4Spinner);
         latent5Spinner = (Spinner) rootView.findViewById(R.id.latent5Spinner);
         try {
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            ((Activity)getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            float logicalDensity = displayMetrics.density;
-            int px = (int) Math.ceil(200 * logicalDensity);
+            int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getContext().getResources().getDisplayMetrics());
             Field popup = Spinner.class.getDeclaredField("mPopup");
             popup.setAccessible(true);
             android.widget.ListPopupWindow popupWindow1 = (android.widget.ListPopupWindow) popup.get(latent1Spinner);
