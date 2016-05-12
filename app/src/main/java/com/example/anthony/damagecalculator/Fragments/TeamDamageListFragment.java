@@ -69,8 +69,9 @@ public class TeamDamageListFragment extends AbstractFragment {
     private boolean hasEnemy;
     //private ArrayList<Monster> monsterList;
     private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0, hp;
-    private TextView monsterListToggle, enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings, teamHpValue;
+    private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings, teamHpValue;
     private RadioGroup reductionRadioGroup;
+    private Button monsterListToggle;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, hasAwakeningsCheck, activeUsedCheck;
     private RadioGroup absorbRadioGroup;
@@ -139,7 +140,7 @@ public class TeamDamageListFragment extends AbstractFragment {
         View rootView = inflater.inflate(R.layout.fragment_team_damage_list, container, false);
         monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
         additionalComboValue = (EditText) rootView.findViewById(R.id.additionalComboValue);
-        monsterListToggle = (TextView) rootView.findViewById(R.id.monsterListToggle);
+        monsterListToggle = (Button) rootView.findViewById(R.id.monsterListToggle);
         enemyHP = (TextView) rootView.findViewById(R.id.enemyHP);
         enemyHPValue = (TextView) rootView.findViewById(R.id.enemyHPValue);
         enemyHPPercent = (TextView) rootView.findViewById(R.id.enemyHPPercent);
@@ -253,10 +254,10 @@ public class TeamDamageListFragment extends AbstractFragment {
         public void onClick(View v) {
             if (monsterListView.getVisibility() == View.GONE) {
                 monsterListView.setVisibility(View.VISIBLE);
-                monsterListToggle.setText("Hide Monster Damage Breakdown");
+                monsterListToggle.setText("Hide Damage Breakdown");
             } else if (monsterListView.getVisibility() == View.VISIBLE) {
                 monsterListView.setVisibility(View.GONE);
-                monsterListToggle.setText("Show Monster Damage Breakdown");
+                monsterListToggle.setText("Show Damage Breakdown");
             }
         }
     };
@@ -666,11 +667,10 @@ public class TeamDamageListFragment extends AbstractFragment {
                 Log.d("Team Damage List Log", "Active Skill Used After: " + team.isActiveSkillUsed());
                 team.update();
             }
-            updateTextView();
-            monsterListAdapter.notifyDataSetChanged();
+//            updateTextView();
+//            monsterListAdapter.notifyDataSetChanged();
         }
     };
-
 
     private CompoundButton.OnCheckedChangeListener reductionCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
         @Override
@@ -709,8 +709,8 @@ public class TeamDamageListFragment extends AbstractFragment {
                 enemy.removeReduction(element);
             }
         }
-        updateTextView();
-        monsterListAdapter.notifyDataSetChanged();
+//        updateTextView();
+//        monsterListAdapter.notifyDataSetChanged();
     }
 
     private void setCheckBoxes() {
@@ -740,8 +740,8 @@ public class TeamDamageListFragment extends AbstractFragment {
                     enemy.setAbsorb(Element.DARK);
                     break;
             }
-            updateTextView();
-            monsterListAdapter.notifyDataSetChanged();
+//            updateTextView();
+//            monsterListAdapter.notifyDataSetChanged();
             Log.d("absorb", "" + enemy.getAbsorb());
         }
     };

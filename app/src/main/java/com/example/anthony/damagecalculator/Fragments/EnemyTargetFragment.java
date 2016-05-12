@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,6 +37,7 @@ import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
+import com.example.anthony.damagecalculator.Threads.ParseMonsterDatabaseThread;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -78,7 +81,7 @@ public class EnemyTargetFragment extends AbstractFragment {
     private String[] defenseBreakItems;
     private TypeSpinnerAdapter typeSpinnerAdapter;
     private ArrayList<Integer> typeItems;
-    private int additionalCombos, tempDamageThresholdValue;
+    private int additionalCombos, tempDamageThresholdValue, tempReductionValue;
     private Boolean tempAbsorb, tempReduction, tempDamageThreshold;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private double defenseBreakValue = 1.0;
@@ -131,6 +134,12 @@ public class EnemyTargetFragment extends AbstractFragment {
             } else if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD) {
                 Log.d("DamageThreshold Value", damageThresholdValue.getText().toString());
                 enemy.setDamageThreshold(statValue);
+            } else if (statToChange == MyTextWatcher.REDUCTION_VALUE){
+                enemy.setReductionValue(statValue);
+                if(statValue > 100){
+                    enemy.setReductionValue(100);
+                    reductionValue.setText("100");
+                }
             }
             Log.d("HI THOMAS", String.valueOf(enemy.getPercentHp()));
             df = new DecimalFormat("#.##");
@@ -143,6 +152,7 @@ public class EnemyTargetFragment extends AbstractFragment {
     private MyTextWatcher currentHPWatcher = new MyTextWatcher(MyTextWatcher.CURRENT_HP, changeStats);
     private MyTextWatcher targetDefenseWatcher = new MyTextWatcher(MyTextWatcher.TARGET_DEFENSE, changeStats);
     private MyTextWatcher damageThresholdWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_THRESHOLD, changeStats);
+    private MyTextWatcher reductionValueWatcher = new MyTextWatcher(MyTextWatcher.REDUCTION_VALUE, changeStats);
 
     /**
      * Use this factory method to create a new instance of
@@ -231,6 +241,7 @@ public class EnemyTargetFragment extends AbstractFragment {
         tempReduction = enemy.getHasReduction();
         tempDamageThreshold = enemy.getHasDamageThreshold();
         tempDamageThresholdValue = enemy.getDamageThreshold();
+//        tempReductionValue = enemy.getReductionValue();
         Log.d("Current HP", "" + enemy.getCurrentHp());
         Log.d("Has Absorb", "" + enemy.getHasAbsorb());
         Log.d("Has Reduction", "" + enemy.getHasReduction());
@@ -238,6 +249,7 @@ public class EnemyTargetFragment extends AbstractFragment {
         targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
         totalGravityValue.setText(String.valueOf(enemy.getCurrentHp()));
         targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
+        reductionValue.setText(String.valueOf(enemy.getReductionValue()));
         Log.d("Current HP2", "" + enemy.getCurrentHp());
         Log.d("Current HP value", "" + currentHpValue.getText());
 
@@ -251,9 +263,11 @@ public class EnemyTargetFragment extends AbstractFragment {
         targetHpValue.addTextChangedListener(targetHPWatcher);
         currentHpValue.addTextChangedListener(currentHPWatcher);
         targetDefenseValue.addTextChangedListener(targetDefenseWatcher);
+        reductionValue.addTextChangedListener(reductionValueWatcher);
         targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
         currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
         targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
+        reductionValue.setOnFocusChangeListener(editTextOnFocusChange);
 
         if(enemy.isDamaged()){
             enemy.clearGravityList();
@@ -351,6 +365,7 @@ public class EnemyTargetFragment extends AbstractFragment {
         enemy.setHasReduction(tempReduction);
         enemy.setHasDamageThreshold(tempDamageThreshold);
         enemy.setDamageThreshold(tempDamageThresholdValue);
+//        enemy.setReductionValue(tempReductionValue);
         setReductionOrbs();
         setAbsorbOrbs();
         setDamageThreshold();

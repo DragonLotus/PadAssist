@@ -20,6 +20,7 @@ public class MyTextWatcher implements TextWatcher
    public static final int TARGET_DEFENSE = 7;
    public static final int DAMAGE_THRESHOLD = 8;
    public static final int ADDITIONAL_COMBOS = 9;
+   public static final int REDUCTION_VALUE = 10;
 
    private int statToChange;
 

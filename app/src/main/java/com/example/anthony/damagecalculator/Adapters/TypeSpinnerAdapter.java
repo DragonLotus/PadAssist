@@ -46,7 +46,7 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
             case 0:
                 viewHolder.typeIcon.setVisibility(View.VISIBLE);
                 viewHolder.typeIcon.setImageResource(R.drawable.type_evo_material);
-                viewHolder.typeName.setText("Evo material");
+                viewHolder.typeName.setText("Evo Material");
                 break;
             case 1:
                 viewHolder.typeIcon.setVisibility(View.VISIBLE);

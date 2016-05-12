@@ -86,6 +86,49 @@ public class DamageCalculationUtil {
         if (damage == 0) {
             return 0;
         }
+        damage = monsterDamageEnemyDefense(damage, enemy);
+        return damage;
+    }
+
+    public static double monsterElement2DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage == 0) {
+            return 0;
+        }
+
+        damage = monsterDamageEnemyDefense(damage, enemy);
+        return damage;
+    }
+
+    public static double monsterElement1DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement1Damage(monster, orbMatches, orbAwakenings, combos, team);
+        if (monster.getElement1().equals(Element.RED)) {
+            if (enemy.getTargetElement().equals(Element.BLUE)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.GREEN)) {
+                damage = damage * 2;
+            }
+        } else if (monster.getElement1().equals(Element.BLUE)) {
+            if (enemy.getTargetElement().equals(Element.GREEN)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.RED)) {
+                damage = damage * 2;
+            }
+        } else if (monster.getElement1().equals(Element.GREEN)) {
+            if (enemy.getTargetElement().equals(Element.RED)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.BLUE)) {
+                damage = damage * 2;
+            }
+        } else if (monster.getElement1().equals(Element.LIGHT)) {
+            if (enemy.getTargetElement().equals(Element.DARK)) {
+                damage = damage * 2;
+            }
+        } else if (monster.getElement1().equals(Element.DARK)) {
+            if (enemy.getTargetElement().equals(Element.LIGHT)) {
+                damage = damage * 2;
+            }
+        }
         if(monster.getKillerAwakenings().size() != 0){
             for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
                 switch(monster.getKillerAwakenings().get(i)){
@@ -127,14 +170,40 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        damage = monsterDamageEnemyDefense(damage, enemy);
         return damage;
     }
 
-    public static double monsterElement2DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement2DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement2Damage(monster, orbMatches, orbAwakenings, combos, team);
         if (damage == 0) {
             return 0;
+        }
+        if (monster.getElement2().equals(Element.RED)) {
+            if (enemy.getTargetElement().equals(Element.BLUE)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.GREEN)) {
+                damage = damage * 2;
+            }
+        } else if (monster.getElement2().equals(Element.BLUE)) {
+            if (enemy.getTargetElement().equals(Element.GREEN)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.RED)) {
+                damage = damage * 2;
+            }
+        } else if (monster.getElement2().equals(Element.GREEN)) {
+            if (enemy.getTargetElement().equals(Element.RED)) {
+                damage = damage / 2;
+            } else if (enemy.getTargetElement().equals(Element.BLUE)) {
+                damage = damage * 2;
+            }
+        } else if (monster.getElement2().equals(Element.LIGHT)) {
+            if (enemy.getTargetElement().equals(Element.DARK)) {
+                damage = damage * 2;
+            }
+        } else if (monster.getElement2().equals(Element.DARK)) {
+            if (enemy.getTargetElement().equals(Element.LIGHT)) {
+                damage = damage * 2;
+            }
         }
         if(monster.getKillerAwakenings().size() != 0){
             Log.d("DamageCalcTag", "Monster has killer awakenings.");
@@ -178,74 +247,6 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        damage = monsterDamageEnemyDefense(damage, enemy);
-        return damage;
-    }
-
-    public static double monsterElement1DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement1Damage(monster, orbMatches, orbAwakenings, combos, team);
-        if (monster.getElement1().equals(Element.RED)) {
-            if (enemy.getTargetElement().equals(Element.BLUE)) {
-                damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.GREEN)) {
-                damage = damage * 2;
-            }
-        } else if (monster.getElement1().equals(Element.BLUE)) {
-            if (enemy.getTargetElement().equals(Element.GREEN)) {
-                damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.RED)) {
-                damage = damage * 2;
-            }
-        } else if (monster.getElement1().equals(Element.GREEN)) {
-            if (enemy.getTargetElement().equals(Element.RED)) {
-                damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.BLUE)) {
-                damage = damage * 2;
-            }
-        } else if (monster.getElement1().equals(Element.LIGHT)) {
-            if (enemy.getTargetElement().equals(Element.DARK)) {
-                damage = damage * 2;
-            }
-        } else if (monster.getElement1().equals(Element.DARK)) {
-            if (enemy.getTargetElement().equals(Element.LIGHT)) {
-                damage = damage * 2;
-            }
-        }
-        return damage;
-    }
-
-    public static double monsterElement2DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement2Damage(monster, orbMatches, orbAwakenings, combos, team);
-        if (damage == 0) {
-            return 0;
-        }
-        if (monster.getElement2().equals(Element.RED)) {
-            if (enemy.getTargetElement().equals(Element.BLUE)) {
-                damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.GREEN)) {
-                damage = damage * 2;
-            }
-        } else if (monster.getElement2().equals(Element.BLUE)) {
-            if (enemy.getTargetElement().equals(Element.GREEN)) {
-                damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.RED)) {
-                damage = damage * 2;
-            }
-        } else if (monster.getElement2().equals(Element.GREEN)) {
-            if (enemy.getTargetElement().equals(Element.RED)) {
-                damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.BLUE)) {
-                damage = damage * 2;
-            }
-        } else if (monster.getElement2().equals(Element.LIGHT)) {
-            if (enemy.getTargetElement().equals(Element.DARK)) {
-                damage = damage * 2;
-            }
-        } else if (monster.getElement2().equals(Element.DARK)) {
-            if (enemy.getTargetElement().equals(Element.LIGHT)) {
-                damage = damage * 2;
-            }
-        }
         return damage;
     }
 
@@ -264,7 +265,7 @@ public class DamageCalculationUtil {
         if (enemy.getReduction().isEmpty()) {
             return monsterDamageEnemyDefense(damage, enemy);
         } else if (enemy.getReduction().contains(monster.getElement1())) {
-            return monsterDamageEnemyDefense(damage / 2, enemy);
+            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, enemy);
         } else return monsterDamageEnemyDefense(damage, enemy);
     }
 
@@ -276,7 +277,7 @@ public class DamageCalculationUtil {
         if (enemy.getReduction().isEmpty() || enemy.getReduction() == null) {
             return monsterDamageEnemyDefense(damage, enemy);
         } else if (enemy.getReduction().contains(monster.getElement2())) {
-            return monsterDamageEnemyDefense(damage / 2, enemy);
+            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()), enemy);
         } else return monsterDamageEnemyDefense(damage, enemy);
     }
 

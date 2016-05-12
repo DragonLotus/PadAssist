@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by Anthony on 7/16/2015.
  */
 public class Enemy implements Parcelable {
-    private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold;
+    private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold, reductionValue;
     private double gravityPercent;
     private Element targetElement, absorb;
     private ArrayList<Element> reduction;
@@ -18,7 +18,7 @@ public class Enemy implements Parcelable {
     private Boolean hasAbsorb = false, hasReduction, hasDamageThreshold = false, isDamaged;
 
 
-    //default is satan from  Lord of Hell - Mythical
+    //default is satan from  DKali from Arena 2
     public Enemy() {
         reduction = new ArrayList<Element>();
         gravityList = new ArrayList<Integer>();
@@ -42,6 +42,7 @@ public class Enemy implements Parcelable {
         types.add(5);
         types.add(4);
         types.add(1337);
+        reductionValue = 50;
     }
 
 
@@ -201,6 +202,14 @@ public class Enemy implements Parcelable {
 
     public void setTypes(ArrayList<Integer> types) {
         this.types = types;
+    }
+
+    public int getReductionValue() {
+        return reductionValue;
+    }
+
+    public void setReductionValue(int reductionValue) {
+        this.reductionValue = reductionValue;
     }
 
     public Enemy(Parcel source) {

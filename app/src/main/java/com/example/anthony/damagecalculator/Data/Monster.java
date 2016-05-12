@@ -378,31 +378,60 @@ public class Monster extends Model implements Parcelable {
     public void setCurrentAwakenings(int currentAwakenings) {
         if (getAwokenSkills().contains(31) || getAwokenSkills().contains(32) || getAwokenSkills().contains(33) || getAwokenSkills().contains(34) || getAwokenSkills().contains(35) || getAwokenSkills().contains(36) || getAwokenSkills().contains(37)){
             killerAwakenings.clear();
-            for (int i = 0; i < currentAwakenings; i++){
-                switch(baseMonster.getAwokenSkills(i)){
-                    case 31:
-                        killerAwakenings.add(31);
-                        break;
-                    case 32:
-                        killerAwakenings.add(32);
-                        break;
-                    case 33:
-                        killerAwakenings.add(33);
-                        break;
-                    case 34:
-                        killerAwakenings.add(34);
-                        break;
-                    case 35:
-                        killerAwakenings.add(35);
-                        break;
-                    case 36:
-                        killerAwakenings.add(36);
-                        break;
-                    case 37:
-                        killerAwakenings.add(37);
-                        break;
+            if(currentAwakenings > getMaxAwakenings()){
+                for (int i = 0; i < getMaxAwakenings(); i++){
+                    switch(baseMonster.getAwokenSkills(i)){
+                        case 31:
+                            killerAwakenings.add(31);
+                            break;
+                        case 32:
+                            killerAwakenings.add(32);
+                            break;
+                        case 33:
+                            killerAwakenings.add(33);
+                            break;
+                        case 34:
+                            killerAwakenings.add(34);
+                            break;
+                        case 35:
+                            killerAwakenings.add(35);
+                            break;
+                        case 36:
+                            killerAwakenings.add(36);
+                            break;
+                        case 37:
+                            killerAwakenings.add(37);
+                            break;
+                    }
+                }
+            } else {
+                for (int i = 0; i < currentAwakenings; i++){
+                    switch(baseMonster.getAwokenSkills(i)){
+                        case 31:
+                            killerAwakenings.add(31);
+                            break;
+                        case 32:
+                            killerAwakenings.add(32);
+                            break;
+                        case 33:
+                            killerAwakenings.add(33);
+                            break;
+                        case 34:
+                            killerAwakenings.add(34);
+                            break;
+                        case 35:
+                            killerAwakenings.add(35);
+                            break;
+                        case 36:
+                            killerAwakenings.add(36);
+                            break;
+                        case 37:
+                            killerAwakenings.add(37);
+                            break;
+                    }
                 }
             }
+
             Log.d("KillerAwakenings","killerAwakenings is: " + killerAwakenings);
         }
         this.currentAwakenings = currentAwakenings;

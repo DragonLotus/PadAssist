@@ -10,13 +10,12 @@
     android:paddingTop="8dp"
     tools:context="com.example.anthony.damagecalculator.Fragments.TeamDamageListFragment">
 
-    <TextView
+    <Button
         android:id="@+id/monsterListToggle"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Show Monster Damage Breakdown"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:text="Show Damage Breakdown"
+        android:textSize="16dp" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -344,7 +343,7 @@
                 android:id="@+id/hasAwakeningsCheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/damageThresholdValue"
+                android:layout_below="@+id/damageThresholdCheck"
                 android:layout_toRightOf="@+id/hasAwakenings"/>
 
             <TextView
@@ -361,15 +360,14 @@
                 android:id="@+id/activeUsedCheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/hasAwakenings"
+                android:layout_below="@+id/hasAwakeningsCheck"
                 android:layout_toRightOf="@+id/hasAwakenings"/>
 
             <TextView
                 android:id="@+id/teamHp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/teamHpSeekBar"
-                android:layout_alignBottom="@+id/teamHpSeekBar"
+                android:layout_below="@+id/activeUsedCheck"
                 android:gravity="center_vertical"
                 android:text="HP %"
                 android:textSize="18dp"/>
@@ -378,8 +376,7 @@
                 android:id="@+id/teamHpValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/teamHpSeekBar"
-                android:layout_alignBottom="@+id/teamHpSeekBar"
+                android:layout_below="@+id/activeUsedCheck"
                 android:gravity="center_vertical"
                 android:layout_alignParentRight="true"
                 android:text="100"
@@ -389,7 +386,8 @@
                 android:id="@+id/teamHpSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/activeUsedCheck"
+                android:layout_alignTop="@+id/teamHp"
+                android:layout_alignBottom="@+id/teamHp"
                 android:layout_toRightOf="@+id/teamHp"
                 android:layout_toLeftOf="@id/teamHpValue"
                 />
