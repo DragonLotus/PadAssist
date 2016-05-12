@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Data.Element;
+import com.example.anthony.damagecalculator.Data.LeaderSkill;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.R;
@@ -291,6 +292,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
         viewHolder.itemView.setOnClickListener(onItemClickListener);
 
         viewHolder.monsterName.setSelected(true);
+        viewHolder.leaderSkillName.setSelected(true);
         viewHolder.itemView.setTag(viewHolder);
         viewHolder.itemView.setTag(R.string.index, position);
         viewHolder.choose.setTag(R.string.index, position);
@@ -597,6 +599,8 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
             viewHolder.hpTotal.setText("" + monsterList.get(position).getTotalHp());
             viewHolder.atkTotal.setText("" + monsterList.get(position).getTotalAtk());
             viewHolder.rcvTotal.setText("" + monsterList.get(position).getTotalRcv());
+            viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
+            viewHolder.leaderSkillDesc.setText(LeaderSkill.getLeaderSkill(monsterList.get(position).getLeaderSkill()).getDescription());
         } else {
             viewHolder.expandLayout.setVisibility(View.GONE);
             viewHolder.rarity.setVisibility(View.GONE);
@@ -645,7 +649,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV, monsterLevel, monsterLatents, hpBase, hpPlus, hpTotal, atkBase, atkPlus, atkTotal, rcvBase, rcvPlus, rcvTotal, rarity;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV, monsterLevel, monsterLatents, hpBase, hpPlus, hpTotal, atkBase, atkPlus, atkTotal, rcvBase, rcvPlus, rcvTotal, rarity, leaderSkill, leaderSkillName, leaderSkillDesc;
         ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9, latent1, latent2, latent3, latent4, latent5, rarityStar;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
@@ -696,6 +700,9 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
             rarity = (TextView) convertView.findViewById(R.id.rarity);
             rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
             choose = (Button) convertView.findViewById(R.id.choose);
+            leaderSkill = (TextView) convertView.findViewById(R.id.leaderSkill);
+            leaderSkillDesc = (TextView) convertView.findViewById(R.id.leaderSkillDesc);
+            leaderSkillName = (TextView) convertView.findViewById(R.id.leaderSkillName);
         }
     }
 

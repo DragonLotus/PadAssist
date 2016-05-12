@@ -60,10 +60,10 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/monsterPicture"
         android:layout_toRightOf="@+id/monsterPicture"
-        android:ellipsize="marquee"
         android:gravity="center_vertical"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
+        android:ellipsize="marquee"
         android:singleLine="true"
         android:text="Monster name"
         android:textSize="16dp" />
@@ -147,8 +147,8 @@
         android:id="@+id/type1"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/monsterHP"
-        android:layout_alignTop="@+id/monsterHP"
+        android:layout_alignBottom="@+id/monsterLevel"
+        android:layout_alignTop="@+id/monsterLevel"
         android:layout_toLeftOf="@+id/type2"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced" />
@@ -157,8 +157,8 @@
         android:id="@+id/type2"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/monsterHP"
-        android:layout_alignTop="@+id/monsterHP"
+        android:layout_alignBottom="@+id/monsterLevel"
+        android:layout_alignTop="@+id/monsterLevel"
         android:layout_toLeftOf="@+id/type3"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced" />
@@ -167,9 +167,9 @@
         android:id="@+id/type3"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/monsterHP"
+        android:layout_alignBottom="@+id/monsterLevel"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/monsterHP"
+        android:layout_alignTop="@+id/monsterLevel"
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced" />
 
@@ -177,7 +177,6 @@
         android:id="@+id/expandLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/monsterPicture"
         android:layout_below="@+id/monsterPicture"
         android:visibility="visible">
 
@@ -350,11 +349,38 @@
             android:layout_width="18dp"
             android:layout_height="18dp"/>
     </LinearLayout>
+        <TextView
+            android:id="@+id/leaderSkill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/awakeningHolder"
+            android:text="Leader Skill - "
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/leaderSkillName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/awakeningHolder"
+            android:layout_toRightOf="@id/leaderSkill"
+            android:text="Leader Skill Name: "
+            android:textSize="16dp"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"/>
+
+        <TextView
+            android:id="@+id/leaderSkillDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/leaderSkill"
+            android:text="Description goes here."
+            android:textSize="16dp"/>
         <Button
             android:id="@+id/choose"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/awakeningHolder"
+            android:layout_below="@+id/leaderSkillDesc"
             android:text="Choose Monster" />
     </RelativeLayout>
 

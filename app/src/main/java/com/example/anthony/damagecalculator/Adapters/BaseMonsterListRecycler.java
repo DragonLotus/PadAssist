@@ -5,11 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Data.BaseMonster;
+import com.example.anthony.damagecalculator.Data.LeaderSkill;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.R;
 
@@ -25,11 +29,25 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
     private Context mContext;
     private LayoutInflater inflater;
     private Toast toast;
+    private int expandedPosition = -1;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
+            int previous;
             ViewHolder holder = (ViewHolder) v.getTag();
+            if(holder.getAdapterPosition() != expandedPosition){
+                if (expandedPosition > 0){
+                    previous = expandedPosition;
+                    notifyItemChanged(previous);
+                }
+                expandedPosition = holder.getAdapterPosition();
+                notifyItemChanged(expandedPosition);
+            } else {
+                previous = expandedPosition;
+                expandedPosition = -1;
+                notifyItemChanged(previous);
+            }
         }
     };
 
@@ -199,8 +217,159 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         }
 
         viewHolder.monsterName.setSelected(true);
+        viewHolder.itemView.setOnClickListener(onItemClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
-        viewHolder.itemView.setOnClickListener(monsterListOnClickListener);
+        viewHolder.itemView.setTag(viewHolder);
+        viewHolder.choose.setOnClickListener(monsterListOnClickListener);
+        viewHolder.choose.setTag(R.string.index, position);
+
+        if(position == expandedPosition && expandedPosition != 0){
+            viewHolder.expandLayout.setVisibility(View.VISIBLE);
+            viewHolder.monsterHP.setVisibility(View.GONE);
+            viewHolder.monsterATK.setVisibility(View.GONE);
+            viewHolder.monsterRCV.setVisibility(View.GONE);
+            for(int i = 0; i < 9; i++){
+                if(i >= monsterList.get(position).getMaxAwakenings()){
+                    viewHolder.awakeningHolder.getChildAt(i).setVisibility(View.GONE);
+                }else {
+                    viewHolder.awakeningHolder.getChildAt(i).setVisibility(View.VISIBLE);
+                }
+            }
+            for (int j = 0; j < monsterList.get(position).getMaxAwakenings(); j++) {
+                switch (monsterList.get(position).getAwokenSkills().get(j)) {
+                    case 1:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
+                        break;
+                    case 2:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2);
+                        break;
+                    case 3:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3);
+                        break;
+                    case 4:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4);
+                        break;
+                    case 5:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5);
+                        break;
+                    case 6:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6);
+                        break;
+                    case 7:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7);
+                        break;
+                    case 8:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8);
+                        break;
+                    case 9:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9);
+                        break;
+                    case 10:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10);
+                        break;
+                    case 11:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11);
+                        break;
+                    case 12:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12);
+                        break;
+                    case 13:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13);
+                        break;
+                    case 14:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14);
+                        break;
+                    case 15:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15);
+                        break;
+                    case 16:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16);
+                        break;
+                    case 17:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17);
+                        break;
+                    case 18:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18);
+                        break;
+                    case 19:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19);
+                        break;
+                    case 20:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20);
+                        break;
+                    case 21:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21);
+                        break;
+                    case 22:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22);
+                        break;
+                    case 23:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23);
+                        break;
+                    case 24:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24);
+                        break;
+                    case 25:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25);
+                        break;
+                    case 26:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26);
+                        break;
+                    case 27:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27);
+                        break;
+                    case 28:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28);
+                        break;
+                    case 29:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29);
+                        break;
+                    case 30:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30);
+                        break;
+                    case 31:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31);
+                        break;
+                    case 32:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32);
+                        break;
+                    case 33:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33);
+                        break;
+                    case 34:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34);
+                        break;
+                    case 35:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35);
+                        break;
+                    case 36:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36);
+                        break;
+                    case 37:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
+                        break;
+                }
+            }
+
+            viewHolder.rarity.setText("" + monsterList.get(position).getRarity());
+            viewHolder.rarityStar.setColorFilter(0xFFD4D421);
+            viewHolder.hpBase.setText("" + monsterList.get(position).getHpMin());
+            viewHolder.atkBase.setText("" + monsterList.get(position).getAtkMin());
+            viewHolder.rcvBase.setText("" + monsterList.get(position).getRcvMin());
+            viewHolder.hpTotal.setText("" + monsterList.get(position).getHpMax());
+            viewHolder.atkTotal.setText("" + monsterList.get(position).getAtkMax());
+            viewHolder.rcvTotal.setText("" + monsterList.get(position).getRcvMax());
+            viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
+            viewHolder.leaderSkillDesc.setText(LeaderSkill.getLeaderSkill(monsterList.get(position).getLeaderSkill()).getDescription());
+            viewHolder.levelMax.setText("Level " + monsterList.get(position).getMaxLevel());
+        } else {
+            viewHolder.expandLayout.setVisibility(View.GONE);
+            if(monsterList.get(position).getType1() != -1){
+                viewHolder.monsterHP.setVisibility(View.VISIBLE);
+                viewHolder.monsterATK.setVisibility(View.VISIBLE);
+                viewHolder.monsterRCV.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
@@ -214,8 +383,11 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV;
-        ImageView monsterPicture, type1, type2, type3, rarityStar;
+        TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV, hpBase, hpTotal, atkBase, atkTotal, rcvBase, rcvTotal, leaderSkill, leaderSkillName, leaderSkillDesc, levelMax;
+        ImageView monsterPicture, type1, type2, type3, rarityStar, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9;
+        RelativeLayout expandLayout;
+        LinearLayout awakeningHolder, latentHolder;
+        Button choose;
 
         public ViewHolder(View convertView){
             super(convertView);
@@ -230,6 +402,29 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
             type3 = (ImageView) convertView.findViewById(R.id.type3);
             monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
+            hpBase = (TextView) convertView.findViewById(R.id.hpBase);
+            atkBase = (TextView) convertView.findViewById(R.id.atkBase);
+            rcvBase = (TextView) convertView.findViewById(R.id.rcvBase);
+            hpTotal = (TextView) convertView.findViewById(R.id.hpTotal);
+            atkTotal = (TextView) convertView.findViewById(R.id.atkTotal);
+            rcvTotal = (TextView) convertView.findViewById(R.id.rcvTotal);
+            awakening1 = (ImageView) convertView.findViewById(R.id.awakening1);
+            awakening2 = (ImageView) convertView.findViewById(R.id.awakening2);
+            awakening3 = (ImageView) convertView.findViewById(R.id.awakening3);
+            awakening4 = (ImageView) convertView.findViewById(R.id.awakening4);
+            awakening5 = (ImageView) convertView.findViewById(R.id.awakening5);
+            awakening6 = (ImageView) convertView.findViewById(R.id.awakening6);
+            awakening7 = (ImageView) convertView.findViewById(R.id.awakening7);
+            awakening8 = (ImageView) convertView.findViewById(R.id.awakening8);
+            awakening9 = (ImageView) convertView.findViewById(R.id.awakening9);
+            leaderSkill = (TextView) convertView.findViewById(R.id.leaderSkill);
+            leaderSkillDesc = (TextView) convertView.findViewById(R.id.leaderSkillDesc);
+            leaderSkillName = (TextView) convertView.findViewById(R.id.leaderSkillName);
+            awakeningHolder = (LinearLayout) convertView.findViewById(R.id.awakeningHolder);
+            latentHolder = (LinearLayout) convertView.findViewById(R.id.latentHolder);
+            choose = (Button) convertView.findViewById(R.id.choose);
+            expandLayout = (RelativeLayout) convertView.findViewById(R.id.expandLayout);
+            levelMax = (TextView) convertView.findViewById(R.id.levelMax);
         }
     }
 

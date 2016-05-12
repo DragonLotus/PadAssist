@@ -208,9 +208,9 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (leaderSkillNode.hasNonNull("hpPercent")) {
                     leaderSkill.setHpPercent(parseIntArrayList(leaderSkillNode.get("hpPercent")));
                 }
-//                if(leaderSkillNode.hasNonNull("effect")) {
-//                    leaderSkill.set(leaderSkillNode.get("effect").asInt());
-//                }
+                if(leaderSkillNode.hasNonNull("effect")) {
+                    leaderSkill.setDescription(leaderSkillNode.get("effect").asText());
+                }
                 if (leaderSkillNode.hasNonNull("name")) {
                     leaderSkill.setName(leaderSkillNode.get("name").asText());
                 }

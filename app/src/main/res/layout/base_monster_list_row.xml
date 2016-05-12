@@ -112,4 +112,188 @@
         android:gravity="center_vertical"
         android:src="@drawable/type_balanced" />
 
+    <RelativeLayout
+        android:id="@+id/expandLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterPicture"
+        android:visibility="visible">
+
+        <TableLayout
+            android:id="@+id/statTable"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1,2">
+
+            <TableRow>
+
+                <TextView
+                    android:text=""
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/levelMin"
+                    android:gravity="center"
+                    android:text="Level 1"
+                    android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/levelMax"
+                    android:gravity="center"
+                    android:text="Level MAX"
+                    android:textSize="16dp"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/hp"
+                    android:text="HP: "
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/hpBase"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/hpTotal"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/atk"
+                    android:text="ATK: "
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/atkBase"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/atkTotal"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp"/>
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/rcv"
+                    android:text="RCV: "
+                    android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/rcvBase"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/rcvTotal"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp"/>
+            </TableRow>
+        </TableLayout>
+        <LinearLayout
+            android:id="@+id/awakeningHolder"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/statTable"
+            android:layout_toLeftOf="@+id/latentHolder"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <ImageView
+                android:id="@+id/awakening1"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <ImageView
+                android:id="@+id/awakening2"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <ImageView
+                android:id="@+id/awakening3"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <ImageView
+                android:id="@+id/awakening4"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <ImageView
+                android:id="@+id/awakening5"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <ImageView
+                android:id="@+id/awakening6"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <ImageView
+                android:id="@+id/awakening7"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <ImageView
+                android:id="@+id/awakening8"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"/>
+            <ImageView
+                android:id="@+id/awakening9"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="1dp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/leaderSkill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/awakeningHolder"
+            android:text="Leader Skill - "
+            android:textSize="16dp"/>
+        <TextView
+            android:id="@+id/leaderSkillName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/awakeningHolder"
+            android:layout_toRightOf="@id/leaderSkill"
+            android:text="Leader Skill Name: "
+            android:textSize="16dp"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:ellipsize="marquee"/>
+
+        <TextView
+            android:id="@+id/leaderSkillDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/leaderSkill"
+            android:text="Description goes here."
+            android:textSize="16dp"/>
+        <Button
+            android:id="@+id/choose"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/leaderSkillDesc"
+            android:text="Choose Monster" />
+    </RelativeLayout>
+
 </RelativeLayout>
