@@ -10,12 +10,12 @@ import java.util.ArrayList;
  * Created by Anthony on 7/16/2015.
  */
 public class Enemy implements Parcelable {
-    private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold, reductionValue;
+    private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold, damageImmunity, reductionValue;
     private double gravityPercent;
     private Element targetElement, absorb;
     private ArrayList<Element> reduction;
     private ArrayList<Integer> gravityList, types;
-    private Boolean hasAbsorb = false, hasReduction, hasDamageThreshold = false, isDamaged;
+    private Boolean hasAbsorb = false, hasReduction, hasDamageThreshold = false, isDamaged, hasDamageImmunity = false;
 
 
     //default is satan from  DKali from Arena 2
@@ -32,6 +32,7 @@ public class Enemy implements Parcelable {
         absorb = Element.BLANK;
         gravityPercent = 1;
         damageThreshold = 200000;
+        damageImmunity = 200000;
         isDamaged = false;
         hasReduction = true;
         reduction.add(Element.RED);
@@ -210,6 +211,22 @@ public class Enemy implements Parcelable {
 
     public void setReductionValue(int reductionValue) {
         this.reductionValue = reductionValue;
+    }
+
+    public Boolean hasDamageImmunity() {
+        return hasDamageImmunity;
+    }
+
+    public void setHasDamageImmunity(Boolean hasDamageImmunity) {
+        this.hasDamageImmunity = hasDamageImmunity;
+    }
+
+    public int getDamageImmunity() {
+        return damageImmunity;
+    }
+
+    public void setDamageImmunity(int damageImmunity) {
+        this.damageImmunity = damageImmunity;
     }
 
     public Enemy(Parcel source) {

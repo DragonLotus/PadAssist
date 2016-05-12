@@ -61,19 +61,19 @@ public class TeamDamageListFragment extends AbstractFragment {
 
     private OnFragmentInteractionListener mListener;
     private RecyclerView monsterListView;
-    private EditText additionalComboValue, damageThresholdValue;
+    private EditText additionalComboValue, damageThresholdValue, damageImmunityValue, reductionValue;
     private MonsterDamageListRecycler monsterListAdapter;
     private Enemy enemy;
     private Team team;
     private Toast toast;
     private boolean hasEnemy;
     //private ArrayList<Monster> monsterList;
-    private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0, hp;
+    private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0;
     private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings, teamHpValue;
     private RadioGroup reductionRadioGroup;
     private Button monsterListToggle;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
-    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, hasAwakeningsCheck, activeUsedCheck;
+    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, damageImmunityCheck, hasAwakeningsCheck, activeUsedCheck;
     private RadioGroup absorbRadioGroup;
     private Button recalculateButton;
     private SeekBar teamHp;
@@ -168,6 +168,9 @@ public class TeamDamageListFragment extends AbstractFragment {
         activeUsedCheck = (CheckBox) rootView.findViewById(R.id.activeUsedCheck);
         teamHp = (SeekBar) rootView.findViewById(R.id.teamHpSeekBar);
         teamHpValue = (TextView) rootView.findViewById(R.id.teamHpValue);
+        reductionValue = (EditText) rootView.findViewById(R.id.reductionValue);
+        damageImmunityValue = (EditText) rootView.findViewById(R.id.damageImmunityValue);
+        damageImmunityCheck = (CheckBox) rootView.findViewById(R.id.damageImmunityCheck);
 
         return rootView;
     }
@@ -210,6 +213,10 @@ public class TeamDamageListFragment extends AbstractFragment {
         damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         damageThresholdValue.addTextChangedListener(damageThresholdWatcher);
         damageThresholdValue.setOnFocusChangeListener(editTextOnFocusChange);
+        damageImmunityCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+        damageImmunityValue.addTextChangedListener(damageImmunityWatcher);
+        damageImmunityValue.setOnFocusChangeListener(editTextOnFocusChange);
+        reductionValue.addTextChangedListener(reductionWatcher);
         redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         blueOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         greenOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
@@ -506,15 +513,24 @@ public class TeamDamageListFragment extends AbstractFragment {
         public void changeMonsterAttribute(int statToChange, int statValue) {
             if (statToChange == MyTextWatcher.ADDITIONAL_COMBOS) {
                 additionalCombosFragment = statValue;
-            }
-            if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD) {
+            } else if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD) {
                 enemy.setDamageThreshold(statValue);
+            } else if (statToChange == MyTextWatcher.DAMAGE_IMMUNITY) {
+                enemy.setDamageImmunity(statValue);
+            } else if (statToChange == MyTextWatcher.REDUCTION_VALUE) {
+                enemy.setReductionValue(statValue);
+                if(statValue > 100){
+                    enemy.setReductionValue(100);
+                    reductionValue.setText("100");
+                }
             }
         }
     };
 
     private MyTextWatcher additionalComboTextWatcher = new MyTextWatcher(MyTextWatcher.ADDITIONAL_COMBOS, changeStats);
     private MyTextWatcher damageThresholdWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_THRESHOLD, changeStats);
+    private MyTextWatcher damageImmunityWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_IMMUNITY, changeStats);
+    private MyTextWatcher reductionWatcher = new MyTextWatcher(MyTextWatcher.REDUCTION_VALUE, changeStats);
 
     private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
         @Override
@@ -554,8 +570,10 @@ public class TeamDamageListFragment extends AbstractFragment {
     }
 
     private void setReductionOrbs() {
+        reductionValue.setText(String.valueOf(enemy.getReductionValue()));
         if (enemy.getHasReduction()) {
             reductionCheck.setChecked(true);
+            reductionValue.setEnabled(true);
             for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                 reductionRadioGroup.getChildAt(i).setEnabled(true);
             }
@@ -574,7 +592,9 @@ public class TeamDamageListFragment extends AbstractFragment {
             if (enemy.containsReduction(Element.LIGHT)) {
                 lightOrbReduction.setChecked(true);
             }
-
+        } else {
+            reductionValue.setEnabled(false);
+            reductionCheck.setEnabled(false);
         }
 
     }
@@ -606,10 +626,15 @@ public class TeamDamageListFragment extends AbstractFragment {
     }
 
     private void setDamageThreshold() {
+        damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
+        damageImmunityValue.setText(String.valueOf(enemy.getDamageImmunity()));
         if (enemy.getHasDamageThreshold()) {
             damageThresholdValue.setEnabled(true);
             damageThresholdCheck.setChecked(true);
-            damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
+        }
+        if (enemy.hasDamageImmunity()) {
+            damageImmunityCheck.setChecked(true);
+            damageImmunityValue.setEnabled(true);
         }
     }
 
@@ -621,16 +646,32 @@ public class TeamDamageListFragment extends AbstractFragment {
                 enemy.setHasDamageThreshold(isChecked);
                 if (isChecked) {
                     damageThresholdValue.setEnabled(true);
+                    damageImmunityValue.clearFocus();
+                    damageImmunityValue.setEnabled(false);
+                    damageImmunityCheck.setChecked(false);
                 } else {
                     damageThresholdValue.clearFocus();
                     damageThresholdValue.setEnabled(false);
                 }
+            } else if (buttonView.equals(damageImmunityCheck)){
+                enemy.setHasDamageImmunity(isChecked);
+                if (isChecked) {
+                    damageImmunityValue.setEnabled(true);
+                    damageThresholdValue.clearFocus();
+                    damageThresholdValue.setEnabled(false);
+                    damageThresholdCheck.setChecked(false);
+                } else {
+                    damageImmunityValue.clearFocus();
+                    damageImmunityValue.setEnabled(false);
+                }
+
             } else if (buttonView.equals(reductionCheck)) {
                 enemy.setHasReduction(isChecked);
                 if (isChecked) {
                     for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                         reductionRadioGroup.getChildAt(i).setEnabled(true);
                     }
+                    reductionValue.setEnabled(true);
                 } else {
                     redOrbReduction.setChecked(false);
                     blueOrbReduction.setChecked(false);
@@ -641,6 +682,7 @@ public class TeamDamageListFragment extends AbstractFragment {
                         reductionRadioGroup.getChildAt(i).setEnabled(false);
                     }
                     setElementReduction(isChecked, buttonView.getId());
+                    reductionValue.setEnabled(false);
                 }
             } else if (buttonView.equals(absorbCheck)) {
                 enemy.setHasAbsorb(isChecked);

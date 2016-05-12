@@ -21,6 +21,7 @@ public class MyTextWatcher implements TextWatcher
    public static final int DAMAGE_THRESHOLD = 8;
    public static final int ADDITIONAL_COMBOS = 9;
    public static final int REDUCTION_VALUE = 10;
+   public static final int DAMAGE_IMMUNITY = 11;
 
    private int statToChange;
 

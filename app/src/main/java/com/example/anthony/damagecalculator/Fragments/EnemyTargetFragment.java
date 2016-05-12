@@ -63,7 +63,7 @@ public class EnemyTargetFragment extends AbstractFragment {
     private String mParam1;
     private String mParam2;
     private Team team;
-    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, reductionValue;
+    private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, damageImmunityValue, reductionValue;
     private TextView percentHpValue, totalGravityValue;
     private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
     private RadioButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb;
@@ -81,9 +81,9 @@ public class EnemyTargetFragment extends AbstractFragment {
     private String[] defenseBreakItems;
     private TypeSpinnerAdapter typeSpinnerAdapter;
     private ArrayList<Integer> typeItems;
-    private int additionalCombos, tempDamageThresholdValue, tempReductionValue;
+    private int additionalCombos, tempDamageThresholdValue, tempReductionValue, tempDamageImmunity;
     private Boolean tempAbsorb, tempReduction, tempDamageThreshold;
-    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
+    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, damageImmunityCheck;
     private double defenseBreakValue = 1.0;
     private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent() {
         @Override
@@ -140,6 +140,8 @@ public class EnemyTargetFragment extends AbstractFragment {
                     enemy.setReductionValue(100);
                     reductionValue.setText("100");
                 }
+            } else if (statToChange == MyTextWatcher.DAMAGE_IMMUNITY) {
+                enemy.setDamageImmunity(statValue);
             }
             Log.d("HI THOMAS", String.valueOf(enemy.getPercentHp()));
             df = new DecimalFormat("#.##");
@@ -153,6 +155,7 @@ public class EnemyTargetFragment extends AbstractFragment {
     private MyTextWatcher targetDefenseWatcher = new MyTextWatcher(MyTextWatcher.TARGET_DEFENSE, changeStats);
     private MyTextWatcher damageThresholdWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_THRESHOLD, changeStats);
     private MyTextWatcher reductionValueWatcher = new MyTextWatcher(MyTextWatcher.REDUCTION_VALUE, changeStats);
+    private MyTextWatcher damageImmunityWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_IMMUNITY, changeStats);
 
     /**
      * Use this factory method to create a new instance of
@@ -221,6 +224,8 @@ public class EnemyTargetFragment extends AbstractFragment {
         type1Spinner = (Spinner) rootView.findViewById(R.id.type1Spinner);
         type2Spinner = (Spinner) rootView.findViewById(R.id.type2Spinner);
         type3Spinner = (Spinner) rootView.findViewById(R.id.type3Spinner);
+        damageImmunityValue = (EditText) rootView.findViewById(R.id.damageImmunityValue);
+        damageImmunityCheck = (CheckBox) rootView.findViewById(R.id.damageImmunityCheck);
         reductionValue = (EditText) rootView.findViewById(R.id.reductionValue);
         return rootView;
     }
@@ -241,7 +246,8 @@ public class EnemyTargetFragment extends AbstractFragment {
         tempReduction = enemy.getHasReduction();
         tempDamageThreshold = enemy.getHasDamageThreshold();
         tempDamageThresholdValue = enemy.getDamageThreshold();
-//        tempReductionValue = enemy.getReductionValue();
+        tempReductionValue = enemy.getReductionValue();
+        tempDamageImmunity = enemy.getDamageImmunity();
         Log.d("Current HP", "" + enemy.getCurrentHp());
         Log.d("Has Absorb", "" + enemy.getHasAbsorb());
         Log.d("Has Reduction", "" + enemy.getHasReduction());
@@ -320,6 +326,9 @@ public class EnemyTargetFragment extends AbstractFragment {
         damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         damageThresholdValue.addTextChangedListener(damageThresholdWatcher);
         damageThresholdValue.setOnFocusChangeListener(editTextOnFocusChange);
+        damageImmunityValue.addTextChangedListener(damageImmunityWatcher);
+        damageImmunityValue.setOnFocusChangeListener(editTextOnFocusChange);
+        damageImmunityCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
 
         orbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
         absorbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
@@ -365,7 +374,8 @@ public class EnemyTargetFragment extends AbstractFragment {
         enemy.setHasReduction(tempReduction);
         enemy.setHasDamageThreshold(tempDamageThreshold);
         enemy.setDamageThreshold(tempDamageThresholdValue);
-//        enemy.setReductionValue(tempReductionValue);
+        enemy.setReductionValue(tempReductionValue);
+        enemy.setDamageImmunity(tempDamageImmunity);
         setReductionOrbs();
         setAbsorbOrbs();
         setDamageThreshold();
@@ -612,6 +622,7 @@ public class EnemyTargetFragment extends AbstractFragment {
                     for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                         reductionRadioGroup.getChildAt(i).setEnabled(true);
                     }
+                    reductionValue.setEnabled(true);
                 } else {
                     redOrbReduction.setChecked(false);
                     blueOrbReduction.setChecked(false);
@@ -622,14 +633,31 @@ public class EnemyTargetFragment extends AbstractFragment {
                         reductionRadioGroup.getChildAt(i).setEnabled(false);
                     }
                     setElementReduction(isChecked, buttonView.getId());
+                    reductionValue.setEnabled(false);
                 }
             } else if (buttonView.equals(damageThresholdCheck)) {
                 enemy.setHasDamageThreshold(isChecked);
+                Log.d("EnemyTag", "Damage Threshold is: " + enemy.getHasDamageThreshold() + " Damage Immunity is: " + enemy.hasDamageImmunity());
                 if (isChecked) {
                     damageThresholdValue.setEnabled(true);
+                    damageImmunityValue.clearFocus();
+                    damageImmunityValue.setEnabled(false);
+                    damageImmunityCheck.setChecked(false);
                 } else {
                     damageThresholdValue.clearFocus();
                     damageThresholdValue.setEnabled(false);
+                }
+            } else if (buttonView.equals(damageImmunityCheck)){
+                enemy.setHasDamageImmunity(isChecked);
+                Log.d("EnemyTag", "Damage Immunity is: " + enemy.hasDamageImmunity() + " Damage Threshold is: " + enemy.getHasDamageThreshold());
+                if (isChecked) {
+                    damageImmunityValue.setEnabled(true);
+                    damageThresholdValue.clearFocus();
+                    damageThresholdValue.setEnabled(false);
+                    damageThresholdCheck.setChecked(false);
+                } else {
+                    damageImmunityValue.clearFocus();
+                    damageImmunityValue.setEnabled(false);
                 }
             }
         }
@@ -784,13 +812,21 @@ public class EnemyTargetFragment extends AbstractFragment {
     }
 
     private void setDamageThreshold() {
+        damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
+        damageImmunityValue.setText(String.valueOf(enemy.getDamageImmunity()));
         if (enemy.getHasDamageThreshold()) {
             damageThresholdValue.setEnabled(true);
             damageThresholdCheck.setChecked(true);
-            damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
         }else {
             damageThresholdValue.setEnabled(false);
             damageThresholdCheck.setChecked(false);
+        }
+        if (enemy.hasDamageImmunity()) {
+            damageImmunityValue.setEnabled(true);
+            damageImmunityCheck.setChecked(true);
+        } else {
+            damageImmunityValue.setEnabled(false);
+            damageImmunityCheck.setChecked(false);
         }
     }
 
@@ -820,6 +856,7 @@ public class EnemyTargetFragment extends AbstractFragment {
         currentHpValue.clearFocus();
         targetDefenseValue.clearFocus();
         damageThresholdValue.clearFocus();
+        damageImmunityValue.clearFocus();
         reductionValue.clearFocus();
     }
 

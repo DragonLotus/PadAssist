@@ -7,7 +7,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="8dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:contextClickable="true"
     tools:context="com.example.anthony.damagecalculator.Fragments.TeamDamageListFragment">
 
     <Button
@@ -21,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/recalculateButton"
-        android:layout_below="@+id/monsterListToggle">
+        android:layout_below="@+id/monsterListToggle"
+        android:clickable="true">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -138,7 +140,7 @@
                 android:layout_alignBottom="@+id/absorbAlign"
                 android:layout_alignTop="@+id/absorbAlign"
                 android:gravity="center_vertical"
-                android:text="Absorb"
+                android:text="Absorb: "
                 android:textSize="18dp" />
 
             <RadioGroup
@@ -222,9 +224,30 @@
                 android:layout_alignBottom="@+id/reductionAlign"
                 android:layout_alignTop="@+id/reductionAlign"
                 android:gravity="center_vertical"
-                android:text="Reduction "
+                android:text="Reduction: "
+                android:textSize="18dp"/>
+
+            <EditText
+                android:id="@+id/reductionValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/absorbCheck"
+                android:layout_toRightOf="@+id/targetReduction"
+                android:inputType="number"
+                android:text="50"
                 android:textSize="18dp"
-                android:layout_marginRight="-10dp"/>
+                android:maxLength="3"/>
+
+            <TextView
+                android:id="@+id/reductionPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/reductionAlign"
+                android:layout_alignTop="@+id/reductionAlign"
+                android:layout_toRightOf="@+id/reductionValue"
+                android:gravity="center_vertical"
+                android:text="%"
+                android:textSize="18dp"/>
 
             <RadioGroup
                 android:id="@+id/reductionOrbRadioGroup"
@@ -330,6 +353,38 @@
                android:checked="false"/>
 
             <TextView
+                android:id="@+id/damageImmunity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Damage Immunity: "
+                android:textSize="18dp"
+                android:layout_alignTop="@+id/damageImmunityValue"
+                android:layout_alignBottom="@+id/damageImmunityValue"
+                android:gravity="center_vertical"/>
+
+            <EditText
+                android:id="@+id/damageImmunityValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/damageThresholdValue"
+                android:layout_toRightOf="@+id/damageImmunity"
+                android:textSize="18dp"
+                android:text="200000"
+                android:maxLength="9"
+                android:inputType="number"
+                android:enabled="false"/>
+
+            <CheckBox
+                android:id="@+id/damageImmunityCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/damageImmunityValue"
+                android:layout_alignBottom="@+id/damageImmunityValue"
+                android:gravity="center_vertical"
+                android:checked="false"/>
+
+            <TextView
                 android:id="@+id/hasAwakenings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -343,8 +398,8 @@
                 android:id="@+id/hasAwakeningsCheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/damageThresholdCheck"
-                android:layout_toRightOf="@+id/hasAwakenings"/>
+                android:layout_below="@+id/damageImmunityCheck"
+                android:layout_alignParentRight="true"/>
 
             <TextView
                 android:id="@+id/activeUsed"
@@ -361,7 +416,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/hasAwakeningsCheck"
-                android:layout_toRightOf="@+id/hasAwakenings"/>
+                android:layout_alignParentRight="true"/>
 
             <TextView
                 android:id="@+id/teamHp"

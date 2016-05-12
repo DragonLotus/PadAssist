@@ -78,7 +78,9 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageThreshold(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
-            } else if (enemy.getHasAbsorb()) {
+            } else if(enemy.hasDamageImmunity()){
+                //Something needs to go here
+            }  else if (enemy.getHasAbsorb()) {
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageAbsorb(team, enemy, combos);
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageAbsorb(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
@@ -88,7 +90,7 @@ public class MonsterDamageListAdapter extends ArrayAdapter<Monster> {
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageReduction(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
-            } else {
+            }else {
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageEnemy(team, enemy, combos);
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageEnemy(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");

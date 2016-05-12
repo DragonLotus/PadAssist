@@ -277,7 +277,7 @@ public class DamageCalculationUtil {
         if (enemy.getReduction().isEmpty() || enemy.getReduction() == null) {
             return monsterDamageEnemyDefense(damage, enemy);
         } else if (enemy.getReduction().contains(monster.getElement2())) {
-            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()), enemy);
+            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, enemy);
         } else return monsterDamageEnemyDefense(damage, enemy);
     }
 
