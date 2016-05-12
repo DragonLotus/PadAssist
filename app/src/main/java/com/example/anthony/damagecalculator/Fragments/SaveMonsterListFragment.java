@@ -185,6 +185,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.d("saveMonsterListTag","view is: " + v + " R.string.index is: " + v.getTag(R.string.index));
             int position = (int) v.getTag(R.string.index);
             Team newTeam = new Team(Team.getTeamById(0));
             if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
@@ -209,7 +210,6 @@ public class SaveMonsterListFragment extends AbstractFragment {
                     getActivity().getSupportFragmentManager().popBackStack();
                     getActivity().getSupportFragmentManager().popBackStack();
                 } else {
-
 
                     switch (Singleton.getInstance().getMonsterOverwrite()) {
                         case 0:

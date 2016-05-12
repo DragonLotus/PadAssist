@@ -18,4 +18,5 @@
     <string name="search_title">Search</string>
     <string name="viewHolder">viewHolder</string>
     <string name="index">index</string>
+    <string name="position">position</string>
 </resources>
