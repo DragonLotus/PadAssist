@@ -248,6 +248,9 @@ public class Team extends Model implements Parcelable {
     }
 
     public void setMonsters(int position, Monster monster) {
+        if(monsters == null){
+            monsters = new ArrayList<>();
+        }
         monsters.set(position, monster);
         switch (position) {
             case 0:

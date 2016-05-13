@@ -65,6 +65,8 @@ public class MonsterListFragment extends AbstractFragment {
     private Enemy enemy;
     private Toast toast;
     private TeamSaveDialogFragment teamSaveDialogFragment;
+    private ClearTeamConfirmationDialogFragment clearTeamConfirmationDialogFragment;
+    private Monster monster0 = Monster.getMonsterId(0);
 
     /**
      * Use this factory method to create a new instance of
@@ -222,8 +224,6 @@ public class MonsterListFragment extends AbstractFragment {
             Log.d("Team name", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
             if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
                 monsters = new ArrayList<Monster>();
-
-                Monster monster0 = Monster.getMonsterId(0);
                 for (int i = 0; i < 6; i++) {
                     monsters.add(monster0);
                 }
@@ -402,9 +402,42 @@ public class MonsterListFragment extends AbstractFragment {
 
         @Override
         public void clearTeam() {
+            Log.d("MonsterListTag", "Team Monsters is: " + team.getMonsters() + " TeamIdOverwrite is: " + team.getTeamIdOverwrite() + " teamOverwrite monsters is: " + Team.getTeamById(team.getTeamIdOverwrite()).getMonsters());
+            if(!team.getMonsters().equals(Team.getTeamById(team.getTeamIdOverwrite()).getMonsters())){
+                Log.d("MonsterListTag", "Overwrite check");
+                if (clearTeamConfirmationDialogFragment == null) {
+                    clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
+                }
+                clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                teamSaveDialogFragment.dismiss();
+            } else {
+                Team newTeam = new Team();
+                team = newTeam;
+                for (int i = 0; i < 6; i++) {
+                    monsters.set(i,monster0);
+                }
+                updateTeam();
+                monsterListRecycler.updateList(team.getMonsters());
+                team.save();
+                teamName.setText(team.getTeamName());
+                favorite.setVisibility(View.INVISIBLE);
+            }
+        }
+    };
+
+    private ClearTeamConfirmationDialogFragment.ResetLayout clearTeam = new ClearTeamConfirmationDialogFragment.ResetLayout() {
+        @Override
+        public void resetLayout() {
             Team newTeam = new Team();
             team = newTeam;
+            for (int i = 0; i < 6; i++) {
+                monsters.set(i,monster0);
+            }
+            updateTeam();
+            monsterListRecycler.updateList(team.getMonsters());
             team.save();
+            teamName.setText(team.getTeamName());
+            favorite.setVisibility(View.INVISIBLE);
         }
     };
 

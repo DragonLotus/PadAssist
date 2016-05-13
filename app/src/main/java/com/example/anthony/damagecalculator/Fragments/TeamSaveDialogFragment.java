@@ -90,9 +90,6 @@ public class TeamSaveDialogFragment extends DialogFragment {
                             Log.d("Team Name", "" + teamName.getText());
                             saveTeam.saveNewTeam(teamName.getText().toString());
                             dismiss();
-                        } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.clearTeam) {
-                            saveTeam.clearTeam();
-                            dismiss();
                         } else {
                             if (toast != null) {
                                 toast.cancel();
@@ -100,6 +97,9 @@ public class TeamSaveDialogFragment extends DialogFragment {
                             toast = Toast.makeText(getActivity(), "Please enter a team name", Toast.LENGTH_SHORT);
                             toast.show();
                         }
+                    } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.clearTeam) {
+                        saveTeam.clearTeam();
+                        dismiss();
                     }
                 }
             });

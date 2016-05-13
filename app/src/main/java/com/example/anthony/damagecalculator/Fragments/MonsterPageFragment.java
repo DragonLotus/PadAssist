@@ -1094,9 +1094,9 @@ public class MonsterPageFragment extends AbstractFragment {
         public void evolveMonster(long baseMonsterId) {
             if (baseMonsterId != 0){
                 monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
-                if(monster.getCurrentAwakenings() > monster.getMaxAwakenings()){
-                    monster.setCurrentAwakenings(monster.getMaxAwakenings());
-                }
+//                if(monster.getCurrentAwakenings() > monster.getMaxAwakenings()){
+//                    monster.setCurrentAwakenings(monster.getMaxAwakenings());
+//                }
                 monster.save();
                 rarity.setText("" + monster.getRarity());
                 Log.d("Monster Page Log", "Monster attack is: " + monster.getTotalAtk() + " Monster max awakenings is: " + monster.getMaxAwakenings() + " Monster rarity is: " + monster.getRarity());
