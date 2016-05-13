@@ -89,6 +89,11 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageThreshold(team, enemy, combos);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+            } else if (enemy.hasDamageImmunity()){
+                element1DamageEnemy = team.getMonsters(position).getElement1DamageImmunity(team, enemy, combos);
+                element2DamageEnemy = team.getMonsters(position).getElement2DamageImmunity(team, enemy, combos);
+                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
             } else if (enemy.getHasAbsorb()) {
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageAbsorb(team, enemy, combos);
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageAbsorb(team, enemy, combos);

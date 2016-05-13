@@ -81,8 +81,8 @@ public class EnemyTargetFragment extends AbstractFragment {
     private String[] defenseBreakItems;
     private TypeSpinnerAdapter typeSpinnerAdapter;
     private ArrayList<Integer> typeItems;
-    private int additionalCombos, tempDamageThresholdValue, tempReductionValue, tempDamageImmunity;
-    private Boolean tempAbsorb, tempReduction, tempDamageThreshold;
+    private int additionalCombos, tempDamageThresholdValue, tempReductionValue, tempDamageImmunityValue;
+    private Boolean tempAbsorb, tempReduction, tempDamageThreshold, tempDamageImmunity;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, damageImmunityCheck;
     private double defenseBreakValue = 1.0;
     private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent() {
@@ -247,7 +247,8 @@ public class EnemyTargetFragment extends AbstractFragment {
         tempDamageThreshold = enemy.getHasDamageThreshold();
         tempDamageThresholdValue = enemy.getDamageThreshold();
         tempReductionValue = enemy.getReductionValue();
-        tempDamageImmunity = enemy.getDamageImmunity();
+        tempDamageImmunity = enemy.hasDamageImmunity();
+        tempDamageImmunityValue = enemy.getDamageImmunity();
         Log.d("Current HP", "" + enemy.getCurrentHp());
         Log.d("Has Absorb", "" + enemy.getHasAbsorb());
         Log.d("Has Reduction", "" + enemy.getHasReduction());
@@ -376,7 +377,8 @@ public class EnemyTargetFragment extends AbstractFragment {
         enemy.setHasDamageThreshold(tempDamageThreshold);
         enemy.setDamageThreshold(tempDamageThresholdValue);
         enemy.setReductionValue(tempReductionValue);
-        enemy.setDamageImmunity(tempDamageImmunity);
+        enemy.setDamageImmunity(tempDamageImmunityValue);
+        enemy.setHasDamageImmunity(tempDamageImmunity);
         setReductionOrbs();
         setAbsorbOrbs();
         setDamageThreshold();

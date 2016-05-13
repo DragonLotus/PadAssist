@@ -80,7 +80,7 @@ public class Team extends Model implements Parcelable {
         hasAwakenings = true;
         favorite = false;
         isActiveSkillUsed = false;
-        teamName = "Default team";
+        teamName = "Untitled Team";
         teamHp = 100;
         Log.d("Team Data Log", "hp is: " + teamHp);
         isBound.clear();

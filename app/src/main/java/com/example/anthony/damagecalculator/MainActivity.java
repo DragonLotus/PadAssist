@@ -211,10 +211,10 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.saveTeam) {
-            if (teamSaveDialogFragment == null) {
-                teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
-            }
-            teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
+//            if (teamSaveDialogFragment == null) {
+//                teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
+//            }
+//            teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
 //            mContent.reverseArrayList();
         } else if (id == R.id.loadTeam) {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
@@ -289,7 +289,6 @@ public class MainActivity extends AppCompatActivity {
             teamZero.setTeamIdOverwrite(newTeam.getTeamId());
             teamZero.save();
             Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
-
         }
     };
 

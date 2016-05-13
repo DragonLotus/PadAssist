@@ -328,7 +328,37 @@ public class TeamDamageListFragment extends AbstractFragment {
                         }
                     }
                 }
-            } else if (enemy.getHasAbsorb()) {
+            } else if (enemy.hasDamageImmunity()){
+                for (int i = 0; i < team.sizeMonsters(); i++) {
+                    if (team.getIsBound().get(i)) {
+                    } else {
+                        if (enemy.getCurrentHp() - (team.getMonsters(i).getElement1DamageImmunity(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
+                            totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
+                        } else {
+                            if (team.getMonsters(i).getElement1DamageImmunity(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                                totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement1DamageImmunity(team, enemy, totalCombos);
+                            } else {
+                                totalDamage += team.getMonsters(i).getElement1DamageImmunity(team, enemy, totalCombos);
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < team.sizeMonsters(); i++) {
+                    if (team.getIsBound().get(i)) {
+                    } else {
+                        if (enemy.getCurrentHp() - (team.getMonsters(i).getElement2DamageImmunity(team, enemy, totalCombos) + totalDamage) >= enemy.getTargetHp()) {
+                            totalDamage = enemy.getCurrentHp() - enemy.getTargetHp();
+                        } else {
+                            if (team.getMonsters(i).getElement2DamageImmunity(team, enemy, totalCombos) < 0 && totalDamage >= enemy.getCurrentHp()) {
+                                totalDamage = enemy.getCurrentHp() + team.getMonsters(i).getElement2DamageImmunity(team, enemy, totalCombos);
+                            } else {
+                                totalDamage += team.getMonsters(i).getElement2DamageImmunity(team, enemy, totalCombos);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (enemy.getHasAbsorb()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getIsBound().get(i)) {
                     } else {
@@ -655,6 +685,7 @@ public class TeamDamageListFragment extends AbstractFragment {
                 }
             } else if (buttonView.equals(damageImmunityCheck)){
                 enemy.setHasDamageImmunity(isChecked);
+                Log.d("TeamDamageListTag", "Damage Immunity is: " + enemy.hasDamageImmunity());
                 if (isChecked) {
                     damageImmunityValue.setEnabled(true);
                     damageThresholdValue.clearFocus();

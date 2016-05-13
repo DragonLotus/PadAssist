@@ -223,6 +223,8 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         viewHolder.choose.setOnClickListener(monsterListOnClickListener);
         viewHolder.choose.setTag(R.string.index, position);
 
+        viewHolder.leaderSkillName.setSelected(true);
+
         if(position == expandedPosition && expandedPosition != 0){
             viewHolder.expandLayout.setVisibility(View.VISIBLE);
             viewHolder.monsterHP.setVisibility(View.GONE);

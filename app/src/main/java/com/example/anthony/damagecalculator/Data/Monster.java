@@ -128,6 +128,14 @@ public class Monster extends Model implements Parcelable {
         return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
     }
 
+    public int getElement1DamageImmunity(Team team, Enemy enemy, int combos) {
+        return (int) DamageCalculationUtil.monsterElement1DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+    }
+
+    public int getElement2DamageImmunity(Team team, Enemy enemy, int combos) {
+        return (int) DamageCalculationUtil.monsterElement2DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+    }
+
     public int getCurrentLevel() {
         return currentLevel;
     }
@@ -511,6 +519,10 @@ public class Monster extends Model implements Parcelable {
 
     public ArrayList<Integer> getKillerAwakenings(){
         return killerAwakenings;
+    }
+
+    public ArrayList<Integer> getTypes(){
+        return baseMonster.getTypes();
     }
 
     public int getTPA() {

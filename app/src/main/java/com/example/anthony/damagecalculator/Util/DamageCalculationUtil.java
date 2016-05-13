@@ -312,6 +312,24 @@ public class DamageCalculationUtil {
         return damage;
     }
 
+    public static double monsterElement1DamageImmunity(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement1DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage >= enemy.getDamageImmunity()) {
+            return 0;
+        }
+        return damage;
+    }
+
+    public static double monsterElement2DamageImmunity(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
+        double damage = monsterElement2DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy, team);
+        if (damage >= enemy.getDamageImmunity()) {
+            return 0;
+        }
+        return damage;
+    }
+
+
+
     public static double orbMatch(int Attack, OrbMatch orbMatches, int OrbAwakenings, int TPAwakenings) {
         // Write in combos
         // Attack, Orb Awakenings, TPA from API, draw from Monster Database

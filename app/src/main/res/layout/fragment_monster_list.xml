@@ -8,10 +8,43 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:layout_marginRight="6dp"
+        android:src="@drawable/favorite" />
+
+    <ImageView
+        android:id="@+id/favoriteOutline"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:src="@drawable/not_favorite" />
+
+    <TextView
+        android:id="@+id/teamName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="THIS IS MY TEAM NAME"
+        android:layout_toRightOf="@+id/favorite"
+        android:layout_alignTop="@+id/favorite"
+        android:layout_alignBottom="@+id/favorite"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:singleLine="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:ellipsize="marquee"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/monsterListView"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@+id/teamName"
         android:layout_above="@+id/buttonHolder" />
 
     <LinearLayout

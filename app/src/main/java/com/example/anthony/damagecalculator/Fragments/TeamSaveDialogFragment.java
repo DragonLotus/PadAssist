@@ -30,6 +30,7 @@ public class TeamSaveDialogFragment extends DialogFragment {
     private SaveTeam saveTeam;
     private Toast toast;
     private Team team;
+    private AbstractFragment mContent;
 
     public interface SaveTeam {
         public void overwriteTeam();

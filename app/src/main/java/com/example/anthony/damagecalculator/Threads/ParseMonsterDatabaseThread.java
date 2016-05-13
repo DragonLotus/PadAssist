@@ -178,6 +178,12 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (leaderSkillNode.hasNonNull("atkElement")) {
                     leaderSkill.setAtkElement(parseIntArrayList(leaderSkillNode.get("atkElement")));
                 }
+                if (leaderSkillNode.hasNonNull("atkType2")) {
+                    leaderSkill.setAtkType(parseIntArrayList(leaderSkillNode.get("atkType2")));
+                }
+                if (leaderSkillNode.hasNonNull("atkElement2")) {
+                    leaderSkill.setAtkElement(parseIntArrayList(leaderSkillNode.get("atkElement2")));
+                }
                 if (leaderSkillNode.hasNonNull("rcvType")) {
                     leaderSkill.setRcvType(parseIntArrayList(leaderSkillNode.get("rcvType")));
                 }
