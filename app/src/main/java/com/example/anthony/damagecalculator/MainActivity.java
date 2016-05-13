@@ -251,46 +251,46 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
-        @Override
-        public void overwriteTeam() {
-            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
-            Team overwriteTeam = new Team(Team.getTeamById(0));
-//            if(Team.getTeamById(overwriteTeam.getTeamIdOverwrite()) != null){
-//                overwriteTeam.setTeamName(Team.getTeamById(overwriteTeam.getTeamIdOverwrite()).getTeamName());
-                overwriteTeam.setTeamId(Team.getTeamById(0).getTeamIdOverwrite());
-                Log.d("Main Activity Log", "Overwrite Team name is: " + overwriteTeam.getTeamName() + " Team id: " + overwriteTeam.getTeamId() + " Team ID overwrite: " + overwriteTeam.getTeamIdOverwrite());
-                overwriteTeam.save();
-//            } else {
-//                overwriteTeam.setTeamId(overwriteTeam.getTeamIdOverwrite());
+//    private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
+//        @Override
+//        public void overwriteTeam() {
+//            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
+//            Team overwriteTeam = new Team(Team.getTeamById(0));
+////            if(Team.getTeamById(overwriteTeam.getTeamIdOverwrite()) != null){
+////                overwriteTeam.setTeamName(Team.getTeamById(overwriteTeam.getTeamIdOverwrite()).getTeamName());
+//                overwriteTeam.setTeamId(Team.getTeamById(0).getTeamIdOverwrite());
+//                Log.d("Main Activity Log", "Overwrite Team name is: " + overwriteTeam.getTeamName() + " Team id: " + overwriteTeam.getTeamId() + " Team ID overwrite: " + overwriteTeam.getTeamIdOverwrite());
 //                overwriteTeam.save();
+////            } else {
+////                overwriteTeam.setTeamId(overwriteTeam.getTeamIdOverwrite());
+////                overwriteTeam.save();
+////            }
+//
+//        }
+//
+//        @Override
+//        public void saveNewTeam(String teamName) {
+//            long teamId;
+//            if (Team.getAllTeams().size() == 0) {
+//                teamId = 1;
+//            } else {
+//                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
 //            }
-
-        }
-
-        @Override
-        public void saveNewTeam(String teamName) {
-            long teamId;
-            if (Team.getAllTeams().size() == 0) {
-                teamId = 1;
-            } else {
-                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
-            }
-            Team newTeam = new Team(Team.getTeamById(0));
-            newTeam.setTeamName(teamName);
-            newTeam.setTeamId(teamId);
-            for (Monster monster : newTeam.getMonsters()) {
-                Log.d("Monster", "MonsterPlus:" + monster.getTotalPlus());
-                monster.save();
-            }
-            newTeam.save();
-            Team teamZero = new Team(newTeam);
-            teamZero.setTeamId(0);
-            teamZero.setTeamIdOverwrite(newTeam.getTeamId());
-            teamZero.save();
-            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
-        }
-    };
+//            Team newTeam = new Team(Team.getTeamById(0));
+//            newTeam.setTeamName(teamName);
+//            newTeam.setTeamId(teamId);
+//            for (Monster monster : newTeam.getMonsters()) {
+//                Log.d("Monster", "MonsterPlus:" + monster.getTotalPlus());
+//                monster.save();
+//            }
+//            newTeam.save();
+//            Team teamZero = new Team(newTeam);
+//            teamZero.setTeamId(0);
+//            teamZero.setTeamIdOverwrite(newTeam.getTeamId());
+//            teamZero.save();
+//            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
+//        }
+//    };
 
 
     /**

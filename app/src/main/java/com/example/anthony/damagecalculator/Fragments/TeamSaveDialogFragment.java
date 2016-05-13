@@ -36,6 +36,8 @@ public class TeamSaveDialogFragment extends DialogFragment {
         public void overwriteTeam();
 
         public void saveNewTeam(String teamName);
+
+        public void clearTeam();
     }
 
     public static TeamSaveDialogFragment newInstance(SaveTeam saveTeam) {
@@ -88,6 +90,9 @@ public class TeamSaveDialogFragment extends DialogFragment {
                             Log.d("Team Name", "" + teamName.getText());
                             saveTeam.saveNewTeam(teamName.getText().toString());
                             dismiss();
+                        } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.clearTeam) {
+                            saveTeam.clearTeam();
+                            dismiss();
                         } else {
                             if (toast != null) {
                                 toast.cancel();
@@ -106,7 +111,7 @@ public class TeamSaveDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
         if (Team.getAllTeams() == null || Team.getAllTeams().size() == 0) {
             Log.d("Teams are null", "I am null");
-            choiceRadioGroup.getChildAt(0).setEnabled(false);
+            choiceRadioGroup.getChildAt(1).setEnabled(false);
         }
         if (getArguments() != null) {
 //            team = getArguments().getParcelable("team");

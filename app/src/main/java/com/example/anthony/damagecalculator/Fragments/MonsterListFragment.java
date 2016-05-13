@@ -150,11 +150,18 @@ public class MonsterListFragment extends AbstractFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.saveTeam:
-                Log.d("MonsterListTag","ASDF");
-                if (teamSaveDialogFragment == null) {
-                    teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
+                if(team.getMonsters(0).getMonsterId() == 0){
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(getActivity(), "Enter a leader before saving", Toast.LENGTH_SHORT);
+                    toast.show();
+                }else {
+                    if (teamSaveDialogFragment == null) {
+                        teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
+                    }
+                    teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), "Show Team Save Dialog");
                 }
-                teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), "Show Team Save Dialog");
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -282,20 +289,21 @@ public class MonsterListFragment extends AbstractFragment {
     private View.OnClickListener favoriteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("MonsterListTag", "Team Id is: " + team.getTeamId() + " Team Overwrite Id is: " + team.getTeamIdOverwrite() + " Team Name is: " + team.getTeamName());
-            Team overwriteTeam = new Team(team);
-            overwriteTeam.setTeamId(team.getTeamIdOverwrite());
-            if(!overwriteTeam.isFavorite()){
-                team.setFavorite(true);
-                overwriteTeam.setFavorite(true);
-                favorite.setVisibility(View.VISIBLE);
-            } else {
-                team.setFavorite(false);
-                overwriteTeam.setFavorite(true);
-                favorite.setVisibility(View.VISIBLE);
+            Log.d("MonsterListTag", "Team Id is: " + team.getTeamId() + " Team Overwrite Id is: " + team.getTeamIdOverwrite() + " Team Name is: " + team.getTeamName() + " is favorite: " + team.isFavorite());
+            if(team.getTeamIdOverwrite() != 0){
+                if(!team.isFavorite()){
+                    team.setFavorite(true);
+                    favorite.setVisibility(View.VISIBLE);
+                } else {
+                    team.setFavorite(false);
+                    favorite.setVisibility(View.INVISIBLE);
+                }
+                Team overwriteTeam = new Team(team);
+                overwriteTeam.setTeamId(team.getTeamIdOverwrite());
+                Log.d("MonsterListTag", "Team Id is: " + team.getTeamId() + " Team Overwrite Id is: " + team.getTeamIdOverwrite() + " Team Name is: " + team.getTeamName() + " is favorite: " + team.isFavorite());
+                team.save();
+                overwriteTeam.save();
             }
-            team.save();
-            overwriteTeam.save();
 
         }
     };
@@ -373,9 +381,10 @@ public class MonsterListFragment extends AbstractFragment {
             } else {
                 teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
             }
-            Team newTeam = new Team(Team.getTeamById(0));
+            Team newTeam = new Team(team);
             newTeam.setTeamName(teamNameString);
             newTeam.setTeamId(teamId);
+            newTeam.setFavorite(false);
             for (Monster monster : newTeam.getMonsters()) {
                 Log.d("MonsterListTag", "MonsterPlus:" + monster.getTotalPlus());
                 monster.save();
@@ -384,9 +393,18 @@ public class MonsterListFragment extends AbstractFragment {
             Team teamZero = new Team(newTeam);
             teamZero.setTeamId(0);
             teamZero.setTeamIdOverwrite(newTeam.getTeamId());
+            newTeam.setFavorite(false);
             teamZero.save();
             Log.d("MonsterListTag", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
             teamName.setText(teamNameString);
+            favorite.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        public void clearTeam() {
+            Team newTeam = new Team();
+            team = newTeam;
+            team.save();
         }
     };
 
