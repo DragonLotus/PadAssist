@@ -89,6 +89,7 @@ public class TeamListFragment extends AbstractFragment {
     private SortStatsDialogFragment sortStatsDialogFragment;
     private SortPlusDialogFragment sortPlusDialogFragment;
     private TeamLoadDialogFragment teamLoadDialogFragment;
+    private LoadTeamConfirmationDialogFragment loadTeamConfirmationDialogFragment;
     private int selectedTeam;
     private OnFragmentInteractionListener mListener;
     private SortLeaderDialogFragment sortLeaderDialogFragment;
@@ -232,7 +233,7 @@ public class TeamListFragment extends AbstractFragment {
     private View.OnClickListener teamListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            selectedTeam = (int)v.getTag(R.string.index);
+            selectedTeam = (int) v.getTag(R.string.index);
             Log.d("Team log", "Selected team position: " + selectedTeam);
             if (teamLoadDialogFragment == null) {
                 teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(selectedTeam));
@@ -258,11 +259,33 @@ public class TeamListFragment extends AbstractFragment {
     private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam() {
         @Override
         public void loadTeam() {
-            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
-            Log.d("Team Log", "Team Name: " + loadTeam.getTeamName());
-            loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-            loadTeam.setTeamId(0);
-            loadTeam.save();
+            Team teamZero = Team.getTeamById(0);
+            Monster monsterZero = Monster.getMonsterId(0);
+            Log.d("TeamListTag", "teamZero monsters are: " + teamZero.getMonsters() + " teamZero overwriteTeam monsters are: " + Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters());
+            if (teamZero.getTeamIdOverwrite() == 0) {
+                Log.d("TeamListTag", "First if");
+                for (int i = 0; i < teamZero.getMonsters().size(); i++) {
+                    if (!teamZero.getMonsters(i).equals(monsterZero)) {
+                        if (loadTeamConfirmationDialogFragment == null) {
+                            loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+                        }
+                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                    }
+                }
+            } else if (!teamZero.getMonsters().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters()) || !teamZero.getTeamName().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getTeamName())) {
+                Log.d("TeamListTag", "Second if");
+                if (loadTeamConfirmationDialogFragment == null) {
+                    loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+                }
+                loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+            } else {
+                Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+                Log.d("TeamListTag", "Team Name: " + loadTeam.getTeamName());
+                loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+                loadTeam.setTeamId(0);
+                loadTeam.save();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
         }
 
         @Override
@@ -270,8 +293,14 @@ public class TeamListFragment extends AbstractFragment {
             Team loadTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
             loadTeam.setTeamName(teamName);
             loadTeam.save();
-            teamList = (ArrayList) Team.getAllTeams();
-            teamListAdapter.updateList(teamList);
+            if (loadTeam.getTeamId() == Team.getTeamById(0).getTeamIdOverwrite()) {
+                Team teamZero = Team.getTeamById(0);
+                teamZero.setTeamName(teamName);
+                teamZero.save();
+            }
+            teamListAdapter.notifyItemChanged(selectedTeam);
+//            teamList = (ArrayList) Team.getAllTeams();
+//            teamListAdapter.updateList(teamList);
         }
 
         @Override
@@ -296,6 +325,18 @@ public class TeamListFragment extends AbstractFragment {
             teamListAdapter.getItem(selectedTeam).save();
             Log.d("TeamListFragment", "Team 0 is favorite: " + teamList.get(0).isFavorite());
             teamListAdapter.notifyDataSetChanged();
+        }
+    };
+
+    private LoadTeamConfirmationDialogFragment.ResetLayout loadTeamConfirmation = new LoadTeamConfirmationDialogFragment.ResetLayout() {
+        @Override
+        public void resetLayout() {
+            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+            loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+            loadTeam.setTeamId(0);
+            loadTeam.save();
+            teamLoadDialogFragment.dismiss();
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 
@@ -527,11 +568,11 @@ public class TeamListFragment extends AbstractFragment {
     private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy() {
         @Override
         public void sortElement1() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1001);
                 Collections.sort(teamList, teamLeaderElement1Comparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1101);
                 Collections.sort(teamList, teamHelperElement1Comparator);
                 sortHelperDialogFragment.dismiss();
@@ -541,11 +582,11 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortElement2() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1002);
                 Collections.sort(teamList, teamLeaderElement2Comparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1102);
                 Collections.sort(teamList, teamHelperElement2Comparator);
                 sortHelperDialogFragment.dismiss();
@@ -557,11 +598,11 @@ public class TeamListFragment extends AbstractFragment {
     private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy() {
         @Override
         public void sortType1() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1003);
                 Collections.sort(teamList, teamLeaderType1Comparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1103);
                 Collections.sort(teamList, teamHelperType1Comparator);
                 sortHelperDialogFragment.dismiss();
@@ -571,11 +612,11 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortType2() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1004);
                 Collections.sort(teamList, teamLeaderType2Comparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1104);
                 Collections.sort(teamList, teamHelperType2Comparator);
                 sortHelperDialogFragment.dismiss();
@@ -585,11 +626,11 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortType3() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1005);
                 Collections.sort(teamList, teamLeaderType3Comparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1105);
                 Collections.sort(teamList, teamHelperType3Comparator);
                 sortHelperDialogFragment.dismiss();
@@ -601,11 +642,11 @@ public class TeamListFragment extends AbstractFragment {
     private SortStatsDialogFragment.SortBy sortByStats = new SortStatsDialogFragment.SortBy() {
         @Override
         public void sortHp() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1006);
                 Collections.sort(teamList, teamLeaderHpComparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1106);
                 Collections.sort(teamList, teamHelperHpComparator);
                 sortHelperDialogFragment.dismiss();
@@ -615,11 +656,11 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortAtk() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1007);
                 Collections.sort(teamList, teamLeaderAtkComparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1107);
                 Collections.sort(teamList, teamHelperAtkComparator);
                 sortHelperDialogFragment.dismiss();
@@ -629,11 +670,11 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortRcv() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1008);
                 Collections.sort(teamList, teamLeaderRcvComparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1108);
                 Collections.sort(teamList, teamHelperRcvComparator);
                 sortHelperDialogFragment.dismiss();
@@ -645,11 +686,11 @@ public class TeamListFragment extends AbstractFragment {
     private SortPlusDialogFragment.SortBy sortByPlus = new SortPlusDialogFragment.SortBy() {
         @Override
         public void sortTotal() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1009);
                 Collections.sort(teamList, teamLeaderPlusComparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1109);
                 Collections.sort(teamList, teamHelperPlusComparator);
                 sortHelperDialogFragment.dismiss();
@@ -659,11 +700,11 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortHp() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1010);
                 Collections.sort(teamList, teamLeaderPlusHpComparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1110);
                 Collections.sort(teamList, teamHelperPlusHpComparator);
                 sortHelperDialogFragment.dismiss();
@@ -673,11 +714,11 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortAtk() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1011);
                 Collections.sort(teamList, teamLeaderPlusAtkComparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1111);
                 Collections.sort(teamList, teamHelperPlusAtkComparator);
                 sortHelperDialogFragment.dismiss();
@@ -687,11 +728,11 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void sortRcv() {
-            if(sortLeaderDialogFragment != null){
+            if (sortLeaderDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1012);
                 Collections.sort(teamList, teamLeaderPlusRcvComparator);
                 sortLeaderDialogFragment.dismiss();
-            } else if (sortHelperDialogFragment != null){
+            } else if (sortHelperDialogFragment != null) {
                 Singleton.getInstance().setTeamSortMethod(1112);
                 Collections.sort(teamList, teamHelperPlusRcvComparator);
                 sortHelperDialogFragment.dismiss();
@@ -733,13 +774,13 @@ public class TeamListFragment extends AbstractFragment {
 
     private void filterContainsMonster(String query) {
         boolean hasMonster = false;
-        for(Team team : teamListAll){
-            for(Monster monster : team.getMonsters()){
-                if(monster.getName().toLowerCase().contains(query.toLowerCase())){
+        for (Team team : teamListAll) {
+            for (Monster monster : team.getMonsters()) {
+                if (monster.getName().toLowerCase().contains(query.toLowerCase())) {
                     hasMonster = true;
                 }
             }
-            if(!teamList.contains(team) && hasMonster){
+            if (!teamList.contains(team) && hasMonster) {
                 teamList.add(team);
                 hasMonster = false;
             }

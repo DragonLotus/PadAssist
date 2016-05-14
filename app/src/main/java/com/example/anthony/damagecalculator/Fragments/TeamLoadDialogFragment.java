@@ -86,7 +86,7 @@ public class TeamLoadDialogFragment extends DialogFragment {
                 public void onClick(View v) {
                     if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.loadTeam) {
                         loadTeam.loadTeam();
-                        getActivity().getSupportFragmentManager().popBackStack();
+//                        getActivity().getSupportFragmentManager().popBackStack();
                     } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.deleteTeam) {
                         loadTeam.deleteTeam();
                     } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.editTeam) {

@@ -44,7 +44,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
             int previous;
             ViewHolder holder = (ViewHolder) v.getTag();
             if(holder.getAdapterPosition() != expandedPosition){
-                if (expandedPosition > 0){
+                if (expandedPosition >= 0){
                     previous = expandedPosition;
                     notifyItemChanged(previous);
                 }
@@ -297,7 +297,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
         viewHolder.itemView.setTag(R.string.index, position);
         viewHolder.choose.setTag(R.string.index, position);
         viewHolder.choose.setOnClickListener(monsterListOnClickListener);
-        if(position == expandedPosition && expandedPosition != 0){
+        if(position == expandedPosition && monsterList.get(position).getMonsterId() != 0){
             viewHolder.expandLayout.setVisibility(View.VISIBLE);
             viewHolder.rarity.setVisibility(View.VISIBLE);
             viewHolder.rarityStar.setVisibility(View.VISIBLE);

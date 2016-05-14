@@ -160,7 +160,7 @@ public class MonsterListFragment extends AbstractFragment {
                     toast.show();
                 }else {
                     if (teamSaveDialogFragment == null) {
-                        teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
+                        teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam, team.getTeamIdOverwrite());
                     }
                     teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), "Show Team Save Dialog");
                 }
@@ -403,7 +403,17 @@ public class MonsterListFragment extends AbstractFragment {
         @Override
         public void clearTeam() {
             Log.d("MonsterListTag", "Team Monsters is: " + team.getMonsters() + " TeamIdOverwrite is: " + team.getTeamIdOverwrite() + " teamOverwrite monsters is: " + Team.getTeamById(team.getTeamIdOverwrite()).getMonsters());
-            if(!team.getMonsters().equals(Team.getTeamById(team.getTeamIdOverwrite()).getMonsters())){
+            if(team.getTeamIdOverwrite() == 0){
+                for(int i = 0; i < monsters.size(); i++){
+                    if(!monsters.get(i).equals(monster0)){
+                        if (clearTeamConfirmationDialogFragment == null) {
+                            clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
+                        }
+                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                        teamSaveDialogFragment.dismiss();
+                    }
+                }
+            }else if(!team.getMonsters().equals(Team.getTeamById(team.getTeamIdOverwrite()).getMonsters()) || !team.getTeamName().equals(Team.getTeamById(team.getTeamIdOverwrite()).getTeamName())){
                 Log.d("MonsterListTag", "Overwrite check");
                 if (clearTeamConfirmationDialogFragment == null) {
                     clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);

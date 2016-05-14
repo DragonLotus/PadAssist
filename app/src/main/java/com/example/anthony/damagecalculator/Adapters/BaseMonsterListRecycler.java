@@ -37,7 +37,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
             int previous;
             ViewHolder holder = (ViewHolder) v.getTag();
             if(holder.getAdapterPosition() != expandedPosition){
-                if (expandedPosition > 0){
+                if (expandedPosition >= 0){
                     previous = expandedPosition;
                     notifyItemChanged(previous);
                 }
@@ -225,7 +225,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
 
         viewHolder.leaderSkillName.setSelected(true);
 
-        if(position == expandedPosition && expandedPosition != 0){
+        if(position == expandedPosition && monsterList.get(position).getMonsterId() != 0){
             viewHolder.expandLayout.setVisibility(View.VISIBLE);
             viewHolder.monsterHP.setVisibility(View.GONE);
             viewHolder.monsterATK.setVisibility(View.GONE);

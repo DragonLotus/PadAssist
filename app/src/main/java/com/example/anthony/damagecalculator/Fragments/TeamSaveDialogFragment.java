@@ -31,6 +31,7 @@ public class TeamSaveDialogFragment extends DialogFragment {
     private Toast toast;
     private Team team;
     private AbstractFragment mContent;
+    private long teamIdOverwrite;
 
     public interface SaveTeam {
         public void overwriteTeam();
@@ -40,9 +41,10 @@ public class TeamSaveDialogFragment extends DialogFragment {
         public void clearTeam();
     }
 
-    public static TeamSaveDialogFragment newInstance(SaveTeam saveTeam) {
+    public static TeamSaveDialogFragment newInstance(SaveTeam saveTeam, long teamIdOverwrite) {
         TeamSaveDialogFragment dialogFragment = new TeamSaveDialogFragment();
         dialogFragment.setSaveTeam(saveTeam);
+        dialogFragment.setTeamIdOverwrite(teamIdOverwrite);
 //        Bundle args = new Bundle();
 //        args.putParcelable("team", team);
         return dialogFragment;
@@ -109,7 +111,7 @@ public class TeamSaveDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (Team.getAllTeams() == null || Team.getAllTeams().size() == 0) {
+        if (Team.getAllTeams() == null || Team.getAllTeams().size() == 0 || teamIdOverwrite == 0) {
             Log.d("Teams are null", "I am null");
             choiceRadioGroup.getChildAt(1).setEnabled(false);
         }
@@ -138,6 +140,10 @@ public class TeamSaveDialogFragment extends DialogFragment {
 
     public void setSaveTeam(SaveTeam saveTeam) {
         this.saveTeam = saveTeam;
+    }
+
+    public void setTeamIdOverwrite(long teamIdOverwrite){
+        this.teamIdOverwrite = teamIdOverwrite;
     }
 
     public void show(FragmentManager manager, String tag, Team team) {
