@@ -69,7 +69,7 @@ public class TeamDamageListFragment extends AbstractFragment {
     private boolean hasEnemy;
     //private ArrayList<Monster> monsterList;
     private int additionalCombos, additionalCombosFragment, totalCombos = 0, totalDamage = 0, temp = 0;
-    private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings, teamHpValue;
+    private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings, teamHpValue, damageImmunity, reductionPercent;
     private RadioGroup reductionRadioGroup;
     private Button monsterListToggle;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
@@ -171,7 +171,8 @@ public class TeamDamageListFragment extends AbstractFragment {
         reductionValue = (EditText) rootView.findViewById(R.id.reductionValue);
         damageImmunityValue = (EditText) rootView.findViewById(R.id.damageImmunityValue);
         damageImmunityCheck = (CheckBox) rootView.findViewById(R.id.damageImmunityCheck);
-
+        damageImmunity = (TextView) rootView.findViewById(R.id.damageImmunity);
+        reductionPercent = (TextView) rootView.findViewById(R.id.reductionPercent);
         return rootView;
     }
 
@@ -285,10 +286,15 @@ public class TeamDamageListFragment extends AbstractFragment {
             damageThreshold.setVisibility(View.GONE);
             reductionCheck.setVisibility(View.GONE);
             absorbCheck.setVisibility(View.GONE);
+            reductionValue.setVisibility(View.GONE);
+            damageImmunityValue.setVisibility(View.GONE);
+            damageImmunity.setVisibility(View.GONE);
+            damageImmunityCheck.setVisibility(View.GONE);
+            reductionPercent.setVisibility(View.GONE);
             RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             z.addRule(RelativeLayout.BELOW, totalComboValue.getId());
-            z.addRule(RelativeLayout.RIGHT_OF, hasAwakenings.getId());
+            z.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             hasAwakeningsCheck.setLayoutParams(z);
             for (int i = 0; i < team.sizeMonsters(); i++) {
                 if (team.getIsBound().get(i)) {
@@ -624,7 +630,7 @@ public class TeamDamageListFragment extends AbstractFragment {
             }
         } else {
             reductionValue.setEnabled(false);
-            reductionCheck.setEnabled(false);
+            reductionCheck.setChecked(false);
         }
 
     }
