@@ -155,5 +155,4 @@ public class TeamLoadDialogFragment extends DialogFragment {
         super.show(manager, tag);
         this.team = team;
     }
-
 }

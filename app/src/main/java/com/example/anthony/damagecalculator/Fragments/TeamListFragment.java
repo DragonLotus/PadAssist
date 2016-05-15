@@ -238,7 +238,6 @@ public class TeamListFragment extends AbstractFragment {
             if (teamLoadDialogFragment == null) {
                 teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(selectedTeam));
             }
-
             teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(selectedTeam));
         }
     };
@@ -264,13 +263,22 @@ public class TeamListFragment extends AbstractFragment {
             Log.d("TeamListTag", "teamZero monsters are: " + teamZero.getMonsters() + " teamZero overwriteTeam monsters are: " + Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters());
             if (teamZero.getTeamIdOverwrite() == 0) {
                 Log.d("TeamListTag", "First if");
-                for (int i = 0; i < teamZero.getMonsters().size(); i++) {
-                    if (!teamZero.getMonsters(i).equals(monsterZero)) {
-                        if (loadTeamConfirmationDialogFragment == null) {
-                            loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
-                        }
-                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                ArrayList<Monster> zeroMonsterList = new ArrayList<>();
+                for (int i = 0; i < 6; i++) {
+                    zeroMonsterList.add(monsterZero);
+                }
+                if(teamZero.getMonsters().equals(zeroMonsterList)){
+                    Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+                    Log.d("TeamListTag", "Team Name: " + loadTeam.getTeamName());
+                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+                    loadTeam.setTeamId(0);
+                    loadTeam.save();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+                    if (loadTeamConfirmationDialogFragment == null) {
+                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
                     }
+                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
                 }
             } else if (!teamZero.getMonsters().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters()) || !teamZero.getTeamName().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getTeamName())) {
                 Log.d("TeamListTag", "Second if");

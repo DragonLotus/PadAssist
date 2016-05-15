@@ -26,6 +26,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
 
     private ArrayList<BaseMonster> monsterList;
     private View.OnClickListener monsterListOnClickListener;
+    private View.OnLongClickListener monsterListOnLongClickListener;
     private Context mContext;
     private LayoutInflater inflater;
     private Toast toast;
@@ -51,10 +52,11 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         }
     };
 
-    public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, View.OnClickListener monsterListOnClickListener){
+    public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
+        this.monsterListOnLongClickListener = monsterListOnLongClickListener;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -222,9 +224,13 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         viewHolder.itemView.setTag(viewHolder);
         viewHolder.choose.setOnClickListener(monsterListOnClickListener);
         viewHolder.choose.setTag(R.string.index, position);
-
+        viewHolder.itemView.setOnLongClickListener(monsterListOnLongClickListener);
         viewHolder.leaderSkillName.setSelected(true);
-
+        if(monsterList.get(position).getMonsterId() == 0){
+            viewHolder.itemView.setOnClickListener(monsterListOnClickListener);
+        } else {
+            viewHolder.itemView.setOnClickListener(onItemClickListener);
+        }
         if(position == expandedPosition && monsterList.get(position).getMonsterId() != 0){
             viewHolder.expandLayout.setVisibility(View.VISIBLE);
             viewHolder.monsterHP.setVisibility(View.GONE);

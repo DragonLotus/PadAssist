@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageButton
+        android:id="@+id/thumb_handle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Fastscroller Handle"
+        android:background="@drawable/thumb_handle"
+        android:elevation="4dp"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/thumb_track"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Fastscroller Track"
+        android:src="@drawable/thumb_track"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp" />
+
+</merge>

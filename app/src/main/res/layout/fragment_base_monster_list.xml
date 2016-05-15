@@ -1,14 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/monsterListView"
-        android:scrollbars="vertical"
+        android:scrollbars="none"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fastScrollEnabled="true"
-        android:fastScrollAlwaysVisible="true" />
+        android:layout_height="wrap_content" />
 
-</FrameLayout>
+    <com.example.anthony.damagecalculator.Graphics.FastScroller
+        android:id="@+id/fastScroller"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

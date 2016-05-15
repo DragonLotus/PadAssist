@@ -26,6 +26,7 @@ import com.example.anthony.damagecalculator.Adapters.SaveMonsterListRecycler;
 import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
+import com.example.anthony.damagecalculator.Graphics.FastScroller;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.MonsterAlphabeticalComparator;
@@ -91,6 +92,8 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private Comparator<Monster> monsterLevelComparator = new MonsterLevelComparator();
     private Comparator<Monster> monsterFavoriteComparator = new MonsterFavoriteComparator();
 
+    private FastScroller fastScroller;
+
     public static SaveMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId) {
         SaveMonsterListFragment fragment = new SaveMonsterListFragment();
         Bundle args = new Bundle();
@@ -136,6 +139,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         View rootView = inflater.inflate(R.layout.fragment_save_monster_list, container, false);
         monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
         savedMonsters = (TextView) rootView.findViewById(R.id.savedMonsters);
+        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
         return rootView;
     }
 
@@ -175,11 +179,12 @@ public class SaveMonsterListFragment extends AbstractFragment {
 //        Collections.sort(monsterList, monsterFavoriteComparator);
 //        sortMethod = Singleton.getInstance().getSaveSortMethod();
 //        saveMonsterListRecycler = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
-        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListOnClickListener);
+        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListOnClickListener, monsterListOnLongClickListener);
         monsterListView.setAdapter(saveMonsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        monsterListView.setOnItemClickListener(monsterListOnClickListener);
         Log.d("Save Monster List", "onActivityCreated After monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll);
+        fastScroller.setRecyclerView(monsterListView);
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
@@ -240,6 +245,62 @@ public class SaveMonsterListFragment extends AbstractFragment {
 //                    }
                 }
             }
+        }
+    };
+
+    private View.OnLongClickListener monsterListOnLongClickListener = new View.OnLongClickListener(){
+        @Override
+        public boolean onLongClick(View v) {
+            int position = (int) v.getTag(R.string.index);
+            Team newTeam = new Team(Team.getTeamById(0));
+            if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                if (replaceAll) {
+                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+                    Team replaceTeam;
+                    for (int i = 0; i < teamList.size(); i++) {
+                        replaceTeam = teamList.get(i);
+                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
+                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
+                                replaceTeam.setMonsters(j, saveMonsterListRecycler.getItem(position));
+                            }
+                        }
+                        replaceTeam.save();
+                    }
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                } else {
+
+                    switch (Singleton.getInstance().getMonsterOverwrite()) {
+                        case 0:
+                            newTeam.setLead(saveMonsterListRecycler.getItem(position));
+                            break;
+                        case 1:
+                            newTeam.setSub1(saveMonsterListRecycler.getItem(position));
+                            break;
+                        case 2:
+                            newTeam.setSub2(saveMonsterListRecycler.getItem(position));
+                            break;
+                        case 3:
+                            newTeam.setSub3(saveMonsterListRecycler.getItem(position));
+                            break;
+                        case 4:
+                            newTeam.setSub4(saveMonsterListRecycler.getItem(position));
+                            break;
+                        case 5:
+                            newTeam.setHelper(saveMonsterListRecycler.getItem(position));
+                            break;
+                    }
+                    newTeam.save();
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            }
+            return true;
         }
     };
 

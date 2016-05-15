@@ -32,6 +32,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
 
     private ArrayList<Monster> monsterList;
     private View.OnClickListener monsterListOnClickListener;
+    private View.OnLongClickListener monsterListOnLongClickListener;
     private Context mContext;
     private LayoutInflater inflater;
     private Toast toast;
@@ -70,10 +71,11 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
 //        Toast.makeText(mContext, "Clicked position: " + expandedPosition, Toast.LENGTH_SHORT).show();
 //    }
 
-    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, View.OnClickListener monsterListOnClickListener){
+    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
+        this.monsterListOnLongClickListener = monsterListOnLongClickListener;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -297,6 +299,12 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
         viewHolder.itemView.setTag(R.string.index, position);
         viewHolder.choose.setTag(R.string.index, position);
         viewHolder.choose.setOnClickListener(monsterListOnClickListener);
+        viewHolder.itemView.setOnLongClickListener(monsterListOnLongClickListener);
+        if(monsterList.get(position).getMonsterId() == 0){
+            viewHolder.itemView.setOnClickListener(monsterListOnClickListener);
+        } else {
+            viewHolder.itemView.setOnClickListener(onItemClickListener);
+        }
         if(position == expandedPosition && monsterList.get(position).getMonsterId() != 0){
             viewHolder.expandLayout.setVisibility(View.VISIBLE);
             viewHolder.rarity.setVisibility(View.VISIBLE);
