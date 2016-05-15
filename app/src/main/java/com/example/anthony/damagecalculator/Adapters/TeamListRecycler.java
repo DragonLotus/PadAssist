@@ -37,6 +37,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
     private ArrayList<Integer> latentList4;
     private ArrayList<Integer> latentList5;
     private ArrayList<Integer> latentList6;
+    int expandedPosition = -1;
 
 //    private View.OnClickListener onItemClickListener = new View.OnClickListener(){
 //        @Override
@@ -438,5 +439,11 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
 
     public Team getItem(int position) {
         return teamList.get(position);
+    }
+
+    public boolean expanded() {
+        if(expandedPosition!=-1){
+            return true;
+        } else return false;
     }
 }

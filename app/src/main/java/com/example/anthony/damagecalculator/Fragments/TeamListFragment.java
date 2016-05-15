@@ -779,7 +779,7 @@ public class TeamListFragment extends AbstractFragment {
             }
             sortArrayList(Singleton.getInstance().getTeamSortMethod());
             if(fastScroller!=null){
-                fastScroller.resizeScrollBar(0);
+                fastScroller.resizeScrollBar(teamListAdapter.expanded(), FastScroller.TEAM_LIST);
             }
         }
     }

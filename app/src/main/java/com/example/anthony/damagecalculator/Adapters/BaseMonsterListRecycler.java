@@ -32,6 +32,12 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
     private Toast toast;
     private int expandedPosition = -1;
 
+    private ExpandChange expandChange;
+
+    public interface ExpandChange{
+        public void onExpandChange(int expandedPosition);
+    }
+
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
@@ -49,14 +55,16 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
                 expandedPosition = -1;
                 notifyItemChanged(previous);
             }
+            expandChange.onExpandChange(expandedPosition);
         }
     };
 
-    public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
+    public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, ExpandChange expandChange, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
         this.monsterListOnLongClickListener = monsterListOnLongClickListener;
+        this.expandChange = expandChange;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -451,5 +459,20 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
 
     public BaseMonster getItem(int position){
         return monsterList.get(position);
+    }
+
+    public boolean expanded() {
+        if(expandedPosition!=-1){
+            return true;
+        } else return false;
+    }
+
+    public void setExpandedPosition(int expandedPosition) {
+        int previous = this.expandedPosition;
+        this.expandedPosition = expandedPosition;
+        notifyItemChanged(previous);
+        if(expandedPosition >= 0){
+            notifyItemChanged(expandedPosition);
+        }
     }
 }

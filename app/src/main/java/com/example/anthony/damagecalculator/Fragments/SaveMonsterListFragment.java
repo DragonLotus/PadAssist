@@ -179,13 +179,24 @@ public class SaveMonsterListFragment extends AbstractFragment {
 //        Collections.sort(monsterList, monsterFavoriteComparator);
 //        sortMethod = Singleton.getInstance().getSaveSortMethod();
 //        saveMonsterListRecycler = new SaveMonsterListAdapter(getActivity(), R.layout.save_monster_list_row, monsterList);
-        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListOnClickListener, monsterListOnLongClickListener);
+        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, expandChange, monsterListOnClickListener, monsterListOnLongClickListener);
         monsterListView.setAdapter(saveMonsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        monsterListView.setOnItemClickListener(monsterListOnClickListener);
         Log.d("Save Monster List", "onActivityCreated After monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll);
         fastScroller.setRecyclerView(monsterListView);
     }
+
+    private SaveMonsterListRecycler.ExpandChange expandChange = new SaveMonsterListRecycler.ExpandChange() {
+        @Override
+        public void onExpandChange(int expandedPosition) {
+            if(expandedPosition >= 0){
+                fastScroller.resizeScrollBar(true, FastScroller.SAVE_MONSTER_LIST);
+            }else{
+                fastScroller.resizeScrollBar(false, FastScroller.SAVE_MONSTER_LIST);
+            }
+        }
+    };
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
@@ -706,8 +717,9 @@ public class SaveMonsterListFragment extends AbstractFragment {
 //            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
 
             Log.d("Save Monster List", "monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
+            saveMonsterListRecycler.setExpandedPosition(-1);
             if(fastScroller!=null){
-                fastScroller.resizeScrollBar(1);
+                fastScroller.resizeScrollBar(saveMonsterListRecycler.expanded(), FastScroller.SAVE_MONSTER_LIST);
             }
         }
 

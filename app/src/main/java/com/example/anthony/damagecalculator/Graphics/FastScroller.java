@@ -35,6 +35,9 @@ import com.example.anthony.damagecalculator.R;
  * Created by DragonLotus on 5/14/2016.
  */
 public class FastScroller extends LinearLayout {
+    public static final int SAVE_MONSTER_LIST = 0;
+    public static final int BASE_MONSTER_LIST = 1;
+    public static final int TEAM_LIST = 1;
     private static final int HANDLE_ANIMATION_DURATION = 100;
     private static final int HANDLE_HIDE_DELAY = 1000;
     private static final int TRACK_SNAP_RANGE = 0;
@@ -51,6 +54,9 @@ public class FastScroller extends LinearLayout {
     private View track;
     //    private View handle;
     private int height;
+    private int remainingHeight;
+    int scrollHeight = 0;
+    float proportion = 1;
 
     public FastScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -71,24 +77,51 @@ public class FastScroller extends LinearLayout {
 //        handle = findViewById(R.id.thumb_handle);
     }
 
-    public void resizeScrollBar(int listType) {
-        Log.d("FastScrollerTag", "Track Height/Width before is " + track.getMeasuredHeight() + "/" + track.getMeasuredWidth() +" "+ recyclerView.getAdapter().getItemCount());
-        if(recyclerView.getAdapter().getItemCount()!=0 || recyclerView != null){
-            float displayedItems = height/ TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getContext().getResources().getDisplayMetrics());
-            int itemCount = recyclerView.getAdapter().getItemCount();
-            float proportion = displayedItems / itemCount;
-
-            LinearLayout.LayoutParams z = (LinearLayout.LayoutParams) track.getLayoutParams();
-            Log.d("FastScrollerTag", "proportion/scrollbar height is " + proportion + "/" + Math.round(proportion * height) + " itemCount is: " + itemCount + " displayedItems is: " + displayedItems);
-            if(proportion >= 1){
-                track.setVisibility(INVISIBLE);
-            } else if (Math.round(proportion * height) <= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics())){
-                track.setVisibility(VISIBLE);
-                z.height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics());
+    public void resizeScrollBar(boolean expanded, int listType) {
+        Log.d("FastScrollerTag", "Track Height/Width before is " + track.getMeasuredHeight() + "/" + track.getMeasuredWidth() + " " + recyclerView.getAdapter().getItemCount());
+        Log.d("FastScrollerTag", "recyclerViewChild is: " + recyclerView.getChildAt(0));
+        Log.d("FastScrollerTag", "expanded and this.expanded is: " + expanded);
+        // expanded heights? pfft.
+        if (recyclerView.getAdapter().getItemCount() != 0) {
+            if (expanded) {
+                scrollHeight = recyclerView.getAdapter().getItemCount() * (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getContext().getResources().getDisplayMetrics()) + 694;
+                proportion = (float) height /(float) scrollHeight;
             } else {
-                track.setVisibility(VISIBLE);
-                z.height = Math.round(proportion * height);
+                scrollHeight = recyclerView.getAdapter().getItemCount() * (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getContext().getResources().getDisplayMetrics());
+                proportion = (float) height /(float) scrollHeight;
             }
+            if (scrollHeight != 0) {
+                LinearLayout.LayoutParams z = (LinearLayout.LayoutParams) track.getLayoutParams();
+                if (proportion >= 1) {
+                    track.setVisibility(INVISIBLE);
+                } else if (Math.round(height * proportion) < TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getContext().getResources().getDisplayMetrics())) {
+                    track.setVisibility(VISIBLE);
+                    z.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getContext().getResources().getDisplayMetrics());
+                } else {
+                    track.setVisibility(VISIBLE);
+                    z.height = Math.round(proportion * height);
+                }
+                Log.d("FastScrollerTag", "scrollHeight is: " + scrollHeight + " z height is: " + z.height + " proportion is: " + proportion);
+            }
+//            float displayedItems = height/ TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getContext().getResources().getDisplayMetrics());
+//            int itemCount = recyclerView.getAdapter().getItemCount();
+//            float proportion = displayedItems / itemCount;
+//
+//            LinearLayout.LayoutParams z = (LinearLayout.LayoutParams) track.getLayoutParams();
+//            Log.d("FastScrollerTag", "proportion/scrollbar height is " + proportion + "/" + Math.round(proportion * height) + " itemCount is: " + itemCount + " displayedItems is: " + displayedItems);
+//            if(proportion >= 1){
+//                track.setVisibility(INVISIBLE);
+//            } else if (Math.round(proportion * height) <= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics())){
+//                track.setVisibility(VISIBLE);
+//                z.height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics());
+//            } else {
+//                track.setVisibility(VISIBLE);
+//                z.height = Math.round(proportion * height);
+//            }
+//            remainingHeight = height - z.height;
+//            Log.d("FastScrollerTag", "remainingHeight: " + remainingHeight);
+
+
         }
     }
 
@@ -153,18 +186,20 @@ public class FastScroller extends LinearLayout {
 
     public void setRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
-        recyclerView.setOnScrollListener(scrollListener);
+        recyclerView.addOnScrollListener(scrollListener);
     }
 
     private class ScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             View firstVisibleView = recyclerView.getChildAt(0);
-            int firstVisiblePosition = recyclerView.getChildPosition(firstVisibleView);
+            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+            int firstVisiblePosition = recyclerView.getChildAdapterPosition(firstVisibleView);
             int visibleRange = recyclerView.getChildCount();
-            Log.d("FastScrollerTag", "getChildCount " + recyclerView.getChildCount());
             int lastVisiblePosition = firstVisiblePosition + visibleRange;
             int itemCount = recyclerView.getAdapter().getItemCount();
+            int lastVisibleAdapterPosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(visibleRange - 1));
+            Log.d("FastScrollerTag", "getChildCount " + recyclerView.getChildCount() + " lastVisiblePosition: " + lastVisiblePosition + " lastVisibleAdapterPosition: " + lastVisibleAdapterPosition + " itemCount: " + itemCount + " childHeight: " + firstVisibleView.getMeasuredHeight());
             int position;
             if (firstVisiblePosition == 0) {
                 position = 0;
