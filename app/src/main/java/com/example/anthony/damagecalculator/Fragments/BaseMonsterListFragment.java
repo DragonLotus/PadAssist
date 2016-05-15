@@ -708,7 +708,9 @@ public class BaseMonsterListFragment extends AbstractFragment {
             }
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
         }
-        fastScroller.resizeScrollBar(1);
+        if(fastScroller != null){
+            fastScroller.resizeScrollBar(1);
+        }
     }
 
     private void filterMonsterName(String query) {

@@ -379,7 +379,7 @@ public class MonsterListFragment extends AbstractFragment {
             if (Team.getAllTeams().size() == 0) {
                 teamId = 1;
             } else {
-                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
+                teamId = Team.getAllTeamsAndZero().get(Team.getAllTeamsAndZero().size() - 1).getTeamId() + 1;
             }
             Team newTeam = new Team(team);
             newTeam.setTeamName(teamNameString);
@@ -392,8 +392,7 @@ public class MonsterListFragment extends AbstractFragment {
             newTeam.save();
             Team teamZero = new Team(newTeam);
             teamZero.setTeamId(0);
-            teamZero.setTeamIdOverwrite(newTeam.getTeamId());
-            newTeam.setFavorite(false);
+            teamZero.setTeamIdOverwrite(teamId);
             teamZero.save();
             Log.d("MonsterListTag", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
             teamName.setText(teamNameString);

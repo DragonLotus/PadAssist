@@ -266,6 +266,7 @@ public class TeamListFragment extends AbstractFragment {
         public void loadTeam() {
             Team teamZero = Team.getTeamById(0);
             Monster monsterZero = Monster.getMonsterId(0);
+            Log.d("TeamListTag", "teamZero is: " + teamZero.getTeamName() );
             Log.d("TeamListTag", "teamZero monsters are: " + teamZero.getMonsters() + " teamZero overwriteTeam monsters are: " + Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters());
             if (teamZero.getTeamIdOverwrite() == 0) {
                 Log.d("TeamListTag", "First if");
@@ -335,10 +336,12 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void favoriteTeam(boolean favorite) {
-            teamListAdapter.getItem(selectedTeam).setFavorite(favorite);
-            teamListAdapter.getItem(selectedTeam).save();
-            Log.d("TeamListFragment", "Team 0 is favorite: " + teamList.get(0).isFavorite());
-            teamListAdapter.notifyDataSetChanged();
+            if(teamListAdapter.getItemCount()!=0){
+                teamListAdapter.getItem(selectedTeam).setFavorite(favorite);
+                teamListAdapter.getItem(selectedTeam).save();
+                Log.d("TeamListFragment", "Team 0 is favorite: " + teamList.get(0).isFavorite());
+                teamListAdapter.notifyItemChanged(selectedTeam);
+            }
         }
     };
 
@@ -775,6 +778,9 @@ public class TeamListFragment extends AbstractFragment {
                 teamList.addAll(teamListAll);
             }
             sortArrayList(Singleton.getInstance().getTeamSortMethod());
+            if(fastScroller!=null){
+                fastScroller.resizeScrollBar(0);
+            }
         }
     }
 

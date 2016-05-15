@@ -706,7 +706,9 @@ public class SaveMonsterListFragment extends AbstractFragment {
 //            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
 
             Log.d("Save Monster List", "monsterList is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
-            fastScroller.resizeScrollBar(1);
+            if(fastScroller!=null){
+                fastScroller.resizeScrollBar(1);
+            }
         }
 
 

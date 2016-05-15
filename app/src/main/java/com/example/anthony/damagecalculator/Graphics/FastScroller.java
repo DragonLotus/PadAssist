@@ -73,31 +73,20 @@ public class FastScroller extends LinearLayout {
 
     public void resizeScrollBar(int listType) {
         Log.d("FastScrollerTag", "Track Height/Width before is " + track.getMeasuredHeight() + "/" + track.getMeasuredWidth() +" "+ recyclerView.getAdapter().getItemCount());
-        if(listType == 1){
-            float displayedItems = (height - TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics()))/ TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getContext().getResources().getDisplayMetrics());
+        if(recyclerView.getAdapter().getItemCount()!=0 || recyclerView != null){
+            float displayedItems = height/ TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getContext().getResources().getDisplayMetrics());
             int itemCount = recyclerView.getAdapter().getItemCount();
             float proportion = displayedItems / itemCount;
-            LinearLayout.LayoutParams z = (LinearLayout.LayoutParams) track.getLayoutParams();
-            Log.d("FastScrollerTag", "proportion/scrollbar height is " + proportion + "/" + Math.round(proportion * height) + " itemCount is: " + itemCount + " displayedItems is: " + displayedItems);
-            if(proportion >= 1){
-                z.height = height;
-            } else if (Math.round(proportion * height) <= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics())){
-                z.height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics());
-            } else {
-                z.height = Math.round(proportion * height);
-            }
-        } else if (listType == 0) {
-            float displayedItems = height / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getContext().getResources().getDisplayMetrics());
-            int itemCount = recyclerView.getAdapter().getItemCount();
-            float proportion = displayedItems / itemCount;
-            LinearLayout.LayoutParams z = (LinearLayout.LayoutParams) track.getLayoutParams();
 
+            LinearLayout.LayoutParams z = (LinearLayout.LayoutParams) track.getLayoutParams();
             Log.d("FastScrollerTag", "proportion/scrollbar height is " + proportion + "/" + Math.round(proportion * height) + " itemCount is: " + itemCount + " displayedItems is: " + displayedItems);
             if(proportion >= 1){
-                z.height = height;
+                track.setVisibility(INVISIBLE);
             } else if (Math.round(proportion * height) <= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics())){
+                track.setVisibility(VISIBLE);
                 z.height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 40, getContext().getResources().getDisplayMetrics());
             } else {
+                track.setVisibility(VISIBLE);
                 z.height = Math.round(proportion * height);
             }
         }
@@ -173,6 +162,7 @@ public class FastScroller extends LinearLayout {
             View firstVisibleView = recyclerView.getChildAt(0);
             int firstVisiblePosition = recyclerView.getChildPosition(firstVisibleView);
             int visibleRange = recyclerView.getChildCount();
+            Log.d("FastScrollerTag", "getChildCount " + recyclerView.getChildCount());
             int lastVisiblePosition = firstVisiblePosition + visibleRange;
             int itemCount = recyclerView.getAdapter().getItemCount();
             int position;
