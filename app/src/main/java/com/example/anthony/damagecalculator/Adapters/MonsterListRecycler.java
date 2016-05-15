@@ -44,6 +44,16 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         }
     };
 
+    private View.OnLongClickListener onItemLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            ViewHolder holder = (ViewHolder) v.getTag();
+            Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
+            ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, monsterList.get(holder.getAdapterPosition()).getMonsterId(),holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG);
+            return true;
+        }
+    };
+
     public MonsterListRecycler(Context context, ArrayList<Monster> monsterList){
         mContext = context;
         this.monsterList = monsterList;
@@ -266,6 +276,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         viewHolder.monsterName.setSelected(true);
 
         viewHolder.itemView.setOnClickListener(onItemClickListener);
+        viewHolder.itemView.setOnLongClickListener(onItemLongClickListener);
         viewHolder.itemView.setTag(viewHolder);
     }
 

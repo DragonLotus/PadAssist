@@ -730,4 +730,8 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
     public Monster getItem(int position){
         return monsterList.get(position);
     }
+
+    public int getExpandedPosition() {
+        return expandedPosition;
+    }
 }

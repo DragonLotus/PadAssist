@@ -23,6 +23,7 @@ import com.example.anthony.damagecalculator.Adapters.TeamListRecycler;
 import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.Team;
+import com.example.anthony.damagecalculator.Graphics.FastScroller;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.Singleton;
 import com.example.anthony.damagecalculator.Util.TeamAlphabeticalComparator;
@@ -123,6 +124,8 @@ public class TeamListFragment extends AbstractFragment {
     private Comparator<Team> teamHelperPlusRcvComparator = new TeamHelperPlusRcvComparator();
     private Comparator<Team> teamHelperRarityComparator = new TeamHelperRarityComparator();
 
+    private FastScroller fastScroller;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -182,6 +185,7 @@ public class TeamListFragment extends AbstractFragment {
         teamListView = (RecyclerView) rootView.findViewById(R.id.teamListView);
         importButton = (Button) rootView.findViewById(R.id.importButton);
         savedTeams = (TextView) rootView.findViewById(R.id.savedTeams);
+        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
         return rootView;
     }
 
@@ -207,6 +211,8 @@ public class TeamListFragment extends AbstractFragment {
         teamListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         importButton.setOnClickListener(buttonOnClickListener);
 //        teamListView.setOnItemClickListener(teamListOnClickListener);
+
+        fastScroller.setRecyclerView(teamListView);
     }
 
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
