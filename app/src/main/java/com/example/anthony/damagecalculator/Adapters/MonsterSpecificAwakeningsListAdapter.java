@@ -99,9 +99,16 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         if (awakeningListAll.size() != 0) {
             awakeningListAll.clear();
         }
-        for (int i = 0; i < monsterList.get(position).getCurrentAwakenings(); i++) {
-            awakeningListAll.add(monsterList.get(position).getAwokenSkills(i));
+        if (monsterList.get(position).getCurrentAwakenings() < monsterList.get(position).getMaxAwakenings()) {
+            for (int i = 0; i < monsterList.get(position).getCurrentAwakenings(); i++) {
+                awakeningListAll.add(monsterList.get(position).getAwokenSkills(i));
+            }
+        } else {
+            for (int i = 0; i < monsterList.get(position).getMaxAwakenings(); i++) {
+                awakeningListAll.add(monsterList.get(position).getAwokenSkills(i));
+            }
         }
+
         Log.d("Monster Specific", "AwakeningListAll is: " + awakeningListAll);
         for (int i = 0; i < awakeningListAll.size(); i++) {
             if (monsterSpecificFilter.contains(awakeningListAll.get(i))) {
@@ -110,21 +117,21 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         }
         Log.d("Monster Specific", "AwakeningList is: " + awakeningListAll);
         Log.d("latentListTag", "1. latentList is: " + latentList + " latentListAll is: " + latentListAll);
-        if(latentList.size() !=0){
+        if (latentList.size() != 0) {
             latentList.clear();
         }
-        if (latentListAll.size() != 0){
+        if (latentListAll.size() != 0) {
             latentListAll.clear();
         }
 
         Log.d("latentListTag", "2. latentList is: " + latentList + " latentListAll is: " + latentListAll);
-        if(monsterList.get(position).getLatents().get(0) != 0 || monsterList.get(position).getLatents().get(1) != 0 || monsterList.get(position).getLatents().get(2) != 0 || monsterList.get(position).getLatents().get(3) != 0 || monsterList.get(position).getLatents().get(4) != 0){
+        if (monsterList.get(position).getLatents().get(0) != 0 || monsterList.get(position).getLatents().get(1) != 0 || monsterList.get(position).getLatents().get(2) != 0 || monsterList.get(position).getLatents().get(3) != 0 || monsterList.get(position).getLatents().get(4) != 0) {
 
-            for(int i = 0; i < monsterList.get(position).getLatents().size(); i++){
+            for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
                 latentListAll.add(monsterList.get(position).getLatents().get(i));
             }
-            for(int i = 0; i < latentListAll.size(); i++){
-                if(latentMonsterSpecificFilter.contains(latentListAll.get(i))){
+            for (int i = 0; i < latentListAll.size(); i++) {
+                if (latentMonsterSpecificFilter.contains(latentListAll.get(i))) {
                     latentList.add(latentListAll.get(i));
                 }
             }

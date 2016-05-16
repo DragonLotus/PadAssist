@@ -97,7 +97,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
         viewHolder.monsterHP.setText(Integer.toString(monsterList.get(position).getTotalHp()) + " / ");
         viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
         viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
-        if (monsterList.get(position).getCurrentAwakenings() == monsterList.get(position).getMaxAwakenings()) {
+        if (monsterList.get(position).getCurrentAwakenings() >= monsterList.get(position).getMaxAwakenings()) {
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
         }

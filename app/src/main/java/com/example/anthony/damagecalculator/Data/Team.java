@@ -433,8 +433,14 @@ public class Team extends Model implements Parcelable {
     public ArrayList<Integer> getAwakenings(){
         if(awakeningsList.size() == 0){
             for (int i = 0; i < monsters.size(); i++){
-                for(int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
-                    awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+                if(monsters.get(i).getCurrentAwakenings() < monsters.get(i).getMaxAwakenings()){
+                    for(int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
+                        awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+                    }
+                } else {
+                    for(int j = 0; j < monsters.get(i).getMaxAwakenings(); j++){
+                        awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+                    }
                 }
             }
             Collections.sort(awakeningsList, numberComparator);
@@ -475,43 +481,85 @@ public class Team extends Model implements Parcelable {
             if (!isBound.get(i) && hasAwakenings) {
                 //This isn't necessary anymore
                 if (getMonsters().get(i).getAwokenSkills().size() != 0) {
-                    for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++) {
-                        Log.d("Awakening List", "Monster: " + getMonsters(i) + " List: " + getMonsters(i).getAwokenSkills());
-                        int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
-                        switch (awokenSkill) {
-                            case 14:
-                                orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
-                                break;
-                            case 15:
-                                orbPlusAwakenings.set(1, orbPlusAwakenings.get(1) + 1);
-                                break;
-                            case 16:
-                                orbPlusAwakenings.set(2, orbPlusAwakenings.get(2) + 1);
-                                break;
-                            case 17:
-                                orbPlusAwakenings.set(3, orbPlusAwakenings.get(3) + 1);
-                                break;
-                            case 18:
-                                orbPlusAwakenings.set(4, orbPlusAwakenings.get(4) + 1);
-                                break;
-                            case 29:
-                                orbPlusAwakenings.set(5, orbPlusAwakenings.get(5) + 1);
-                                break;
-                            case 22:
-                                rowAwakenings.set(0, rowAwakenings.get(0) + 1);
-                                break;
-                            case 23:
-                                rowAwakenings.set(1, rowAwakenings.get(1) + 1);
-                                break;
-                            case 24:
-                                rowAwakenings.set(2, rowAwakenings.get(2) + 1);
-                                break;
-                            case 25:
-                                rowAwakenings.set(3, rowAwakenings.get(3) + 1);
-                                break;
-                            case 26:
-                                rowAwakenings.set(4, rowAwakenings.get(4) + 1);
-                                break;
+                    if(getMonsters().get(i).getCurrentAwakenings()<getMonsters(i).getMaxAwakenings()){
+                        for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++) {
+                            Log.d("Awakening List", "Monster: " + getMonsters(i) + " List: " + getMonsters(i).getAwokenSkills());
+                            int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
+                            switch (awokenSkill) {
+                                case 14:
+                                    orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
+                                    break;
+                                case 15:
+                                    orbPlusAwakenings.set(1, orbPlusAwakenings.get(1) + 1);
+                                    break;
+                                case 16:
+                                    orbPlusAwakenings.set(2, orbPlusAwakenings.get(2) + 1);
+                                    break;
+                                case 17:
+                                    orbPlusAwakenings.set(3, orbPlusAwakenings.get(3) + 1);
+                                    break;
+                                case 18:
+                                    orbPlusAwakenings.set(4, orbPlusAwakenings.get(4) + 1);
+                                    break;
+                                case 29:
+                                    orbPlusAwakenings.set(5, orbPlusAwakenings.get(5) + 1);
+                                    break;
+                                case 22:
+                                    rowAwakenings.set(0, rowAwakenings.get(0) + 1);
+                                    break;
+                                case 23:
+                                    rowAwakenings.set(1, rowAwakenings.get(1) + 1);
+                                    break;
+                                case 24:
+                                    rowAwakenings.set(2, rowAwakenings.get(2) + 1);
+                                    break;
+                                case 25:
+                                    rowAwakenings.set(3, rowAwakenings.get(3) + 1);
+                                    break;
+                                case 26:
+                                    rowAwakenings.set(4, rowAwakenings.get(4) + 1);
+                                    break;
+                            }
+                        }
+                    } else {
+                        for (int j = 0; j < getMonsters().get(i).getMaxAwakenings(); j++) {
+                            Log.d("Awakening List", "Monster: " + getMonsters(i) + " List: " + getMonsters(i).getAwokenSkills());
+                            int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
+                            switch (awokenSkill) {
+                                case 14:
+                                    orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
+                                    break;
+                                case 15:
+                                    orbPlusAwakenings.set(1, orbPlusAwakenings.get(1) + 1);
+                                    break;
+                                case 16:
+                                    orbPlusAwakenings.set(2, orbPlusAwakenings.get(2) + 1);
+                                    break;
+                                case 17:
+                                    orbPlusAwakenings.set(3, orbPlusAwakenings.get(3) + 1);
+                                    break;
+                                case 18:
+                                    orbPlusAwakenings.set(4, orbPlusAwakenings.get(4) + 1);
+                                    break;
+                                case 29:
+                                    orbPlusAwakenings.set(5, orbPlusAwakenings.get(5) + 1);
+                                    break;
+                                case 22:
+                                    rowAwakenings.set(0, rowAwakenings.get(0) + 1);
+                                    break;
+                                case 23:
+                                    rowAwakenings.set(1, rowAwakenings.get(1) + 1);
+                                    break;
+                                case 24:
+                                    rowAwakenings.set(2, rowAwakenings.get(2) + 1);
+                                    break;
+                                case 25:
+                                    rowAwakenings.set(3, rowAwakenings.get(3) + 1);
+                                    break;
+                                case 26:
+                                    rowAwakenings.set(4, rowAwakenings.get(4) + 1);
+                                    break;
+                            }
                         }
                     }
                 }

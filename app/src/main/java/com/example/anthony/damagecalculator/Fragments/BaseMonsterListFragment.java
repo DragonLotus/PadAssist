@@ -107,7 +107,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_base_monster_list, container, false);
         monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
-//        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
+        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
         return rootView;
     }
 

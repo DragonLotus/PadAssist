@@ -158,9 +158,17 @@ public class Monster extends Model implements Parcelable {
     public int getTotalHp() {
         int totalHp = (int) currentHp + hpPlus * HP_MULTIPLIER;
         int counter = 0;
-        for (int i = 0; i < currentAwakenings; i++){
-            if(getAwokenSkills().get(i) == 1){
-                counter++;
+        if (currentAwakenings < getMaxAwakenings()) {
+            for (int i = 0; i < currentAwakenings; i++){
+                if(getAwokenSkills().get(i) == 1){
+                    counter++;
+                }
+            }
+        } else {
+            for (int i = 0; i < getMaxAwakenings(); i++){
+                if(getAwokenSkills().get(i) == 1){
+                    counter++;
+                }
             }
         }
         int counter2 = 0;
@@ -177,9 +185,17 @@ public class Monster extends Model implements Parcelable {
     public int getTotalAtk() {
         int totalAtk = (int) currentAtk + atkPlus * ATK_MULTIPLIER;
         int counter = 0;
-        for (int i = 0; i < currentAwakenings; i++){
-            if(getAwokenSkills().get(i) == 2){
-                counter++;
+        if(currentAwakenings<getMaxAwakenings()){
+            for (int i = 0; i < currentAwakenings; i++){
+                if(getAwokenSkills().get(i) == 2){
+                    counter++;
+                }
+            }
+        } else {
+            for (int i = 0; i < getMaxAwakenings(); i++){
+                if(getAwokenSkills().get(i) == 2){
+                    counter++;
+                }
             }
         }
         int counter2 = 0;
@@ -197,9 +213,17 @@ public class Monster extends Model implements Parcelable {
     public int getTotalRcv() {
         int totalRcv = (int) currentRcv + rcvPlus * RCV_MULTIPLIER;
         int counter = 0;
-        for (int i = 0; i < currentAwakenings; i++){
-            if(getAwokenSkills().get(i) == 3){
-                counter++;
+        if(currentAwakenings<getMaxAwakenings()){
+            for (int i = 0; i < currentAwakenings; i++){
+                if(getAwokenSkills().get(i) == 3){
+                    counter++;
+                }
+            }
+        }else {
+            for (int i = 0; i < getMaxAwakenings(); i++){
+                if(getAwokenSkills().get(i) == 3){
+                    counter++;
+                }
             }
         }
         int counter2 = 0;
@@ -530,10 +554,17 @@ public class Monster extends Model implements Parcelable {
         if(!Team.getTeamById(0).hasAwakenings()){
             return numOfDoubleProngs;
         }else {
-
-            for (int i = 0; i < currentAwakenings; i++) {
-                if (baseMonster.getAwokenSkills(i) == 27) {
-                    numOfDoubleProngs++;
+            if(currentAwakenings<getMaxAwakenings()){
+                for (int i = 0; i < currentAwakenings; i++) {
+                    if (baseMonster.getAwokenSkills(i) == 27) {
+                        numOfDoubleProngs++;
+                    }
+                }
+            } else {
+                for (int i = 0; i < getMaxAwakenings(); i++) {
+                    if (baseMonster.getAwokenSkills(i) == 27) {
+                        numOfDoubleProngs++;
+                    }
                 }
             }
         }

@@ -69,7 +69,7 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
             viewHolder.monsterAwakenings.setText("");
         } else {
             viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
-            if (team.getMonsters(position).getCurrentAwakenings() == team.getMonsters(position).getMaxAwakenings()) {
+            if (team.getMonsters(position).getCurrentAwakenings() >= team.getMonsters(position).getMaxAwakenings()) {
                 viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
                 viewHolder.monsterAwakenings.setText("");
             } else {

@@ -267,7 +267,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             viewHolder.favorite.setVisibility(View.INVISIBLE);
         }
 
-        if (teamList.get(position).getMonsters(0).getCurrentAwakenings() == teamList.get(position).getMonsters(0).getMaxAwakenings()) {
+        if (teamList.get(position).getMonsters(0).getCurrentAwakenings() >= teamList.get(position).getMonsters(0).getMaxAwakenings()) {
             viewHolder.monster1Awakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monster1Awakenings.setText("");
         }
@@ -286,7 +286,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             viewHolder.monster1Awakenings.setVisibility(View.VISIBLE);
         }
 
-        if (teamList.get(position).getMonsters(1).getCurrentAwakenings() == teamList.get(position).getMonsters(1).getMaxAwakenings()) {
+        if (teamList.get(position).getMonsters(1).getCurrentAwakenings() >= teamList.get(position).getMonsters(1).getMaxAwakenings()) {
             viewHolder.monster2Awakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monster2Awakenings.setText("");
         }
@@ -305,7 +305,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             viewHolder.monster2Awakenings.setVisibility(View.VISIBLE);
         }
 
-        if (teamList.get(position).getMonsters(2).getCurrentAwakenings() == teamList.get(position).getMonsters(2).getMaxAwakenings()) {
+        if (teamList.get(position).getMonsters(2).getCurrentAwakenings() >= teamList.get(position).getMonsters(2).getMaxAwakenings()) {
             viewHolder.monster3Awakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monster3Awakenings.setText("");
         }
@@ -324,7 +324,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             viewHolder.monster3Awakenings.setVisibility(View.VISIBLE);
         }
 
-        if (teamList.get(position).getMonsters(3).getCurrentAwakenings() == teamList.get(position).getMonsters(3).getMaxAwakenings()) {
+        if (teamList.get(position).getMonsters(3).getCurrentAwakenings() >= teamList.get(position).getMonsters(3).getMaxAwakenings()) {
             viewHolder.monster4Awakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monster4Awakenings.setText("");
         }
@@ -343,7 +343,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             viewHolder.monster4Awakenings.setVisibility(View.VISIBLE);
         }
 
-        if (teamList.get(position).getMonsters(4).getCurrentAwakenings() == teamList.get(position).getMonsters(4).getMaxAwakenings()) {
+        if (teamList.get(position).getMonsters(4).getCurrentAwakenings() >= teamList.get(position).getMonsters(4).getMaxAwakenings()) {
             viewHolder.monster5Awakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monster5Awakenings.setText("");
         }
@@ -363,7 +363,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             viewHolder.monster5Awakenings.setVisibility(View.VISIBLE);
         }
 
-        if (teamList.get(position).getMonsters(5).getCurrentAwakenings() == teamList.get(position).getMonsters(5).getMaxAwakenings()) {
+        if (teamList.get(position).getMonsters(5).getCurrentAwakenings() >= teamList.get(position).getMonsters(5).getMaxAwakenings()) {
             viewHolder.monster6Awakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monster6Awakenings.setText("");
         }

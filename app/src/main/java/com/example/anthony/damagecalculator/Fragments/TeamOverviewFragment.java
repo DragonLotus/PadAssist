@@ -30,7 +30,7 @@ public class TeamOverviewFragment extends AbstractFragment {
     private TextView teamHpValue, teamRcvValue, utilityAwakeningText, damageAwakeningText, monsterSpecificText;
     private ListView monsterSpecific;
     private ExpandableHeightGridView utilityAwakenings, damageAwakenings;
-//    private RecyclerView utilityAwakenings, damageAwakenings;
+    //    private RecyclerView utilityAwakenings, damageAwakenings;
     private ArrayList<Monster> monsterList;
     private ArrayList<Integer> utilityAwakeningList, damageAwakeningList, awakeningListAll, latentListAll, latentUtilityAwakeningList, latentDamageAwakeningList;
     private ArrayList<Integer> utilityFilter = new ArrayList<>();
@@ -194,8 +194,8 @@ public class TeamOverviewFragment extends AbstractFragment {
             }
         }
 
-        for(int i = 0; i < latentListAll.size(); i++){
-            if(latentUtilityFilter.contains(latentListAll.get(i))){
+        for (int i = 0; i < latentListAll.size(); i++) {
+            if (latentUtilityFilter.contains(latentListAll.get(i))) {
                 latentUtilityAwakeningList.add(latentListAll.get(i));
             }
         }
@@ -204,39 +204,48 @@ public class TeamOverviewFragment extends AbstractFragment {
 //            monsterList.addAll(team.getMonsters());
 //        }
         ArrayList<Integer> tempAwakenings = new ArrayList<>();
-        for(int i = 0; i < monsterList.size(); i++){
-            if(!latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(0)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(1)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(2)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(3)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(4))){
-                for(int j = 0; j < monsterList.get(i).getCurrentAwakenings(); j++){
-                    if (monsterSpecificFilter.contains(monsterList.get(i).getAwokenSkills(j))){
-                        tempAwakenings.add(monsterList.get(i).getAwokenSkills(j));
+        for (int i = 0; i < monsterList.size(); i++) {
+            if (!latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(0)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(1)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(2)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(3)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(4))) {
+                if (monsterList.get(i).getCurrentAwakenings() < monsterList.get(i).getMaxAwakenings()) {
+                    for (int j = 0; j < monsterList.get(i).getCurrentAwakenings(); j++) {
+                        if (monsterSpecificFilter.contains(monsterList.get(i).getAwokenSkills(j))) {
+                            tempAwakenings.add(monsterList.get(i).getAwokenSkills(j));
+                        }
+                    }
+                } else {
+                    for (int j = 0; j < monsterList.get(i).getMaxAwakenings(); j++) {
+                        if (monsterSpecificFilter.contains(monsterList.get(i).getAwokenSkills(j))) {
+                            tempAwakenings.add(monsterList.get(i).getAwokenSkills(j));
+                        }
                     }
                 }
-                if(tempAwakenings.size() == 0){
+
+                if (tempAwakenings.size() == 0) {
                     monsterList.remove(i);
                     i--;
-                }else {
+                } else {
                     tempAwakenings.clear();
                 }
             }
         }
-        if(utilityAwakeningList.size() == 0 && latentUtilityAwakeningList.size() == 0){
+        if (utilityAwakeningList.size() == 0 && latentUtilityAwakeningList.size() == 0) {
             utilityAwakenings.setVisibility(View.GONE);
             utilityAwakeningText.setText("No Utility Awakenings!");
-        }else {
+        } else {
             utilityAwakenings.setVisibility(View.VISIBLE);
             utilityAwakeningText.setText("Utility Awakenings");
         }
-        if(damageAwakeningList.size() == 0){
+        if (damageAwakeningList.size() == 0) {
             damageAwakenings.setVisibility(View.GONE);
             damageAwakeningText.setText("No Damage Awakenings!");
-        }else {
+        } else {
             damageAwakenings.setVisibility(View.VISIBLE);
             damageAwakeningText.setText("Damage Awakenings");
         }
-        if(monsterList.size() == 0){
+        if (monsterList.size() == 0) {
             monsterSpecific.setVisibility(View.GONE);
             monsterSpecificText.setText("No Monster Specific Awakenings!");
-        }else {
+        } else {
             monsterSpecific.setVisibility(View.VISIBLE);
             monsterSpecificText.setText("Monster Specific Awakenings");
         }
@@ -261,7 +270,7 @@ public class TeamOverviewFragment extends AbstractFragment {
         listView.requestLayout();
     }
 
-    private void setTeamStats(){
+    private void setTeamStats() {
 //        int teamHp = 0;
 //        double teamRcv = 0;
 //        Log.d("Team Overview", "Leadskill is: " + team.getLeadSkill());
