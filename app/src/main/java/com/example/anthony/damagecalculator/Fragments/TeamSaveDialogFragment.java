@@ -146,9 +146,9 @@ public class TeamSaveDialogFragment extends DialogFragment {
         this.teamIdOverwrite = teamIdOverwrite;
     }
 
-    public void show(FragmentManager manager, String tag, Team team) {
+    public void show(FragmentManager manager,long teamIdOverwrite, String tag) {
         super.show(manager, tag);
-        this.team = team;
+        this.teamIdOverwrite = teamIdOverwrite;
     }
 }
 //

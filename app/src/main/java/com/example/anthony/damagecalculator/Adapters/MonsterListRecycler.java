@@ -139,6 +139,20 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             viewHolder.rarityStar.setVisibility(View.VISIBLE);
         }
 
+        if (monsterList.get(position).getType2() == -1 && monsterList.get(position).getId() != 0) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.type1.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            viewHolder.type1.setLayoutParams(params);
+            viewHolder.type1.setVisibility(View.VISIBLE);
+        }
+
+        if (monsterList.get(position).getType3() == -1) {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.type2.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            viewHolder.type2.setLayoutParams(params);
+            viewHolder.type2.setVisibility(View.VISIBLE);
+        }
+
         switch (monsterList.get(position).getType1()) {
             case 0:
                 viewHolder.type1.setImageResource(R.drawable.type_evo_material);
@@ -294,20 +308,6 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             default:
                 viewHolder.type3.setVisibility(View.GONE);
                 break;
-        }
-
-        if (monsterList.get(position).getType2() == -1) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.type1.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            viewHolder.type1.setLayoutParams(params);
-            viewHolder.type1.setVisibility(View.VISIBLE);
-        }
-
-        if (monsterList.get(position).getType3() == -1) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.type2.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            viewHolder.type2.setLayoutParams(params);
-            viewHolder.type2.setVisibility(View.VISIBLE);
         }
         viewHolder.monsterName.setSelected(true);
 

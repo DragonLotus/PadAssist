@@ -72,7 +72,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private Comparator<BaseMonster> monsterRarityComparator = new BaseMonsterRarityComparator();
     private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
 
-   private FastScroller fastScroller;
+//   private FastScroller fastScroller;
 
     public static BaseMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId) {
         BaseMonsterListFragment fragment = new BaseMonsterListFragment();
@@ -107,7 +107,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_base_monster_list, container, false);
         monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
-        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
+    //    fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
         return rootView;
     }
 
@@ -146,18 +146,18 @@ public class BaseMonsterListFragment extends AbstractFragment {
         baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, expandChange, monsterListOnClickListener, monsterListOnLongClickListener);
         monsterListView.setAdapter(baseMonsterListAdapter);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        fastScroller.setRecyclerView(monsterListView);
+//        fastScroller.setRecyclerView(monsterListView);
 //        monsterListView.setOnItemClickListener(monsterListOnClickListener);
     }
 
     private BaseMonsterListRecycler.ExpandChange expandChange = new BaseMonsterListRecycler.ExpandChange() {
         @Override
         public void onExpandChange(int expandedPosition) {
-            if(expandedPosition >= 0){
-                fastScroller.resizeScrollBar(true, FastScroller.BASE_MONSTER_LIST);
-            }else{
-                fastScroller.resizeScrollBar(false, FastScroller.BASE_MONSTER_LIST);
-            }
+//            if(expandedPosition >= 0){
+//                fastScroller.resizeScrollBar(true, FastScroller.BASE_MONSTER_LIST);
+//            }else{
+//                fastScroller.resizeScrollBar(false, FastScroller.BASE_MONSTER_LIST);
+//            }
         }
     };
 
@@ -718,10 +718,10 @@ public class BaseMonsterListFragment extends AbstractFragment {
                 monsterList.addAll(monsterListAll);
             }
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
-        }
-        baseMonsterListAdapter.setExpandedPosition(-1);
-        if(fastScroller != null){
-            fastScroller.resizeScrollBar(baseMonsterListAdapter.expanded(), FastScroller.BASE_MONSTER_LIST);
+            baseMonsterListAdapter.setExpandedPosition(-1);
+//            if(fastScroller != null){
+//                fastScroller.resizeScrollBar(baseMonsterListAdapter.expanded(), FastScroller.BASE_MONSTER_LIST);
+//            }
         }
     }
 

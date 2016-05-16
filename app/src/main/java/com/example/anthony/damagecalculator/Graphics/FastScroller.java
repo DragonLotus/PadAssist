@@ -199,7 +199,7 @@ public class FastScroller extends LinearLayout {
             int lastVisiblePosition = firstVisiblePosition + visibleRange;
             int itemCount = recyclerView.getAdapter().getItemCount();
             int lastVisibleAdapterPosition = recyclerView.getChildAdapterPosition(recyclerView.getChildAt(visibleRange - 1));
-            Log.d("FastScrollerTag", "getChildCount " + recyclerView.getChildCount() + " lastVisiblePosition: " + lastVisiblePosition + " lastVisibleAdapterPosition: " + lastVisibleAdapterPosition + " itemCount: " + itemCount + " childHeight: " + firstVisibleView.getMeasuredHeight());
+//            Log.d("FastScrollerTag", "getChildCount " + recyclerView.getChildCount() + " lastVisiblePosition: " + lastVisiblePosition + " lastVisibleAdapterPosition: " + lastVisibleAdapterPosition + " itemCount: " + itemCount + " childHeight: " + firstVisibleView.getMeasuredHeight());
             int position;
             if (firstVisiblePosition == 0) {
                 position = 0;

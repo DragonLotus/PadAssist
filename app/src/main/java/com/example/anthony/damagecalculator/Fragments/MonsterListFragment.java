@@ -162,7 +162,7 @@ public class MonsterListFragment extends AbstractFragment {
                     if (teamSaveDialogFragment == null) {
                         teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam, team.getTeamIdOverwrite());
                     }
-                    teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), "Show Team Save Dialog");
+                    teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(),team.getTeamIdOverwrite(), "Show Team Save Dialog");
                 }
                 break;
         }
@@ -379,7 +379,7 @@ public class MonsterListFragment extends AbstractFragment {
             if (Team.getAllTeams().size() == 0) {
                 teamId = 1;
             } else {
-                teamId = Team.getAllTeamsAndZero().get(Team.getAllTeamsAndZero().size() - 1).getTeamId() + 1;
+                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
             }
             Team newTeam = new Team(team);
             newTeam.setTeamName(teamNameString);

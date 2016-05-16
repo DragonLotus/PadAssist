@@ -320,6 +320,12 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
             viewHolder.monsterHP.setVisibility(View.GONE);
             viewHolder.monsterATK.setVisibility(View.GONE);
             viewHolder.monsterRCV.setVisibility(View.GONE);
+            if(monsterList.get(position).getMaxAwakenings() == 0 && monsterList.get(position).getMonsterId() != 14){
+                RelativeLayout.LayoutParams z = (RelativeLayout.LayoutParams) viewHolder.leaderSkill.getLayoutParams();
+                z.addRule(RelativeLayout.BELOW, R.id.latentHolder);
+                RelativeLayout.LayoutParams x = (RelativeLayout.LayoutParams) viewHolder.leaderSkillName.getLayoutParams();
+                x.addRule(RelativeLayout.BELOW, R.id.latentHolder);
+            }
             for(int i = 0; i < 9; i++){
                 if(i >= monsterList.get(position).getMaxAwakenings()){
                     viewHolder.awakeningHolder.getChildAt(i).setVisibility(View.GONE);
@@ -327,237 +333,356 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
                     viewHolder.awakeningHolder.getChildAt(i).setVisibility(View.VISIBLE);
                 }
             }
-            for (int j = 0; j < monsterList.get(position).getCurrentAwakenings(); j++) {
-                switch (monsterList.get(position).getAwokenSkills().get(j)) {
-                    case 1:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
-                        break;
-                    case 2:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2);
-                        break;
-                    case 3:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3);
-                        break;
-                    case 4:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4);
-                        break;
-                    case 5:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5);
-                        break;
-                    case 6:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6);
-                        break;
-                    case 7:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7);
-                        break;
-                    case 8:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8);
-                        break;
-                    case 9:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9);
-                        break;
-                    case 10:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10);
-                        break;
-                    case 11:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11);
-                        break;
-                    case 12:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12);
-                        break;
-                    case 13:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13);
-                        break;
-                    case 14:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14);
-                        break;
-                    case 15:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15);
-                        break;
-                    case 16:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16);
-                        break;
-                    case 17:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17);
-                        break;
-                    case 18:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18);
-                        break;
-                    case 19:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19);
-                        break;
-                    case 20:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20);
-                        break;
-                    case 21:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21);
-                        break;
-                    case 22:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22);
-                        break;
-                    case 23:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23);
-                        break;
-                    case 24:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24);
-                        break;
-                    case 25:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25);
-                        break;
-                    case 26:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26);
-                        break;
-                    case 27:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27);
-                        break;
-                    case 28:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28);
-                        break;
-                    case 29:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29);
-                        break;
-                    case 30:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30);
-                        break;
-                    case 31:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31);
-                        break;
-                    case 32:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32);
-                        break;
-                    case 33:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33);
-                        break;
-                    case 34:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34);
-                        break;
-                    case 35:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35);
-                        break;
-                    case 36:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36);
-                        break;
-                    case 37:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
-                        break;
+            if(monsterList.get(position).getCurrentAwakenings() < monsterList.get(position).getMaxAwakenings()){
+                for (int j = 0; j < monsterList.get(position).getCurrentAwakenings(); j++) {
+                    switch (monsterList.get(position).getAwokenSkills().get(j)) {
+                        case 1:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
+                            break;
+                        case 2:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2);
+                            break;
+                        case 3:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3);
+                            break;
+                        case 4:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4);
+                            break;
+                        case 5:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5);
+                            break;
+                        case 6:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6);
+                            break;
+                        case 7:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7);
+                            break;
+                        case 8:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8);
+                            break;
+                        case 9:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9);
+                            break;
+                        case 10:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10);
+                            break;
+                        case 11:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11);
+                            break;
+                        case 12:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12);
+                            break;
+                        case 13:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13);
+                            break;
+                        case 14:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14);
+                            break;
+                        case 15:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15);
+                            break;
+                        case 16:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16);
+                            break;
+                        case 17:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17);
+                            break;
+                        case 18:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18);
+                            break;
+                        case 19:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19);
+                            break;
+                        case 20:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20);
+                            break;
+                        case 21:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21);
+                            break;
+                        case 22:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22);
+                            break;
+                        case 23:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23);
+                            break;
+                        case 24:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24);
+                            break;
+                        case 25:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25);
+                            break;
+                        case 26:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26);
+                            break;
+                        case 27:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27);
+                            break;
+                        case 28:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28);
+                            break;
+                        case 29:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29);
+                            break;
+                        case 30:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30);
+                            break;
+                        case 31:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31);
+                            break;
+                        case 32:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32);
+                            break;
+                        case 33:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33);
+                            break;
+                        case 34:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34);
+                            break;
+                        case 35:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35);
+                            break;
+                        case 36:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36);
+                            break;
+                        case 37:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
+                            break;
+                    }
+                }
+
+                for (int j = monsterList.get(position).getCurrentAwakenings(); j < monsterList.get(position).getMaxAwakenings(); j++) {
+                    switch (monsterList.get(position).getAwokenSkills().get(j)) {
+                        case 1:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1_disabled);
+                            break;
+                        case 2:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2_disabled);
+                            break;
+                        case 3:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3_disabled);
+                            break;
+                        case 4:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4_disabled);
+                            break;
+                        case 5:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5_disabled);
+                            break;
+                        case 6:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6_disabled);
+                            break;
+                        case 7:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7_disabled);
+                            break;
+                        case 8:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8_disabled);
+                            break;
+                        case 9:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9_disabled);
+                            break;
+                        case 10:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10_disabled);
+                            break;
+                        case 11:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11_disabled);
+                            break;
+                        case 12:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12_disabled);
+                            break;
+                        case 13:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13_disabled);
+                            break;
+                        case 14:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14_disabled);
+                            break;
+                        case 15:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15_disabled);
+                            break;
+                        case 16:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16_disabled);
+                            break;
+                        case 17:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17_disabled);
+                            break;
+                        case 18:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18_disabled);
+                            break;
+                        case 19:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19_disabled);
+                            break;
+                        case 20:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20_disabled);
+                            break;
+                        case 21:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21_disabled);
+                            break;
+                        case 22:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22_disabled);
+                            break;
+                        case 23:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23_disabled);
+                            break;
+                        case 24:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24_disabled);
+                            break;
+                        case 25:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25_disabled);
+                            break;
+                        case 26:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26_disabled);
+                            break;
+                        case 27:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27_disabled);
+                            break;
+                        case 28:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28_disabled);
+                            break;
+                        case 29:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29_disabled);
+                            break;
+                        case 30:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30_disabled);
+                            break;
+                        case 31:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31_disabled);
+                            break;
+                        case 32:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32_disabled);
+                            break;
+                        case 33:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33_disabled);
+                            break;
+                        case 34:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34_disabled);
+                            break;
+                        case 35:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35_disabled);
+                            break;
+                        case 36:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36_disabled);
+                            break;
+                        case 37:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37_disabled);
+                            break;
+                    }
+                }
+            } else {
+                for (int j = 0; j < monsterList.get(position).getMaxAwakenings(); j++) {
+                    switch (monsterList.get(position).getAwokenSkills().get(j)) {
+                        case 1:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
+                            break;
+                        case 2:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2);
+                            break;
+                        case 3:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3);
+                            break;
+                        case 4:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4);
+                            break;
+                        case 5:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5);
+                            break;
+                        case 6:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6);
+                            break;
+                        case 7:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7);
+                            break;
+                        case 8:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8);
+                            break;
+                        case 9:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9);
+                            break;
+                        case 10:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10);
+                            break;
+                        case 11:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11);
+                            break;
+                        case 12:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12);
+                            break;
+                        case 13:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13);
+                            break;
+                        case 14:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14);
+                            break;
+                        case 15:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15);
+                            break;
+                        case 16:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16);
+                            break;
+                        case 17:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17);
+                            break;
+                        case 18:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18);
+                            break;
+                        case 19:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19);
+                            break;
+                        case 20:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20);
+                            break;
+                        case 21:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21);
+                            break;
+                        case 22:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22);
+                            break;
+                        case 23:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23);
+                            break;
+                        case 24:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24);
+                            break;
+                        case 25:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25);
+                            break;
+                        case 26:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26);
+                            break;
+                        case 27:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27);
+                            break;
+                        case 28:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28);
+                            break;
+                        case 29:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29);
+                            break;
+                        case 30:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30);
+                            break;
+                        case 31:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31);
+                            break;
+                        case 32:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32);
+                            break;
+                        case 33:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33);
+                            break;
+                        case 34:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34);
+                            break;
+                        case 35:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35);
+                            break;
+                        case 36:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36);
+                            break;
+                        case 37:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
+                            break;
+                    }
                 }
             }
 
-            for (int j = monsterList.get(position).getCurrentAwakenings(); j < monsterList.get(position).getMaxAwakenings(); j++) {
-                switch (monsterList.get(position).getAwokenSkills().get(j)) {
-                    case 1:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1_disabled);
-                        break;
-                    case 2:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2_disabled);
-                        break;
-                    case 3:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3_disabled);
-                        break;
-                    case 4:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4_disabled);
-                        break;
-                    case 5:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5_disabled);
-                        break;
-                    case 6:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6_disabled);
-                        break;
-                    case 7:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7_disabled);
-                        break;
-                    case 8:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8_disabled);
-                        break;
-                    case 9:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9_disabled);
-                        break;
-                    case 10:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10_disabled);
-                        break;
-                    case 11:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11_disabled);
-                        break;
-                    case 12:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12_disabled);
-                        break;
-                    case 13:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13_disabled);
-                        break;
-                    case 14:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14_disabled);
-                        break;
-                    case 15:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15_disabled);
-                        break;
-                    case 16:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16_disabled);
-                        break;
-                    case 17:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17_disabled);
-                        break;
-                    case 18:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18_disabled);
-                        break;
-                    case 19:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19_disabled);
-                        break;
-                    case 20:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20_disabled);
-                        break;
-                    case 21:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21_disabled);
-                        break;
-                    case 22:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22_disabled);
-                        break;
-                    case 23:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23_disabled);
-                        break;
-                    case 24:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24_disabled);
-                        break;
-                    case 25:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25_disabled);
-                        break;
-                    case 26:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26_disabled);
-                        break;
-                    case 27:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27_disabled);
-                        break;
-                    case 28:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28_disabled);
-                        break;
-                    case 29:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29_disabled);
-                        break;
-                    case 30:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30_disabled);
-                        break;
-                    case 31:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31_disabled);
-                        break;
-                    case 32:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32_disabled);
-                        break;
-                    case 33:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33_disabled);
-                        break;
-                    case 34:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34_disabled);
-                        break;
-                    case 35:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35_disabled);
-                        break;
-                    case 36:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36_disabled);
-                        break;
-                    case 37:
-                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37_disabled);
-                        break;
-                }
-            }
             if(monsterList.get(position).getType1() == 0 || monsterList.get(position).getType1() == 14){
                 viewHolder.latentHolder.setVisibility(View.GONE);
             }else {

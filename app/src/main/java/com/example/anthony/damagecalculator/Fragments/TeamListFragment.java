@@ -124,7 +124,7 @@ public class TeamListFragment extends AbstractFragment {
     private Comparator<Team> teamHelperPlusRcvComparator = new TeamHelperPlusRcvComparator();
     private Comparator<Team> teamHelperRarityComparator = new TeamHelperRarityComparator();
 
-    private FastScroller fastScroller;
+//    private FastScroller fastScroller;
 
     /**
      * Use this factory method to create a new instance of
@@ -185,7 +185,7 @@ public class TeamListFragment extends AbstractFragment {
         teamListView = (RecyclerView) rootView.findViewById(R.id.teamListView);
         importButton = (Button) rootView.findViewById(R.id.importButton);
         savedTeams = (TextView) rootView.findViewById(R.id.savedTeams);
-        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
+//        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
         return rootView;
     }
 
@@ -212,7 +212,7 @@ public class TeamListFragment extends AbstractFragment {
         importButton.setOnClickListener(buttonOnClickListener);
 //        teamListView.setOnItemClickListener(teamListOnClickListener);
 
-        fastScroller.setRecyclerView(teamListView);
+//        fastScroller.setRecyclerView(teamListView);
     }
 
     private View.OnClickListener buttonOnClickListener = new View.OnClickListener() {
@@ -266,15 +266,14 @@ public class TeamListFragment extends AbstractFragment {
         public void loadTeam() {
             Team teamZero = Team.getTeamById(0);
             Monster monsterZero = Monster.getMonsterId(0);
-            Log.d("TeamListTag", "teamZero is: " + teamZero.getTeamName() );
-            Log.d("TeamListTag", "teamZero monsters are: " + teamZero.getMonsters() + " teamZero overwriteTeam monsters are: " + Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters());
+            Log.d("TeamListTag", "teamZero is: " + teamZero.getTeamName() + " team is: " + teamZero);
             if (teamZero.getTeamIdOverwrite() == 0) {
                 Log.d("TeamListTag", "First if");
                 ArrayList<Monster> zeroMonsterList = new ArrayList<>();
                 for (int i = 0; i < 6; i++) {
                     zeroMonsterList.add(monsterZero);
                 }
-                if(teamZero.getMonsters().equals(zeroMonsterList)){
+                if (teamZero.getMonsters().equals(zeroMonsterList)) {
                     Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
                     Log.d("TeamListTag", "Team Name: " + loadTeam.getTeamName());
                     loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
@@ -287,12 +286,14 @@ public class TeamListFragment extends AbstractFragment {
                     }
                     loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
                 }
-            } else if (!teamZero.getMonsters().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters()) || !teamZero.getTeamName().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getTeamName())) {
-                Log.d("TeamListTag", "Second if");
-                if (loadTeamConfirmationDialogFragment == null) {
-                    loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+            } else if (Team.getTeamById(teamZero.getTeamIdOverwrite()) != null) {
+                if (!teamZero.getMonsters().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters()) || !teamZero.getTeamName().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getTeamName())) {
+                    Log.d("TeamListTag", "Second if");
+                    if (loadTeamConfirmationDialogFragment == null) {
+                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+                    }
+                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
                 }
-                loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
             } else {
                 Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
                 Log.d("TeamListTag", "Team Name: " + loadTeam.getTeamName());
@@ -336,7 +337,7 @@ public class TeamListFragment extends AbstractFragment {
 
         @Override
         public void favoriteTeam(boolean favorite) {
-            if(teamListAdapter.getItemCount()!=0){
+            if (selectedTeam < teamListAdapter.getItemCount() && teamListAdapter.getItemCount() != 0) {
                 teamListAdapter.getItem(selectedTeam).setFavorite(favorite);
                 teamListAdapter.getItem(selectedTeam).save();
                 Log.d("TeamListFragment", "Team 0 is favorite: " + teamList.get(0).isFavorite());
@@ -778,9 +779,9 @@ public class TeamListFragment extends AbstractFragment {
                 teamList.addAll(teamListAll);
             }
             sortArrayList(Singleton.getInstance().getTeamSortMethod());
-            if(fastScroller!=null){
-                fastScroller.resizeScrollBar(teamListAdapter.expanded(), FastScroller.TEAM_LIST);
-            }
+//            if(fastScroller!=null){
+//                fastScroller.resizeScrollBar(teamListAdapter.expanded(), FastScroller.TEAM_LIST);
+//            }
         }
     }
 
