@@ -13,6 +13,7 @@ import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.LeaderSkill;
 import com.example.anthony.damagecalculator.Data.LeaderSkillType;
 import com.example.anthony.damagecalculator.Data.Monster;
+import com.example.anthony.damagecalculator.LoadingScreenActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.Util.SharedPreferencesUtil;
 import com.example.anthony.damagecalculator.Util.Singleton;
@@ -29,12 +30,25 @@ import java.util.Map;
  */
 public class ParseMonsterDatabaseThread extends Thread {
 
+    private UpdateProgress update;
+    int counter = 0;
+
+    public interface UpdateProgress {
+        public void updateValues(int counter);
+
+    }
+
+    public ParseMonsterDatabaseThread(UpdateProgress update) {
+        this.update = update;
+    }
+
     public void run() {
         super.run();
+
             parseMonsterDatabase();
             parseLeaderSkillDatabase();
 
-            SharedPreferencesUtil.savePreferences(Constants.VERSION, BuildConfig.VERSION_CODE);
+        SharedPreferencesUtil.savePreferences(Constants.VERSION, BuildConfig.VERSION_CODE);
     }
 
     private void parseMonsterDatabase() {
@@ -44,6 +58,7 @@ public class ParseMonsterDatabaseThread extends Thread {
             BaseMonster monster;
             ActiveAndroid.beginTransaction();
             for (JsonNode monsterNode : rootNode) {
+                counter ++;
                 monster = new BaseMonster();
                 if (monsterNode.hasNonNull("id")) {
                     monster.setMonsterId(monsterNode.get("id").asLong());
@@ -125,6 +140,7 @@ public class ParseMonsterDatabaseThread extends Thread {
 //                monster.setMonsterPicture(Integer.getInteger(picture));
 //                monster.setMonsterPicture(R.drawable.class.getField(picture).getInt(null));
                 monster.save();
+                update.updateValues(counter);
             }
             ActiveAndroid.setTransactionSuccessful();
         } catch (Exception e) {
@@ -147,6 +163,7 @@ public class ParseMonsterDatabaseThread extends Thread {
             ActiveAndroid.beginTransaction();
             Log.d("himom", "himom2d");
             for (JsonNode leaderSkillNode : rootNode) {
+                counter ++;
                 leaderSkill = new LeaderSkill();
                 if (leaderSkillNode.hasNonNull("hpSkillType")) {
                     leaderSkill.setHpSkillType(parseLeadSkillType(leaderSkillNode.get("hpSkillType").asInt()));
@@ -214,7 +231,7 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (leaderSkillNode.hasNonNull("hpPercent")) {
                     leaderSkill.setHpPercent(parseIntArrayList(leaderSkillNode.get("hpPercent")));
                 }
-                if(leaderSkillNode.hasNonNull("effect")) {
+                if (leaderSkillNode.hasNonNull("effect")) {
                     leaderSkill.setDescription(leaderSkillNode.get("effect").asText());
                 }
                 if (leaderSkillNode.hasNonNull("name")) {
@@ -225,6 +242,8 @@ public class ParseMonsterDatabaseThread extends Thread {
 //                }
 
                 leaderSkill.save();
+                update.updateValues(counter);
+                Log.d("ParseTag", "counter is: " + counter);
             }
 //            Log.d("himom", "himom3");
             ActiveAndroid.setTransactionSuccessful();
@@ -270,7 +289,7 @@ public class ParseMonsterDatabaseThread extends Thread {
     }
 
     public static LeaderSkillType parseLeadSkillType(int leadSkillInt) {
-        switch (leadSkillInt){
+        switch (leadSkillInt) {
             case 0:
                 return LeaderSkillType.BLANK;
             case 1:
@@ -339,6 +358,20 @@ public class ParseMonsterDatabaseThread extends Thread {
                 return LeaderSkillType.ORB_LINK_EXACT_FLAT;
             case 33:
                 return LeaderSkillType.ORB_LINK_EXACT;
+            case 34:
+                return LeaderSkillType.ORB_LINK_ORB_PLUS;
+            case 35:
+                return LeaderSkillType.MATCH_ELEMENT_ORB_LINK;
+            case 36:
+                return LeaderSkillType.FLAT_TYPE_FLAT_TYPE;
+            case 37:
+                return LeaderSkillType.HP_FLAT_ORB_PLUS;
+            case 38:
+                return LeaderSkillType.HP_FLAT_MATCH_ELEMENT;
+            case 39:
+                return LeaderSkillType.HP_FLAT_ACTIVE;
+            case 40:
+                return LeaderSkillType.ORB_LINK_ACTIVE;
             default:
                 return LeaderSkillType.BLANK;
         }

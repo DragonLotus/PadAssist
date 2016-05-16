@@ -2,6 +2,7 @@ package com.example.anthony.damagecalculator;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -84,10 +85,14 @@ public class MainActivity extends AppCompatActivity {
             ActiveAndroid.initialize(this);
         }
 
+        Intent loadIntent = new Intent(this, LoadingScreenActivity.class);
+        startActivity(loadIntent);
 //        if(BuildConfig.VERSION_CODE != SharedPreferencesUtil.loadPreferenceInt(Constants.VERSION)) {
-            ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
-            parseMonsterDatabaseThread.start();
+//            ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
+//            parseMonsterDatabaseThread.start();
 //        }
+
+        Log.d("Total", "Total Monsters: " + BaseMonster.getAllMonsters().size() + " Total Leader Skills: " + LeaderSkill.getAllLeaderSkills().size());
         if (savedInstanceState != null) {
             mContent = (AbstractFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
         }
