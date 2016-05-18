@@ -293,6 +293,13 @@ public class TeamListFragment extends AbstractFragment {
                         loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
                     }
                     loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                } else {
+                    Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+                    Log.d("TeamListTag", "Team Name: " + loadTeam.getTeamName());
+                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+                    loadTeam.setTeamId(0);
+                    loadTeam.save();
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             } else {
                 Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
