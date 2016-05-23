@@ -104,14 +104,6 @@ public class FastScroller extends LinearLayout {
         height = h;
     }
 
-    private void setPosition(float y) {
-        float position = y / height;
-        int trackHeight = handle.getHeight();
-        handle.setY(getValueInRange(0, height - trackHeight, (int) ((height - trackHeight) * position)));
-//        int handleHeight = handle.getHeight();
-//        handle.setY(getValueInRange(0,height-handleHeight, (int)((height - handleHeight) * position)));
-    }
-
     private int getValueInRange(int min, int max, int value) {
         int minimum = Math.max(min, value);
         return Math.min(minimum, max);
@@ -131,31 +123,37 @@ public class FastScroller extends LinearLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float initialBarHeight = recyclerView.getMeasuredHeight();
-        float lastPressedYAdjustedToInitial = -1;
-        int lastAppBarLayoutOffset;
-        if(event.getActionMasked() == MotionEvent.ACTION_DOWN){
-            handle.setPressed(true);
+        if(event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_MOVE){
+            setHandlePosition(event.getY());
             recyclerView.stopScroll();
-
-            int nestedScrollAxis = ViewCompat.SCROLL_AXIS_NONE | ViewCompat.SCROLL_AXIS_VERTICAL;
-            recyclerView.startNestedScroll(nestedScrollAxis);
-            lastPressedYAdjustedToInitial = event.getY() + handle.getY() + recyclerView.getY();
-        } else if(event.getActionMasked() == MotionEvent.ACTION_MOVE){
-            float newHandlePressedY = event.getY() + handle.getY() + recyclerView.getY();
-            int trackHeight = recyclerView.getMeasuredHeight();
-            float newHandlePressedYAdjustedToInitial = newHandlePressedY + (initialBarHeight - trackHeight);
-            float deltaPressedYFromLastAdjuestedToInitial = newHandlePressedYAdjustedToInitial - lastPressedYAdjustedToInitial;
-            int dY = (int) ((deltaPressedYFromLastAdjuestedToInitial / initialBarHeight)*recyclerView.computeVerticalScrollRange());
-            lastPressedYAdjustedToInitial = newHandlePressedYAdjustedToInitial;
-        } else if(event.getActionMasked() == MotionEvent.ACTION_UP){
-            lastPressedYAdjustedToInitial = -1;
-            recyclerView.stopNestedScroll();
-            handle.setPressed(false);
+            Log.d("FastScrollerTag","getY is: " + event.getY() + " handle getY is: " + handle.getY());
+            return true;
+        } else if (event.getActionMasked() == MotionEvent.ACTION_UP){
+            return true;
         }
         return super.onTouchEvent(event);
     }
 
+    private void setHandlePosition(float y){
+        float scrollHeight = recyclerView.getMeasuredHeight();
+        float offset = handle.getHeight() / 2;
+        if(y <= offset){
+            handle.setY(0);
+        } else if(y>=scrollHeight-offset) {
+            handle.setY(scrollHeight-handle.getHeight());
+        } else {
+            handle.setY(y-offset);
+        }
+        Log.d("FastScrollerTag", "handle Height: " + handle.getHeight());
+    }
+
+    private void setPosition(float y) {
+        float position = y / height;
+        int trackHeight = handle.getHeight();
+        handle.setY(getValueInRange(0, height - trackHeight, (int) ((height - trackHeight) * position)));
+//        int handleHeight = handle.getHeight();
+//        handle.setY(getValueInRange(0,height-handleHeight, (int)((height - handleHeight) * position)));
+    }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -166,6 +164,7 @@ public class FastScroller extends LinearLayout {
         int verticalScrollRange = recyclerView.computeVerticalScrollRange() + recyclerView.getPaddingBottom();
 
         int trackHeight = recyclerView.getMeasuredHeight();
+        Log.d("FastScrollerTag", "VerticalScrollOffset: " + scrollOffset + " verticalScrollRange: " + verticalScrollRange + " trackHeight: " + trackHeight);
         Log.d("FastScrollerTag", "getMeasuredHeight: " + trackHeight);
         float ratio = (float) scrollOffset/(verticalScrollRange - trackHeight);
         int resizedHandleHeight = (int)((float)trackHeight / verticalScrollRange * trackHeight);
