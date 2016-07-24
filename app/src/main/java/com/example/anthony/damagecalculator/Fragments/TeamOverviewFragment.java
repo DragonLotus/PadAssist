@@ -172,6 +172,7 @@ public class TeamOverviewFragment extends AbstractFragment {
         monsterSpecificFilter.add(35);
         monsterSpecificFilter.add(36);
         monsterSpecificFilter.add(37);
+        monsterSpecificFilter.add(38);
         latentUtilityFilter.add(4);
         latentUtilityFilter.add(6);
         latentUtilityFilter.add(7);

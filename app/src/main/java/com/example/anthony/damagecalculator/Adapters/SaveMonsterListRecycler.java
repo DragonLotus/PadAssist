@@ -447,6 +447,9 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
                         case 37:
                             viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
                             break;
+                        case 38:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
+                            break;
                     }
                 }
 
@@ -563,6 +566,9 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
                         case 37:
                             viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37_disabled);
                             break;
+                        case 38:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38_disabled);
+                            break;
                     }
                 }
             } else {
@@ -678,6 +684,9 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
                             break;
                         case 37:
                             viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
+                            break;
+                        case 38:
+                            viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
                             break;
                     }
                 }

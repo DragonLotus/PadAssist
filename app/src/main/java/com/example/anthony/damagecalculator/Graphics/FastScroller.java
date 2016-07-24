@@ -38,7 +38,7 @@ public class FastScroller extends LinearLayout {
     private AnimatorSet currentAnimator = null;
 
     private View handle;
-    private int height;
+    private float previousY = 0;
 
     public FastScroller(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -101,12 +101,6 @@ public class FastScroller extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        height = h;
-    }
-
-    private int getValueInRange(int min, int max, int value) {
-        int minimum = Math.max(min, value);
-        return Math.min(minimum, max);
     }
 
     public void setRecyclerView(RecyclerView recyclerView) {
@@ -124,9 +118,9 @@ public class FastScroller extends LinearLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(event.getActionMasked() == MotionEvent.ACTION_DOWN || event.getActionMasked() == MotionEvent.ACTION_MOVE){
-            setHandlePosition(event.getY());
             recyclerView.stopScroll();
-            Log.d("FastScrollerTag","getY is: " + event.getY() + " handle getY is: " + handle.getY());
+            setPosition(event.getY());
+            Log.d("FastScrollerTag", "getY is: " + event.getY() + " handle getY is: " + handle.getY());
             return true;
         } else if (event.getActionMasked() == MotionEvent.ACTION_UP){
             return true;
@@ -134,25 +128,22 @@ public class FastScroller extends LinearLayout {
         return super.onTouchEvent(event);
     }
 
-    private void setHandlePosition(float y){
+    private void setPosition(float y){
         float scrollHeight = recyclerView.getMeasuredHeight();
         float offset = handle.getHeight() / 2;
+        float deltaY = y-previousY;
+        float deltaYRatio = deltaY/scrollHeight;
         if(y <= offset){
             handle.setY(0);
         } else if(y>=scrollHeight-offset) {
-            handle.setY(scrollHeight-handle.getHeight());
+            handle.setY(scrollHeight - handle.getHeight());
         } else {
-            handle.setY(y-offset);
+            handle.setY(y - offset);
         }
-        Log.d("FastScrollerTag", "handle Height: " + handle.getHeight());
-    }
+        Log.d("FastScrollerTag", "handle Height: " + handle.getHeight() + " deltaYRatio: " + deltaYRatio + " deltaY: " + deltaY + " previousY: " + previousY + " handle getY is: " + handle.getY());
 
-    private void setPosition(float y) {
-        float position = y / height;
-        int trackHeight = handle.getHeight();
-        handle.setY(getValueInRange(0, height - trackHeight, (int) ((height - trackHeight) * position)));
-//        int handleHeight = handle.getHeight();
-//        handle.setY(getValueInRange(0,height-handleHeight, (int)((height - handleHeight) * position)));
+//        recyclerView.scrollBy(0, (int)(deltaYRatio*recyclerView.computeVerticalScrollRange()));
+        previousY = y;
     }
 
     @Override

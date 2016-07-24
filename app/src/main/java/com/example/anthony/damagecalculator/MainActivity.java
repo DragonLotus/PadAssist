@@ -84,9 +84,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ActiveAndroid.initialize(this);
         }
-
-        Intent loadIntent = new Intent(this, LoadingScreenActivity.class);
-        startActivity(loadIntent);
+        if(true){
+            Intent loadIntent = new Intent(this, LoadingScreenActivity.class);
+            startActivity(loadIntent);
+        }
+//            ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
+//            parseMonsterDatabaseThread.start();
 //        if(BuildConfig.VERSION_CODE != SharedPreferencesUtil.loadPreferenceInt(Constants.VERSION)) {
 //            ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
 //            parseMonsterDatabaseThread.start();

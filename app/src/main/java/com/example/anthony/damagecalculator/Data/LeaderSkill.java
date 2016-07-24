@@ -350,6 +350,22 @@ public class LeaderSkill extends Model {
         this.rcvMultiplier = rcvMultiplier;
     }
 
+    public ArrayList<Integer> getAtkElement2() {
+        return atkElement2;
+    }
+
+    public void setAtkElement2(ArrayList<Integer> atkElement2) {
+        this.atkElement2 = atkElement2;
+    }
+
+    public ArrayList<Integer> getAtkType2() {
+        return atkType2;
+    }
+
+    public void setAtkType2(ArrayList<Integer> atkType2) {
+        this.atkType2 = atkType2;
+    }
+
     public double hpMultiplier(Monster monster, Team team) {
         hpMultiplier = 1;
         if (hpSkillType != null) {
@@ -1602,6 +1618,7 @@ public class LeaderSkill extends Model {
                 }
             }
         }
+
         if (counter2 >= comboMax2) {
             atkElement1Multiplier *= atkData.get(comboDiff2 + comboDiff + 1);
             atkElement2Multiplier *= atkData.get(comboDiff2 + comboDiff + 1);

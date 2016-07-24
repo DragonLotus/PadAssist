@@ -161,6 +161,9 @@ public class AwakeningGridRecycler extends RecyclerView.Adapter<AwakeningGridRec
             case 37:
                 viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_37);
                 break;
+            case 38:
+                viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_38);
+                break;
         }
         viewHolder.awakeningAmount.setText("x" + awakeningAmountList.get(position));
 

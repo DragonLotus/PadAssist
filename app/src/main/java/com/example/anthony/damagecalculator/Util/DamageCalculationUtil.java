@@ -167,6 +167,11 @@ public class DamageCalculationUtil {
                             damage *= 3;
                         }
                         break;
+                    case 38:
+                        if(enemy.getTypes().contains(1)){
+                            damage *= 3;
+                        }
+                        break;
                 }
             }
         }

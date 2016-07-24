@@ -37,7 +37,8 @@ public class ParseMonsterDatabaseThread extends Thread {
         public void updateValues(int counter);
 
     }
-
+    public ParseMonsterDatabaseThread() {
+    }
     public ParseMonsterDatabaseThread(UpdateProgress update) {
         this.update = update;
     }
@@ -196,10 +197,10 @@ public class ParseMonsterDatabaseThread extends Thread {
                     leaderSkill.setAtkElement(parseIntArrayList(leaderSkillNode.get("atkElement")));
                 }
                 if (leaderSkillNode.hasNonNull("atkType2")) {
-                    leaderSkill.setAtkType(parseIntArrayList(leaderSkillNode.get("atkType2")));
+                    leaderSkill.setAtkType2(parseIntArrayList(leaderSkillNode.get("atkType2")));
                 }
                 if (leaderSkillNode.hasNonNull("atkElement2")) {
-                    leaderSkill.setAtkElement(parseIntArrayList(leaderSkillNode.get("atkElement2")));
+                    leaderSkill.setAtkElement2(parseIntArrayList(leaderSkillNode.get("atkElement2")));
                 }
                 if (leaderSkillNode.hasNonNull("rcvType")) {
                     leaderSkill.setRcvType(parseIntArrayList(leaderSkillNode.get("rcvType")));
@@ -223,7 +224,7 @@ public class ParseMonsterDatabaseThread extends Thread {
                     leaderSkill.setMatchElements(parseElementArrayList(leaderSkillNode.get("matchElements")));
                 }
                 if (leaderSkillNode.hasNonNull("matchElements2")) {
-                    leaderSkill.setMatchElements(parseElementArrayList(leaderSkillNode.get("matchElements2")));
+                    leaderSkill.setMatchElements2(parseElementArrayList(leaderSkillNode.get("matchElements2")));
                 }
                 if (leaderSkillNode.hasNonNull("matchMonsters")) {
                     leaderSkill.setMatchMonsters(parseLongArrayList(leaderSkillNode.get("matchMonsters")));

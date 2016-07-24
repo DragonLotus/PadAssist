@@ -364,6 +364,9 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
                     case 37:
                         viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
                         break;
+                    case 38:
+                        viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
+                        break;
                 }
             }
 

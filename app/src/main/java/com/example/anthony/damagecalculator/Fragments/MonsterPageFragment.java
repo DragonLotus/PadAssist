@@ -595,6 +595,9 @@ public class MonsterPageFragment extends AbstractFragment {
                     case 37:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
                         break;
+                    case 38:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
+                        break;
                 }
             }
 
@@ -711,6 +714,9 @@ public class MonsterPageFragment extends AbstractFragment {
                     case 37:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37_disabled);
                         break;
+                    case 38:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38_disabled);
+                        break;
                 }
             }
         } else {
@@ -826,6 +832,9 @@ public class MonsterPageFragment extends AbstractFragment {
                         break;
                     case 37:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
+                        break;
+                    case 38:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
                         break;
                 }
             }

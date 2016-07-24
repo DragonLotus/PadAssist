@@ -434,6 +434,9 @@ public class Monster extends Model implements Parcelable {
                         case 37:
                             killerAwakenings.add(37);
                             break;
+                        case 38:
+                            killerAwakenings.add(38);
+                            break;
                     }
                 }
             } else {
@@ -459,6 +462,9 @@ public class Monster extends Model implements Parcelable {
                             break;
                         case 37:
                             killerAwakenings.add(37);
+                            break;
+                        case 38:
+                            killerAwakenings.add(38);
                             break;
                     }
                 }
