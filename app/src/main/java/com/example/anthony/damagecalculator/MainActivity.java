@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ActiveAndroid.initialize(this);
         }
-        if(true){
+        if(false){
             Intent loadIntent = new Intent(this, LoadingScreenActivity.class);
             startActivity(loadIntent);
         }
@@ -317,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
 //         if (position == 0)
 //         {
-//            return MainFragment.newInstance(position + 1);
+//            return OrbMatchFragment.newInstance(position + 1);
 //         }
 //         if (position == 2)
 //         {

@@ -72,7 +72,7 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         OrbMatch currentMatch = orbMatches.get(position);
-        String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.isRow());
+        String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.isRow()) + ", Cross: " + Boolean.toString(currentMatch.isCross());
         viewHolder.orbMatchTotal.setText(rowResult);
 
         Drawable orbDrawable = getDrawable(R.drawable.red_orb);

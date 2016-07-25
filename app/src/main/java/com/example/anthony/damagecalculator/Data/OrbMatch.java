@@ -24,15 +24,18 @@ public class OrbMatch extends Model implements Parcelable {
     private Element element;
     @Column(name = "isRow")
     private boolean isRow;
+    @Column(name = "isCross")
+    private boolean isCross;
 
     public OrbMatch(){
     }
 
-    public OrbMatch(int orbsLinked, int numOrbPlus, Element element, boolean isRow) {
+    public OrbMatch(int orbsLinked, int numOrbPlus, Element element, boolean isRow, boolean isCross) {
         this.orbsLinked = orbsLinked;
         this.numOrbPlus = numOrbPlus;
         this.element = element;
         this.isRow = isRow;
+        this.isCross = isCross;
     }
 
     public int getOrbsLinked() {
@@ -71,11 +74,20 @@ public class OrbMatch extends Model implements Parcelable {
         this.isRow = isRow;
     }
 
+    public boolean isCross() {
+        return isCross;
+    }
+
+    public void setIsCross(boolean isCross) {
+        this.isCross = isCross;
+    }
+
     public OrbMatch(Parcel source) {
         orbsLinked = source.readInt();
         numOrbPlus = source.readInt();
         element = (Element) source.readSerializable();
         isRow = source.readByte() == 1;
+        isCross = source.readByte() == 1;
     }
 
     @Override
@@ -84,6 +96,7 @@ public class OrbMatch extends Model implements Parcelable {
         dest.writeInt(numOrbPlus);
         dest.writeSerializable(element);
         dest.writeByte((byte) (isRow ? 1 : 0));
+        dest.writeByte((byte) (isCross ? 1 : 0));
     }
 
     @Override

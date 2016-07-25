@@ -2,12 +2,9 @@ package com.example.anthony.damagecalculator.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.test.SingleLaunchActivityTestCase;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,20 +33,16 @@ import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
 import com.example.anthony.damagecalculator.TextWatcher.MyTextWatcher;
 import com.example.anthony.damagecalculator.Threads.DownloadPadApi;
-import com.example.anthony.damagecalculator.Threads.ParseMonsterDatabaseThread;
 import com.example.anthony.damagecalculator.Util.Singleton;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by Thomas on 7/11/2015.
  */
-public class MainFragment extends AbstractFragment {
-    public static final String TAG = MainFragment.class.getSimpleName();
+public class OrbMatchFragment extends AbstractFragment {
+    public static final String TAG = OrbMatchFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int additionalCombos = 0;
     private TextView editTeam, orbsLinkedValue, orbsPlusValue;
@@ -57,11 +50,11 @@ public class MainFragment extends AbstractFragment {
     private Button addMatch, calculateButton, reset;
     private Spinner orbsLinked, orbsPlus, boardSize;
     private List<String> orbsLinkedItems, orbsPlusItems, boardSizeItems;
-    private CheckBox rowCheckBox, maxLeadMultiplierCheckBox, ignoreEnemyCheckBox;
+    private CheckBox rowCheckBox, maxLeadMultiplierCheckBox, ignoreEnemyCheckBox, crossCheckBox;
     private RecyclerView orbMatches;
     private OrbMatchAdapter orbMatchAdapter;
     private OrbMatchRecycler orbMatchRecycler;
-    private boolean isRow, maxLeadMultiplier = false, hasEnemy = true;
+    private boolean isRow, maxLeadMultiplier = false, hasEnemy = true, isCross;
     private OrbMatch orbMatch;
     private Team team;
     private Enemy enemy;
@@ -113,6 +106,8 @@ public class MainFragment extends AbstractFragment {
                     calculateButton.setText("Enemy Attributes");
 //               calculateButton.setEnabled(true);
                 }
+            } else if (buttonView.equals(crossCheckBox)) {
+                isCross = isChecked;
             }
         }
     };
@@ -194,6 +189,18 @@ public class MainFragment extends AbstractFragment {
                     }
                     break;
             }
+            if(position + 3 == 5){
+                crossCheckBox.setEnabled(true);
+            } else {
+                crossCheckBox.setChecked(false);
+                crossCheckBox.setEnabled(false);
+            }
+            if(getOrbColor() == Element.POISON || getOrbColor() == Element.MORTAL_POISON || getOrbColor() == Element.JAMMER){
+                rowCheckBox.setChecked(false);
+                rowCheckBox.setEnabled(false);
+                crossCheckBox.setChecked(false);
+                crossCheckBox.setEnabled(false);
+            }
         }
 
         @Override
@@ -223,10 +230,19 @@ public class MainFragment extends AbstractFragment {
                     for (int i = 3; i < 21; i++) {
                         orbsLinkedItems.add("" + i);
                     }
-                    for (int i = 0; i < orbsLinkedItems.size() + 3; i++) {
+                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + 4; i++) {
                         orbsPlusItems.add("" + i);
                     }
                     Singleton.getInstance().setBoardSize(0);
+                    if ((orbsLinked.getSelectedItemPosition() + 3) < 17 && (orbsLinked.getSelectedItemPosition() + 3) >= 5 && (orbsLinked.getSelectedItemPosition() + 3) != 6) {
+                        rowCheckBox.setEnabled(true);
+                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 17){
+                        rowCheckBox.setEnabled(false);
+                        rowCheckBox.setChecked(true);
+                    } else {
+                        rowCheckBox.setEnabled(false);
+                        rowCheckBox.setChecked(false);
+                    }
                     break;
                 case 1:
                     if (orbsLinked.getSelectedItemPosition() > 27) {
@@ -240,10 +256,19 @@ public class MainFragment extends AbstractFragment {
                     for (int i = 3; i < 31; i++) {
                         orbsLinkedItems.add("" + i);
                     }
-                    for (int i = 0; i < orbsLinkedItems.size() + 3; i++) {
+                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + 4; i++) {
                         orbsPlusItems.add("" + i);
                     }
                     Singleton.getInstance().setBoardSize(1);
+                    if ((orbsLinked.getSelectedItemPosition() + 3) < 26 && (orbsLinked.getSelectedItemPosition() + 3) >= 6 && (orbsLinked.getSelectedItemPosition() + 3) != 7) {
+                        rowCheckBox.setEnabled(true);
+                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 26){
+                        rowCheckBox.setEnabled(false);
+                        rowCheckBox.setChecked(true);
+                    } else {
+                        rowCheckBox.setEnabled(false);
+                        rowCheckBox.setChecked(false);
+                    }
                     break;
                 case 2:
                     orbsLinkedItems.clear();
@@ -251,10 +276,19 @@ public class MainFragment extends AbstractFragment {
                     for (int i = 3; i < 43; i++) {
                         orbsLinkedItems.add("" + i);
                     }
-                    for (int i = 0; i < orbsLinkedItems.size() + 3; i++) {
+                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + 3; i++) {
                         orbsPlusItems.add("" + i);
                     }
                     Singleton.getInstance().setBoardSize(2);
+                    if ((orbsLinked.getSelectedItemPosition() + 3) < 37 && (orbsLinked.getSelectedItemPosition() + 3) >= 7 && (orbsLinked.getSelectedItemPosition() + 3) != 8) {
+                        rowCheckBox.setEnabled(true);
+                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 37){
+                        rowCheckBox.setEnabled(false);
+                        rowCheckBox.setChecked(true);
+                    } else {
+                        rowCheckBox.setEnabled(false);
+                        rowCheckBox.setChecked(false);
+                    }
                     break;
             }
             orbMatchRecycler.clear();
@@ -338,17 +372,17 @@ public class MainFragment extends AbstractFragment {
                     if (!rowCheckBox.isEnabled()) {
                         switch (boardSize.getSelectedItemPosition()) {
                             case 0:
-                                if ((orbsLinked.getSelectedItemPosition() + 3) < 17) {
+                                if ((orbsLinked.getSelectedItemPosition() + 3) < 17 && (orbsLinked.getSelectedItemPosition() + 3) >= 5 && (orbsLinked.getSelectedItemPosition() + 3) != 6) {
                                     rowCheckBox.setEnabled(true);
                                 }
                                 break;
                             case 1:
-                                if ((orbsLinked.getSelectedItemPosition() + 3) < 26) {
+                                if ((orbsLinked.getSelectedItemPosition() + 3) < 26 && (orbsLinked.getSelectedItemPosition() + 3) >= 6 && (orbsLinked.getSelectedItemPosition() + 3) != 7) {
                                     rowCheckBox.setEnabled(true);
                                 }
                                 break;
                             case 2:
-                                if ((orbsLinked.getSelectedItemPosition() + 3) < 37) {
+                                if ((orbsLinked.getSelectedItemPosition() + 3) < 37 && (orbsLinked.getSelectedItemPosition() + 3) >= 7 && (orbsLinked.getSelectedItemPosition() + 3) != 8) {
                                     rowCheckBox.setEnabled(true);
                                 }
                                 break;
@@ -383,7 +417,7 @@ public class MainFragment extends AbstractFragment {
         @Override
         public void onClick(View v) {
             additionalComboValue.clearFocus();
-            orbMatch = new OrbMatch(orbsLinked.getSelectedItemPosition() + 3, orbsPlus.getSelectedItemPosition(), getOrbColor(), isRow);
+            orbMatch = new OrbMatch(orbsLinked.getSelectedItemPosition() + 3, orbsPlus.getSelectedItemPosition(), getOrbColor(), isRow, isCross);
             orbMatchRecycler.add(orbMatch);
             orbMatchRecycler.notifyDataSetChanged();
             Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList + " orbMatches size is: " + orbMatches.getChildCount());
@@ -516,8 +550,8 @@ public class MainFragment extends AbstractFragment {
         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
 
-    public static MainFragment newInstance(Team team, Enemy enemy) {
-        MainFragment fragment = new MainFragment();
+    public static OrbMatchFragment newInstance(Team team, Enemy enemy) {
+        OrbMatchFragment fragment = new OrbMatchFragment();
         Bundle args = new Bundle();
         args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
@@ -525,14 +559,15 @@ public class MainFragment extends AbstractFragment {
         return fragment;
     }
 
-    public MainFragment() {
+    public OrbMatchFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.main_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_orb_match, container, false);
         rowCheckBox = (CheckBox) rootView.findViewById(R.id.rowCheckBox);
+        crossCheckBox = (CheckBox) rootView.findViewById(R.id.crossCheckBox);
         ignoreEnemyCheckBox = (CheckBox) rootView.findViewById(R.id.ignoreEnemyCheckBox);
         orbsLinked = (Spinner) rootView.findViewById(R.id.orbsLinkedSpinner);
         orbsPlus = (Spinner) rootView.findViewById(R.id.orbsPlusSpinner);
@@ -559,8 +594,9 @@ public class MainFragment extends AbstractFragment {
         }
         Log.d("Orb Match Log", "Orb Plus Awakenings: " + team.getOrbPlusAwakenings());
         Log.d("Orb Match Log", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
-        new DownloadPadApi().start();
+//        new DownloadPadApi().start();
         rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
+        crossCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         addMatch.setOnClickListener(addMatchOnClickListener);
         reset.setOnClickListener(resetOnClickListener);

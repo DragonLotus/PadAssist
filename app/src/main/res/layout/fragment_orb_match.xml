@@ -86,7 +86,7 @@
         android:layout_alignTop="@+id/rowCheckBox"
         android:layout_below="@+id/orbsLinearLayout"
         android:gravity="center_vertical"
-        android:text="Is a row:"
+        android:text="Row:"
         android:textSize="16dp" />
 
     <CheckBox
@@ -95,6 +95,27 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/orbsLinearLayout"
         android:layout_toRightOf="@+id/row"
+        android:enabled="false"
+        android:paddingRight="8dp"/>
+
+    <TextView
+        android:id="@+id/cross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rowCheckBox"
+        android:layout_alignTop="@+id/rowCheckBox"
+        android:layout_below="@+id/orbsLinearLayout"
+        android:layout_toRightOf="@+id/rowCheckBox"
+        android:gravity="center_vertical"
+        android:text="Cross:"
+        android:textSize="16dp" />
+
+    <CheckBox
+        android:id="@+id/crossCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/orbsLinearLayout"
+        android:layout_toRightOf="@+id/cross"
         android:enabled="false" />
 
     <TextView

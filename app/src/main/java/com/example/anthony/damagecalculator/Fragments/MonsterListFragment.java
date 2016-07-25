@@ -1,9 +1,7 @@
 package com.example.anthony.damagecalculator.Fragments;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,19 +12,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.anthony.damagecalculator.Adapters.MonsterListAdapter;
 import com.example.anthony.damagecalculator.Adapters.MonsterListRecycler;
-import com.example.anthony.damagecalculator.Data.Element;
 import com.example.anthony.damagecalculator.Data.Enemy;
 import com.example.anthony.damagecalculator.Data.Monster;
-import com.example.anthony.damagecalculator.Data.BaseMonster;
 import com.example.anthony.damagecalculator.Data.Team;
 import com.example.anthony.damagecalculator.MainActivity;
 import com.example.anthony.damagecalculator.R;
@@ -281,7 +275,7 @@ public class MonsterListFragment extends AbstractFragment {
             } else {
                 team.updateLeaderSkills();
                 team.save();
-                ((MainActivity) getActivity()).switchFragment(MainFragment.newInstance(team, enemy), MainFragment.TAG);
+                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(team, enemy), OrbMatchFragment.TAG);
             }
         }
     };
