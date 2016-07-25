@@ -1,5 +1,6 @@
 package com.example.anthony.damagecalculator;
 
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,10 +8,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.example.anthony.damagecalculator.Fragments.DisclaimerDialogFragment;
 import com.example.anthony.damagecalculator.Threads.ParseMonsterDatabaseThread;
 
 public class LoadingScreenActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
+    private DisclaimerDialogFragment disclaimerDialog;
+    private Boolean complete = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,8 @@ public class LoadingScreenActivity extends AppCompatActivity {
             progressDialog.setMax(4806);
             progressDialog.setProgress(0);
             progressDialog.show();
+            disclaimerDialog = DisclaimerDialogFragment.newInstance(dismissMe);
+            disclaimerDialog.show(getSupportFragmentManager(), "yes");
         }
 
         @Override
@@ -55,8 +61,11 @@ public class LoadingScreenActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            complete = true;
             progressDialog.dismiss();
-            finish();
+            if(!disclaimerDialog.getShowing()){
+                finish();
+            }
         }
 
         @Override
@@ -74,6 +83,15 @@ public class LoadingScreenActivity extends AppCompatActivity {
             }
         }
     }
+
+    DisclaimerDialogFragment.Dismiss dismissMe = new DisclaimerDialogFragment.Dismiss() {
+        @Override
+        public void dismiss() {
+            if(complete) {
+                finish();
+            }
+        }
+    };
 
 
 }

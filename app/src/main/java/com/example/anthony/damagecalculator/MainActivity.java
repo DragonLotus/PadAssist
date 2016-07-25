@@ -3,6 +3,7 @@ package com.example.anthony.damagecalculator;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -32,12 +33,14 @@ import com.example.anthony.damagecalculator.Data.LeaderSkillType;
 import com.example.anthony.damagecalculator.Data.Monster;
 import com.example.anthony.damagecalculator.Data.OrbMatch;
 import com.example.anthony.damagecalculator.Data.Team;
+import com.example.anthony.damagecalculator.Fragments.AboutDialogFragment;
 import com.example.anthony.damagecalculator.Fragments.AbstractFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterListFragment;
 import com.example.anthony.damagecalculator.Fragments.MonsterTabLayoutFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamListFragment;
 import com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment;
 import com.example.anthony.damagecalculator.Threads.ParseMonsterDatabaseThread;
+import com.example.anthony.damagecalculator.Util.DamageCalculationUtil;
 import com.example.anthony.damagecalculator.Util.SharedPreferencesUtil;
 import com.example.anthony.damagecalculator.Util.Singleton;
 
@@ -68,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem searchMenuItem;
     private SearchView searchView;
     private TeamSaveDialogFragment teamSaveDialogFragment;
+    private AboutDialogFragment aboutDialogFragment;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +89,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ActiveAndroid.initialize(this);
         }
-        if(false){
+        preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
+
+   //     preferences.edit().putInt("version", 1).commit();
+        if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1)){
             Intent loadIntent = new Intent(this, LoadingScreenActivity.class);
             startActivity(loadIntent);
+            preferences.edit().putBoolean("firstRun", false).commit();
+            preferences.edit().putInt("version", BuildConfig.VERSION_CODE).commit();
         }
 //            ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
 //            parseMonsterDatabaseThread.start();
@@ -217,7 +227,10 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            if(aboutDialogFragment == null){
+                aboutDialogFragment = new AboutDialogFragment();
+                aboutDialogFragment.show(getSupportFragmentManager(), "yes");
+            }
         } else if (id == R.id.saveTeam) {
 //            if (teamSaveDialogFragment == null) {
 //                teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
