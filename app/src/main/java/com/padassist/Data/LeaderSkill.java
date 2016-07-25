@@ -507,6 +507,51 @@ public class LeaderSkill extends Model {
                 case ORB_LINK_ACTIVE:
                     orbLinkActive(monster, team);
                     break;
+                case HP_FLAT_ATTRIBUTE_FLAT_ATTRIBUTE:
+                    hpFlatAttributeFlatAttribute(monster, team);
+                    break;
+                case INDIAN_ACTIVE:
+                    indianActive(monster, team);
+                    break;
+                case HEART_CROSS:
+                    heartCross(monster,team);
+                    break;
+                case COMBO_INDIAN:
+                    comboIndian(monster,team);
+                    break;
+                case HP_FLAT_ORB_LINK:
+                    hpFlatOrbLink(monster, team);
+                    break;
+                case ORB_PLUS_HEART_CROSS:
+                    orbPlusHeartCross(monster, team);
+                    break;
+                case INDIAN_HEART_CROSS:
+                    indianHeartCross(monster, team);
+                    break;
+                case FLAT_HEART_CROSS:
+                    flatHeartCross(monster,team);
+                    break;
+                case MATCH_ELEMENT_HEART_CROSS:
+                    matchElementHeartCross(monster, team);
+                    break;
+                case ACTIVE_HEART_CROSS:
+                    activeHeartCross(monster, team);
+                    break;
+                case INDIAN_MONSTER_CONDITIONAL:
+                    indianMonsterConditional(monster, team);
+                    break;
+                case ORB_PLUS_MONSTER_CONDITIONAL:
+                    orbPlusMonsterConditional(monster, team);
+                    break;
+                case CROSS:
+                    cross(monster, team);
+                    break;
+                case INDIAN_CROSS:
+                    indianCross(monster, team);
+                    break;
+                case ACTIVE_CROSS:
+                    activeCross(monster, team);
+                    break;
             }
         }
 
@@ -638,6 +683,51 @@ public class LeaderSkill extends Model {
                     break;
                 case ORB_LINK_ACTIVE:
                     orbLinkActive(monster, team);
+                    break;
+                case HP_FLAT_ATTRIBUTE_FLAT_ATTRIBUTE:
+                    hpFlatAttributeFlatAttribute(monster, team);
+                    break;
+                case INDIAN_ACTIVE:
+                    indianActive(monster, team);
+                    break;
+                case HEART_CROSS:
+                    heartCross(monster,team);
+                    break;
+                case COMBO_INDIAN:
+                    comboIndian(monster,team);
+                    break;
+                case HP_FLAT_ORB_LINK:
+                    hpFlatOrbLink(monster, team);
+                    break;
+                case ORB_PLUS_HEART_CROSS:
+                    orbPlusHeartCross(monster, team);
+                    break;
+                case INDIAN_HEART_CROSS:
+                    indianHeartCross(monster, team);
+                    break;
+                case FLAT_HEART_CROSS:
+                    flatHeartCross(monster,team);
+                    break;
+                case MATCH_ELEMENT_HEART_CROSS:
+                    matchElementHeartCross(monster, team);
+                    break;
+                case ACTIVE_HEART_CROSS:
+                    activeHeartCross(monster, team);
+                    break;
+                case INDIAN_MONSTER_CONDITIONAL:
+                    indianMonsterConditional(monster, team);
+                    break;
+                case ORB_PLUS_MONSTER_CONDITIONAL:
+                    orbPlusMonsterConditional(monster, team);
+                    break;
+                case CROSS:
+                    cross(monster, team);
+                    break;
+                case INDIAN_CROSS:
+                    indianCross(monster, team);
+                    break;
+                case ACTIVE_CROSS:
+                    activeCross(monster, team);
                     break;
             }
         }
@@ -2021,6 +2111,148 @@ public class LeaderSkill extends Model {
                 }
             }
         }
+    }
+
+    private void hpFlatAttributeFlatAttribute(Monster monster, Team team){
+        //Dmeta
+        if (hpPercent.size() == 1) {
+            if (team.getTeamHp() == hpPercent.get(0)) {
+                if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                    atkElement1Multiplier = atkData.get(0);
+                    atkElement2Multiplier = atkData.get(0);
+                }
+            }
+        } else {
+            for (int i = 0; i < hpPercent.size() / 2; i++) {
+                if (team.getTeamHp() <= hpPercent.get(0 + 2 * i) && team.getTeamHp() >= hpPercent.get(1 + 2 * i)) {
+                    if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
+                        if (atkElement1Multiplier < atkData.get(i)) {
+                            atkElement1Multiplier = atkData.get(i);
+                        }
+                        if (atkElement2Multiplier < atkData.get(i)) {
+                            atkElement2Multiplier = atkData.get(i);
+                        }
+                    }
+                }
+            }
+        }
+        if (atkElement2.contains(monster.getElement1Int()) || atkElement2.contains(monster.getElement2Int())) {
+            atkElement1Multiplier *= atkData.get(hpPercent.size() / 2);
+            atkElement2Multiplier *= atkData.get(hpPercent.size() / 2);
+        }
+    }
+
+    private void indianActive(Monster monster, Team team){
+        //Awoken Sun Quan
+        int comboDiff = comboMax - comboMin;
+        int counter = 0;
+        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        for (int i = 0, j = 0; j < matchElements.size(); i++) {
+            if (i == orbMatchElements.size()) {
+                j++;
+                i = -1;
+            } else {
+                if (orbMatchElements.get(i).equals(matchElements.get(j))) {
+                    orbMatchElements.remove(i);
+                    j++;
+                    counter++;
+                    i = -1;
+                }
+            }
+        }
+        if (counter >= comboMax) {
+            atkElement1Multiplier = atkData.get(comboDiff);
+            atkElement2Multiplier = atkData.get(comboDiff);
+        } else if (counter >= comboMin) {
+            atkElement1Multiplier = atkData.get(counter - comboMin);
+            atkElement2Multiplier = atkData.get(counter - comboMin);
+        }
+        if (team.isActiveSkillUsed()) {
+            if (atkType.size() != 0) {
+                for (int i = 0; i < atkType.size(); i++) {
+                    if (monster.getType1() == atkType.get(i) || monster.getType2() == atkType.get(i) || monster.getType3() == atkType.get(i)) {
+                        atkElement1Multiplier = atkData.get(0);
+                        atkElement2Multiplier = atkData.get(0);
+                    }
+                }
+            }
+            if (atkElement.size() != 0) {
+                for (int i = 0; i < atkElement.size(); i++) {
+                    if (monster.getElement1Int() == atkElement.get(i) || monster.getElement2Int() == atkElement.get(i)) {
+                        atkElement1Multiplier = atkData.get(0);
+                        atkElement2Multiplier = atkData.get(0);
+                    }
+                }
+            }
+        }
+    }
+
+    private void heartCross(Monster monster, Team team){
+        Boolean matched = false;
+        int i = 0;
+        while(!matched){
+            if(team.getOrbMatches().get(i).getElement() == Element.HEART){
+                Log.d("LeaderSkillLog", "checking: " + team.getOrbMatches().get(i).getElement());
+                if(team.getOrbMatches().get(i).isCross()){
+                    atkElement1Multiplier = atkData.get(0);
+                    atkElement2Multiplier = atkData.get(0);
+                    matched = true;
+                }
+            }
+            i++;
+            if(i == team.getOrbMatches().size()){
+                break;
+            }
+        }
+        Log.d("LeaderSkillLog", "matched is: " + matched);
+    }
+
+    private void comboIndian(Monster monster, Team team){
+
+    }
+
+    private void hpFlatOrbLink(Monster monster, Team team){
+
+    }
+
+    private void orbPlusHeartCross(Monster monster, Team team){
+
+    }
+
+    private void indianHeartCross(Monster monster, Team team){
+
+    }
+
+    private void flatHeartCross(Monster monster, Team team){
+
+    }
+
+    private void matchElementHeartCross(Monster monster, Team team){
+
+    }
+
+    private void activeHeartCross(Monster monster, Team team){
+
+    }
+
+    private void indianMonsterConditional(Monster monster, Team team){
+
+    }
+
+    private void orbPlusMonsterConditional(Monster monster, Team team){
+
+    }
+
+    private void cross(Monster monster, Team team){
+
+    }
+
+    private void indianCross(Monster monster, Team team){
+
+    }
+
+    private void activeCross(Monster monster, Team team){
+
     }
 
     private double atkDataMax() {

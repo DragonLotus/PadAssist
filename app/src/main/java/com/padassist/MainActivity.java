@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
         }
         preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
 
-   //     preferences.edit().putInt("version", 1).commit();
+//        preferences.edit().putInt("version", 1).apply();
         if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1)){
             Intent loadIntent = new Intent(this, LoadingScreenActivity.class);
             startActivity(loadIntent);
-            preferences.edit().putBoolean("firstRun", false).commit();
-            preferences.edit().putInt("version", BuildConfig.VERSION_CODE).commit();
+            preferences.edit().putBoolean("firstRun", false).apply();
+            preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
         }
 //            ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
 //            parseMonsterDatabaseThread.start();

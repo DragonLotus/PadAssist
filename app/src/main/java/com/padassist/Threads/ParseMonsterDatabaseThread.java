@@ -365,6 +365,36 @@ public class ParseMonsterDatabaseThread extends Thread {
                 return LeaderSkillType.HP_FLAT_ACTIVE;
             case 40:
                 return LeaderSkillType.ORB_LINK_ACTIVE;
+            case 41:
+                return LeaderSkillType.HP_FLAT_ATTRIBUTE_FLAT_ATTRIBUTE;
+            case 42:
+                return LeaderSkillType.INDIAN_ACTIVE;
+            case 43:
+                return LeaderSkillType.HEART_CROSS;
+            case 44:
+                return LeaderSkillType.COMBO_INDIAN;
+            case 45:
+                return LeaderSkillType.HP_FLAT_ORB_LINK;
+            case 46:
+                return LeaderSkillType.ORB_PLUS_HEART_CROSS;
+            case 47:
+                return LeaderSkillType.INDIAN_HEART_CROSS;
+            case 48:
+                return LeaderSkillType.FLAT_HEART_CROSS;
+            case 49:
+                return LeaderSkillType.MATCH_ELEMENT_HEART_CROSS;
+            case 50:
+                return LeaderSkillType.ACTIVE_HEART_CROSS;
+            case 51:
+                return LeaderSkillType.INDIAN_MONSTER_CONDITIONAL;
+            case 52:
+                return LeaderSkillType.ORB_PLUS_MONSTER_CONDITIONAL;
+            case 53:
+                return LeaderSkillType.CROSS;
+            case 54:
+                return LeaderSkillType.INDIAN_CROSS;
+            case 55:
+                return LeaderSkillType.ACTIVE_CROSS;
             default:
                 return LeaderSkillType.BLANK;
         }

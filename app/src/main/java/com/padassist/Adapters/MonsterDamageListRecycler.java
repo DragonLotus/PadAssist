@@ -75,6 +75,26 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
         element2Damage = team.getMonsters(position).getElement2Damage(team, combos);
         viewHolder.monsterElement1Damage.setText(" " + String.valueOf(element1Damage) + " ");
         viewHolder.monsterElement2Damage.setText(" " + String.valueOf(element2Damage) + " ");
+
+        if(team.getMonsters(position).getElement1().equals(Element.BLANK)){
+            viewHolder.monsterElement1Damage.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement1Percent.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.monsterElement1Damage.setVisibility(View.VISIBLE);
+            viewHolder.monsterElement1DamageEnemy.setVisibility(View.VISIBLE);
+            viewHolder.monsterElement1Percent.setVisibility(View.VISIBLE);
+        }
+        if(team.getMonsters(position).getElement2().equals(Element.BLANK)){
+            viewHolder.monsterElement2Damage.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
+            viewHolder.monsterElement2Percent.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.monsterElement2Damage.setVisibility(View.VISIBLE);
+            viewHolder.monsterElement2DamageEnemy.setVisibility(View.VISIBLE);
+            viewHolder.monsterElement2Percent.setVisibility(View.VISIBLE);
+        }
+
         if (hasEnemy) {
             if (enemy.getHasDamageThreshold()) {
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageThreshold(team, enemy, combos);
@@ -122,16 +142,6 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
             }
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
-        }
-        if(team.getMonsters(position).getElement1().equals(Element.BLANK)){
-            viewHolder.monsterElement1Damage.setVisibility(View.INVISIBLE);
-            viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
-            viewHolder.monsterElement1Percent.setVisibility(View.INVISIBLE);
-        }
-        if(team.getMonsters(position).getElement2().equals(Element.BLANK)){
-            viewHolder.monsterElement2Damage.setVisibility(View.INVISIBLE);
-            viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
-            viewHolder.monsterElement2Percent.setVisibility(View.INVISIBLE);
         }
 
         setTextColors(position, viewHolder);

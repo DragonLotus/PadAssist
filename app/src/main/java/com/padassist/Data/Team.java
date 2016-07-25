@@ -600,7 +600,7 @@ public class Team extends Model implements Parcelable {
     public void setTeamStats(){
         int hp = 0;
         double rcv = 0;
-        Log.d("Team Fragment", "Leadskill is: " + getLeadSkill());
+        Log.d("Team Fragment", "Leadskill is: " + getLeadSkill() + " atkSkillType is: " + getLeadSkill().getAtkSkillType());
         Log.d("Team Fragment", "getMonsters size is: " + getMonsters().size());
         for(int i = 0; i < getMonsters().size(); i++) {
             hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this);

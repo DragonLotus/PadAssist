@@ -26,7 +26,7 @@ public class DisclaimerDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Disclaimer");
         builder.setMessage("This application and its authors are not affiliated with GungHo Online. " +
-                "We take no responsibility for the disparities that might occur between PadAssist and Puzzle & Dragons or for your actions taken within the game. " +
+                "We take no responsibility for the discrepancies that might occur between PadAssist and Puzzle & Dragons or for your actions taken within the game. " +
                 "Use this application at your own risk.\n\n" +
                 "All related images are registered trademarks and owned by GungHo Online Entertainment, Inc.");
         builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
