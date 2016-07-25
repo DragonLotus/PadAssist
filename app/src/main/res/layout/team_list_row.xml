@@ -46,7 +46,7 @@
                 android:layout_marginRight="6dp"
                 android:src="@drawable/monster_1218" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster1Plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster1Awakenings"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -71,7 +71,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster1Latents"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -96,7 +96,7 @@
                 android:layout_height="52dp"
                 android:src="@drawable/monster_1218" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster2Plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster2Awakenings"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -121,7 +121,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster2Latents"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -146,7 +146,7 @@
                 android:layout_height="52dp"
                 android:src="@drawable/monster_1218" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster3Plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster3Awakenings"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -171,7 +171,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster3Latents"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -196,7 +196,7 @@
                 android:layout_height="52dp"
                 android:src="@drawable/monster_1218" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster4Plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -207,7 +207,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster4Awakenings"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -221,7 +221,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster4Latents"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -246,7 +246,7 @@
                 android:layout_height="52dp"
                 android:src="@drawable/monster_1218" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster5Plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -257,7 +257,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster5Awakenings"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -271,7 +271,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster5Latents"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -297,7 +297,7 @@
                 android:layout_marginLeft="6dp"
                 android:src="@drawable/monster_1218" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster6Plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -308,7 +308,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster6Awakenings"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
@@ -322,7 +322,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
 
-            <com.example.anthony.damagecalculator.Graphics.TextStroke
+            <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster6Latents"
                 android:layout_width="16dp"
                 android:layout_height="16dp"

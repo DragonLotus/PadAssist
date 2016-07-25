@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:paddingRight="16dp"
     android:paddingLeft="16dp"
-    tools:context="com.example.anthony.damagecalculator.Fragments.TeamSaveDialogFragment">
+    tools:context="com.padassist.Fragments.TeamSaveDialogFragment">
 
     <RadioGroup
         android:id="@+id/choiceRadioGroup"

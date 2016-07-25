@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="8dp"
-    tools:context="com.example.anthony.damagecalculator.Fragments.TeamOverviewFragment">
+    tools:context="com.padassist.Fragments.TeamOverviewFragment">
 
     <TextView
         android:id="@+id/teamHp"
@@ -17,7 +17,7 @@
         android:text="Team HP: "
         android:textSize="18dp" />
 
-    <com.example.anthony.damagecalculator.Graphics.ThinStroke
+    <com.padassist.Graphics.ThinStroke
         android:id="@+id/teamHpValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:text="Team RCV: "
         android:textSize="18dp" />
 
-    <com.example.anthony.damagecalculator.Graphics.ThinStroke
+    <com.padassist.Graphics.ThinStroke
         android:id="@+id/teamRcvValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 <!--android:gravity="center_horizontal"-->
                 <!--android:numColumns="5"/>-->
 
-            <com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView
+            <com.padassist.Graphics.ExpandableHeightGridView
                 android:id="@+id/utilityAwakenings"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:text="Damage Awakenings"
                 android:textSize="18dp" />
 
-            <com.example.anthony.damagecalculator.Graphics.ExpandableHeightGridView
+            <com.padassist.Graphics.ExpandableHeightGridView
                 android:id="@+id/damageAwakenings"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"

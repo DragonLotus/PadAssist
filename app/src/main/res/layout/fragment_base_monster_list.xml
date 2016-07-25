@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.anthony.damagecalculator.Fragments.BaseMonsterListFragment">
+    tools:context="com.padassist.Fragments.BaseMonsterListFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/monsterListView"
@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.example.anthony.damagecalculator.Graphics.FastScroller
+    <com.padassist.Graphics.FastScroller
         android:id="@+id/fastScroller"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

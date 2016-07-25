@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    tools:context="com.example.anthony.damagecalculator.Fragments.LoginDialogFragment">
+    tools:context="com.padassist.Fragments.LoginDialogFragment">
 
     <EditText
         android:id="@+id/username"

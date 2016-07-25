@@ -5,7 +5,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context="com.example.anthony.damagecalculator.Fragments.SortStatsDialogFragment">
+    tools:context="com.padassist.Fragments.SortStatsDialogFragment">
 
     <Button
         android:id="@+id/element"

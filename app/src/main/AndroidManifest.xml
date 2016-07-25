@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.anthony.damagecalculator">
+    package="com.padassist">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -15,7 +15,7 @@
             android:value="com.example.anthony.damagecalculator.Util.ArrayListIntegerSerializer" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.padassist.MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoadingScreenActivity"
+            android:name="com.padassist.LoadingScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_loading_screen"
             android:theme="@style/FullscreenTheme"></activity>

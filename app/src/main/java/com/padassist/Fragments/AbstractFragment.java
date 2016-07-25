@@ -1,0 +1,13 @@
+package com.padassist.Fragments;
+
+import android.support.v4.app.Fragment;
+
+/**
+ * Created by DragonLotus on 10/4/2015.
+ */
+public abstract class AbstractFragment extends Fragment {
+
+    public abstract void sortArrayList(int sortMethod);
+    public abstract void reverseArrayList();
+    public abstract void searchFilter(String query);
+}
