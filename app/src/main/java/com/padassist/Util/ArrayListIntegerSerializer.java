@@ -57,7 +57,7 @@ public class ArrayListIntegerSerializer extends TypeSerializer {
             for (int i = 1; i < splitData.length; i++) {
                 dataArray.add(Double.valueOf(splitData[i]));
             }
-        }else if (splitData[0].equals("class com.example.anthony.damagecalculator.Data.Element")){
+        }else if (splitData[0].equals("class com.padassist.Data.Element")){
             for (int i = 1; i < splitData.length; i++) {
                 dataArray.add(Element.valueOf(splitData[i]));
             }

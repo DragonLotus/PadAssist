@@ -92,6 +92,12 @@ public class OrbMatchFragment extends AbstractFragment {
             additionalComboValue.clearFocus();
             if (buttonView.equals(rowCheckBox)) {
                 isRow = isChecked;
+                if(crossCheckBox.isChecked()){
+                    crossCheckBox.setOnCheckedChangeListener(null);
+                    crossCheckBox.toggle();
+                    isCross = !isChecked;
+                    crossCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
+                }
             } else if (buttonView.equals(maxLeadMultiplierCheckBox)) {
                 maxLeadMultiplier = isChecked;
             } else if (buttonView.equals(ignoreEnemyCheckBox)) {
@@ -107,6 +113,12 @@ public class OrbMatchFragment extends AbstractFragment {
                 }
             } else if (buttonView.equals(crossCheckBox)) {
                 isCross = isChecked;
+                if(rowCheckBox.isChecked()){
+                    rowCheckBox.setOnCheckedChangeListener(null);
+                    rowCheckBox.toggle();
+                    isRow = !isChecked;
+                    rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
+                }
             }
         }
     };

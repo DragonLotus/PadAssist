@@ -4,10 +4,12 @@ import android.util.Log;
 
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
+import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -355,31 +357,60 @@ public class DamageCalculationUtil {
         return Math.ceil(damage);
     }
 
-    public static double hpRecovered(int rcv, ArrayList<OrbMatch> orbMatches, int combos) {
-        double totalOrbDamage = 0;
-        for (int i = 0; i < orbMatches.size(); i++) {
-            if (orbMatches.get(i).getElement().equals(Element.HEART)) {
-                totalOrbDamage += orbMatch(rcv, orbMatches.get(i));
+    public static double hpRecovered(Team team, int combos) {
+        double totalRcv = 0;
+        ArrayList<OrbMatch> heartOrbMatches = new ArrayList<>();
+        ArrayList<OrbMatch> poisonOrbMatches = new ArrayList<>();
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getElement().equals(Element.HEART)) {
+               // totalOrbDamage += orbMatch(rcv, team.getOrbMatches().get(i));
+                heartOrbMatches.add(team.getOrbMatches().get(i));
+            } else if (team.getOrbMatches().get(i).getElement().equals(Element.POISON) || team.getOrbMatches().get(i).getElement().equals(Element.MORTAL_POISON)){
+                poisonOrbMatches.add(team.getOrbMatches().get(i));
             }
         }
-        return comboMultiplier(totalOrbDamage, combos);
+        for(int i = 0; i < team.getMonsters().size(); i++){
+            double totalOrbDamage = 0;
+            double rcv = team.getMonsters().get(i).getTotalRcv() * team.getLeadSkill().rcvMultiplier(team.getMonsters().get(i), team) * team.getHelperSkill().rcvMultiplier(team.getMonsters().get(i), team);
+            for(int j = 0; j < heartOrbMatches.size(); j++){
+                totalOrbDamage += orbMatch((int)Math.floor(rcv + 0.5d), heartOrbMatches.get(j));
+            }
+            totalRcv += comboMultiplier(totalOrbDamage, combos);
+        }
+        return totalRcv - poisonDamage(team, poisonOrbMatches);
     }
 
-    public static double orbMatch(int rcv, OrbMatch orbMatches) {
+    public static double orbMatch(int rcv, OrbMatch orbMatch) {
         // Write in combos
         // Attack, Orb Awakenings, TPA from API, draw from Monster Database
         //(1 + (number of plus orbs).06) x (1 + (number of plus orb awakenings).05)
-        if (orbMatches.getOrbsLinked() < 3) {
+        if (orbMatch.getOrbsLinked() < 3) {
             throw new IllegalArgumentException();
         }
         double heal = 0;
-        if (orbMatches.getNumOrbPlus() == 0) {
-            heal = rcv * (((orbMatches.getOrbsLinked() - 3) * .25) + 1);
+        if (orbMatch.getNumOrbPlus() == 0) {
+            heal = rcv * (((orbMatch.getOrbsLinked() - 3) * .25) + 1);
         } else {
-            heal = rcv * (((orbMatches.getOrbsLinked() - 3) * .25) + 1)
-                    * ((orbMatches.getNumOrbPlus() * .06) + 1);
+            heal = rcv * (((orbMatch.getOrbsLinked() - 3) * .25) + 1)
+                    * ((orbMatch.getNumOrbPlus() * .06) + 1);
         }
         return Math.ceil(heal);
+    }
+
+    public static double poisonDamage(Team team, ArrayList<OrbMatch> poisonOrbMatches){
+        if(poisonOrbMatches.size() == 0){
+            return 0;
+        }
+        double damage = 0;
+        double teamHealth = team.getTeamHealth() * team.getTeamHp()/100;
+        for(int i = 0; i < poisonOrbMatches.size(); i++){
+            if(poisonOrbMatches.get(i).getElement().equals(Element.POISON)){
+                damage += ((poisonOrbMatches.get(i).getOrbsLinked() - 3)*.05 + .20)*teamHealth;
+            } else if(poisonOrbMatches.get(i).getElement().equals(Element.MORTAL_POISON)){
+                damage += ((poisonOrbMatches.get(i).getOrbsLinked() - 3)*.125 + .50)*teamHealth;
+            }
+        }
+        return damage;
     }
 
     public static double finalMultiplier(double leadMul, double extraMul, int rowAwakenings, int numberOfRows) {
@@ -412,10 +443,16 @@ public class DamageCalculationUtil {
     }
 
     public static double monsterRcvCalc(Monster monster, Team team){
-        double monsterRcv = 0;
+        double monsterRcv;
         monsterRcv = monster.getTotalRcv();
+        if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT)){
+            monsterRcv *= team.getLeadSkill().rcvMultiplier(monster, team);
+        }
+        if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT)){
+            monsterRcv *= team.getHelperSkill().rcvMultiplier(monster, team);
+        }
         Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " RcvData is: " + team.getLeadSkill().getRcvData() + " multiplier is: " + team.getLeadSkill().rcvMultiplier(monster, team));
-        monsterRcv = monsterRcv * team.getLeadSkill().rcvMultiplier(monster, team) * team.getHelperSkill().rcvMultiplier(monster, team);
+       // monsterRcv = monsterRcv * team.getLeadSkill().rcvMultiplier(monster, team) * team.getHelperSkill().rcvMultiplier(monster, team);
         return monsterRcv;
     }
 }

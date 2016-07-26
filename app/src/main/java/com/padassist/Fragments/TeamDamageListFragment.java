@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -424,12 +425,17 @@ public class TeamDamageListFragment extends AbstractFragment {
         }
         team.setTotalDamage(totalDamage);
         totalDamageValue.setText(" " + String.valueOf(totalDamage) + " ");
-        hpRecoveredValue.setText(" " + String.valueOf((int) DamageCalculationUtil.hpRecovered(team.getTeamRcv(), team.getOrbMatches(), totalCombos)) + " ");
+        hpRecoveredValue.setText(" " + String.valueOf((int) DamageCalculationUtil.hpRecovered(team, totalCombos)) + " ");
         totalComboValue.setText(String.valueOf(totalCombos));
         if (totalDamage < 0) {
             totalDamageValue.setTextColor(Color.parseColor("#FFBBBB"));
         } else {
             totalDamageValue.setTextColor(Color.parseColor("#BBBBBB"));
+        }
+        if(DamageCalculationUtil.hpRecovered(team, totalCombos) < 0){
+            hpRecoveredValue.setTextColor(Color.parseColor("#c737fd"));
+        } else {
+            hpRecoveredValue.setTextColor(Color.parseColor("#FF9999"));
         }
     }
 
