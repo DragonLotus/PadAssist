@@ -146,7 +146,7 @@
         android:textSize="18dp"/>
 
       <RadioGroup
-        android:id="@+id/orbRadioGroup"
+        android:id="@+id/elementRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
           android:layout_alignTop="@+id/elementAlign"

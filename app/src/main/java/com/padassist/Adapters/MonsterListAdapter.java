@@ -85,39 +85,50 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
         switch(monsterList.get(position).getType1()){
             case 0:
                 viewHolder.type1.setImageResource(R.drawable.type_evo_material);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 viewHolder.type1.setImageResource(R.drawable.type_balanced);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 viewHolder.type1.setImageResource(R.drawable.type_physical);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 viewHolder.type1.setImageResource(R.drawable.type_healer);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 viewHolder.type1.setImageResource(R.drawable.type_dragon);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 viewHolder.type1.setImageResource(R.drawable.type_god);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 6:
                 viewHolder.type1.setImageResource(R.drawable.type_attacker);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 7:
                 viewHolder.type1.setImageResource(R.drawable.type_devil);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 8:
                 viewHolder.type1.setImageResource(R.drawable.type_machine);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 12:
                 viewHolder.type1.setImageResource(R.drawable.type_awoken);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             case 13:
                 viewHolder.type1.setVisibility(View.INVISIBLE);
                 break;
             case 14:
                 viewHolder.type1.setImageResource(R.drawable.type_enhance_material);
+                viewHolder.type1.setVisibility(View.VISIBLE);
                 break;
             default:
                 viewHolder.type1.setVisibility(View.GONE);
@@ -126,39 +137,50 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
         switch(monsterList.get(position).getType2()){
             case 0:
                 viewHolder.type2.setImageResource(R.drawable.type_evo_material);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 viewHolder.type2.setImageResource(R.drawable.type_balanced);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 viewHolder.type2.setImageResource(R.drawable.type_physical);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 viewHolder.type2.setImageResource(R.drawable.type_healer);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 viewHolder.type2.setImageResource(R.drawable.type_dragon);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 viewHolder.type2.setImageResource(R.drawable.type_god);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 6:
                 viewHolder.type2.setImageResource(R.drawable.type_attacker);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 7:
                 viewHolder.type2.setImageResource(R.drawable.type_devil);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 8:
                 viewHolder.type2.setImageResource(R.drawable.type_machine);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 12:
                 viewHolder.type2.setImageResource(R.drawable.type_awoken);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             case 13:
                 viewHolder.type2.setVisibility(View.INVISIBLE);
                 break;
             case 14:
                 viewHolder.type2.setImageResource(R.drawable.type_enhance_material);
+                viewHolder.type2.setVisibility(View.VISIBLE);
                 break;
             default:
                 viewHolder.type2.setVisibility(View.GONE);
@@ -167,39 +189,50 @@ public class MonsterListAdapter extends ArrayAdapter<Monster> {
         switch(monsterList.get(position).getType3()){
             case 0:
                 viewHolder.type3.setImageResource(R.drawable.type_evo_material);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 viewHolder.type3.setImageResource(R.drawable.type_balanced);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 viewHolder.type3.setImageResource(R.drawable.type_physical);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 viewHolder.type3.setImageResource(R.drawable.type_healer);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 4:
                 viewHolder.type3.setImageResource(R.drawable.type_dragon);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 viewHolder.type3.setImageResource(R.drawable.type_god);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 6:
                 viewHolder.type3.setImageResource(R.drawable.type_attacker);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 7:
                 viewHolder.type3.setImageResource(R.drawable.type_devil);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 8:
                 viewHolder.type3.setImageResource(R.drawable.type_machine);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 12:
                 viewHolder.type3.setImageResource(R.drawable.type_awoken);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             case 13:
                 viewHolder.type3.setVisibility(View.INVISIBLE);
                 break;
             case 14:
                 viewHolder.type3.setImageResource(R.drawable.type_enhance_material);
+                viewHolder.type3.setVisibility(View.VISIBLE);
                 break;
             default:
                 viewHolder.type3.setVisibility(View.GONE);

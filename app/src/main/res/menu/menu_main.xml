@@ -104,5 +104,13 @@
             app:showAsAction="never" />
     </group>
 
+    <group android:id="@+id/teamDamage">
+        <item
+            android:id="@+id/refresh"
+            android:icon="@drawable/refresh"
+            android:title="Re-Calculate"
+            app:showAsAction="ifRoom" />
+    </group>
+
 
 </menu>

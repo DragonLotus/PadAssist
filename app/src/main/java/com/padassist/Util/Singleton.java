@@ -2,6 +2,10 @@ package com.padassist.Util;
 
 import android.content.Context;
 
+import com.padassist.Data.Element;
+
+import java.util.ArrayList;
+
 /**
  * Created by DragonLotus on 10/17/2015.
  */
@@ -13,6 +17,10 @@ public class Singleton {
     private int monsterOverwrite = 0;
     private boolean ignoreEnemy = false;
     private int boardSize = 1;
+    private ArrayList<Element> extraElementMultiplier = new ArrayList<>();
+    private ArrayList<Integer> extraTypeMultiplier = new ArrayList<>();
+    private double extraMultiplier = 2;
+    private boolean enableMultiplier = false;
 
     private Context _context;
     public static Singleton getInstance() {
@@ -81,5 +89,37 @@ public class Singleton {
     public void setContext(Context context)
     {
         this._context = context;
+    }
+
+    public ArrayList<Element> getExtraElementMultiplier() {
+        return extraElementMultiplier;
+    }
+
+    public void setExtraElementMultiplier(ArrayList<Element> extraElementMultiplier) {
+        this.extraElementMultiplier = extraElementMultiplier;
+    }
+
+    public ArrayList<Integer> getExtraTypeMultiplier() {
+        return extraTypeMultiplier;
+    }
+
+    public void setExtraTypeMultiplier(ArrayList<Integer> extraTypeMultiplier) {
+        this.extraTypeMultiplier = extraTypeMultiplier;
+    }
+
+    public double getExtraMultiplier() {
+        return extraMultiplier;
+    }
+
+    public void setExtraMultiplier(double extraMultiplier) {
+        this.extraMultiplier = extraMultiplier;
+    }
+
+    public boolean isEnableMultiplier() {
+        return enableMultiplier;
+    }
+
+    public void setEnableMultiplier(boolean enableMultiplier) {
+        this.enableMultiplier = enableMultiplier;
     }
 }

@@ -445,11 +445,16 @@ public class DamageCalculationUtil {
     public static double monsterRcvCalc(Monster monster, Team team){
         double monsterRcv;
         monsterRcv = monster.getTotalRcv();
-        if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT)){
-            monsterRcv *= team.getLeadSkill().rcvMultiplier(monster, team);
+        Log.d("DamageCalcUtil", "LeadSkill is: " + team.getLeadSkill().getName() + " rcvSkillType is: " + team.getLeadSkill().getRcvSkillType());
+        if(team.getLeadSkill().getRcvSkillType() != null){
+            if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT)){
+                monsterRcv *= team.getLeadSkill().rcvMultiplier(monster, team);
+            }
         }
-        if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT)){
-            monsterRcv *= team.getHelperSkill().rcvMultiplier(monster, team);
+        if(team.getHelperSkill().getRcvSkillType() != null){
+            if(team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT)){
+                monsterRcv *= team.getHelperSkill().rcvMultiplier(monster, team);
+            }
         }
         Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " RcvData is: " + team.getLeadSkill().getRcvData() + " multiplier is: " + team.getLeadSkill().rcvMultiplier(monster, team));
        // monsterRcv = monsterRcv * team.getLeadSkill().rcvMultiplier(monster, team) * team.getHelperSkill().rcvMultiplier(monster, team);

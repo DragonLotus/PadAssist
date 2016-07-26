@@ -202,6 +202,9 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
             case 14:
                 viewHolder.type1.setImageResource(R.drawable.type_enhance_material);
                 break;
+            case 15:
+                viewHolder.type1.setImageResource(R.drawable.type_vendor);
+                break;
             default:
                 viewHolder.type1.setVisibility(View.INVISIBLE);
                 break;
@@ -243,6 +246,9 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
             case 14:
                 viewHolder.type2.setImageResource(R.drawable.type_enhance_material);
                 break;
+            case 15:
+                viewHolder.type2.setImageResource(R.drawable.type_vendor);
+                break;
             default:
                 viewHolder.type2.setVisibility(View.INVISIBLE);
                 break;
@@ -283,6 +289,9 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
                 break;
             case 14:
                 viewHolder.type3.setImageResource(R.drawable.type_enhance_material);
+                break;
+            case 15:
+                viewHolder.type3.setImageResource(R.drawable.type_vendor);
                 break;
             default:
                 viewHolder.type3.setVisibility(View.INVISIBLE);

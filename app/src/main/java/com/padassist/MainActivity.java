@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -182,12 +183,14 @@ public class MainActivity extends AppCompatActivity {
         menu.setGroupVisible(R.id.sortGroup, false);
         menu.setGroupVisible(R.id.sortMoreGroup, false);
         menu.setGroupVisible(R.id.sortTeam, false);
+        menu.setGroupVisible(R.id.teamDamage, false);
         menu.findItem(R.id.search).setVisible(false);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchMenuItem = menu.findItem(R.id.search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
+        searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextChange(String newText) {

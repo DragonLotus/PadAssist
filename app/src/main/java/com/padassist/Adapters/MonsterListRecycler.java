@@ -199,6 +199,10 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
                 viewHolder.type1.setVisibility(View.VISIBLE);
                 viewHolder.type1.setImageResource(R.drawable.type_enhance_material);
                 break;
+            case 15:
+                viewHolder.type1.setVisibility(View.VISIBLE);
+                viewHolder.type1.setImageResource(R.drawable.type_vendor);
+                break;
             default:
                 viewHolder.type1.setVisibility(View.GONE);
                 break;
@@ -251,6 +255,10 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
                 viewHolder.type2.setVisibility(View.VISIBLE);
                 viewHolder.type2.setImageResource(R.drawable.type_enhance_material);
                 break;
+            case 15:
+                viewHolder.type2.setVisibility(View.VISIBLE);
+                viewHolder.type2.setImageResource(R.drawable.type_vendor);
+                break;
             default:
                 viewHolder.type2.setVisibility(View.GONE);
                 break;
@@ -302,6 +310,10 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             case 14:
                 viewHolder.type3.setVisibility(View.VISIBLE);
                 viewHolder.type3.setImageResource(R.drawable.type_enhance_material);
+                break;
+            case 15:
+                viewHolder.type3.setVisibility(View.VISIBLE);
+                viewHolder.type3.setImageResource(R.drawable.type_vendor);
                 break;
             default:
                 viewHolder.type3.setVisibility(View.GONE);

@@ -47,7 +47,7 @@
         android:id="@+id/orbsLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/orbRadioGroup">
+        android:layout_below="@+id/elementRadioGroup">
 
         <TextView
             android:id="@+id/orbsLinked"
@@ -231,7 +231,7 @@
         android:gravity="center_vertical" />
 
     <RadioGroup
-        android:id="@+id/orbRadioGroup"
+        android:id="@+id/elementRadioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

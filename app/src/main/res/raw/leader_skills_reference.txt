@@ -145,3 +145,4 @@ ACTIVE_CROSS: 55
 12:Awoken Skill Material
 13:Protected
 14:Enhance Material
+15:Vendor

@@ -21,7 +21,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/recalculateButton"
+        android:layout_above="@+id/options"
         android:layout_below="@+id/monsterListToggle"
         android:clickable="true">
 
@@ -453,12 +453,12 @@
 
 
     <Button
-        android:id="@+id/recalculateButton"
+        android:id="@+id/options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Recalculate" />
+        android:text="Multiplier" />
 
     <TextView
         android:id="@+id/additionalCombo"

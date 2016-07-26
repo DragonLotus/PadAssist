@@ -193,7 +193,7 @@ public class EnemyTargetFragment extends AbstractFragment {
         targetDefenseValue = (EditText) rootView.findViewById(R.id.targetDefenseValue);
         damageThresholdValue = (EditText) rootView.findViewById(R.id.damageThresholdValue);
         percentHpValue = (TextView) rootView.findViewById(R.id.percentHPValue);
-        orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
+        orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.elementRadioGroup);
         gravityList = (ListView) rootView.findViewById(R.id.gravityList);
         totalGravityValue = (TextView) rootView.findViewById(R.id.totalGravityValue);
         gravityButtonList = (GridView) rootView.findViewById(R.id.gravityButtonGrid);

@@ -495,6 +495,7 @@ public class OrbMatchFragment extends AbstractFragment {
                 orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
             }
             rowCheckBox.setChecked(orbMatchList.get(position).isRow());
+            crossCheckBox.setChecked(orbMatchList.get(position).isCross());
             switch (orbMatchList.get(position).getElement()) {
                 case RED:
                     orbRadioGroup.check(R.id.redOrb);
@@ -587,7 +588,7 @@ public class OrbMatchFragment extends AbstractFragment {
         calculateButton = (Button) rootView.findViewById(R.id.calculateButton);
         reset = (Button) rootView.findViewById(R.id.reset);
         orbMatches = (RecyclerView) rootView.findViewById(R.id.orbMatches);
-        orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.orbRadioGroup);
+        orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.elementRadioGroup);
         additionalComboValue = (EditText) rootView.findViewById(R.id.additionalComboValue);
         return rootView;
     }

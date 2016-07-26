@@ -886,6 +886,9 @@ public class MonsterPageFragment extends AbstractFragment {
             case 14:
                 type1.setImageResource(R.drawable.type_enhance_material);
                 break;
+            case 15:
+                type1.setImageResource(R.drawable.type_vendor);
+                break;
             default:
                 type1.setVisibility(View.GONE);
                 break;
@@ -927,6 +930,9 @@ public class MonsterPageFragment extends AbstractFragment {
             case 14:
                 type2.setImageResource(R.drawable.type_enhance_material);
                 break;
+            case 15:
+                type2.setImageResource(R.drawable.type_vendor);
+                break;
             default:
                 type2.setVisibility(View.GONE);
                 break;
@@ -937,7 +943,6 @@ public class MonsterPageFragment extends AbstractFragment {
                 break;
             case 1:
                 type3.setImageResource(R.drawable.type_balanced);
-                break;
             case 2:
                 type3.setImageResource(R.drawable.type_physical);
                 break;
@@ -967,6 +972,9 @@ public class MonsterPageFragment extends AbstractFragment {
                 break;
             case 14:
                 type3.setImageResource(R.drawable.type_enhance_material);
+                break;
+            case 15:
+                type3.setImageResource(R.drawable.type_vendor);
                 break;
             default:
                 type3.setVisibility(View.GONE);

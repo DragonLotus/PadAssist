@@ -1,7 +1,6 @@
 package com.padassist.Fragments;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -70,9 +72,10 @@ public class TeamDamageListFragment extends AbstractFragment {
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, damageImmunityCheck, hasAwakeningsCheck, activeUsedCheck;
     private RadioGroup absorbRadioGroup;
-    private Button recalculateButton;
+    private Button optionButton;
     private SeekBar teamHp;
     private DecimalFormat df = new DecimalFormat("#.##");
+    private ExtraMultiplierDialogFragment extraMultiplierDialogFragment;
 
     /**
      * Use this factory method to create a new instance of
@@ -119,12 +122,39 @@ public class TeamDamageListFragment extends AbstractFragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.setGroupVisible(R.id.teamDamage, true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.refresh:
+                clearTextFocus();
+                totalCombos += additionalCombosFragment;
+                Log.d("Total Combo 1", "" + totalCombos);
+                if (totalCombos < team.getOrbMatches().size()) {
+                    totalCombos = team.getOrbMatches().size();
+                }
+                monsterListAdapter.setCombos(totalCombos);
+                Log.d("Total Combo 2", "" + totalCombos);
+                updateTextView();
+                monsterListAdapter.notifyDataSetChanged();
+                additionalComboValue.setText("0");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -146,7 +176,7 @@ public class TeamDamageListFragment extends AbstractFragment {
         targetReduction = (TextView) rootView.findViewById(R.id.targetReduction);
         targetAbsorb = (TextView) rootView.findViewById(R.id.elementAbsorb);
         hasAwakenings = (TextView) rootView.findViewById(R.id.hasAwakenings);
-        recalculateButton = (Button) rootView.findViewById(R.id.recalculateButton);
+        optionButton = (Button) rootView.findViewById(R.id.options);
         reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
         absorbRadioGroup = (RadioGroup) rootView.findViewById(R.id.absorbOrbRadioGroup);
         redOrbReduction = (CheckBox) rootView.findViewById(R.id.redOrbReduction);
@@ -203,7 +233,7 @@ public class TeamDamageListFragment extends AbstractFragment {
         additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
 //        monsterListView.setOnItemClickListener(bindMonsterOnClickListener);
-        recalculateButton.setOnClickListener(recalculateButtonOnClickListener);
+        optionButton.setOnClickListener(optionsButtonOnClickListener);
         absorbCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         reductionCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
@@ -583,20 +613,21 @@ public class TeamDamageListFragment extends AbstractFragment {
         }
     };
 
-    private Button.OnClickListener recalculateButtonOnClickListener = new View.OnClickListener() {
+    private Button.OnClickListener optionsButtonOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             clearTextFocus();
-            totalCombos += additionalCombosFragment;
-            Log.d("Total Combo 1", "" + totalCombos);
-            if (totalCombos < team.getOrbMatches().size()) {
-                totalCombos = team.getOrbMatches().size();
+            if (extraMultiplierDialogFragment == null) {
+                extraMultiplierDialogFragment = extraMultiplierDialogFragment.newInstance(saveTeam, team);
             }
-            monsterListAdapter.setCombos(totalCombos);
-            Log.d("Total Combo 2", "" + totalCombos);
-            updateTextView();
-            monsterListAdapter.notifyDataSetChanged();
-            additionalComboValue.setText("0");
+            extraMultiplierDialogFragment.show(getActivity().getSupportFragmentManager(), team, "Show extra multiplier Dialog");
+        }
+    };
+
+    ExtraMultiplierDialogFragment.SaveTeam saveTeam = new ExtraMultiplierDialogFragment.SaveTeam() {
+        @Override
+        public void update() {
+            //Update shit into Team.
         }
     };
 

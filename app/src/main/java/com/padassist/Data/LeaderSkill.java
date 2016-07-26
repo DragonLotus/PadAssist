@@ -89,7 +89,6 @@ public class LeaderSkill extends Model {
         matchElements2 = new ArrayList<>();
         matchMonsters = new ArrayList<>();
         hpPercent = new ArrayList<>();
-
     }
 
     public ArrayList<Double> getAtkData() {
