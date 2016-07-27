@@ -19,8 +19,9 @@ public class Singleton {
     private int boardSize = 1;
     private ArrayList<Element> extraElementMultiplier = new ArrayList<>();
     private ArrayList<Integer> extraTypeMultiplier = new ArrayList<>();
-    private double extraMultiplier = 2;
+    private double extraDamageMultiplier = 2;
     private boolean enableMultiplier = false;
+    private boolean coopEnable = false;
 
     private Context _context;
     public static Singleton getInstance() {
@@ -107,12 +108,12 @@ public class Singleton {
         this.extraTypeMultiplier = extraTypeMultiplier;
     }
 
-    public double getExtraMultiplier() {
-        return extraMultiplier;
+    public double getExtraDamageMultiplier() {
+        return extraDamageMultiplier;
     }
 
-    public void setExtraMultiplier(double extraMultiplier) {
-        this.extraMultiplier = extraMultiplier;
+    public void setExtraDamageMultiplier(double extraDamageMultiplier) {
+        this.extraDamageMultiplier = extraDamageMultiplier;
     }
 
     public boolean isEnableMultiplier() {
@@ -121,5 +122,13 @@ public class Singleton {
 
     public void setEnableMultiplier(boolean enableMultiplier) {
         this.enableMultiplier = enableMultiplier;
+    }
+
+    public boolean isCoopEnable() {
+        return coopEnable;
+    }
+
+    public void setCoopEnable(boolean coopEnable) {
+        this.coopEnable = coopEnable;
     }
 }

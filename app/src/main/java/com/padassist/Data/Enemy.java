@@ -17,7 +17,7 @@ public class Enemy implements Parcelable {
     private Boolean hasAbsorb = false, hasReduction, hasDamageThreshold = false, isDamaged, hasDamageImmunity = false;
 
 
-    //default is satan from  DKali from Arena 2
+    //default is DKali from Arena 2
     public Enemy() {
         reduction = new ArrayList<Element>();
         gravityList = new ArrayList<Integer>();
@@ -31,7 +31,7 @@ public class Enemy implements Parcelable {
         absorb = Element.BLANK;
         gravityPercent = 1;
         damageThreshold = 200000;
-        damageImmunity = 200000;
+        damageImmunity = 1000000;
         isDamaged = false;
         hasReduction = true;
         reduction.add(Element.RED);

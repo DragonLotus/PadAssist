@@ -59,5 +59,7 @@ public enum LeaderSkillType {
     ORB_PLUS_MONSTER_CONDITIONAL,
     CROSS,
     INDIAN_CROSS,
-    ACTIVE_CROSS
+    ACTIVE_CROSS,
+    CO_OP_HP_FLAT,
+    CO_OP_FLAT
 }

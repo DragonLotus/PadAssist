@@ -395,6 +395,10 @@ public class ParseMonsterDatabaseThread extends Thread {
                 return LeaderSkillType.INDIAN_CROSS;
             case 55:
                 return LeaderSkillType.ACTIVE_CROSS;
+            case 56:
+                return LeaderSkillType.CO_OP_HP_FLAT;
+            case 57:
+                return LeaderSkillType.CO_OP_FLAT;
             default:
                 return LeaderSkillType.BLANK;
         }

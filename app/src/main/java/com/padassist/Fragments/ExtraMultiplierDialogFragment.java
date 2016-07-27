@@ -2,6 +2,7 @@ package com.padassist.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
+
 
 import com.padassist.Adapters.TypeGridAdapter;
 import com.padassist.Data.Element;
@@ -40,6 +42,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
     private ArrayList<Integer> typeList;
     private TypeGridAdapter typeGridAdapter;
     private Button clearButton;
+    private Button coopButton;
 
     public interface SaveTeam {
         public void update();
@@ -69,6 +72,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         clearButton = (Button) rootView.findViewById(R.id.clearButton);
         multiplier = (EditText) rootView.findViewById(R.id.multiplier);
         enable = (CheckBox) rootView.findViewById(R.id.enable);
+        coopButton = (Button) rootView.findViewById(R.id.coopButton);
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         typeList = new ArrayList<>();
@@ -88,8 +92,8 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         typeGrid.setAdapter(typeGridAdapter);
         typeGrid.setExpanded(true);
         setEnable();
-        multiplier.setText("" + Singleton.getInstance().getExtraMultiplier());
-        builder.setTitle("Extra Multiplier");
+        multiplier.setText("" + Singleton.getInstance().getExtraDamageMultiplier());
+        builder.setTitle("Options");
         builder.setView(rootView)
                 // Add action buttons
                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -137,19 +141,31 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         typeGrid.setOnItemClickListener(typeGridOnClickListener);
         multiplier.addTextChangedListener(multiplierTextWatcher);
         enable.setOnCheckedChangeListener(enableOnCheckedChangeListener);
+        coopButton.setOnClickListener(clearOnClickListener);
     }
 
     private Button.OnClickListener clearOnClickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Singleton.getInstance().getExtraElementMultiplier().clear();
-            Singleton.getInstance().getExtraTypeMultiplier().clear();
-            redOrb.setChecked(false);
-            blueOrb.setChecked(false);
-            greenOrb.setChecked(false);
-            lightOrb.setChecked(false);
-            darkOrb.setChecked(false);
-            typeGridAdapter.notifyDataSetChanged();
+            if(v == clearButton){
+                Singleton.getInstance().getExtraElementMultiplier().clear();
+                Singleton.getInstance().getExtraTypeMultiplier().clear();
+                redOrb.setChecked(false);
+                blueOrb.setChecked(false);
+                greenOrb.setChecked(false);
+                lightOrb.setChecked(false);
+                darkOrb.setChecked(false);
+                typeGridAdapter.notifyDataSetChanged();
+            } else if(v == coopButton) {
+                Boolean isEnable = !Singleton.getInstance().isCoopEnable();
+                Singleton.getInstance().setCoopEnable(isEnable);
+                if(isEnable){
+                    coopButton.setText("Co-Op On");
+                } else {
+                    coopButton.setText("Co-Op Off");
+                }
+                Log.d("ExtraMulDialogFragment", "Co-op is: " + Singleton.getInstance().isCoopEnable());
+            }
         }
     };
 
@@ -168,6 +184,11 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
             for(int i = 0; i < elementRadioGroup.getChildCount(); i++){
                 elementRadioGroup.getChildAt(i).setEnabled(false);
             }
+        }
+        if(Singleton.getInstance().isCoopEnable()){
+            coopButton.setText("Co-Op On");
+        } else {
+            coopButton.setText("Co-Op Off");
         }
     }
 
@@ -282,7 +303,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
             {
                 s = "0";
             }
-            Singleton.getInstance().setExtraMultiplier(Double.valueOf(s.toString()));
+            Singleton.getInstance().setExtraDamageMultiplier(Double.valueOf(s.toString()));
         }
 
         @Override

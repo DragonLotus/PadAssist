@@ -64,6 +64,19 @@ public class DamageCalculationUtil {
             }
         }
         returnDamage = returnDamage * team.getLeadSkill().atkElement1Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement1Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement1()) * 0.1 * counter + 1);
+
+        if (Singleton.getInstance().isEnableMultiplier()) {
+            Boolean affected = false;
+            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement1())) {
+                returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
+                affected = true;
+            }
+            if(Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType1()) || Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType2()) ||Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType3()) && !affected){
+                if(!affected){
+                    returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
+                }
+            }
+        }
         return returnDamage;
     }
 
@@ -79,6 +92,19 @@ public class DamageCalculationUtil {
             }
         }
         returnDamage = returnDamage * team.getLeadSkill().atkElement2Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement2Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement2()) * 0.1 * counter + 1);
+
+        if (Singleton.getInstance().isEnableMultiplier()) {
+            Boolean affected = false;
+            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement2())) {
+                returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
+                affected = true;
+            }
+            if(Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType1()) || Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType2()) ||Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType3())){
+                if(!affected){
+                    returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
+                }
+            }
+        }
         return returnDamage;
     }
 

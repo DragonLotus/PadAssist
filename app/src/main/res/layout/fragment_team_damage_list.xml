@@ -458,7 +458,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Multiplier" />
+        android:text="More Options" />
 
     <TextView
         android:id="@+id/additionalCombo"
