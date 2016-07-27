@@ -14,7 +14,7 @@ public class AboutDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("PadAssist (Build " + BuildConfig.VERSION_NAME + ")");
+        builder.setTitle("PadAssist (Version " + BuildConfig.VERSION_NAME + ")");
         builder.setMessage("What a creative name.");
         builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
