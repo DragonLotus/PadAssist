@@ -429,8 +429,9 @@ public class OrbMatchFragment extends AbstractFragment {
         public void onClick(View v) {
             additionalComboValue.clearFocus();
             orbMatch = new OrbMatch(orbsLinked.getSelectedItemPosition() + 3, orbsPlus.getSelectedItemPosition(), getOrbColor(), isRow, isCross);
-            orbMatchRecycler.add(orbMatch);
-            orbMatchRecycler.notifyDataSetChanged();
+            orbMatchList.add(0, orbMatch);
+            orbMatchRecycler.notifyItemInserted(0);
+            orbMatches.scrollToPosition(0);
             Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList + " orbMatches size is: " + orbMatches.getChildCount());
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);

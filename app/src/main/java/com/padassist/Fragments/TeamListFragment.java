@@ -224,7 +224,7 @@ public class TeamListFragment extends AbstractFragment {
         }
     };
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

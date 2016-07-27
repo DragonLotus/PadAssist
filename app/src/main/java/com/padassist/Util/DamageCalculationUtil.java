@@ -199,6 +199,26 @@ public class DamageCalculationUtil {
                             damage *= 3;
                         }
                         break;
+                    case 39:
+                        if(enemy.getTypes().contains(12)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 40:
+                        if(enemy.getTypes().contains(14)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 41:
+                        if(enemy.getTypes().contains(15)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 42:
+                        if(enemy.getTypes().contains(0)){
+                            damage *= 3;
+                        }
+                        break;
                 }
             }
         }
@@ -276,6 +296,31 @@ public class DamageCalculationUtil {
                             damage *= 3;
                         }
                         break;
+                    case 38:
+                        if(enemy.getTypes().contains(1)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 39:
+                        if(enemy.getTypes().contains(12)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 40:
+                        if(enemy.getTypes().contains(14)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 41:
+                        if(enemy.getTypes().contains(15)){
+                            damage *= 3;
+                        }
+                        break;
+                    case 42:
+                        if(enemy.getTypes().contains(0)){
+                            damage *= 3;
+                        }
+                        break;
                 }
             }
         }
@@ -315,7 +360,7 @@ public class DamageCalculationUtil {
 
     public static double monsterElement1DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
         double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy, team);
-        if (enemy.getAbsorb().equals(monster.getElement1())) {
+        if (enemy.getAbsorb().contains(monster.getElement1())) {
             return damage * -1;
         }
         return damage;
@@ -323,7 +368,7 @@ public class DamageCalculationUtil {
 
     public static double monsterElement2DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
         double damage = monsterElement2DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy, team);
-        if (enemy.getAbsorb().equals(monster.getElement2())) {
+        if (enemy.getAbsorb().contains(monster.getElement2())) {
             return damage * -1;
         } else return damage;
     }
@@ -473,12 +518,12 @@ public class DamageCalculationUtil {
         monsterRcv = monster.getTotalRcv();
         Log.d("DamageCalcUtil", "LeadSkill is: " + team.getLeadSkill().getName() + " rcvSkillType is: " + team.getLeadSkill().getRcvSkillType());
         if(team.getLeadSkill().getRcvSkillType() != null){
-            if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT)){
+            if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
                 monsterRcv *= team.getLeadSkill().rcvMultiplier(monster, team);
             }
         }
         if(team.getHelperSkill().getRcvSkillType() != null){
-            if(team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT)){
+            if(team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
                 monsterRcv *= team.getHelperSkill().rcvMultiplier(monster, team);
             }
         }

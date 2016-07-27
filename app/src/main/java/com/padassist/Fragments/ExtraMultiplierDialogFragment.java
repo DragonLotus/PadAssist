@@ -96,7 +96,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         builder.setTitle("Options");
         builder.setView(rootView)
                 // Add action buttons
-                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                     }

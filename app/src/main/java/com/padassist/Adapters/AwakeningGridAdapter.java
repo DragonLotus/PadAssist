@@ -228,6 +228,21 @@ public class AwakeningGridAdapter extends BaseAdapter {
                 case 37:
                     viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_37);
                     break;
+                case 38:
+                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_38);
+                    break;
+                case 39:
+                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_39);
+                    break;
+                case 40:
+                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_40);
+                    break;
+                case 41:
+                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_41);
+                    break;
+                case 42:
+                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_42);
+                    break;
                 default:
                     viewHolder.awakeningPicture.setImageResource(R.drawable.awakening);
                     break;

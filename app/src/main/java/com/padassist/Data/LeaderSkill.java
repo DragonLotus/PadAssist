@@ -559,6 +559,9 @@ public class LeaderSkill extends Model {
                 case CO_OP_FLAT:
                     coopFlat(monster, team);
                     break;
+                case CO_OP:
+                    coop(monster, team, 2);
+                    break;
             }
         }
         return atkElement1Multiplier;
@@ -741,6 +744,9 @@ public class LeaderSkill extends Model {
                 case CO_OP_FLAT:
                     coopFlat(monster, team);
                     break;
+                case CO_OP:
+                    coop(monster, team, 2);
+                    break;
             }
         }
         return atkElement2Multiplier;
@@ -770,6 +776,9 @@ public class LeaderSkill extends Model {
                     break;
                 case ACTIVE:
                     active(monster, team, 3);
+                    break;
+                case CO_OP:
+                    coop(monster, team, 3);
                     break;
             }
         }
@@ -1946,11 +1955,11 @@ public class LeaderSkill extends Model {
 
         }
         if (counter2 >= comboMax2) {
-            atkElement1Multiplier *= atkData.get(comboDiff2);
-            atkElement2Multiplier *= atkData.get(comboDiff2);
+            atkElement1Multiplier *= atkData.get(comboDiff2 + comboDiff + 1);
+            atkElement2Multiplier *= atkData.get(comboDiff2 + comboDiff + 1);
         } else if (counter2 >= comboMin2) {
-            atkElement1Multiplier *= atkData.get(counter2 - comboMin2);
-            atkElement2Multiplier *= atkData.get(counter2 - comboMin2);
+            atkElement1Multiplier *= atkData.get(counter2 - comboMin2 + comboDiff + 1);
+            atkElement2Multiplier *= atkData.get(counter2 - comboMin2 + comboDiff + 1);
         }
     }
 
@@ -2668,6 +2677,17 @@ public class LeaderSkill extends Model {
         if (Singleton.getInstance().isCoopEnable()) {
             atkElement1Multiplier *= atkData.get(atkData.size() - 1);
             atkElement2Multiplier *= atkData.get(atkData.size() - 1);
+        }
+    }
+
+    private void coop(Monster monster, Team team, int stat){
+        if(Singleton.getInstance().isCoopEnable()){
+            if(stat == 2){
+                atkElement1Multiplier *= atkData.get(0);
+                atkElement2Multiplier *= atkData.get(0);
+            } else if (stat == 3){
+                rcvMultiplier = rcvData.get(0);
+            }
         }
     }
 

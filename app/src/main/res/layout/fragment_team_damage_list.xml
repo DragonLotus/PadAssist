@@ -153,50 +153,55 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/redOrbAbsorb"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/red_orb_selector"
                     android:button="@null"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:checked="false"/>
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/blueOrbAbsorb"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/blue_orb_selector"
                     android:button="@null"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:checked="false"/>
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/greenOrbAbsorb"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/green_orb_selector"
                     android:button="@null"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:checked="false"/>
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/lightOrbAbsorb"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/light_orb_selector"
                     android:button="@null"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:checked="false"/>
 
-                <RadioButton
+                <CheckBox
                     android:id="@+id/darkOrbAbsorb"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/dark_orb_selector"
                     android:button="@null"
-                    android:enabled="false" />
+                    android:enabled="false"
+                    android:checked="false"/>
             </RadioGroup>
 
             <CheckBox

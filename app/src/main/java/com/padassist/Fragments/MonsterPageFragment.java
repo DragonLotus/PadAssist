@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -225,6 +226,18 @@ public class MonsterPageFragment extends AbstractFragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.toggleCoop:
+                if(monster.getAwakenings().contains(30)){
+                    monsterStats();
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
@@ -292,7 +305,7 @@ public class MonsterPageFragment extends AbstractFragment {
         Log.d("Monster Page Log", "Monster level7: " + monster.getCurrentLevel());
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -593,6 +606,21 @@ public class MonsterPageFragment extends AbstractFragment {
                     case 38:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
                         break;
+                    case 39:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_39);
+                        break;
+                    case 40:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_40);
+                        break;
+                    case 41:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_41);
+                        break;
+                    case 42:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_42);
+                        break;
+                    default:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening);
+                        break;
                 }
             }
 
@@ -712,6 +740,21 @@ public class MonsterPageFragment extends AbstractFragment {
                     case 38:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38_disabled);
                         break;
+                    case 39:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_39_disabled);
+                        break;
+                    case 40:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_40_disabled);
+                        break;
+                    case 41:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_41_disabled);
+                        break;
+                    case 42:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_42_disabled);
+                        break;
+                    default:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_disabled);
+                        break;
                 }
             }
         } else {
@@ -830,6 +873,21 @@ public class MonsterPageFragment extends AbstractFragment {
                         break;
                     case 38:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
+                        break;
+                    case 39:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_39);
+                        break;
+                    case 40:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_40);
+                        break;
+                    case 41:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_41);
+                        break;
+                    case 42:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_42);
+                        break;
+                    default:
+                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening);
                         break;
                 }
             }

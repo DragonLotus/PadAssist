@@ -122,6 +122,8 @@ ORB_PLUS_MONSTER_CONDITIONAL: 52
 CROSS: 53
 INDIAN_CROSS: 54
 ACTIVE_CROSS: 55
+CO_OP_HP_FLAT: 56
+CO_OP_FLAT: 57
 
 0:Fire
 1:Water
@@ -146,3 +148,29 @@ ACTIVE_CROSS: 55
 13:Protected
 14:Enhance Material
 15:Vendor
+
+1:HP
+2:ATK
+3:RCV
+4:Fire Resist
+5:Water Resist
+6:Wood Resist
+7:Light Resist
+8:Dark Resist
+9:Auto Recovery
+10:Bind Resist
+11:Blind Resist
+12:Jammer Resist
+13:Poison Resist
+14:Fire Orb Enhance
+15:Water Orb Enhance
+16:Wood Orb Enhance
+17:Light Orb Enhance
+18:Dark Orb Enhance
+19:Time Extend
+20:Bind Recovery
+21:Skill Boost
+22:Fire Row Enhance
+23:Water Row Enhance
+24:Wood Row Enhance
+25:Light Row Enhance

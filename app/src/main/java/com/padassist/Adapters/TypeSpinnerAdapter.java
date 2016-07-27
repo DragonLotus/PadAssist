@@ -99,6 +99,11 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
                 viewHolder.typeIcon.setImageResource(R.drawable.type_enhance_material);
                 viewHolder.typeName.setText("Enhance Material");
                 break;
+            case 15:
+                viewHolder.typeIcon.setVisibility(View.VISIBLE);
+                viewHolder.typeIcon.setImageResource(R.drawable.type_vendor);
+                viewHolder.typeName.setText("Vendor");
+                break;
             default:
                 viewHolder.typeIcon.setVisibility(View.INVISIBLE);
                 viewHolder.typeName.setText("None");
@@ -180,6 +185,11 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
             case 14:
                 viewHolder.typeIcon.setVisibility(View.VISIBLE);
                 viewHolder.typeIcon.setImageResource(R.drawable.type_enhance_material);
+                viewHolder.typeName.setText("");
+                break;
+            case 15:
+                viewHolder.typeIcon.setVisibility(View.VISIBLE);
+                viewHolder.typeIcon.setImageResource(R.drawable.type_vendor);
                 viewHolder.typeName.setText("");
                 break;
             default:

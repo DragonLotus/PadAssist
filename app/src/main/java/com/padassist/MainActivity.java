@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.support.v7.widget.SearchView;
+import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.Configuration;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private TeamSaveDialogFragment teamSaveDialogFragment;
     private AboutDialogFragment aboutDialogFragment;
     private SharedPreferences preferences;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         }
         preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
 
-       // preferences.edit().putInt("version", 1).apply();
+//        preferences.edit().putInt("version", 1).apply();
         if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1)){
             Intent loadIntent = new Intent(this, LoadingScreenActivity.class);
             startActivity(loadIntent);
@@ -206,6 +208,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        MenuItem toggleCoop = menu.findItem(R.id.toggleCoop);
+        toggleCoop.setTitle(Singleton.getInstance().isCoopEnable() ? "Toggle Co-op off" : "Toggle Co-op on");
 //        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
 //        Log.d("What is fragment", "" + fragment);
 //        if(fragment instanceof MonsterListFragment){
@@ -229,6 +233,23 @@ public class MainActivity extends AppCompatActivity {
                 aboutDialogFragment = new AboutDialogFragment();
                 aboutDialogFragment.show(getSupportFragmentManager(), "yes");
             }
+        } else if(id == R.id.toggleCoop){
+            Boolean isEnable = !Singleton.getInstance().isCoopEnable();
+            Singleton.getInstance().setCoopEnable(isEnable);
+            if(isEnable){
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(this, "Co-op on", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(this, "Co-op off", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            item.setTitle(isEnable ? "Toggle Co-op off" : "Toggle Co-op on");
         } else if (id == R.id.saveTeam) {
 //            if (teamSaveDialogFragment == null) {
 //                teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);

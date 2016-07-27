@@ -56,7 +56,7 @@ public class GravityListAdapter extends ArrayAdapter<Integer> {
     @Override
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
-        //update the textview here by looping trhrough all objects and then setting the total percent
+        //updateAwakenings the textview here by looping trhrough all objects and then setting the total percent
         updateGravityPercent.updatePercent();
     }
 

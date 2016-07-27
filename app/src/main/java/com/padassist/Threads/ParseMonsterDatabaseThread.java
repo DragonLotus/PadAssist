@@ -399,6 +399,8 @@ public class ParseMonsterDatabaseThread extends Thread {
                 return LeaderSkillType.CO_OP_HP_FLAT;
             case 57:
                 return LeaderSkillType.CO_OP_FLAT;
+            case 58:
+                return LeaderSkillType.CO_OP;
             default:
                 return LeaderSkillType.BLANK;
         }

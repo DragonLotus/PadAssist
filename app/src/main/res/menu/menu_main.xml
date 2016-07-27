@@ -15,6 +15,13 @@
         android:orderInCategory="100"
         android:title="About"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/toggleCoop"
+        android:orderInCategory="99"
+        android:title="Toggle Co-op on"
+        app:showAsAction="never" />
+
     <group android:id="@+id/saveTeamGroup">
         <item
             android:id="@+id/saveTeam"

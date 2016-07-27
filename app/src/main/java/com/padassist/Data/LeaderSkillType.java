@@ -61,5 +61,6 @@ public enum LeaderSkillType {
     INDIAN_CROSS,
     ACTIVE_CROSS,
     CO_OP_HP_FLAT,
-    CO_OP_FLAT
+    CO_OP_FLAT,
+    CO_OP
 }

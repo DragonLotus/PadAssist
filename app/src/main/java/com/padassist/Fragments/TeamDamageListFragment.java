@@ -69,7 +69,7 @@ public class TeamDamageListFragment extends AbstractFragment {
     private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings, teamHpValue, damageImmunity, reductionPercent;
     private RadioGroup reductionRadioGroup;
     private Button monsterListToggle;
-    private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction;
+    private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, redOrbAbsorb, blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, damageImmunityCheck, hasAwakeningsCheck, activeUsedCheck;
     private RadioGroup absorbRadioGroup;
     private Button optionButton;
@@ -133,15 +133,17 @@ public class TeamDamageListFragment extends AbstractFragment {
             case R.id.refresh:
                 clearTextFocus();
                 totalCombos += additionalCombosFragment;
-                Log.d("Total Combo 1", "" + totalCombos);
                 if (totalCombos < team.getOrbMatches().size()) {
                     totalCombos = team.getOrbMatches().size();
                 }
                 monsterListAdapter.setCombos(totalCombos);
-                Log.d("Total Combo 2", "" + totalCombos);
                 updateTextView();
                 monsterListAdapter.notifyDataSetChanged();
                 additionalComboValue.setText("0");
+                break;
+            case R.id.toggleCoop:
+                updateTextView();
+                monsterListAdapter.notifyDataSetChanged();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -184,6 +186,11 @@ public class TeamDamageListFragment extends AbstractFragment {
         greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
         darkOrbReduction = (CheckBox) rootView.findViewById(R.id.darkOrbReduction);
         lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
+        redOrbAbsorb = (CheckBox) rootView.findViewById(R.id.redOrbAbsorb);
+        blueOrbAbsorb = (CheckBox) rootView.findViewById(R.id.blueOrbAbsorb);
+        greenOrbAbsorb = (CheckBox) rootView.findViewById(R.id.greenOrbAbsorb);
+        lightOrbAbsorb = (CheckBox) rootView.findViewById(R.id.lightOrbAbsorb);
+        darkOrbAbsorb = (CheckBox) rootView.findViewById(R.id.darkOrbAbsorb);
         reductionCheck = (CheckBox) rootView.findViewById(R.id.reductionCheck);
         damageThresholdValue = (EditText) rootView.findViewById(R.id.damageThresholdValue);
         damageThresholdCheck = (CheckBox) rootView.findViewById(R.id.damageThresholdCheck);
@@ -243,18 +250,25 @@ public class TeamDamageListFragment extends AbstractFragment {
         damageImmunityValue.addTextChangedListener(damageImmunityWatcher);
         damageImmunityValue.setOnFocusChangeListener(editTextOnFocusChange);
         reductionValue.addTextChangedListener(reductionWatcher);
+
         redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         blueOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         greenOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         darkOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         lightOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
-        absorbRadioGroup.setOnCheckedChangeListener(absorbOnCheckChangeListener);
+
+        redOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        blueOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        greenOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        darkOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        lightOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+
         hasAwakeningsCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         activeUsedCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         teamHp.setOnSeekBarChangeListener(teamHpSeekBarListener);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -507,7 +521,7 @@ public class TeamDamageListFragment extends AbstractFragment {
                     toast.show();
                 }
             }
-            team.update();
+            team.updateAwakenings();
             team.updateOrbs();
             Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
             updateTextView();
@@ -552,7 +566,7 @@ public class TeamDamageListFragment extends AbstractFragment {
 //                    toast.show();
 //                }
 //            }
-//            team.update();
+//            team.updateAwakenings();
 //            team.updateOrbs();
 //            Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
 //            updateTextView();
@@ -627,7 +641,8 @@ public class TeamDamageListFragment extends AbstractFragment {
     ExtraMultiplierDialogFragment.SaveTeam saveTeam = new ExtraMultiplierDialogFragment.SaveTeam() {
         @Override
         public void update() {
-            //Update shit into Team.
+            updateTextView();
+            monsterListAdapter.notifyDataSetChanged();
         }
     };
 
@@ -667,29 +682,38 @@ public class TeamDamageListFragment extends AbstractFragment {
     }
 
     private void setAbsorbOrbs() {
-        absorbCheck.setChecked(enemy.getHasAbsorb());
         if (enemy.getHasAbsorb()) {
+            absorbCheck.setChecked(true);
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.getAbsorb() == Element.RED) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.redOrbAbsorb);
-            } else if (enemy.getAbsorb() == Element.BLUE) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.blueOrbAbsorb);
-            } else if (enemy.getAbsorb() == Element.GREEN) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.greenOrbAbsorb);
-            } else if (enemy.getAbsorb() == Element.LIGHT) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.lightOrbAbsorb);
-            } else if (enemy.getAbsorb() == Element.DARK) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.darkOrbAbsorb);
+            if (enemy.getAbsorb().contains(Element.RED)) {
+                redOrbAbsorb.setChecked(true);
+            }
+            if (enemy.getAbsorb().contains(Element.BLUE)) {
+                blueOrbAbsorb.setChecked(true);
+            }
+            if (enemy.getAbsorb().contains(Element.GREEN)) {
+                greenOrbAbsorb.setChecked(true);
+            }
+            if (enemy.getAbsorb().contains(Element.DARK)) {
+                darkOrbAbsorb.setChecked(true);
+            }
+            if (enemy.getAbsorb().contains(Element.LIGHT)) {
+                lightOrbAbsorb.setChecked(true);
+            }
+
+        }else {
+            absorbCheck.setChecked(false);
+            redOrbAbsorb.setChecked(false);
+            blueOrbAbsorb.setChecked(false);
+            greenOrbAbsorb.setChecked(false);
+            darkOrbAbsorb.setChecked(false);
+            lightOrbAbsorb.setChecked(false);
+            for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
+                absorbRadioGroup.getChildAt(i).setEnabled(false);
             }
         }
-
     }
 
     private void setDamageThreshold() {
@@ -759,8 +783,11 @@ public class TeamDamageListFragment extends AbstractFragment {
                         absorbRadioGroup.getChildAt(i).setEnabled(true);
                     }
                 } else {
-                    absorbRadioGroup.clearCheck();
-                    enemy.setAbsorb(Element.BLANK);
+                    redOrbAbsorb.setChecked(false);
+                    blueOrbAbsorb.setChecked(false);
+                    greenOrbAbsorb.setChecked(false);
+                    lightOrbAbsorb.setChecked(false);
+                    darkOrbAbsorb.setChecked(false);
                     for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                         absorbRadioGroup.getChildAt(i).setEnabled(false);
                     }
@@ -768,14 +795,14 @@ public class TeamDamageListFragment extends AbstractFragment {
             } else if (buttonView.equals(hasAwakeningsCheck)) {
                 Log.d("hasAwakenings1", "" + team.hasAwakenings());
                 team.setHasAwakenings(isChecked);
-                team.update();
+                team.updateAwakenings();
                 Log.d("hasAwakenings2", "" + team.hasAwakenings());
                 Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
             } else if (buttonView.equals(activeUsedCheck)) {
                 Log.d("Team Damage List Log", "Active Skill Used Before: " + team.isActiveSkillUsed());
                 team.isActiveSkillUsed(isChecked);
                 Log.d("Team Damage List Log", "Active Skill Used After: " + team.isActiveSkillUsed());
-                team.update();
+                team.updateAwakenings();
             }
 //            updateTextView();
 //            monsterListAdapter.notifyDataSetChanged();
@@ -823,38 +850,49 @@ public class TeamDamageListFragment extends AbstractFragment {
 //        monsterListAdapter.notifyDataSetChanged();
     }
 
+    private CompoundButton.OnCheckedChangeListener absorbCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            setElementAbsorb(isChecked, buttonView.getId());
+        }
+    };
+
+    private void setElementAbsorb(boolean isChecked, int buttonId) {
+        clearTextFocus();
+        Element element = null;
+        switch (buttonId) {
+            case R.id.redOrbAbsorb:
+                element = Element.RED;
+                break;
+            case R.id.blueOrbAbsorb:
+                element = Element.BLUE;
+                break;
+            case R.id.greenOrbAbsorb:
+                element = Element.GREEN;
+                break;
+            case R.id.lightOrbAbsorb:
+                element = Element.LIGHT;
+                break;
+            case R.id.darkOrbAbsorb:
+                element = Element.DARK;
+                break;
+        }
+
+        if (isChecked) {
+            if (!enemy.getAbsorb().contains(element)) {
+                enemy.getAbsorb().add(element);
+            }
+        } else {
+            if (enemy.getAbsorb().contains(element)) {
+                enemy.getAbsorb().remove(element);
+            }
+        }
+    }
+
     private void setCheckBoxes() {
         hasAwakeningsCheck.setChecked(team.hasAwakenings());
         activeUsedCheck.setChecked(team.isActiveSkillUsed());
     }
-
-    private RadioGroup.OnCheckedChangeListener absorbOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            clearTextFocus();
-            int radioChecked = group.getCheckedRadioButtonId();
-            switch (radioChecked) {
-                case R.id.redOrbAbsorb:
-                    enemy.setAbsorb(Element.RED);
-                    break;
-                case R.id.blueOrbAbsorb:
-                    enemy.setAbsorb(Element.BLUE);
-                    break;
-                case R.id.greenOrbAbsorb:
-                    enemy.setAbsorb(Element.GREEN);
-                    break;
-                case R.id.lightOrbAbsorb:
-                    enemy.setAbsorb(Element.LIGHT);
-                    break;
-                case R.id.darkOrbAbsorb:
-                    enemy.setAbsorb(Element.DARK);
-                    break;
-            }
-//            updateTextView();
-//            monsterListAdapter.notifyDataSetChanged();
-            Log.d("absorb", "" + enemy.getAbsorb());
-        }
-    };
 
     private void setupHpSeekBar() {
         int position = 0;
@@ -910,7 +948,7 @@ public class TeamDamageListFragment extends AbstractFragment {
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             Log.d("Team Damage Log", "I am stop tracking touch");
-//            team.update();
+//            team.updateAwakenings();
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }

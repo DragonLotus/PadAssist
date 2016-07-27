@@ -107,7 +107,7 @@ public class MonsterListFragment extends AbstractFragment {
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -159,6 +159,10 @@ public class MonsterListFragment extends AbstractFragment {
                     teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(),team.getTeamIdOverwrite(), "Show Team Save Dialog");
                 }
                 break;
+            case R.id.toggleCoop:
+                team.setTeamStats();
+                monsterListRecycler.notifyDataSetChanged();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -190,7 +194,7 @@ public class MonsterListFragment extends AbstractFragment {
 //        monsterListAdapter.notifyDataSetChanged();
 //        monsterListAdapter.updateList(monsters);
         monsterListRecycler.updateList(monsters);
-        team.update();
+        team.updateAwakenings();
         team.updateLeaderSkills();
         team.setTeamStats();
         teamName.setText(team.getTeamName());
@@ -225,7 +229,7 @@ public class MonsterListFragment extends AbstractFragment {
                 updateTeam();
             }
 
-            team.update();
+            team.updateAwakenings();
             monsters = team.getMonsters();
         }
 
@@ -336,7 +340,7 @@ public class MonsterListFragment extends AbstractFragment {
         Log.d("sub3", "" + team.getSub3());
         Log.d("sub4", "" + team.getSub4());
         Log.d("helper", "" + team.getHelper());
-        team.update();
+        team.updateAwakenings();
         team.updateLeaderSkills();
         team.setTeamStats();
         team.save();

@@ -109,7 +109,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
                 MenuItemCompat.collapseActionView(searchMenuItem);
             }
         }
-        Log.d("Save Monster List Log" , "Singleton sortMethod is: " + Singleton.getInstance().getSaveSortMethod());
+        Log.d("Save Monster List Log", "Singleton sortMethod is: " + Singleton.getInstance().getSaveSortMethod());
     }
 
     @Override
@@ -126,6 +126,16 @@ public class SaveMonsterListFragment extends AbstractFragment {
         menu.findItem(R.id.search).setVisible(true);
         searchMenuItem = menu.findItem(R.id.search);
 //        searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toggleCoop:
+                saveMonsterListRecycler.notifyDataSetChanged();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -146,7 +156,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
 //        monsterList = (ArrayList) Monster.getAllMonsters();
-        if(Singleton.getInstance().getMonsterOverwrite() == 5){
+        if (Singleton.getInstance().getMonsterOverwrite() == 5) {
             monsterListAll = (ArrayList) Monster.getAllHelperMonsters();
             monsterListAll.add(monsterZero);
         } else {
@@ -156,11 +166,11 @@ public class SaveMonsterListFragment extends AbstractFragment {
             monsterList = new ArrayList<>();
         }
         if (monsterListAll.size() == 1) {
-            if(monsterListAll.get(0).getMonsterId() != 0){
+            if (monsterListAll.get(0).getMonsterId() != 0) {
                 monsterListAll.add(0, monsterZero);
                 savedMonsters.setVisibility(View.GONE);
                 monsterListView.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 savedMonsters.setVisibility(View.VISIBLE);
                 monsterListView.setVisibility(View.GONE);
             }
@@ -196,7 +206,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("saveMonsterListTag","view is: " + v + " R.string.index is: " + v.getTag(R.string.index));
+            Log.d("saveMonsterListTag", "view is: " + v + " R.string.index is: " + v.getTag(R.string.index));
             int position = (int) v.getTag(R.string.index);
             Team newTeam = new Team(Team.getTeamById(0));
             if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
@@ -254,7 +264,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         }
     };
 
-    private View.OnLongClickListener monsterListOnLongClickListener = new View.OnLongClickListener(){
+    private View.OnLongClickListener monsterListOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             int position = (int) v.getTag(R.string.index);
@@ -379,7 +389,7 @@ public class SaveMonsterListFragment extends AbstractFragment {
         }
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

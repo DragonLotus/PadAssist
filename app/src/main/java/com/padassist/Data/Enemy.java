@@ -11,14 +11,15 @@ import java.util.ArrayList;
 public class Enemy implements Parcelable {
     private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold, damageImmunity, reductionValue;
     private double gravityPercent;
-    private Element targetElement, absorb;
-    private ArrayList<Element> reduction;
+    private Element targetElement;
+    private ArrayList<Element> reduction, absorb;
     private ArrayList<Integer> gravityList, types;
     private Boolean hasAbsorb = false, hasReduction, hasDamageThreshold = false, isDamaged, hasDamageImmunity = false;
 
 
     //default is DKali from Arena 2
     public Enemy() {
+        absorb = new ArrayList<>();
         reduction = new ArrayList<Element>();
         gravityList = new ArrayList<Integer>();
         types = new ArrayList<Integer>();
@@ -28,7 +29,6 @@ public class Enemy implements Parcelable {
         beforeGravityHP = currentHp;
         beforeDefenseBreak = targetDef;
         targetElement = Element.DARK;
-        absorb = Element.BLANK;
         gravityPercent = 1;
         damageThreshold = 200000;
         damageImmunity = 1000000;
@@ -120,11 +120,11 @@ public class Enemy implements Parcelable {
         this.damageThreshold = damageThreshold;
     }
 
-    public Element getAbsorb() {
+    public ArrayList<Element> getAbsorb() {
         return absorb;
     }
 
-    public void setAbsorb(Element absorb) {
+    public void setAbsorb(ArrayList<Element> absorb) {
         this.absorb = absorb;
     }
 
@@ -142,10 +142,6 @@ public class Enemy implements Parcelable {
 
     public boolean containsReduction(Element element) {
         return reduction.contains(element);
-    }
-
-    public boolean reductionIsEmpty() {
-        return reduction.isEmpty();
     }
 
     public Boolean getHasAbsorb() {
@@ -237,7 +233,7 @@ public class Enemy implements Parcelable {
         damageThreshold = source.readInt();
         gravityPercent = source.readDouble();
         targetElement = (Element) source.readSerializable();
-        absorb = (Element) source.readSerializable();
+        absorb = source.readArrayList(Element.class.getClassLoader());
         reduction = source.readArrayList(Element.class.getClassLoader());
         hasAbsorb = source.readByte() == 1;
         hasReduction = source.readByte() == 1;
@@ -256,7 +252,7 @@ public class Enemy implements Parcelable {
         dest.writeInt(damageThreshold);
         dest.writeDouble(gravityPercent);
         dest.writeSerializable(targetElement);
-        dest.writeSerializable(absorb);
+        dest.writeList(absorb);
         dest.writeList(reduction);
         dest.writeByte((byte) (hasAbsorb ? 1 : 0));
         dest.writeByte((byte) (hasReduction ? 1 : 0));

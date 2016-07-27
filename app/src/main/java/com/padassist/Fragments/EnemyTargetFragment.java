@@ -80,7 +80,7 @@ public class EnemyTargetFragment extends AbstractFragment {
     private ArrayList<Integer> typeItems;
     private int additionalCombos, tempDamageThresholdValue, tempReductionValue, tempDamageImmunityValue;
     private Boolean tempAbsorb, tempReduction, tempDamageThreshold, tempDamageImmunity;
-    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, damageImmunityCheck;
+    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, redOrbAbsorb, blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb, damageImmunityCheck;
     private double defenseBreakValue = 1.0;
     private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent() {
         @Override
@@ -213,6 +213,11 @@ public class EnemyTargetFragment extends AbstractFragment {
         greenOrbReduction = (CheckBox) rootView.findViewById(R.id.greenOrbReduction);
         lightOrbReduction = (CheckBox) rootView.findViewById(R.id.lightOrbReduction);
         darkOrbReduction = (CheckBox) rootView.findViewById(R.id.darkOrbReduction);
+        redOrbAbsorb = (CheckBox) rootView.findViewById(R.id.redOrbAbsorb);
+        blueOrbAbsorb = (CheckBox) rootView.findViewById(R.id.blueOrbAbsorb);
+        greenOrbAbsorb = (CheckBox) rootView.findViewById(R.id.greenOrbAbsorb);
+        lightOrbAbsorb = (CheckBox) rootView.findViewById(R.id.lightOrbAbsorb);
+        darkOrbAbsorb = (CheckBox) rootView.findViewById(R.id.darkOrbAbsorb);
         redOrb = (RadioButton) rootView.findViewById(R.id.redOrb);
         blueOrb = (RadioButton) rootView.findViewById(R.id.blueOrb);
         greenOrb = (RadioButton) rootView.findViewById(R.id.greenOrb);
@@ -306,6 +311,7 @@ public class EnemyTargetFragment extends AbstractFragment {
         typeItems.add(8);
         typeItems.add(12);
         typeItems.add(14);
+        typeItems.add(15);
 
         typeSpinnerAdapter = new TypeSpinnerAdapter(getActivity(), R.layout.type_spinner_row, typeItems);
 //        typeSpinnerAdapter.setDropDownViewResource(R.layout.type_spinner_dropdown_row);
@@ -330,13 +336,18 @@ public class EnemyTargetFragment extends AbstractFragment {
         damageImmunityCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
 
         orbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
-        absorbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
 
         redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         blueOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         greenOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         darkOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         lightOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
+
+        redOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        blueOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        greenOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        darkOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        lightOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
 
         calculate.setOnClickListener(calculateOnClickListener);
         Log.d("Has Absorb E", "" + enemy.getHasAbsorb());
@@ -382,7 +393,7 @@ public class EnemyTargetFragment extends AbstractFragment {
         setEnemyElement();
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -610,8 +621,11 @@ public class EnemyTargetFragment extends AbstractFragment {
                         absorbRadioGroup.getChildAt(i).setEnabled(true);
                     }
                 } else {
-                    absorbRadioGroup.clearCheck();
-                    enemy.setAbsorb(Element.BLANK);
+                    redOrbAbsorb.setChecked(false);
+                    blueOrbAbsorb.setChecked(false);
+                    greenOrbAbsorb.setChecked(false);
+                    lightOrbAbsorb.setChecked(false);
+                    darkOrbAbsorb.setChecked(false);
                     for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                         absorbRadioGroup.getChildAt(i).setEnabled(false);
                     }
@@ -684,21 +698,6 @@ public class EnemyTargetFragment extends AbstractFragment {
                 case R.id.darkOrb:
                     enemy.setTargetElement(Element.DARK);
                     break;
-                case R.id.redOrbAbsorb:
-                    enemy.setAbsorb(Element.RED);
-                    break;
-                case R.id.blueOrbAbsorb:
-                    enemy.setAbsorb(Element.BLUE);
-                    break;
-                case R.id.greenOrbAbsorb:
-                    enemy.setAbsorb(Element.GREEN);
-                    break;
-                case R.id.lightOrbAbsorb:
-                    enemy.setAbsorb(Element.LIGHT);
-                    break;
-                case R.id.darkOrbAbsorb:
-                    enemy.setAbsorb(Element.DARK);
-                    break;
             }
         }
     };
@@ -723,11 +722,11 @@ public class EnemyTargetFragment extends AbstractFragment {
             case R.id.greenOrbReduction:
                 element = Element.GREEN;
                 break;
-            case R.id.darkOrbReduction:
-                element = Element.DARK;
-                break;
             case R.id.lightOrbReduction:
                 element = Element.LIGHT;
+                break;
+            case R.id.darkOrbReduction:
+                element = Element.DARK;
                 break;
         }
 
@@ -738,6 +737,45 @@ public class EnemyTargetFragment extends AbstractFragment {
         } else {
             if (enemy.containsReduction(element)) {
                 enemy.removeReduction(element);
+            }
+        }
+    }
+
+    private CompoundButton.OnCheckedChangeListener absorbCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            setElementAbsorb(isChecked, buttonView.getId());
+        }
+    };
+
+    private void setElementAbsorb(boolean isChecked, int buttonId) {
+        clearTextFocus();
+        Element element = null;
+        switch (buttonId) {
+            case R.id.redOrbAbsorb:
+                element = Element.RED;
+                break;
+            case R.id.blueOrbAbsorb:
+                element = Element.BLUE;
+                break;
+            case R.id.greenOrbAbsorb:
+                element = Element.GREEN;
+                break;
+            case R.id.lightOrbAbsorb:
+                element = Element.LIGHT;
+                break;
+            case R.id.darkOrbAbsorb:
+                element = Element.DARK;
+                break;
+        }
+
+        if (isChecked) {
+            if (!enemy.getAbsorb().contains(element)) {
+                enemy.getAbsorb().add(element);
+            }
+        } else {
+            if (enemy.getAbsorb().contains(element)) {
+                enemy.getAbsorb().remove(element);
             }
         }
     }
@@ -777,38 +815,39 @@ public class EnemyTargetFragment extends AbstractFragment {
         }
     }
 
-    private void setAbsorbOrbs(){
-        Log.d("absorb Check", "" + absorbCheck.isChecked());
+    private void setAbsorbOrbs() {
         if (enemy.getHasAbsorb()) {
             absorbCheck.setChecked(true);
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.getAbsorb() == Element.RED) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.redOrbAbsorb);
-            } else if (enemy.getAbsorb() == Element.BLUE) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.blueOrbAbsorb);
-            } else if (enemy.getAbsorb() == Element.GREEN) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.greenOrbAbsorb);
-            } else if (enemy.getAbsorb() == Element.LIGHT) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.lightOrbAbsorb);
-            } else if (enemy.getAbsorb() == Element.DARK) {
-                Log.d("enemyAbsorb", "" + enemy.getAbsorb());
-                absorbRadioGroup.check(R.id.darkOrbAbsorb);
+            if (enemy.getAbsorb().contains(Element.RED)) {
+                redOrbAbsorb.setChecked(true);
             }
-        } else{
+            if (enemy.getAbsorb().contains(Element.BLUE)) {
+                blueOrbAbsorb.setChecked(true);
+            }
+            if (enemy.getAbsorb().contains(Element.GREEN)) {
+                greenOrbAbsorb.setChecked(true);
+            }
+            if (enemy.getAbsorb().contains(Element.DARK)) {
+                darkOrbAbsorb.setChecked(true);
+            }
+            if (enemy.getAbsorb().contains(Element.LIGHT)) {
+                lightOrbAbsorb.setChecked(true);
+            }
+
+        }else {
             absorbCheck.setChecked(false);
-            absorbRadioGroup.clearCheck();
-            enemy.setAbsorb(Element.BLANK);
+            redOrbAbsorb.setChecked(false);
+            blueOrbAbsorb.setChecked(false);
+            greenOrbAbsorb.setChecked(false);
+            darkOrbAbsorb.setChecked(false);
+            lightOrbAbsorb.setChecked(false);
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(false);
             }
         }
-
     }
 
     private void setDamageThreshold() {
@@ -895,6 +934,9 @@ public class EnemyTargetFragment extends AbstractFragment {
             case 14:
                 type1Spinner.setSelection(11);
                 break;
+            case 15:
+                type1Spinner.setSelection(12);
+                break;
             default:
                 type1Spinner.setSelection(0);
                 break;
@@ -933,6 +975,9 @@ public class EnemyTargetFragment extends AbstractFragment {
             case 14:
                 type2Spinner.setSelection(11);
                 break;
+            case 15:
+                type2Spinner.setSelection(12);
+                break;
             default:
                 type2Spinner.setSelection(0);
                 break;
@@ -970,6 +1015,9 @@ public class EnemyTargetFragment extends AbstractFragment {
                 break;
             case 14:
                 type3Spinner.setSelection(11);
+                break;
+            case 15:
+                type3Spinner.setSelection(12);
                 break;
             default:
                 type3Spinner.setSelection(0);

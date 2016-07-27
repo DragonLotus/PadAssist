@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -59,6 +60,17 @@ public class TeamOverviewFragment extends AbstractFragment {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.toggleCoop:
+                team.setTeamStats();
+                setTeamStats();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -111,7 +123,7 @@ public class TeamOverviewFragment extends AbstractFragment {
         Log.d("Team Overview Log", "Leader skill details are: " + team.getLeadSkill().getAtkSkillType() + " " + team.getLeadSkill().getMatchElements() + " " + team.getLeadSkill().getAtkData());
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -168,6 +180,10 @@ public class TeamOverviewFragment extends AbstractFragment {
         monsterSpecificFilter.add(36);
         monsterSpecificFilter.add(37);
         monsterSpecificFilter.add(38);
+        monsterSpecificFilter.add(39);
+        monsterSpecificFilter.add(40);
+        monsterSpecificFilter.add(41);
+        monsterSpecificFilter.add(42);
         latentUtilityFilter.add(4);
         latentUtilityFilter.add(6);
         latentUtilityFilter.add(7);

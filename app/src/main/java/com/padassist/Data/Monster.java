@@ -1,5 +1,6 @@
 package com.padassist.Data;
 
+import android.app.ProgressDialog;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.padassist.Util.DamageCalculationUtil;
+import com.padassist.Util.Singleton;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ public class Monster extends Model implements Parcelable {
     @Column(name = "killerAwakenings")
     private ArrayList<Integer> killerAwakenings;
     DecimalFormat format = new DecimalFormat("0.00");
+    private ArrayList<Integer> awakenings = new ArrayList<>();
 
     public Monster() {
     }
@@ -79,7 +82,7 @@ public class Monster extends Model implements Parcelable {
         latents.add(0);
         latents.add(0);
         killerAwakenings = new ArrayList<>();
-        if(baseMonsterId != 0){
+        if (baseMonsterId != 0) {
             setCurrentHp(DamageCalculationUtil.monsterStatCalc(baseMonster.getHpMin(), baseMonster.getHpMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getHpScale()));
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
             setCurrentRcv(DamageCalculationUtil.monsterStatCalc(baseMonster.getRcvMin(), baseMonster.getRcvMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getRcvScale()));
@@ -157,83 +160,90 @@ public class Monster extends Model implements Parcelable {
     public int getTotalHp() {
         int totalHp = (int) currentHp + hpPlus * HP_MULTIPLIER;
         int counter = 0;
-        if (currentAwakenings < getMaxAwakenings()) {
-            for (int i = 0; i < currentAwakenings; i++){
-                if(getAwokenSkills().get(i) == 1){
-                    counter++;
-                }
-            }
-        } else {
-            for (int i = 0; i < getMaxAwakenings(); i++){
-                if(getAwokenSkills().get(i) == 1){
-                    counter++;
-                }
+        for (int i = 0; i < getAwakenings().size(); i++) {
+            if (getAwakenings().get(i) == 1) {
+                counter++;
             }
         }
         int counter2 = 0;
-        for(int i = 0; i < latents.size(); i++){
-            if(latents.get(i) == 1){
+        for (int i = 0; i < latents.size(); i++) {
+            if (latents.get(i) == 1) {
                 counter2++;
             }
         }
         int latentHp = (int) Math.floor(currentHp * counter2 * 0.015 + .5);
-        totalHp = totalHp + (200*counter) + latentHp;
+        totalHp = totalHp + (200 * counter) + latentHp;
+
+        if(Singleton.getInstance().isCoopEnable()){
+            if (getAwakenings().contains(30)) {
+                totalHp *= 1.5;
+            }
+        }
         return totalHp;
     }
 
     public int getTotalAtk() {
         int totalAtk = (int) currentAtk + atkPlus * ATK_MULTIPLIER;
         int counter = 0;
-        if(currentAwakenings<getMaxAwakenings()){
-            for (int i = 0; i < currentAwakenings; i++){
-                if(getAwokenSkills().get(i) == 2){
-                    counter++;
-                }
-            }
-        } else {
-            for (int i = 0; i < getMaxAwakenings(); i++){
-                if(getAwokenSkills().get(i) == 2){
-                    counter++;
-                }
+        for (int i = 0; i < getAwakenings().size(); i++) {
+            if (getAwakenings().get(i) == 2) {
+                counter++;
             }
         }
         int counter2 = 0;
-        for(int i = 0; i < latents.size(); i++){
-            if(latents.get(i) == 2){
+        for (int i = 0; i < latents.size(); i++) {
+            if (latents.get(i) == 2) {
                 counter2++;
             }
         }
         int latentAtk = (int) Math.floor(currentAtk * counter2 * 0.01 + .5);
-        totalAtk = totalAtk + (100*counter) + latentAtk;
+        totalAtk = totalAtk + (100 * counter) + latentAtk;
 
+        if(Singleton.getInstance().isCoopEnable()){
+            if (getAwakenings().contains(30)) {
+                totalAtk *= 1.5;
+            }
+        }
         return totalAtk;
     }
 
     public int getTotalRcv() {
         int totalRcv = (int) currentRcv + rcvPlus * RCV_MULTIPLIER;
         int counter = 0;
-        if(currentAwakenings<getMaxAwakenings()){
-            for (int i = 0; i < currentAwakenings; i++){
-                if(getAwokenSkills().get(i) == 3){
-                    counter++;
-                }
-            }
-        }else {
-            for (int i = 0; i < getMaxAwakenings(); i++){
-                if(getAwokenSkills().get(i) == 3){
-                    counter++;
-                }
+        for (int i = 0; i < getAwakenings().size(); i++) {
+            if (getAwakenings().get(i) == 3) {
+                counter++;
             }
         }
         int counter2 = 0;
-        for(int i = 0; i < latents.size(); i++){
-            if(latents.get(i) == 3){
+        for (int i = 0; i < latents.size(); i++) {
+            if (latents.get(i) == 3) {
                 counter2++;
             }
         }
-        int latentRcv = (int) Math.floor(currentRcv * counter2 * 0.04 + .5);
-        totalRcv = totalRcv + (50*counter) + latentRcv;
+        int latentRcv = (int) Math.floor(currentRcv * counter2 * 0.05 + .5);
+        totalRcv = totalRcv + (50 * counter) + latentRcv;
+        if(Singleton.getInstance().isCoopEnable()){
+            if (getAwakenings().contains(30)) {
+                totalRcv *= 1.5;
+            }
+        }
         return totalRcv;
+    }
+
+    public ArrayList<Integer> getAwakenings() {
+        if(currentAwakenings != awakenings.size()){
+            if (currentAwakenings < getMaxAwakenings()) {
+                for (int i = 0; i < currentAwakenings; i++) {
+                    awakenings.add(getAwokenSkills(i));
+                }
+            } else {
+                for (int i = 0; i < getMaxAwakenings(); i++) {
+                    awakenings.add(getAwokenSkills(i));
+                }
+            }
+        }
+        return awakenings;
     }
 
     public String getWeightedString() {
@@ -324,11 +334,11 @@ public class Monster extends Model implements Parcelable {
         return baseMonster.getElement2();
     }
 
-    public int getElement1Int(){
+    public int getElement1Int() {
         return baseMonster.getElement1Int();
     }
 
-    public int getElement2Int(){
+    public int getElement2Int() {
         return baseMonster.getElement2Int();
     }
 
@@ -407,11 +417,11 @@ public class Monster extends Model implements Parcelable {
     }
 
     public void setCurrentAwakenings(int currentAwakenings) {
-        if (getAwokenSkills().contains(31) || getAwokenSkills().contains(32) || getAwokenSkills().contains(33) || getAwokenSkills().contains(34) || getAwokenSkills().contains(35) || getAwokenSkills().contains(36) || getAwokenSkills().contains(37)){
+        if (getAwokenSkills().contains(31) || getAwokenSkills().contains(32) || getAwokenSkills().contains(33) || getAwokenSkills().contains(34) || getAwokenSkills().contains(35) || getAwokenSkills().contains(36) || getAwokenSkills().contains(37) || getAwokenSkills().contains(38) || getAwokenSkills().contains(39) || getAwokenSkills().contains(40) || getAwokenSkills().contains(41) || getAwokenSkills().contains(42)) {
             killerAwakenings.clear();
-            if(currentAwakenings > getMaxAwakenings()){
-                for (int i = 0; i < getMaxAwakenings(); i++){
-                    switch(baseMonster.getAwokenSkills(i)){
+            if (currentAwakenings > getMaxAwakenings()) {
+                for (int i = 0; i < getMaxAwakenings(); i++) {
+                    switch (baseMonster.getAwokenSkills(i)) {
                         case 31:
                             killerAwakenings.add(31);
                             break;
@@ -435,12 +445,24 @@ public class Monster extends Model implements Parcelable {
                             break;
                         case 38:
                             killerAwakenings.add(38);
+                            break;
+                        case 39:
+                            killerAwakenings.add(39);
+                            break;
+                        case 40:
+                            killerAwakenings.add(40);
+                            break;
+                        case 41:
+                            killerAwakenings.add(41);
+                            break;
+                        case 42:
+                            killerAwakenings.add(42);
                             break;
                     }
                 }
             } else {
-                for (int i = 0; i < currentAwakenings; i++){
-                    switch(baseMonster.getAwokenSkills(i)){
+                for (int i = 0; i < currentAwakenings; i++) {
+                    switch (baseMonster.getAwokenSkills(i)) {
                         case 31:
                             killerAwakenings.add(31);
                             break;
@@ -464,12 +486,24 @@ public class Monster extends Model implements Parcelable {
                             break;
                         case 38:
                             killerAwakenings.add(38);
+                            break;
+                        case 39:
+                            killerAwakenings.add(39);
+                            break;
+                        case 40:
+                            killerAwakenings.add(40);
+                            break;
+                        case 41:
+                            killerAwakenings.add(41);
+                            break;
+                        case 42:
+                            killerAwakenings.add(42);
                             break;
                     }
                 }
             }
 
-            Log.d("KillerAwakenings","killerAwakenings is: " + killerAwakenings);
+            Log.d("KillerAwakenings", "killerAwakenings is: " + killerAwakenings);
         }
         this.currentAwakenings = currentAwakenings;
     }
@@ -482,7 +516,7 @@ public class Monster extends Model implements Parcelable {
         this.monsterId = monsterId;
     }
 
-    public long getBaseMonsterId(){
+    public long getBaseMonsterId() {
         return baseMonster.getMonsterId();
     }
 
@@ -546,20 +580,20 @@ public class Monster extends Model implements Parcelable {
         this.latents = latents;
     }
 
-    public ArrayList<Integer> getKillerAwakenings(){
+    public ArrayList<Integer> getKillerAwakenings() {
         return killerAwakenings;
     }
 
-    public ArrayList<Integer> getTypes(){
+    public ArrayList<Integer> getTypes() {
         return baseMonster.getTypes();
     }
 
     public int getTPA() {
         int numOfDoubleProngs = 0;
-        if(!Team.getTeamById(0).hasAwakenings()){
+        if (!Team.getTeamById(0).hasAwakenings()) {
             return numOfDoubleProngs;
-        }else {
-            if(currentAwakenings<getMaxAwakenings()){
+        } else {
+            if (currentAwakenings < getMaxAwakenings()) {
                 for (int i = 0; i < currentAwakenings; i++) {
                     if (baseMonster.getAwokenSkills(i) == 27) {
                         numOfDoubleProngs++;
@@ -634,7 +668,7 @@ public class Monster extends Model implements Parcelable {
         new Delete().from(Monster.class).execute();
     }
 
-    public static void deleteMonsterById(long id){
+    public static void deleteMonsterById(long id) {
         new Delete().from(Monster.class).where("monsterId = ?", id).executeSingle();
     }
 

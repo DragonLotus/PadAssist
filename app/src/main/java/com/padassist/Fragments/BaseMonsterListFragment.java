@@ -69,7 +69,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
     private Comparator<BaseMonster> monsterRarityComparator = new BaseMonsterRarityComparator();
     private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
 
-   private FastScroller fastScroller;
+    private FastScroller fastScroller;
 
     public static BaseMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId) {
         BaseMonsterListFragment fragment = new BaseMonsterListFragment();
@@ -84,10 +84,10 @@ public class BaseMonsterListFragment extends AbstractFragment {
     }
 
     @Override
-        public void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-        if(searchMenuItem != null){
-            if(MenuItemCompat.isActionViewExpanded(searchMenuItem)){
+        if (searchMenuItem != null) {
+            if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
                 MenuItemCompat.collapseActionView(searchMenuItem);
             }
         }
@@ -114,6 +114,16 @@ public class BaseMonsterListFragment extends AbstractFragment {
         menu.setGroupVisible(R.id.sortGroup, true);
         menu.findItem(R.id.search).setVisible(true);
         searchMenuItem = menu.findItem(R.id.search);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.toggleCoop:
+                baseMonsterListAdapter.notifyDataSetChanged();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -178,7 +188,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     newMonster.save();
                 } else {
                     newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
-                    if(Singleton.getInstance().getMonsterOverwrite() == 5){
+                    if (Singleton.getInstance().getMonsterOverwrite() == 5) {
                         newMonster.setHelper(true);
                     }
                     newMonster.save();
@@ -246,7 +256,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
                     Log.d("Base Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
                     getActivity().getSupportFragmentManager().popBackStack();
-                    if (replaceMonsterId == 0){
+                    if (replaceMonsterId == 0) {
                         ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
                     }
                 }
@@ -254,7 +264,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
         }
     };
 
-    private View.OnLongClickListener monsterListOnLongClickListener = new View.OnLongClickListener(){
+    private View.OnLongClickListener monsterListOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
             int position = (int) v.getTag(R.string.index);
@@ -274,7 +284,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     newMonster.save();
                 } else {
                     newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
-                    if(Singleton.getInstance().getMonsterOverwrite() == 5){
+                    if (Singleton.getInstance().getMonsterOverwrite() == 5) {
                         newMonster.setHelper(true);
                     }
                     newMonster.save();
@@ -342,7 +352,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
                     Log.d("Base Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
                     getActivity().getSupportFragmentManager().popBackStack();
-                    if (replaceMonsterId == 0){
+                    if (replaceMonsterId == 0) {
                         ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
                     }
                 }
@@ -456,7 +466,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
 //    }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

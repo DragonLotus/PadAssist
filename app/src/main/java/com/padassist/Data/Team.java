@@ -461,7 +461,7 @@ public class Team extends Model implements Parcelable {
         return latentsList;
     }
 
-    public void update() {
+    public void updateAwakenings() {
         //Case Switch thing for each color. 5 elements for 5 colors. 0 red, 1 blue, 2 green, 3 light, 4 dark
         //Check for monster bound
         for (int i = 0; i < getMonsters().size(); i++) {

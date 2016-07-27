@@ -84,6 +84,10 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         monsterSpecificFilter.add(36);
         monsterSpecificFilter.add(37);
         monsterSpecificFilter.add(38);
+        monsterSpecificFilter.add(39);
+        monsterSpecificFilter.add(40);
+        monsterSpecificFilter.add(41);
+        monsterSpecificFilter.add(42);
         latentMonsterSpecificFilter.add(1);
         latentMonsterSpecificFilter.add(2);
         latentMonsterSpecificFilter.add(3);
