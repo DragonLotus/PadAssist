@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -208,7 +207,6 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     getActivity().getSupportFragmentManager().popBackStack();
                     //getActivity().getSupportFragmentManager().popBackStack();
                 } else {
-                    Log.d("Base Monster Log", "New Monster Id: " + newMonster.getMonsterId());
                     if (newMonster.getMonsterId() == 0) {
                         switch (Singleton.getInstance().getMonsterOverwrite()) {
                             case 0:
@@ -253,8 +251,6 @@ public class BaseMonsterListFragment extends AbstractFragment {
                         }
                     }
                     newTeam.save();
-                    Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
-                    Log.d("Base Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
                     getActivity().getSupportFragmentManager().popBackStack();
                     if (replaceMonsterId == 0) {
                         ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
@@ -304,7 +300,6 @@ public class BaseMonsterListFragment extends AbstractFragment {
                     getActivity().getSupportFragmentManager().popBackStack();
                     //getActivity().getSupportFragmentManager().popBackStack();
                 } else {
-                    Log.d("Base Monster Log", "New Monster Id: " + newMonster.getMonsterId());
                     if (newMonster.getMonsterId() == 0) {
                         switch (Singleton.getInstance().getMonsterOverwrite()) {
                             case 0:
@@ -349,8 +344,6 @@ public class BaseMonsterListFragment extends AbstractFragment {
                         }
                     }
                     newTeam.save();
-                    Log.d("Base Monster Log", "Team is: " + newTeam.getMonsters());
-                    Log.d("Base Monster Log", "Sub 4 Level is: " + newTeam.getSub4().getCurrentLevel());
                     getActivity().getSupportFragmentManager().popBackStack();
                     if (replaceMonsterId == 0) {
                         ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
@@ -549,8 +542,6 @@ public class BaseMonsterListFragment extends AbstractFragment {
     @Override
     public void sortArrayList(int sortMethod) {
         Singleton.getInstance().setBaseSortMethod(sortMethod);
-        Log.d("Base Monster List", "sortArrayList sortMethod is: " + sortMethod);
-        Log.d("Base Monster List", "monsterList is: " + monsterList);
         switch (sortMethod) {
             case 0:
                 Collections.sort(monsterList, monsterAlphabeticalComparator);
@@ -733,13 +724,11 @@ public class BaseMonsterListFragment extends AbstractFragment {
     }
 
     private void filterMonsterName(String query) {
-        Log.d("Save Monster List", "monsterList filter name is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
         for (BaseMonster monster : monsterListAll) {
             if (monster.getName().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
                 monsterList.add(monster);
             }
         }
-        Log.d("Save Monster List", "monsterList after filter name is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
     }
 
     private void filterMonsterNumber(String query) {
@@ -751,7 +740,6 @@ public class BaseMonsterListFragment extends AbstractFragment {
     }
 
     private void filterMonsterType(String query) {
-        Log.d("Save Monster List", "monsterList filter type is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
         for (BaseMonster monster : monsterListAll) {
             if (monster.getType1String().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
                 monsterList.add(monster);
@@ -761,13 +749,11 @@ public class BaseMonsterListFragment extends AbstractFragment {
                 monsterList.add(monster);
             }
         }
-        Log.d("Save Monster List", "monsterList after filter type is: " + monsterList + " monsterListAll is: " + monsterListAll + " query is: " + query);
     }
 
     private void filterMonsterElement(String query) {
         for (BaseMonster monster : monsterListAll) {
             if (query.toLowerCase().equals("fire") || query.toLowerCase().equals("red")) {
-                Log.d("Save Monster List", "monsterList entering FIIRERERE");
                 if (monster.getElement1().equals(Element.RED) || monster.getElement2().equals(Element.RED) && !monsterList.contains(monster)) {
                     monsterList.add(monster);
                 }

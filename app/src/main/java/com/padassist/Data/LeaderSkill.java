@@ -1,6 +1,5 @@
 package com.padassist.Data;
 
-import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -383,7 +382,6 @@ public class LeaderSkill extends Model {
 
     public double atkElement1Multiplier(Monster monster, Team team, int totalCombos) {
         atkElement1Multiplier = 1;
-        Log.d("LeaderSkillLog", "comboMin and comboMax: " + comboMin + " " + comboMax);
         if (atkSkillType != null) {
             switch (atkSkillType) {
                 case BLANK:
@@ -872,7 +870,7 @@ public class LeaderSkill extends Model {
                 counter++;
             }
         }
-        Log.d("Leader Skill Log", "Match Element counter: " + counter + " Attack 1 Multiplier: " + atkElement1Multiplier + " Attack 2 Multiplier: " + atkElement2Multiplier);
+
         if (counter >= comboMax) {
             atkElement1Multiplier = atkData.get(comboDiff);
             atkElement2Multiplier = atkData.get(comboDiff);
@@ -911,7 +909,7 @@ public class LeaderSkill extends Model {
                 counter++;
             }
         }
-        Log.d("Leader Skill Log", "Flat Monster Conditional Counter: " + counter);
+
         if (stat == 1) {
             if (hpType.size() != 0) {
                 for (int i = 0; i < hpType.size(); i++) {
@@ -995,7 +993,7 @@ public class LeaderSkill extends Model {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < matchElements.size(); j++) {
-                Log.d("Leader Skill Log", "i is; " + i + " j is: " + j);
+
                 if (team.getOrbMatches().get(i).getElement().equals(matchElements.get(j))) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
@@ -1083,11 +1081,7 @@ public class LeaderSkill extends Model {
         //Need active flag in team
         //Awoken Ra, Awoken Horus, Green Kirin
         //atkdata is {match elements first, additional damage with skill last}
-        Log.d("LeaderSkillLog", "Active Skill Used: " + team.isActiveSkillUsed());
-        Log.d("LeaderSkillLog", "atkElement1Multiplier before is: " + atkElement1Multiplier + " atkElement2Multipler before is: " + atkElement2Multiplier);
-        Log.d("LeaderSkillLog", "atkData is: " + atkData);
         if (team.isActiveSkillUsed()) {
-            Log.d("Leader Skill Log", "I am enter Active Skill used.");
             if (stat == 2) {
                 if (atkType.size() != 0) {
                     for (int i = 0; i < atkType.size(); i++) {
@@ -1122,7 +1116,6 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        Log.d("LeaderSkillLog", "atkElement1Multiplier middle is: " + atkElement1Multiplier + " atkElement2Multipler middle is: " + atkElement2Multiplier);
         if (stat == 2) {
             int comboDiff = comboMax - comboMin;
             int counter = 0;
@@ -1139,8 +1132,6 @@ public class LeaderSkill extends Model {
                 atkElement2Multiplier *= atkData.get(counter - comboMin);
             }
         }
-
-        Log.d("LeaderSkillLog", "atkElement1Multiplier after is: " + atkElement1Multiplier + " atkElement2Multipler after is: " + atkElement2Multiplier);
     }
 
     private void flatActive(Monster monster, Team team, int stat) {
@@ -1492,8 +1483,6 @@ public class LeaderSkill extends Model {
                 }
             }
         }
-        Log.d("Leader Skill Log", "Atk Multiplier 1: " + atkElement1Multiplier);
-        Log.d("Leader Skill Log", "Atk Multiplier 2: " + atkElement2Multiplier);
 
         int counter = totalCombos - comboMin;
         if (counter >= comboDiff) {
@@ -1503,8 +1492,6 @@ public class LeaderSkill extends Model {
             atkElement1Multiplier *= atkData.get(counter);
             atkElement2Multiplier *= atkData.get(counter);
         }
-        Log.d("Leader Skill Log", "Atk Multiplier 1: " + atkElement1Multiplier);
-        Log.d("Leader Skill Log", "Atk Multiplier 2: " + atkElement2Multiplier);
     }
 
     private void orbPlusFlat(Monster monster, Team team) {
@@ -1596,15 +1583,8 @@ public class LeaderSkill extends Model {
     }
 
     private void hpFlat(Monster monster, Team team, int stat) {
-        Log.d("Leader Skill Log", "teamHp is: " + team.getTeamHp());
-        Log.d("Leader Skill Log", "HpPercent is: " + hpPercent);
         if (stat == 2) {
-            Log.d("Leader Skill Log", "Stat is 2");
             if (hpPercent.size() == 1) {
-                Log.d("Leader Skill Log", "I am enter HpPercent size 1");
-                Log.d("Leader Skill Log", "HpPercent * 100 is: " + hpPercent.get(0));
-                Log.d("Leader Skill Log", "AtkType is: " + atkType + " AtkElement is: " + atkElement);
-                Log.d("Leader Skill Log", "Monster Type 1 is: " + monster.getType1() + " Monster Type 2 is: " + monster.getType2());
                 if (team.getTeamHp() == hpPercent.get(0)) {
                     if (atkElement.contains(monster.getElement1Int()) || atkElement.contains(monster.getElement2Int())) {
                         atkElement1Multiplier = atkData.get(0);
@@ -1627,8 +1607,6 @@ public class LeaderSkill extends Model {
                     }
                 }
             }
-            Log.d("Leader Skill Log", "AtkMultiplier 1 is: " + atkElement1Multiplier);
-            Log.d("Leader Skill Log", "AtkMultiplier 2 is: " + atkElement2Multiplier);
         } else if (stat == 3) {
             if (team.getTeamHp() == hpPercent.get(0)) {
                 if (rcvElement.contains(monster.getElement1Int()) || rcvElement.contains(monster.getElement2Int())) {
@@ -1668,7 +1646,6 @@ public class LeaderSkill extends Model {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < matchElements.size(); j++) {
-                Log.d("Leader Skill Log", "i is; " + i + " j is: " + j);
                 if (team.getOrbMatches().get(i).getElement().equals(matchElements.get(j))) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
@@ -1860,7 +1837,6 @@ public class LeaderSkill extends Model {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < matchElements.size(); j++) {
-                Log.d("Leader Skill Log", "i is; " + i + " j is: " + j);
                 if (team.getOrbMatches().get(i).getElement().equals(matchElements.get(j))) {
                     if (team.getOrbMatches().get(i).getOrbsLinked() == comboMin) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
@@ -1879,7 +1855,6 @@ public class LeaderSkill extends Model {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < matchElements.size(); j++) {
-                Log.d("Leader Skill Log", "i is; " + i + " j is: " + j);
                 if (team.getOrbMatches().get(i).getElement().equals(matchElements.get(j))) {
                     if (team.getOrbMatches().get(i).getOrbsLinked() == comboMin) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();

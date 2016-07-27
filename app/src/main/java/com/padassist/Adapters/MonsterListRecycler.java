@@ -2,7 +2,6 @@ package com.padassist.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,6 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         mContext = context;
         this.monsterList = monsterList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Log.d("MonsterListRecycler", "monsterList is: " + monsterList);
     }
 
     @Override

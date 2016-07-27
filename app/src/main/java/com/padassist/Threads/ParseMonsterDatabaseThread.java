@@ -125,13 +125,6 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (monsterNode.hasNonNull("evolutions")) {
                     monster.setEvolutions(parseLongArrayList(monsterNode.get("evolutions")));
                 }
-//                if(monsterNode.hasNonNull("image40_href")) {
-//                    monster.setMonsterPicture(monsterNode.get("image40_href").asText());
-//                }
-//                String picture = "monster_" + monster.getMonsterId();
-//                Log.d("himom", picture + " " + R.drawable.class.getField(picture).getInt(null) + " " + R.drawable.monster_2591);
-//                monster.setMonsterPicture(Integer.getInteger(picture));
-//                monster.setMonsterPicture(R.drawable.class.getField(picture).getInt(null));
                 monster.save();
                 update.updateValues(counter);
             }
@@ -144,17 +137,11 @@ public class ParseMonsterDatabaseThread extends Thread {
     }
 
     private void parseLeaderSkillDatabase() {
-        Log.d("himom", "himom");
         try {
-            Log.d("himom", "himom2a");
             ObjectMapper m = new ObjectMapper();
-            Log.d("himom", "himom2b");
             JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.leader_skills));
-            Log.d("himom", "himom2c");
-            Log.d("LeaderSkillParse", rootNode.toString());
             LeaderSkill leaderSkill;
             ActiveAndroid.beginTransaction();
-            Log.d("himom", "himom2d");
             for (JsonNode leaderSkillNode : rootNode) {
                 counter ++;
                 leaderSkill = new LeaderSkill();
@@ -230,21 +217,14 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (leaderSkillNode.hasNonNull("name")) {
                     leaderSkill.setName(leaderSkillNode.get("name").asText());
                 }
-//                if(leaderSkillNode.hasNonNull("image40_href")) {
-//                    monster.setMonsterPicture(leaderSkillNode.get("image40_href").asText());
-//                }
 
                 leaderSkill.save();
                 update.updateValues(counter);
-                Log.d("ParseTag", "counter is: " + counter);
             }
-//            Log.d("himom", "himom3");
             ActiveAndroid.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.d("himom", "himom4");
             e.printStackTrace();
         } finally {
-            Log.d("himom", "himom5");
             ActiveAndroid.endTransaction();
         }
     }

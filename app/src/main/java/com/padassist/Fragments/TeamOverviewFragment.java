@@ -2,7 +2,6 @@ package com.padassist.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,7 +93,6 @@ public class TeamOverviewFragment extends AbstractFragment {
         }
         awakeningListAll = team.getAwakenings();
         latentListAll = team.getLatents();
-        Log.d("TeamOverview", "Team Latents are: " + latentListAll);
         utilityAwakeningList = new ArrayList<>();
         latentUtilityAwakeningList = new ArrayList<>();
         damageAwakeningList = new ArrayList<>();
@@ -116,11 +114,6 @@ public class TeamOverviewFragment extends AbstractFragment {
         monsterSpecificAwakeningsListAdapter = new MonsterSpecificAwakeningsListAdapter(getActivity(), R.layout.monster_specific_awakening_list_row, monsterList);
         monsterSpecific.setAdapter(monsterSpecificAwakeningsListAdapter);
         setListViewHeightBasedOnChildren(monsterSpecific);
-        Log.d("Team Overview Log", "Utility filter is: " + utilityFilter);
-        Log.d("Team Overview Log", "Damage filter is: " + damageFilter);
-        Log.d("Team Overview Log", "Monster Specific filter is: " + monsterSpecificFilter);
-        Log.d("Team Overview Log", "Leader skills are: " + team.getLeadSkill().getName() + " " + team.getHelperSkill().getName());
-        Log.d("Team Overview Log", "Leader skill details are: " + team.getLeadSkill().getAtkSkillType() + " " + team.getLeadSkill().getMatchElements() + " " + team.getLeadSkill().getAtkData());
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
@@ -211,7 +204,6 @@ public class TeamOverviewFragment extends AbstractFragment {
                 latentUtilityAwakeningList.add(latentListAll.get(i));
             }
         }
-        Log.d("TeamOverview", "latentListAll is: " + latentListAll + " latentUtilityAwakeningList is: " + latentUtilityAwakeningList);
 //        if (monsterList.size() == 0) {
 //            monsterList.addAll(team.getMonsters());
 //        }

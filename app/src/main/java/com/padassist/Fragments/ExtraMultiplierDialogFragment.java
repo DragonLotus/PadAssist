@@ -2,14 +2,12 @@ package com.padassist.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -164,7 +162,6 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
                 } else {
                     coopButton.setText("Co-Op Off");
                 }
-                Log.d("ExtraMulDialogFragment", "Co-op is: " + Singleton.getInstance().isCoopEnable());
             }
         }
     };

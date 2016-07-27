@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,7 +80,6 @@ public class TeamSaveDialogFragment extends DialogFragment {
                         dismiss();
                     } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.newTeam) {
                         if (!teamName.getText().toString().equals("")) {
-                            Log.d("Team Name", "" + teamName.getText());
                             saveTeam.saveNewTeam(teamName.getText().toString());
                             dismiss();
                         } else {
@@ -104,7 +102,6 @@ public class TeamSaveDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (Team.getAllTeams() == null || Team.getAllTeams().size() == 0 || teamIdOverwrite == 0) {
-            Log.d("Teams are null", "I am null");
             choiceRadioGroup.getChildAt(1).setEnabled(false);
         }
         if (getArguments() != null) {

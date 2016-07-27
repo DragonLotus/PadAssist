@@ -2,7 +2,6 @@ package com.padassist.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,8 +99,6 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.teamName.setText(teamList.get(position).getTeamName());
-        Log.d("Team Name", "" + teamList.get(position).getTeamName());
-        Log.d("Team List Size", "" + teamList.size() + " " + teamList.get(position).getMonsters());
         viewHolder.monster1Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(0).getTotalPlus()) + " ");
         viewHolder.monster1Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(0).getCurrentAwakenings()));
         viewHolder.monster1Picture.setImageResource(teamList.get(position).getMonsters(0).getMonsterPicture());
@@ -114,7 +111,6 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         viewHolder.monster4Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(3).getTotalPlus()) + " ");
         viewHolder.monster4Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(3).getCurrentAwakenings()));
         viewHolder.monster4Picture.setImageResource(teamList.get(position).getMonsters(3).getMonsterPicture());
-        Log.d("Monster getview", "Monster getView: " + teamList.get(position).getMonsters(4) + " " + teamList.get(position));
         viewHolder.monster5Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(4).getTotalPlus()) + " ");
         viewHolder.monster5Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(4).getCurrentAwakenings()));
         viewHolder.monster5Picture.setImageResource(teamList.get(position).getMonsters(4).getMonsterPicture());

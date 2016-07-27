@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.padassist.Adapters.OrbMatchAdapter;
 import com.padassist.Adapters.OrbMatchRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
@@ -51,7 +49,6 @@ public class OrbMatchFragment extends AbstractFragment {
     private List<String> orbsLinkedItems, orbsPlusItems, boardSizeItems;
     private CheckBox rowCheckBox, maxLeadMultiplierCheckBox, ignoreEnemyCheckBox, crossCheckBox;
     private RecyclerView orbMatches;
-    private OrbMatchAdapter orbMatchAdapter;
     private OrbMatchRecycler orbMatchRecycler;
     private boolean isRow, maxLeadMultiplier = false, hasEnemy = true, isCross;
     private OrbMatch orbMatch;
@@ -432,7 +429,6 @@ public class OrbMatchFragment extends AbstractFragment {
             orbMatchList.add(0, orbMatch);
             orbMatchRecycler.notifyItemInserted(0);
             orbMatches.scrollToPosition(0);
-            Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList + " orbMatches size is: " + orbMatches.getChildCount());
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }
@@ -602,12 +598,6 @@ public class OrbMatchFragment extends AbstractFragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
-        for (int i = 0; i < team.getMonsters().size(); i++) {
-            Log.d("Orb Match Log", "Monster is: " + team.getMonsters(i) + " Awakenings are: " + team.getMonsters(i).getAwokenSkills());
-        }
-        Log.d("Orb Match Log", "Orb Plus Awakenings: " + team.getOrbPlusAwakenings());
-        Log.d("Orb Match Log", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
-//        new DownloadPadApi().start();
         rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         crossCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
@@ -658,12 +648,7 @@ public class OrbMatchFragment extends AbstractFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("Orb Match Log", "I am destroy view.");
-        Log.d("Orb Match Log", "Load Orb Matches Before: " + OrbMatch.getAllOrbMatches());
-        Log.d("Orb Match Log", "Orb Match List is: " + orbMatchList);
         for (int i = 0; i < OrbMatch.getAllOrbMatches().size(); i++) {
-            Log.d("Orb Match Log", "i is: " + i);
-            Log.d("Orb Match Log", "Current Match is: " + OrbMatch.getAllOrbMatches().get(i) + " and is it in orbMatchList?: " + orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i)));
             if (!orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i))) {
                 OrbMatch.getAllOrbMatches().get(i).delete();
                 i -= 1;
@@ -678,7 +663,6 @@ public class OrbMatchFragment extends AbstractFragment {
             }
         }
         team.updateOrbs();
-        Log.d("Orb Match Log", "Load Orb Matches After: " + OrbMatch.getAllOrbMatches());
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.padassist.Adapters.MonsterListAdapter;
 import com.padassist.Adapters.MonsterListRecycler;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.Monster;
@@ -50,7 +48,6 @@ public class MonsterListFragment extends AbstractFragment {
     private OnFragmentInteractionListener mListener;
     private RecyclerView monsterListView;
     private ArrayList<Monster> monsters;
-    private MonsterListAdapter monsterListAdapter;
     private MonsterListRecycler monsterListRecycler;
     private Button importButton, orbMatchButton;
     private ImageView favorite, favoriteOutline;
@@ -170,29 +167,14 @@ public class MonsterListFragment extends AbstractFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d("SavedInstanceState1", "SavedInstanceState: " + outState);
         outState.putParcelableArrayList("monsters", monsters);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("MonsterListFragment", "On Destroy Monster 0 awakenings: " + monsters.get(0).getAwokenSkills());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("Monster Log", "Database Team 0 name before is: " + Team.getTeamById(0).getTeamName() + " Overwrite id is: " + Team.getTeamById(0).getTeamIdOverwrite());
         team = Team.getTeamById(0);
-        Log.d("Monster Log", "Database Team 0 name after is: " + Team.getTeamById(0).getTeamName() + " Overwrite id is: " + Team.getTeamById(0).getTeamIdOverwrite());
-        Log.d("Monster Log", "Current Team 0 name is: " + team.getTeamName() + " TeamIdOverwrite is: " + team.getTeamIdOverwrite());
-        for (int i = 0; i < team.getMonsters().size(); i++) {
-            Log.d("Monster Log", "Monster name: " + team.getMonsters(i).getName() + " Monster id: " + team.getMonsters(i).getMonsterId());
-        }
         monsters = team.getMonsters();
-//        monsterListAdapter.notifyDataSetChanged();
-//        monsterListAdapter.updateList(monsters);
         monsterListRecycler.updateList(monsters);
         team.updateAwakenings();
         team.updateLeaderSkills();
@@ -213,13 +195,10 @@ public class MonsterListFragment extends AbstractFragment {
             enemy = getArguments().getParcelable("enemy");
         }
 
-        Log.d("SavedInstanceState2", "SavedInstanceState: " + savedInstanceState);
         if (savedInstanceState != null) {
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         } else {
             monsters = team.getMonsters();
-            Log.d("Monster Check stuff", "" + monsters + " what else " + team.getMonsters());
-            Log.d("Team name", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
             if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
                 monsters = new ArrayList<Monster>();
                 for (int i = 0; i < 6; i++) {
@@ -233,17 +212,6 @@ public class MonsterListFragment extends AbstractFragment {
             monsters = team.getMonsters();
         }
 
-        if (monsters != null) {
-            for (int i = 0; i < monsters.size(); i++) {
-                Log.d("Monster name", "" + monsters.get(i).getName());
-                Log.d("Monster id", "" + monsters.get(i).getMonsterId());
-            }
-//            updateTeam();
-        }
-        Log.d("Is monsters null 2", "" + monsters);
-        //monsterListAdapter = new MonsterListAdapter(getActivity(), R.layout.monster_list_row, monsters);
-        //monsterListView.setAdapter(monsterListAdapter);
-        //monsterListView.setOnItemClickListener(monsterListOnClickListener);
         monsterListRecycler = new MonsterListRecycler(getActivity(), monsters);
         monsterListView.setAdapter(monsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -251,7 +219,6 @@ public class MonsterListFragment extends AbstractFragment {
         orbMatchButton.setOnClickListener(orbMatchOnClickListener);
         favorite.setColorFilter(0xFFFFAADD);
         favoriteOutline.setOnClickListener(favoriteOnClickListener);
-        Log.d("TeamId", "" + team.getTeamId());
     }
 
     private View.OnClickListener importButtonOnClickListener = new View.OnClickListener() {
@@ -267,9 +234,6 @@ public class MonsterListFragment extends AbstractFragment {
     private View.OnClickListener orbMatchOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("Team Health", String.valueOf(team.getTeamHealth()));
-            Log.d("Team RCV", String.valueOf(team.getTeamRcv()));
-            Log.d("MonsterListFragment", "Button press Monster 0 BaseMonster is: " + monsters.get(0).getBaseMonster());
             if (team.getLead().getMonsterId() == 0) {
                 if (toast != null) {
                     toast.cancel();
@@ -287,7 +251,6 @@ public class MonsterListFragment extends AbstractFragment {
     private View.OnClickListener favoriteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("MonsterListTag", "Team Id is: " + team.getTeamId() + " Team Overwrite Id is: " + team.getTeamIdOverwrite() + " Team Name is: " + team.getTeamName() + " is favorite: " + team.isFavorite());
             if(team.getTeamIdOverwrite() != 0){
                 if(!team.isFavorite()){
                     team.setFavorite(true);
@@ -298,7 +261,6 @@ public class MonsterListFragment extends AbstractFragment {
                 }
                 Team overwriteTeam = new Team(team);
                 overwriteTeam.setTeamId(team.getTeamIdOverwrite());
-                Log.d("MonsterListTag", "Team Id is: " + team.getTeamId() + " Team Overwrite Id is: " + team.getTeamIdOverwrite() + " Team Name is: " + team.getTeamName() + " is favorite: " + team.isFavorite());
                 team.save();
                 overwriteTeam.save();
             }
@@ -306,40 +268,11 @@ public class MonsterListFragment extends AbstractFragment {
         }
     };
 
-    public void updateList() {
-        monsterListAdapter.notifyDataSetChanged();
-    }
-
-//    private ListView.OnItemClickListener monsterListOnClickListener = new ListView.OnItemClickListener() {
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            team.setMonsterOverwrite(position);
-//            team.save();
-//            Log.d("Monster List Log", "Team ID is: " + team.getTeamId() + " Monster Overwrite is: " + team.getMonsterOverwrite());
-//            if (monsters.get(position).getMonsterId() == 0) {
-//                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0), MonsterTabLayoutFragment.TAG);
-//            }else {
-//                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
-//            }
-//        }
-//    };
-
     public void updateTeam() {
-        Log.d("What is monster id 0", "" + Monster.getMonsterId(monsters.get(0).getMonsterId()));
-        Log.d("Monsters update team", "" + monsters);
-        Log.d("Is monsters null team2", "" + team.getMonsters());
         team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
         for (Monster monster : team.getMonsters()) {
             monster.save();
         }
-        Log.d("Is monsters null team", "" + team.getMonsters());
-        Log.d("Monsters update team", "" + monsters);
-        Log.d("Lead", "" + team.getLead());
-        Log.d("sub1", "" + team.getSub1());
-        Log.d("sub2", "" + team.getSub2());
-        Log.d("sub3", "" + team.getSub3());
-        Log.d("sub4", "" + team.getSub4());
-        Log.d("helper", "" + team.getHelper());
         team.updateAwakenings();
         team.updateLeaderSkills();
         team.setTeamStats();
@@ -353,21 +286,14 @@ public class MonsterListFragment extends AbstractFragment {
 
     @Override
     public void reverseArrayList() {
-        Log.d("MonsterListTag", "FAK");
-//        Log.d("MonsterListTag", "teamSaveDialogFragment is: " + teamSaveDialogFragment);
-//        if (teamSaveDialogFragment == null) {
-//            teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
-//        }
-//        teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), "Show Team Save Dialog");
+
     }
 
     private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
         @Override
         public void overwriteTeam() {
-            Log.d("MonsterListTag", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
             Team overwriteTeam = new Team(team);
             overwriteTeam.setTeamId(team.getTeamIdOverwrite());
-            Log.d("MonsterListTag", "Overwrite Team name is: " + overwriteTeam.getTeamName() + " Team id: " + overwriteTeam.getTeamId() + " Team ID overwrite: " + overwriteTeam.getTeamIdOverwrite());
             overwriteTeam.save();
         }
 
@@ -383,23 +309,17 @@ public class MonsterListFragment extends AbstractFragment {
             newTeam.setTeamName(teamNameString);
             newTeam.setTeamId(teamId);
             newTeam.setFavorite(false);
-            for (Monster monster : newTeam.getMonsters()) {
-                Log.d("MonsterListTag", "MonsterPlus:" + monster.getTotalPlus());
-                monster.save();
-            }
             newTeam.save();
             Team teamZero = new Team(newTeam);
             teamZero.setTeamId(0);
             teamZero.setTeamIdOverwrite(teamId);
             teamZero.save();
-            Log.d("MonsterListTag", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
             teamName.setText(teamNameString);
             favorite.setVisibility(View.INVISIBLE);
         }
 
         @Override
         public void clearTeam() {
-            Log.d("MonsterListTag", "Team Monsters is: " + team.getMonsters() + " TeamIdOverwrite is: " + team.getTeamIdOverwrite() + " teamOverwrite monsters is: " + Team.getTeamById(team.getTeamIdOverwrite()).getMonsters());
             if(team.getTeamIdOverwrite() == 0){
                 for(int i = 0; i < monsters.size(); i++){
                     if(!monsters.get(i).equals(monster0)){
@@ -411,7 +331,6 @@ public class MonsterListFragment extends AbstractFragment {
                     }
                 }
             }else if(!team.getMonsters().equals(Team.getTeamById(team.getTeamIdOverwrite()).getMonsters()) || !team.getTeamName().equals(Team.getTeamById(team.getTeamIdOverwrite()).getTeamName())){
-                Log.d("MonsterListTag", "Overwrite check");
                 if (clearTeamConfirmationDialogFragment == null) {
                     clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                 }

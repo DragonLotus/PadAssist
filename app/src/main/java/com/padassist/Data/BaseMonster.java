@@ -134,7 +134,6 @@ public class BaseMonster extends Model {
     }
 
     public ArrayList<Integer> getAwokenSkills() {
-        Log.d("BaseMonster", awokenSkills.toString());
         return awokenSkills;
     }
 

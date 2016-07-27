@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +74,6 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
             monsterPosition = getArguments().getInt("monsterPosition");
         }
         monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), getActivity(), replaceAll, replaceMonsterId);
-        Log.d("MonsterTab", "monsterPagerAdapter is: " + monsterPagerAdapter);
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
         if(Monster.getAllHelperMonsters().size() < 1 && monsterPosition == 5 && replaceMonsterId == 0){

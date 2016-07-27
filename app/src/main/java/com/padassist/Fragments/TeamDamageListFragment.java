@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -217,11 +216,6 @@ public class TeamDamageListFragment extends AbstractFragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
-        for (int i = 0; i < team.getMonsters().size(); i++) {
-            Log.d("Team Damage Log", "Monster is: " + team.getMonsters(i) + " Awakenings are: " + team.getMonsters(i).getAwokenSkills());
-        }
-        Log.d("Team Damage Log", "Orb Plus Awakenings: " + team.getOrbPlusAwakenings());
-        Log.d("Team Damage Log", "Team Name is: " + team.getTeamName() + " Team id: " + team.getTeamId() + " Team overwrite id: " + team.getTeamIdOverwrite());
         if (hasEnemy) {
             temp = enemy.getCurrentHp();
             setReductionOrbs();
@@ -232,7 +226,6 @@ public class TeamDamageListFragment extends AbstractFragment {
         totalCombos = additionalCombos + team.getOrbMatches().size();
         updateTextView();
         setupHpSeekBar();
-        Log.d("totalCombos", String.valueOf(totalCombos));
         monsterListAdapter = new MonsterDamageListRecycler(getActivity(), hasEnemy, enemy, totalCombos, team, bindMonsterOnClickListener);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -452,11 +445,7 @@ public class TeamDamageListFragment extends AbstractFragment {
             }
             //Need to set colors of each enemy element stuff
             setTextColors();
-            Log.d("Damage Current HP", "" + enemy.getCurrentHp());
-            Log.d("Damage Before HP", "" + enemy.getBeforeGravityHP());
             enemy.setCurrentHp(enemy.getCurrentHp() - totalDamage);
-            Log.d("Damage Current HP2", "" + enemy.getCurrentHp());
-            Log.d("Damage Before HP2", "" + enemy.getBeforeGravityHP());
             if (enemy.getCurrentHp() != temp) {
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
                 enemy.setIsDamaged(true);
@@ -490,7 +479,6 @@ public class TeamDamageListFragment extends AbstractFragment {
             clearTextFocus();
             if (team.getIsBound().get(position)) {
                 team.getIsBound().set(position, false);
-                Log.d("Bound", "monster " + position + " is unbound");
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -513,7 +501,6 @@ public class TeamDamageListFragment extends AbstractFragment {
                     toast.show();
                 } else {
                     team.getIsBound().set(position, true);
-                    Log.d("Bound", "monster " + position + " is bound");
                     if (toast != null) {
                         toast.cancel();
                     }
@@ -523,56 +510,10 @@ public class TeamDamageListFragment extends AbstractFragment {
             }
             team.updateAwakenings();
             team.updateOrbs();
-            Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }
     };
-
-//    private ListView.OnItemClickListener bindMonsterOnClickListener = new AdapterView.OnItemClickListener() {
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            clearTextFocus();
-//            if (team.getIsBound().get(position)) {
-//                team.getIsBound().set(position, false);
-//                Log.d("Bound", "monster " + position + " is unbound");
-//                if (toast != null) {
-//                    toast.cancel();
-//                }
-//                toast = Toast.makeText(getActivity(), "Monster unbound", Toast.LENGTH_SHORT);
-//                toast.show();
-//            } else {
-//                int counter = 0;
-//                if (team.hasAwakenings()) {
-//                    for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++) {
-//                        if (team.getMonsters(position).getAwokenSkills().get(i) == 10) {
-//                            counter++;
-//                        }
-//                    }
-//                }
-//                if (counter == 2) {
-//                    if (toast != null) {
-//                        toast.cancel();
-//                    }
-//                    toast = Toast.makeText(getActivity(), "Monster cannot be bound", Toast.LENGTH_SHORT);
-//                    toast.show();
-//                } else {
-//                    team.getIsBound().set(position, true);
-//                    Log.d("Bound", "monster " + position + " is bound");
-//                    if (toast != null) {
-//                        toast.cancel();
-//                    }
-//                    toast = Toast.makeText(getActivity(), "Monster bound", Toast.LENGTH_SHORT);
-//                    toast.show();
-//                }
-//            }
-//            team.updateAwakenings();
-//            team.updateOrbs();
-//            Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
-//            updateTextView();
-//            monsterListAdapter.notifyDataSetChanged();
-//        }
-//    };
 
     private void setTextColors() {
         if (enemy.getTargetElement().equals(Element.RED)) {
@@ -746,7 +687,6 @@ public class TeamDamageListFragment extends AbstractFragment {
                 }
             } else if (buttonView.equals(damageImmunityCheck)){
                 enemy.setHasDamageImmunity(isChecked);
-                Log.d("TeamDamageListTag", "Damage Immunity is: " + enemy.hasDamageImmunity());
                 if (isChecked) {
                     damageImmunityValue.setEnabled(true);
                     damageThresholdValue.clearFocus();
@@ -793,15 +733,10 @@ public class TeamDamageListFragment extends AbstractFragment {
                     }
                 }
             } else if (buttonView.equals(hasAwakeningsCheck)) {
-                Log.d("hasAwakenings1", "" + team.hasAwakenings());
                 team.setHasAwakenings(isChecked);
                 team.updateAwakenings();
-                Log.d("hasAwakenings2", "" + team.hasAwakenings());
-                Log.d("Orb Plus Awakenings", "" + team.getOrbPlusAwakenings(Element.LIGHT));
             } else if (buttonView.equals(activeUsedCheck)) {
-                Log.d("Team Damage List Log", "Active Skill Used Before: " + team.isActiveSkillUsed());
                 team.isActiveSkillUsed(isChecked);
-                Log.d("Team Damage List Log", "Active Skill Used After: " + team.isActiveSkillUsed());
                 team.updateAwakenings();
             }
 //            updateTextView();
@@ -937,7 +872,6 @@ public class TeamDamageListFragment extends AbstractFragment {
             }
             teamHpValue.setText("" + progress);
             team.save();
-            Log.d("Team Damage Log", "hp is: " + team.getTeamHp());
         }
 
         @Override
@@ -947,8 +881,6 @@ public class TeamDamageListFragment extends AbstractFragment {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
-            Log.d("Team Damage Log", "I am stop tracking touch");
-//            team.updateAwakenings();
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }

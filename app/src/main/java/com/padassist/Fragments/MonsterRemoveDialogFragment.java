@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -50,7 +49,6 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         MonsterRemoveDialogFragment dialogFragment = new MonsterRemoveDialogFragment();
         dialogFragment.setRemove(removeMonster);
         Bundle args = new Bundle();
-        Log.d("remove check3", "" + removeMonster);
         args.putParcelable("monster", monster);
 //        favoriteBoolean = favorite;
 //        monsterEvolve = monster;
@@ -70,7 +68,6 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        Log.d("remove check", "" + remove);
                         if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.removeTeam) {
                             remove.removeMonsterTeam();
                         } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.removeDatabase) {
@@ -84,7 +81,6 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
                         } else {
                             dialog.dismiss();
                         }
-                        Log.d("Monster Remove Dialog", "favorite is: " + favorite.isChecked());
                         remove.favoriteMonster(favorite.isChecked());
                     }
                 })
@@ -142,7 +138,6 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
     };
 
     public void setRemove(RemoveMonster remove) {
-        Log.d("remove check2", "" + remove);
         this.remove = remove;
     }
 
@@ -159,11 +154,6 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
             }
             evolutionSpinner.setEnabled(false);
         }
-//        evolutions = new Long[evolveMonster.getEvolutions().size()];
-//        for (int i = 0; i < evolutions.length; i++){
-//            evolutions[i] = evolveMonster.getEvolutions().get(i);
-//        }
-//        Log.d("Monster Remove Dialog", "evolutions is: " + evolutions);
     }
 
     public void show(FragmentManager manager, String tag, Monster monster) {

@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="AA_SERIALIZERS"
-            android:value="com.example.anthony.damagecalculator.Util.ArrayListIntegerSerializer" />
+            android:value="com.padassist.Util.ArrayListIntegerSerializer" />
 
         <activity
             android:name="com.padassist.MainActivity"

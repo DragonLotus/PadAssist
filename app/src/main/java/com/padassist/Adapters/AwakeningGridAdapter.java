@@ -1,7 +1,6 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +25,11 @@ public class AwakeningGridAdapter extends BaseAdapter {
     private ArrayList<Integer> latentListAll;
     private ArrayList<Integer> awakeningAmountList;
     private ArrayList<Integer> latentAmountList;
-    private int resourceId;
 
     public AwakeningGridAdapter(Context context, ArrayList<Integer> awakenings, ArrayList<Integer> latents) {
         mContext = context;
         awakeningListAll = awakenings;
         latentListAll = latents;
-        Log.d("AwakeningGrid", "latentListAll is: " + latentListAll);
         trimAwakenings();
     }
 
@@ -270,7 +267,6 @@ public class AwakeningGridAdapter extends BaseAdapter {
         } else {
             awakeningAmountList = new ArrayList<>();
         }
-        Log.d("Awakening Grid", "awakeningListAll is: " + awakeningListAll);
         int amount = 0;
         int awakening = 0;
         for (int i = 0; i < awakeningListAll.size(); i++) {
@@ -329,31 +325,6 @@ public class AwakeningGridAdapter extends BaseAdapter {
                 }
             }
             latentAmountList.add(amount2);
-            Log.d("Awakening Grid", "latentAmountList is: " + latentAmountList);
         }
-//        int amount2 = 0;
-//        int latent = 0;
-//        for (int i = 0; i < latentListAll.size(); i++) {
-//            if (latent == latentListAll.get(i)) {
-//                amount2++;
-//                if (!latentList.contains(latent)) {
-//                    latentList.add(latent);
-//                } else {
-//                    latentListAll.remove(i);
-//                    i--;
-//                }
-//            } else {
-//                if (amount > 0) {
-//                    latentAmountList.add(amount2);
-//                }
-//                amount = 1;
-//                latent = latentListAll.get(i);
-//                if (!latentList.contains(latent)) {
-//                    latentList.add(latent);
-//                }
-//            }
-//        }
-//        latentAmountList.add(amount2);
-        Log.d("Awakening Grid", "awakeningAmountList is: " + awakeningAmountList);
     }
 }

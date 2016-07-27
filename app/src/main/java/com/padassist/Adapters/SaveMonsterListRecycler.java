@@ -32,12 +32,6 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
     private ArrayList<Integer> latentList;
     private int expandedPosition = -1;
 
-    private ExpandChange expandChange;
-
-    public interface ExpandChange{
-        public void onExpandChange(int expandedPosition);
-    }
-
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
@@ -55,28 +49,14 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
                 expandedPosition = -1;
                 notifyItemChanged(previous);
             }
-            expandChange.onExpandChange(expandedPosition);
         }
     };
 
-//    @Override
-//    public void onClick(View v) {
-//        ViewHolder holder = (ViewHolder) v.getTag();
-//        if (expandedPosition >=0){
-//            int previous = expandedPosition;
-//            notifyItemChanged(previous);
-//        }
-//        expandedPosition = holder.getPosition();
-//        notifyItemChanged(expandedPosition);
-//        Toast.makeText(mContext, "Clicked position: " + expandedPosition, Toast.LENGTH_SHORT).show();
-//    }
-
-    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, ExpandChange expandChange, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
+    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
         this.monsterListOnLongClickListener = monsterListOnLongClickListener;
-        this.expandChange = expandChange;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

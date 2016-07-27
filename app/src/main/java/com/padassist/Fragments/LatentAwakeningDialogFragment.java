@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Spinner;
@@ -116,9 +115,7 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         monster.getLatents().set(2, latent3Spinner.getSelectedItemPosition());
         monster.getLatents().set(3, latent4Spinner.getSelectedItemPosition());
         monster.getLatents().set(4, latent5Spinner.getSelectedItemPosition());
-        Log.d("LatentDialog", "Latent Awakenings before save are: " + monster.getLatents());
         monster.save();
-        Log.d("LatentDialog", "Latent Awakenings after save are: " + monster.getLatents());
     }
 
     public void setLatents(ResetLatents setLatents){

@@ -3,7 +3,6 @@ package com.padassist.Data;
 import android.app.ProgressDialog;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -343,12 +342,10 @@ public class Monster extends Model implements Parcelable {
     }
 
     public ArrayList<Integer> getAwokenSkills() {
-        Log.d("Monster", "Monster: " + baseMonster);
         return baseMonster.getAwokenSkills();
     }
 
     public int getAwokenSkills(int position) {
-        Log.d("Awakening List", "" + baseMonster.getAwokenSkills());
         return baseMonster.getAwokenSkills(position);
     }
 
@@ -502,8 +499,6 @@ public class Monster extends Model implements Parcelable {
                     }
                 }
             }
-
-            Log.d("KillerAwakenings", "killerAwakenings is: " + killerAwakenings);
         }
         this.currentAwakenings = currentAwakenings;
     }
