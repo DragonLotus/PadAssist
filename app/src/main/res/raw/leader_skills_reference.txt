@@ -124,6 +124,7 @@ INDIAN_CROSS: 54
 ACTIVE_CROSS: 55
 CO_OP_HP_FLAT: 56
 CO_OP_FLAT: 57
+CO_OP: 58
 
 0:Fire
 1:Water
@@ -174,3 +175,20 @@ CO_OP_FLAT: 57
 23:Water Row Enhance
 24:Wood Row Enhance
 25:Light Row Enhance
+26:Dark Row Enhance
+27:Double Prong
+28:Skill Bind Resist
+29:Heart Orb Enhance
+30:Co-op Boost
+31:Dragon Killer
+32:God Killer
+33:Devil Killer
+34:Machine Killer
+35:Attacker Killer
+36:Physical Killer
+37:Healer Killer
+38:Balanced Killer
+39:Awoken Killer
+40:Enhance Killer
+41:Vendor Killer
+42:Evo Killer

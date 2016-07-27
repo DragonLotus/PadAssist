@@ -9,40 +9,6 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin">
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/editHolder"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/section_label"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<Button-->
-    <!--android:id="@+id/enemyStats"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_weight=".5"-->
-    <!--android:gravity="center"-->
-    <!--android:text="Enemy Stats" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/editTeam"-->
-    <!--android:layout_width="0dp"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_weight=".5"-->
-    <!--android:gravity="center"-->
-    <!--android:text="Edit Team" />-->
-    <!--</LinearLayout>-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/element"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignTop="@+id/orbRadioGroup"-->
-    <!--android:layout_alignBottom="@+id/orbRadioGroup"-->
-    <!--android:gravity="center_vertical"-->
-    <!--android:text="Orb"-->
-    <!--android:textSize="20dp" />-->
-
     <LinearLayout
         android:id="@+id/orbsLinearLayout"
         android:layout_width="match_parent"

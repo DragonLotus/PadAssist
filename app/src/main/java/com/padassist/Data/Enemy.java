@@ -144,6 +144,10 @@ public class Enemy implements Parcelable {
         return reduction.contains(element);
     }
 
+    public void setReduction(ArrayList<Element> reduction) {
+        this.reduction = reduction;
+    }
+
     public Boolean getHasAbsorb() {
         return hasAbsorb;
     }

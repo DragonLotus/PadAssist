@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -79,6 +80,7 @@ public class EnemyTargetFragment extends AbstractFragment {
     private ArrayList<Integer> typeItems;
     private int additionalCombos, tempDamageThresholdValue, tempReductionValue, tempDamageImmunityValue;
     private Boolean tempAbsorb, tempReduction, tempDamageThreshold, tempDamageImmunity;
+    private ArrayList<Element> tempAbsorbList, tempReductionList;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, redOrbAbsorb, blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb, damageImmunityCheck;
     private double defenseBreakValue = 1.0;
     private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent() {
@@ -223,6 +225,14 @@ public class EnemyTargetFragment extends AbstractFragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        tempAbsorbList = new ArrayList<>();
+        tempReductionList = new ArrayList<>();
+        for(int i = 0; i < enemy.getAbsorb().size(); i++){
+            tempAbsorbList.add(enemy.getAbsorb().get(i));
+        }
+        for(int i = 0; i < enemy.getReduction().size(); i++){
+            tempReductionList.add(enemy.getReduction().get(i));
+        }
         tempAbsorb = enemy.getHasAbsorb();
         tempReduction = enemy.getHasReduction();
         tempDamageThreshold = enemy.getHasDamageThreshold();
@@ -337,6 +347,8 @@ public class EnemyTargetFragment extends AbstractFragment {
         enemy.setReductionValue(tempReductionValue);
         enemy.setDamageImmunity(tempDamageImmunityValue);
         enemy.setHasDamageImmunity(tempDamageImmunity);
+        enemy.setAbsorb(tempAbsorbList);
+        enemy.setReduction(tempReductionList);
         setReductionOrbs();
         setAbsorbOrbs();
         setDamageThreshold();
@@ -386,6 +398,7 @@ public class EnemyTargetFragment extends AbstractFragment {
                 currentHpValue.clearFocus();
                 gravityListAdapter.add(gravityButtonAdapter.getItem(position));
                 gravityListAdapter.notifyDataSetChanged();
+                gravityList.smoothScrollToPosition(gravityListAdapter.getCount()-1);
                 enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
                 currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
             }
@@ -717,18 +730,28 @@ public class EnemyTargetFragment extends AbstractFragment {
             }
             if (enemy.containsReduction(Element.RED)) {
                 redOrbReduction.setChecked(true);
+            } else {
+                redOrbReduction.setChecked(false);
             }
             if (enemy.containsReduction(Element.BLUE)) {
                 blueOrbReduction.setChecked(true);
+            } else {
+                blueOrbReduction.setChecked(false);
             }
             if (enemy.containsReduction(Element.GREEN)) {
                 greenOrbReduction.setChecked(true);
+            } else {
+                greenOrbReduction.setChecked(false);
             }
             if (enemy.containsReduction(Element.DARK)) {
                 darkOrbReduction.setChecked(true);
+            } else {
+                darkOrbReduction.setChecked(false);
             }
             if (enemy.containsReduction(Element.LIGHT)) {
                 lightOrbReduction.setChecked(true);
+            } else {
+                lightOrbReduction.setChecked(false);
             }
 
         }else {
@@ -752,18 +775,28 @@ public class EnemyTargetFragment extends AbstractFragment {
             }
             if (enemy.getAbsorb().contains(Element.RED)) {
                 redOrbAbsorb.setChecked(true);
+            } else {
+                redOrbAbsorb.setChecked(false);
             }
             if (enemy.getAbsorb().contains(Element.BLUE)) {
                 blueOrbAbsorb.setChecked(true);
+            } else {
+                blueOrbAbsorb.setChecked(false);
             }
             if (enemy.getAbsorb().contains(Element.GREEN)) {
                 greenOrbAbsorb.setChecked(true);
+            } else {
+                greenOrbAbsorb.setChecked(false);
             }
             if (enemy.getAbsorb().contains(Element.DARK)) {
                 darkOrbAbsorb.setChecked(true);
+            } else {
+                darkOrbAbsorb.setChecked(false);
             }
             if (enemy.getAbsorb().contains(Element.LIGHT)) {
                 lightOrbAbsorb.setChecked(true);
+            } else {
+                lightOrbAbsorb.setChecked(false);
             }
 
         }else {

@@ -63,15 +63,6 @@ public class OrbMatchFragment extends AbstractFragment {
         @Override
         public void resetLayout() {
             additionalComboValue.clearFocus();
-//            orbRadioGroup.check(R.id.redOrb);
-//            orbsLinked.setProgress(0);
-//            orbsPlus.setProgress(0);
-//            rowCheckBox.setEnabled(false);
-//            rowCheckBox.setChecked(false);
-//            ignoreEnemyCheckBox.setChecked(false);
-//            maxLeadMultiplierCheckBox.setChecked(false);
-//            additionalComboValue.setText("0");
-            //team.clearOrbMatches();
             orbMatchRecycler.clear();
             orbMatchRecycler.notifyDataSetChanged();
             if (toast != null) {
@@ -119,35 +110,6 @@ public class OrbMatchFragment extends AbstractFragment {
             }
         }
     };
-
-
-//    private SeekBar.OnSeekBarChangeListener orbsLinkedSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
-//        @Override
-//        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//            orbsLinkedValue.setText("" + (progress + 3));
-//            orbsPlus.setMax(progress + 3);
-//            if ((progress + 3) >= 6 && (progress + 3) != 7) {
-//                rowCheckBox.setEnabled(true);
-//            } else {
-//                rowCheckBox.setEnabled(false);
-//                rowCheckBox.setChecked(false);
-//            }
-//            if ((progress + 3) >= 26) {
-//                rowCheckBox.setEnabled(false);
-//                rowCheckBox.setChecked(true);
-//            }
-//        }
-//
-//        @Override
-//        public void onStartTrackingTouch(SeekBar seekBar) {
-//            additionalComboValue.clearFocus();
-//        }
-//
-//        @Override
-//        public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//        }
-//    };
 
     private Spinner.OnItemSelectedListener orbsLinkedSpinnerSelectedListener = new Spinner.OnItemSelectedListener() {
         @Override
@@ -426,9 +388,10 @@ public class OrbMatchFragment extends AbstractFragment {
         public void onClick(View v) {
             additionalComboValue.clearFocus();
             orbMatch = new OrbMatch(orbsLinked.getSelectedItemPosition() + 3, orbsPlus.getSelectedItemPosition(), getOrbColor(), isRow, isCross);
-            orbMatchList.add(0, orbMatch);
-            orbMatchRecycler.notifyItemInserted(0);
-            orbMatches.scrollToPosition(0);
+//            orbMatchList.add(0, orbMatch);
+            orbMatchList.add(orbMatch);
+            orbMatchRecycler.notifyItemInserted(orbMatchList.size()-1);
+            orbMatches.scrollToPosition(orbMatchList.size()-1);
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }

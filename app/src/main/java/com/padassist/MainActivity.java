@@ -96,12 +96,6 @@ public class MainActivity extends AppCompatActivity {
             preferences.edit().putBoolean("firstRun", false).apply();
             preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
         }
-//            ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
-//            parseMonsterDatabaseThread.start();
-//        if(BuildConfig.VERSION_CODE != SharedPreferencesUtil.loadPreferenceInt(Constants.VERSION)) {
-//            ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
-//            parseMonsterDatabaseThread.start();
-//        }
 
         Log.d("Total", "Total Monsters: " + BaseMonster.getAllMonsters().size() + " Total Leader Skills: " + LeaderSkill.getAllLeaderSkills().size());
         if (savedInstanceState != null) {
