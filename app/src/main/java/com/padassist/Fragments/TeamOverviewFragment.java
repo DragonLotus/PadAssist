@@ -114,6 +114,7 @@ public class TeamOverviewFragment extends AbstractFragment {
         monsterSpecificAwakeningsListAdapter = new MonsterSpecificAwakeningsListAdapter(getActivity(), R.layout.monster_specific_awakening_list_row, monsterList);
         monsterSpecific.setAdapter(monsterSpecificAwakeningsListAdapter);
         setListViewHeightBasedOnChildren(monsterSpecific);
+        getActivity().setTitle("Team Overview");
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event

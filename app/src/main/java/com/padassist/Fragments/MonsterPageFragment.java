@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -69,16 +68,10 @@ public class MonsterPageFragment extends AbstractFragment {
         @Override
         public void changeMonsterAttribute(int statToChange, int statValue) {
 
-            Log.d("Monster Page Log", "Monster level8: " + monster.getCurrentLevel());
-            Log.d("Monster Page Log", "Edit Text Level5: " + monsterLevelValue.getText());
-            Log.d("Monster Page Log", "Stat Value: " + statValue);
             if (statToChange == MyTextWatcher.CURRENT_LEVEL) {
                 if (statValue == 0) {
                     statValue = 1;
                 }
-                Log.d("Monster Page Log", "Monster level9: " + monster.getCurrentLevel());
-                Log.d("Monster Page Log", "Edit Text Level5: " + monsterLevelValue.getText());
-                Log.d("Monster Page Log", "Stat Value2: " + statValue);
                 monster.setCurrentLevel(statValue);
                 monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
                 monster.setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getHpMin(), monster.getHpMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getHpScale()));
@@ -245,23 +238,16 @@ public class MonsterPageFragment extends AbstractFragment {
         monster = Team.getTeamById(0).getMonsters(Singleton.getInstance().getMonsterOverwrite());
         disableStuff();
         initBackup();
-        Log.d("Monster Page Log", "Monster awakenings " + monster.getAwokenSkills());
-        Log.d("Monster Page Log", "Monster level3: " + monster.getCurrentLevel());
-        Log.d("Monster Page Log", "Edit Text Level: " + monsterLevelValue.getText());
         monsterPicture.setImageResource(monster.getMonsterPicture());
         monsterName.setText(monster.getName());
         initializeEditTexts();
         monsterStats();
-        Log.d("Monster Page Log", "Monster level4: " + monster.getCurrentLevel());
-        Log.d("Monster Page Log", "Edit Text Level2: " + monsterLevelValue.getText());
         monsterLevelValue.addTextChangedListener(currentLevelWatcher);
         monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
         monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
         monsterStatsRCVPlus.addTextChangedListener(rcvPlusWatcher);
         monsterAwakeningsValue.addTextChangedListener(awakeningsWatcher);
 
-        Log.d("Monster Page Log", "Monster level5: " + monster.getCurrentLevel());
-        Log.d("Monster Page Log", "Edit Text Level3: " + monsterLevelValue.getText());
         monsterLevelValue.setOnFocusChangeListener(editTextOnFocusChange);
         monsterStatsHPPlus.setOnFocusChangeListener(editTextOnFocusChange);
         monsterStatsATKPlus.setOnFocusChangeListener(editTextOnFocusChange);
@@ -283,9 +269,6 @@ public class MonsterPageFragment extends AbstractFragment {
         monsterStatsMaxAll.setOnClickListener(maxButtons);
         monsterRemove.setOnClickListener(maxButtons);
 
-        Log.d("Monster Page Log", "Monster level6: " + monster.getCurrentLevel());
-        Log.d("Monster Page Log", "Edit Text Level4: " + monsterLevelValue.getText());
-
         rarity.setText("" + monster.getRarity());
         rarityStar.setColorFilter(0xFFD4D421);
 
@@ -294,15 +277,14 @@ public class MonsterPageFragment extends AbstractFragment {
 
         monsterName.setSelected(true);
 
-        Log.d("MonsterPageLog", "Monster type 1 is: " + monster.getType1());
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
+        getActivity().setTitle("Selected Monster");
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("Monster Page Log", "Monster level7: " + monster.getCurrentLevel());
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
@@ -322,7 +304,6 @@ public class MonsterPageFragment extends AbstractFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        Log.d("What is awakening", "awakening detach: " + monster.getCurrentAwakenings() + " " + monster);
     }
 
 
@@ -356,7 +337,6 @@ public class MonsterPageFragment extends AbstractFragment {
                     monsterAwakeningsValue.setText("" + (monster.getCurrentAwakenings() - 1));
                 }
                 setTextViewValues();
-                Log.d("MonsterPageTag", "monsterCurrentAwakenings is: " + monster.getCurrentAwakenings());
             } else if (v.equals(awakeningPlus)) {
                 if (monster.getCurrentAwakenings() >= 0 && monster.getCurrentAwakenings() < 9) {
                     //monster.setCurrentAwakenings(monster.getCurrentAwakenings() + 1);
@@ -364,7 +344,6 @@ public class MonsterPageFragment extends AbstractFragment {
 
                 }
                 setTextViewValues();
-                Log.d("MonsterPageTag", "monsterCurrentAwakenings is: " + monster.getCurrentAwakenings());
             }
             grayAwakenings();
 
@@ -442,7 +421,6 @@ public class MonsterPageFragment extends AbstractFragment {
                 toast = Toast.makeText(getActivity(), "All stats maxed", Toast.LENGTH_SHORT);
                 toast.show();
             } else if (v.equals(monsterRemove)) {
-                Log.d("Monster Page Log", "Monster favorite before Dialog is: " + monster.isFavorite());
                 if (monsterRemoveDialogFragment == null) {
                     monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster, monster);
                 }
@@ -476,7 +454,6 @@ public class MonsterPageFragment extends AbstractFragment {
 
     public void showAwakenings() {
         // Show max # of awakenings
-        Log.d("Monster Page Fragment", "Monster Awakenings in Show Awakenings is: " + monster.getAwokenSkills() + "Monster Max Awakenings is: " + monster.getMaxAwakenings());
         for(int i = 0; i < 9; i++){
             if(i >= monster.getMaxAwakenings()){
                 awakeningHolder.getChildAt(i).setVisibility(View.GONE);
@@ -1070,7 +1047,6 @@ public class MonsterPageFragment extends AbstractFragment {
     }
 
     public void setTextViewValues() {
-        Log.d("What are the values", "Values: " + monster.getCurrentHp() + " " + monster.getCurrentAtk() + " " + monster.getCurrentRcv());
         monsterStatsHPBase.setText(String.valueOf(monster.getCurrentHp()));
         monsterStatsATKBase.setText(String.valueOf(monster.getCurrentAtk()));
         monsterStatsRCVBase.setText(String.valueOf(monster.getCurrentRcv()));
@@ -1212,9 +1188,7 @@ public class MonsterPageFragment extends AbstractFragment {
                 toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                Log.d("Monster Page Log", "Position is: " + Singleton.getInstance().getMonsterOverwrite() + " " + Monster.getMonsterId(0) + " Monster name: " + Monster.getMonsterId(0).getName());
                 Team newTeam = new Team(Team.getTeamById(0));
-                Log.d("Monster Page Log", "Monster Overwrite is: " + Singleton.getInstance().getMonsterOverwrite());
                 switch (Singleton.getInstance().getMonsterOverwrite()) {
                     case 0:
                         newTeam.setLead(Monster.getMonsterId(0));
@@ -1236,28 +1210,18 @@ public class MonsterPageFragment extends AbstractFragment {
                         break;
                 }
                 for (int i = 0; i < newTeam.getMonsters().size(); i++) {
-                    Log.d("Monster Page Log", "Monster name: " + newTeam.getMonsters(i).getName() + " Monster id: " + newTeam.getMonsters(i).getMonsterId());
                 }
                 newTeam.save();
-//            monster = Monster.getMonsterId(0);
-//            monsterName.setText(monster.getName());
-//            monsterPicture.setImageResource(monster.getMonsterPicture());
-//            setTextViewValues();
-//            initializeEditTexts();
-//            showAwakenings();
                 monsterRemoveDialogFragment.dismiss();
-//            getChildFragmentManager().popBackStack();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
         }
 
         @Override
         public void favoriteMonster(boolean favorite) {
-            Log.d("Monster Page Log", "favorite is: " + favorite);
             monster.setFavorite(favorite);
             monster.save();
             setFavorite();
-            Log.d("Monster Page Log", "Monster favorite is: " + monster.isFavorite());
         }
 
         @Override
@@ -1278,12 +1242,8 @@ public class MonsterPageFragment extends AbstractFragment {
         public void evolveMonster(long baseMonsterId) {
             if (baseMonsterId != 0){
                 monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
-//                if(monster.getCurrentAwakenings() > monster.getMaxAwakenings()){
-//                    monster.setCurrentAwakenings(monster.getMaxAwakenings());
-//                }
                 monster.save();
                 rarity.setText("" + monster.getRarity());
-                Log.d("Monster Page Log", "Monster attack is: " + monster.getTotalAtk() + " Monster max awakenings is: " + monster.getMaxAwakenings() + " Monster rarity is: " + monster.getRarity());
                 initBackup();
                 monsterPicture.setImageResource(monster.getMonsterPicture());
                 monsterName.setText(monster.getName());
@@ -1318,7 +1278,6 @@ public class MonsterPageFragment extends AbstractFragment {
                 }
                 newTeam.save();
             }
-            Log.d("Monster Page Log", "monsterId is: " + monster.getMonsterId());
             monster.delete();
             getActivity().getSupportFragmentManager().popBackStack();
         }
@@ -1331,7 +1290,6 @@ public class MonsterPageFragment extends AbstractFragment {
                 latentAwakeningDialogFragment = LatentAwakeningDialogFragment.newInstance(setLatents, monster);
             }
             latentAwakeningDialogFragment.show(getChildFragmentManager(), "LAATENTSNTSNTS", monster);
-            Log.d("MonsterPageFragment", "Latent Awakenings are: " + monster.getLatents());
         }
     };
 
@@ -1415,10 +1373,6 @@ public class MonsterPageFragment extends AbstractFragment {
 //
 //         if (getResources().getConfiguration().keyboardHidden == Configuration.KEYBOARDHIDDEN_YES)
 //         {
-//            if(((ViewGroup)rootView).getFocusedChild() == null)
-//            {
-//               Log.d("FKTHOMSA", "DAM U THOMAS");
-//            }
 //            ((ViewGroup)rootView).getFocusedChild().clearFocus();
 //            Log.d("is this real?", "what da");
 //

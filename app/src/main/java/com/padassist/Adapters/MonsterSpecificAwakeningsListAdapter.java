@@ -1,11 +1,13 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.padassist.Data.Monster;
 import com.padassist.Graphics.ExpandableHeightGridView;
@@ -45,10 +47,16 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             viewHolder = new ViewHolder();
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             viewHolder.monsterAwakenings = (ExpandableHeightGridView) convertView.findViewById(R.id.monsterAwakenings);
+            viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             trimAwakenings(position);
             monsterAwakeningsGridAdapter = new AwakeningGridAdapter(mContext, awakeningList, latentList);
             viewHolder.monsterAwakenings.setAdapter(monsterAwakeningsGridAdapter);
             viewHolder.monsterAwakenings.setExpanded(true);
+            if (position % 2 == 1) {
+                viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            } else {
+                viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+            }
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
@@ -65,7 +73,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
     static class ViewHolder {
         ImageView monsterPicture;
         ExpandableHeightGridView monsterAwakenings;
-
+        RelativeLayout relativeLayout;
     }
 
     private void setupAwakeningFilters() {

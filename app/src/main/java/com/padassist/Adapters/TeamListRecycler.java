@@ -1,11 +1,13 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.Data.Team;
@@ -31,62 +33,6 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
     private ArrayList<Integer> latentList5;
     private ArrayList<Integer> latentList6;
     int expandedPosition = -1;
-
-//    private View.OnClickListener onItemClickListener = new View.OnClickListener(){
-//        @Override
-//        public void onClick(View v) {
-//            int position = (int) v.getTag(R.string.index);
-//            if (teamLoadDialogFragment == null) {
-//                teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(position));
-//            }
-//
-//            teamLoadDialogFragment.show(, "Show Team Load dialog", teamList.get(position));
-//        }
-//    };
-//
-//    private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam() {
-//        @Override
-//        public void loadTeam() {
-//            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
-//            Log.d("Team Log", "Team Name: " + loadTeam.getTeamName());
-//            loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-//            loadTeam.setTeamId(0);
-//            loadTeam.save();
-//        }
-//
-//        @Override
-//        public void editTeam(String teamName) {
-//            Team loadTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
-//            loadTeam.setTeamName(teamName);
-//            loadTeam.save();
-//            teamList = (ArrayList) Team.getAllTeams();
-//            teamListAdapter.updateList(teamList);
-//        }
-//
-//        @Override
-//        public void deleteTeam() {
-////            Team.deleteTeam(teamListAdapter.getItem(selectedTeam).getTeamId());
-//            Team deleteTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
-//            Log.d("Team List Log", "Delete Team Name is: " + deleteTeam.getTeamName() + "Team id is: " + deleteTeam.getTeamId());
-//            deleteTeam.delete();
-//            teamList.remove(selectedTeam);
-//            Log.d("Team List Log", "Team size is: " + teamList.size());
-//            teamListAdapter.notifyDataSetChanged();
-//            if (teamList.size() == 0) {
-//                savedTeams.setVisibility(View.VISIBLE);
-//            } else {
-//                savedTeams.setVisibility(View.GONE);
-//            }
-//        }
-//
-//        @Override
-//        public void favoriteTeam(boolean favorite) {
-//            teamListAdapter.getItem(selectedTeam).setFavorite(favorite);
-//            teamListAdapter.getItem(selectedTeam).save();
-//            Log.d("TeamListFragment", "Team 0 is favorite: " + teamList.get(0).isFavorite());
-//            teamListAdapter.notifyDataSetChanged();
-//        }
-//    };
 
     public TeamListRecycler(Context context, ArrayList<Team> teamList, View.OnClickListener teamListOnClickListener) {
         mContext = context;
@@ -118,135 +64,135 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         viewHolder.monster6Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(5).getCurrentAwakenings()));
         viewHolder.monster6Picture.setImageResource(teamList.get(position).getMonsters(5).getMonsterPicture());
 
-        if(latentList1 == null){
+        if (latentList1 == null) {
             latentList1 = new ArrayList<>();
         } else {
             latentList1.clear();
         }
 
-        for(int i = 0; i < teamList.get(position).getMonsters(0).getLatents().size(); i++){
-            if(teamList.get(position).getMonsters(0).getLatents().get(i) != 0){
+        for (int i = 0; i < teamList.get(position).getMonsters(0).getLatents().size(); i++) {
+            if (teamList.get(position).getMonsters(0).getLatents().get(i) != 0) {
                 latentList1.add(1);
             }
         }
-        if(latentList1.size() == 5){
+        if (latentList1.size() == 5) {
             viewHolder.monster1Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster1Latents.setText("");
             viewHolder.monster1Latents.setVisibility(View.VISIBLE);
-        }else if(latentList1.size() == 0) {
+        } else if (latentList1.size() == 0) {
             viewHolder.monster1Latents.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.monster1Latents.setText(" "+latentList1.size());
+        } else {
+            viewHolder.monster1Latents.setText(" " + latentList1.size());
             viewHolder.monster1Latents.setVisibility(View.VISIBLE);
         }
 
-        if(latentList2 == null){
+        if (latentList2 == null) {
             latentList2 = new ArrayList<>();
         } else {
             latentList2.clear();
         }
 
-        for(int i = 0; i < teamList.get(position).getMonsters(1).getLatents().size(); i++){
-            if(teamList.get(position).getMonsters(1).getLatents().get(i) != 0){
+        for (int i = 0; i < teamList.get(position).getMonsters(1).getLatents().size(); i++) {
+            if (teamList.get(position).getMonsters(1).getLatents().get(i) != 0) {
                 latentList2.add(1);
             }
         }
-        if(latentList2.size() == 5){
+        if (latentList2.size() == 5) {
             viewHolder.monster2Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster2Latents.setText("");
             viewHolder.monster2Latents.setVisibility(View.VISIBLE);
-        }else if(latentList2.size() == 0) {
+        } else if (latentList2.size() == 0) {
             viewHolder.monster2Latents.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.monster2Latents.setText(" "+latentList2.size());
+        } else {
+            viewHolder.monster2Latents.setText(" " + latentList2.size());
             viewHolder.monster2Latents.setVisibility(View.VISIBLE);
         }
 
-        if(latentList3 == null){
+        if (latentList3 == null) {
             latentList3 = new ArrayList<>();
         } else {
             latentList3.clear();
         }
 
-        for(int i = 0; i < teamList.get(position).getMonsters(2).getLatents().size(); i++){
-            if(teamList.get(position).getMonsters(2).getLatents().get(i) != 0){
+        for (int i = 0; i < teamList.get(position).getMonsters(2).getLatents().size(); i++) {
+            if (teamList.get(position).getMonsters(2).getLatents().get(i) != 0) {
                 latentList3.add(1);
             }
         }
-        if(latentList3.size() == 5){
+        if (latentList3.size() == 5) {
             viewHolder.monster3Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster3Latents.setText("");
             viewHolder.monster3Latents.setVisibility(View.VISIBLE);
-        }else if(latentList3.size() == 0) {
+        } else if (latentList3.size() == 0) {
             viewHolder.monster3Latents.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.monster3Latents.setText(" "+latentList3.size());
+        } else {
+            viewHolder.monster3Latents.setText(" " + latentList3.size());
             viewHolder.monster3Latents.setVisibility(View.VISIBLE);
         }
 
-        if(latentList4 == null){
+        if (latentList4 == null) {
             latentList4 = new ArrayList<>();
         } else {
             latentList4.clear();
         }
 
-        for(int i = 0; i < teamList.get(position).getMonsters(3).getLatents().size(); i++){
-            if(teamList.get(position).getMonsters(3).getLatents().get(i) != 0){
+        for (int i = 0; i < teamList.get(position).getMonsters(3).getLatents().size(); i++) {
+            if (teamList.get(position).getMonsters(3).getLatents().get(i) != 0) {
                 latentList4.add(1);
             }
         }
-        if(latentList4.size() == 5){
+        if (latentList4.size() == 5) {
             viewHolder.monster4Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster4Latents.setText("");
             viewHolder.monster4Latents.setVisibility(View.VISIBLE);
-        }else if(latentList4.size() == 0) {
+        } else if (latentList4.size() == 0) {
             viewHolder.monster4Latents.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.monster4Latents.setText(" "+latentList4.size());
+        } else {
+            viewHolder.monster4Latents.setText(" " + latentList4.size());
             viewHolder.monster4Latents.setVisibility(View.VISIBLE);
         }
 
-        if(latentList5 == null){
+        if (latentList5 == null) {
             latentList5 = new ArrayList<>();
         } else {
             latentList5.clear();
         }
 
-        for(int i = 0; i < teamList.get(position).getMonsters(4).getLatents().size(); i++){
-            if(teamList.get(position).getMonsters(4).getLatents().get(i) != 0){
+        for (int i = 0; i < teamList.get(position).getMonsters(4).getLatents().size(); i++) {
+            if (teamList.get(position).getMonsters(4).getLatents().get(i) != 0) {
                 latentList5.add(1);
             }
         }
-        if(latentList5.size() == 5){
+        if (latentList5.size() == 5) {
             viewHolder.monster5Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster5Latents.setText("");
             viewHolder.monster5Latents.setVisibility(View.VISIBLE);
-        }else if(latentList5.size() == 0) {
+        } else if (latentList5.size() == 0) {
             viewHolder.monster5Latents.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.monster5Latents.setText(" "+latentList5.size());
+        } else {
+            viewHolder.monster5Latents.setText(" " + latentList5.size());
             viewHolder.monster5Latents.setVisibility(View.VISIBLE);
         }
 
-        if(latentList6 == null){
+        if (latentList6 == null) {
             latentList6 = new ArrayList<>();
         } else {
             latentList6.clear();
         }
 
-        for(int i = 0; i < teamList.get(position).getMonsters(5).getLatents().size(); i++){
-            if(teamList.get(position).getMonsters(5).getLatents().get(i) != 0){
+        for (int i = 0; i < teamList.get(position).getMonsters(5).getLatents().size(); i++) {
+            if (teamList.get(position).getMonsters(5).getLatents().get(i) != 0) {
                 latentList6.add(1);
             }
         }
-        if(latentList6.size() == 5){
+        if (latentList6.size() == 5) {
             viewHolder.monster6Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster6Latents.setText("");
             viewHolder.monster6Latents.setVisibility(View.VISIBLE);
-        }else if(latentList6.size() == 0) {
+        } else if (latentList6.size() == 0) {
             viewHolder.monster6Latents.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.monster6Latents.setText(" "+latentList6.size());
+        } else {
+            viewHolder.monster6Latents.setText(" " + latentList6.size());
             viewHolder.monster6Latents.setVisibility(View.VISIBLE);
         }
 
@@ -268,7 +214,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
         if (teamList.get(position).getMonsters(0).getCurrentAwakenings() == 0) {
             viewHolder.monster1Awakenings.setVisibility(View.INVISIBLE);
-            if(latentList1.size() != 0){
+            if (latentList1.size() != 0) {
                 ViewGroup.LayoutParams z = viewHolder.monster1Awakenings.getLayoutParams();
                 viewHolder.monster1Latents.setLayoutParams(z);
             }
@@ -287,7 +233,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
         if (teamList.get(position).getMonsters(1).getCurrentAwakenings() == 0) {
             viewHolder.monster2Awakenings.setVisibility(View.INVISIBLE);
-            if(latentList2.size() != 0){
+            if (latentList2.size() != 0) {
                 ViewGroup.LayoutParams z = viewHolder.monster2Awakenings.getLayoutParams();
                 viewHolder.monster2Latents.setLayoutParams(z);
             }
@@ -306,7 +252,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
         if (teamList.get(position).getMonsters(2).getCurrentAwakenings() == 0) {
             viewHolder.monster3Awakenings.setVisibility(View.INVISIBLE);
-            if(latentList3.size() != 0){
+            if (latentList3.size() != 0) {
                 ViewGroup.LayoutParams z = viewHolder.monster3Awakenings.getLayoutParams();
                 viewHolder.monster3Latents.setLayoutParams(z);
             }
@@ -325,7 +271,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
         if (teamList.get(position).getMonsters(3).getCurrentAwakenings() == 0) {
             viewHolder.monster4Awakenings.setVisibility(View.INVISIBLE);
-            if(latentList4.size() != 0){
+            if (latentList4.size() != 0) {
                 ViewGroup.LayoutParams z = viewHolder.monster4Awakenings.getLayoutParams();
                 viewHolder.monster4Latents.setLayoutParams(z);
             }
@@ -345,7 +291,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
 
         if (teamList.get(position).getMonsters(4).getCurrentAwakenings() == 0) {
             viewHolder.monster5Awakenings.setVisibility(View.INVISIBLE);
-            if(latentList5.size() != 0){
+            if (latentList5.size() != 0) {
                 ViewGroup.LayoutParams z = viewHolder.monster5Awakenings.getLayoutParams();
                 viewHolder.monster5Latents.setLayoutParams(z);
             }
@@ -364,7 +310,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
         if (teamList.get(position).getMonsters(5).getCurrentAwakenings() == 0) {
             viewHolder.monster6Awakenings.setVisibility(View.INVISIBLE);
-            if(latentList6.size() != 0){
+            if (latentList6.size() != 0) {
                 ViewGroup.LayoutParams z = viewHolder.monster6Awakenings.getLayoutParams();
                 viewHolder.monster6Latents.setLayoutParams(z);
             }
@@ -374,6 +320,11 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
 
         viewHolder.itemView.setOnClickListener(teamListOnClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
+        if (position % 2 == 1) {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        }
     }
 
     @Override
@@ -389,6 +340,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView teamName, monster1Plus, monster1Awakenings, monster2Plus, monster2Awakenings, monster3Plus, monster3Awakenings, monster4Plus, monster4Awakenings, monster5Plus, monster5Awakenings, monster6Plus, monster6Awakenings, monster1Latents, monster2Latents, monster3Latents, monster4Latents, monster5Latents, monster6Latents;
         ImageView monster1Picture, monster2Picture, monster3Picture, monster4Picture, monster5Picture, monster6Picture, favorite, favoriteOutline;
+        RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView) {
             super(convertView);
@@ -419,6 +371,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             monster6Latents = (TextView) convertView.findViewById(R.id.monster6Latents);
             favorite = (ImageView) convertView.findViewById(R.id.favorite);
             favoriteOutline = (ImageView) convertView.findViewById(R.id.favoriteOutline);
+            relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
         }
     }
 
@@ -432,7 +385,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
     }
 
     public boolean expanded() {
-        if(expandedPosition!=-1){
+        if (expandedPosition != -1) {
             return true;
         } else return false;
     }

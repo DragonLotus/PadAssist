@@ -1,11 +1,13 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.R;
@@ -66,6 +68,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             viewHolder.awakeningAmount = (TextView) convertView.findViewById(R.id.awakeningAmount);
             viewHolder.awakeningPicture = (ImageView) convertView.findViewById(R.id.awakeningPicture);
+            viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
 
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
@@ -253,7 +256,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
     static class ViewHolder {
         TextView awakeningAmount;
         ImageView awakeningPicture;
-
+        RelativeLayout relativeLayout;
     }
 
     private void trimAwakenings() {

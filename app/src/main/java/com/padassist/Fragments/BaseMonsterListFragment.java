@@ -149,7 +149,7 @@ public class BaseMonsterListFragment extends AbstractFragment {
 //            Log.d("Base Monster List Log", "Monster Type 1 after is: " + monsterList.get(i).getType1());
 //        }
         //disableStuff();
-        baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, expandChange, monsterListOnClickListener, monsterListOnLongClickListener);
+        baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, expandChange, monsterListOnClickListener, monsterListOnLongClickListener);
         monsterListView.setAdapter(baseMonsterListAdapter);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         fastScroller.setRecyclerView(monsterListView);

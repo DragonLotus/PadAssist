@@ -1,11 +1,13 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.Data.BaseMonster;
@@ -43,6 +45,7 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
             viewHolder.type3 = (ImageView) convertView.findViewById(R.id.type3);
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             viewHolder.rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
+            viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             convertView.setTag(R.string.viewHolder, viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
@@ -198,6 +201,11 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
                 viewHolder.type3.setVisibility(View.INVISIBLE);
                 break;
         }
+        if(position%2 == 1){
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        }
         return convertView;
     }
 
@@ -208,6 +216,6 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
     static class ViewHolder {
         TextView monsterName, rarity;
         ImageView monsterPicture, type1, type2, type3, rarityStar;
-
+        RelativeLayout relativeLayout;
     }
 }

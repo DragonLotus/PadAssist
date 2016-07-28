@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
     private LayoutInflater inflater;
     private Toast toast;
     private int expandedPosition = -1;
+    private RecyclerView monsterListView;
 
     private ExpandChange expandChange;
 
@@ -49,6 +51,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
                 }
                 expandedPosition = holder.getAdapterPosition();
                 notifyItemChanged(expandedPosition);
+                monsterListView.smoothScrollToPosition(expandedPosition);
             } else {
                 previous = expandedPosition;
                 expandedPosition = -1;
@@ -58,12 +61,13 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         }
     };
 
-    public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, ExpandChange expandChange, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
+    public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, RecyclerView monsterListView, ExpandChange expandChange, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
         this.monsterListOnLongClickListener = monsterListOnLongClickListener;
         this.expandChange = expandChange;
+        this.monsterListView = monsterListView;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -412,6 +416,11 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
                 viewHolder.monsterRCV.setVisibility(View.VISIBLE);
             }
         }
+        if(position%2 == 1){
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        }
     }
 
     @Override
@@ -430,6 +439,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose;
+        RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView){
             super(convertView);
@@ -467,6 +477,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
             choose = (Button) convertView.findViewById(R.id.choose);
             expandLayout = (RelativeLayout) convertView.findViewById(R.id.expandLayout);
             levelMax = (TextView) convertView.findViewById(R.id.levelMax);
+            relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
         }
     }
 

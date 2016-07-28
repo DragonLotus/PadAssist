@@ -260,6 +260,11 @@ public class TeamDamageListFragment extends AbstractFragment {
         hasAwakeningsCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         activeUsedCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         teamHp.setOnSeekBarChangeListener(teamHpSeekBarListener);
+        if(hasEnemy){
+            getActivity().setTitle("Team Damage (with target)");
+        } else {
+            getActivity().setTitle("Team Damage (no target)");
+        }
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
@@ -273,11 +278,6 @@ public class TeamDamageListFragment extends AbstractFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     /**

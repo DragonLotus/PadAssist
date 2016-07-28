@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         blankLeaderSkill.save();
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
 
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         // Get the Default External Cache Directory
         File httpCacheDir = getExternalCacheDir();

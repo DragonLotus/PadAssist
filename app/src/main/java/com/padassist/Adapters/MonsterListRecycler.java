@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -322,6 +323,11 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         viewHolder.itemView.setOnClickListener(onItemClickListener);
         viewHolder.itemView.setOnLongClickListener(onItemLongClickListener);
         viewHolder.itemView.setTag(viewHolder);
+        if (position % 2 == 1) {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        }
     }
 
     @Override
@@ -337,6 +343,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, rarity, monsterLatents;
         ImageView monsterPicture, type1, type2, type3, rarityStar;
+        RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView) {
             super(convertView);
@@ -355,6 +362,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             type3 = (ImageView) convertView.findViewById(R.id.type3);
             rarity = (TextView) convertView.findViewById(R.id.rarity);
             rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
+            relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
         }
     }
 

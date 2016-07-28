@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.Data.Element;
@@ -163,6 +164,7 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage, monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy, monsterElement1Percent, monsterElement2Percent;
         ImageView monsterPicture;
+        RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView){
             super(convertView);
@@ -176,6 +178,7 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
             monsterElement2DamageEnemy = (TextView) convertView.findViewById(R.id.monsterElement2DamageEnemy);
             monsterElement1Percent = (TextView) convertView.findViewById(R.id.monsterElement1Percent);
             monsterElement2Percent = (TextView) convertView.findViewById(R.id.monsterElement2Percent);
+            relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
         }
     }
 

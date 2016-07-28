@@ -219,6 +219,7 @@ public class MonsterListFragment extends AbstractFragment {
         orbMatchButton.setOnClickListener(orbMatchOnClickListener);
         favorite.setColorFilter(0xFFFFAADD);
         favoriteOutline.setOnClickListener(favoriteOnClickListener);
+        getActivity().setTitle("Set Team");
     }
 
     private View.OnClickListener importButtonOnClickListener = new View.OnClickListener() {

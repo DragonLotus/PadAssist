@@ -50,7 +50,6 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
     }
 
@@ -83,7 +82,35 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
         }
+        if(tabLayout.getSelectedTabPosition() == 0){
+            getActivity().setTitle("Saved Monsters");
+        } else if(tabLayout.getSelectedTabPosition() == 1) {
+            getActivity().setTitle("Create Monster");
+        }
+        viewPager.addOnPageChangeListener(tabLayoutOnPageChangeListener);
     }
+
+    private TabLayout.TabLayoutOnPageChangeListener tabLayoutOnPageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(tabLayout){
+        @Override
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int state) {
+            super.onPageScrollStateChanged(state);
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            super.onPageSelected(position);
+            if(position == 0){
+                getActivity().setTitle("Saved Monsters");
+            } else if(position == 1) {
+                getActivity().setTitle("Create Monster");
+            }
+        }
+    };
 
     @Override
     public void onDetach() {

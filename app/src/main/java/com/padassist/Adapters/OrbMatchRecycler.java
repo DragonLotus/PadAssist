@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -106,6 +108,11 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
 
         viewHolder.itemView.setOnClickListener(thomasIsntGlobal);
         viewHolder.itemView.setTag(R.string.index, position);
+        if(position%2 == 1){
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        }
     }
 
     @Override
@@ -122,12 +129,14 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
         TextView orbMatchTotal;
         ImageView orbImage;
         ImageView remove;
+        RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView){
             super(convertView);
             orbMatchTotal = (TextView) convertView.findViewById(R.id.orbMatchTotal);
             orbImage = (ImageView) convertView.findViewById(R.id.orbImage);
             remove = (ImageView) convertView.findViewById(R.id.remove);
+            relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
         }
     }
 

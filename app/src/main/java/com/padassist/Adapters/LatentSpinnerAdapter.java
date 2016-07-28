@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.R;
@@ -118,6 +119,7 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
             viewHolder.latentName = (TextView) convertView.findViewById(R.id.latentName);
             viewHolder.latentDesc = (TextView) convertView.findViewById(R.id.latentDesc);
             viewHolder.latentIcon = (ImageView) convertView.findViewById(R.id.latentIcon);
+            viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             convertView.setTag(R.string.viewHolder, viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
@@ -192,6 +194,6 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
     static class ViewHolder {
         TextView latentName, latentDesc;
         ImageView latentIcon;
-
+        RelativeLayout relativeLayout;
     }
 }

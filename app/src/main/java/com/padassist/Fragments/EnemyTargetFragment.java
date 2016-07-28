@@ -334,6 +334,7 @@ public class EnemyTargetFragment extends AbstractFragment {
 
         calculate.setOnClickListener(calculateOnClickListener);
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
+        getActivity().setTitle("Set Enemy");
     }
 
     @Override
@@ -405,7 +406,6 @@ public class EnemyTargetFragment extends AbstractFragment {
 
         }
     };
-
 
     private void gravityButtonInit() {
         int[] gravityInts = {10, 15, 20, 25, 30, 35, 45};

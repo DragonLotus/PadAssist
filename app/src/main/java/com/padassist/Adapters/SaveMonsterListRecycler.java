@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
     private Toast toast;
     private ArrayList<Integer> latentList;
     private int expandedPosition = -1;
+    private RecyclerView monsterListView;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
@@ -44,6 +46,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
                 }
                 expandedPosition = holder.getAdapterPosition();
                 notifyItemChanged(expandedPosition);
+                monsterListView.smoothScrollToPosition(expandedPosition);
             } else {
                 previous = expandedPosition;
                 expandedPosition = -1;
@@ -52,11 +55,12 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
         }
     };
 
-    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
+    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
         this.monsterListOnLongClickListener = monsterListOnLongClickListener;
+        this.monsterListView = monsterListView;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -788,6 +792,11 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
                 viewHolder.monsterRCV.setVisibility(View.VISIBLE);
             }
         }
+        if(position%2 == 1){
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        }
     }
 
     private View.OnClickListener favoriteOnClickListener = new View.OnClickListener(){
@@ -831,6 +840,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose;
+        RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView){
             super(convertView);
@@ -880,6 +890,7 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
             leaderSkill = (TextView) convertView.findViewById(R.id.leaderSkill);
             leaderSkillDesc = (TextView) convertView.findViewById(R.id.leaderSkillDesc);
             leaderSkillName = (TextView) convertView.findViewById(R.id.leaderSkillName);
+            relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
         }
     }
 

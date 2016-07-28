@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,7 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
             viewHolder = new ViewHolder();
             viewHolder.typeName = (TextView) convertView.findViewById(R.id.typeName);
             viewHolder.typeIcon = (ImageView) convertView.findViewById(R.id.typeIcon);
+            viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             convertView.setTag(R.string.viewHolder, viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
@@ -108,6 +110,11 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
                 viewHolder.typeIcon.setVisibility(View.INVISIBLE);
                 viewHolder.typeName.setText("None");
                 break;
+        }
+        if(position%2 == 1){
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
         }
         return convertView;
     }
@@ -203,6 +210,6 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
     static class ViewHolder {
         TextView typeName;
         ImageView typeIcon;
-
+        RelativeLayout relativeLayout;
     }
 }

@@ -173,9 +173,10 @@ public class SaveMonsterListFragment extends AbstractFragment {
             savedMonsters.setVisibility(View.GONE);
             monsterListView.setVisibility(View.VISIBLE);
         }
-        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListOnClickListener, monsterListOnLongClickListener);
+        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
         monsterListView.setAdapter(saveMonsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         fastScroller.setRecyclerView(monsterListView);
     }
 
