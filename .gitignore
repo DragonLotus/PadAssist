@@ -15,3 +15,4 @@ app/app.iml
 DamageCalculator.iml
 app/app.iml
 *.iml
+keystore.properties

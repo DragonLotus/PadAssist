@@ -11,13 +11,17 @@ dependencies {
     compile 'com.android.support:support-v4:23.1.1'
 }
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     signingConfigs {
         config {
-            keyAlias 'PadAssist'
-            keyPassword 'reyoflight'
-            storeFile file('E:/Users/DragonLotus/Documents/keystores/android.jks')
-            storePassword 'guardtheguards6'
+            keyAlias 'keyAlias'
+            keyPassword 'keyPassword'
+            storeFile file('storeFile')
+            storePassword 'storePassword'
         }
     }
     compileSdkVersion 23

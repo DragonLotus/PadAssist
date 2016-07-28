@@ -77,9 +77,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
 
-        Log.d("SaveMonsterList", "MonsterList is: " + monsterList + " monsterListAll is: " + monsterListAll);
-
-
         saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
         monsterListView.setAdapter(saveMonsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
