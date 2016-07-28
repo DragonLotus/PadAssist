@@ -34,11 +34,11 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
-import com.padassist.Fragments.AbstractFragment;
 import com.padassist.Fragments.MonsterListFragment;
 import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.TeamListFragment;
 import com.padassist.Fragments.TeamSaveDialogFragment;
+import com.padassist.Util.SaveMonsterListUtil;
 import com.padassist.Util.Singleton;
 
 import java.io.File;
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("Total", "Total Monsters: " + BaseMonster.getAllMonsters().size() + " Total Leader Skills: " + LeaderSkill.getAllLeaderSkills().size());
         if (savedInstanceState != null) {
-            mContent = (AbstractFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+            mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
         }
         setContentView(R.layout.activity_main);
 
@@ -181,38 +181,8 @@ public class MainActivity extends AppCompatActivity {
         menu.setGroupVisible(R.id.sortTeam, false);
         menu.setGroupVisible(R.id.teamDamage, false);
         menu.findItem(R.id.search).setVisible(false);
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchMenuItem = menu.findItem(R.id.search);
-        searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
-        searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if(mContent instanceof AbstractFragment){
-                    ((AbstractFragment)mContent).searchFilter(newText);
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-//                imm.hideSoftInputFromWindow(edittext.getWindowToken(), 0);
-                return true;
-            }
-        });
         MenuItem toggleCoop = menu.findItem(R.id.toggleCoop);
         toggleCoop.setTitle(Singleton.getInstance().isCoopEnable() ? "Toggle Co-op off" : "Toggle Co-op on");
-//        Fragment fragment = getSupportFragmentManager().findFragmentByTag(MonsterListFragment.TAG);
-//        Log.d("What is fragment", "" + fragment);
-//        if(fragment instanceof MonsterListFragment){
-//            menu.setGroupVisible(R.id.saveTeamGroup, true);
-//        }else {
-//            menu.setGroupVisible(R.id.saveTeamGroup, false);
-//        }
         return true;
     }
 
@@ -247,87 +217,15 @@ public class MainActivity extends AppCompatActivity {
             }
             item.setTitle(isEnable ? "Toggle Co-op off" : "Toggle Co-op on");
         } else if (id == R.id.saveTeam) {
-//            if (teamSaveDialogFragment == null) {
-//                teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam);
-//            }
-//            teamSaveDialogFragment.show(getSupportFragmentManager(), "Show Team Save Dialog");
-//            mContent.reverseArrayList();
+
         } else if (id == R.id.loadTeam) {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
         } else if (id == R.id.monsterList) {
             switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG);
-        } else if (id == R.id.reverseList) {
-            ((AbstractFragment)mContent).reverseArrayList();
-        } else if (id == R.id.sortAlphabetical) {
-            ((AbstractFragment)mContent).sortArrayList(0);
-        } else if (id == R.id.sortId) {
-            ((AbstractFragment)mContent).sortArrayList(1);
-        } else if (id == R.id.sortElement) {
-            ((AbstractFragment)mContent).sortArrayList(2);
-        } else if (id == R.id.sortType) {
-            ((AbstractFragment)mContent).sortArrayList(3);
-        } else if (id == R.id.sortStat) {
-            ((AbstractFragment)mContent).sortArrayList(4);
-        } else if (id == R.id.sortRarity) {
-            ((AbstractFragment)mContent).sortArrayList(5);
-        } else if (id == R.id.sortAwakenings) {
-            ((AbstractFragment)mContent).sortArrayList(6);
-        } else if (id == R.id.sortPlus) {
-            ((AbstractFragment)mContent).sortArrayList(7);
-        } else if (id == R.id.sortFavorite) {
-            ((AbstractFragment)mContent).sortArrayList(8);
-        } else if (id == R.id.sortLevel) {
-            ((AbstractFragment)mContent).sortArrayList(9);
-        } else if (id == R.id.sortLead) {
-            ((AbstractFragment)mContent).sortArrayList(10);
-        } else if (id == R.id.sortHelper) {
-            ((AbstractFragment)mContent).sortArrayList(11);
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-//    private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
-//        @Override
-//        public void overwriteTeam() {
-//            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
-//            Team overwriteTeam = new Team(Team.getTeamById(0));
-////            if(Team.getTeamById(overwriteTeam.getTeamIdOverwrite()) != null){
-////                overwriteTeam.setTeamName(Team.getTeamById(overwriteTeam.getTeamIdOverwrite()).getTeamName());
-//                overwriteTeam.setTeamId(Team.getTeamById(0).getTeamIdOverwrite());
-//                Log.d("Main Activity Log", "Overwrite Team name is: " + overwriteTeam.getTeamName() + " Team id: " + overwriteTeam.getTeamId() + " Team ID overwrite: " + overwriteTeam.getTeamIdOverwrite());
-//                overwriteTeam.save();
-////            } else {
-////                overwriteTeam.setTeamId(overwriteTeam.getTeamIdOverwrite());
-////                overwriteTeam.save();
-////            }
-//
-//        }
-//
-//        @Override
-//        public void saveNewTeam(String teamName) {
-//            long teamId;
-//            if (Team.getAllTeams().size() == 0) {
-//                teamId = 1;
-//            } else {
-//                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
-//            }
-//            Team newTeam = new Team(Team.getTeamById(0));
-//            newTeam.setTeamName(teamName);
-//            newTeam.setTeamId(teamId);
-//            for (Monster monster : newTeam.getMonsters()) {
-//                Log.d("Monster", "MonsterPlus:" + monster.getTotalPlus());
-//                monster.save();
-//            }
-//            newTeam.save();
-//            Team teamZero = new Team(newTeam);
-//            teamZero.setTeamId(0);
-//            teamZero.setTeamIdOverwrite(newTeam.getTeamId());
-//            teamZero.save();
-//            Log.d("Main Activity Log", "Team name is: " + Team.getTeamById(0).getTeamName() + " Team id: " + Team.getTeamById(0).getTeamId() + " Team ID overwrite: " + Team.getTeamById(0).getTeamIdOverwrite());
-//        }
-//    };
-
 
     /**
      * A {@link android.support.v4.app.FragmentPagerAdapter} that returns a fragment corresponding to
