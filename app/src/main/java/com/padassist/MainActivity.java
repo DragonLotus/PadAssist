@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
      * The {@link android.support.v4.view.ViewPager} that will host the section contents.
      */
     FrameLayout mViewPager;
-    private AbstractFragment mContent;
+    private Fragment mContent;
     private Enemy enemy;
     private Team team;
     private MenuItem searchMenuItem;
@@ -190,7 +190,9 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
             @Override
             public boolean onQueryTextChange(String newText) {
-                mContent.searchFilter(newText);
+                if(mContent instanceof AbstractFragment){
+                    ((AbstractFragment)mContent).searchFilter(newText);
+                }
                 return true;
             }
 
@@ -255,31 +257,31 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.monsterList) {
             switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG);
         } else if (id == R.id.reverseList) {
-            mContent.reverseArrayList();
+            ((AbstractFragment)mContent).reverseArrayList();
         } else if (id == R.id.sortAlphabetical) {
-            mContent.sortArrayList(0);
+            ((AbstractFragment)mContent).sortArrayList(0);
         } else if (id == R.id.sortId) {
-            mContent.sortArrayList(1);
+            ((AbstractFragment)mContent).sortArrayList(1);
         } else if (id == R.id.sortElement) {
-            mContent.sortArrayList(2);
+            ((AbstractFragment)mContent).sortArrayList(2);
         } else if (id == R.id.sortType) {
-            mContent.sortArrayList(3);
+            ((AbstractFragment)mContent).sortArrayList(3);
         } else if (id == R.id.sortStat) {
-            mContent.sortArrayList(4);
+            ((AbstractFragment)mContent).sortArrayList(4);
         } else if (id == R.id.sortRarity) {
-            mContent.sortArrayList(5);
+            ((AbstractFragment)mContent).sortArrayList(5);
         } else if (id == R.id.sortAwakenings) {
-            mContent.sortArrayList(6);
+            ((AbstractFragment)mContent).sortArrayList(6);
         } else if (id == R.id.sortPlus) {
-            mContent.sortArrayList(7);
+            ((AbstractFragment)mContent).sortArrayList(7);
         } else if (id == R.id.sortFavorite) {
-            mContent.sortArrayList(8);
+            ((AbstractFragment)mContent).sortArrayList(8);
         } else if (id == R.id.sortLevel) {
-            mContent.sortArrayList(9);
+            ((AbstractFragment)mContent).sortArrayList(9);
         } else if (id == R.id.sortLead) {
-            mContent.sortArrayList(10);
+            ((AbstractFragment)mContent).sortArrayList(10);
         } else if (id == R.id.sortHelper) {
-            mContent.sortArrayList(11);
+            ((AbstractFragment)mContent).sortArrayList(11);
         }
 
         return super.onOptionsItemSelected(item);
@@ -422,7 +424,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void switchFragment(AbstractFragment fragment, String tag) {
+    public void switchFragment(Fragment fragment, String tag) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         mContent = fragment;

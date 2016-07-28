@@ -34,7 +34,7 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
 
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (convertView == null){
+        if (convertView == null) {
             inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
@@ -42,10 +42,10 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
             viewHolder.typeIcon = (ImageView) convertView.findViewById(R.id.typeIcon);
             viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             convertView.setTag(R.string.viewHolder, viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        switch(types.get(position)){
+        switch (types.get(position)) {
             case 0:
                 viewHolder.typeIcon.setVisibility(View.VISIBLE);
                 viewHolder.typeIcon.setImageResource(R.drawable.type_evo_material);
@@ -111,24 +111,24 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
                 viewHolder.typeName.setText("None");
                 break;
         }
-        if(position%2 == 1){
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
-        } else {
+        if (position % 2 == 1) {
             viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
         }
         return convertView;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (convertView == null){
+        if (convertView == null) {
             inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.typeName = (TextView) convertView.findViewById(R.id.typeName);
             viewHolder.typeIcon = (ImageView) convertView.findViewById(R.id.typeIcon);
             convertView.setTag(R.string.viewHolder, viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
         int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getContext().getResources().getDisplayMetrics());
@@ -138,7 +138,7 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
         z.addRule(RelativeLayout.CENTER_HORIZONTAL);
         z.addRule(RelativeLayout.CENTER_VERTICAL);
         viewHolder.typeIcon.setLayoutParams(z);
-        switch(types.get(position)){
+        switch (types.get(position)) {
             case 0:
                 viewHolder.typeIcon.setVisibility(View.VISIBLE);
                 viewHolder.typeIcon.setImageResource(R.drawable.type_evo_material);

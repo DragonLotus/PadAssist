@@ -44,7 +44,7 @@ import java.text.DecimalFormat;
  * Use the {@link TeamDamageListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamDamageListFragment extends AbstractFragment {
+public class TeamDamageListFragment extends Fragment {
     public static final String TAG = MonsterPageFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -581,7 +581,7 @@ public class TeamDamageListFragment extends AbstractFragment {
             if (extraMultiplierDialogFragment == null) {
                 extraMultiplierDialogFragment = extraMultiplierDialogFragment.newInstance(saveTeam, team);
             }
-            extraMultiplierDialogFragment.show(getActivity().getSupportFragmentManager(), team, "Show extra multiplier Dialog");
+            extraMultiplierDialogFragment.show(getChildFragmentManager(), team, "Show extra multiplier Dialog");
         }
     };
 
@@ -897,18 +897,4 @@ public class TeamDamageListFragment extends AbstractFragment {
         damageThresholdValue.clearFocus();
     }
 
-    @Override
-    public void sortArrayList(int sortMethod) {
-
-    }
-
-    @Override
-    public void reverseArrayList() {
-
-    }
-
-    @Override
-    public void searchFilter(String query) {
-
-    }
 }

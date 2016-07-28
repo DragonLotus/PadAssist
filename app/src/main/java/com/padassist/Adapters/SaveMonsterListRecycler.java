@@ -793,9 +793,9 @@ public class SaveMonsterListRecycler extends RecyclerView.Adapter<SaveMonsterLis
             }
         }
         if(position%2 == 1){
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
-        } else {
             viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
         }
     }
 

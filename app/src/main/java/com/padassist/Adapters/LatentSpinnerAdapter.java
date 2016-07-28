@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
             viewHolder.latentName = (TextView) convertView.findViewById(R.id.latentName);
             viewHolder.latentDesc = (TextView) convertView.findViewById(R.id.latentDesc);
             viewHolder.latentIcon = (ImageView) convertView.findViewById(R.id.latentIcon);
+            viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             convertView.setTag(R.string.viewHolder, viewHolder);
         }else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
@@ -188,6 +190,11 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
                 break;
         }
         viewHolder.latentDesc.setSelected(true);
+        if (position % 2 == 1) {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        }
         return convertView;
     }
 

@@ -201,15 +201,32 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
                 viewHolder.type3.setVisibility(View.INVISIBLE);
                 break;
         }
-        if(position%2 == 1){
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
-        } else {
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
-        }
         return convertView;
     }
 
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder = null;
+        if (convertView == null){
+            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(resourceId, parent, false);
+            viewHolder = new ViewHolder();
+            viewHolder.monsterName = (TextView) convertView.findViewById(R.id.monsterName);
+            viewHolder.rarity = (TextView) convertView.findViewById(R.id.rarity);
+            viewHolder.type1 = (ImageView) convertView.findViewById(R.id.type1);
+            viewHolder.type2 = (ImageView) convertView.findViewById(R.id.type2);
+            viewHolder.type3 = (ImageView) convertView.findViewById(R.id.type3);
+            viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
+            viewHolder.rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
+            viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
+            convertView.setTag(R.string.viewHolder, viewHolder);
+        }else {
+            viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
+        }
+        if (position % 2 == 1) {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        }
         return getView(position, convertView, parent);
     }
 

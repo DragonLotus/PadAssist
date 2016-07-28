@@ -40,7 +40,7 @@ import java.util.ArrayList;
  * Use the {@link MonsterPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterPageFragment extends AbstractFragment {
+public class MonsterPageFragment extends Fragment {
     public static final String TAG = MonsterPageFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -1347,22 +1347,6 @@ public class MonsterPageFragment extends AbstractFragment {
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-    }
-
-
-    @Override
-    public void sortArrayList(int sortMethod) {
-
-    }
-
-    @Override
-    public void reverseArrayList() {
-
-    }
-
-    @Override
-    public void searchFilter(String query) {
-
     }
 
 //   private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()

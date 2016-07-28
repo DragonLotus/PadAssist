@@ -35,17 +35,17 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
 
     private ExpandChange expandChange;
 
-    public interface ExpandChange{
+    public interface ExpandChange {
         public void onExpandChange(int expandedPosition);
     }
 
-    private View.OnClickListener onItemClickListener = new View.OnClickListener(){
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int previous;
             ViewHolder holder = (ViewHolder) v.getTag();
-            if(holder.getAdapterPosition() != expandedPosition){
-                if (expandedPosition >= 0){
+            if (holder.getAdapterPosition() != expandedPosition) {
+                if (expandedPosition >= 0) {
                     previous = expandedPosition;
                     notifyItemChanged(previous);
                 }
@@ -61,7 +61,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         }
     };
 
-    public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, RecyclerView monsterListView, ExpandChange expandChange, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener){
+    public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, RecyclerView monsterListView, ExpandChange expandChange, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener) {
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
@@ -92,7 +92,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
             viewHolder.monsterHP.setVisibility(View.GONE);
             viewHolder.monsterATK.setVisibility(View.GONE);
             viewHolder.monsterRCV.setVisibility(View.GONE);
-        }else {
+        } else {
             viewHolder.type1.setVisibility(View.VISIBLE);
             viewHolder.type2.setVisibility(View.VISIBLE);
             viewHolder.type3.setVisibility(View.VISIBLE);
@@ -105,7 +105,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
             viewHolder.monsterRCV.setVisibility(View.VISIBLE);
         }
 
-        switch(monsterList.get(position).getType1()){
+        switch (monsterList.get(position).getType1()) {
             case 0:
                 viewHolder.type1.setImageResource(R.drawable.type_evo_material);
                 break;
@@ -149,7 +149,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
                 viewHolder.type1.setVisibility(View.INVISIBLE);
                 break;
         }
-        switch(monsterList.get(position).getType2()){
+        switch (monsterList.get(position).getType2()) {
             case 0:
                 viewHolder.type2.setImageResource(R.drawable.type_evo_material);
                 break;
@@ -193,7 +193,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
                 viewHolder.type2.setVisibility(View.INVISIBLE);
                 break;
         }
-        switch(monsterList.get(position).getType3()){
+        switch (monsterList.get(position).getType3()) {
             case 0:
                 viewHolder.type3.setImageResource(R.drawable.type_evo_material);
                 break;
@@ -246,20 +246,20 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         viewHolder.choose.setTag(R.string.index, position);
         viewHolder.itemView.setOnLongClickListener(monsterListOnLongClickListener);
         viewHolder.leaderSkillName.setSelected(true);
-        if(monsterList.get(position).getMonsterId() == 0){
+        if (monsterList.get(position).getMonsterId() == 0) {
             viewHolder.itemView.setOnClickListener(monsterListOnClickListener);
         } else {
             viewHolder.itemView.setOnClickListener(onItemClickListener);
         }
-        if(position == expandedPosition && monsterList.get(position).getMonsterId() != 0){
+        if (position == expandedPosition && monsterList.get(position).getMonsterId() != 0) {
             viewHolder.expandLayout.setVisibility(View.VISIBLE);
             viewHolder.monsterHP.setVisibility(View.GONE);
             viewHolder.monsterATK.setVisibility(View.GONE);
             viewHolder.monsterRCV.setVisibility(View.GONE);
-            for(int i = 0; i < 9; i++){
-                if(i >= monsterList.get(position).getMaxAwakenings()){
+            for (int i = 0; i < 9; i++) {
+                if (i >= monsterList.get(position).getMaxAwakenings()) {
                     viewHolder.awakeningHolder.getChildAt(i).setVisibility(View.GONE);
-                }else {
+                } else {
                     viewHolder.awakeningHolder.getChildAt(i).setVisibility(View.VISIBLE);
                 }
             }
@@ -410,16 +410,16 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
             viewHolder.levelMax.setText("Level " + monsterList.get(position).getMaxLevel());
         } else {
             viewHolder.expandLayout.setVisibility(View.GONE);
-            if(monsterList.get(position).getType1() != -1){
+            if (monsterList.get(position).getType1() != -1) {
                 viewHolder.monsterHP.setVisibility(View.VISIBLE);
                 viewHolder.monsterATK.setVisibility(View.VISIBLE);
                 viewHolder.monsterRCV.setVisibility(View.VISIBLE);
             }
         }
-        if(position%2 == 1){
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
-        } else {
+        if (position % 2 == 1) {
             viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
         }
     }
 
@@ -441,7 +441,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         Button choose;
         RelativeLayout relativeLayout;
 
-        public ViewHolder(View convertView){
+        public ViewHolder(View convertView) {
             super(convertView);
             monsterName = (TextView) convertView.findViewById(R.id.monsterName);
             monsterId = (TextView) convertView.findViewById(R.id.monsterId);
@@ -494,12 +494,12 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         this.monsterList = monsterList;
     }
 
-    public BaseMonster getItem(int position){
+    public BaseMonster getItem(int position) {
         return monsterList.get(position);
     }
 
     public boolean expanded() {
-        if(expandedPosition!=-1){
+        if (expandedPosition != -1) {
             return true;
         } else return false;
     }
@@ -508,7 +508,7 @@ public class BaseMonsterListRecycler extends RecyclerView.Adapter<BaseMonsterLis
         int previous = this.expandedPosition;
         this.expandedPosition = expandedPosition;
         notifyItemChanged(previous);
-        if(expandedPosition >= 0){
+        if (expandedPosition >= 0) {
             notifyItemChanged(expandedPosition);
         }
     }

@@ -2,6 +2,7 @@ package com.padassist.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +21,7 @@ import com.padassist.R;
 
 import java.util.ArrayList;
 
-public class TeamOverviewFragment extends AbstractFragment {
+public class TeamOverviewFragment extends Fragment {
     public static final String TAG = TeamOverviewFragment.class.getSimpleName();
     private TextView teamHpValue, teamRcvValue, utilityAwakeningText, damageAwakeningText, monsterSpecificText;
     private ListView monsterSpecific;
@@ -287,18 +288,4 @@ public class TeamOverviewFragment extends AbstractFragment {
         teamRcvValue.setText(String.valueOf(team.getTeamRcv()));
     }
 
-    @Override
-    public void reverseArrayList() {
-
-    }
-
-    @Override
-    public void sortArrayList(int sortMethod) {
-
-    }
-
-    @Override
-    public void searchFilter(String query) {
-
-    }
 }

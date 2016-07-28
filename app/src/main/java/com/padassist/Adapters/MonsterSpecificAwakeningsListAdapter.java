@@ -53,9 +53,9 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             viewHolder.monsterAwakenings.setAdapter(monsterAwakeningsGridAdapter);
             viewHolder.monsterAwakenings.setExpanded(true);
             if (position % 2 == 1) {
-                viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
-            } else {
                 viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+            } else {
+                viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
             }
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {

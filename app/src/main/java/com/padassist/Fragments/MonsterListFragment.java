@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * Use the {@link MonsterListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterListFragment extends AbstractFragment {
+public class MonsterListFragment extends Fragment{
     public static final String TAG = MonsterListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -280,16 +280,6 @@ public class MonsterListFragment extends AbstractFragment {
         team.save();
     }
 
-    @Override
-    public void sortArrayList(int sortMethod) {
-
-    }
-
-    @Override
-    public void reverseArrayList() {
-
-    }
-
     private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
         @Override
         public void overwriteTeam() {
@@ -368,8 +358,4 @@ public class MonsterListFragment extends AbstractFragment {
         }
     };
 
-    @Override
-    public void searchFilter(String query) {
-
-    }
 }

@@ -3,6 +3,7 @@ package com.padassist.Fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,7 +39,7 @@ import java.util.List;
 /**
  * Created by Thomas on 7/11/2015.
  */
-public class OrbMatchFragment extends AbstractFragment {
+public class OrbMatchFragment extends Fragment {
     public static final String TAG = OrbMatchFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int additionalCombos = 0;
@@ -80,7 +81,7 @@ public class OrbMatchFragment extends AbstractFragment {
             additionalComboValue.clearFocus();
             if (buttonView.equals(rowCheckBox)) {
                 isRow = isChecked;
-                if(crossCheckBox.isChecked()){
+                if (crossCheckBox.isChecked()) {
                     crossCheckBox.setOnCheckedChangeListener(null);
                     crossCheckBox.toggle();
                     isCross = !isChecked;
@@ -101,7 +102,7 @@ public class OrbMatchFragment extends AbstractFragment {
                 }
             } else if (buttonView.equals(crossCheckBox)) {
                 isCross = isChecked;
-                if(rowCheckBox.isChecked()){
+                if (rowCheckBox.isChecked()) {
                     rowCheckBox.setOnCheckedChangeListener(null);
                     rowCheckBox.toggle();
                     isRow = !isChecked;
@@ -159,13 +160,13 @@ public class OrbMatchFragment extends AbstractFragment {
                     }
                     break;
             }
-            if(position + 3 == 5){
+            if (position + 3 == 5) {
                 crossCheckBox.setEnabled(true);
             } else {
                 crossCheckBox.setChecked(false);
                 crossCheckBox.setEnabled(false);
             }
-            if(getOrbColor() == Element.POISON || getOrbColor() == Element.MORTAL_POISON || getOrbColor() == Element.JAMMER){
+            if (getOrbColor() == Element.POISON || getOrbColor() == Element.MORTAL_POISON || getOrbColor() == Element.JAMMER) {
                 rowCheckBox.setChecked(false);
                 rowCheckBox.setEnabled(false);
                 crossCheckBox.setChecked(false);
@@ -206,7 +207,7 @@ public class OrbMatchFragment extends AbstractFragment {
                     Singleton.getInstance().setBoardSize(0);
                     if ((orbsLinked.getSelectedItemPosition() + 3) < 17 && (orbsLinked.getSelectedItemPosition() + 3) >= 5 && (orbsLinked.getSelectedItemPosition() + 3) != 6) {
                         rowCheckBox.setEnabled(true);
-                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 17){
+                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 17) {
                         rowCheckBox.setEnabled(false);
                         rowCheckBox.setChecked(true);
                     } else {
@@ -232,7 +233,7 @@ public class OrbMatchFragment extends AbstractFragment {
                     Singleton.getInstance().setBoardSize(1);
                     if ((orbsLinked.getSelectedItemPosition() + 3) < 26 && (orbsLinked.getSelectedItemPosition() + 3) >= 6 && (orbsLinked.getSelectedItemPosition() + 3) != 7) {
                         rowCheckBox.setEnabled(true);
-                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 26){
+                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 26) {
                         rowCheckBox.setEnabled(false);
                         rowCheckBox.setChecked(true);
                     } else {
@@ -252,7 +253,7 @@ public class OrbMatchFragment extends AbstractFragment {
                     Singleton.getInstance().setBoardSize(2);
                     if ((orbsLinked.getSelectedItemPosition() + 3) < 37 && (orbsLinked.getSelectedItemPosition() + 3) >= 7 && (orbsLinked.getSelectedItemPosition() + 3) != 8) {
                         rowCheckBox.setEnabled(true);
-                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 37){
+                    } else if (orbsLinked.getSelectedItemPosition() + 3 >= 37) {
                         rowCheckBox.setEnabled(false);
                         rowCheckBox.setChecked(true);
                     } else {
@@ -390,8 +391,8 @@ public class OrbMatchFragment extends AbstractFragment {
             orbMatch = new OrbMatch(orbsLinked.getSelectedItemPosition() + 3, orbsPlus.getSelectedItemPosition(), getOrbColor(), isRow, isCross);
 //            orbMatchList.add(0, orbMatch);
             orbMatchList.add(orbMatch);
-            orbMatchRecycler.notifyItemInserted(orbMatchList.size()-1);
-            orbMatches.scrollToPosition(orbMatchList.size()-1);
+            orbMatchRecycler.notifyItemInserted(orbMatchList.size() - 1);
+            orbMatches.scrollToPosition(orbMatchList.size() - 1);
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }
@@ -410,7 +411,7 @@ public class OrbMatchFragment extends AbstractFragment {
                 if (dialog == null) {
                     dialog = MyDialogFragment.newInstance(dialogFrag);
                 }
-                dialog.show(getChildFragmentManager(), "Thomas Likes Big Butts And He Cannot Lie");
+                dialog.show(getChildFragmentManager(), "String");
             }
 
         }
@@ -537,7 +538,6 @@ public class OrbMatchFragment extends AbstractFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle("Set Orb Matches");
     }
 
     @Override
@@ -611,6 +611,7 @@ public class OrbMatchFragment extends AbstractFragment {
         orbsLinked.setOnItemSelectedListener(orbsLinkedSpinnerSelectedListener);
         boardSize.setOnItemSelectedListener(boardSizeSpinnerSelectedListener);
 
+        getActivity().setTitle("Set Orb Matches");
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
 
@@ -634,18 +635,4 @@ public class OrbMatchFragment extends AbstractFragment {
         team.updateOrbs();
     }
 
-    @Override
-    public void sortArrayList(int sortMethod) {
-
-    }
-
-    @Override
-    public void reverseArrayList() {
-
-    }
-
-    @Override
-    public void searchFilter(String query) {
-
-    }
 }

@@ -109,9 +109,9 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
         viewHolder.itemView.setOnClickListener(thomasIsntGlobal);
         viewHolder.itemView.setTag(R.string.index, position);
         if(position%2 == 1){
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
-        } else {
             viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
         }
     }
 
