@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Data.Monster;
 import com.padassist.R;
+import com.padassist.Util.SaveMonsterListUtil;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,7 +23,7 @@ import com.padassist.R;
  * Use the {@link MonsterTabLayoutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterTabLayoutFragment extends AbstractFragment {
+public class MonsterTabLayoutFragment extends Fragment {
 
     public static final String TAG = MonsterTabLayoutFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
@@ -131,33 +133,6 @@ public class MonsterTabLayoutFragment extends AbstractFragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void reverseArrayList() {
-        if(tabLayout.getSelectedTabPosition() == 0){
-            ((AbstractFragment)monsterPagerAdapter.getItem(0)).reverseArrayList();
-        }else if(tabLayout.getSelectedTabPosition() == 1){
-            ((AbstractFragment)monsterPagerAdapter.getItem(1)).reverseArrayList();
-        }
-    }
-
-    @Override
-    public void sortArrayList(int sortMethod) {
-        if(tabLayout.getSelectedTabPosition() == 0){
-            ((AbstractFragment)monsterPagerAdapter.getItem(0)).sortArrayList(sortMethod);
-        }else if(tabLayout.getSelectedTabPosition() == 1){
-            ((AbstractFragment)monsterPagerAdapter.getItem(1)).sortArrayList(sortMethod);
-        }
-    }
-
-    @Override
-    public void searchFilter(String query) {
-        if(tabLayout.getSelectedTabPosition() == 0){
-            ((AbstractFragment)monsterPagerAdapter.getItem(0)).searchFilter(query);
-        }else if(tabLayout.getSelectedTabPosition() == 1){
-            ((AbstractFragment)monsterPagerAdapter.getItem(1)).searchFilter(query);
-        }
     }
 
 }

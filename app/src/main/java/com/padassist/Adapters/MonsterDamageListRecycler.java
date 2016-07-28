@@ -16,6 +16,7 @@ import com.padassist.Data.Team;
 import com.padassist.R;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 /**
  * Created by DragonLotus on 11/4/2015.
@@ -30,6 +31,8 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
     private Context mContext;
     private LayoutInflater inflater;
     private View.OnClickListener bindMonsterOnClickListener;
+    private DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+    private DecimalFormat dfSpace;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
@@ -50,6 +53,8 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        dfs.setGroupingSeparator(' ');
+        dfSpace = new DecimalFormat("###,###", dfs);
         viewHolder.monsterName.setText(team.getMonsters(position).getName());
         if (team.getMonsters(position).getTotalPlus() == 0) {
             viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
@@ -74,8 +79,8 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
         //Needs to get # of orb awakenings from team object maybe
         element1Damage = team.getMonsters(position).getElement1Damage(team, combos);
         element2Damage = team.getMonsters(position).getElement2Damage(team, combos);
-        viewHolder.monsterElement1Damage.setText(" " + String.valueOf(element1Damage) + " ");
-        viewHolder.monsterElement2Damage.setText(" " + String.valueOf(element2Damage) + " ");
+        viewHolder.monsterElement1Damage.setText(" " + dfSpace.format(element1Damage) + " ");
+        viewHolder.monsterElement2Damage.setText(" " + dfSpace.format(element2Damage) + " ");
 
         if(team.getMonsters(position).getElement1().equals(Element.BLANK)){
             viewHolder.monsterElement1Damage.setVisibility(View.INVISIBLE);
@@ -100,28 +105,28 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
             if (enemy.getHasDamageThreshold()) {
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageThreshold(team, enemy, combos);
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageThreshold(team, enemy, combos);
-                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + dfSpace.format(element2DamageEnemy) + ")");
             } else if (enemy.hasDamageImmunity()){
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageImmunity(team, enemy, combos);
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageImmunity(team, enemy, combos);
-                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + dfSpace.format(element2DamageEnemy) + ")");
             } else if (enemy.getHasAbsorb()) {
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageAbsorb(team, enemy, combos);
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageAbsorb(team, enemy, combos);
-                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + dfSpace.format(element2DamageEnemy) + ")");
             } else if (enemy.getHasReduction()) {
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageReduction(team, enemy, combos);
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageReduction(team, enemy, combos);
-                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + dfSpace.format(element2DamageEnemy) + ")");
             } else {
                 element1DamageEnemy = team.getMonsters(position).getElement1DamageEnemy(team, enemy, combos);
                 element2DamageEnemy = team.getMonsters(position).getElement2DamageEnemy(team, enemy, combos);
-                viewHolder.monsterElement1DamageEnemy.setText("(" + String.valueOf(element1DamageEnemy) + ")");
-                viewHolder.monsterElement2DamageEnemy.setText("(" + String.valueOf(element2DamageEnemy) + ")");
+                viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");
+                viewHolder.monsterElement2DamageEnemy.setText("(" + dfSpace.format(element2DamageEnemy) + ")");
             }
             viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) element1DamageEnemy / team.getTotalDamage() * 100) + "%"));
             viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) element2DamageEnemy / team.getTotalDamage() * 100) + "%"));

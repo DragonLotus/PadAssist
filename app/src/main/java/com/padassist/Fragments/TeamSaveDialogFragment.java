@@ -21,7 +21,6 @@ public class TeamSaveDialogFragment extends DialogFragment {
     private SaveTeam saveTeam;
     private Toast toast;
     private Team team;
-    private AbstractFragment mContent;
     private long teamIdOverwrite;
 
     public interface SaveTeam {

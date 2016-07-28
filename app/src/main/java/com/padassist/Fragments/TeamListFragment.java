@@ -1,17 +1,22 @@
 package com.padassist.Fragments;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -61,7 +66,7 @@ import java.util.Comparator;
  * Use the {@link TeamListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TeamListFragment extends AbstractFragment {
+public class TeamListFragment extends Fragment {
     public static final String TAG = TeamListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,6 +80,7 @@ public class TeamListFragment extends AbstractFragment {
     private ArrayList<Team> teamListAll;
     private TeamListRecycler teamListAdapter;
     private MenuItem searchMenuItem;
+    protected SearchView searchView;
     private Button importButton;
     private Boolean loggedIn = false;
     private TextView savedTeams;
@@ -169,7 +175,73 @@ public class TeamListFragment extends AbstractFragment {
         menu.setGroupVisible(R.id.sortTeam, true);
         menu.findItem(R.id.sortFavorite).setVisible(true);
         menu.findItem(R.id.search).setVisible(true);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchMenuItem = menu.findItem(R.id.search);
+        searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchFilter(newText);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reverseList:
+                reverseArrayList();
+                break;
+            case R.id.sortAlphabetical:
+                sortArrayList(0);
+                break;
+            case R.id.sortId:
+                sortArrayList(1);
+                break;
+            case R.id.sortElement:
+                sortArrayList(2);
+                break;
+            case R.id.sortType:
+                sortArrayList(3);
+                break;
+            case R.id.sortStat:
+                sortArrayList(4);
+                break;
+            case R.id.sortRarity:
+                sortArrayList(5);
+                break;
+            case R.id.sortAwakenings:
+                sortArrayList(6);
+                break;
+            case R.id.sortPlus:
+                sortArrayList(7);
+                break;
+            case R.id.sortFavorite:
+                sortArrayList(8);
+                break;
+            case R.id.sortLevel:
+                sortArrayList(9);
+                break;
+            case R.id.sortLead:
+                sortArrayList(10);
+                break;
+            case R.id.sortHelper:
+                sortArrayList(11);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -335,7 +407,7 @@ public class TeamListFragment extends AbstractFragment {
         }
     };
 
-    @Override
+
     public void sortArrayList(int sortMethod) {
         Singleton.getInstance().setTeamSortMethod(sortMethod);
         switch (sortMethod) {
@@ -466,7 +538,7 @@ public class TeamListFragment extends AbstractFragment {
         }
     }
 
-    @Override
+
     public void reverseArrayList() {
         switch (Singleton.getInstance().getTeamSortMethod()) {
             default:
@@ -742,7 +814,6 @@ public class TeamListFragment extends AbstractFragment {
         mListener = null;
     }
 
-    @Override
     public void searchFilter(String query) {
         if (teamListAdapter != null) {
             if (query != null && query.length() > 0) {

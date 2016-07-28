@@ -36,7 +36,6 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
     private SaveTeam saveTeam;
     private Toast toast;
     private Team team;
-    private AbstractFragment mContent;
     private ArrayList<Integer> typeList;
     private TypeGridAdapter typeGridAdapter;
     private Button clearButton;

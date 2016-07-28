@@ -34,6 +34,7 @@ import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 
 /**
@@ -75,6 +76,8 @@ public class TeamDamageListFragment extends Fragment {
     private Button optionButton;
     private SeekBar teamHp;
     private DecimalFormat df = new DecimalFormat("#.##");
+    private DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+    private DecimalFormat dfSpace;
     private ExtraMultiplierDialogFragment extraMultiplierDialogFragment;
 
     /**
@@ -223,6 +226,8 @@ public class TeamDamageListFragment extends Fragment {
             setAbsorbOrbs();
             setDamageThreshold();
         }
+        dfs.setGroupingSeparator(' ');
+        dfSpace = new DecimalFormat("###,###", dfs);
         setCheckBoxes();
         totalCombos = additionalCombos + team.getOrbMatches().size();
         updateTextView();
@@ -459,12 +464,12 @@ public class TeamDamageListFragment extends Fragment {
             if (totalDamage == 0 && enemy.getCurrentHp() == enemy.getTargetHp()) {
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
             }
-            enemyHPValue.setText(" " + String.valueOf(enemy.getCurrentHp()) + " ");
+            enemyHPValue.setText(" " + dfSpace.format(enemy.getCurrentHp()) + " ");
             enemyHPPercentValue.setText(String.valueOf(df.format((double) enemy.getCurrentHp() / enemy.getTargetHp() * 100) + "%"));
         }
         team.setTotalDamage(totalDamage);
-        totalDamageValue.setText(" " + String.valueOf(totalDamage) + " ");
-        hpRecoveredValue.setText(" " + String.valueOf((int) DamageCalculationUtil.hpRecovered(team, totalCombos)) + " ");
+        totalDamageValue.setText(" " + dfSpace.format(totalDamage) + " ");
+        hpRecoveredValue.setText(" " + dfSpace.format((int) DamageCalculationUtil.hpRecovered(team, totalCombos)) + " ");
         totalComboValue.setText(String.valueOf(totalCombos));
         if (totalDamage < 0) {
             totalDamageValue.setTextColor(Color.parseColor("#FFBBBB"));
