@@ -1173,7 +1173,7 @@ public class MonsterPageFragment extends Fragment {
         @Override
         public void removeMonsterDatabase() {
             if (deleteConfirmationDialog == null) {
-                deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster);
+                deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster, 0);
             }
             deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
             monsterRemoveDialogFragment.dismiss();
@@ -1266,7 +1266,7 @@ public class MonsterPageFragment extends Fragment {
 
     private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
-        public void resetLayout() {
+        public void resetLayout(int position) {
             ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
             Team newTeam;
             for (int i = 0; i < teamList.size(); i++) {

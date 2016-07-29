@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.padassist.Data.LeaderSkill;
 import com.padassist.Data.Monster;
+import com.padassist.Data.Team;
+import com.padassist.Fragments.DeleteMonsterConfirmationDialogFragment;
 import com.padassist.R;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
     protected ArrayList<Integer> latentList;
     protected int expandedPosition = -1;
     protected RecyclerView monsterListView;
+    protected View.OnClickListener deleteOnClickListener;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
@@ -283,7 +286,9 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         viewHolder.itemView.setTag(viewHolder);
         viewHolder.itemView.setTag(R.string.index, position);
         viewHolder.choose.setTag(R.string.index, position);
+        viewHolder.delete.setTag(R.string.index, position);
         viewHolder.choose.setOnClickListener(monsterListOnClickListener);
+        viewHolder.delete.setOnClickListener(deleteOnClickListener);
         viewHolder.itemView.setOnLongClickListener(monsterListOnLongClickListener);
         if(monsterList.get(position).getMonsterId() == 0){
             viewHolder.itemView.setOnClickListener(monsterListOnClickListener);
@@ -830,7 +835,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9, latent1, latent2, latent3, latent4, latent5, rarityStar;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
-        Button choose;
+        Button choose, delete;
         RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView){
@@ -878,6 +883,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             rarity = (TextView) convertView.findViewById(R.id.rarity);
             rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
             choose = (Button) convertView.findViewById(R.id.choose);
+            delete = (Button) convertView.findViewById(R.id.delete);
             leaderSkill = (TextView) convertView.findViewById(R.id.leaderSkill);
             leaderSkillDesc = (TextView) convertView.findViewById(R.id.leaderSkillDesc);
             leaderSkillName = (TextView) convertView.findViewById(R.id.leaderSkillName);

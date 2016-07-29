@@ -20,6 +20,7 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
     public static final String TAG = ManageSaveMonsterListFragment.class.getSimpleName();
     private Toast toast;
     private Monster monsterZero = Monster.getMonsterId(0);
+    private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
 
     public static ManageSaveMonsterListFragment newInstance() {
@@ -38,7 +39,7 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
         if (getArguments() != null) {
         }
 
-        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
+        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, deleteOnClickListener);
         monsterListView.setAdapter(saveMonsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
@@ -58,5 +59,42 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
         }
     };
 
+    private View.OnClickListener deleteOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.string.index);
+            if (deleteConfirmationDialog == null) {
+                deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster, position);
+            }
+            deleteConfirmationDialog.show(getChildFragmentManager(), position, "Delete Confirmation");
+        }
+    };
+
+    protected DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
+        @Override
+        public void resetLayout(int position) {
+            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+            Team newTeam;
+            for (int i = 0; i < teamList.size(); i++) {
+                newTeam = teamList.get(i);
+                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
+                    if (newTeam.getMonsters().get(j).getMonsterId() == saveMonsterListRecycler.getItem(position).getMonsterId()) {
+                        newTeam.setMonsters(j, Monster.getMonsterId(0));
+                    }
+                }
+                newTeam.save();
+            }
+            Monster.getMonsterId(saveMonsterListRecycler.getItem(position).getMonsterId()).delete();
+            for(int i = 0; i < monsterListAll.size(); i++){
+                if(monsterListAll.get(i).getMonsterId() == saveMonsterListRecycler.getItem(position).getMonsterId()){
+                    monsterListAll.remove(i);
+                }
+            }
+            monsterList.remove(position);
+            saveMonsterListRecycler.notifyItemRemoved(position);
+            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
+            saveMonsterListRecycler.setExpandedPosition(-1);
+        }
+    };
 
 }
