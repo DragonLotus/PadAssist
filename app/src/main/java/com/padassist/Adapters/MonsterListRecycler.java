@@ -36,9 +36,9 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
 //            team.save();
             Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
             if (monsterList.get(holder.getAdapterPosition()).getMonsterId() == 0) {
-                ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG);
+                ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
             } else {
-                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
+                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition())), MonsterPageFragment.TAG, "good");
             }
         }
     };
@@ -48,7 +48,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         public boolean onLongClick(View v) {
             ViewHolder holder = (ViewHolder) v.getTag();
             Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
-            ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG);
+            ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
             return true;
         }
     };

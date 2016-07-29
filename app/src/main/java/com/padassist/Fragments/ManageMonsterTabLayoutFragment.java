@@ -5,8 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 
 import com.padassist.Adapters.ManageMonsterPagerAdapter;
-import com.padassist.Adapters.MonsterPagerAdapter;
-import com.padassist.Data.Monster;
+import com.padassist.Util.MonsterTabLayoutUtil;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,19 +1,12 @@
 package com.padassist.Fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Data.Monster;
-import com.padassist.R;
-import com.padassist.Util.SaveMonsterListUtil;
+import com.padassist.Util.MonsterTabLayoutUtil;
 
 /**
  * A simple {@link Fragment} subclass.

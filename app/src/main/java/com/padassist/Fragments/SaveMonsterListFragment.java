@@ -1,5 +1,7 @@
 package com.padassist.Fragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -16,11 +18,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Adapters.SaveMonsterListRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.FastScroller;
+import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.MonsterAlphabeticalComparator;
 import com.padassist.Util.MonsterAtkComparator;
@@ -107,10 +111,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                         }
                         replaceTeam.save();
                     }
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    getActivity().getSupportFragmentManager().popBackStack();
                 } else {
-
                     switch (Singleton.getInstance().getMonsterOverwrite()) {
                         case 0:
                             newTeam.setLead(saveMonsterListRecycler.getItem(position));
@@ -132,8 +133,9 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                             break;
                     }
                     newTeam.save();
-                    getActivity().getSupportFragmentManager().popBackStack();
                 }
+                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position)), MonsterPageFragment.TAG, "good");
             }
         }
     };
@@ -162,8 +164,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                         }
                         replaceTeam.save();
                     }
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    getActivity().getSupportFragmentManager().popBackStack();
                 } else {
 
                     switch (Singleton.getInstance().getMonsterOverwrite()) {
@@ -187,8 +187,9 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                             break;
                     }
                     newTeam.save();
-                    getActivity().getSupportFragmentManager().popBackStack();
                 }
+                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position)), MonsterPageFragment.TAG, "good");
             }
             return true;
         }

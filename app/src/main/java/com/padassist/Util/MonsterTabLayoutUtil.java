@@ -1,4 +1,4 @@
-package com.padassist.Fragments;
+package com.padassist.Util;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -6,11 +6,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.padassist.Adapters.MonsterPagerAdapter;
-import com.padassist.Data.Monster;
 import com.padassist.R;
 
 /**
@@ -36,6 +36,12 @@ public abstract class MonsterTabLayoutUtil extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.findItem(R.id.manageMonsters).setVisible(false);
     }
 
     @Override

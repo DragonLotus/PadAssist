@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
@@ -22,14 +21,10 @@ import android.widget.Toast;
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
-import com.padassist.Data.Monster;
-import com.padassist.Data.Team;
-import com.padassist.Fragments.MonsterPageFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
 import com.padassist.Fragments.SortStatsDialogFragment;
 import com.padassist.Fragments.SortTypeDialogFragment;
 import com.padassist.Graphics.FastScroller;
-import com.padassist.MainActivity;
 import com.padassist.R;
 
 import java.util.ArrayList;
@@ -45,7 +40,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     protected RecyclerView monsterListView;
     protected ArrayList<BaseMonster> monsterList;
     protected ArrayList<BaseMonster> monsterListAll;
-    protected BaseMonsterListRecycler baseMonsterListAdapter;
+    protected BaseMonsterListRecycler baseMonsterListRecycler;
     private MenuItem searchMenuItem;
     protected SearchView searchView;
     private Toast toast;
@@ -127,7 +122,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toggleCoop:
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case R.id.reverseList:
                 reverseArrayList();
@@ -205,14 +200,14 @@ public abstract class BaseMonsterListUtil extends Fragment {
         public void sortElement1() {
             Singleton.getInstance().setBaseSortMethod(201);
             Collections.sort(monsterList, monsterElement1Comparator);
-            baseMonsterListAdapter.notifyDataSetChanged();
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortElement2() {
             Singleton.getInstance().setBaseSortMethod(202);
             Collections.sort(monsterList, monsterElement2Comparator);
-            baseMonsterListAdapter.notifyDataSetChanged();
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
     };
 
@@ -221,21 +216,21 @@ public abstract class BaseMonsterListUtil extends Fragment {
         public void sortType1() {
             Singleton.getInstance().setBaseSortMethod(301);
             Collections.sort(monsterList, monsterType1Comparator);
-            baseMonsterListAdapter.notifyDataSetChanged();
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortType2() {
             Singleton.getInstance().setBaseSortMethod(302);
             Collections.sort(monsterList, monsterType2Comparator);
-            baseMonsterListAdapter.notifyDataSetChanged();
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortType3() {
             Singleton.getInstance().setBaseSortMethod(303);
             Collections.sort(monsterList, monsterType3Comparator);
-            baseMonsterListAdapter.notifyDataSetChanged();
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
     };
 
@@ -244,21 +239,21 @@ public abstract class BaseMonsterListUtil extends Fragment {
         public void sortHp() {
             Singleton.getInstance().setBaseSortMethod(401);
             Collections.sort(monsterList, monsterHpComparator);
-            baseMonsterListAdapter.notifyDataSetChanged();
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
             Singleton.getInstance().setBaseSortMethod(402);
             Collections.sort(monsterList, monsterAtkComparator);
-            baseMonsterListAdapter.notifyDataSetChanged();
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
             Singleton.getInstance().setBaseSortMethod(403);
             Collections.sort(monsterList, monsterRcvComparator);
-            baseMonsterListAdapter.notifyDataSetChanged();
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
     };
 
@@ -267,11 +262,11 @@ public abstract class BaseMonsterListUtil extends Fragment {
         switch (sortMethod) {
             case 0:
                 Collections.sort(monsterList, monsterAlphabeticalComparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 1:
                 Collections.sort(monsterList, monsterNumberComparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 2:
                 if (sortElementDialogFragment == null) {
@@ -293,43 +288,43 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 break;
             case 5:
                 Collections.sort(monsterList, monsterRarityComparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 6:
                 Collections.sort(monsterList, monsterAwakeningComparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 201:
                 Collections.sort(monsterList, monsterElement1Comparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 202:
                 Collections.sort(monsterList, monsterElement2Comparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 301:
                 Collections.sort(monsterList, monsterType1Comparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 302:
                 Collections.sort(monsterList, monsterType2Comparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 303:
                 Collections.sort(monsterList, monsterType3Comparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 401:
                 Collections.sort(monsterList, monsterHpComparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 402:
                 Collections.sort(monsterList, monsterAtkComparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 403:
                 Collections.sort(monsterList, monsterRcvComparator);
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
         }
     }
@@ -338,19 +333,19 @@ public abstract class BaseMonsterListUtil extends Fragment {
         switch (Singleton.getInstance().getBaseSortMethod()) {
             case 202:
                 element2Reverse();
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 302:
                 type2Reverse();
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 303:
                 type3Reverse();
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             default:
                 defaultReverse();
-                baseMonsterListAdapter.notifyDataSetChanged();
+                baseMonsterListRecycler.notifyDataSetChanged();
                 break;
 
         }
@@ -422,7 +417,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     }
 
     public void searchFilter(String query) {
-        if (baseMonsterListAdapter != null) {
+        if (baseMonsterListRecycler != null) {
             if (query != null && query.length() > 0) {
                 if (!monsterList.isEmpty()) {
                     monsterList.clear();
@@ -436,9 +431,9 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 monsterList.addAll(monsterListAll);
             }
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
-            baseMonsterListAdapter.setExpandedPosition(-1);
+            baseMonsterListRecycler.setExpandedPosition(-1);
 //            if(fastScroller != null){
-//                fastScroller.resizeScrollBar(baseMonsterListAdapter.expanded(), FastScroller.BASE_MONSTER_LIST);
+//                fastScroller.resizeScrollBar(baseMonsterListRecycler.expanded(), FastScroller.BASE_MONSTER_LIST);
 //            }
         }
     }

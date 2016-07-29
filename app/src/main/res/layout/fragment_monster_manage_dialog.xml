@@ -21,26 +21,12 @@
         android:layout_below="@id/favoriteCheck"
         android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/replaceTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Replace on current team"
-            android:textSize="16dp" />
-
-        <RadioButton
-            android:id="@+id/replaceAllTeams"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Replace on all teams"
-            android:textSize="16dp" />
-
-        <RadioButton
-            android:id="@+id/removeTeam"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remove from team"
-            android:textSize="16dp" />
+        <!--<RadioButton-->
+            <!--android:id="@+id/replaceAllTeams"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Replace on all teams"-->
+            <!--android:textSize="16dp" />-->
 
         <RadioButton
             android:id="@+id/evolveMonster"

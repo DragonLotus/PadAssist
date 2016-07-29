@@ -228,7 +228,7 @@ public class MonsterListFragment extends Fragment{
 //            ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
 //            team.updateLeaderSkills();
 //            team.save();
-            ((MainActivity) getActivity()).switchFragment(TeamOverviewFragment.newInstance(team), TeamOverviewFragment.TAG);
+            ((MainActivity) getActivity()).switchFragment(TeamOverviewFragment.newInstance(team), TeamOverviewFragment.TAG, "good");
         }
     };
 
@@ -244,7 +244,7 @@ public class MonsterListFragment extends Fragment{
             } else {
                 team.updateLeaderSkills();
                 team.save();
-                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(team, enemy), OrbMatchFragment.TAG);
+                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(team, enemy), OrbMatchFragment.TAG, "good");
             }
         }
     };

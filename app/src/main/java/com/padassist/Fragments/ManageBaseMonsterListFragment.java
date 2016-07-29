@@ -7,13 +7,9 @@ import android.widget.Toast;
 
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Data.Monster;
-import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.BaseMonsterListUtil;
-import com.padassist.Util.Singleton;
-
-import java.util.ArrayList;
 
 
 public class ManageBaseMonsterListFragment extends BaseMonsterListUtil {
@@ -37,8 +33,8 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListUtil {
         if (getArguments() != null) {
         }
 
-        baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
-        monsterListView.setAdapter(baseMonsterListAdapter);
+        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
+        monsterListView.setAdapter(baseMonsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
@@ -46,7 +42,14 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListUtil {
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            int position = (int) v.getTag(R.string.index);
+            Monster newMonster;
+            if(monsterList.get(position).getMonsterId() != 0){
+               newMonster = new Monster(monsterList.get(position).getMonsterId());
+                newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
+                newMonster.save();
+                ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(newMonster), ManageMonsterPageFragment.TAG, "good");
+            }
         }
     };
 

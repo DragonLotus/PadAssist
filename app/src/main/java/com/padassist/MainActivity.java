@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         blankLeaderSkill.setAtkSkillType(LeaderSkillType.BLANK);
         blankLeaderSkill.setRcvSkillType(LeaderSkillType.BLANK);
         blankLeaderSkill.save();
-        switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG);
+        switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG, "good");
 
 
 
@@ -220,11 +220,11 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.saveTeam) {
 
         } else if (id == R.id.loadTeam) {
-            switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
+            switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
         } else if (id == R.id.monsterList) {
-            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG);
+            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG, "good");
         } else if (id == R.id.manageMonsters) {
-            switchFragment(ManageMonsterTabLayoutFragment.newInstance(), MonsterTabLayoutFragment.TAG);
+            switchFragment(ManageMonsterTabLayoutFragment.newInstance(), ManageMonsterTabLayoutFragment.TAG, "good");
         }
 
         return super.onOptionsItemSelected(item);
@@ -325,12 +325,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void switchFragment(Fragment fragment, String tag) {
+    public void switchFragment(Fragment fragment, String tag, String string) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         mContent = fragment;
         transaction.replace(R.id.pager, mContent, tag);
-        transaction.addToBackStack(null).commit();
+        transaction.addToBackStack(tag).commit();
     }
 
     @Override

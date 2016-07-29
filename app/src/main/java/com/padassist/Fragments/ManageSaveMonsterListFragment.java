@@ -9,6 +9,7 @@ import com.padassist.Adapters.SaveMonsterListRecycler;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.FastScroller;
+import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.SaveMonsterListUtil;
 import com.padassist.Util.Singleton;
@@ -47,7 +48,8 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            int position = (int) v.getTag(R.string.index);
+            ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position)), MonsterTabLayoutFragment.TAG, "good");
         }
     };
 

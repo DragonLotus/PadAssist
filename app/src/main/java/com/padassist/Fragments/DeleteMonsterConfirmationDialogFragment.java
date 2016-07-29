@@ -39,13 +39,22 @@ public class DeleteMonsterConfirmationDialogFragment extends DialogFragment {
 
     public static DeleteMonsterConfirmationDialogFragment newInstance(ResetLayout resetVariable, int position) {
         DeleteMonsterConfirmationDialogFragment dialogFragment = new DeleteMonsterConfirmationDialogFragment();
-        dialogFragment.setResetLayout(resetVariable, position);
+        dialogFragment.setResetLayout(resetVariable);
+        Bundle args = new Bundle();
+        args.putInt("position", position);
         return dialogFragment;
     }
 
-    public void setResetLayout(ResetLayout reset, int position) {
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (getArguments() != null) {
+            position = getArguments().getParcelable("position");
+        }
+    }
+
+    public void setResetLayout(ResetLayout reset) {
         this.reset = reset;
-        this.position = position;
     }
 
     public void show(FragmentManager manager, int position, String tag) {

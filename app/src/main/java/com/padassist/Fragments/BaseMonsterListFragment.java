@@ -1,45 +1,20 @@
 package com.padassist.Fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 
 import com.padassist.Adapters.BaseMonsterListRecycler;
-import com.padassist.Data.BaseMonster;
-import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
-import com.padassist.Graphics.FastScroller;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.BaseMonsterAlphabeticalComparator;
-import com.padassist.Util.BaseMonsterAtkComparator;
-import com.padassist.Util.BaseMonsterAwakeningComparator;
-import com.padassist.Util.BaseMonsterElement1Comparator;
-import com.padassist.Util.BaseMonsterElement2Comparator;
-import com.padassist.Util.BaseMonsterHpComparator;
 import com.padassist.Util.BaseMonsterListUtil;
-import com.padassist.Util.BaseMonsterNumberComparator;
-import com.padassist.Util.BaseMonsterRarityComparator;
-import com.padassist.Util.BaseMonsterRcvComparator;
-import com.padassist.Util.BaseMonsterType1Comparator;
-import com.padassist.Util.BaseMonsterType2Comparator;
-import com.padassist.Util.BaseMonsterType3Comparator;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 
 public class BaseMonsterListFragment extends BaseMonsterListUtil {
@@ -69,8 +44,8 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
 
-        baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
-        monsterListView.setAdapter(baseMonsterListAdapter);
+        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
+        monsterListView.setAdapter(baseMonsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
@@ -161,7 +136,7 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                     newTeam.save();
                     getActivity().getSupportFragmentManager().popBackStack();
                     if (replaceMonsterId == 0) {
-                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
+                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster), MonsterPageFragment.TAG, "good");
                     }
                 }
             }
@@ -205,8 +180,6 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                         }
                         replaceTeam.save();
                     }
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    //getActivity().getSupportFragmentManager().popBackStack();
                 } else {
                     if (newMonster.getMonsterId() == 0) {
                         switch (Singleton.getInstance().getMonsterOverwrite()) {
@@ -252,11 +225,10 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                         }
                     }
                     newTeam.save();
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    if (replaceMonsterId == 0) {
-                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(), MonsterPageFragment.TAG);
-                    }
                 }
+                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster), MonsterPageFragment.TAG, "good");
+
             }
             return false;
         }

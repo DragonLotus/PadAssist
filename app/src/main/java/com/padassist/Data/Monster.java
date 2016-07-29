@@ -3,12 +3,14 @@ package com.padassist.Data;
 import android.app.ProgressDialog;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
 
@@ -159,8 +161,9 @@ public class Monster extends Model implements Parcelable {
     public int getTotalHp() {
         int totalHp = (int) currentHp + hpPlus * HP_MULTIPLIER;
         int counter = 0;
-        for (int i = 0; i < getAwakenings().size(); i++) {
-            if (getAwakenings().get(i) == 1) {
+        setAwakenings();
+        for (int i = 0; i < awakenings.size(); i++) {
+            if (awakenings.get(i) == 1) {
                 counter++;
             }
         }
@@ -174,7 +177,7 @@ public class Monster extends Model implements Parcelable {
         totalHp = totalHp + (200 * counter) + latentHp;
 
         if(Singleton.getInstance().isCoopEnable()){
-            if (getAwakenings().contains(30)) {
+            if (awakenings.contains(30)) {
                 totalHp *= 1.5;
             }
         }
@@ -184,8 +187,9 @@ public class Monster extends Model implements Parcelable {
     public int getTotalAtk() {
         int totalAtk = (int) currentAtk + atkPlus * ATK_MULTIPLIER;
         int counter = 0;
-        for (int i = 0; i < getAwakenings().size(); i++) {
-            if (getAwakenings().get(i) == 2) {
+        setAwakenings();
+        for (int i = 0; i < awakenings.size(); i++) {
+            if (awakenings.get(i) == 2) {
                 counter++;
             }
         }
@@ -199,7 +203,7 @@ public class Monster extends Model implements Parcelable {
         totalAtk = totalAtk + (100 * counter) + latentAtk;
 
         if(Singleton.getInstance().isCoopEnable()){
-            if (getAwakenings().contains(30)) {
+            if (awakenings.contains(30)) {
                 totalAtk *= 1.5;
             }
         }
@@ -209,8 +213,9 @@ public class Monster extends Model implements Parcelable {
     public int getTotalRcv() {
         int totalRcv = (int) currentRcv + rcvPlus * RCV_MULTIPLIER;
         int counter = 0;
-        for (int i = 0; i < getAwakenings().size(); i++) {
-            if (getAwakenings().get(i) == 3) {
+        setAwakenings();
+        for (int i = 0; i < awakenings.size(); i++) {
+            if (awakenings.get(i) == 3) {
                 counter++;
             }
         }
@@ -223,22 +228,22 @@ public class Monster extends Model implements Parcelable {
         int latentRcv = (int) Math.floor(currentRcv * counter2 * 0.05 + .5);
         totalRcv = totalRcv + (50 * counter) + latentRcv;
         if(Singleton.getInstance().isCoopEnable()){
-            if (getAwakenings().contains(30)) {
+            if (awakenings.contains(30)) {
                 totalRcv *= 1.5;
             }
         }
         return totalRcv;
     }
 
-    public ArrayList<Integer> getAwakenings() {
+    public ArrayList<Integer> setAwakenings() {
         if(currentAwakenings != awakenings.size()){
             if (currentAwakenings < getMaxAwakenings()) {
                 for (int i = 0; i < currentAwakenings; i++) {
-                    awakenings.add(getAwokenSkills(i));
+                    awakenings.add(getAwokenSkills().get(i));
                 }
             } else {
                 for (int i = 0; i < getMaxAwakenings(); i++) {
-                    awakenings.add(getAwokenSkills(i));
+                    awakenings.add(getAwokenSkills().get(i));
                 }
             }
         }
