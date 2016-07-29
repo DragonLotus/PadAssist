@@ -136,7 +136,7 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                     newTeam.save();
                     getActivity().getSupportFragmentManager().popBackStack();
                     if (replaceMonsterId == 0) {
-                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster), MonsterPageFragment.TAG, "good");
+                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster, Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
                     }
                 }
             }
@@ -227,7 +227,7 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                     newTeam.save();
                 }
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster), MonsterPageFragment.TAG, "good");
+                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster, Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
 
             }
             return false;

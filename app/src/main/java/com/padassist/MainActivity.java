@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Singleton.getInstance().setContext(getApplicationContext());
-        if (android.os.Build.VERSION.SDK_INT >= 20) {
+//        if (android.os.Build.VERSION.SDK_INT >= 20) {
             Configuration.Builder configBuilder = new Configuration.Builder(this);
             configBuilder.addModelClasses(Monster.class);
             configBuilder.addModelClasses(Team.class);
@@ -85,9 +85,10 @@ public class MainActivity extends AppCompatActivity {
             configBuilder.addModelClass(LeaderSkill.class);
             configBuilder.addModelClass(OrbMatch.class);
             ActiveAndroid.initialize(configBuilder.create());
-        } else {
-            ActiveAndroid.initialize(this);
-        }
+//        } else {
+//            ActiveAndroid.initialize(this);
+//        }
+
         preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
 
 //        preferences.edit().putInt("version", 1).apply();
@@ -222,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.loadTeam) {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
         } else if (id == R.id.monsterList) {
-            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG, "good");
+            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, Singleton.getInstance().getMonsterOverwrite()), MonsterTabLayoutFragment.TAG, "good");
         } else if (id == R.id.manageMonsters) {
             switchFragment(ManageMonsterTabLayoutFragment.newInstance(), ManageMonsterTabLayoutFragment.TAG, "good");
         }

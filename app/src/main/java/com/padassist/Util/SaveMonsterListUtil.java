@@ -191,15 +191,20 @@ public abstract class SaveMonsterListUtil extends Fragment {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
 
-        if (Singleton.getInstance().getMonsterOverwrite() == 5) {
-            monsterListAll = (ArrayList) Monster.getAllHelperMonsters();
-            monsterListAll.add(monsterZero);
-        } else {
-            monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
-        }
+        onActivityCreatedSpecific();
+
         if (monsterList == null) {
             monsterList = new ArrayList<>();
         }
+
+        emptyCheck();
+
+        fastScroller.setRecyclerView(monsterListView);
+    }
+
+    public abstract void onActivityCreatedSpecific();
+
+    protected void emptyCheck(){
         if (monsterListAll.size() == 1) {
             if (monsterListAll.get(0).getMonsterId() != 0) {
                 monsterListAll.add(0, monsterZero);
@@ -213,8 +218,6 @@ public abstract class SaveMonsterListUtil extends Fragment {
             savedMonsters.setVisibility(View.GONE);
             monsterListView.setVisibility(View.VISIBLE);
         }
-
-        fastScroller.setRecyclerView(monsterListView);
     }
 
     private void disableStuff() {

@@ -45,6 +45,11 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    @Override
+    public void onActivityCreatedSpecific() {
+            monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
+    }
+
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -96,6 +101,7 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
             saveMonsterListRecycler.notifyItemRemoved(position);
             saveMonsterListRecycler.notifyDataSetChanged(monsterList);
             saveMonsterListRecycler.setExpandedPosition(-1);
+            emptyCheck();
         }
     };
 

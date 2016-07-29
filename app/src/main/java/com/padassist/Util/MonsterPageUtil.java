@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -200,7 +202,18 @@ public abstract class MonsterPageUtil extends Fragment {
 //        monster = Team.getTeamById(0).getMonsters(Team.getTeamById(0).getMonsterOverwrite());
 //        Log.d("Monster Page Log", "Monster is: " + monster);
 //        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
-
+        ArrayList<Monster> checkList = (ArrayList) Monster.getAllMonsters();
+        Boolean bounce = true;
+        for(int i = 0; i < checkList.size(); i++){
+            if(checkList.get(i).getMonsterId() == monster.getMonsterId()){
+                bounce = false;
+                break;
+            }
+        }
+        if(bounce){
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+        Log.d("MonsterPageUtil", "monster is: " + monster + "monsterid is: " + monster.getMonsterId() + " monster get id is: " + monster.getId());
         loadBackup();
         showAwakenings();
         grayAwakenings();
@@ -297,9 +310,12 @@ public abstract class MonsterPageUtil extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("MonsterPageUtil", "monster is: " + monster + " monster level is: " + monster.getCurrentLevel() + " monsterId: " + monster.getId());
         monster.save();
+        Monster.getMonsterId(monster.getMonsterId());
+//        Log.d("MonsterPageUtil", "monster load is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster level is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster Id is: " + Monster.getMonsterId(monster.getMonsterId()));
     }
 
     @Override

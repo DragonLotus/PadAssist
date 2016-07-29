@@ -38,7 +38,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             if (monsterList.get(holder.getAdapterPosition()).getMonsterId() == 0) {
                 ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
             } else {
-                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition())), MonsterPageFragment.TAG, "good");
+                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
             }
         }
     };

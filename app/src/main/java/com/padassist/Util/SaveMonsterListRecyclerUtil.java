@@ -776,8 +776,15 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             viewHolder.hpTotal.setText("" + monsterList.get(position).getTotalHp());
             viewHolder.atkTotal.setText("" + monsterList.get(position).getTotalAtk());
             viewHolder.rcvTotal.setText("" + monsterList.get(position).getTotalRcv());
-            viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
-            viewHolder.leaderSkillDesc.setText(LeaderSkill.getLeaderSkill(monsterList.get(position).getLeaderSkill()).getDescription());
+            if(monsterList.get(position).getLeaderSkill().equals("Blank")){
+                viewHolder.leaderSkillName.setText("None");
+                viewHolder.leaderSkillDesc.setVisibility(View.GONE);
+            } else{
+                viewHolder.leaderSkillName.setVisibility(View.VISIBLE);
+                viewHolder.leaderSkillDesc.setVisibility(View.VISIBLE);
+                viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
+                viewHolder.leaderSkillDesc.setText(LeaderSkill.getLeaderSkill(monsterList.get(position).getLeaderSkill()).getDescription());
+            }
         } else {
             viewHolder.expandLayout.setVisibility(View.GONE);
             viewHolder.rarity.setVisibility(View.GONE);

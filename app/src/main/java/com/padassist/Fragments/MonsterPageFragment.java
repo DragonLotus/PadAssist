@@ -50,12 +50,14 @@ public class MonsterPageFragment extends MonsterPageUtil {
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
+    private int position;
 
-    public static MonsterPageFragment newInstance(Monster monster) {
+    public static MonsterPageFragment newInstance(Monster monster, int position) {
         MonsterPageFragment fragment = new MonsterPageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         args.putParcelable("monster", monster);
+        args.putInt("position", position);
         return fragment;
     }
 
@@ -68,6 +70,7 @@ public class MonsterPageFragment extends MonsterPageUtil {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
             monster = getArguments().getParcelable("monster");
+            position = getArguments().getInt("position");
         }
         Log.d("MonsterPage", "monster is: " + monster);
         monsterRemove.setOnClickListener(maxButtons);
@@ -156,7 +159,7 @@ public class MonsterPageFragment extends MonsterPageUtil {
 
         @Override
         public void replaceMonster() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG, "good");
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, position), MonsterTabLayoutFragment.TAG, "good");
             monsterRemoveDialogFragment.dismiss();
         }
 
@@ -181,7 +184,7 @@ public class MonsterPageFragment extends MonsterPageUtil {
     private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId(), 99), MonsterTabLayoutFragment.TAG, "good");
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId(), position), MonsterTabLayoutFragment.TAG, "good");
             replaceConfirmationDialog.dismiss();
         }
     };

@@ -87,6 +87,16 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    @Override
+    public void onActivityCreatedSpecific() {
+        if (Singleton.getInstance().getMonsterOverwrite() == 5) {
+            monsterListAll = (ArrayList) Monster.getAllHelperMonsters();
+            monsterListAll.add(monsterZero);
+        } else {
+            monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
+        }
+    }
+
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -135,7 +145,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     newTeam.save();
                 }
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position)), MonsterPageFragment.TAG, "good");
+                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position), Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
             }
         }
     };
@@ -189,7 +199,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     newTeam.save();
                 }
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position)), MonsterPageFragment.TAG, "good");
+                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position), Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
             }
             return true;
         }
@@ -231,6 +241,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
             saveMonsterListRecycler.notifyItemRemoved(position);
             saveMonsterListRecycler.notifyDataSetChanged(monsterList);
             saveMonsterListRecycler.setExpandedPosition(-1);
+            emptyCheck();
         }
     };
 }
