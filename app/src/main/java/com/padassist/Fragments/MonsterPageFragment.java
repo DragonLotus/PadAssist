@@ -279,7 +279,7 @@ public class MonsterPageFragment extends Fragment {
 
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
-        getActivity().setTitle("Selected Monster");
+        getActivity().setTitle("Monster Stats");
     }
 
     @Override

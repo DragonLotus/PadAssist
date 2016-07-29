@@ -69,22 +69,11 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
 
-        baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, expandChange, monsterListOnClickListener, monsterListOnLongClickListener);
+        baseMonsterListAdapter = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
         monsterListView.setAdapter(baseMonsterListAdapter);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
-
-    private BaseMonsterListRecycler.ExpandChange expandChange = new BaseMonsterListRecycler.ExpandChange() {
-        @Override
-        public void onExpandChange(int expandedPosition) {
-//            if(expandedPosition >= 0){
-//                fastScroller.resizeScrollBar(true, FastScroller.BASE_MONSTER_LIST);
-//            }else{
-//                fastScroller.resizeScrollBar(false, FastScroller.BASE_MONSTER_LIST);
-//            }
-        }
-    };
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override

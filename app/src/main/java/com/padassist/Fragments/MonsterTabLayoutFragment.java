@@ -23,12 +23,7 @@ import com.padassist.Util.SaveMonsterListUtil;
  * Use the {@link MonsterTabLayoutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterTabLayoutFragment extends Fragment {
-
-    public static final String TAG = MonsterTabLayoutFragment.class.getSimpleName();
-    private OnFragmentInteractionListener mListener;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+public class MonsterTabLayoutFragment extends MonsterTabLayoutUtil {
     private boolean replaceAll;
     private long replaceMonsterId;
     private int monsterPosition;
@@ -50,23 +45,6 @@ public class MonsterTabLayoutFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_monster_tab_layout, container, false);
-
-        viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
-        tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
-        // Inflate the layout for this fragment
-        return rootView;
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
@@ -84,12 +62,33 @@ public class MonsterTabLayoutFragment extends Fragment {
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
         }
-        if(tabLayout.getSelectedTabPosition() == 0){
-            getActivity().setTitle("Saved Monsters");
-        } else if(tabLayout.getSelectedTabPosition() == 1) {
-            getActivity().setTitle("Create Monster");
+
+        switch (monsterPosition) {
+            case 0:
+                getActivity().setTitle("Replace Leader");
+                break;
+            case 1:
+                getActivity().setTitle("Replace Sub 1");
+                break;
+            case 2:
+                getActivity().setTitle("Replace Sub 2");
+                break;
+            case 3:
+                getActivity().setTitle("Replace Sub 3");
+                break;
+            case 4:
+                getActivity().setTitle("Replace Sub 4");
+                break;
+            case 5:
+                getActivity().setTitle("Replace Helper");
         }
-        viewPager.addOnPageChangeListener(tabLayoutOnPageChangeListener);
+
+//        if(tabLayout.getSelectedTabPosition() == 0){
+//            getActivity().setTitle("Saved Monsters");
+//        } else if(tabLayout.getSelectedTabPosition() == 1) {
+//            getActivity().setTitle("Create Monster");
+//        }
+    //    viewPager.addOnPageChangeListener(tabLayoutOnPageChangeListener);
     }
 
     private TabLayout.TabLayoutOnPageChangeListener tabLayoutOnPageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(tabLayout){
@@ -113,26 +112,5 @@ public class MonsterTabLayoutFragment extends Fragment {
             }
         }
     };
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
 
 }

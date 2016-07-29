@@ -34,6 +34,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
+import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
 import com.padassist.Fragments.MonsterListFragment;
 import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.TeamListFragment;
@@ -222,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
         } else if (id == R.id.monsterList) {
             switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, 99), MonsterTabLayoutFragment.TAG);
+        } else if (id == R.id.manageMonsters) {
+            switchFragment(ManageMonsterTabLayoutFragment.newInstance(), MonsterTabLayoutFragment.TAG);
         }
 
         return super.onOptionsItemSelected(item);

@@ -34,13 +34,4 @@ public class SaveMonsterListRecycler extends SaveMonsterListRecyclerUtil {
         this.monsterListView = monsterListView;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
-    public void notifyDataSetChanged(ArrayList<Monster> monsterList) {
-        this.monsterList = monsterList;
-        notifyDataSetChanged();
-    }
-
-    public ArrayList<Monster> getMonsterList() {
-        return monsterList;
-    }
 }
