@@ -36,7 +36,6 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListUtil {
         baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
         monsterListView.setAdapter(baseMonsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

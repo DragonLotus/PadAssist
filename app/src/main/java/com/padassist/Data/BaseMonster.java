@@ -315,7 +315,7 @@ public class BaseMonster extends Model {
             int drawableId = field.getInt(null);
             return drawableId;
         } catch(NoSuchFieldException e) {
-            Log.e("drawableId", "Unable to get drawable id");
+            Log.e("drawableId", "Unable to get drawable id " + monsterId);
         } catch(IllegalAccessException e){
             Log.e("IllegalTag", "Illegal Access Exception");
         }

@@ -518,8 +518,8 @@ public class LeaderSkill extends Model {
                 case COMBO_INDIAN:
                     comboIndian(monster, team, totalCombos);
                     break;
-                case HP_FLAT_ORB_LINK:
-                    hpFlatOrbLink(monster, team);
+                case ORB_LINK_HP_FLAT:
+                    orbLinkHpFlat(monster, team);
                     break;
                 case ORB_PLUS_HEART_CROSS:
                     orbPlusHeartCross(monster, team);
@@ -703,8 +703,8 @@ public class LeaderSkill extends Model {
                 case COMBO_INDIAN:
                     comboIndian(monster, team, totalCombos);
                     break;
-                case HP_FLAT_ORB_LINK:
-                    hpFlatOrbLink(monster, team);
+                case ORB_LINK_HP_FLAT:
+                    orbLinkHpFlat(monster, team);
                     break;
                 case ORB_PLUS_HEART_CROSS:
                     orbPlusHeartCross(monster, team);
@@ -2242,7 +2242,7 @@ public class LeaderSkill extends Model {
 
     }
 
-    private void hpFlatOrbLink(Monster monster, Team team) {
+    private void orbLinkHpFlat(Monster monster, Team team) {
         int comboDiff = comboMax - comboMin;
         if (hpPercent.size() == 1) {
             if (team.getTeamHp() == hpPercent.get(0)) {

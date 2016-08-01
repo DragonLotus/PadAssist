@@ -30,7 +30,7 @@ public class LoadingScreenActivity extends AppCompatActivity {
             progressDialog.setMessage("Loading monsters...");
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
-            progressDialog.setMax(4806);
+            progressDialog.setMax(4830);
             progressDialog.setProgress(0);
             progressDialog.show();
             disclaimerDialog = DisclaimerDialogFragment.newInstance(dismissMe);
@@ -64,18 +64,22 @@ public class LoadingScreenActivity extends AppCompatActivity {
             if(!disclaimerDialog.getShowing()){
                 finish();
             }
+
+
         }
+
+
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             progressDialog.setProgress(values[0]);
-            Log.d("LoadingScreenTag", "values is: " + values[0]);
-            if (values[0] == 4806) {
+//            Log.d("LoadingScreenTag", "values is: " + values[0]);
+            if (values[0] == 4830) {
                 synchronized (this) {
                     this.notify();
                 }
             } else {
-                if (values[0] >= 3031) {
+                if (values[0] >= 3043) {
                     progressDialog.setMessage("Loading leader skills...");
                 }
             }

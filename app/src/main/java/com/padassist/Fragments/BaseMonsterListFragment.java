@@ -87,8 +87,6 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                         }
                         replaceTeam.save();
                     }
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    //getActivity().getSupportFragmentManager().popBackStack();
                 } else {
                     if (newMonster.getMonsterId() == 0) {
                         switch (Singleton.getInstance().getMonsterOverwrite()) {
@@ -134,10 +132,13 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                         }
                     }
                     newTeam.save();
+
+                }
+                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                if (newMonster.getMonsterId() != 0) {
+                    ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster, Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
+                } else {
                     getActivity().getSupportFragmentManager().popBackStack();
-                    if (replaceMonsterId == 0) {
-                        ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster, Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
-                    }
                 }
             }
         }

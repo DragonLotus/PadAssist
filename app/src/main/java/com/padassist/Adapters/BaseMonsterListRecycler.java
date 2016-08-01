@@ -34,4 +34,6 @@ public class BaseMonsterListRecycler extends BaseMonsterListRecyclerUtil {
         this.monsterListView = monsterListView;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
+
+
 }

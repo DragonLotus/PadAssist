@@ -1,7 +1,5 @@
 package com.padassist.Threads;
 
-import android.util.Log;
-
 import com.activeandroid.ActiveAndroid;
 import com.padassist.BuildConfig;
 import com.padassist.Constants;
@@ -29,8 +27,10 @@ public class ParseMonsterDatabaseThread extends Thread {
         public void updateValues(int counter);
 
     }
+
     public ParseMonsterDatabaseThread() {
     }
+
     public ParseMonsterDatabaseThread(UpdateProgress update) {
         this.update = update;
     }
@@ -38,8 +38,8 @@ public class ParseMonsterDatabaseThread extends Thread {
     public void run() {
         super.run();
 
-            parseMonsterDatabase();
-            parseLeaderSkillDatabase();
+        parseMonsterDatabase();
+        parseLeaderSkillDatabase();
 
         SharedPreferencesUtil.savePreferences(Constants.VERSION, BuildConfig.VERSION_CODE);
     }
@@ -51,9 +51,11 @@ public class ParseMonsterDatabaseThread extends Thread {
             BaseMonster monster;
             ActiveAndroid.beginTransaction();
             for (JsonNode monsterNode : rootNode) {
-                counter ++;
+                counter++;
                 monster = new BaseMonster();
-                if (monsterNode.hasNonNull("id")) {
+                if (monsterNode.hasNonNull("us_id")) {
+                    monster.setMonsterId(monsterNode.get("us_id").asLong());
+                } else if (monsterNode.hasNonNull("id")) {
                     monster.setMonsterId(monsterNode.get("id").asLong());
                 }
                 if (monsterNode.hasNonNull("element")) {
@@ -143,7 +145,7 @@ public class ParseMonsterDatabaseThread extends Thread {
             LeaderSkill leaderSkill;
             ActiveAndroid.beginTransaction();
             for (JsonNode leaderSkillNode : rootNode) {
-                counter ++;
+                counter++;
                 leaderSkill = new LeaderSkill();
                 if (leaderSkillNode.hasNonNull("hpSkillType")) {
                     leaderSkill.setHpSkillType(parseLeadSkillType(leaderSkillNode.get("hpSkillType").asInt()));
@@ -354,7 +356,7 @@ public class ParseMonsterDatabaseThread extends Thread {
             case 44:
                 return LeaderSkillType.COMBO_INDIAN;
             case 45:
-                return LeaderSkillType.HP_FLAT_ORB_LINK;
+                return LeaderSkillType.ORB_LINK_HP_FLAT;
             case 46:
                 return LeaderSkillType.ORB_PLUS_HEART_CROSS;
             case 47:

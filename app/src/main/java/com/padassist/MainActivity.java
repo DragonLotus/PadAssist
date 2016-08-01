@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Singleton.getInstance().setContext(getApplicationContext());
-//        if (android.os.Build.VERSION.SDK_INT >= 20) {
+        if (android.os.Build.VERSION.SDK_INT >= 20) {
             Configuration.Builder configBuilder = new Configuration.Builder(this);
             configBuilder.addModelClasses(Monster.class);
             configBuilder.addModelClasses(Team.class);
@@ -85,15 +85,15 @@ public class MainActivity extends AppCompatActivity {
             configBuilder.addModelClass(LeaderSkill.class);
             configBuilder.addModelClass(OrbMatch.class);
             ActiveAndroid.initialize(configBuilder.create());
-//        } else {
-//            ActiveAndroid.initialize(this);
-//        }
+        } else {
+            ActiveAndroid.initialize(this);
+        }
 
         preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
 
 //        preferences.edit().putInt("version", 1).apply();
         if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1)){
-            Intent loadIntent = new Intent(this, LoadingScreenActivity.class);
+            Intent loadIntent = new Intent(getApplicationContext(), LoadingScreenActivity.class);
             startActivity(loadIntent);
             preferences.edit().putBoolean("firstRun", false).apply();
             preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
