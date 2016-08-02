@@ -36,6 +36,7 @@ import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
 import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
 import com.padassist.Fragments.MonsterListFragment;
+import com.padassist.Fragments.MonsterPageFragment;
 import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.TeamListFragment;
 import com.padassist.Fragments.TeamSaveDialogFragment;
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
 
 //        preferences.edit().putInt("version", 1).apply();
-        if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1)){
+        if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || BaseMonster.getAllMonsters().size() <= 1){
             Intent loadIntent = new Intent(getApplicationContext(), LoadingScreenActivity.class);
             startActivity(loadIntent);
             preferences.edit().putBoolean("firstRun", false).apply();
@@ -167,6 +168,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+//                Bundle bundle = data.getExtras();
+//                Monster monster = bundle.getParcelable("monster");
+//                long monsterId = bundle.getLong("monsterId");
+                Monster monster = data.getExtras().getParcelable("monster");
+                long monsterId = data.getExtras().getLong("monsterId");
+                Log.d("MainActivity", "monsterId is: " + monsterId);
+                Log.d("MainActivity", "monster is: " + monster + " extra is: " + data.getExtras());
+                Log.d("MainActivity", "monster name is: " + monster.getName());
+                switchFragment(MonsterPageFragment.newInstance(monster, Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
+            }
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         getSupportFragmentManager().putFragment(outState, "mContent", mContent);
@@ -223,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.loadTeam) {
             switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
         } else if (id == R.id.monsterList) {
-            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, Singleton.getInstance().getMonsterOverwrite()), MonsterTabLayoutFragment.TAG, "good");
+//            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, Singleton.getInstance().getMonsterOverwrite()), MonsterTabLayoutFragment.TAG, "good");
         } else if (id == R.id.manageMonsters) {
             switchFragment(ManageMonsterTabLayoutFragment.newInstance(), ManageMonsterTabLayoutFragment.TAG, "good");
         }

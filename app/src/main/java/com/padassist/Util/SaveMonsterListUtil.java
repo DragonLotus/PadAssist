@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
@@ -180,6 +179,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
         monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
         savedMonsters = (TextView) rootView.findViewById(R.id.savedMonsters);
         fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
+        onActivityCreatedSpecific();
         return rootView;
     }
 
@@ -191,15 +191,15 @@ public abstract class SaveMonsterListUtil extends Fragment {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
 
-        onActivityCreatedSpecific();
-
         if (monsterList == null) {
             monsterList = new ArrayList<>();
         }
-
+//        filterMonsterName("");
         emptyCheck();
 
         fastScroller.setRecyclerView(monsterListView);
+
+
     }
 
     public abstract void onActivityCreatedSpecific();
@@ -551,6 +551,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
 
             saveMonsterListRecycler.setExpandedPosition(-1);
 
+            Log.d("SaveMonsterListUtil", "MonsterList is: " + monsterList);
         }
 
 

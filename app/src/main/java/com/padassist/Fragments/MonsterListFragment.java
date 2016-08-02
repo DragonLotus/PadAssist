@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Adapters.MonsterListRecycler;
+import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
@@ -200,6 +201,10 @@ public class MonsterListFragment extends Fragment{
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         } else {
             monsters = team.getMonsters();
+        Log.d("MonsterList", "Monsters are: " + Monster.getAllMonsters());
+            if(Monster.getAllMonsters().size() > 1){
+                Log.d("MonsterList", "Monster name is: " + Monster.getAllMonsters().get(1).getBaseMonster());
+            }
             if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
                 monsters = new ArrayList<Monster>();
                 for (int i = 0; i < 6; i++) {

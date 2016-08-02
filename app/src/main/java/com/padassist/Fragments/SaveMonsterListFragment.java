@@ -95,6 +95,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
         } else {
             monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
         }
+        Log.d("SaveMonsterList", "MonsterList is: " + monsterList);
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
@@ -144,6 +145,19 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     }
                     newTeam.save();
                 }
+//                Intent intent = new Intent();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable("monster", saveMonsterListRecycler.getItem(position));
+//                bundle.putLong("monsterId", saveMonsterListRecycler.getItem(position).getMonsterId());
+//                intent.putExtras(bundle);
+
+//                intent.putExtra("monster", saveMonsterListRecycler.getItem(position));
+//                intent.putExtra("monsterId", saveMonsterListRecycler.getItem(position).getMonsterId());
+
+//                Log.d("SaveMonsterList", "monster is: " + intent.getParcelableExtra("monster") + " extra is: " + intent.getExtras());
+//                getActivity().setResult(Activity.RESULT_OK, intent);
+//                getActivity().finish();
+
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
                 ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position), Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
             }

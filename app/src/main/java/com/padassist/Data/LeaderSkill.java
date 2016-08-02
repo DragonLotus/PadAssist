@@ -22,7 +22,7 @@ public class LeaderSkill extends Model {
     private ArrayList<Double> atkData;
     @Column(name = "rcvData")
     private ArrayList<Double> rcvData;
-    @Column(name = "name", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    @Column(name = "name", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.CASCADE)
     private String name;
     @Column(name = "description")
     private String description;

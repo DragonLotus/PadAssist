@@ -1,5 +1,6 @@
 package com.padassist.Data;
 
+import android.app.IntentService;
 import android.app.ProgressDialog;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -613,7 +614,9 @@ public class Monster extends Model implements Parcelable {
 
     public Monster(Parcel source) {
         monsterId = source.readLong();
-
+        baseMonster = source.readParcelable(BaseMonster.class.getClassLoader());
+        favorite = source.readByte() == 1;
+        priority = source.readInt();
         currentLevel = source.readInt();
         atkPlus = source.readInt();
         hpPlus = source.readInt();
@@ -621,6 +624,10 @@ public class Monster extends Model implements Parcelable {
         currentAwakenings = source.readInt();
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
+        helper = source.readByte() == 1;
+        latents = source.readArrayList(Integer.class.getClassLoader());
+        killerAwakenings = source.readArrayList(Integer.class.getClassLoader());
+        awakenings = source.readArrayList(Integer.class.getClassLoader());
         //isBound = source.readByte() == 1;
     }
 
@@ -632,6 +639,9 @@ public class Monster extends Model implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(monsterId);
+        dest.writeParcelable(baseMonster, flags);
+        dest.writeByte((byte) (favorite ? 1: 0));
+        dest.writeInt(priority);
         dest.writeInt(currentLevel);
         dest.writeInt(atkPlus);
         dest.writeInt(hpPlus);
@@ -639,6 +649,10 @@ public class Monster extends Model implements Parcelable {
         dest.writeInt(currentAwakenings);
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
+        dest.writeByte((byte) (helper ? 1: 0));
+        dest.writeList(latents);
+        dest.writeList(killerAwakenings);
+        dest.writeList(awakenings);
         //dest.writeByte((byte) (isBound ? 1 : 0));
     }
 

@@ -19,16 +19,14 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     private String tabTitles[] = new String[] {"Saved Monsters", "New Monster" };
     private String tabTitlesHelper[] = new String[] {"Saved Helpers", "New Helper" };
-    private Context context;
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
 //    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
 //    private Fragment saveMonsterListFragment = SaveMonsterListFragment.newInstance();
 
-    public MonsterPagerAdapter(FragmentManager fragmentManager, Context context, boolean replaceAll, long replaceMonsterId){
+    public MonsterPagerAdapter(FragmentManager fragmentManager, boolean replaceAll, long replaceMonsterId){
         super(fragmentManager);
         fragmentList.add(SaveMonsterListFragment.newInstance(replaceAll, replaceMonsterId));
         fragmentList.add(BaseMonsterListFragment.newInstance(replaceAll, replaceMonsterId));
-        this.context = context;
     }
 
     @Override

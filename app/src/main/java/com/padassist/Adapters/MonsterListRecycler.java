@@ -1,7 +1,10 @@
 package com.padassist.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Fragments.MonsterPageFragment;
 import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.MainActivity;
+import com.padassist.MonsterTabLayoutActivity;
 import com.padassist.R;
 import com.padassist.Util.Singleton;
 
@@ -48,6 +52,13 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         public boolean onLongClick(View v) {
             ViewHolder holder = (ViewHolder) v.getTag();
             Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
+//            Intent i = new Intent(mContext, MonsterTabLayoutActivity.class);
+//            Bundle bundle = new Bundle();
+//            bundle.putBoolean("replaceAll", false);
+//            bundle.putLong("replaceMonsterId", monsterList.get(holder.getAdapterPosition()).getMonsterId());
+//            bundle.putInt("monsterPosition", holder.getAdapterPosition());
+//            i.putExtras(bundle);
+//            ((Activity)mContext).startActivityForResult(i, 1);
             ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
             return true;
         }
