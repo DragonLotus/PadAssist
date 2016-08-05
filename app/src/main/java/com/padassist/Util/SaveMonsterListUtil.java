@@ -51,6 +51,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
     private TextView savedMonsters;
     private boolean replaceAll;
     private long replaceMonsterId;
+    private int monsterPosition;
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -193,7 +194,6 @@ public abstract class SaveMonsterListUtil extends Fragment {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
-
         if (monsterList == null) {
             monsterList = new ArrayList<>();
         }

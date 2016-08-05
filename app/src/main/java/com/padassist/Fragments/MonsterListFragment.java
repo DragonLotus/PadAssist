@@ -184,39 +184,43 @@ public class MonsterListFragment extends Fragment{
 //        team.updateAwakenings();
 //        team.updateLeaderSkills();
 //        team.setTeamStats();
-//        teamName.setText(team.getTeamName());
-//        if (team.isFavorite()) {
-//            favorite.setVisibility(View.VISIBLE);
-//        } else {
-//            favorite.setVisibility(View.INVISIBLE);
-//        }
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+        Log.d("MonsterList", "Team is: " + team);
 
-        if (savedInstanceState != null) {
-            monsters = savedInstanceState.getParcelableArrayList("monsters");
+        monsters = team.getMonsters();
+        Log.d("MonsterList", "Monsters is: " + monsters);
+
+//        if (savedInstanceState != null) {
+//            monsters = savedInstanceState.getParcelableArrayList("monsters");
+//        } else {
+//            monsters = team.getMonsters();
+//            if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
+//                monsters = new ArrayList<Monster>();
+//                for (int i = 0; i < 6; i++) {
+//                    monsters.add(monster0);
+//                }
+//
+//                updateTeam();
+//            }
+//
+//            team.updateAwakenings();
+//            monsters = team.getMonsters();
+//        }
+
+        teamName.setText(team.getTeamName());
+        if (team.isFavorite()) {
+            favorite.setVisibility(View.VISIBLE);
         } else {
-            monsters = team.getMonsters();
-            if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
-                monsters = new ArrayList<Monster>();
-                for (int i = 0; i < 6; i++) {
-                    monsters.add(monster0);
-                }
-
-                updateTeam();
-            }
-
-            team.updateAwakenings();
-            monsters = team.getMonsters();
+            favorite.setVisibility(View.INVISIBLE);
         }
-
         monsterListRecycler = new MonsterListRecycler(getActivity(), monsters);
         monsterListView.setAdapter(monsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -275,13 +279,15 @@ public class MonsterListFragment extends Fragment{
     };
 
     public void updateTeam() {
+        realm.beginTransaction();
         team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
+        realm.commitTransaction();
         for (Monster monster : team.getMonsters()) {
 //            monster.save();
         }
         team.updateAwakenings();
 //        team.updateLeaderSkills();
-        team.setTeamStats();
+//        team.setTeamStats();
 //        team.save();
     }
 

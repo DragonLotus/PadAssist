@@ -30,6 +30,7 @@ import com.padassist.Data.LeaderSkill;
 import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
+import com.padassist.Data.RealmInt;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
 import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
@@ -111,13 +112,41 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         enemy = new Enemy();
 
-        if (realm.where(Team.class).equalTo("teamId", 0).findFirst() == null) {
-            team = new Team();
-        } else {
-            team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
-        }
         if (realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst() == null) {
             BaseMonster monster = new BaseMonster();
+            realm.beginTransaction();
+            realm.copyToRealm(monster);
+            realm.commitTransaction();
+        }
+        if (realm.where(BaseMonster.class).equalTo("monsterId", 2969).findFirst() == null) {
+            BaseMonster monster = new BaseMonster();
+            monster.setName("Star Cutting Time Dragonbound, Myr");
+            monster.setMonsterId(2969);
+            monster.setElement1(3);
+            monster.setType1(4);
+            monster.setType2(8);
+            monster.setType3(5);
+            monster.setHpMax(4380);
+            monster.setHpMin(845);
+            monster.setAtkMax(1710);
+            monster.setAtkMin(279);
+            monster.setRcvMax(660);
+            monster.setRcvMin(41);
+            monster.setRarity(8);
+            monster.setMaxAwakenings(9);
+            monster.getAwokenSkills().add(new RealmInt(10));
+            monster.getAwokenSkills().add(new RealmInt(10));
+            monster.getAwokenSkills().add(new RealmInt(28));
+            monster.getAwokenSkills().add(new RealmInt(27));
+            monster.getAwokenSkills().add(new RealmInt(25));
+            monster.getAwokenSkills().add(new RealmInt(17));
+            monster.getAwokenSkills().add(new RealmInt(17));
+            monster.getAwokenSkills().add(new RealmInt(17));
+            monster.getAwokenSkills().add(new RealmInt(21));
+            monster.setMaxLevel(99);
+            monster.setHpScale(1.5);
+            monster.setAtkScale(1.5);
+            monster.setRcvScale(1.5);
             realm.beginTransaction();
             realm.copyToRealm(monster);
             realm.commitTransaction();
@@ -127,6 +156,20 @@ public class MainActivity extends AppCompatActivity {
             realm.beginTransaction();
             realm.copyToRealm(monster);
             realm.commitTransaction();
+        }
+        if (realm.where(Team.class).equalTo("teamId", 0).findFirst() == null) {
+            team = new Team();
+            team.setLead(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setSub1(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setSub2(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setSub3(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setSub4(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setHelper(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            realm.beginTransaction();
+            team = realm.copyToRealmOrUpdate(team);
+            realm.commitTransaction();
+        } else {
+            team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
         }
 
         if(realm.where(OrbMatch.class).findAll().size() != 0){
@@ -143,14 +186,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        LeaderSkill blankLeaderSkill = new LeaderSkill();
-        blankLeaderSkill.setName("Blank");
-        blankLeaderSkill.setHpSkillType(LeaderSkillType.BLANK);
-        blankLeaderSkill.setAtkSkillType(LeaderSkillType.BLANK);
-        blankLeaderSkill.setRcvSkillType(LeaderSkillType.BLANK);
-        realm.beginTransaction();
-        realm.copyToRealm(blankLeaderSkill);
-        realm.commitTransaction();
+        if(realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst() == null){
+            LeaderSkill blankLeaderSkill = new LeaderSkill();
+            blankLeaderSkill.setName("Blank");
+            blankLeaderSkill.setHpSkillType(LeaderSkillType.BLANK);
+            blankLeaderSkill.setAtkSkillType(LeaderSkillType.BLANK);
+            blankLeaderSkill.setRcvSkillType(LeaderSkillType.BLANK);
+            realm.beginTransaction();
+            realm.copyToRealm(blankLeaderSkill);
+            realm.commitTransaction();
+        }
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG, "good");
 

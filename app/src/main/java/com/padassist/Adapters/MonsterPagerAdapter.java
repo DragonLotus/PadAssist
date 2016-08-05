@@ -23,10 +23,10 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
 //    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
 //    private Fragment saveMonsterListFragment = SaveMonsterListFragment.newInstance();
 
-    public MonsterPagerAdapter(FragmentManager fragmentManager, boolean replaceAll, long replaceMonsterId){
+    public MonsterPagerAdapter(FragmentManager fragmentManager, boolean replaceAll, long replaceMonsterId, int monsterPosition){
         super(fragmentManager);
-        fragmentList.add(SaveMonsterListFragment.newInstance(replaceAll, replaceMonsterId));
-        fragmentList.add(BaseMonsterListFragment.newInstance(replaceAll, replaceMonsterId));
+        fragmentList.add(SaveMonsterListFragment.newInstance(replaceAll, replaceMonsterId, monsterPosition));
+        fragmentList.add(BaseMonsterListFragment.newInstance(replaceAll, replaceMonsterId, monsterPosition));
     }
 
     @Override

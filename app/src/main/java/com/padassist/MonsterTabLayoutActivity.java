@@ -55,7 +55,7 @@ public class MonsterTabLayoutActivity extends AppCompatActivity {
         setContentView(R.layout.fragment_monster_tab_layout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        monsterPagerAdapter = new MonsterPagerAdapter(getSupportFragmentManager(), replaceAll, replaceMonsterId);
+        monsterPagerAdapter = new MonsterPagerAdapter(getSupportFragmentManager(), replaceAll, replaceMonsterId, monsterPosition);
 
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

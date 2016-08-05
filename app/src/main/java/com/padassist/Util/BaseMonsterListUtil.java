@@ -9,6 +9,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -179,8 +180,11 @@ public abstract class BaseMonsterListUtil extends Fragment {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
+        if(monsterListAll == null){
+            monsterListAll = new ArrayList<>();
+        }
         RealmResults results = realm.where(BaseMonster.class).findAll();
-        monsterList.addAll(results);
+        monsterListAll.addAll(results);
         if (monsterList == null) {
             monsterList = new ArrayList<>();
             monsterList.addAll(monsterListAll);
