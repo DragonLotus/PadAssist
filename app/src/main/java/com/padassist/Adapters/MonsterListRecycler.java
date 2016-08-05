@@ -23,6 +23,8 @@ import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 /**
  * Created by DragonLotus on 11/4/2015.
  */
@@ -94,7 +96,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         }
 
         for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
-            if (monsterList.get(position).getLatents().get(i) != 0) {
+            if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
                 latentList.add(1);
             }
         }
@@ -147,7 +149,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             viewHolder.rarityStar.setVisibility(View.VISIBLE);
         }
 
-        if (monsterList.get(position).getType2() == -1 && monsterList.get(position).getId() != 0) {
+        if (monsterList.get(position).getType2() == -1 && monsterList.get(position).getMonsterId() != 0) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.type1.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             viewHolder.type1.setLayoutParams(params);

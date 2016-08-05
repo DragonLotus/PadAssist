@@ -12,10 +12,14 @@ import com.padassist.Data.Team;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 /**
  * Created by Thomas on 7/11/2015.
  */
 public class DamageCalculationUtil {
+
+    private static Realm realm = Realm.getDefaultInstance();
 
     public static double monsterElement1Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Team team) {
         double totalOrbDamage = 0;
@@ -56,9 +60,9 @@ public class DamageCalculationUtil {
         //No active skill multiplier
         double returnDamage = damage;
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement1())) {
-                if (team.getOrbMatches().get(i).isRow()) {
+        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement1())) {
+                if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
                     counter++;
                 }
             }
@@ -84,9 +88,9 @@ public class DamageCalculationUtil {
         //No active skill multiplier
         double returnDamage = damage;
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement2())) {
-                if (team.getOrbMatches().get(i).isRow()) {
+        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement2())) {
+                if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
                     counter++;
                 }
             }
@@ -158,7 +162,7 @@ public class DamageCalculationUtil {
         }
         if(monster.getKillerAwakenings().size() != 0){
             for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
-                switch(monster.getKillerAwakenings().get(i)){
+                switch(monster.getKillerAwakenings().get(i).getValue()){
                     case 31:
                         if(enemy.getTypes().contains(4)){
                             damage *= 3;
@@ -260,7 +264,7 @@ public class DamageCalculationUtil {
         if(monster.getKillerAwakenings().size() != 0){
             Log.d("DamageCalcTag", "Monster has killer awakenings.");
             for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
-                switch(monster.getKillerAwakenings().get(i)){
+                switch(monster.getKillerAwakenings().get(i).getValue()){
                     case 31:
                         if(enemy.getTypes().contains(4)){
                             damage *= 3;
@@ -432,12 +436,12 @@ public class DamageCalculationUtil {
         double totalRcv = 0;
         ArrayList<OrbMatch> heartOrbMatches = new ArrayList<>();
         ArrayList<OrbMatch> poisonOrbMatches = new ArrayList<>();
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getElement().equals(Element.HEART)) {
-               // totalOrbDamage += orbMatch(rcv, team.getOrbMatches().get(i));
-                heartOrbMatches.add(team.getOrbMatches().get(i));
-            } else if (team.getOrbMatches().get(i).getElement().equals(Element.POISON) || team.getOrbMatches().get(i).getElement().equals(Element.MORTAL_POISON)){
-                poisonOrbMatches.add(team.getOrbMatches().get(i));
+        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(Element.HEART)) {
+               // totalOrbDamage += orbMatch(rcv, realm.where(OrbMatch.class).findAll().get(i));
+                heartOrbMatches.add(realm.where(OrbMatch.class).findAll().get(i));
+            } else if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(Element.POISON) || realm.where(OrbMatch.class).findAll().get(i).getElement().equals(Element.MORTAL_POISON)){
+                poisonOrbMatches.add(realm.where(OrbMatch.class).findAll().get(i));
             }
         }
         for(int i = 0; i < team.getMonsters().size(); i++){

@@ -148,7 +148,10 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         }else {
             choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 2).setEnabled(true);
 //            Monster evolveMonster = Monster.getMonsterId(Team.getTeamById(0).getMonsters().get(Team.getTeamById(0).getMonsterOverwrite()).getMonsterId());
-            evolutions = monster.getEvolutions();
+            for(int i = 0; i < monster.getEvolutions().size(); i++){
+                evolutions.add(monster.getEvolutions().get(i).getValue());
+            }
+//            evolutions = monster.getEvolutions();
             if(!evolutions.contains(Long.valueOf(0))){
                 evolutions.add(0, Long.valueOf(0));
             }

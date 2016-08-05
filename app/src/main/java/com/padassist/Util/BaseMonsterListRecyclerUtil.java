@@ -19,6 +19,8 @@ import com.padassist.R;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 import static com.padassist.Data.LeaderSkillType.BLANK;
 
 /**
@@ -34,6 +36,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
     private Toast toast;
     private int expandedPosition = -1;
     protected RecyclerView monsterListView;
+    protected Realm realm = Realm.getDefaultInstance();
 
     public interface ExpandChange {
         public void onExpandChange(int expandedPosition);
@@ -253,7 +256,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
                 }
             }
             for (int j = 0; j < monsterList.get(position).getMaxAwakenings(); j++) {
-                switch (monsterList.get(position).getAwokenSkills().get(j)) {
+                switch (monsterList.get(position).getAwokenSkills().get(j).getValue()) {
                     case 1:
                         viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
                         break;
@@ -401,7 +404,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
                 viewHolder.leaderSkillName.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillDesc.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
-                viewHolder.leaderSkillDesc.setText(LeaderSkill.getLeaderSkill(monsterList.get(position).getLeaderSkill()).getDescription());
+                viewHolder.leaderSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst().getDescription());
             }
             viewHolder.levelMax.setText("Level " + monsterList.get(position).getMaxLevel());
         } else {

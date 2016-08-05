@@ -106,46 +106,46 @@ public class MonsterPageFragment extends MonsterPageUtil {
 
         @Override
         public void removeMonsterTeam() {
-            if (Singleton.getInstance().getMonsterOverwrite() == 0) {
-                if (toast != null) {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                Team newTeam = new Team(Team.getTeamById(0));
-                switch (Singleton.getInstance().getMonsterOverwrite()) {
-                    case 0:
-                        newTeam.setLead(Monster.getMonsterId(0));
-                        break;
-                    case 1:
-                        newTeam.setSub1(Monster.getMonsterId(0));
-                        break;
-                    case 2:
-                        newTeam.setSub2(Monster.getMonsterId(0));
-                        break;
-                    case 3:
-                        newTeam.setSub3(Monster.getMonsterId(0));
-                        break;
-                    case 4:
-                        newTeam.setSub4(Monster.getMonsterId(0));
-                        break;
-                    case 5:
-                        newTeam.setHelper(Monster.getMonsterId(0));
-                        break;
-                }
-                for (int i = 0; i < newTeam.getMonsters().size(); i++) {
-                }
-                newTeam.save();
-                monsterRemoveDialogFragment.dismiss();
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
+//            if (Singleton.getInstance().getMonsterOverwrite() == 0) {
+//                if (toast != null) {
+//                    toast.cancel();
+//                }
+//                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+//                toast.show();
+//            } else {
+//                Team newTeam = new Team(Team.getTeamById(0));
+//                switch (Singleton.getInstance().getMonsterOverwrite()) {
+//                    case 0:
+//                        newTeam.setLead(Monster.getMonsterId(0));
+//                        break;
+//                    case 1:
+//                        newTeam.setSub1(Monster.getMonsterId(0));
+//                        break;
+//                    case 2:
+//                        newTeam.setSub2(Monster.getMonsterId(0));
+//                        break;
+//                    case 3:
+//                        newTeam.setSub3(Monster.getMonsterId(0));
+//                        break;
+//                    case 4:
+//                        newTeam.setSub4(Monster.getMonsterId(0));
+//                        break;
+//                    case 5:
+//                        newTeam.setHelper(Monster.getMonsterId(0));
+//                        break;
+//                }
+//                for (int i = 0; i < newTeam.getMonsters().size(); i++) {
+//                }
+//                newTeam.save();
+//                monsterRemoveDialogFragment.dismiss();
+//                getActivity().getSupportFragmentManager().popBackStack();
+//            }
         }
 
         @Override
         public void favoriteMonster(boolean favorite) {
-            monster.setFavorite(favorite);
-            monster.save();
+//            monster.setFavorite(favorite);
+//            monster.save();
             setFavorite();
         }
 
@@ -165,19 +165,19 @@ public class MonsterPageFragment extends MonsterPageUtil {
 
         @Override
         public void evolveMonster(long baseMonsterId) {
-            if (baseMonsterId != 0) {
-                monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
-                monster.save();
-                rarity.setText("" + monster.getRarity());
-                initBackup();
-                monsterPicture.setImageResource(monster.getMonsterPicture());
-                monsterName.setText(monster.getName());
-                showAwakenings();
-                grayAwakenings();
-                initializeEditTexts();
-                setImageViews();
-                monsterStats();
-            }
+//            if (baseMonsterId != 0) {
+//                monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
+//                monster.save();
+//                rarity.setText("" + monster.getRarity());
+//                initBackup();
+//                monsterPicture.setImageResource(monster.getMonsterPicture());
+//                monsterName.setText(monster.getName());
+//                showAwakenings();
+//                grayAwakenings();
+//                initializeEditTexts();
+//                setImageViews();
+//                monsterStats();
+//            }
         }
     };
 
@@ -192,19 +192,19 @@ public class MonsterPageFragment extends MonsterPageUtil {
     private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout(int position) {
-            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-            Team newTeam;
-            for (int i = 0; i < teamList.size(); i++) {
-                newTeam = teamList.get(i);
-                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
-                    if (newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()) {
-                        newTeam.setMonsters(j, Monster.getMonsterId(0));
-                    }
-                }
-                newTeam.save();
-            }
-            monster.delete();
-            getActivity().getSupportFragmentManager().popBackStack();
+//            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+//            Team newTeam;
+//            for (int i = 0; i < teamList.size(); i++) {
+//                newTeam = teamList.get(i);
+//                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
+//                    if (newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()) {
+//                        newTeam.setMonsters(j, Monster.getMonsterId(0));
+//                    }
+//                }
+//                newTeam.save();
+//            }
+//            monster.delete();
+//            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 

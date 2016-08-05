@@ -42,13 +42,13 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListUtil {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            Monster newMonster;
-            if(monsterList.get(position).getMonsterId() != 0){
-               newMonster = new Monster(monsterList.get(position).getMonsterId());
-                newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
-                newMonster.save();
-                ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(newMonster), ManageMonsterPageFragment.TAG, "good");
-            }
+//            Monster newMonster;
+//            if(monsterList.get(position).getMonsterId() != 0){
+//               newMonster = new Monster(monsterList.get(position).getMonsterId());
+//                newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
+//                newMonster.save();
+//                ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(newMonster), ManageMonsterPageFragment.TAG, "good");
+//            }
         }
     };
 

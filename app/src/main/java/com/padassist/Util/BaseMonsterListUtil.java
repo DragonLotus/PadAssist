@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
@@ -30,6 +31,9 @@ import com.padassist.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 public abstract class BaseMonsterListUtil extends Fragment {
@@ -59,6 +63,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     private Comparator<BaseMonster> monsterRcvComparator = new BaseMonsterRcvComparator();
     private Comparator<BaseMonster> monsterRarityComparator = new BaseMonsterRarityComparator();
     private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
+    protected Realm realm = Realm.getDefaultInstance();
 
     private FastScroller fastScroller;
 
@@ -174,7 +179,8 @@ public abstract class BaseMonsterListUtil extends Fragment {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
-        monsterListAll = (ArrayList) BaseMonster.getAllMonsters();
+        RealmResults results = realm.where(BaseMonster.class).findAll();
+        monsterList.addAll(results);
         if (monsterList == null) {
             monsterList = new ArrayList<>();
             monsterList.addAll(monsterListAll);
@@ -353,9 +359,9 @@ public abstract class BaseMonsterListUtil extends Fragment {
 
     private void defaultReverse() {
         Collections.reverse(monsterList);
-        if (monsterList.contains(BaseMonster.getMonsterId(0))) {
-            monsterList.remove(BaseMonster.getMonsterId(0));
-            monsterList.add(0, BaseMonster.getMonsterId(0));
+        if (monsterList.contains(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst())) {
+            monsterList.remove(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+            monsterList.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
         }
     }
 
@@ -372,9 +378,9 @@ public abstract class BaseMonsterListUtil extends Fragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(BaseMonster.getMonsterId(0))) {
-            monsterList.remove(BaseMonster.getMonsterId(0));
-            monsterList.add(0, BaseMonster.getMonsterId(0));
+        if (monsterList.contains(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst())) {
+            monsterList.remove(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+            monsterList.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
         }
     }
 
@@ -391,9 +397,9 @@ public abstract class BaseMonsterListUtil extends Fragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(BaseMonster.getMonsterId(0))) {
-            monsterList.remove(BaseMonster.getMonsterId(0));
-            monsterList.add(0, BaseMonster.getMonsterId(0));
+        if (monsterList.contains(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst())) {
+            monsterList.remove(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+            monsterList.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
         }
     }
 
@@ -410,9 +416,9 @@ public abstract class BaseMonsterListUtil extends Fragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(BaseMonster.getMonsterId(0))) {
-            monsterList.remove(BaseMonster.getMonsterId(0));
-            monsterList.add(0, BaseMonster.getMonsterId(0));
+        if (monsterList.contains(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst())) {
+            monsterList.remove(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+            monsterList.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
         }
     }
 

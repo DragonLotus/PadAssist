@@ -12,6 +12,7 @@ import android.widget.Spinner;
 
 import com.padassist.Adapters.LatentSpinnerAdapter;
 import com.padassist.Data.Monster;
+import com.padassist.Data.RealmInt;
 import com.padassist.R;
 
 import java.lang.reflect.Field;
@@ -102,20 +103,20 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         latent3Spinner.setAdapter(latentSpinnerAdapter);
         latent4Spinner.setAdapter(latentSpinnerAdapter);
         latent5Spinner.setAdapter(latentSpinnerAdapter);
-        latent1Spinner.setSelection(monster.getLatents().get(0));
-        latent2Spinner.setSelection(monster.getLatents().get(1));
-        latent3Spinner.setSelection(monster.getLatents().get(2));
-        latent4Spinner.setSelection(monster.getLatents().get(3));
-        latent5Spinner.setSelection(monster.getLatents().get(4));
+        latent1Spinner.setSelection(monster.getLatents().get(0).getValue());
+        latent2Spinner.setSelection(monster.getLatents().get(1).getValue());
+        latent3Spinner.setSelection(monster.getLatents().get(2).getValue());
+        latent4Spinner.setSelection(monster.getLatents().get(3).getValue());
+        latent5Spinner.setSelection(monster.getLatents().get(4).getValue());
     }
 
     private void updateLatents(){
-        monster.getLatents().set(0, latent1Spinner.getSelectedItemPosition());
-        monster.getLatents().set(1, latent2Spinner.getSelectedItemPosition());
-        monster.getLatents().set(2, latent3Spinner.getSelectedItemPosition());
-        monster.getLatents().set(3, latent4Spinner.getSelectedItemPosition());
-        monster.getLatents().set(4, latent5Spinner.getSelectedItemPosition());
-        monster.save();
+        monster.getLatents().set(0, new RealmInt(latent1Spinner.getSelectedItemPosition()));
+        monster.getLatents().set(1, new RealmInt(latent2Spinner.getSelectedItemPosition()));
+        monster.getLatents().set(2, new RealmInt(latent3Spinner.getSelectedItemPosition()));
+        monster.getLatents().set(3, new RealmInt(latent4Spinner.getSelectedItemPosition()));
+        monster.getLatents().set(4, new RealmInt(latent5Spinner.getSelectedItemPosition()));
+//        monster.save();
     }
 
     public void setLatents(ResetLatents setLatents){

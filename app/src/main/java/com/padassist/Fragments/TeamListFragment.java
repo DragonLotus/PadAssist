@@ -58,6 +58,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import io.realm.Realm;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -123,6 +125,7 @@ public class TeamListFragment extends Fragment {
     private Comparator<Team> teamHelperPlusAtkComparator = new TeamHelperPlusAtkComparator();
     private Comparator<Team> teamHelperPlusRcvComparator = new TeamHelperPlusRcvComparator();
     private Comparator<Team> teamHelperRarityComparator = new TeamHelperRarityComparator();
+    private Realm realm = Realm.getDefaultInstance();
 
 //    private FastScroller fastScroller;
 
@@ -262,7 +265,7 @@ public class TeamListFragment extends Fragment {
         if (getArguments() != null) {
 
         }
-        teamListAll = (ArrayList) Team.getAllTeams();
+        teamListAll.addAll(realm.where(Team.class).findAll());
         teamList = new ArrayList<>();
         if (teamListAll.size() != 0) {
             for (int i = 0; i < teamList.size(); i++) {
@@ -316,94 +319,95 @@ public class TeamListFragment extends Fragment {
     private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam() {
         @Override
         public void loadTeam() {
-            Team teamZero = Team.getTeamById(0);
-            Monster monsterZero = Monster.getMonsterId(0);
-            if (teamZero.getTeamIdOverwrite() == 0) {
-                ArrayList<Monster> zeroMonsterList = new ArrayList<>();
-                for (int i = 0; i < 6; i++) {
-                    zeroMonsterList.add(monsterZero);
-                }
-                if (teamZero.getMonsters().equals(zeroMonsterList)) {
-                    Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
-                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-                    loadTeam.setTeamId(0);
-                    loadTeam.save();
-                    getActivity().getSupportFragmentManager().popBackStack();
-                } else {
-                    if (loadTeamConfirmationDialogFragment == null) {
-                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
-                    }
-                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
-                }
-            } else if (Team.getTeamById(teamZero.getTeamIdOverwrite()) != null) {
-                if (!teamZero.getMonsters().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters()) || !teamZero.getTeamName().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getTeamName())) {
-                    if (loadTeamConfirmationDialogFragment == null) {
-                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
-                    }
-                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
-                } else {
-                    Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
-                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-                    loadTeam.setTeamId(0);
-                    loadTeam.save();
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }
-            } else {
-                Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
-                loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-                loadTeam.setTeamId(0);
-                loadTeam.save();
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
+            Team teamZero = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+            Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+//            if (teamZero.getTeamIdOverwrite() == 0) {
+//                ArrayList<Monster> zeroMonsterList = new ArrayList<>();
+//                for (int i = 0; i < 6; i++) {
+//                    zeroMonsterList.add(monsterZero);
+//                }
+//                if (teamZero.getMonsters().equals(zeroMonsterList)) {
+//                    Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+//                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+//                    loadTeam.setTeamId(0);
+//                    loadTeam.save();
+//                    getActivity().getSupportFragmentManager().popBackStack();
+//                } else {
+//                    if (loadTeamConfirmationDialogFragment == null) {
+//                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+//                    }
+//                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+//                }
+//            } else if (Team.getTeamById(teamZero.getTeamIdOverwrite()) != null) {
+//                if (!teamZero.getMonsters().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters()) || !teamZero.getTeamName().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getTeamName())) {
+//                    if (loadTeamConfirmationDialogFragment == null) {
+//                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+//                    }
+//                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+//                } else {
+//                    Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+//                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+//                    loadTeam.setTeamId(0);
+//                    loadTeam.save();
+//                    getActivity().getSupportFragmentManager().popBackStack();
+//                }
+//            } else {
+//                Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+//                loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+//                loadTeam.setTeamId(0);
+//                loadTeam.save();
+//                getActivity().getSupportFragmentManager().popBackStack();
+//            }
         }
 
         @Override
         public void editTeam(String teamName) {
-            Team loadTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
-            loadTeam.setTeamName(teamName);
-            loadTeam.save();
-            if (loadTeam.getTeamId() == Team.getTeamById(0).getTeamIdOverwrite()) {
-                Team teamZero = Team.getTeamById(0);
-                teamZero.setTeamName(teamName);
-                teamZero.save();
-            }
-            teamListAdapter.notifyItemChanged(selectedTeam);
-//            teamList = (ArrayList) Team.getAllTeams();
-//            teamListAdapter.updateList(teamList);
+//            Team loadTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
+//            loadTeam.setTeamName(teamName);
+//            loadTeam.save();
+//            if (loadTeam.getTeamId() == Team.getTeamById(0).getTeamIdOverwrite()) {
+//                Team teamZero = Team.getTeamById(0);
+//                teamZero.setTeamName(teamName);
+//                teamZero.save();
+//            }
+//            teamListAdapter.notifyItemChanged(selectedTeam);
+//
+////            teamList = (ArrayList) Team.getAllTeams();
+////            teamListAdapter.updateList(teamList);
         }
 
         @Override
         public void deleteTeam() {
-            Team deleteTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
-            deleteTeam.delete();
-            teamList.remove(selectedTeam);
-            teamListAdapter.notifyDataSetChanged();
-            if (teamList.size() == 0) {
-                savedTeams.setVisibility(View.VISIBLE);
-            } else {
-                savedTeams.setVisibility(View.GONE);
-            }
+//            Team deleteTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
+//            deleteTeam.delete();
+//            teamList.remove(selectedTeam);
+//            teamListAdapter.notifyDataSetChanged();
+//            if (teamList.size() == 0) {
+//                savedTeams.setVisibility(View.VISIBLE);
+//            } else {
+//                savedTeams.setVisibility(View.GONE);
+//            }
         }
 
         @Override
         public void favoriteTeam(boolean favorite) {
-            if (selectedTeam < teamListAdapter.getItemCount() && teamListAdapter.getItemCount() != 0) {
-                teamListAdapter.getItem(selectedTeam).setFavorite(favorite);
-                teamListAdapter.getItem(selectedTeam).save();
-                teamListAdapter.notifyItemChanged(selectedTeam);
-            }
+//            if (selectedTeam < teamListAdapter.getItemCount() && teamListAdapter.getItemCount() != 0) {
+//                teamListAdapter.getItem(selectedTeam).setFavorite(favorite);
+//                teamListAdapter.getItem(selectedTeam).save();
+//                teamListAdapter.notifyItemChanged(selectedTeam);
+//            }
         }
     };
 
     private LoadTeamConfirmationDialogFragment.ResetLayout loadTeamConfirmation = new LoadTeamConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
-            loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-            loadTeam.setTeamId(0);
-            loadTeam.save();
-            teamLoadDialogFragment.dismiss();
-            getActivity().getSupportFragmentManager().popBackStack();
+//            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+//            loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+//            loadTeam.setTeamId(0);
+//            loadTeam.save();
+//            teamLoadDialogFragment.dismiss();
+//            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 

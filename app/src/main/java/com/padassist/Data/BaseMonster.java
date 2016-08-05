@@ -4,77 +4,82 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Select;
 import com.padassist.R;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by DragonLotus on 9/15/2015.
  */
-@Table(name = "BaseMonster")
-public class BaseMonster extends Model implements Parcelable {
-    @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.NO_ACTION)
+
+public class BaseMonster extends RealmObject implements Parcelable {
+    @PrimaryKey
     private long monsterId;
-    @Column(name = "monsterNumber")
+
     private long monsterNumber;
-    @Column(name = "atkMax")
+
     private int atkMax;
-    @Column(name = "atkMin")
+
     private int atkMin;
-    @Column(name = "hpMax")
+
     private int hpMax;
-    @Column(name = "hpMin")
+
     private int hpMin;
-    @Column(name = "maxLevel")
+
     private int maxLevel;
-    @Column(name = "rcvMin")
+
     private int rcvMin;
-    @Column(name = "rcvMax")
+
     private int rcvMax;
-    @Column(name = "type1")
+
     private int type1;
-    @Column(name = "type2")
+
     private int type2;
-    @Column(name = "type3")
+
     private int type3;
-    @Column(name = "maxAwakenings")
+
     private int maxAwakenings;
-    @Column(name = "element1")
+
+    private int element1int;
+
+    private int element2int;
+    @Ignore
     private Element element1;
-    @Column(name = "element2")
+    @Ignore
     private Element element2;
-    @Column(name = "awokenSkills")
-    private ArrayList<Integer> awokenSkills;
-    @Column(name = "activeSkill")
+
+    private RealmList<RealmInt> awokenSkills;
+
     private String activeSkill;
-    @Column(name = "leaderSkill")
+
     private String leaderSkill;
-    @Column(name = "name")
+
     private String name;
-    @Column(name = "atkScale")
+
     private double atkScale;
-    @Column(name = "rcvScale")
+
     private double rcvScale;
-    @Column(name = "hpScale")
+
     private double hpScale;
-    @Column(name = "rarity")
+
     private int rarity;
-    @Column(name = "teamCost")
+
     private int teamCost;
-    @Column(name = "xpCurve")
+
     private int xpCurve;
-    @Column(name = "evolutions")
-    private ArrayList<Long> evolutions;
-    @Column(name = "types")
-    private ArrayList<Integer> types;
+
+    private RealmList<RealmLong> evolutions;
+
+    private RealmList<RealmInt> types;
+    @Ignore
     DecimalFormat format = new DecimalFormat("0.00");
 
     public BaseMonster() {
@@ -91,16 +96,18 @@ public class BaseMonster extends Model implements Parcelable {
         rcvScale = 0;
         hpScale = 0;
         maxAwakenings = 0;
-        element1 = Element.BLANK;
-        element2 = Element.BLANK;
+        element1int = -1;
+        element2int = -1;
+//        element1 = Element.BLANK;
+//        element2 = Element.BLANK;
         name = "Empty";
         leaderSkill = "Blank";
         type1 = -1;
         type2 = -1;
         type3 = -1;
-        awokenSkills = new ArrayList<>();
-        evolutions = new ArrayList<>();
-        types = new ArrayList<>();
+        awokenSkills = new RealmList<>();
+        evolutions = new RealmList<>();
+        types = new RealmList<>();
     }
 
     public String getActiveSkill() {
@@ -135,53 +142,57 @@ public class BaseMonster extends Model implements Parcelable {
         this.atkScale = atkScale;
     }
 
-    public ArrayList<Integer> getAwokenSkills() {
+    public RealmList<RealmInt> getAwokenSkills() {
         return awokenSkills;
     }
 
-    public int getAwokenSkills(int position) {
+    public RealmInt getAwokenSkills(int position) {
         return awokenSkills.get(position);
     }
 
-    public void addAwokenSkills(int awakening) {
+    public void addAwokenSkills(RealmInt awakening) {
         awokenSkills.add(awakening);
     }
 
-    public void setAwokenSkills(ArrayList<Integer> awokenSkills) {
+    public void setAwokenSkills(RealmList<RealmInt> awokenSkills) {
         this.awokenSkills = awokenSkills;
     }
 
-    public void setAwokenSkills(JsonNode awokenNode) {
-        this.awokenSkills = new ArrayList<>();
-        for(JsonNode awakening: awokenNode) {
-            this.awokenSkills.add(awakening.asInt());
-        }
-    }
+//    public void setAwokenSkills(JsonNode awokenNode) {
+//        this.awokenSkills = new ArrayList<>();
+//        for(JsonNode awakening: awokenNode) {
+//            this.awokenSkills.add(awakening.asInt());
+//        }
+//    }
 
     public Element getElement1() {
+        if(element1 == null){
+            switch (element1int) {
+                case 0:
+                    element1 = Element.RED;
+                    break;
+                case 1:
+                    element1 = Element.BLUE;
+                    break;
+                case 2:
+                    element1 = Element.GREEN;
+                    break;
+                case 3:
+                    element1 = Element.LIGHT;
+                    break;
+                case 4:
+                    element1 = Element.DARK;
+                    break;
+                default:
+                    element1 = Element.BLANK;
+            }
+        }
         return element1;
     }
 
 
     public void setElement1(int element1) {
-        if(element1 == -1) {
-            this.element1 = Element.BLANK;
-        }
-        if(element1 == 0) {
-            this.element1 = Element.RED;
-        }
-        if(element1 == 1) {
-            this.element1 = Element.BLUE;
-        }
-        if(element1 == 2) {
-            this.element1 = Element.GREEN;
-        }
-        if(element1 == 3) {
-            this.element1 = Element.LIGHT;
-        }
-        if(element1 == 4) {
-            this.element1 = Element.DARK;
-        }
+        getElement1();
     }
 
     public void setElement1(Element element1) {
@@ -189,68 +200,44 @@ public class BaseMonster extends Model implements Parcelable {
     }
 
     public Element getElement2() {
+        if(element2 == null){
+            switch (element2int) {
+                case 0:
+                    element2 = Element.RED;
+                    break;
+                case 1:
+                    element2 = Element.BLUE;
+                    break;
+                case 2:
+                    element2 = Element.GREEN;
+                    break;
+                case 3:
+                    element2 = Element.LIGHT;
+                    break;
+                case 4:
+                    element2 = Element.DARK;
+                    break;
+                default:
+                    element2 = Element.BLANK;
+            }
+        }
         return element2;
     }
 
     public void setElement2(int element2) {
-        if(element2 == -1) {
-            this.element2 = Element.BLANK;
-        }
-        if(element2 == 0) {
-            this.element2 = Element.RED;
-        }
-        if(element2 == 1) {
-            this.element2 = Element.BLUE;
-        }
-        if(element2 == 2) {
-            this.element2 = Element.GREEN;
-        }
-        if(element2 == 3) {
-            this.element2 = Element.LIGHT;
-        }
-        if(element2 == 4) {
-            this.element2 = Element.DARK;
-        }
+        getElement2();
     }
 
     public void setElement2(Element element2) {
         this.element2 = element2;
     }
 
-    public int getElement1Int(){
-        if (element1 == Element.BLANK){
-            return -1;
-        }else if (element1 == Element.RED){
-            return 0;
-        }else if(element1 == Element.BLUE) {
-            return 1;
-        }else if(element1 == Element.GREEN) {
-            return 2;
-        }else if(element1 == Element.LIGHT) {
-            return 3;
-        }else if(element1 == Element.DARK) {
-            return 4;
-        }else {
-            return 5;
-        }
+    public int getElement1Int() {
+        return element1int;
     }
 
-    public int getElement2Int(){
-        if (element2 == Element.BLANK){
-            return -1;
-        }else if (element2 == Element.RED){
-            return 0;
-        }else if(element2 == Element.BLUE) {
-            return 1;
-        }else if(element2 == Element.GREEN) {
-            return 2;
-        }else if(element2 == Element.LIGHT) {
-            return 3;
-        }else if(element2 == Element.DARK) {
-            return 4;
-        }else {
-            return 5;
-        }
+    public int getElement2Int() {
+        return element2int;
     }
 
     public int getHpMax() {
@@ -316,9 +303,9 @@ public class BaseMonster extends Model implements Parcelable {
             Field field = res.getField(picture);
             int drawableId = field.getInt(null);
             return drawableId;
-        } catch(NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {
             Log.e("drawableId", "Unable to get drawable id " + monsterId);
-        } catch(IllegalAccessException e){
+        } catch (IllegalAccessException e) {
             Log.e("IllegalTag", "Illegal Access Exception");
         }
         return R.drawable.monster_0;
@@ -361,35 +348,35 @@ public class BaseMonster extends Model implements Parcelable {
     }
 
     public int getType1() {
-            return type1;
+        return type1;
     }
 
     public void setType1(int type1) {
         this.type1 = type1;
-        if(type1 != -1){
-            types.add(type1);
+        if (type1 != -1) {
+            types.add(new RealmInt(type1));
         }
     }
 
     public int getType2() {
-            return type2;
+        return type2;
     }
 
     public void setType2(int type2) {
         this.type2 = type2;
-        if(type2 != -1){
-            types.add(type2);
+        if (type2 != -1) {
+            types.add(new RealmInt(type2));
         }
     }
 
     public int getType3() {
-            return type3;
+        return type3;
     }
 
     public void setType3(int type3) {
         this.type3 = type3;
-        if(type3 != -1){
-            types.add(type3);
+        if (type3 != -1) {
+            types.add(new RealmInt(type3));
         }
     }
 
@@ -466,7 +453,7 @@ public class BaseMonster extends Model implements Parcelable {
             return "/Attacker";
         } else if (type3 == 7) {
             return "/Devil";
-        }else if (type3 == 8) {
+        } else if (type3 == 8) {
             return "/Machine";
         } else if (type3 == 12) {
             return "/Awoken Skill Material";
@@ -501,29 +488,29 @@ public class BaseMonster extends Model implements Parcelable {
         this.teamCost = teamCost;
     }
 
-    public ArrayList<Long> getEvolutions() {
+    public RealmList<RealmLong> getEvolutions() {
         return evolutions;
     }
 
-    public void setEvolutions(ArrayList<Long> evolutions) {
+    public void setEvolutions(RealmList<RealmLong> evolutions) {
         this.evolutions = evolutions;
     }
 
-    public ArrayList<Integer> getTypes() {
+    public RealmList<RealmInt> getTypes() {
         return types;
     }
 
-    public void setTypes(ArrayList<Integer> types) {
+    public void setTypes(RealmList<RealmInt> types) {
         this.types = types;
     }
 
-    public static List<Monster> getAllMonsters() {
-        return new Select().from(BaseMonster.class).execute();
-    }
-
-    public static BaseMonster getMonsterId(long id) {
-        return new Select().from(BaseMonster.class).where("monsterId = ?", id).executeSingle();
-    }
+//    public static List<Monster> getAllMonsters() {
+//        return new Select().from(BaseMonster.class).execute();
+//    }
+//
+//    public static BaseMonster getMonsterId(long id) {
+//        return new Select().from(BaseMonster.class).where("monsterId = ?", id).executeSingle();
+//    }
 
     public BaseMonster(Parcel source) {
         monsterId = source.readLong();
@@ -540,7 +527,7 @@ public class BaseMonster extends Model implements Parcelable {
         maxAwakenings = source.readInt();
         element1 = (Element) source.readSerializable();
         element2 = (Element) source.readSerializable();
-        awokenSkills = source.readArrayList(Integer.class.getClassLoader());
+//        awokenSkills = source.readArrayList(Integer.class.getClassLoader());
         activeSkill = source.readString();
         leaderSkill = source.readString();
         name = source.readString();
@@ -550,8 +537,8 @@ public class BaseMonster extends Model implements Parcelable {
         rarity = source.readInt();
         teamCost = source.readInt();
         xpCurve = source.readInt();
-        evolutions = source.readArrayList(Long.class.getClassLoader());
-        types = source.readArrayList(Integer.class.getClassLoader());
+//        evolutions = source.readArrayList(Long.class.getClassLoader());
+//        types = source.readArrayList(Integer.class.getClassLoader());
     }
 
     @Override
@@ -575,7 +562,7 @@ public class BaseMonster extends Model implements Parcelable {
         dest.writeInt(maxAwakenings);
         dest.writeSerializable(element1);
         dest.writeSerializable(element2);
-        dest.writeList(awokenSkills);
+//        dest.writeList(awokenSkills);
         dest.writeString(activeSkill);
         dest.writeString(leaderSkill);
         dest.writeString(name);
@@ -585,8 +572,8 @@ public class BaseMonster extends Model implements Parcelable {
         dest.writeInt(rarity);
         dest.writeInt(teamCost);
         dest.writeInt(xpCurve);
-        dest.writeList(evolutions);
-        dest.writeList(types);
+//        dest.writeList(evolutions);
+//        dest.writeList(types);
     }
 
     public static final Parcelable.Creator<BaseMonster> CREATOR = new Creator<BaseMonster>() {

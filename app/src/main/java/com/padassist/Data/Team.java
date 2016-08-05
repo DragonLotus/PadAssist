@@ -3,11 +3,6 @@ package com.padassist.Data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.NumberComparator;
 
@@ -16,59 +11,78 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by DragonLotus on 8/10/2015.
  */
-@Table(name = "Team")
-public class Team extends Model implements Parcelable {
-    @Column(name = "teamId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+
+public class Team extends RealmObject implements Parcelable {
+    @PrimaryKey
     private long teamId;
     private int teamHealth;
     private int teamRcv;
     private int totalDamage;
+    @Ignore
     private ArrayList<Integer> rowAwakenings = new ArrayList<Integer>();
+    @Ignore
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
+    @Ignore
     private ArrayList<Monster> monsters;
+    @Ignore
     private ArrayList<Long> baseMonsterId = new ArrayList<Long>();
-    @Column(name = "lead", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster lead;
-    @Column(name = "sub1", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster sub1;
-    @Column(name = "sub2", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster sub2;
-    @Column(name = "sub3", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster sub3;
-    @Column(name = "sub4", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster sub4;
-    @Column(name = "helper", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster helper;
+    @Ignore
     private ArrayList<OrbMatch> orbMatches;
-    @Column(name = "teamName")
+
     private String teamName;
-    @Column(name = "teamGroup")
+
     private int teamGroup;
     //Position in Team Group
-    @Column(name = "teamOrder")
+
     private int teamOrder;
-    @Column(name = "favorite")
+
     private boolean favorite;
     private boolean hasAwakenings;
     private boolean isActiveSkillUsed;
-    @Column(name = "teamIdOverwrite")
+
     private long teamIdOverwrite;
+    @Ignore
     private ArrayList<Boolean> isBound = new ArrayList<>();
-    @Column(name = "teamHp")
+
     private int teamHp;
+    @Ignore
     private ArrayList<Element> compareElements = new ArrayList<>();
+    @Ignore
     private ArrayList<Element> haveElements = new ArrayList();
+    @Ignore
     private ArrayList<Element> compareAllElements = new ArrayList<>();
-    @Column(name = "leadSkill")
+    @Ignore
     private LeaderSkill leadSkill;
-    @Column(name = "helperSkill")
+    @Ignore
     private LeaderSkill helperSkill;
+    @Ignore
     private ArrayList<Integer> awakeningsList = new ArrayList<>();
+    @Ignore
     private ArrayList<Integer> latentsList = new ArrayList<>();
+    @Ignore
     private Comparator<Integer> numberComparator = new NumberComparator();
+    @Ignore
+    private Realm realm = Realm.getDefaultInstance();
 
     public Team() {
         teamId = 0;
@@ -159,30 +173,15 @@ public class Team extends Model implements Parcelable {
         this.totalDamage = totalDamage;
     }
 
-    public ArrayList<OrbMatch> getOrbMatches() {
-        if (!orbMatches.equals((ArrayList) OrbMatch.getAllOrbMatches())) {
-            orbMatches = (ArrayList) OrbMatch.getAllOrbMatches();
-        }
+//    public ArrayList<OrbMatch> getOrbMatches() {
+//        if (!orbMatches.equals((ArrayList) OrbMatch.getAllOrbMatches())) {
+//            orbMatches = (ArrayList) OrbMatch.getAllOrbMatches();
+//        }
+//
+//        return orbMatches;
+//
+//    }
 
-        return orbMatches;
-
-    }
-//
-//    public void addOrbMatches(OrbMatch orbMatch) {
-//        orbMatches.add(orbMatch);
-//    }
-//
-//    public void clearOrbMatches() {
-//        orbMatches.clear();
-//    }
-//
-//    public void removeOrbMatches(int position) {
-//        orbMatches.remove(position);
-//    }
-//
-//    public int sizeOrbMatches() {
-//        return orbMatches.size();
-//    }
 
     public OrbMatch getOrbMatches(int position) {
         return orbMatches.get(position);
@@ -330,7 +329,7 @@ public class Team extends Model implements Parcelable {
 
     public LeaderSkill getLeadSkill() {
         if (isBound.get(0) || monsters.get(0).getMonsterId() == 0) {
-            return LeaderSkill.getLeaderSkill("Blank");
+            return realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
         } else {
             return leadSkill;
         }
@@ -342,7 +341,7 @@ public class Team extends Model implements Parcelable {
 
     public LeaderSkill getHelperSkill() {
         if (isBound.get(5) || monsters.get(5).getMonsterId() == 0) {
-            return LeaderSkill.getLeaderSkill("Blank");
+            return realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
         } else {
             return helperSkill;
         }
@@ -364,15 +363,15 @@ public class Team extends Model implements Parcelable {
         return compareElements;
     }
 
-    public ArrayList<Element> getAllOrbMatchElements() {
-        if (compareAllElements.size() != 0) {
-            compareAllElements.clear();
-        }
-        for (int i = 0; i < getOrbMatches().size(); i++) {
-            compareAllElements.add(getOrbMatches().get(i).getElement());
-        }
-        return compareAllElements;
-    }
+//    public ArrayList<Element> getAllOrbMatchElements() {
+//        if (compareAllElements.size() != 0) {
+//            compareAllElements.clear();
+//        }
+//        for (int i = 0; i < getOrbMatches().size(); i++) {
+//            compareAllElements.add(getOrbMatches().get(i).getElement());
+//        }
+//        return compareAllElements;
+//    }
 
     public int getOrbPlusAwakenings(Element element) {
         if (element.equals(Element.RED)) {
@@ -447,8 +446,8 @@ public class Team extends Model implements Parcelable {
         if(latentsList.size() == 0){
             for (int i = 0; i < monsters.size(); i++){
                 for(int j = 0; j < monsters.get(i).getLatents().size(); j++){
-                    if(monsters.get(i).getLatents().get(j) != 0){
-                        latentsList.add(monsters.get(i).getLatents().get(j));
+                    if(monsters.get(i).getLatents().get(j).getValue() != 0){
+                        latentsList.add(monsters.get(i).getLatents().get(j).getValue());
                     }
                 }
             }
@@ -558,29 +557,29 @@ public class Team extends Model implements Parcelable {
         }
     }
 
-    public void updateOrbs() {
-        haveElements.clear();
-        compareElements.clear();
-        for (int i = 0; i < getMonsters().size(); i++) {
-            if (!isBound.get(i)) {
-                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
-                    haveElements.add(getMonsters().get(i).getElement1());
-                }
-                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
-                    haveElements.add(getMonsters().get(i).getElement2());
-                }
-            }
-
-        }
-        for (int i = 0; i < getOrbMatches().size(); i++) {
-            if (haveElements.contains(getOrbMatches().get(i).getElement())) {
-                compareElements.add(getOrbMatches().get(i).getElement());
-            }
-            if (getOrbMatches().get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
-                compareElements.add(Element.HEART);
-            }
-        }
-    }
+//    public void updateOrbs() {
+//        haveElements.clear();
+//        compareElements.clear();
+//        for (int i = 0; i < getMonsters().size(); i++) {
+//            if (!isBound.get(i)) {
+//                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
+//                    haveElements.add(getMonsters().get(i).getElement1());
+//                }
+//                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
+//                    haveElements.add(getMonsters().get(i).getElement2());
+//                }
+//            }
+//
+//        }
+//        for (int i = 0; i < getOrbMatches().size(); i++) {
+//            if (haveElements.contains(getOrbMatches().get(i).getElement())) {
+//                compareElements.add(getOrbMatches().get(i).getElement());
+//            }
+//            if (getOrbMatches().get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
+//                compareElements.add(Element.HEART);
+//            }
+//        }
+//    }
 
     public void setTeamStats(){
         int hp = 0;
@@ -593,18 +592,18 @@ public class Team extends Model implements Parcelable {
         this.teamRcv = (int)Math.floor(rcv + 0.5d);
     }
 
-    public void updateLeaderSkills() {
-        if(LeaderSkill.getLeaderSkill(lead.getLeaderSkill()) == null){
-            leadSkill = LeaderSkill.getLeaderSkill("Blank");
-        } else {
-            leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
-        }
-        if(LeaderSkill.getLeaderSkill(helper.getLeaderSkill()) == null){
-            helperSkill = LeaderSkill.getLeaderSkill("Blank");
-        } else {
-            helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
-        }
-    }
+//    public void updateLeaderSkills() {
+//        if(LeaderSkill.getLeaderSkill(lead.getLeaderSkill()) == null){
+//            leadSkill = LeaderSkill.getLeaderSkill("Blank");
+//        } else {
+//            leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
+//        }
+//        if(LeaderSkill.getLeaderSkill(helper.getLeaderSkill()) == null){
+//            helperSkill = LeaderSkill.getLeaderSkill("Blank");
+//        } else {
+//            helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
+//        }
+//    }
 
     public Team(Parcel source) {
         teamHealth = source.readInt();
@@ -656,25 +655,25 @@ public class Team extends Model implements Parcelable {
         }
     };
 
-    public static List<Team> getAllTeams() {
-        return new Select().from(Team.class).where("teamId > ?", 0).execute();
-    }
-
-    public static List<Team> getAllTeamsAndZero() {
-        return new Select().from(Team.class).execute();
-    }
-
-    public static Team getTeamById(long id) {
-        return new Select().from(Team.class).where("teamId = ?", id).executeSingle();
-    }
-
-    public static void deleteAllTeams() {
-        new Delete().from(Team.class).execute();
-    }
-
-    public static void deleteTeam(int id) {
-        new Delete().from(Team.class).where("teamId = ?", id).executeSingle();
-    }
+//    public static List<Team> getAllTeams() {
+//        return new Select().from(Team.class).where("teamId > ?", 0).execute();
+//    }
+//
+//    public static List<Team> getAllTeamsAndZero() {
+//        return new Select().from(Team.class).execute();
+//    }
+//
+//    public static Team getTeamById(long id) {
+//        return new Select().from(Team.class).where("teamId = ?", id).executeSingle();
+//    }
+//
+//    public static void deleteAllTeams() {
+//        new Delete().from(Team.class).execute();
+//    }
+//
+//    public static void deleteTeam(int id) {
+//        new Delete().from(Team.class).where("teamId = ?", id).executeSingle();
+//    }
 
 
 }

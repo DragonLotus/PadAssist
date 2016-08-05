@@ -6,11 +6,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
 
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
@@ -19,46 +14,54 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Anthony on 7/13/2015.
- */
-@Table(name = "Monster")
-public class Monster extends Model implements Parcelable {
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
+
+public class Monster extends RealmObject implements Parcelable {
     public static final int HP_MULTIPLIER = 10;
     public static final int ATK_MULTIPLIER = 5;
     public static final int RCV_MULTIPLIER = 3;
-    @Column(name = "monsterId", unique = true, index = true, onUniqueConflict = Column.ConflictAction.REPLACE, onUpdate = Column.ForeignKeyAction.NO_ACTION, onDelete = Column.ForeignKeyAction.NO_ACTION)
+
+    @PrimaryKey
     private long monsterId;
-    @Column(name = "baseMonster", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
+    private long baseMonsterId;
+
     private BaseMonster baseMonster;
-    @Column(name = "favorite")
+
     private boolean favorite;
-    @Column(name = "priority")
+
     private int priority;
-    @Column(name = "currentLevel")
+
     private int currentLevel;
-    @Column(name = "atkPlus")
+
     private int atkPlus;
-    @Column(name = "hpPlus")
+
     private int hpPlus;
-    @Column(name = "rcvPlus")
+
     private int rcvPlus;
-    @Column(name = "currentAwakenings")
+
     private int currentAwakenings;
-    @Column(name = "currentAtk")
+
     private double currentAtk;
-    @Column(name = "currentRcv")
+
     private double currentRcv;
-    @Column(name = "currentHp")
+
     private double currentHp;
-    @Column(name = "helper")
+
     private boolean helper;
-    @Column(name = "latents")
-    private ArrayList<Integer> latents;
-    @Column(name = "killerAwakenings")
-    private ArrayList<Integer> killerAwakenings;
+
+    private RealmList<RealmInt> latents;
+
+    private RealmList<RealmInt> killerAwakenings;
+    @Ignore
     DecimalFormat format = new DecimalFormat("0.00");
-    private ArrayList<Integer> awakenings = new ArrayList<>();
+    private RealmList<RealmInt> awakenings = new RealmList<>();
+    @Ignore
+    private Realm realm = Realm.getDefaultInstance();
 
     public Monster() {
     }
@@ -66,7 +69,8 @@ public class Monster extends Model implements Parcelable {
     public Monster(long baseMonsterId) {
         currentLevel = 1;
         monsterId = 0;
-        baseMonster = BaseMonster.getMonsterId(baseMonsterId);
+        this.baseMonsterId = baseMonsterId;
+        baseMonster = realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst();
         hpPlus = 0;
         atkPlus = 0;
         rcvPlus = 0;
@@ -77,13 +81,13 @@ public class Monster extends Model implements Parcelable {
         priority = 2;
         favorite = false;
         helper = false;
-        latents = new ArrayList<>();
-        latents.add(0);
-        latents.add(0);
-        latents.add(0);
-        latents.add(0);
-        latents.add(0);
-        killerAwakenings = new ArrayList<>();
+        latents = new RealmList<>();
+        latents.add(new RealmInt(0));
+        latents.add(new RealmInt(0));
+        latents.add(new RealmInt(0));
+        latents.add(new RealmInt(0));
+        latents.add(new RealmInt(0));
+        killerAwakenings = new RealmList<>();
         if (baseMonsterId != 0) {
             setCurrentHp(DamageCalculationUtil.monsterStatCalc(baseMonster.getHpMin(), baseMonster.getHpMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getHpScale()));
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
@@ -92,52 +96,64 @@ public class Monster extends Model implements Parcelable {
     }
 
     public int getElement1Damage(Team team, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, team);
+//        return (int) DamageCalculationUtil.monsterElement1Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, team);
+        return 0;
     }
 
     public int getElement1DamageEnemy(Team team, Enemy enemy, int combos) {
-        return (int) Math.ceil(DamageCalculationUtil.monsterElement1DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team));
+//        return (int) Math.ceil(DamageCalculationUtil.monsterElement1DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team));
+        return 0;
     }
 
     public int getElement2Damage(Team team, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, team);
+//        return (int) DamageCalculationUtil.monsterElement2Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, team);
+        return 0;
     }
 
 
     public int getElement2DamageEnemy(Team team, Enemy enemy, int combos) {
-        return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team));
+//        return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team));
+        return 0;
     }
 
     public int getElement1DamageReduction(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+//        return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+        return 0;
     }
 
     public int getElement2DamageReduction(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+//        return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+        return 0;
     }
 
     public int getElement1DamageAbsorb(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+//        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+        return 0;
     }
 
     public int getElement2DamageAbsorb(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+//        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+        return 0;
     }
 
     public int getElement1DamageThreshold(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+//        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+        return 0;
     }
 
     public int getElement2DamageThreshold(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+//        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+        return 0;
     }
 
     public int getElement1DamageImmunity(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement1DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+//        return (int) DamageCalculationUtil.monsterElement1DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+        return 0;
     }
 
     public int getElement2DamageImmunity(Team team, Enemy enemy, int combos) {
-        return (int) DamageCalculationUtil.monsterElement2DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+//        return (int) DamageCalculationUtil.monsterElement2DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+        return 0;
     }
 
     public int getCurrentLevel() {
@@ -164,13 +180,13 @@ public class Monster extends Model implements Parcelable {
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
-            if (awakenings.get(i) == 1) {
+            if (awakenings.get(i).getValue() == 1) {
                 counter++;
             }
         }
         int counter2 = 0;
         for (int i = 0; i < latents.size(); i++) {
-            if (latents.get(i) == 1) {
+            if (latents.get(i).getValue() == 1) {
                 counter2++;
             }
         }
@@ -190,13 +206,13 @@ public class Monster extends Model implements Parcelable {
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
-            if (awakenings.get(i) == 2) {
+            if (awakenings.get(i).getValue() == 2) {
                 counter++;
             }
         }
         int counter2 = 0;
         for (int i = 0; i < latents.size(); i++) {
-            if (latents.get(i) == 2) {
+            if (latents.get(i).getValue() == 2) {
                 counter2++;
             }
         }
@@ -216,13 +232,13 @@ public class Monster extends Model implements Parcelable {
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
-            if (awakenings.get(i) == 3) {
+            if (awakenings.get(i).getValue() == 3) {
                 counter++;
             }
         }
         int counter2 = 0;
         for (int i = 0; i < latents.size(); i++) {
-            if (latents.get(i) == 3) {
+            if (latents.get(i).getValue() == 3) {
                 counter2++;
             }
         }
@@ -236,7 +252,7 @@ public class Monster extends Model implements Parcelable {
         return totalRcv;
     }
 
-    public ArrayList<Integer> setAwakenings() {
+    public RealmList<RealmInt> setAwakenings() {
         if(currentAwakenings != awakenings.size()){
             if (currentAwakenings < getMaxAwakenings()) {
                 for (int i = 0; i < currentAwakenings; i++) {
@@ -347,12 +363,13 @@ public class Monster extends Model implements Parcelable {
         return baseMonster.getElement2Int();
     }
 
-    public ArrayList<Integer> getAwokenSkills() {
+    public RealmList<RealmInt> getAwokenSkills() {
+        Log.d("Monster", "Basemonster is:" + getBaseMonster());
         return baseMonster.getAwokenSkills();
     }
 
     public int getAwokenSkills(int position) {
-        return baseMonster.getAwokenSkills(position);
+        return baseMonster.getAwokenSkills(position).getValue();
     }
 
     public String getActiveSkill() {
@@ -420,87 +437,87 @@ public class Monster extends Model implements Parcelable {
     }
 
     public void setCurrentAwakenings(int currentAwakenings) {
-        if (getAwokenSkills().contains(31) || getAwokenSkills().contains(32) || getAwokenSkills().contains(33) || getAwokenSkills().contains(34) || getAwokenSkills().contains(35) || getAwokenSkills().contains(36) || getAwokenSkills().contains(37) || getAwokenSkills().contains(38) || getAwokenSkills().contains(39) || getAwokenSkills().contains(40) || getAwokenSkills().contains(41) || getAwokenSkills().contains(42)) {
+        if (getAwokenSkills().contains(new RealmInt(31)) || getAwokenSkills().contains(new RealmInt(32)) || getAwokenSkills().contains(new RealmInt(33)) || getAwokenSkills().contains(new RealmInt(34)) || getAwokenSkills().contains(new RealmInt(35)) || getAwokenSkills().contains(new RealmInt(36)) || getAwokenSkills().contains(new RealmInt(37)) || getAwokenSkills().contains(new RealmInt(38)) || getAwokenSkills().contains(new RealmInt(39)) || getAwokenSkills().contains(new RealmInt(40)) || getAwokenSkills().contains(new RealmInt(41)) || getAwokenSkills().contains(new RealmInt(42))) {
             killerAwakenings.clear();
             if (currentAwakenings > getMaxAwakenings()) {
                 for (int i = 0; i < getMaxAwakenings(); i++) {
-                    switch (baseMonster.getAwokenSkills(i)) {
+                    switch (baseMonster.getAwokenSkills(i).getValue()) {
                         case 31:
-                            killerAwakenings.add(31);
+                            killerAwakenings.add(new RealmInt(31));
                             break;
                         case 32:
-                            killerAwakenings.add(32);
+                            killerAwakenings.add(new RealmInt(32));
                             break;
                         case 33:
-                            killerAwakenings.add(33);
+                            killerAwakenings.add(new RealmInt(33));
                             break;
                         case 34:
-                            killerAwakenings.add(34);
+                            killerAwakenings.add(new RealmInt(34));
                             break;
                         case 35:
-                            killerAwakenings.add(35);
+                            killerAwakenings.add(new RealmInt(35));
                             break;
                         case 36:
-                            killerAwakenings.add(36);
+                            killerAwakenings.add(new RealmInt(36));
                             break;
                         case 37:
-                            killerAwakenings.add(37);
+                            killerAwakenings.add(new RealmInt(37));
                             break;
                         case 38:
-                            killerAwakenings.add(38);
+                            killerAwakenings.add(new RealmInt(38));
                             break;
                         case 39:
-                            killerAwakenings.add(39);
+                            killerAwakenings.add(new RealmInt(39));
                             break;
                         case 40:
-                            killerAwakenings.add(40);
+                            killerAwakenings.add(new RealmInt(40));
                             break;
                         case 41:
-                            killerAwakenings.add(41);
+                            killerAwakenings.add(new RealmInt(41));
                             break;
                         case 42:
-                            killerAwakenings.add(42);
+                            killerAwakenings.add(new RealmInt(42));
                             break;
                     }
                 }
             } else {
                 for (int i = 0; i < currentAwakenings; i++) {
-                    switch (baseMonster.getAwokenSkills(i)) {
+                    switch (baseMonster.getAwokenSkills(i).getValue()) {
                         case 31:
-                            killerAwakenings.add(31);
+                            killerAwakenings.add(new RealmInt(31));
                             break;
                         case 32:
-                            killerAwakenings.add(32);
+                            killerAwakenings.add(new RealmInt(32));
                             break;
                         case 33:
-                            killerAwakenings.add(33);
+                            killerAwakenings.add(new RealmInt(33));
                             break;
                         case 34:
-                            killerAwakenings.add(34);
+                            killerAwakenings.add(new RealmInt(34));
                             break;
                         case 35:
-                            killerAwakenings.add(35);
+                            killerAwakenings.add(new RealmInt(35));
                             break;
                         case 36:
-                            killerAwakenings.add(36);
+                            killerAwakenings.add(new RealmInt(36));
                             break;
                         case 37:
-                            killerAwakenings.add(37);
+                            killerAwakenings.add(new RealmInt(37));
                             break;
                         case 38:
-                            killerAwakenings.add(38);
+                            killerAwakenings.add(new RealmInt(38));
                             break;
                         case 39:
-                            killerAwakenings.add(39);
+                            killerAwakenings.add(new RealmInt(39));
                             break;
                         case 40:
-                            killerAwakenings.add(40);
+                            killerAwakenings.add(new RealmInt(40));
                             break;
                         case 41:
-                            killerAwakenings.add(41);
+                            killerAwakenings.add(new RealmInt(41));
                             break;
                         case 42:
-                            killerAwakenings.add(42);
+                            killerAwakenings.add(new RealmInt(42));
                             break;
                     }
                 }
@@ -553,7 +570,7 @@ public class Monster extends Model implements Parcelable {
         this.priority = priority;
     }
 
-    public ArrayList<Long> getEvolutions() {
+    public RealmList<RealmLong> getEvolutions() {
         return baseMonster.getEvolutions();
     }
 
@@ -573,36 +590,36 @@ public class Monster extends Model implements Parcelable {
         this.helper = helper;
     }
 
-    public ArrayList<Integer> getLatents() {
+    public RealmList<RealmInt> getLatents() {
         return latents;
     }
 
-    public void setLatents(ArrayList<Integer> latents) {
+    public void setLatents(RealmList<RealmInt> latents) {
         this.latents = latents;
     }
 
-    public ArrayList<Integer> getKillerAwakenings() {
+    public RealmList<RealmInt> getKillerAwakenings() {
         return killerAwakenings;
     }
 
-    public ArrayList<Integer> getTypes() {
+    public RealmList<RealmInt> getTypes() {
         return baseMonster.getTypes();
     }
 
     public int getTPA() {
         int numOfDoubleProngs = 0;
-        if (!Team.getTeamById(0).hasAwakenings()) {
+        if (!realm.where(Team.class).equalTo("teamId", 0).findFirst().hasAwakenings()) {
             return numOfDoubleProngs;
         } else {
             if (currentAwakenings < getMaxAwakenings()) {
                 for (int i = 0; i < currentAwakenings; i++) {
-                    if (baseMonster.getAwokenSkills(i) == 27) {
+                    if (baseMonster.getAwokenSkills(i).getValue() == 27) {
                         numOfDoubleProngs++;
                     }
                 }
             } else {
                 for (int i = 0; i < getMaxAwakenings(); i++) {
-                    if (baseMonster.getAwokenSkills(i) == 27) {
+                    if (baseMonster.getAwokenSkills(i).getValue() == 27) {
                         numOfDoubleProngs++;
                     }
                 }
@@ -625,9 +642,9 @@ public class Monster extends Model implements Parcelable {
         currentAtk = source.readDouble();
         currentHp = source.readDouble();
         helper = source.readByte() == 1;
-        latents = source.readArrayList(Integer.class.getClassLoader());
-        killerAwakenings = source.readArrayList(Integer.class.getClassLoader());
-        awakenings = source.readArrayList(Integer.class.getClassLoader());
+//        latents = source.readArrayList(Integer.class.getClassLoader());
+//        killerAwakenings = source.readArrayList(Integer.class.getClassLoader());
+//        awakenings = source.readArrayList(Integer.class.getClassLoader());
         //isBound = source.readByte() == 1;
     }
 
@@ -650,9 +667,9 @@ public class Monster extends Model implements Parcelable {
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
         dest.writeByte((byte) (helper ? 1: 0));
-        dest.writeList(latents);
-        dest.writeList(killerAwakenings);
-        dest.writeList(awakenings);
+//        dest.writeList(latents);
+//        dest.writeList(killerAwakenings);
+//        dest.writeList(awakenings);
         //dest.writeByte((byte) (isBound ? 1 : 0));
     }
 
@@ -666,33 +683,34 @@ public class Monster extends Model implements Parcelable {
         }
     };
 
-    public static List<Monster> getAllMonsters() {
-        return new Select().from(Monster.class).execute();
-    }
+//    public static List<Monster> getAllMonsters() {
+//        return new Select().from(Monster.class).execute();
+//    }
+//
+//    public static List<Monster> getAllSavedMonsters() {
+//        return new Select().from(Monster.class).where("helper = ?", false).execute();
+//    }
+//
+//    public static List<Monster> getAllHelperMonsters() {
+//        return new Select().from(Monster.class).where("helper = ?", true).execute();
+//    }
+//
+//    public static void deleteAllMonsters() {
+//        new Delete().from(Monster.class).execute();
+//    }
+//
+//    public static void deleteMonsterById(long id) {
+//        new Delete().from(Monster.class).where("monsterId = ?", id).executeSingle();
+//    }
+//
+//    public static List<Monster> getAllMonstersLevel(int level) {
+//        return new Select().from(Monster.class).where("currentLevel = ?", level).execute();
+//    }
+//
+//    public static Monster getMonsterId(long id) {
+//        return new Select().from(Monster.class).where("monsterId = ?", id).executeSingle();
+//    }
 
-    public static List<Monster> getAllSavedMonsters() {
-        return new Select().from(Monster.class).where("helper = ?", false).execute();
-    }
-
-    public static List<Monster> getAllHelperMonsters() {
-        return new Select().from(Monster.class).where("helper = ?", true).execute();
-    }
-
-    public static void deleteAllMonsters() {
-        new Delete().from(Monster.class).execute();
-    }
-
-    public static void deleteMonsterById(long id) {
-        new Delete().from(Monster.class).where("monsterId = ?", id).executeSingle();
-    }
-
-    public static List<Monster> getAllMonstersLevel(int level) {
-        return new Select().from(Monster.class).where("currentLevel = ?", level).execute();
-    }
-
-    public static Monster getMonsterId(long id) {
-        return new Select().from(Monster.class).where("monsterId = ?", id).executeSingle();
-    }
 //
 //    public static List<Monster> getMonsterAtkMax(int attack){
 //        return new Select().from(Monster.class).where("atkMax = ?", attack).execute();

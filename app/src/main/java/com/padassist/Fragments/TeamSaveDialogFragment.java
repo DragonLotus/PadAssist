@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.padassist.Data.Team;
 import com.padassist.R;
 
+import io.realm.Realm;
+
 public class TeamSaveDialogFragment extends DialogFragment {
     private RadioGroup choiceRadioGroup;
     private EditText teamName;
@@ -22,6 +24,7 @@ public class TeamSaveDialogFragment extends DialogFragment {
     private Toast toast;
     private Team team;
     private long teamIdOverwrite;
+    private Realm realm = Realm.getDefaultInstance();
 
     public interface SaveTeam {
         public void overwriteTeam();
@@ -100,7 +103,7 @@ public class TeamSaveDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (Team.getAllTeams() == null || Team.getAllTeams().size() == 0 || teamIdOverwrite == 0) {
+        if (realm.where(Team.class).findAll() == null || realm.where(Team.class).findAll().size() == 0 || teamIdOverwrite == 0) {
             choiceRadioGroup.getChildAt(1).setEnabled(false);
         }
         if (getArguments() != null) {
@@ -119,7 +122,8 @@ public class TeamSaveDialogFragment extends DialogFragment {
                 teamName.setEnabled(false);
             }
             if (checkedId == R.id.overwriteTeam) {
-                teamName.setText(Team.getTeamById(0).getTeamName());
+                teamName.setText(
+                        realm.where(Team.class).equalTo("teamId", 0).findFirst().getTeamName());
             } else {
                 teamName.setText("");
             }

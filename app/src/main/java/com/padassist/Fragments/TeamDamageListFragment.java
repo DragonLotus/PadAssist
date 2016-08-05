@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.padassist.Adapters.MonsterDamageListRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
+import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
@@ -35,6 +36,8 @@ import com.padassist.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+
+import io.realm.Realm;
 
 
 /**
@@ -79,6 +82,7 @@ public class TeamDamageListFragment extends Fragment {
     private DecimalFormatSymbols dfs = new DecimalFormatSymbols();
     private DecimalFormat dfSpace;
     private ExtraMultiplierDialogFragment extraMultiplierDialogFragment;
+    private Realm realm = Realm.getDefaultInstance();
 
     /**
      * Use this factory method to create a new instance of
@@ -136,8 +140,8 @@ public class TeamDamageListFragment extends Fragment {
             case R.id.refresh:
                 clearTextFocus();
                 totalCombos += additionalCombosFragment;
-                if (totalCombos < team.getOrbMatches().size()) {
-                    totalCombos = team.getOrbMatches().size();
+                if (totalCombos < realm.where(OrbMatch.class).findAll().size()) {
+                    totalCombos = realm.where(OrbMatch.class).findAll().size();
                 }
                 monsterListAdapter.setCombos(totalCombos);
                 updateTextView();
@@ -229,7 +233,7 @@ public class TeamDamageListFragment extends Fragment {
         dfs.setGroupingSeparator(' ');
         dfSpace = new DecimalFormat("###,###", dfs);
         setCheckBoxes();
-        totalCombos = additionalCombos + team.getOrbMatches().size();
+        totalCombos = additionalCombos + realm.where(OrbMatch.class).findAll().size();
         updateTextView();
         setupHpSeekBar();
         monsterListAdapter = new MonsterDamageListRecycler(getActivity(), hasEnemy, enemy, totalCombos, team, bindMonsterOnClickListener);
@@ -499,7 +503,7 @@ public class TeamDamageListFragment extends Fragment {
                 int counter = 0;
                 if (team.hasAwakenings()) {
                     for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++) {
-                        if (team.getMonsters(position).getAwokenSkills().get(i) == 10) {
+                        if (team.getMonsters(position).getAwokenSkills().get(i).getValue() == 10) {
                             counter++;
                         }
                     }
@@ -520,7 +524,7 @@ public class TeamDamageListFragment extends Fragment {
                 }
             }
             team.updateAwakenings();
-            team.updateOrbs();
+//            team.updateOrbs();
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }
@@ -850,26 +854,26 @@ public class TeamDamageListFragment extends Fragment {
                     if (i == 0){
                         position = i;
                     }else {
-                        if (team.getHelperSkill().getAtkData().get(i) > team.getHelperSkill().getAtkData().get(i-1)){
+                        if (team.getHelperSkill().getAtkData().get(i).getValue() > team.getHelperSkill().getAtkData().get(i-1).getValue()){
                             position = i;
                         }
                     }
                 }
-                team.setTeamHp(team.getHelperSkill().getHpPercent().get(0 + 2*position));
+                team.setTeamHp(team.getHelperSkill().getHpPercent().get(0 + 2*position).getValue());
             }
         } else {
             for(int i = 0; i < team.getLeadSkill().getAtkData().size(); i++){
                 if (i == 0){
                     position = i;
                 }else {
-                    if (team.getLeadSkill().getAtkData().get(i) > team.getLeadSkill().getAtkData().get(i-1)){
+                    if (team.getLeadSkill().getAtkData().get(i).getValue() > team.getLeadSkill().getAtkData().get(i-1).getValue()){
                         position = i;
                     }
                 }
             }
-            team.setTeamHp(team.getLeadSkill().getHpPercent().get(0 + 2*position));
+            team.setTeamHp(team.getLeadSkill().getHpPercent().get(0 + 2*position).getValue());
         }
-        team.save();
+//        team.save();
         teamHp.setProgress(team.getTeamHp());
         updateTextView();
         teamHpValue.setText("" + teamHp.getProgress());
@@ -882,7 +886,7 @@ public class TeamDamageListFragment extends Fragment {
                 team.setTeamHp(progress);
             }
             teamHpValue.setText("" + progress);
-            team.save();
+//            team.save();
         }
 
         @Override

@@ -8,8 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Configuration;
+//import com.activeandroid.ActiveAndroid;
+//import com.activeandroid.Configuration;
 import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.LeaderSkill;
@@ -40,17 +40,17 @@ public class MonsterTabLayoutActivity extends AppCompatActivity {
             replaceMonsterId = getIntent().getExtras().getLong("replaceMonsterId");
             monsterPosition = getIntent().getExtras().getInt("monsterPosition");
         }
-        if (android.os.Build.VERSION.SDK_INT >= 20) {
-            Configuration.Builder configBuilder = new Configuration.Builder(this);
-            configBuilder.addModelClasses(Monster.class);
-            configBuilder.addModelClasses(Team.class);
-            configBuilder.addModelClass(BaseMonster.class);
-            configBuilder.addModelClass(LeaderSkill.class);
-            configBuilder.addModelClass(OrbMatch.class);
-            ActiveAndroid.initialize(configBuilder.create());
-        } else {
-            ActiveAndroid.initialize(this);
-        }
+//        if (android.os.Build.VERSION.SDK_INT >= 20) {
+//            Configuration.Builder configBuilder = new Configuration.Builder(this);
+//            configBuilder.addModelClasses(Monster.class);
+//            configBuilder.addModelClasses(Team.class);
+//            configBuilder.addModelClass(BaseMonster.class);
+//            configBuilder.addModelClass(LeaderSkill.class);
+//            configBuilder.addModelClass(OrbMatch.class);
+//            ActiveAndroid.initialize(configBuilder.create());
+//        } else {
+//            ActiveAndroid.initialize(this);
+//        }
 
         setContentView(R.layout.fragment_monster_tab_layout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -60,11 +60,11 @@ public class MonsterTabLayoutActivity extends AppCompatActivity {
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        if(Monster.getAllHelperMonsters().size() < 1 && monsterPosition == 5 && replaceMonsterId == 0){
-            tabLayout.getTabAt(1).select();
-        }else if(Monster.getAllSavedMonsters().size() <= 1){
-            tabLayout.getTabAt(1).select();
-        }
+//        if(Monster.getAllHelperMonsters().size() < 1 && monsterPosition == 5 && replaceMonsterId == 0){
+//            tabLayout.getTabAt(1).select();
+//        }else if(Monster.getAllSavedMonsters().size() <= 1){
+//            tabLayout.getTabAt(1).select();
+//        }
 
         switch (monsterPosition) {
             case 0:

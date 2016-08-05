@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
@@ -16,6 +17,8 @@ import com.padassist.Util.MonsterPageUtil;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
+
+import io.realm.RealmResults;
 
 public class ManageMonsterPageFragment extends MonsterPageUtil {
     public static final String TAG = ManageMonsterPageFragment.class.getSimpleName();
@@ -77,7 +80,7 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
         @Override
         public void favoriteMonster(boolean favorite) {
             monster.setFavorite(favorite);
-            monster.save();
+//            monster.save();
             setFavorite();
         }
 
@@ -92,8 +95,8 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
         @Override
         public void evolveMonster(long baseMonsterId) {
             if (baseMonsterId != 0) {
-                monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
-                monster.save();
+                monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
+//                monster.save();
                 rarity.setText("" + monster.getRarity());
                 initBackup();
                 monsterPicture.setImageResource(monster.getMonsterPicture());
@@ -118,18 +121,20 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
     private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout(int position) {
-            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+            RealmResults results = realm.where(Team.class).notEqualTo("teamId", 0).findAll();
+            ArrayList<Team> teamList = new ArrayList<>();
+            teamList.addAll(results);
             Team newTeam;
-            for (int i = 0; i < teamList.size(); i++) {
-                newTeam = teamList.get(i);
-                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
-                    if (newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()) {
-                        newTeam.setMonsters(j, Monster.getMonsterId(0));
-                    }
-                }
-                newTeam.save();
-            }
-            monster.delete();
+//            for (int i = 0; i < teamList.size(); i++) {
+//                newTeam = teamList.get(i);
+//                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
+//                    if (newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()) {
+//                        newTeam.setMonsters(j, Monster.getMonsterId(0));
+//                    }
+//                }
+//                newTeam.save();
+//            }
+//            monster.delete();
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };

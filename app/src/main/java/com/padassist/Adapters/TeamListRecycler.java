@@ -71,7 +71,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
 
         for (int i = 0; i < teamList.get(position).getMonsters(0).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(0).getLatents().get(i) != 0) {
+            if (teamList.get(position).getMonsters(0).getLatents().get(i).getValue() != 0) {
                 latentList1.add(1);
             }
         }
@@ -93,7 +93,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
 
         for (int i = 0; i < teamList.get(position).getMonsters(1).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(1).getLatents().get(i) != 0) {
+            if (teamList.get(position).getMonsters(1).getLatents().get(i).getValue() != 0) {
                 latentList2.add(1);
             }
         }
@@ -115,7 +115,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
 
         for (int i = 0; i < teamList.get(position).getMonsters(2).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(2).getLatents().get(i) != 0) {
+            if (teamList.get(position).getMonsters(2).getLatents().get(i).getValue() != 0) {
                 latentList3.add(1);
             }
         }
@@ -137,7 +137,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
 
         for (int i = 0; i < teamList.get(position).getMonsters(3).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(3).getLatents().get(i) != 0) {
+            if (teamList.get(position).getMonsters(3).getLatents().get(i).getValue() != 0) {
                 latentList4.add(1);
             }
         }
@@ -159,7 +159,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
 
         for (int i = 0; i < teamList.get(position).getMonsters(4).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(4).getLatents().get(i) != 0) {
+            if (teamList.get(position).getMonsters(4).getLatents().get(i).getValue() != 0) {
                 latentList5.add(1);
             }
         }
@@ -181,7 +181,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         }
 
         for (int i = 0; i < teamList.get(position).getMonsters(5).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(5).getLatents().get(i) != 0) {
+            if (teamList.get(position).getMonsters(5).getLatents().get(i).getValue() != 0) {
                 latentList6.add(1);
             }
         }

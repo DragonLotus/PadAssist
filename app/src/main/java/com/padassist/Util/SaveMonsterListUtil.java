@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import io.realm.Realm;
+
 
 public abstract class SaveMonsterListUtil extends Fragment {
     public static final String TAG = SaveMonsterListUtil.class.getSimpleName();
@@ -49,7 +51,6 @@ public abstract class SaveMonsterListUtil extends Fragment {
     private TextView savedMonsters;
     private boolean replaceAll;
     private long replaceMonsterId;
-    private Monster monsterZero = Monster.getMonsterId(0);
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -72,6 +73,8 @@ public abstract class SaveMonsterListUtil extends Fragment {
     private Comparator<Monster> monsterPlusRcvComparator = new MonsterPlusRcvComparator();
     private Comparator<Monster> monsterLevelComparator = new MonsterLevelComparator();
     private Comparator<Monster> monsterFavoriteComparator = new MonsterFavoriteComparator();
+    protected Realm realm = Realm.getDefaultInstance();
+    private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
 
     private FastScroller fastScroller;
 
@@ -221,11 +224,11 @@ public abstract class SaveMonsterListUtil extends Fragment {
     }
 
     private void disableStuff() {
-        for (int i = 0; i < monsterList.size(); i++) {
-            if (monsterList.get(i).getMonsterId() == Team.getTeamById(0).getLead().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub1().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub2().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub3().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub4().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getHelper().getMonsterId()) {
-                monsterList.remove(i);
-            }
-        }
+//        for (int i = 0; i < monsterList.size(); i++) {
+//            if (monsterList.get(i).getMonsterId() == Team.getTeamById(0).getLead().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub1().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub2().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub3().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub4().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getHelper().getMonsterId()) {
+//                monsterList.remove(i);
+//            }
+//        }
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event

@@ -36,6 +36,8 @@ import com.padassist.Util.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+
 /**
  * Created by Thomas on 7/11/2015.
  */
@@ -59,6 +61,7 @@ public class OrbMatchFragment extends Fragment {
     private RadioGroup orbRadioGroup;
     private MyDialogFragment dialog;
     private ArrayList<OrbMatch> orbMatchList;
+    private Realm realm = Realm.getDefaultInstance();
 
     private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout() {
         @Override
@@ -166,7 +169,7 @@ public class OrbMatchFragment extends Fragment {
                 crossCheckBox.setChecked(false);
                 crossCheckBox.setEnabled(false);
             }
-            if (getOrbColor() == Element.POISON || getOrbColor() == Element.MORTAL_POISON || getOrbColor() == Element.JAMMER) {
+            if (getOrbColor() == 6 || getOrbColor() == 7 || getOrbColor() == 8) {
                 rowCheckBox.setChecked(false);
                 rowCheckBox.setEnabled(false);
                 crossCheckBox.setChecked(false);
@@ -289,29 +292,29 @@ public class OrbMatchFragment extends Fragment {
         }
     };
 
-    private Element getOrbColor() {
+    private int getOrbColor() {
         int radioGroupId = orbRadioGroup.getCheckedRadioButtonId();
-        switch (radioGroupId) {
-            case R.id.redOrb:
-                return Element.RED;
-            case R.id.blueOrb:
-                return Element.BLUE;
-            case R.id.greenOrb:
-                return Element.GREEN;
-            case R.id.lightOrb:
-                return Element.LIGHT;
-            case R.id.darkOrb:
-                return Element.DARK;
-            case R.id.heartOrb:
-                return Element.HEART;
-            case R.id.jammerOrb:
-                return Element.JAMMER;
-            case R.id.poisonOrb:
-                return Element.POISON;
-            case R.id.mortalPoisonOrb:
-                return Element.MORTAL_POISON;
-        }
-        return Element.RED;
+//        switch (radioGroupId) {
+//            case R.id.redOrb:
+//                return Element.RED;
+//            case R.id.blueOrb:
+//                return Element.BLUE;
+//            case R.id.greenOrb:
+//                return Element.GREEN;
+//            case R.id.lightOrb:
+//                return Element.LIGHT;
+//            case R.id.darkOrb:
+//                return Element.DARK;
+//            case R.id.heartOrb:
+//                return Element.HEART;
+//            case R.id.jammerOrb:
+//                return Element.JAMMER;
+//            case R.id.poisonOrb:
+//                return Element.POISON;
+//            case R.id.mortalPoisonOrb:
+//                return Element.MORTAL_POISON;
+//        }
+        return radioGroupId;
     }
 
     private RadioGroup.OnCheckedChangeListener orbRadioGroupOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
@@ -572,10 +575,11 @@ public class OrbMatchFragment extends Fragment {
         ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         addMatch.setOnClickListener(addMatchOnClickListener);
         reset.setOnClickListener(resetOnClickListener);
-        if (OrbMatch.getAllOrbMatches().size() == 0) {
+
+        if (realm.where(OrbMatch.class).findAll().size() == 0) {
             orbMatchList = new ArrayList<>();
         } else {
-            orbMatchList = (ArrayList) OrbMatch.getAllOrbMatches();
+            orbMatchList.addAll(realm.where(OrbMatch.class).findAll());
         }
         orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchOnClickListener);
         orbMatches.setAdapter(orbMatchRecycler);
@@ -618,21 +622,21 @@ public class OrbMatchFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        for (int i = 0; i < OrbMatch.getAllOrbMatches().size(); i++) {
-            if (!orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i))) {
-                OrbMatch.getAllOrbMatches().get(i).delete();
-                i -= 1;
-            }
-        }
-        if (orbMatchList.size() == 0) {
-            OrbMatch.deleteAllOrbMatches();
-        }
-        for (int i = 0; i < orbMatchList.size(); i++) {
-            if (!OrbMatch.getAllOrbMatches().contains(orbMatchList.get(i))) {
-                orbMatchList.get(i).save();
-            }
-        }
-        team.updateOrbs();
+//        for (int i = 0; i < OrbMatch.getAllOrbMatches().size(); i++) {
+//            if (!orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i))) {
+//                OrbMatch.getAllOrbMatches().get(i).delete();
+//                i -= 1;
+//            }
+//        }
+//        if (orbMatchList.size() == 0) {
+//            OrbMatch.deleteAllOrbMatches();
+//        }
+//        for (int i = 0; i < orbMatchList.size(); i++) {
+//            if (!OrbMatch.getAllOrbMatches().contains(orbMatchList.get(i))) {
+//                orbMatchList.get(i).save();
+//            }
+//        }
+//        team.updateOrbs();
     }
 
 }

@@ -24,8 +24,6 @@ import android.widget.FrameLayout;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
-import com.activeandroid.ActiveAndroid;
-import com.activeandroid.Configuration;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.LeaderSkill;
@@ -46,6 +44,11 @@ import com.padassist.Util.Singleton;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Set;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -73,34 +76,29 @@ public class MainActivity extends AppCompatActivity {
     private AboutDialogFragment aboutDialogFragment;
     private SharedPreferences preferences;
     private Toast toast;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Singleton.getInstance().setContext(getApplicationContext());
-        if (android.os.Build.VERSION.SDK_INT >= 20) {
-            Configuration.Builder configBuilder = new Configuration.Builder(this);
-            configBuilder.addModelClasses(Monster.class);
-            configBuilder.addModelClasses(Team.class);
-            configBuilder.addModelClass(BaseMonster.class);
-            configBuilder.addModelClass(LeaderSkill.class);
-            configBuilder.addModelClass(OrbMatch.class);
-            ActiveAndroid.initialize(configBuilder.create());
-        } else {
-            ActiveAndroid.initialize(this);
-        }
+
+        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+        Realm.setDefaultConfiguration(config);
+
+        realm = Realm.getDefaultInstance();
 
         preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
 
 //        preferences.edit().putInt("version", 1).apply();
-        if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || BaseMonster.getAllMonsters().size() <= 1){
-            Intent loadIntent = new Intent(getApplicationContext(), LoadingScreenActivity.class);
-            startActivity(loadIntent);
-            preferences.edit().putBoolean("firstRun", false).apply();
-            preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
-        }
+//        if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1){
+//            Intent loadIntent = new Intent(getApplicationContext(), LoadingScreenActivity.class);
+//            startActivity(loadIntent);
+//            preferences.edit().putBoolean("firstRun", false).apply();
+//            preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
+//        }
 
-        Log.d("Total", "Total Monsters: " + BaseMonster.getAllMonsters().size() + " Total Leader Skills: " + LeaderSkill.getAllLeaderSkills().size());
+        Log.d("Total", "Total Monsters: " + realm.where(BaseMonster.class).findAll().size() + " Total Leader Skills: " + realm.where(LeaderSkill.class).findAll().size());
         if (savedInstanceState != null) {
             mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
         }
@@ -112,23 +110,28 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         enemy = new Enemy();
-        if (Team.getTeamById(0) == null) {
+
+        if (realm.where(Team.class).equalTo("teamId", 0).findFirst() == null) {
             team = new Team();
         } else {
-            team = Team.getTeamById(0);
+            team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
         }
-        if (BaseMonster.getMonsterId(0) == null) {
+        if (realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst() == null) {
             BaseMonster monster = new BaseMonster();
-            monster.save();
+            realm.beginTransaction();
+            realm.copyToRealm(monster);
+            realm.commitTransaction();
         }
-        if (Monster.getMonsterId(0) == null) {
+        if (realm.where(Monster.class).equalTo("monsterId", 0).findFirst() == null) {
             Monster monster = new Monster(0);
-            monster.save();
+            realm.beginTransaction();
+            realm.copyToRealm(monster);
+            realm.commitTransaction();
         }
 
-        if(OrbMatch.getAllOrbMatches().size() != 0){
-            ArrayList<OrbMatch> orbMatchList;
-            orbMatchList = (ArrayList) OrbMatch.getAllOrbMatches();
+        if(realm.where(OrbMatch.class).findAll().size() != 0){
+            RealmResults<OrbMatch> orbMatchList;
+            orbMatchList = realm.where(OrbMatch.class).findAll();
             int i = 0;
             while (Singleton.getInstance().getBoardSize() == 1 && i < orbMatchList.size()) {
                 if (orbMatchList.get(i).getOrbsLinked() > 30 || (orbMatchList.get(i).getOrbsLinked() == 7 && orbMatchList.get(i).isRow())) {
@@ -145,7 +148,10 @@ public class MainActivity extends AppCompatActivity {
         blankLeaderSkill.setHpSkillType(LeaderSkillType.BLANK);
         blankLeaderSkill.setAtkSkillType(LeaderSkillType.BLANK);
         blankLeaderSkill.setRcvSkillType(LeaderSkillType.BLANK);
-        blankLeaderSkill.save();
+        realm.beginTransaction();
+        realm.copyToRealm(blankLeaderSkill);
+        realm.commitTransaction();
+
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG, "good");
 
 
@@ -165,6 +171,12 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 
     @Override

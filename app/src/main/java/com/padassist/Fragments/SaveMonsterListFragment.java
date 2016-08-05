@@ -57,7 +57,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
     private Toast toast;
     private boolean replaceAll;
     private long replaceMonsterId;
-    private Monster monsterZero = Monster.getMonsterId(0);
+    private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
     private FastScroller fastScroller;
@@ -89,78 +89,79 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
 
     @Override
     public void onActivityCreatedSpecific() {
-        if (Singleton.getInstance().getMonsterOverwrite() == 5) {
-            monsterListAll = (ArrayList) Monster.getAllHelperMonsters();
-            monsterListAll.add(monsterZero);
-        } else {
-            monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
-        }
-        Log.d("SaveMonsterList", "MonsterList is: " + monsterList);
+//        if (Singleton.getInstance().getMonsterOverwrite() == 5) {
+//            monsterListAll = (ArrayList) Monster.getAllHelperMonsters();
+//            monsterListAll.add(monsterZero);
+//        } else {
+//            monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
+//        }
+//        Log.d("SaveMonsterList", "MonsterList is: " + monsterList);
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            Team newTeam = new Team(Team.getTeamById(0));
-            if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
-                if (toast != null) {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                if (replaceAll) {
-                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-                    Team replaceTeam;
-                    for (int i = 0; i < teamList.size(); i++) {
-                        replaceTeam = teamList.get(i);
-                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
-                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
-                                replaceTeam.setMonsters(j, saveMonsterListRecycler.getItem(position));
-                            }
-                        }
-                        replaceTeam.save();
-                    }
-                } else {
-                    switch (Singleton.getInstance().getMonsterOverwrite()) {
-                        case 0:
-                            newTeam.setLead(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 1:
-                            newTeam.setSub1(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 2:
-                            newTeam.setSub2(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 3:
-                            newTeam.setSub3(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 4:
-                            newTeam.setSub4(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 5:
-                            newTeam.setHelper(saveMonsterListRecycler.getItem(position));
-                            break;
-                    }
-                    newTeam.save();
-                }
-//                Intent intent = new Intent();
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable("monster", saveMonsterListRecycler.getItem(position));
-//                bundle.putLong("monsterId", saveMonsterListRecycler.getItem(position).getMonsterId());
-//                intent.putExtras(bundle);
-
-//                intent.putExtra("monster", saveMonsterListRecycler.getItem(position));
-//                intent.putExtra("monsterId", saveMonsterListRecycler.getItem(position).getMonsterId());
-
-//                Log.d("SaveMonsterList", "monster is: " + intent.getParcelableExtra("monster") + " extra is: " + intent.getExtras());
-//                getActivity().setResult(Activity.RESULT_OK, intent);
-//                getActivity().finish();
-
-                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position), Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
-            }
+//            Team newTeam = new Team(Team.getTeamById(0));
+//            if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
+//                if (toast != null) {
+//                    toast.cancel();
+//                }
+//                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+//                toast.show();
+//            } else {
+//                if (replaceAll) {
+//                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+//                    Team replaceTeam;
+//                    for (int i = 0; i < teamList.size(); i++) {
+//                        replaceTeam = teamList.get(i);
+//                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
+//                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
+//                                replaceTeam.setMonsters(j, saveMonsterListRecycler.getItem(position));
+//                            }
+//                        }
+//                        replaceTeam.save();
+//                    }
+//                } else {
+//                    switch (Singleton.getInstance().getMonsterOverwrite()) {
+//                        case 0:
+//                            newTeam.setLead(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 1:
+//                            newTeam.setSub1(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 2:
+//                            newTeam.setSub2(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 3:
+//                            newTeam.setSub3(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 4:
+//                            newTeam.setSub4(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 5:
+//                            newTeam.setHelper(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                    }
+//                    newTeam.save();
+//                }
+//
+////                Intent intent = new Intent();
+////                Bundle bundle = new Bundle();
+////                bundle.putParcelable("monster", saveMonsterListRecycler.getItem(position));
+////                bundle.putLong("monsterId", saveMonsterListRecycler.getItem(position).getMonsterId());
+////                intent.putExtras(bundle);
+//
+////                intent.putExtra("monster", saveMonsterListRecycler.getItem(position));
+////                intent.putExtra("monsterId", saveMonsterListRecycler.getItem(position).getMonsterId());
+//
+////                Log.d("SaveMonsterList", "monster is: " + intent.getParcelableExtra("monster") + " extra is: " + intent.getExtras());
+////                getActivity().setResult(Activity.RESULT_OK, intent);
+////                getActivity().finish();
+//
+//                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+//                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position), Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
+//            }
         }
     };
 
@@ -168,53 +169,53 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
         @Override
         public boolean onLongClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            Team newTeam = new Team(Team.getTeamById(0));
-            if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
-                if (toast != null) {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                if (replaceAll) {
-                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-                    Team replaceTeam;
-                    for (int i = 0; i < teamList.size(); i++) {
-                        replaceTeam = teamList.get(i);
-                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
-                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
-                                replaceTeam.setMonsters(j, saveMonsterListRecycler.getItem(position));
-                            }
-                        }
-                        replaceTeam.save();
-                    }
-                } else {
-
-                    switch (Singleton.getInstance().getMonsterOverwrite()) {
-                        case 0:
-                            newTeam.setLead(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 1:
-                            newTeam.setSub1(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 2:
-                            newTeam.setSub2(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 3:
-                            newTeam.setSub3(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 4:
-                            newTeam.setSub4(saveMonsterListRecycler.getItem(position));
-                            break;
-                        case 5:
-                            newTeam.setHelper(saveMonsterListRecycler.getItem(position));
-                            break;
-                    }
-                    newTeam.save();
-                }
-                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position), Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
-            }
+//            Team newTeam = new Team(Team.getTeamById(0));
+//            if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
+//                if (toast != null) {
+//                    toast.cancel();
+//                }
+//                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+//                toast.show();
+//            } else {
+//                if (replaceAll) {
+//                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+//                    Team replaceTeam;
+//                    for (int i = 0; i < teamList.size(); i++) {
+//                        replaceTeam = teamList.get(i);
+//                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
+//                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
+//                                replaceTeam.setMonsters(j, saveMonsterListRecycler.getItem(position));
+//                            }
+//                        }
+//                        replaceTeam.save();
+//                    }
+//                } else {
+//
+//                    switch (Singleton.getInstance().getMonsterOverwrite()) {
+//                        case 0:
+//                            newTeam.setLead(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 1:
+//                            newTeam.setSub1(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 2:
+//                            newTeam.setSub2(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 3:
+//                            newTeam.setSub3(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 4:
+//                            newTeam.setSub4(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                        case 5:
+//                            newTeam.setHelper(saveMonsterListRecycler.getItem(position));
+//                            break;
+//                    }
+//                    newTeam.save();
+//                }
+//                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+//                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position), Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
+//            }
             return true;
         }
     };
@@ -234,28 +235,28 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
     protected DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout(int position) {
-            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-            Team newTeam;
-            for (int i = 0; i < teamList.size(); i++) {
-                newTeam = teamList.get(i);
-                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
-                    if (newTeam.getMonsters().get(j).getMonsterId() == saveMonsterListRecycler.getItem(position).getMonsterId()) {
-                        newTeam.setMonsters(j, Monster.getMonsterId(0));
-                    }
-                }
-                newTeam.save();
-            }
-            Monster.getMonsterId(saveMonsterListRecycler.getItem(position).getMonsterId()).delete();
-            for(int i = 0; i < monsterListAll.size(); i++){
-                if(monsterListAll.get(i).getMonsterId() == saveMonsterListRecycler.getItem(position).getMonsterId()){
-                    monsterListAll.remove(i);
-                }
-            }
-            monsterList.remove(position);
-            saveMonsterListRecycler.notifyItemRemoved(position);
-            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
-            saveMonsterListRecycler.setExpandedPosition(-1);
-            emptyCheck();
+//            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
+//            Team newTeam;
+//            for (int i = 0; i < teamList.size(); i++) {
+//                newTeam = teamList.get(i);
+//                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
+//                    if (newTeam.getMonsters().get(j).getMonsterId() == saveMonsterListRecycler.getItem(position).getMonsterId()) {
+//                        newTeam.setMonsters(j, Monster.getMonsterId(0));
+//                    }
+//                }
+//                newTeam.save();
+//            }
+//            Monster.getMonsterId(saveMonsterListRecycler.getItem(position).getMonsterId()).delete();
+//            for(int i = 0; i < monsterListAll.size(); i++){
+//                if(monsterListAll.get(i).getMonsterId() == saveMonsterListRecycler.getItem(position).getMonsterId()){
+//                    monsterListAll.remove(i);
+//                }
+//            }
+//            monsterList.remove(position);
+//            saveMonsterListRecycler.notifyItemRemoved(position);
+//            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
+//            saveMonsterListRecycler.setExpandedPosition(-1);
+//            emptyCheck();
         }
     };
 }

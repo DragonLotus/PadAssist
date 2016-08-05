@@ -36,6 +36,9 @@ import com.padassist.TextWatcher.MyTextWatcher;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +71,7 @@ public abstract class MonsterPageUtil extends Fragment {
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
     private LatentAwakeningDialogFragment latentAwakeningDialogFragment;
     private int level, hp, atk, rcv, awakening;
+    protected Realm realm = Realm.getDefaultInstance();
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
         @Override
@@ -202,7 +206,9 @@ public abstract class MonsterPageUtil extends Fragment {
 //        monster = Team.getTeamById(0).getMonsters(Team.getTeamById(0).getMonsterOverwrite());
 //        Log.d("Monster Page Log", "Monster is: " + monster);
 //        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
-        ArrayList<Monster> checkList = (ArrayList) Monster.getAllMonsters();
+        RealmResults results = realm.where(Monster.class).findAll();
+        ArrayList<Monster> checkList = new ArrayList<>();
+        checkList.addAll(results);
         Boolean bounce = true;
         for(int i = 0; i < checkList.size(); i++){
             if(checkList.get(i).getMonsterId() == monster.getMonsterId()){
@@ -213,7 +219,7 @@ public abstract class MonsterPageUtil extends Fragment {
         if(bounce){
             getActivity().getSupportFragmentManager().popBackStack();
         }
-        Log.d("MonsterPageUtil", "monster is: " + monster + "monsterid is: " + monster.getMonsterId() + " monster get id is: " + monster.getId());
+        Log.d("MonsterPageUtil", "monster is: " + monster + "monsterid is: " + monster.getMonsterId() + " monster get id is: " + monster.getMonsterId());
         loadBackup();
         showAwakenings();
         grayAwakenings();
@@ -312,9 +318,9 @@ public abstract class MonsterPageUtil extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("MonsterPageUtil", "monster is: " + monster + " monster level is: " + monster.getCurrentLevel() + " monsterId: " + monster.getId());
-        monster.save();
-        Monster.getMonsterId(monster.getMonsterId());
+        Log.d("MonsterPageUtil", "monster is: " + monster + " monster level is: " + monster.getCurrentLevel() + " monsterId: " + monster.getMonsterId());
+//        monster.save();
+//        Monster.getMonsterId(monster.getMonsterId());
 //        Log.d("MonsterPageUtil", "monster load is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster level is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster Id is: " + Monster.getMonsterId(monster.getMonsterId()));
     }
 
@@ -481,7 +487,7 @@ public abstract class MonsterPageUtil extends Fragment {
     public void grayAwakenings() {
         if(monster.getCurrentAwakenings()<monster.getMaxAwakenings()) {
             for (int j = 0; j < monster.getCurrentAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j)) {
+                switch (monster.getAwokenSkills().get(j).getValue()) {
                     case 1:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
                         break;
@@ -615,7 +621,7 @@ public abstract class MonsterPageUtil extends Fragment {
             }
 
             for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j)) {
+                switch (monster.getAwokenSkills().get(j).getValue()) {
                     case 1:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1_disabled);
                         break;
@@ -749,7 +755,7 @@ public abstract class MonsterPageUtil extends Fragment {
             }
         } else {
             for (int j = 0; j < monster.getMaxAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j)) {
+                switch (monster.getAwokenSkills().get(j).getValue()) {
                     case 1:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
                         break;
@@ -1202,7 +1208,7 @@ public abstract class MonsterPageUtil extends Fragment {
 
     private void setLatents(){
         for (int i = 0; i < monster.getLatents().size(); i++){
-            switch(monster.getLatents().get(i)){
+            switch(monster.getLatents().get(i).getValue()){
                 case 0:
                     latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_blank);
                     break;

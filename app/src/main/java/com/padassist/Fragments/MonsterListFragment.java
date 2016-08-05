@@ -27,6 +27,8 @@ import com.padassist.R;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,7 +61,8 @@ public class MonsterListFragment extends Fragment{
     private Toast toast;
     private TeamSaveDialogFragment teamSaveDialogFragment;
     private ClearTeamConfirmationDialogFragment clearTeamConfirmationDialogFragment;
-    private Monster monster0 = Monster.getMonsterId(0);
+    private Realm realm = Realm.getDefaultInstance();
+    private Monster monster0 = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
 
     /**
      * Use this factory method to create a new instance of
@@ -175,18 +178,18 @@ public class MonsterListFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        team = Team.getTeamById(0);
-        monsters = team.getMonsters();
-        monsterListRecycler.updateList(monsters);
-        team.updateAwakenings();
-        team.updateLeaderSkills();
-        team.setTeamStats();
-        teamName.setText(team.getTeamName());
-        if (team.isFavorite()) {
-            favorite.setVisibility(View.VISIBLE);
-        } else {
-            favorite.setVisibility(View.INVISIBLE);
-        }
+//        team = Team.getTeamById(0);
+//        monsters = team.getMonsters();
+//        monsterListRecycler.updateList(monsters);
+//        team.updateAwakenings();
+//        team.updateLeaderSkills();
+//        team.setTeamStats();
+//        teamName.setText(team.getTeamName());
+//        if (team.isFavorite()) {
+//            favorite.setVisibility(View.VISIBLE);
+//        } else {
+//            favorite.setVisibility(View.INVISIBLE);
+//        }
     }
 
     @Override
@@ -201,10 +204,6 @@ public class MonsterListFragment extends Fragment{
             monsters = savedInstanceState.getParcelableArrayList("monsters");
         } else {
             monsters = team.getMonsters();
-        Log.d("MonsterList", "Monsters are: " + Monster.getAllMonsters());
-            if(Monster.getAllMonsters().size() > 1){
-                Log.d("MonsterList", "Monster name is: " + Monster.getAllMonsters().get(1).getBaseMonster());
-            }
             if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
                 monsters = new ArrayList<Monster>();
                 for (int i = 0; i < 6; i++) {
@@ -248,8 +247,8 @@ public class MonsterListFragment extends Fragment{
                 toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                team.updateLeaderSkills();
-                team.save();
+//                team.updateLeaderSkills();
+//                team.save();
                 ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(team, enemy), OrbMatchFragment.TAG, "good");
             }
         }
@@ -268,8 +267,8 @@ public class MonsterListFragment extends Fragment{
                 }
                 Team overwriteTeam = new Team(team);
                 overwriteTeam.setTeamId(team.getTeamIdOverwrite());
-                team.save();
-                overwriteTeam.save();
+//                team.save();
+//                overwriteTeam.save();
             }
 
         }
@@ -278,89 +277,89 @@ public class MonsterListFragment extends Fragment{
     public void updateTeam() {
         team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
         for (Monster monster : team.getMonsters()) {
-            monster.save();
+//            monster.save();
         }
         team.updateAwakenings();
-        team.updateLeaderSkills();
+//        team.updateLeaderSkills();
         team.setTeamStats();
-        team.save();
+//        team.save();
     }
 
     private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
         @Override
         public void overwriteTeam() {
-            Team overwriteTeam = new Team(team);
-            overwriteTeam.setTeamId(team.getTeamIdOverwrite());
-            overwriteTeam.save();
+//            Team overwriteTeam = new Team(team);
+//            overwriteTeam.setTeamId(team.getTeamIdOverwrite());
+//            overwriteTeam.save();
         }
 
         @Override
         public void saveNewTeam(String teamNameString) {
-            long teamId;
-            if (Team.getAllTeams().size() == 0) {
-                teamId = 1;
-            } else {
-                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
-            }
-            Team newTeam = new Team(team);
-            newTeam.setTeamName(teamNameString);
-            newTeam.setTeamId(teamId);
-            newTeam.setFavorite(false);
-            newTeam.save();
-            Team teamZero = new Team(newTeam);
-            teamZero.setTeamId(0);
-            teamZero.setTeamIdOverwrite(teamId);
-            teamZero.save();
-            teamName.setText(teamNameString);
-            favorite.setVisibility(View.INVISIBLE);
+//            long teamId;
+//            if (Team.getAllTeams().size() == 0) {
+//                teamId = 1;
+//            } else {
+//                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
+//            }
+//            Team newTeam = new Team(team);
+//            newTeam.setTeamName(teamNameString);
+//            newTeam.setTeamId(teamId);
+//            newTeam.setFavorite(false);
+//            newTeam.save();
+//            Team teamZero = new Team(newTeam);
+//            teamZero.setTeamId(0);
+//            teamZero.setTeamIdOverwrite(teamId);
+//            teamZero.save();
+//            teamName.setText(teamNameString);
+//            favorite.setVisibility(View.INVISIBLE);
         }
 
         @Override
         public void clearTeam() {
-            if(team.getTeamIdOverwrite() == 0){
-                for(int i = 0; i < monsters.size(); i++){
-                    if(!monsters.get(i).equals(monster0)){
-                        if (clearTeamConfirmationDialogFragment == null) {
-                            clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
-                        }
-                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
-                        teamSaveDialogFragment.dismiss();
-                    }
-                }
-            }else if(!team.getMonsters().equals(Team.getTeamById(team.getTeamIdOverwrite()).getMonsters()) || !team.getTeamName().equals(Team.getTeamById(team.getTeamIdOverwrite()).getTeamName())){
-                if (clearTeamConfirmationDialogFragment == null) {
-                    clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
-                }
-                clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
-                teamSaveDialogFragment.dismiss();
-            } else {
-                Team newTeam = new Team();
-                team = newTeam;
-                for (int i = 0; i < 6; i++) {
-                    monsters.set(i,monster0);
-                }
-                updateTeam();
-                monsterListRecycler.updateList(team.getMonsters());
-                team.save();
-                teamName.setText(team.getTeamName());
-                favorite.setVisibility(View.INVISIBLE);
-            }
+//            if(team.getTeamIdOverwrite() == 0){
+//                for(int i = 0; i < monsters.size(); i++){
+//                    if(!monsters.get(i).equals(monster0)){
+//                        if (clearTeamConfirmationDialogFragment == null) {
+//                            clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
+//                        }
+//                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+//                        teamSaveDialogFragment.dismiss();
+//                    }
+//                }
+//            }else if(!team.getMonsters().equals(Team.getTeamById(team.getTeamIdOverwrite()).getMonsters()) || !team.getTeamName().equals(Team.getTeamById(team.getTeamIdOverwrite()).getTeamName())){
+//                if (clearTeamConfirmationDialogFragment == null) {
+//                    clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
+//                }
+//                clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+//                teamSaveDialogFragment.dismiss();
+//            } else {
+//                Team newTeam = new Team();
+//                team = newTeam;
+//                for (int i = 0; i < 6; i++) {
+//                    monsters.set(i,monster0);
+//                }
+//                updateTeam();
+//                monsterListRecycler.updateList(team.getMonsters());
+//                team.save();
+//                teamName.setText(team.getTeamName());
+//                favorite.setVisibility(View.INVISIBLE);
+//            }
         }
     };
 
     private ClearTeamConfirmationDialogFragment.ResetLayout clearTeam = new ClearTeamConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-            Team newTeam = new Team();
-            team = newTeam;
-            for (int i = 0; i < 6; i++) {
-                monsters.set(i,monster0);
-            }
-            updateTeam();
-            monsterListRecycler.updateList(team.getMonsters());
-            team.save();
-            teamName.setText(team.getTeamName());
-            favorite.setVisibility(View.INVISIBLE);
+//            Team newTeam = new Team();
+//            team = newTeam;
+//            for (int i = 0; i < 6; i++) {
+//                monsters.set(i,monster0);
+//            }
+//            updateTeam();
+//            monsterListRecycler.updateList(team.getMonsters());
+//            team.save();
+//            teamName.setText(team.getTeamName());
+//            favorite.setVisibility(View.INVISIBLE);
         }
     };
 
