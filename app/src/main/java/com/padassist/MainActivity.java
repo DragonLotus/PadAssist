@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MainActivity", "monsterId is: " + monsterId);
                 Log.d("MainActivity", "monster is: " + monster + " extra is: " + data.getExtras());
                 Log.d("MainActivity", "monster name is: " + monster.getName());
-                switchFragment(MonsterPageFragment.newInstance(monster, Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
+//                switchFragment(MonsterPageFragment.newInstance(monster, Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
             }
         }
     }

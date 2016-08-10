@@ -253,6 +253,7 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public RealmList<RealmInt> setAwakenings() {
+        realm.beginTransaction();
         if(currentAwakenings != awakenings.size()){
             if (currentAwakenings < getMaxAwakenings()) {
                 for (int i = 0; i < currentAwakenings; i++) {
@@ -264,6 +265,7 @@ public class Monster extends RealmObject implements Parcelable {
                 }
             }
         }
+        realm.commitTransaction();
         return awakenings;
     }
 

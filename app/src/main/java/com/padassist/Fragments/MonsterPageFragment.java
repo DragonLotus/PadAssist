@@ -79,7 +79,11 @@ public class MonsterPageFragment extends MonsterPageUtil {
 
     public Monster getMonster(){
         if(getArguments() != null){
-            return getArguments().getParcelable("monster");
+            Monster monster = getArguments().getParcelable("monster");
+            monster = realm.copyFromRealm(monster);
+
+//            return realm.where(Monster.class).equalTo("monsterId", getArguments().getLong("monsterId")).findFirst();
+            return monster;
         } else return null;
     }
 
