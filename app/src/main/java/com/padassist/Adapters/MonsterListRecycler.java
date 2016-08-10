@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        Log.d("MonsterListRecycler", "monsterList is: " + monsterList);
         viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
         viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()) + " / ");
         viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));

@@ -49,9 +49,6 @@ public abstract class SaveMonsterListUtil extends Fragment {
     protected SaveMonsterListRecycler saveMonsterListRecycler;
     private Toast toast;
     private TextView savedMonsters;
-    private boolean replaceAll;
-    private long replaceMonsterId;
-    private int monsterPosition;
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -183,17 +180,17 @@ public abstract class SaveMonsterListUtil extends Fragment {
         monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
         savedMonsters = (TextView) rootView.findViewById(R.id.savedMonsters);
         fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
-        onActivityCreatedSpecific();
         return rootView;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getArguments() != null) {
-            replaceAll = getArguments().getBoolean("replaceAll");
-            replaceMonsterId = getArguments().getLong("replaceMonsterId");
-        }
+//        if (getArguments() != null) {
+//            replaceAll = getArguments().getBoolean("replaceAll");
+//            replaceMonsterId = getArguments().getLong("replaceMonsterId");
+//        }
+        onActivityCreatedSpecific();
         if (monsterList == null) {
             monsterList = new ArrayList<>();
         }
@@ -554,6 +551,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
 
             saveMonsterListRecycler.setExpandedPosition(-1);
 
+            Log.d("SaveMonsterListUtil", "MonsterListAll is: " + monsterListAll);
             Log.d("SaveMonsterListUtil", "MonsterList is: " + monsterList);
         }
 

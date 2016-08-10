@@ -170,6 +170,13 @@ public class MainActivity extends AppCompatActivity {
             realm.commitTransaction();
         } else {
             team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+            for(int i = 0; i < team.getMonsters().size(); i++){
+                if(team.getMonsters().get(i) == null){
+                    realm.beginTransaction();
+                    team.setMonsters(i, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+                    realm.commitTransaction();
+                }
+            }
         }
 
         if(realm.where(OrbMatch.class).findAll().size() != 0){

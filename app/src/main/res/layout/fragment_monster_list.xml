@@ -41,13 +41,6 @@
         android:scrollHorizontally="true"
         android:ellipsize="marquee"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/monsterListView"
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/teamName"
-        android:layout_above="@+id/buttonHolder" />
-
     <LinearLayout
         android:id="@+id/buttonHolder"
         android:layout_width="match_parent"
@@ -68,6 +61,15 @@
             android:layout_weight=".5"
             android:text="Orb Matches" />
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/monsterListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/buttonHolder"
+        android:layout_below="@+id/favorite"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

@@ -72,10 +72,6 @@ public class Team extends RealmObject implements Parcelable {
     @Ignore
     private ArrayList<Element> compareAllElements = new ArrayList<>();
     @Ignore
-    private LeaderSkill leadSkill;
-    @Ignore
-    private LeaderSkill helperSkill;
-    @Ignore
     private ArrayList<Integer> awakeningsList = new ArrayList<>();
     @Ignore
     private ArrayList<Integer> latentsList = new ArrayList<>();
@@ -331,24 +327,16 @@ public class Team extends RealmObject implements Parcelable {
         if (isBound.get(0) || monsters.get(0).getMonsterId() == 0) {
             return realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
         } else {
-            return leadSkill;
+            return realm.where(LeaderSkill.class).equalTo("name", lead.getLeaderSkill()).findFirst();
         }
-    }
-
-    public void setLeadSkill(LeaderSkill leadSkill) {
-        this.leadSkill = leadSkill;
     }
 
     public LeaderSkill getHelperSkill() {
         if (isBound.get(5) || monsters.get(5).getMonsterId() == 0) {
             return realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
         } else {
-            return helperSkill;
+            return realm.where(LeaderSkill.class).equalTo("name", helper.getLeaderSkill()).findFirst();
         }
-    }
-
-    public void setHelperSkill(LeaderSkill helperSkill) {
-        this.helperSkill = helperSkill;
     }
 
     public int getTeamHp() {

@@ -10,10 +10,8 @@ import android.widget.Toast;
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
-import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.BaseMonsterListUtil;
-import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
 
@@ -75,15 +73,20 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                 if (monsterList.get(position).getMonsterId() == 0) {
                     newMonster = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
                 } else {
-                    long lastMonsterId = realm.where(Monster.class).findAll().last().getMonsterId();
+                    RealmResults<Monster> results = realm.where(Monster.class).findAllSorted("monsterId");
+                    Log.d("BaseMonsterList", "results is: " + results);
+                    long lastMonsterId = results.get(results.size() - 1).getMonsterId();
+                    Log.d("BaseMonsterList", "monsterListAll is: " + realm.where(Monster.class).findAll());
+                    Log.d("BaseMonsterList", "lastMonsterId is: " + lastMonsterId);
                     newMonster = new Monster(monsterList.get(position).getMonsterId());
                     if (monsterPosition == 5) {
                         newMonster.setHelper(true);
                     }
                     newMonster.setMonsterId(lastMonsterId + 1);
                     realm.beginTransaction();
-                    newMonster = realm.copyToRealmOrUpdate(newMonster);
+                    newMonster = realm.copyToRealm(newMonster);
                     realm.commitTransaction();
+                    Log.d("BaseMonsterList", "newMonster Id: " + newMonster.getMonsterId());
                 }
                 Log.d("BaseMonsterList", "newMonster valid: " + newMonster.isValid());
                 if (replaceAll) {
