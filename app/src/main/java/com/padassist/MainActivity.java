@@ -84,7 +84,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Singleton.getInstance().setContext(getApplicationContext());
 
-        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
+        RealmConfiguration config = new RealmConfiguration.Builder(this)
+//                .deleteRealmIfMigrationNeeded()
+                .build();
         Realm.setDefaultConfiguration(config);
 
         realm = Realm.getDefaultInstance();

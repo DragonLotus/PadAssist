@@ -59,7 +59,8 @@ public class Monster extends RealmObject implements Parcelable {
     private RealmList<RealmInt> killerAwakenings;
     @Ignore
     DecimalFormat format = new DecimalFormat("0.00");
-    private RealmList<RealmInt> awakenings = new RealmList<>();
+    @Ignore
+    private ArrayList<Integer> awakenings = new ArrayList<>();
     @Ignore
     private Realm realm = Realm.getDefaultInstance();
 
@@ -180,7 +181,7 @@ public class Monster extends RealmObject implements Parcelable {
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
-            if (awakenings.get(i).getValue() == 1) {
+            if (awakenings.get(i) == 1) {
                 counter++;
             }
         }
@@ -206,7 +207,7 @@ public class Monster extends RealmObject implements Parcelable {
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
-            if (awakenings.get(i).getValue() == 2) {
+            if (awakenings.get(i) == 2) {
                 counter++;
             }
         }
@@ -232,7 +233,7 @@ public class Monster extends RealmObject implements Parcelable {
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
-            if (awakenings.get(i).getValue() == 3) {
+            if (awakenings.get(i) == 3) {
                 counter++;
             }
         }
@@ -252,20 +253,18 @@ public class Monster extends RealmObject implements Parcelable {
         return totalRcv;
     }
 
-    public RealmList<RealmInt> setAwakenings() {
-        realm.beginTransaction();
+    public ArrayList<Integer> setAwakenings() {
         if(currentAwakenings != awakenings.size()){
             if (currentAwakenings < getMaxAwakenings()) {
                 for (int i = 0; i < currentAwakenings; i++) {
-                    awakenings.add(getAwokenSkills().get(i));
+                    awakenings.add(getAwokenSkills().get(i).getValue());
                 }
             } else {
                 for (int i = 0; i < getMaxAwakenings(); i++) {
-                    awakenings.add(getAwokenSkills().get(i));
+                    awakenings.add(getAwokenSkills().get(i).getValue());
                 }
             }
         }
-        realm.commitTransaction();
         return awakenings;
     }
 
