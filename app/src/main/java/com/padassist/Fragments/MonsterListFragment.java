@@ -193,7 +193,7 @@ public class MonsterListFragment extends Fragment {
         if (getArguments() != null) {
             enemy = getArguments().getParcelable("enemy");
         }
-        team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+            team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
         Log.d("MonsterList", "Team is: " + team);
 
         monsters = team.getMonsters();
@@ -364,6 +364,7 @@ public class MonsterListFragment extends Fragment {
                 monsterListRecycler.updateList(team.getMonsters());
                 team.setTeamName("Untitled Team");
                 team.setTeamIdOverwrite(0);
+                team.setFavorite(false);
                 realm.commitTransaction();
                 teamName.setText(team.getTeamName());
                 favorite.setVisibility(View.INVISIBLE);
@@ -383,6 +384,7 @@ public class MonsterListFragment extends Fragment {
             monsterListRecycler.updateList(team.getMonsters());
             team.setTeamName("Untitled Team");
             team.setTeamIdOverwrite(0);
+            team.setFavorite(false);
             realm.commitTransaction();
             teamName.setText(team.getTeamName());
             favorite.setVisibility(View.INVISIBLE);
