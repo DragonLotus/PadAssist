@@ -228,16 +228,17 @@ public abstract class MonsterPageUtil extends Fragment {
     }
 
     private boolean deleteCheck(){
-        RealmResults results = realm.where(Monster.class).findAll();
-        ArrayList<Monster> checkList = new ArrayList<>();
-        checkList.addAll(results);
+        RealmResults<Monster> results = realm.where(Monster.class).findAll();
+//        ArrayList<Monster> checkList = new ArrayList<>();
+//        checkList.addAll(results);
         Boolean bounce = true;
-        for (int i = 0; i < checkList.size(); i++) {
-            if (checkList.get(i).getMonsterId() == monster.getMonsterId()) {
+        for (int i = 0; i < results.size(); i++) {
+            if (results.get(i).getMonsterId() == monster.getMonsterId()) {
                 bounce = false;
                 break;
             }
         }
+
         return bounce;
     }
 

@@ -265,7 +265,8 @@ public class TeamListFragment extends Fragment {
         if (getArguments() != null) {
 
         }
-        teamListAll.addAll(realm.where(Team.class).findAll());
+        teamListAll = new ArrayList<>();
+        teamListAll.addAll(realm.where(Team.class).greaterThan("teamId", 0).findAll());
         teamList = new ArrayList<>();
         if (teamListAll.size() != 0) {
             for (int i = 0; i < teamList.size(); i++) {

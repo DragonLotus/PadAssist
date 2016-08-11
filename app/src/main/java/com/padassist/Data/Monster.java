@@ -366,7 +366,6 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public RealmList<RealmInt> getAwokenSkills() {
-        Log.d("Monster", "Basemonster is:" + getBaseMonster());
         return baseMonster.getAwokenSkills();
     }
 
