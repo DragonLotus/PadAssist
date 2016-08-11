@@ -66,6 +66,7 @@ public abstract class MonsterPageUtil extends Fragment {
     protected TableLayout table1;
     protected Monster monster;
     protected long monsterId;
+    protected int position;
     private Toast toast;
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
@@ -206,22 +207,14 @@ public abstract class MonsterPageUtil extends Fragment {
 //        monster = Team.getTeamById(0).getMonsters(Team.getTeamById(0).getMonsterOverwrite());
 //        Log.d("Monster Page Log", "Monster is: " + monster);
 //        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
-//        RealmResults results = realm.where(Monster.class).findAll();
-//        ArrayList<Monster> checkList = new ArrayList<>();
-//        checkList.addAll(results);
-//        Boolean bounce = true;
-//        for (int i = 0; i < checkList.size(); i++) {
-//            if (checkList.get(i).getMonsterId() == monster.getMonsterId()) {
-//                bounce = false;
-//                break;
-//            }
-//        }
-//        if (bounce) {
-//            getActivity().getSupportFragmentManager().popBackStack();
-//        }
-        if(monster.isValid()){
-            monster = realm.copyFromRealm(monster);
+
+        if (deleteCheck()) {
+            getActivity().getSupportFragmentManager().popBackStack();
         }
+
+//        if(monster.isValid()){
+//            monster = realm.copyFromRealm(monster);
+//        }
         Log.d("MonsterPageUtil", "Is monster valid onResume: " + monster.isValid());
         Log.d("MonsterPageUtil", "monster is: " + monster + "monsterid is: " + monster.getMonsterId() + " monster get id is: " + monster.getMonsterId());
 
@@ -232,6 +225,20 @@ public abstract class MonsterPageUtil extends Fragment {
 //        setImageViews();
 //        setLatents();
 //        monsterStats();
+    }
+
+    private boolean deleteCheck(){
+        RealmResults results = realm.where(Monster.class).findAll();
+        ArrayList<Monster> checkList = new ArrayList<>();
+        checkList.addAll(results);
+        Boolean bounce = true;
+        for (int i = 0; i < checkList.size(); i++) {
+            if (checkList.get(i).getMonsterId() == monster.getMonsterId()) {
+                bounce = false;
+                break;
+            }
+        }
+        return bounce;
     }
 
     @Override
@@ -249,6 +256,8 @@ public abstract class MonsterPageUtil extends Fragment {
                     monsterStats();
                 }
                 break;
+            case R.id.monsterList:
+                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, monster.getMonsterId(), position), MonsterTabLayoutFragment.TAG, "good");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -267,6 +276,8 @@ public abstract class MonsterPageUtil extends Fragment {
         monsterPicture.setImageResource(monster.getMonsterPicture());
         monsterName.setText(monster.getName());
         setTextViews();
+        setImageViews();
+        setLatents();
         monsterLevelValue.addTextChangedListener(currentLevelWatcher);
         monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
         monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
@@ -325,9 +336,11 @@ public abstract class MonsterPageUtil extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Log.d("MonsterPageUtil", "monster is: " + monster + " monster level is: " + monster.getCurrentLevel() + " monsterId: " + monster.getMonsterId());
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(monster);
-        realm.commitTransaction();
+        if(!deleteCheck()){
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(monster);
+            realm.commitTransaction();
+        }
 //        monster.save();
 //        Monster.getMonsterId(monster.getMonsterId());
 //        Log.d("MonsterPageUtil", "monster load is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster level is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster Id is: " + Monster.getMonsterId(monster.getMonsterId()));

@@ -34,6 +34,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> latentList;
+    private Realm realm = Realm.getDefaultInstance();
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -45,7 +46,9 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             if (monsterList.get(holder.getAdapterPosition()).getMonsterId() == 0) {
                 ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
             } else {
-                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
+                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
+
+//                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(realm.copyFromRealm(monsterList.get(holder.getAdapterPosition())), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
             }
         }
     };

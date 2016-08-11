@@ -34,6 +34,9 @@ import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,13 +53,13 @@ public class MonsterPageFragment extends MonsterPageUtil {
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
-    private int position;
 
-    public static MonsterPageFragment newInstance(Monster monster, int position) {
+    public static MonsterPageFragment newInstance(long monsterId, int position) {
         MonsterPageFragment fragment = new MonsterPageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
-        args.putParcelable("monster", monster);
+        args.putLong("monsterId", monsterId);
+//        args.putParcelable("monster", monster);
         args.putInt("position", position);
         return fragment;
     }
@@ -69,7 +72,8 @@ public class MonsterPageFragment extends MonsterPageUtil {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            monster = getArguments().getParcelable("monster");
+//            monster = getArguments().getParcelable("monster");
+            monsterId = getArguments().getLong("monsterId");
             position = getArguments().getInt("position");
         }
         Log.d("MonsterPage", "monster is: " + monster);
@@ -77,9 +81,13 @@ public class MonsterPageFragment extends MonsterPageUtil {
 
     }
 
-    public Monster getMonster(){
-        if(getArguments() != null){
-            Monster monster = getArguments().getParcelable("monster");
+    public Monster getMonster() {
+        if (getArguments() != null) {
+//            Monster monster = getArguments().getParcelable("monster");
+//            monster = realm.copyFromRealm(monster);
+
+            monsterId = getArguments().getLong("monsterId");
+            Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst();
             monster = realm.copyFromRealm(monster);
 
 //            return realm.where(Monster.class).equalTo("monsterId", getArguments().getLong("monsterId")).findFirst();
@@ -110,45 +118,48 @@ public class MonsterPageFragment extends MonsterPageUtil {
 
         @Override
         public void removeMonsterTeam() {
-//            if (Singleton.getInstance().getMonsterOverwrite() == 0) {
-//                if (toast != null) {
-//                    toast.cancel();
-//                }
-//                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
-//                toast.show();
-//            } else {
-//                Team newTeam = new Team(Team.getTeamById(0));
-//                switch (Singleton.getInstance().getMonsterOverwrite()) {
-//                    case 0:
-//                        newTeam.setLead(Monster.getMonsterId(0));
-//                        break;
-//                    case 1:
-//                        newTeam.setSub1(Monster.getMonsterId(0));
-//                        break;
-//                    case 2:
-//                        newTeam.setSub2(Monster.getMonsterId(0));
-//                        break;
-//                    case 3:
-//                        newTeam.setSub3(Monster.getMonsterId(0));
-//                        break;
-//                    case 4:
-//                        newTeam.setSub4(Monster.getMonsterId(0));
-//                        break;
-//                    case 5:
-//                        newTeam.setHelper(Monster.getMonsterId(0));
-//                        break;
-//                }
-//                for (int i = 0; i < newTeam.getMonsters().size(); i++) {
-//                }
-//                newTeam.save();
-//                monsterRemoveDialogFragment.dismiss();
-//                getActivity().getSupportFragmentManager().popBackStack();
-//            }
+            if (position == 0) {
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                Team newTeam = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+                newTeam = realm.copyFromRealm(newTeam);
+                Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+                switch (Singleton.getInstance().getMonsterOverwrite()) {
+                    case 0:
+                        newTeam.setLead(monsterZero);
+                        break;
+                    case 1:
+                        newTeam.setSub1(monsterZero);
+                        break;
+                    case 2:
+                        newTeam.setSub2(monsterZero);
+                        break;
+                    case 3:
+                        newTeam.setSub3(monsterZero);
+                        break;
+                    case 4:
+                        newTeam.setSub4(monsterZero);
+                        break;
+                    case 5:
+                        newTeam.setHelper(monsterZero);
+                        break;
+                }
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(newTeam);
+                realm.commitTransaction();
+                monsterRemoveDialogFragment.dismiss();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
         }
 
         @Override
         public void favoriteMonster(boolean favorite) {
-//            monster.setFavorite(favorite);
+            monster.setFavorite(favorite);
 //            monster.save();
             setFavorite();
         }
@@ -196,19 +207,28 @@ public class MonsterPageFragment extends MonsterPageUtil {
     private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout(int position) {
-//            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-//            Team newTeam;
-//            for (int i = 0; i < teamList.size(); i++) {
-//                newTeam = teamList.get(i);
-//                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
-//                    if (newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()) {
-//                        newTeam.setMonsters(j, Monster.getMonsterId(0));
-//                    }
-//                }
-//                newTeam.save();
-//            }
-//            monster.delete();
-//            getActivity().getSupportFragmentManager().popBackStack();
+            ArrayList<Team> teamList = new ArrayList<>();
+            RealmResults results = realm.where(Team.class).findAll();
+            teamList.addAll(results);
+            final long monsterId = monster.getMonsterId();
+            Log.d("SaveMonsterList", "teamlist is: " + teamList);
+            for (int i = 0; i < teamList.size(); i++) {
+                for (int j = 0; j < teamList.get(i).getMonsters().size(); j++) {
+                    if (teamList.get(i).getMonsters().get(j).getMonsterId() == monsterId) {
+                        realm.beginTransaction();
+                        teamList.get(i).setMonsters(j, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+                        realm.commitTransaction();
+                        Log.d("SaveMonsterList", "team " + i + " monsters is: " + teamList.get(i).getMonsters());
+                    }
+                }
+            }
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst().deleteFromRealm();
+                }
+            });
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
+import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.BaseMonsterListUtil;
 
@@ -128,11 +129,11 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
                 }
                 Log.d("BaseMonsterList", "newTeam monsters is: " + newTeam.getMonsters());
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-//                if (newMonster.getMonsterId() != 0) {
-//                    ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster, Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
-//                } else {
-//                    getActivity().getSupportFragmentManager().popBackStack();
-//                }
+                if (newMonster.getMonsterId() != 0) {
+                    ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster.getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
+                } else {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
             }
         }
     };
