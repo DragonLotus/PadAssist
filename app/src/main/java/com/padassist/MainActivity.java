@@ -1,9 +1,11 @@
 package com.padassist;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
@@ -33,12 +35,14 @@ import com.padassist.Data.OrbMatch;
 import com.padassist.Data.RealmInt;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
+import com.padassist.Fragments.DisclaimerDialogFragment;
 import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
 import com.padassist.Fragments.MonsterListFragment;
 import com.padassist.Fragments.MonsterPageFragment;
 import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.TeamListFragment;
 import com.padassist.Fragments.TeamSaveDialogFragment;
+import com.padassist.Threads.ParseMonsterDatabaseThread;
 import com.padassist.Util.SaveMonsterListUtil;
 import com.padassist.Util.Singleton;
 
@@ -75,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchView searchView;
     private TeamSaveDialogFragment teamSaveDialogFragment;
     private AboutDialogFragment aboutDialogFragment;
+    private ProgressDialog progressDialog;
     private SharedPreferences preferences;
     private Toast toast;
     private Realm realm;
@@ -93,13 +98,33 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
 
-//        preferences.edit().putInt("version", 1).apply();
-//        if(preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1){
+        preferences.edit().putInt("version", 1).apply();
+        if (preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1) {
 //            Intent loadIntent = new Intent(getApplicationContext(), LoadingScreenActivity.class);
 //            startActivity(loadIntent);
-//            preferences.edit().putBoolean("firstRun", false).apply();
-//            preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
+
+//            new LoadViewTask().execute();
+            Realm.Transaction realmTransactionAsyncExecute = new Realm.Transaction(){
+                @Override
+                public void execute(Realm realm) {
+                    ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
+                    parseMonsterDatabaseThread.run();
+                }
+            };
+
+            Realm.Transaction.OnSuccess realmTransactionAsyncSuccess = new Realm.Transaction.OnSuccess(){
+                @Override
+                public void onSuccess() {
+
+                }
+            };
+
+            realm.executeTransactionAsync(realmTransactionAsyncExecute, realmTransactionAsyncSuccess);
+
+            preferences.edit().putBoolean("firstRun", false).apply();
+            preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
 //        }
+        }
 
         Log.d("Total", "Total Monsters: " + realm.where(BaseMonster.class).findAll().size() + " Total Leader Skills: " + realm.where(LeaderSkill.class).findAll().size());
         if (savedInstanceState != null) {
@@ -120,39 +145,7 @@ public class MainActivity extends AppCompatActivity {
             realm.copyToRealm(monster);
             realm.commitTransaction();
         }
-        if (realm.where(BaseMonster.class).equalTo("monsterId", 2969).findFirst() == null) {
-            BaseMonster monster = new BaseMonster();
-            monster.setName("Star Cutting Time Dragonbound, Myr");
-            monster.setMonsterId(2969);
-            monster.setElement1(3);
-            monster.setType1(4);
-            monster.setType2(8);
-            monster.setType3(5);
-            monster.setHpMax(4380);
-            monster.setHpMin(845);
-            monster.setAtkMax(1710);
-            monster.setAtkMin(279);
-            monster.setRcvMax(660);
-            monster.setRcvMin(41);
-            monster.setRarity(8);
-            monster.setMaxAwakenings(9);
-            monster.getAwokenSkills().add(new RealmInt(10));
-            monster.getAwokenSkills().add(new RealmInt(10));
-            monster.getAwokenSkills().add(new RealmInt(28));
-            monster.getAwokenSkills().add(new RealmInt(27));
-            monster.getAwokenSkills().add(new RealmInt(25));
-            monster.getAwokenSkills().add(new RealmInt(17));
-            monster.getAwokenSkills().add(new RealmInt(17));
-            monster.getAwokenSkills().add(new RealmInt(17));
-            monster.getAwokenSkills().add(new RealmInt(21));
-            monster.setMaxLevel(99);
-            monster.setHpScale(1.5);
-            monster.setAtkScale(1.5);
-            monster.setRcvScale(1.5);
-            realm.beginTransaction();
-            realm.copyToRealm(monster);
-            realm.commitTransaction();
-        }
+
         if (realm.where(Monster.class).equalTo("monsterId", 0).findFirst() == null) {
             Monster monster = new Monster(0);
             realm.beginTransaction();
@@ -172,8 +165,8 @@ public class MainActivity extends AppCompatActivity {
             realm.commitTransaction();
         } else {
             team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
-            for(int i = 0; i < team.getMonsters().size(); i++){
-                if(team.getMonsters().get(i) == null){
+            for (int i = 0; i < team.getMonsters().size(); i++) {
+                if (team.getMonsters().get(i) == null) {
                     realm.beginTransaction();
                     team.setMonsters(i, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
                     realm.commitTransaction();
@@ -181,21 +174,21 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(realm.where(OrbMatch.class).findAll().size() != 0){
+        if (realm.where(OrbMatch.class).findAll().size() != 0) {
             RealmResults<OrbMatch> orbMatchList;
             orbMatchList = realm.where(OrbMatch.class).findAll();
             int i = 0;
             while (Singleton.getInstance().getBoardSize() == 1 && i < orbMatchList.size()) {
                 if (orbMatchList.get(i).getOrbsLinked() > 30 || (orbMatchList.get(i).getOrbsLinked() == 7 && orbMatchList.get(i).isRow())) {
                     Singleton.getInstance().setBoardSize(2);
-                } else if(orbMatchList.get(i).getOrbsLinked() == 5 && orbMatchList.get(i).isRow()){
+                } else if (orbMatchList.get(i).getOrbsLinked() == 5 && orbMatchList.get(i).isRow()) {
                     Singleton.getInstance().setBoardSize(0);
                 }
                 i++;
             }
         }
 
-        if(realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst() == null){
+        if (realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst() == null) {
             LeaderSkill blankLeaderSkill = new LeaderSkill();
             blankLeaderSkill.setName("Blank");
             blankLeaderSkill.setHpSkillType(LeaderSkillType.BLANK);
@@ -207,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG, "good");
-
 
 
         // Get the Default External Cache Directory
@@ -225,6 +217,72 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private class LoadViewTask extends AsyncTask<Void, Integer, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getApplicationContext());
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setTitle("Loading...");
+            progressDialog.setMessage("Loading monsters...");
+            progressDialog.setCancelable(false);
+            progressDialog.setIndeterminate(false);
+            progressDialog.setMax(3043);
+            progressDialog.setProgress(0);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread(new ParseMonsterDatabaseThread.UpdateProgress() {
+                    @Override
+                    public void updateValues(int counter) {
+                        publishProgress(counter);
+                    }
+                });
+                synchronized (this) {
+                    parseMonsterDatabaseThread.start();
+                    this.wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+//            complete = true;
+            progressDialog.dismiss();
+//            if(!disclaimerDialog.getShowing()){
+                finish();
+//            }
+
+
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            progressDialog.setProgress(values[0]);
+            Log.d("LoadingScreenTag", "values is: " + values[0]);
+//            if (values[0] == 4830) {
+//                synchronized (this) {
+//                    this.notify();
+//                }
+//            } else {
+//                if (values[0] >= 3043) {
+//                    progressDialog.setMessage("Loading leader skills...");
+//                }
+//            }
+            if (values[0] == 3043) {
+                synchronized (this) {
+                    this.notify();
+                }
+            }
+        }
     }
 
     @Override
@@ -282,14 +340,14 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            if(aboutDialogFragment == null){
+            if (aboutDialogFragment == null) {
                 aboutDialogFragment = new AboutDialogFragment();
                 aboutDialogFragment.show(getSupportFragmentManager(), "yes");
             }
-        } else if(id == R.id.toggleCoop){
+        } else if (id == R.id.toggleCoop) {
             Boolean isEnable = !Singleton.getInstance().isCoopEnable();
             Singleton.getInstance().setCoopEnable(isEnable);
-            if(isEnable){
+            if (isEnable) {
                 if (toast != null) {
                     toast.cancel();
                 }

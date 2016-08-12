@@ -271,11 +271,10 @@ public class MonsterListFragment extends Fragment {
                     team.setFavorite(false);
                     favorite.setVisibility(View.INVISIBLE);
                 }
-                Team overwriteTeam = new Team(team);
-                overwriteTeam.setTeamId(team.getTeamIdOverwrite());
+//                Team overwriteTeam = realm.copyFromRealm(team);
+//                overwriteTeam.setTeamId(team.getTeamIdOverwrite());
                 realm.commitTransaction();
-//                team.save();
-//                overwriteTeam.save();
+
             }
 
         }

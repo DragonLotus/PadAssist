@@ -12,7 +12,7 @@ public class RealmDouble extends RealmObject {
     public RealmDouble() {
     }
 
-    public RealmDouble(long value) {
+    public RealmDouble(double value) {
         this.value = value;
     }
 
