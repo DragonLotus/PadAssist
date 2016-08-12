@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Adapters.SaveMonsterListRecycler;
+import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
@@ -102,11 +103,17 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
         Log.d("SaveMonsterList", "realm monsters is: " + realm.where(Monster.class).findAll());
         if (monsterPosition == 5) {
             monsterListAll.clear();
-            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", true).findAll());
+            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", true).findAll();
+            for(int i = 0; i < results.size(); i++) {
+                monsterListAll.add(realm.copyFromRealm(results.get(i)));
+            }
             monsterListAll.add(monsterZero);
         } else {
             monsterListAll.clear();
-            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", false).findAll());
+            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
+            for(int i = 0; i < results.size(); i++) {
+                monsterListAll.add(realm.copyFromRealm(results.get(i)));
+            }
         }
         Log.d("SaveMonsterList", "MonsterListAll is: " + monsterListAll);
     }

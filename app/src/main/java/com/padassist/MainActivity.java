@@ -51,8 +51,10 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Set;
 
+import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmMigration;
 import io.realm.RealmResults;
 
 
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         Singleton.getInstance().setContext(getApplicationContext());
 
         RealmConfiguration config = new RealmConfiguration.Builder(this)
-//                .deleteRealmIfMigrationNeeded()
+                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
 
