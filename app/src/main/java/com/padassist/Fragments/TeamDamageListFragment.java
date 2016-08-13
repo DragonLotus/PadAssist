@@ -33,6 +33,7 @@ import com.padassist.Data.Team;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.DamageCalculationUtil;
+import com.padassist.Util.Singleton;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -501,7 +502,7 @@ public class TeamDamageListFragment extends Fragment {
                 toast.show();
             } else {
                 int counter = 0;
-                if (team.hasAwakenings()) {
+                if (Singleton.getInstance().hasAwakenings()) {
                     for (int i = 0; i < team.getMonsters(position).getCurrentAwakenings(); i++) {
                         if (team.getMonsters(position).getAwokenSkills().get(i).getValue() == 10) {
                             counter++;
@@ -748,10 +749,10 @@ public class TeamDamageListFragment extends Fragment {
                     }
                 }
             } else if (buttonView.equals(hasAwakeningsCheck)) {
-                team.setHasAwakenings(isChecked);
+                Singleton.getInstance().setHasAwakenings(isChecked);
                 team.updateAwakenings();
             } else if (buttonView.equals(activeUsedCheck)) {
-                team.isActiveSkillUsed(isChecked);
+                Singleton.getInstance().setActiveSkillUsed(isChecked);
                 team.updateAwakenings();
             }
 //            updateTextView();
@@ -840,8 +841,8 @@ public class TeamDamageListFragment extends Fragment {
     }
 
     private void setCheckBoxes() {
-        hasAwakeningsCheck.setChecked(team.hasAwakenings());
-        activeUsedCheck.setChecked(team.isActiveSkillUsed());
+        hasAwakeningsCheck.setChecked(Singleton.getInstance().hasAwakenings());
+        activeUsedCheck.setChecked(Singleton.getInstance().isActiveSkillUsed());
     }
 
     private void setupHpSeekBar() {

@@ -123,6 +123,15 @@ public class MonsterListFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("MonsterListFragment", "Is team valid: " + team.isValid());
+        team.setTeamStats();
+        team.setAwakenings();
+        Log.d("MonsterListFragment", "Orb Plus awakenings: " + team.getOrbPlusAwakenings());
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -193,7 +202,7 @@ public class MonsterListFragment extends Fragment {
         if (getArguments() != null) {
             enemy = getArguments().getParcelable("enemy");
         }
-            team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+        team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
         Log.d("MonsterList", "Team is: " + team);
 
         monsters = team.getMonsters();
@@ -305,23 +314,6 @@ public class MonsterListFragment extends Fragment {
 
         @Override
         public void saveNewTeam(String teamNameString) {
-//            long teamId;
-//            if (Team.getAllTeams().size() == 0) {
-//                teamId = 1;
-//            } else {
-//                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
-//            }
-//            Team newTeam = new Team(team);
-//            newTeam.setTeamName(teamNameString);
-//            newTeam.setTeamId(teamId);
-//            newTeam.setFavorite(false);
-//            newTeam.save();
-//            Team teamZero = new Team(newTeam);
-//            teamZero.setTeamId(0);
-//            teamZero.setTeamIdOverwrite(teamId);
-//            teamZero.save();
-//            teamName.setText(teamNameString);
-//            favorite.setVisibility(View.INVISIBLE);
             RealmResults<Team> results = realm.where(Team.class).findAllSorted("teamId");
             long newTeamId = results.get(results.size() - 1).getTeamId() + 1;
             realm.beginTransaction();
@@ -337,9 +329,9 @@ public class MonsterListFragment extends Fragment {
 
         @Override
         public void clearTeam() {
-            if(team.getTeamIdOverwrite() == 0){
-                for(int i = 0; i < monsters.size(); i++){
-                    if(!monsters.get(i).equals(monster0)){
+            if (team.getTeamIdOverwrite() == 0) {
+                for (int i = 0; i < monsters.size(); i++) {
+                    if (!monsters.get(i).equals(monster0)) {
                         if (clearTeamConfirmationDialogFragment == null) {
                             clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                         }
@@ -347,7 +339,7 @@ public class MonsterListFragment extends Fragment {
                         teamSaveDialogFragment.dismiss();
                     }
                 }
-            }else if(!team.getMonsters().equals(realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst().getMonsters()) || !team.getTeamName().equals(realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst().getTeamName())){
+            } else if (!team.getMonsters().equals(realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst().getMonsters()) || !team.getTeamName().equals(realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst().getTeamName())) {
                 if (clearTeamConfirmationDialogFragment == null) {
                     clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                 }
@@ -356,10 +348,9 @@ public class MonsterListFragment extends Fragment {
             } else {
                 realm.beginTransaction();
                 for (int i = 0; i < 6; i++) {
-                    monsters.set(i,monster0);
+                    monsters.set(i, monster0);
                     team.setMonsters(i, monster0);
                 }
-//                updateTeam();
                 monsterListRecycler.updateList(team.getMonsters());
                 team.setTeamName("Untitled Team");
                 team.setTeamIdOverwrite(0);
@@ -376,10 +367,9 @@ public class MonsterListFragment extends Fragment {
         public void resetLayout() {
             realm.beginTransaction();
             for (int i = 0; i < 6; i++) {
-                monsters.set(i,monster0);
+                monsters.set(i, monster0);
                 team.setMonsters(i, monster0);
             }
-//                updateTeam();
             monsterListRecycler.updateList(team.getMonsters());
             team.setTeamName("Untitled Team");
             team.setTeamIdOverwrite(0);

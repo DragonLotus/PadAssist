@@ -22,6 +22,8 @@ public class Singleton {
     private double extraDamageMultiplier = 2;
     private boolean enableMultiplier = false;
     private boolean coopEnable = false;
+    private boolean hasAwakenings = true;
+    private boolean activeSkillUsed = false;
 
     private Context _context;
     public static Singleton getInstance() {
@@ -130,5 +132,21 @@ public class Singleton {
 
     public void setCoopEnable(boolean coopEnable) {
         this.coopEnable = coopEnable;
+    }
+
+    public boolean isActiveSkillUsed() {
+        return activeSkillUsed;
+    }
+
+    public void setActiveSkillUsed(boolean activeSkillUsed) {
+        this.activeSkillUsed = activeSkillUsed;
+    }
+
+    public boolean hasAwakenings() {
+        return hasAwakenings;
+    }
+
+    public void setHasAwakenings(boolean hasAwakenings) {
+        this.hasAwakenings = hasAwakenings;
     }
 }

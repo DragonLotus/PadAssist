@@ -90,11 +90,6 @@ public class OrbMatch extends RealmObject implements Parcelable {
         this.elementInt = elementInt;
     }
 
-
-//    public boolean checkIfRow() {
-//        return isRow;
-//    }
-
     public boolean isRow() {
         return isRow;
     }

@@ -608,7 +608,7 @@ public class Monster extends RealmObject implements Parcelable {
 
     public int getTPA() {
         int numOfDoubleProngs = 0;
-        if (!realm.where(Team.class).equalTo("teamId", 0).findFirst().hasAwakenings()) {
+        if (Singleton.getInstance().hasAwakenings()) {
             return numOfDoubleProngs;
         } else {
             if (currentAwakenings < getMaxAwakenings()) {
