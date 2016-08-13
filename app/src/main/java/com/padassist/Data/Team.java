@@ -15,6 +15,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
@@ -48,8 +49,8 @@ public class Team extends RealmObject implements Parcelable {
     private Monster sub4;
 
     private Monster helper;
-
-//    private RealmList<OrbMatch> orbMatches;
+    @Ignore
+    private ArrayList<OrbMatch> orbMatches;
 
     private String teamName;
 
@@ -97,7 +98,7 @@ public class Team extends RealmObject implements Parcelable {
         teamIdOverwrite = 0;
         teamHealth = 0;
         teamRcv = 0;
-//        orbMatches = new RealmList<>();
+        orbMatches = new ArrayList<>();
 //        hasAwakenings = true;
         favorite = false;
 //        isActiveSkillUsed = false;
@@ -181,19 +182,19 @@ public class Team extends RealmObject implements Parcelable {
         this.totalDamage = totalDamage;
     }
 
-//    public ArrayList<OrbMatch> getOrbMatches() {
-//        if (!orbMatches.equals((ArrayList) OrbMatch.getAllOrbMatches())) {
-//            orbMatches = (ArrayList) OrbMatch.getAllOrbMatches();
-//        }
-//
-//        return orbMatches;
-//
-//    }
+    public ArrayList<OrbMatch> getOrbMatches() {
+        return orbMatches;
 
+    }
 
-//    public OrbMatch getOrbMatches(int position) {
-//        return orbMatches.get(position);
-//    }
+    public void setOrbMatches(){
+        RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
+        orbMatches.clear();
+        for(int i = 0; i < results.size(); i++){
+            orbMatches.add(realm.copyFromRealm(results.get(i)));
+        }
+    }
+
 
     public int sizeMonsters() {
         return monsters.size();
@@ -363,15 +364,15 @@ public class Team extends RealmObject implements Parcelable {
         return compareElements;
     }
 
-//    public ArrayList<Element> getAllOrbMatchElements() {
-//        if (compareAllElements.size() != 0) {
-//            compareAllElements.clear();
-//        }
-//        for (int i = 0; i < getOrbMatches().size(); i++) {
-//            compareAllElements.add(getOrbMatches().get(i).getElement());
-//        }
-//        return compareAllElements;
-//    }
+    public ArrayList<Element> getAllOrbMatchElements() {
+        if (compareAllElements.size() != 0) {
+            compareAllElements.clear();
+        }
+        for (int i = 0; i < orbMatches.size(); i++) {
+            compareAllElements.add(orbMatches.get(i).getElement());
+        }
+        return compareAllElements;
+    }
 
     public int getOrbPlusAwakenings(Element element) {
         if (element.equals(Element.RED)) {
@@ -657,29 +658,29 @@ public class Team extends RealmObject implements Parcelable {
         }
     }
 
-//    public void updateOrbs() {
-//        haveElements.clear();
-//        compareElements.clear();
-//        for (int i = 0; i < getMonsters().size(); i++) {
-//            if (!isBound.get(i)) {
-//                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
-//                    haveElements.add(getMonsters().get(i).getElement1());
-//                }
-//                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
-//                    haveElements.add(getMonsters().get(i).getElement2());
-//                }
-//            }
-//
-//        }
-//        for (int i = 0; i < getOrbMatches().size(); i++) {
-//            if (haveElements.contains(getOrbMatches().get(i).getElement())) {
-//                compareElements.add(getOrbMatches().get(i).getElement());
-//            }
-//            if (getOrbMatches().get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
-//                compareElements.add(Element.HEART);
-//            }
-//        }
-//    }
+    public void updateOrbs() {
+        haveElements.clear();
+        compareElements.clear();
+        for (int i = 0; i < getMonsters().size(); i++) {
+            if (!isBound.get(i)) {
+                if (!haveElements.contains(getMonsters().get(i).getElement1())) {
+                    haveElements.add(getMonsters().get(i).getElement1().getValue());
+                }
+                if (!haveElements.contains(getMonsters().get(i).getElement2())) {
+                    haveElements.add(getMonsters().get(i).getElement2().getValue());
+                }
+            }
+
+        }
+        for (int i = 0; i < orbMatches.size(); i++) {
+            if (haveElements.contains(orbMatches.get(i).getElement())) {
+                compareElements.add(orbMatches.get(i).getElement());
+            }
+            if (orbMatches.get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
+                compareElements.add(Element.HEART);
+            }
+        }
+    }
 
     public void setTeamStats(){
         realm.beginTransaction();
@@ -713,7 +714,7 @@ public class Team extends RealmObject implements Parcelable {
         totalDamage = source.readInt();
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
-//        orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
+        orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
         haveElements = source.readArrayList(Element.class.getClassLoader());
         compareElements = source.readArrayList(Element.class.getClassLoader());
         teamId = source.readLong();
@@ -736,7 +737,7 @@ public class Team extends RealmObject implements Parcelable {
         dest.writeInt(totalDamage);
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);
-//        dest.writeList(orbMatches);
+        dest.writeList(orbMatches);
         dest.writeList(haveElements);
         dest.writeList(compareElements);
         dest.writeLong(teamId);

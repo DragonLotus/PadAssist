@@ -52,10 +52,10 @@ public class BaseMonster extends RealmObject implements Parcelable {
     private int element1int;
 
     private int element2int;
-    @Ignore
-    private Element element1;
-    @Ignore
-    private Element element2;
+
+    private RealmElement element1;
+
+    private RealmElement element2;
 
     private RealmList<RealmInt> awokenSkills;
 
@@ -99,8 +99,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
         maxAwakenings = 0;
         element1int = -1;
         element2int = -1;
-//        element1 = Element.BLANK;
-//        element2 = Element.BLANK;
+        element1 = new RealmElement(0);
+        element2 = new RealmElement(0);
         name = "Empty";
         leaderSkill = "Blank";
         type1 = -1;
@@ -159,35 +159,28 @@ public class BaseMonster extends RealmObject implements Parcelable {
         this.awokenSkills = awokenSkills;
     }
 
-//    public void setAwokenSkills(JsonNode awokenNode) {
-//        this.awokenSkills = new ArrayList<>();
-//        for(JsonNode awakening: awokenNode) {
-//            this.awokenSkills.add(awakening.asInt());
+    public RealmElement getElement1() {
+//        if(element1 == null){
+//            switch (element1int) {
+//                case 0:
+//                    element1 = Element.RED;
+//                    break;
+//                case 1:
+//                    element1 = Element.BLUE;
+//                    break;
+//                case 2:
+//                    element1 = Element.GREEN;
+//                    break;
+//                case 3:
+//                    element1 = Element.LIGHT;
+//                    break;
+//                case 4:
+//                    element1 = Element.DARK;
+//                    break;
+//                default:
+//                    element1 = Element.BLANK;
+//            }
 //        }
-//    }
-
-    public Element getElement1() {
-        if(element1 == null){
-            switch (element1int) {
-                case 0:
-                    element1 = Element.RED;
-                    break;
-                case 1:
-                    element1 = Element.BLUE;
-                    break;
-                case 2:
-                    element1 = Element.GREEN;
-                    break;
-                case 3:
-                    element1 = Element.LIGHT;
-                    break;
-                case 4:
-                    element1 = Element.DARK;
-                    break;
-                default:
-                    element1 = Element.BLANK;
-            }
-        }
         return element1;
     }
 
@@ -196,32 +189,32 @@ public class BaseMonster extends RealmObject implements Parcelable {
         getElement1();
     }
 
-    public void setElement1(Element element1) {
+    public void setElement1(RealmElement element1) {
         this.element1 = element1;
     }
 
-    public Element getElement2() {
-        if(element2 == null){
-            switch (element2int) {
-                case 0:
-                    element2 = Element.RED;
-                    break;
-                case 1:
-                    element2 = Element.BLUE;
-                    break;
-                case 2:
-                    element2 = Element.GREEN;
-                    break;
-                case 3:
-                    element2 = Element.LIGHT;
-                    break;
-                case 4:
-                    element2 = Element.DARK;
-                    break;
-                default:
-                    element2 = Element.BLANK;
-            }
-        }
+    public RealmElement getElement2() {
+//        if(element2 == null){
+//            switch (element2int) {
+//                case 0:
+//                    element2 = Element.RED;
+//                    break;
+//                case 1:
+//                    element2 = Element.BLUE;
+//                    break;
+//                case 2:
+//                    element2 = Element.GREEN;
+//                    break;
+//                case 3:
+//                    element2 = Element.LIGHT;
+//                    break;
+//                case 4:
+//                    element2 = Element.DARK;
+//                    break;
+//                default:
+//                    element2 = Element.BLANK;
+//            }
+//        }
         return element2;
     }
 
@@ -229,7 +222,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
         getElement2();
     }
 
-    public void setElement2(Element element2) {
+    public void setElement2(RealmElement element2) {
         this.element2 = element2;
     }
 
@@ -526,8 +519,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
         type2 = source.readInt();
         type3 = source.readInt();
         maxAwakenings = source.readInt();
-        element1 = (Element) source.readSerializable();
-        element2 = (Element) source.readSerializable();
+//        element1 = (Element) source.readSerializable();
+//        element2 = (Element) source.readSerializable();
 //        awokenSkills = source.readArrayList(Integer.class.getClassLoader());
         activeSkill = source.readString();
         leaderSkill = source.readString();
@@ -561,8 +554,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
         dest.writeInt(type2);
         dest.writeInt(type3);
         dest.writeInt(maxAwakenings);
-        dest.writeSerializable(element1);
-        dest.writeSerializable(element2);
+//        dest.writeSerializable(element1);
+//        dest.writeSerializable(element2);
 //        dest.writeList(awokenSkills);
         dest.writeString(activeSkill);
         dest.writeString(leaderSkill);

@@ -33,6 +33,7 @@ import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.RealmInt;
+import com.padassist.Data.RealmLeaderSkillType;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
 import com.padassist.Fragments.DisclaimerDialogFragment;
@@ -193,9 +194,9 @@ public class MainActivity extends AppCompatActivity {
         if (realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst() == null) {
             LeaderSkill blankLeaderSkill = new LeaderSkill();
             blankLeaderSkill.setName("Blank");
-            blankLeaderSkill.setHpSkillType(LeaderSkillType.BLANK);
-            blankLeaderSkill.setAtkSkillType(LeaderSkillType.BLANK);
-            blankLeaderSkill.setRcvSkillType(LeaderSkillType.BLANK);
+            blankLeaderSkill.setHpSkillType(new RealmLeaderSkillType(0));
+            blankLeaderSkill.setAtkSkillType(new RealmLeaderSkillType(0));
+            blankLeaderSkill.setRcvSkillType(new RealmLeaderSkillType(0));
             realm.beginTransaction();
             realm.copyToRealm(blankLeaderSkill);
             realm.commitTransaction();

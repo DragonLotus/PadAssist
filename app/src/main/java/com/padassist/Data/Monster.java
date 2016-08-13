@@ -348,11 +348,11 @@ public class Monster extends RealmObject implements Parcelable {
         return baseMonster.getType3String();
     }
 
-    public Element getElement1() {
+    public RealmElement getElement1() {
         return baseMonster.getElement1();
     }
 
-    public Element getElement2() {
+    public RealmElement getElement2() {
         return baseMonster.getElement2();
     }
 

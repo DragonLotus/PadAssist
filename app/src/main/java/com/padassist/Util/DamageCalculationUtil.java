@@ -36,7 +36,7 @@ public class DamageCalculationUtil {
         double totalOrbDamage = 0;
         if (monster.getElement1().equals(monster.getElement2())) {
             for (int i = 0; i < orbMatches.size(); i++) {
-                if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
+                if (orbMatches.get(i).getElement().equals(monster.getElement2().getValue())) {
                     totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, monster.getTPA());
                 }
             }
@@ -44,7 +44,7 @@ public class DamageCalculationUtil {
             return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
         }
         for (int i = 0; i < orbMatches.size(); i++) {
-            if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
+            if (orbMatches.get(i).getElement().equals(monster.getElement2().getValue())) {
                 totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
@@ -61,17 +61,17 @@ public class DamageCalculationUtil {
         double returnDamage = damage;
         int counter = 0;
         for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
-            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement1())) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement1().getValue())) {
                 if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
                     counter++;
                 }
             }
         }
-        returnDamage = returnDamage * team.getLeadSkill().atkElement1Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement1Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement1()) * 0.1 * counter + 1);
+        returnDamage = returnDamage * team.getLeadSkill().atkElement1Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement1Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement1().getValue()) * 0.1 * counter + 1);
 
         if (Singleton.getInstance().isEnableMultiplier()) {
             Boolean affected = false;
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement1())) {
+            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement1().getValue())) {
                 returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
                 affected = true;
             }
@@ -89,17 +89,17 @@ public class DamageCalculationUtil {
         double returnDamage = damage;
         int counter = 0;
         for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
-            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement2())) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement2().getValue())) {
                 if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
                     counter++;
                 }
             }
         }
-        returnDamage = returnDamage * team.getLeadSkill().atkElement2Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement2Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement2()) * 0.1 * counter + 1);
+        returnDamage = returnDamage * team.getLeadSkill().atkElement2Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement2Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement2().getValue()) * 0.1 * counter + 1);
 
         if (Singleton.getInstance().isEnableMultiplier()) {
             Boolean affected = false;
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement2())) {
+            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement2().getValue())) {
                 returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
                 affected = true;
             }

@@ -50,13 +50,9 @@ public class LeaderSkill extends RealmObject {
 
     private int comboMax2;
 
-    private RealmList<RealmInt> matchElementsInt;
+    private RealmList<RealmElement> matchElements;
 
-    private RealmList<RealmInt> matchElements2Int;
-    @Ignore
-    private ArrayList<Element> matchElements;
-    @Ignore
-    private ArrayList<Element> matchElements2;
+    private RealmList<RealmElement> matchElements2;
 
     private RealmList<RealmLong> matchMonsters;
 
@@ -65,12 +61,12 @@ public class LeaderSkill extends RealmObject {
     private int atkSkillTypeInt;
 
     private int rcvSkillTypeInt;
-    @Ignore
-    private LeaderSkillType hpSkillType;
-    @Ignore
-    private LeaderSkillType atkSkillType;
-    @Ignore
-    private LeaderSkillType rcvSkillType;
+
+    private RealmLeaderSkillType hpSkillType;
+
+    private RealmLeaderSkillType atkSkillType;
+
+    private RealmLeaderSkillType rcvSkillType;
 
     private RealmList<RealmInt> hpPercent;
     private double hpMultiplier;
@@ -93,8 +89,8 @@ public class LeaderSkill extends RealmObject {
         atkElement = new RealmList<>();
         rcvType = new RealmList<>();
         rcvElement = new RealmList<>();
-        matchElements = new ArrayList<>();
-        matchElements2 = new ArrayList<>();
+        matchElements = new RealmList<>();
+        matchElements2 = new RealmList<>();
         matchMonsters = new RealmList<>();
         hpPercent = new RealmList<>();
     }
@@ -123,11 +119,11 @@ public class LeaderSkill extends RealmObject {
         atkElement.add(new RealmInt(element));
     }
 
-    public LeaderSkillType getAtkSkillType() {
+    public RealmLeaderSkillType getAtkSkillType() {
         return atkSkillType;
     }
 
-    public void setAtkSkillType(LeaderSkillType atkSkillType) {
+    public void setAtkSkillType(RealmLeaderSkillType atkSkillType) {
         this.atkSkillType = atkSkillType;
     }
 
@@ -207,11 +203,11 @@ public class LeaderSkill extends RealmObject {
         hpElement.add(new RealmInt(element));
     }
 
-    public LeaderSkillType getHpSkillType() {
+    public RealmLeaderSkillType getHpSkillType() {
         return hpSkillType;
     }
 
-    public void setHpSkillType(LeaderSkillType hpSkillType) {
+    public void setHpSkillType(RealmLeaderSkillType hpSkillType) {
         this.hpSkillType = hpSkillType;
     }
 
@@ -227,28 +223,28 @@ public class LeaderSkill extends RealmObject {
         hpType.add(new RealmInt(type));
     }
 
-    public ArrayList<Element> getMatchElements() {
+    public RealmList<RealmElement> getMatchElements() {
         return matchElements;
     }
 
-    public void setMatchElements(ArrayList<Element> matchElements) {
+    public void setMatchElements(RealmList<RealmElement> matchElements) {
         this.matchElements = matchElements;
     }
 
-    public void addMatchElements(Element element) {
-        matchElements.add(element);
+    public void addMatchElements(int element) {
+        matchElements.add(new RealmElement(element));
     }
 
-    public ArrayList<Element> getMatchElements2() {
+    public RealmList<RealmElement> getMatchElements2() {
         return matchElements2;
     }
 
-    public void setMatchElements2(ArrayList<Element> matchElements2) {
+    public void setMatchElements2(RealmList<RealmElement> matchElements2) {
         this.matchElements2 = matchElements2;
     }
 
-    public void addMatchElements2(Element element) {
-        matchElements2.add(element);
+    public void addMatchElements2(int element) {
+        matchElements2.add(new RealmElement(element));
     }
 
     public RealmList<RealmLong> getMatchMonsters() {
@@ -295,11 +291,11 @@ public class LeaderSkill extends RealmObject {
         rcvElement.add(new RealmInt(element));
     }
 
-    public LeaderSkillType getRcvSkillType() {
+    public RealmLeaderSkillType getRcvSkillType() {
         return rcvSkillType;
     }
 
-    public void setRcvSkillType(LeaderSkillType rcvSkillType) {
+    public void setRcvSkillType(RealmLeaderSkillType rcvSkillType) {
         this.rcvSkillType = rcvSkillType;
     }
 
