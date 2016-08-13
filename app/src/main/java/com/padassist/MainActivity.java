@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
 
-        preferences.edit().putInt("version", 1).apply();
+//        preferences.edit().putInt("version", 1).apply();
         if (preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1) {
 //            Intent loadIntent = new Intent(getApplicationContext(), LoadingScreenActivity.class);
 //            startActivity(loadIntent);

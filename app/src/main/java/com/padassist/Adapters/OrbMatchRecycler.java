@@ -27,38 +27,33 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
     private ArrayList<OrbMatch> orbMatches;
     private Context mContext;
     private LayoutInflater inflater;
-    private View.OnClickListener thomasIsntGlobal;
+    private View.OnClickListener orbMatchOnClickListener;
     private Toast toast;
+    private View.OnClickListener removeOnClickListener;
 
-    private View.OnClickListener onItemClickListener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v) {
-            ViewHolder holder = (ViewHolder) v.getTag();
-        }
-    };
+//    private ImageView.OnClickListener removeOnClickListener = new ImageView.OnClickListener()
+//    {
+//        @Override
+//        public void onClick(View v)
+//        {
+//            if(orbMatches.size() > 0) {
+//                int position = (int) v.getTag(R.string.index);
+//                orbMatches.remove(position);
+//                notifyDataSetChanged();
+//                if (toast != null) {
+//                    toast.cancel();
+//                }
+//                toast = Toast.makeText(mContext, "Match Removed", Toast.LENGTH_SHORT);
+//                toast.show();
+//            }
+//        }
+//    };
 
-    private ImageView.OnClickListener removeOnClickListener = new ImageView.OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            if(orbMatches.size() > 0) {
-                int position = (int) v.getTag(R.string.index);
-                orbMatches.remove(position);
-                notifyDataSetChanged();
-                if (toast != null) {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(mContext, "Match Removed", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        }
-    };
-
-    public OrbMatchRecycler(Context context, ArrayList<OrbMatch> orbMatches, View.OnClickListener thomasIsntGlobal){
+    public OrbMatchRecycler(Context context, ArrayList<OrbMatch> orbMatches, View.OnClickListener orbMatchOnClickListener, View.OnClickListener removeOnClickListener){
         mContext = context;
         this.orbMatches = orbMatches;
-        this.thomasIsntGlobal = thomasIsntGlobal;
+        this.orbMatchOnClickListener = orbMatchOnClickListener;
+        this.removeOnClickListener = removeOnClickListener;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -102,11 +97,12 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
             orbDrawable = getDrawable(R.drawable.mortal_poison_orb);
         }
 
+        viewHolder.orbMatchTotal.setSelected(true);
         viewHolder.orbImage.setImageDrawable(orbDrawable);
         viewHolder.remove.setTag(R.string.index, position);
         viewHolder.remove.setOnClickListener(removeOnClickListener);
 
-        viewHolder.itemView.setOnClickListener(thomasIsntGlobal);
+        viewHolder.itemView.setOnClickListener(orbMatchOnClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
         if(position%2 == 1){
             viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));

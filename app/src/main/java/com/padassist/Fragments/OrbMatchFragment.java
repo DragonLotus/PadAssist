@@ -6,9 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputBinding;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Thomas on 7/11/2015.
@@ -45,7 +49,7 @@ public class OrbMatchFragment extends Fragment {
     public static final String TAG = OrbMatchFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int additionalCombos = 0;
-    private TextView editTeam, orbsLinkedValue, orbsPlusValue;
+    private TextView editTeam, orbsLinkedValue, orbsPlusValue, emptyText;
     private EditText additionalComboValue;
     private Button addMatch, calculateButton, reset;
     private Spinner orbsLinked, orbsPlus, boardSize;
@@ -294,26 +298,26 @@ public class OrbMatchFragment extends Fragment {
 
     private int getOrbColor() {
         int radioGroupId = orbRadioGroup.getCheckedRadioButtonId();
-//        switch (radioGroupId) {
-//            case R.id.redOrb:
-//                return Element.RED;
-//            case R.id.blueOrb:
-//                return Element.BLUE;
-//            case R.id.greenOrb:
-//                return Element.GREEN;
-//            case R.id.lightOrb:
-//                return Element.LIGHT;
-//            case R.id.darkOrb:
-//                return Element.DARK;
-//            case R.id.heartOrb:
-//                return Element.HEART;
-//            case R.id.jammerOrb:
-//                return Element.JAMMER;
-//            case R.id.poisonOrb:
-//                return Element.POISON;
-//            case R.id.mortalPoisonOrb:
-//                return Element.MORTAL_POISON;
-//        }
+        switch (radioGroupId) {
+            case R.id.redOrb:
+                return 0;
+            case R.id.blueOrb:
+                return 1;
+            case R.id.greenOrb:
+                return 2;
+            case R.id.lightOrb:
+                return 3;
+            case R.id.darkOrb:
+                return 4;
+            case R.id.heartOrb:
+                return 5;
+            case R.id.jammerOrb:
+                return 6;
+            case R.id.poisonOrb:
+                return 7;
+            case R.id.mortalPoisonOrb:
+                return 8;
+        }
         return radioGroupId;
     }
 
@@ -396,9 +400,30 @@ public class OrbMatchFragment extends Fragment {
             orbMatchList.add(orbMatch);
             orbMatchRecycler.notifyItemInserted(orbMatchList.size() - 1);
             orbMatches.scrollToPosition(orbMatchList.size() - 1);
+            emptyText.setVisibility(View.INVISIBLE);
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }
+        }
+    };
+
+    private View.OnClickListener removeMatchOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.string.index);
+            Log.d("OrbMatchList", "orbMatchRecycler before is: " + orbMatchRecycler.getItemCount());
+            orbMatchList.remove(position);
+            orbMatchRecycler.notifyDataSetChanged();
+            Log.d("OrbMatchList", "orbMatchRecycler after is: " + orbMatchRecycler.getItemCount());
+            if (orbMatchList.size() == 0) {
+                emptyText.setVisibility(View.VISIBLE);
+            }
+
+            if (toast != null) {
+                toast.cancel();
+            }
+            toast = Toast.makeText(getActivity(), "Match Removed", Toast.LENGTH_SHORT);
+            toast.show();
         }
     };
 
@@ -460,6 +485,7 @@ public class OrbMatchFragment extends Fragment {
             }
             rowCheckBox.setChecked(orbMatchList.get(position).isRow());
             crossCheckBox.setChecked(orbMatchList.get(position).isCross());
+            Log.d("OrbMatchList", "orbMatchList element is: " + orbMatchList.get(position));
             switch (orbMatchList.get(position).getElement()) {
                 case RED:
                     orbRadioGroup.check(R.id.redOrb);
@@ -559,6 +585,7 @@ public class OrbMatchFragment extends Fragment {
         orbMatches = (RecyclerView) rootView.findViewById(R.id.orbMatches);
         orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.elementRadioGroup);
         additionalComboValue = (EditText) rootView.findViewById(R.id.additionalComboValue);
+        emptyText = (TextView) rootView.findViewById(R.id.emptyText);
         return rootView;
     }
 
@@ -575,13 +602,18 @@ public class OrbMatchFragment extends Fragment {
         ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         addMatch.setOnClickListener(addMatchOnClickListener);
         reset.setOnClickListener(resetOnClickListener);
-
-        if (realm.where(OrbMatch.class).findAll().size() == 0) {
+        if (orbMatchList == null) {
             orbMatchList = new ArrayList<>();
         } else {
-            orbMatchList.addAll(realm.where(OrbMatch.class).findAll());
+            orbMatchList.clear();
         }
-        orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchOnClickListener);
+        if (realm.where(OrbMatch.class).findAll().size() != 0) {
+            orbMatchList.addAll(realm.where(OrbMatch.class).findAll());
+            emptyText.setVisibility(View.INVISIBLE);
+        } else {
+            emptyText.setVisibility(View.VISIBLE);
+        }
+        orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchOnClickListener, removeMatchOnClickListener);
         orbMatches.setAdapter(orbMatchRecycler);
         orbMatches.setLayoutManager(new LinearLayoutManager(getActivity()));
         additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
@@ -637,6 +669,42 @@ public class OrbMatchFragment extends Fragment {
 //            }
 //        }
 //        team.updateOrbs();
+        realm.beginTransaction();
+        if (orbMatchList.size() == 0) {
+            realm.where(OrbMatch.class).findAll().deleteAllFromRealm();
+        } else if (realm.where(OrbMatch.class).findAll().size() == 0) {
+            for (int i = 0; i < orbMatchList.size(); i++) {
+                orbMatchList.get(i).setMatchId(i);
+                realm.copyToRealm(orbMatchList.get(i));
+            }
+            Log.d("OrbMatchList", "Orb Matches are: " + realm.where(OrbMatch.class).findAllSorted("matchId"));
+        } else {
+            RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
+            Log.d("OrbMatchlist", "results contains: " + results.contains(orbMatchList.get(0)));
+            Log.d("OrbMatchList", "Results size before delete: " + results.size());
+            for (int i = 0; i < results.size(); i++) {
+                if (!orbMatchList.contains(results.get(i))) {
+                    results.get(i).deleteFromRealm();
+                    Log.d("OrbMatchList", "Results size after delete: " + results.size());
+                }
+            }
+            results = realm.where(OrbMatch.class).findAllSorted("matchId");
+            long lastMatchId;
+            if (results.size() == 0) {
+                lastMatchId = -1;
+            } else {
+                lastMatchId = results.get(results.size() - 1).getMatchId();
+            }
+            Log.d("OrbMatchList", "Results are: " + realm.where(OrbMatch.class).findAllSorted("matchId"));
+            for (int i = 0; i < orbMatchList.size(); i++) {
+                if ((orbMatchList.get(i).getMatchId() == 0)) {
+                    orbMatchList.get(i).setMatchId(lastMatchId + 1);
+                    lastMatchId++;
+                    realm.copyToRealm(orbMatchList.get(i));
+                }
+            }
+        }
+        realm.commitTransaction();
     }
 
 }

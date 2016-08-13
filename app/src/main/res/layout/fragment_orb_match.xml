@@ -286,4 +286,14 @@
             android:layout_weight=".5" />
     </RadioGroup>
 
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/orbMatches"
+        android:layout_alignBottom="@+id/orbMatches"
+        android:gravity="center"
+        android:text="Add orb matches by selecting the appropriate settings above."
+        android:textSize="16dp"/>
+
 </RelativeLayout>

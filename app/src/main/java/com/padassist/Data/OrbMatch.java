@@ -2,6 +2,7 @@ package com.padassist.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class OrbMatch extends RealmObject implements Parcelable {
+    @PrimaryKey
+    private long matchId;
 
     private int orbsLinked;
 
@@ -30,6 +33,7 @@ public class OrbMatch extends RealmObject implements Parcelable {
     }
 
     public OrbMatch(int orbsLinked, int numOrbPlus, int elementInt, boolean isRow, boolean isCross) {
+        matchId = 0;
         this.orbsLinked = orbsLinked;
         this.numOrbPlus = numOrbPlus;
         this.elementInt = elementInt;
@@ -54,6 +58,7 @@ public class OrbMatch extends RealmObject implements Parcelable {
     }
 
     public Element getElement() {
+        Log.d("OrbMatch", "elementInt is: " + elementInt);
         switch (elementInt){
             case 0:
                 return Element.RED;
@@ -104,6 +109,14 @@ public class OrbMatch extends RealmObject implements Parcelable {
 
     public void setIsCross(boolean isCross) {
         this.isCross = isCross;
+    }
+
+    public long getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(long matchId) {
+        this.matchId = matchId;
     }
 
     public OrbMatch(Parcel source) {
