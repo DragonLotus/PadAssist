@@ -24,6 +24,7 @@ public class Singleton {
     private boolean coopEnable = false;
     private boolean hasAwakenings = true;
     private boolean activeSkillUsed = false;
+    private boolean heartCarryOver = false;
 
     private Context _context;
     public static Singleton getInstance() {
@@ -148,5 +149,13 @@ public class Singleton {
 
     public void setHasAwakenings(boolean hasAwakenings) {
         this.hasAwakenings = hasAwakenings;
+    }
+
+    public boolean isHeartCarryOver() {
+        return heartCarryOver;
+    }
+
+    public void setHeartCarryOver(boolean heartCarryOver) {
+        this.heartCarryOver = heartCarryOver;
     }
 }

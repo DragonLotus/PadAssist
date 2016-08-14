@@ -411,10 +411,8 @@ public class OrbMatchFragment extends Fragment {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            Log.d("OrbMatchList", "orbMatchRecycler before is: " + orbMatchRecycler.getItemCount());
             orbMatchList.remove(position);
             orbMatchRecycler.notifyDataSetChanged();
-            Log.d("OrbMatchList", "orbMatchRecycler after is: " + orbMatchRecycler.getItemCount());
             if (orbMatchList.size() == 0) {
                 emptyText.setVisibility(View.VISIBLE);
             }

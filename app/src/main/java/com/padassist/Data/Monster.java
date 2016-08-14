@@ -537,7 +537,7 @@ public class Monster extends RealmObject implements Parcelable {
         return killerAwakenings;
     }
 
-    public RealmList<RealmInt> getTypes() {
+    public ArrayList<Integer> getTypes() {
         return baseMonster.getTypes();
     }
 

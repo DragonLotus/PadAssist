@@ -78,8 +78,6 @@ public class BaseMonster extends RealmObject implements Parcelable {
     private int xpCurve;
 
     private RealmList<RealmLong> evolutions;
-
-    private RealmList<RealmInt> types;
     @Ignore
     DecimalFormat format = new DecimalFormat("0.00");
 
@@ -108,7 +106,6 @@ public class BaseMonster extends RealmObject implements Parcelable {
         type3 = -1;
         awokenSkills = new RealmList<>();
         evolutions = new RealmList<>();
-        types = new RealmList<>();
     }
 
     public String getActiveSkill() {
@@ -323,9 +320,6 @@ public class BaseMonster extends RealmObject implements Parcelable {
 
     public void setType1(int type1) {
         this.type1 = type1;
-        if (type1 != -1) {
-            types.add(new RealmInt(type1));
-        }
     }
 
     public int getType2() {
@@ -334,9 +328,6 @@ public class BaseMonster extends RealmObject implements Parcelable {
 
     public void setType2(int type2) {
         this.type2 = type2;
-        if (type2 != -1) {
-            types.add(new RealmInt(type2));
-        }
     }
 
     public int getType3() {
@@ -345,9 +336,6 @@ public class BaseMonster extends RealmObject implements Parcelable {
 
     public void setType3(int type3) {
         this.type3 = type3;
-        if (type3 != -1) {
-            types.add(new RealmInt(type3));
-        }
     }
 
     public String getType1String() {
@@ -466,12 +454,18 @@ public class BaseMonster extends RealmObject implements Parcelable {
         this.evolutions = evolutions;
     }
 
-    public RealmList<RealmInt> getTypes() {
+    public ArrayList<Integer> getTypes() {
+        ArrayList<Integer> types = new ArrayList<>();
+        if(type1 >= 0){
+            types.add(type1);
+        }
+        if(type2 >= 0){
+            types.add(type2);
+        }
+        if(type3 >= 0){
+            types.add(type3);
+        }
         return types;
-    }
-
-    public void setTypes(RealmList<RealmInt> types) {
-        this.types = types;
     }
 
 //    public static List<Monster> getAllMonsters() {
