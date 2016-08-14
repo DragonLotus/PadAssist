@@ -28,7 +28,7 @@ public class DamageCalculationUtil {
                 totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
-        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement1Multiplier(monster, team, combos) * team.getHelperSkill().atkElement1Multiplier(monster, team, combos));
+        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Atk 1 Multiplier: " + team.getAtk1Multiplier());
         return Math.ceil(leadOtherMultiplier1(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
     }
 
@@ -36,19 +36,19 @@ public class DamageCalculationUtil {
         double totalOrbDamage = 0;
         if (monster.getElement1().equals(monster.getElement2())) {
             for (int i = 0; i < orbMatches.size(); i++) {
-                if (orbMatches.get(i).getElement().equals(monster.getElement2().getValue())) {
+                if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
                     totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, monster.getTPA());
                 }
             }
-            Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement2Multiplier(monster, team, combos) * team.getHelperSkill().atkElement2Multiplier(monster, team, combos));
+            Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Atk 2 Multiplier: " + team.getAtk2Multiplier());
             return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
         }
         for (int i = 0; i < orbMatches.size(); i++) {
-            if (orbMatches.get(i).getElement().equals(monster.getElement2().getValue())) {
+            if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
                 totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, monster.getTPA());
             }
         }
-        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement2Multiplier(monster, team, combos) * team.getHelperSkill().atkElement2Multiplier(monster, team, combos));
+        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Atk 2 Multiplier: " + team.getAtk2Multiplier());
         return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
     }
 
@@ -61,17 +61,18 @@ public class DamageCalculationUtil {
         double returnDamage = damage;
         int counter = 0;
         for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
-            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement1().getValue())) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement1())) {
                 if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
                     counter++;
                 }
             }
         }
-        returnDamage = returnDamage * team.getLeadSkill().atkElement1Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement1Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement1().getValue()) * 0.1 * counter + 1);
+        //Need to choose the correct multiplier for the monster
+        returnDamage = returnDamage * team.getAtk1Multiplier().get(0) * (team.getRowAwakenings(monster.getElement1()) * 0.1 * counter + 1);
 
         if (Singleton.getInstance().isEnableMultiplier()) {
             Boolean affected = false;
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement1().getValue())) {
+            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement1())) {
                 returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
                 affected = true;
             }
@@ -89,17 +90,18 @@ public class DamageCalculationUtil {
         double returnDamage = damage;
         int counter = 0;
         for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
-            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement2().getValue())) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement2())) {
                 if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
                     counter++;
                 }
             }
         }
-        returnDamage = returnDamage * team.getLeadSkill().atkElement2Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement2Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement2().getValue()) * 0.1 * counter + 1);
+        // Need to choose the correct multiplier for the monster
+        returnDamage = returnDamage * team.getAtk2Multiplier().get(0) * (team.getRowAwakenings(monster.getElement2()) * 0.1 * counter + 1);
 
         if (Singleton.getInstance().isEnableMultiplier()) {
             Boolean affected = false;
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement2().getValue())) {
+            if (Singleton.getInstance().getExtraElementMultiplier().contains(monster.getElement2())) {
                 returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
                 affected = true;
             }
@@ -446,7 +448,7 @@ public class DamageCalculationUtil {
         }
         for(int i = 0; i < team.getMonsters().size(); i++){
             double totalOrbDamage = 0;
-            double rcv = team.getMonsters().get(i).getTotalRcv() * team.getLeadSkill().rcvMultiplier(team.getMonsters().get(i), team) * team.getHelperSkill().rcvMultiplier(team.getMonsters().get(i), team);
+            double rcv = team.getMonsters().get(i).getTotalRcv() * team.getRcvMultiplier().get(i);
             for(int j = 0; j < heartOrbMatches.size(); j++){
                 totalOrbDamage += orbMatch((int)Math.floor(rcv + 0.5d), heartOrbMatches.get(j));
             }
@@ -508,31 +510,30 @@ public class DamageCalculationUtil {
         return Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) (currentLevel - 1) / (maxLevel - 1), statScale)));
     }
 
-    public static int monsterHpCalc(Monster monster, Team team){
+    public static int monsterHpCalc(Monster monster, Team team, int position){
         double monsterHp = 0;
         monsterHp = monster.getTotalHp();
         Log.d("Damage Calc Util", "monster 0 is: " + team.getMonsters().get(0) + team.getMonsters().get(0).getName());
-        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " hpData is: " + team.getLeadSkill().getHpData() + " multiplier is: " + team.getLeadSkill().hpMultiplier(monster, team));
-        monsterHp = monsterHp * team.getLeadSkill().hpMultiplier(monster, team) * team.getHelperSkill().hpMultiplier(monster, team);
+        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " hpData is: " + team.getLeadSkill().getHpData() + " multiplier is: " + team.getHpMultiplier().get(position));
+        monsterHp = monsterHp * team.getHpMultiplier().get(position);
         return (int) Math.ceil(monsterHp);
     }
 
-    public static double monsterRcvCalc(Monster monster, Team team){
+    public static double monsterRcvCalc(Monster monster, Team team, int position){
         double monsterRcv;
-        monsterRcv = monster.getTotalRcv();
-        Log.d("DamageCalcUtil", "LeadSkill is: " + team.getLeadSkill().getName() + " rcvSkillType is: " + team.getLeadSkill().getRcvSkillType());
-        if(team.getLeadSkill().getRcvSkillType() != null){
-            if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
-                monsterRcv *= team.getLeadSkill().rcvMultiplier(monster, team);
-            }
-        }
-        if(team.getHelperSkill().getRcvSkillType() != null){
-            if(team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
-                monsterRcv *= team.getHelperSkill().rcvMultiplier(monster, team);
-            }
-        }
-        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " RcvData is: " + team.getLeadSkill().getRcvData() + " multiplier is: " + team.getLeadSkill().rcvMultiplier(monster, team));
-       // monsterRcv = monsterRcv * team.getLeadSkill().rcvMultiplier(monster, team) * team.getHelperSkill().rcvMultiplier(monster, team);
+        monsterRcv = monster.getTotalRcv() * team.getRcvMultiplier().get(position);
+//        Log.d("DamageCalcUtil", "LeadSkill is: " + team.getLeadSkill().getName() + " rcvSkillType is: " + team.getLeadSkill().getRcvSkillType());
+//        if(team.getLeadSkill().getRcvSkillType() != null){
+//            if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
+//                monsterRcv *= team.getLeadSkill().rcvMultiplier(monster, team);
+//            }
+//        }
+//        if(team.getHelperSkill().getRcvSkillType() != null){
+//            if(team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
+//                monsterRcv *= team.getHelperSkill().rcvMultiplier(monster, team);
+//            }
+//        }
+//        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " RcvData is: " + team.getLeadSkill().getRcvData() + " multiplier is: " + team.getLeadSkill().rcvMultiplier(monster, team));
         return monsterRcv;
     }
 }

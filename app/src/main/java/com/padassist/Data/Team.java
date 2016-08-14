@@ -2,18 +2,18 @@ package com.padassist.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.padassist.Util.DamageCalculationUtil;
+import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Util.NumberComparator;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.Ignore;
@@ -32,7 +32,7 @@ public class Team extends RealmObject implements Parcelable {
     @Ignore
     private ArrayList<Integer> rowAwakenings = new ArrayList<Integer>();
     @Ignore
-    private  ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
+    private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
     @Ignore
     private ArrayList<Monster> monsters;
     @Ignore
@@ -66,6 +66,14 @@ public class Team extends RealmObject implements Parcelable {
     private long teamIdOverwrite;
     @Ignore
     private ArrayList<Boolean> isBound = new ArrayList<>();
+    @Ignore
+    private ArrayList<Double> hpMultiplier;
+    @Ignore
+    private ArrayList<Double> rcvMultiplier;
+    @Ignore
+    private ArrayList<Double> atk1Multiplier;
+    @Ignore
+    private ArrayList<Double> atk2Multiplier;
 
     private int teamHp;
     @Ignore
@@ -84,16 +92,12 @@ public class Team extends RealmObject implements Parcelable {
     private Realm realm = Realm.getDefaultInstance();
 
     public Team() {
+        for (int i = 0; i < 5; i++) {
+            orbPlusAwakenings.add(0);
+            rowAwakenings.add(0);
+        }
+        //For heart +;
         orbPlusAwakenings.add(0);
-        orbPlusAwakenings.add(0);
-        orbPlusAwakenings.add(0);
-        orbPlusAwakenings.add(0);
-        orbPlusAwakenings.add(0);
-        rowAwakenings.add(0);
-        rowAwakenings.add(0);
-        rowAwakenings.add(0);
-        rowAwakenings.add(0);
-        rowAwakenings.add(0);
         teamId = 0;
         teamIdOverwrite = 0;
         teamHealth = 0;
@@ -107,6 +111,16 @@ public class Team extends RealmObject implements Parcelable {
         isBound.clear();
         for (int i = 0; i < 6; i++) {
             isBound.add(false);
+        }
+        hpMultiplier = new ArrayList<>();
+        rcvMultiplier = new ArrayList<>();
+        atk1Multiplier = new ArrayList<>();
+        atk2Multiplier = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            hpMultiplier.add(1.0);
+            rcvMultiplier.add(1.0);
+            atk1Multiplier.add(1.0);
+            atk2Multiplier.add(1.0);
         }
     }
 
@@ -187,10 +201,10 @@ public class Team extends RealmObject implements Parcelable {
 
     }
 
-    public void setOrbMatches(){
+    public void setOrbMatches() {
         RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
         orbMatches.clear();
-        for(int i = 0; i < results.size(); i++){
+        for (int i = 0; i < results.size(); i++) {
             orbMatches.add(realm.copyFromRealm(results.get(i)));
         }
     }
@@ -254,7 +268,7 @@ public class Team extends RealmObject implements Parcelable {
     }
 
     public void setMonsters(int position, Monster monster) {
-        if(monsters == null){
+        if (monsters == null) {
             monsters = new ArrayList<>();
         }
         monsters.set(position, monster);
@@ -337,19 +351,57 @@ public class Team extends RealmObject implements Parcelable {
     }
 
     public LeaderSkill getLeadSkill() {
+        LeaderSkill leaderSkill;
         if (isBound.get(0) || monsters.get(0).getMonsterId() == 0) {
-            return realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
+            leaderSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
+            return realm.copyFromRealm(leaderSkill);
         } else {
-            return realm.where(LeaderSkill.class).equalTo("name", lead.getLeaderSkill()).findFirst();
+            leaderSkill = realm.where(LeaderSkill.class).equalTo("name", lead.getLeaderSkill()).findFirst();
+            return realm.copyFromRealm(leaderSkill);
         }
     }
 
     public LeaderSkill getHelperSkill() {
+        LeaderSkill helperSkill;
         if (isBound.get(5) || monsters.get(5).getMonsterId() == 0) {
-            return realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
+            helperSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
+            return realm.copyFromRealm(helperSkill);
         } else {
-            return realm.where(LeaderSkill.class).equalTo("name", helper.getLeaderSkill()).findFirst();
+            helperSkill = realm.where(LeaderSkill.class).equalTo("name", helper.getLeaderSkill()).findFirst();
+            return realm.copyFromRealm(helperSkill);
         }
+    }
+
+    public ArrayList<Double> getAtk1Multiplier() {
+        return atk1Multiplier;
+    }
+
+    public void setAtk1Multiplier(ArrayList<Double> atk1Multiplier) {
+        this.atk1Multiplier = atk1Multiplier;
+    }
+
+    public ArrayList<Double> getAtk2Multiplier() {
+        return atk2Multiplier;
+    }
+
+    public void setAtk2Multiplier(ArrayList<Double> atk2Multiplier) {
+        this.atk2Multiplier = atk2Multiplier;
+    }
+
+    public ArrayList<Double> getRcvMultiplier() {
+        return rcvMultiplier;
+    }
+
+    public void setRcvMultiplier(ArrayList<Double> rcvMultiplier) {
+        this.rcvMultiplier = rcvMultiplier;
+    }
+
+    public ArrayList<Double> getHpMultiplier() {
+        return hpMultiplier;
+    }
+
+    public void setHpMultiplier(ArrayList<Double> hpMultiplier) {
+        this.hpMultiplier = hpMultiplier;
     }
 
     public int getTeamHp() {
@@ -426,17 +478,17 @@ public class Team extends RealmObject implements Parcelable {
         this.favorite = favorite;
     }
 
-    public void setAwakenings(){
+    public void setAwakenings() {
         awakeningsList.clear();
         for (int i = 0; i < 5; i++) {
             orbPlusAwakenings.set(i, 0);
             rowAwakenings.set(i, 0);
         }
-        for (int i = 0; i < monsters.size(); i++){
-            if(monsters.get(i).getCurrentAwakenings() < monsters.get(i).getMaxAwakenings()){
-                for(int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
+        for (int i = 0; i < monsters.size(); i++) {
+            if (monsters.get(i).getCurrentAwakenings() < monsters.get(i).getMaxAwakenings()) {
+                for (int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++) {
                     awakeningsList.add(monsters.get(i).getAwokenSkills(j));
-                    if(!isBound.get(i)){
+                    if (!isBound.get(i)) {
                         switch (monsters.get(i).getAwokenSkills(j)) {
                             case 14:
                                 orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
@@ -475,9 +527,9 @@ public class Team extends RealmObject implements Parcelable {
                     }
                 }
             } else {
-                for(int j = 0; j < monsters.get(i).getMaxAwakenings(); j++){
+                for (int j = 0; j < monsters.get(i).getMaxAwakenings(); j++) {
                     awakeningsList.add(monsters.get(i).getAwokenSkills(j));
-                    if(!isBound.get(i)){
+                    if (!isBound.get(i)) {
                         switch (monsters.get(i).getAwokenSkills(j)) {
                             case 14:
                                 orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
@@ -519,9 +571,9 @@ public class Team extends RealmObject implements Parcelable {
         }
         Collections.sort(awakeningsList, numberComparator);
         latentsList.clear();
-        for (int i = 0; i < monsters.size(); i++){
-            for(int j = 0; j < monsters.get(i).getLatents().size(); j++){
-                if(monsters.get(i).getLatents().get(j).getValue() != 0){
+        for (int i = 0; i < monsters.size(); i++) {
+            for (int j = 0; j < monsters.get(i).getLatents().size(); j++) {
+                if (monsters.get(i).getLatents().get(j).getValue() != 0) {
                     latentsList.add(monsters.get(i).getLatents().get(j).getValue());
                 }
             }
@@ -529,7 +581,7 @@ public class Team extends RealmObject implements Parcelable {
         Collections.sort(latentsList, numberComparator);
     }
 
-    public ArrayList<Integer> getAwakenings(){
+    public ArrayList<Integer> getAwakenings() {
 //        if(awakeningsList.size() == 0){
 //            for (int i = 0; i < monsters.size(); i++){
 //                if(monsters.get(i).getCurrentAwakenings() < monsters.get(i).getMaxAwakenings()){
@@ -546,7 +598,8 @@ public class Team extends RealmObject implements Parcelable {
 //        }
         return awakeningsList;
     }
-    public ArrayList<Integer> getLatents(){
+
+    public ArrayList<Integer> getLatents() {
 //        if(latentsList.size() == 0){
 //            for (int i = 0; i < monsters.size(); i++){
 //                for(int j = 0; j < monsters.get(i).getLatents().size(); j++){
@@ -574,7 +627,7 @@ public class Team extends RealmObject implements Parcelable {
         for (int i = 0; i < getMonsters().size(); i++) {
             if (!isBound.get(i) && Singleton.getInstance().hasAwakenings()) {
                 if (getMonsters().get(i).getAwokenSkills().size() != 0) {
-                    if(getMonsters().get(i).getCurrentAwakenings()<getMonsters(i).getMaxAwakenings()){
+                    if (getMonsters().get(i).getCurrentAwakenings() < getMonsters(i).getMaxAwakenings()) {
                         for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++) {
                             int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
                             switch (awokenSkill) {
@@ -664,10 +717,10 @@ public class Team extends RealmObject implements Parcelable {
         for (int i = 0; i < getMonsters().size(); i++) {
             if (!isBound.get(i)) {
                 if (!haveElements.contains(getMonsters().get(i).getElement1())) {
-                    haveElements.add(getMonsters().get(i).getElement1().getValue());
+                    haveElements.add(getMonsters().get(i).getElement1());
                 }
                 if (!haveElements.contains(getMonsters().get(i).getElement2())) {
-                    haveElements.add(getMonsters().get(i).getElement2().getValue());
+                    haveElements.add(getMonsters().get(i).getElement2());
                 }
             }
 
@@ -682,17 +735,26 @@ public class Team extends RealmObject implements Parcelable {
         }
     }
 
-    public void setTeamStats(){
+    public void setTeamStats() {
         realm.beginTransaction();
+        setHpRcvMultiplierArrays();
+        Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
         int hp = 0;
         double rcv = 0;
-        for(int i = 0; i < getMonsters().size(); i++) {
-            hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this);
-            rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this);
+        for (int i = 0; i < getMonsters().size(); i++) {
+            hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this, i);
+            rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this, i);
         }
         this.teamHealth = hp;
-        this.teamRcv = (int)Math.floor(rcv + 0.5d);
+        this.teamRcv = (int) Math.floor(rcv + 0.5d);
         realm.commitTransaction();
+    }
+
+    public void setHpRcvMultiplierArrays() {
+        for (int i = 0; i < getMonsters().size(); i++) {
+            hpMultiplier.set(i, LeaderSkillCalculationUtil.hpMultiplier(getMonsters().get(i), this));
+            rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
+        }
     }
 
 //    public void updateLeaderSkills() {
@@ -712,11 +774,17 @@ public class Team extends RealmObject implements Parcelable {
         teamHealth = source.readInt();
         teamRcv = source.readInt();
         totalDamage = source.readInt();
+        orbPlusAwakenings = source.readArrayList(Integer.class.getClassLoader());
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
         orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
         haveElements = source.readArrayList(Element.class.getClassLoader());
         compareElements = source.readArrayList(Element.class.getClassLoader());
+        isBound = source.readArrayList(Boolean.class.getClassLoader());
+        hpMultiplier = source.readArrayList(Double.class.getClassLoader());
+        rcvMultiplier = source.readArrayList(Double.class.getClassLoader());
+        atk1Multiplier = source.readArrayList(Double.class.getClassLoader());
+        atk2Multiplier = source.readArrayList(Double.class.getClassLoader());
         teamId = source.readLong();
         teamName = source.readString();
         teamGroup = source.readInt();
@@ -735,11 +803,17 @@ public class Team extends RealmObject implements Parcelable {
         dest.writeInt(teamHealth);
         dest.writeInt(teamRcv);
         dest.writeInt(totalDamage);
+        dest.writeList(orbPlusAwakenings);
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);
         dest.writeList(orbMatches);
         dest.writeList(haveElements);
         dest.writeList(compareElements);
+        dest.writeList(isBound);
+        dest.writeList(hpMultiplier);
+        dest.writeList(rcvMultiplier);
+        dest.writeList(atk1Multiplier);
+        dest.writeList(atk2Multiplier);
         dest.writeLong(teamId);
         dest.writeString(teamName);
         dest.writeInt(teamGroup);

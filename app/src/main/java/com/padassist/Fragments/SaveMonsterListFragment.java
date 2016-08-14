@@ -145,24 +145,27 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     }
                 } else {
                     realm.beginTransaction();
+                    Log.d("SaveMonsterList", "Is team valid: " + newTeam.isValid());
+                    Log.d("SaveMonsterList", "Is monster valid: " + saveMonsterListRecycler.getItem(position).isValid());
+                    Monster monster = realm.copyToRealmOrUpdate(saveMonsterListRecycler.getItem(position));
                     switch (monsterPosition) {
                         case 0:
-                            newTeam.setLead(saveMonsterListRecycler.getItem(position));
+                            newTeam.setLead(monster);
                             break;
                         case 1:
-                            newTeam.setSub1(saveMonsterListRecycler.getItem(position));
+                            newTeam.setSub1(monster);
                             break;
                         case 2:
-                            newTeam.setSub2(saveMonsterListRecycler.getItem(position));
+                            newTeam.setSub2(monster);
                             break;
                         case 3:
-                            newTeam.setSub3(saveMonsterListRecycler.getItem(position));
+                            newTeam.setSub3(monster);
                             break;
                         case 4:
-                            newTeam.setSub4(saveMonsterListRecycler.getItem(position));
+                            newTeam.setSub4(monster);
                             break;
                         case 5:
-                            newTeam.setHelper(saveMonsterListRecycler.getItem(position));
+                            newTeam.setHelper(monster);
                             break;
                     }
                     realm.commitTransaction();
@@ -250,7 +253,9 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
             if (deleteConfirmationDialog == null) {
                 deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster, position);
             }
-            deleteConfirmationDialog.show(getChildFragmentManager(), position, "Delete Confirmation");
+            if (!deleteConfirmationDialog.isAdded()) {
+                deleteConfirmationDialog.show(getChildFragmentManager(), position, "Delete Confirmation");
+            }
         }
     };
 

@@ -1,10 +1,7 @@
 package com.padassist.Data;
 
-import android.app.IntentService;
-import android.app.ProgressDialog;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 
 import com.padassist.Util.DamageCalculationUtil;
@@ -12,7 +9,6 @@ import com.padassist.Util.Singleton;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -21,9 +17,9 @@ import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 public class Monster extends RealmObject implements Parcelable {
-    public static final int HP_MULTIPLIER = 10;
-    public static final int ATK_MULTIPLIER = 5;
-    public static final int RCV_MULTIPLIER = 3;
+    public static final int HP_PLUS_MULTIPLIER = 10;
+    public static final int ATK_PLUS_MULTIPLIER = 5;
+    public static final int RCV_PLUS_MULTIPLIER = 3;
 
     @PrimaryKey
     private long monsterId;
@@ -177,7 +173,7 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public int getTotalHp() {
-        int totalHp = (int) currentHp + hpPlus * HP_MULTIPLIER;
+        int totalHp = (int) currentHp + hpPlus * HP_PLUS_MULTIPLIER;
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
@@ -203,7 +199,7 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public int getTotalAtk() {
-        int totalAtk = (int) currentAtk + atkPlus * ATK_MULTIPLIER;
+        int totalAtk = (int) currentAtk + atkPlus * ATK_PLUS_MULTIPLIER;
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
@@ -229,7 +225,7 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public int getTotalRcv() {
-        int totalRcv = (int) currentRcv + rcvPlus * RCV_MULTIPLIER;
+        int totalRcv = (int) currentRcv + rcvPlus * RCV_PLUS_MULTIPLIER;
         int counter = 0;
         setAwakenings();
         for (int i = 0; i < awakenings.size(); i++) {
@@ -273,7 +269,7 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public double getWeighted() {
-        return currentHp / HP_MULTIPLIER + currentAtk / ATK_MULTIPLIER + currentRcv / RCV_MULTIPLIER;
+        return currentHp / HP_PLUS_MULTIPLIER + currentAtk / ATK_PLUS_MULTIPLIER + currentRcv / RCV_PLUS_MULTIPLIER;
     }
 
     public String getTotalWeightedString() {
@@ -348,11 +344,11 @@ public class Monster extends RealmObject implements Parcelable {
         return baseMonster.getType3String();
     }
 
-    public RealmElement getElement1() {
+    public Element getElement1() {
         return baseMonster.getElement1();
     }
 
-    public RealmElement getElement2() {
+    public Element getElement2() {
         return baseMonster.getElement2();
     }
 

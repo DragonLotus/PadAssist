@@ -78,6 +78,25 @@ public class MonsterPageFragment extends MonsterPageUtil {
         }
         Log.d("MonsterPage", "monster is: " + monster);
         monsterRemove.setOnClickListener(maxButtons);
+        switch (position) {
+            case 0:
+                getActivity().setTitle("Modify Leader");
+                break;
+            case 1:
+                getActivity().setTitle("Modify Sub 1");
+                break;
+            case 2:
+                getActivity().setTitle("Modify Sub 2");
+                break;
+            case 3:
+                getActivity().setTitle("Modify Sub 3");
+                break;
+            case 4:
+                getActivity().setTitle("Modify Sub 4");
+                break;
+            case 5:
+                getActivity().setTitle("Modify Helper");
+        }
 
     }
 
@@ -101,7 +120,9 @@ public class MonsterPageFragment extends MonsterPageUtil {
             if (monsterRemoveDialogFragment == null) {
                 monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster, monster);
             }
-            monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);
+            if(!monsterRemoveDialogFragment.isAdded()){
+                monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);
+            }
 
         }
     };
@@ -112,7 +133,9 @@ public class MonsterPageFragment extends MonsterPageUtil {
             if (deleteConfirmationDialog == null) {
                 deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster, 0);
             }
-            deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            if(!deleteConfirmationDialog.isAdded()){
+                deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            }
             monsterRemoveDialogFragment.dismiss();
         }
 
@@ -169,7 +192,9 @@ public class MonsterPageFragment extends MonsterPageUtil {
             if (replaceConfirmationDialog == null) {
                 replaceConfirmationDialog = ReplaceAllConfirmationDialogFragment.newInstance(replaceAllMonster);
             }
-            replaceConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            if(!replaceConfirmationDialog.isAdded()){
+                replaceConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            }
         }
 
         @Override

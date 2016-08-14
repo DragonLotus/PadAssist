@@ -591,7 +591,9 @@ public class TeamDamageListFragment extends Fragment {
             if (extraMultiplierDialogFragment == null) {
                 extraMultiplierDialogFragment = extraMultiplierDialogFragment.newInstance(saveTeam, team);
             }
-            extraMultiplierDialogFragment.show(getChildFragmentManager(), team, "Show extra multiplier Dialog");
+            if(!extraMultiplierDialogFragment.isAdded()){
+                extraMultiplierDialogFragment.show(getChildFragmentManager(), team, "Show extra multiplier Dialog");
+            }
         }
     };
 

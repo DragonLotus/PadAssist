@@ -168,7 +168,9 @@ public class MonsterListFragment extends Fragment {
                     if (teamSaveDialogFragment == null) {
                         teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam, team.getTeamIdOverwrite());
                     }
-                    teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), team.getTeamIdOverwrite(), "Show Team Save Dialog");
+                    if (!teamSaveDialogFragment.isAdded()) {
+                        teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), team.getTeamIdOverwrite(), "Show Team Save Dialog");
+                    }
                 }
                 break;
             case R.id.toggleCoop:
@@ -335,7 +337,9 @@ public class MonsterListFragment extends Fragment {
                         if (clearTeamConfirmationDialogFragment == null) {
                             clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                         }
-                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+                        if (!clearTeamConfirmationDialogFragment.isAdded()) {
+                            clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+                        }
                         teamSaveDialogFragment.dismiss();
                     }
                 }
@@ -343,7 +347,9 @@ public class MonsterListFragment extends Fragment {
                 if (clearTeamConfirmationDialogFragment == null) {
                     clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                 }
-                clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+                if (!clearTeamConfirmationDialogFragment.isAdded()) {
+                    clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+                }
                 teamSaveDialogFragment.dismiss();
             } else {
                 realm.beginTransaction();

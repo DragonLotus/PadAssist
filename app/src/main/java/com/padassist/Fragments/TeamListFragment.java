@@ -95,6 +95,7 @@ public class TeamListFragment extends Fragment {
     private TeamLoadDialogFragment teamLoadDialogFragment;
     private LoadTeamConfirmationDialogFragment loadTeamConfirmationDialogFragment;
     private int selectedTeam;
+    private boolean firstRun = true;
     private OnFragmentInteractionListener mListener;
     private SortLeaderDialogFragment sortLeaderDialogFragment;
     private SortHelperDialogFragment sortHelperDialogFragment;
@@ -314,7 +315,9 @@ public class TeamListFragment extends Fragment {
             if (teamLoadDialogFragment == null) {
                 teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(selectedTeam));
             }
-            teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(selectedTeam));
+            if(!teamLoadDialogFragment.isAdded()){
+                teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(selectedTeam));
+            }
         }
     };
 
@@ -342,14 +345,18 @@ public class TeamListFragment extends Fragment {
                     if (loadTeamConfirmationDialogFragment == null) {
                         loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
                     }
-                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                    if(!loadTeamConfirmationDialogFragment.isAdded()){
+                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                    }
                 }
             } else if (realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst() != null) {
                 if (!teamZero.getMonsters().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getMonsters()) || !teamZero.getTeamName().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getTeamName())) {
                     if (loadTeamConfirmationDialogFragment == null) {
                         loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
                     }
-                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                    if(!loadTeamConfirmationDialogFragment.isAdded()){
+                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                    }
                 } else {
                     loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
                     loadTeam.setTeamId(0);
@@ -442,13 +449,17 @@ public class TeamListFragment extends Fragment {
                 if (sortLeaderDialogFragment == null) {
                     sortLeaderDialogFragment = SortLeaderDialogFragment.newInstance(sortByLead);
                 }
-                sortLeaderDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                if(!sortLeaderDialogFragment.isAdded() && !firstRun){
+                    sortLeaderDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                }
                 break;
             case 11:
                 if (sortHelperDialogFragment == null) {
                     sortHelperDialogFragment = SortHelperDialogFragment.newInstance(sortByHelper);
                 }
-                sortHelperDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                if(!sortHelperDialogFragment.isAdded() && !firstRun){
+                    sortHelperDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                }
                 break;
             case 1001:
                 Collections.sort(teamList, teamLeaderElement1Comparator);
@@ -573,7 +584,9 @@ public class TeamListFragment extends Fragment {
             if (sortElementDialogFragment == null) {
                 sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
             }
-            sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+            if(!sortElementDialogFragment.isAdded()){
+                sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+            }
         }
 
         @Override
@@ -581,7 +594,9 @@ public class TeamListFragment extends Fragment {
             if (sortTypeDialogFragment == null) {
                 sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
             }
-            sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+            if(!sortTypeDialogFragment.isAdded()){
+                sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+            }
         }
 
         @Override
@@ -589,7 +604,9 @@ public class TeamListFragment extends Fragment {
             if (sortStatsDialogFragment == null) {
                 sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
             }
-            sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+            if(!sortStatsDialogFragment.isAdded()){
+                sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+            }
         }
 
         @Override
@@ -597,7 +614,9 @@ public class TeamListFragment extends Fragment {
             if (sortPlusDialogFragment == null) {
                 sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
             }
-            sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+            if(!sortPlusDialogFragment.isAdded()){
+                sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+            }
         }
 
         @Override
@@ -615,7 +634,9 @@ public class TeamListFragment extends Fragment {
             if (sortElementDialogFragment == null) {
                 sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
             }
-            sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+            if(!sortElementDialogFragment.isAdded()){
+                sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+            }
         }
 
         @Override
@@ -623,7 +644,9 @@ public class TeamListFragment extends Fragment {
             if (sortTypeDialogFragment == null) {
                 sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
             }
-            sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+            if(!sortTypeDialogFragment.isAdded()){
+                sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+            }
         }
 
         @Override
@@ -631,7 +654,9 @@ public class TeamListFragment extends Fragment {
             if (sortStatsDialogFragment == null) {
                 sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
             }
-            sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+            if(!sortStatsDialogFragment.isAdded()){
+                sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+            }
         }
 
         @Override
@@ -639,7 +664,9 @@ public class TeamListFragment extends Fragment {
             if (sortPlusDialogFragment == null) {
                 sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
             }
-            sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+            if(!sortPlusDialogFragment.isAdded()){
+                sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+            }
         }
 
         @Override
@@ -846,6 +873,7 @@ public class TeamListFragment extends Fragment {
                 teamList.addAll(teamListAll);
             }
             sortArrayList(Singleton.getInstance().getTeamSortMethod());
+            firstRun = false;
 //            if(fastScroller!=null){
 //                fastScroller.resizeScrollBar(teamListAdapter.expanded(), FastScroller.TEAM_LIST);
 //            }

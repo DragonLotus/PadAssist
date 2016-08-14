@@ -71,10 +71,10 @@ public class ParseMonsterDatabaseThread extends Thread {
 //                    monster.setMonsterId(monsterNode.get("id").asLong());
 //                }
                 if (monsterNode.hasNonNull("element")) {
-                    monster.setElement1(parseElement(monsterNode.get("element").asInt()));
+                    monster.setElement1(monsterNode.get("element").asInt());
                 }
                 if (monsterNode.hasNonNull("element2")) {
-                    monster.setElement2(parseElement(monsterNode.get("element2").asInt()));
+                    monster.setElement2(monsterNode.get("element2").asInt());
                 }
                 if (monsterNode.hasNonNull("name")) {
                     monster.setName(monsterNode.get("name").asText());

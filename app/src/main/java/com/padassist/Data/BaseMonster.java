@@ -53,9 +53,9 @@ public class BaseMonster extends RealmObject implements Parcelable {
 
     private int element2int;
 
-    private RealmElement element1;
-
-    private RealmElement element2;
+//    private RealmElement element1;
+//
+//    private RealmElement element2;
 
     private RealmList<RealmInt> awokenSkills;
 
@@ -99,8 +99,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
         maxAwakenings = 0;
         element1int = -1;
         element2int = -1;
-        element1 = new RealmElement(0);
-        element2 = new RealmElement(0);
+//        element1 = new RealmElement(0);
+//        element2 = new RealmElement(0);
         name = "Empty";
         leaderSkill = "Blank";
         type1 = -1;
@@ -159,71 +159,47 @@ public class BaseMonster extends RealmObject implements Parcelable {
         this.awokenSkills = awokenSkills;
     }
 
-    public RealmElement getElement1() {
-//        if(element1 == null){
-//            switch (element1int) {
-//                case 0:
-//                    element1 = Element.RED;
-//                    break;
-//                case 1:
-//                    element1 = Element.BLUE;
-//                    break;
-//                case 2:
-//                    element1 = Element.GREEN;
-//                    break;
-//                case 3:
-//                    element1 = Element.LIGHT;
-//                    break;
-//                case 4:
-//                    element1 = Element.DARK;
-//                    break;
-//                default:
-//                    element1 = Element.BLANK;
-//            }
-//        }
-        return element1;
-    }
+    public Element getElement1() {
+        switch (element1int) {
+            case 0:
+                return Element.RED;
+            case 1:
+                return Element.BLUE;
+            case 2:
+                return Element.GREEN;
+            case 3:
+                return Element.LIGHT;
+            case 4:
+                return Element.DARK;
+            default:
+                return Element.BLANK;
+        }
 
+    }
 
     public void setElement1(int element1) {
-        getElement1();
+        this.element1int = element1;
     }
 
-    public void setElement1(RealmElement element1) {
-        this.element1 = element1;
-    }
-
-    public RealmElement getElement2() {
-//        if(element2 == null){
-//            switch (element2int) {
-//                case 0:
-//                    element2 = Element.RED;
-//                    break;
-//                case 1:
-//                    element2 = Element.BLUE;
-//                    break;
-//                case 2:
-//                    element2 = Element.GREEN;
-//                    break;
-//                case 3:
-//                    element2 = Element.LIGHT;
-//                    break;
-//                case 4:
-//                    element2 = Element.DARK;
-//                    break;
-//                default:
-//                    element2 = Element.BLANK;
-//            }
-//        }
-        return element2;
+    public Element getElement2() {
+        switch (element2int) {
+            case 0:
+                return Element.RED;
+            case 1:
+                return Element.BLUE;
+            case 2:
+                return Element.GREEN;
+            case 3:
+                return Element.LIGHT;
+            case 4:
+                return Element.DARK;
+            default:
+                return Element.BLANK;
+        }
     }
 
     public void setElement2(int element2) {
-        getElement2();
-    }
-
-    public void setElement2(RealmElement element2) {
-        this.element2 = element2;
+        this.element2int = element2;
     }
 
     public int getElement1Int() {

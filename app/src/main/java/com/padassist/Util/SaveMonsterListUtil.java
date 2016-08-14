@@ -49,6 +49,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
     protected SaveMonsterListRecycler saveMonsterListRecycler;
     private Toast toast;
     private TextView savedMonsters;
+    private boolean firstRun = true;
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -353,19 +354,25 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 if (sortElementDialogFragment == null) {
                     sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
                 }
-                sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+                if (!sortElementDialogFragment.isAdded() && !firstRun) {
+                    sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+                }
                 break;
             case 3:
                 if (sortTypeDialogFragment == null) {
                     sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
                 }
-                sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+                if (!sortTypeDialogFragment.isAdded() && !firstRun) {
+                    sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+                }
                 break;
             case 4:
                 if (sortStatsDialogFragment == null) {
                     sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
                 }
-                sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+                if (!sortStatsDialogFragment.isAdded() && !firstRun) {
+                    sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+                }
                 break;
             case 5:
                 Collections.sort(monsterList, monsterRarityComparator);
@@ -379,7 +386,9 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 if (sortPlusDialogFragment == null) {
                     sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
                 }
-                sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+                if (!sortPlusDialogFragment.isAdded() && !firstRun) {
+                    sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+                }
                 break;
             case 8:
                 Collections.sort(monsterList, monsterFavoriteComparator);
@@ -548,7 +557,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
             }
             sortArrayList(Singleton.getInstance().getSaveSortMethod());
 //            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
-
+            firstRun = false;
             saveMonsterListRecycler.setExpandedPosition(-1);
 
             Log.d("SaveMonsterListUtil", "MonsterListAll is: " + monsterListAll);

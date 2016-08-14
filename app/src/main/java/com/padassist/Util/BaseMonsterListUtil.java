@@ -49,6 +49,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     private MenuItem searchMenuItem;
     protected SearchView searchView;
     private Toast toast;
+    private boolean firstRun = true;
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
@@ -285,19 +286,25 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 if (sortElementDialogFragment == null) {
                     sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
                 }
-                sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+                if (!sortElementDialogFragment.isAdded() && !firstRun) {
+                    sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+                }
                 break;
             case 3:
                 if (sortTypeDialogFragment == null) {
                     sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
                 }
-                sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+                if (!sortTypeDialogFragment.isAdded() && !firstRun) {
+                    sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+                }
                 break;
             case 4:
                 if (sortStatsDialogFragment == null) {
                     sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
                 }
-                sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+                if (!sortStatsDialogFragment.isAdded() && !firstRun) {
+                    sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+                }
                 break;
             case 5:
                 Collections.sort(monsterList, monsterRarityComparator);
@@ -444,6 +451,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 monsterList.addAll(monsterListAll);
             }
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
+            firstRun = false;
             baseMonsterListRecycler.setExpandedPosition(-1);
 //            if(fastScroller != null){
 //                fastScroller.resizeScrollBar(baseMonsterListRecycler.expanded(), FastScroller.BASE_MONSTER_LIST);
