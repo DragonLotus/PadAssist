@@ -9,7 +9,8 @@ import java.util.ArrayList;
  * Created by Anthony on 7/16/2015.
  */
 public class Enemy implements Parcelable {
-    private int targetHp, currentHp, targetDef, beforeGravityHP, beforeDefenseBreak, damageThreshold, damageImmunity, reductionValue;
+    private int targetDef, beforeDefenseBreak, damageThreshold, damageImmunity, reductionValue;
+    private long targetHp, currentHp, beforeGravityHP;
     private double gravityPercent;
     private Element targetElement;
     private ArrayList<Element> reduction, absorb;
@@ -46,19 +47,19 @@ public class Enemy implements Parcelable {
     }
 
 
-    public int getTargetHp() {
+    public long getTargetHp() {
         return targetHp;
     }
 
-    public void setTargetHp(int targetHp) {
+    public void setTargetHp(long targetHp) {
         this.targetHp = targetHp;
     }
 
-    public int getCurrentHp() {
+    public long getCurrentHp() {
         return currentHp;
     }
 
-    public void setCurrentHp(int currentHp) {
+    public void setCurrentHp(long currentHp) {
         this.currentHp = currentHp;
         if(this.currentHp < 0){
             this.currentHp = 0;
@@ -96,11 +97,11 @@ public class Enemy implements Parcelable {
         return (double) currentHp / targetHp;
     }
 
-    public int getBeforeGravityHP() {
+    public long getBeforeGravityHP() {
         return beforeGravityHP;
     }
 
-    public void setBeforeGravityHP(int beforeGravityHP) {
+    public void setBeforeGravityHP(long beforeGravityHP) {
         this.beforeGravityHP = beforeGravityHP;
     }
 
@@ -229,10 +230,10 @@ public class Enemy implements Parcelable {
     }
 
     public Enemy(Parcel source) {
-        targetHp = source.readInt();
-        currentHp = source.readInt();
+        targetHp = source.readLong();
+        currentHp = source.readLong();
         targetDef = source.readInt();
-        beforeGravityHP = source.readInt();
+        beforeGravityHP = source.readLong();
         beforeDefenseBreak = source.readInt();
         damageThreshold = source.readInt();
         gravityPercent = source.readDouble();
@@ -248,10 +249,10 @@ public class Enemy implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(targetHp);
-        dest.writeInt(currentHp);
+        dest.writeLong(targetHp);
+        dest.writeLong(currentHp);
         dest.writeInt(targetDef);
-        dest.writeInt(beforeGravityHP);
+        dest.writeLong(beforeGravityHP);
         dest.writeInt(beforeDefenseBreak);
         dest.writeInt(damageThreshold);
         dest.writeDouble(gravityPercent);

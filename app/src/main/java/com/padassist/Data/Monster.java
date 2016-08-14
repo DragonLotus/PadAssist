@@ -92,66 +92,66 @@ public class Monster extends RealmObject implements Parcelable {
         }
     }
 
-    public int getElement1Damage(Team team, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement1Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, team);
-        return 0;
-    }
-
-    public int getElement1DamageEnemy(Team team, Enemy enemy, int combos) {
-//        return (int) Math.ceil(DamageCalculationUtil.monsterElement1DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team));
-        return 0;
-    }
-
-    public int getElement2Damage(Team team, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement2Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, team);
-        return 0;
-    }
-
-
-    public int getElement2DamageEnemy(Team team, Enemy enemy, int combos) {
-//        return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team));
-        return 0;
-    }
-
-    public int getElement1DamageReduction(Team team, Enemy enemy, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
-        return 0;
-    }
-
-    public int getElement2DamageReduction(Team team, Enemy enemy, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
-        return 0;
-    }
-
-    public int getElement1DamageAbsorb(Team team, Enemy enemy, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
-        return 0;
-    }
-
-    public int getElement2DamageAbsorb(Team team, Enemy enemy, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
-        return 0;
-    }
-
-    public int getElement1DamageThreshold(Team team, Enemy enemy, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
-        return 0;
-    }
-
-    public int getElement2DamageThreshold(Team team, Enemy enemy, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
-        return 0;
-    }
-
-    public int getElement1DamageImmunity(Team team, Enemy enemy, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement1DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
-        return 0;
-    }
-
-    public int getElement2DamageImmunity(Team team, Enemy enemy, int combos) {
-//        return (int) DamageCalculationUtil.monsterElement2DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
-        return 0;
-    }
+//    public int getElement1Damage(Team team, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement1Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, team);
+//        return 0;
+//    }
+//
+//    public int getElement1DamageEnemy(Team team, Enemy enemy, int combos) {
+////        return (int) Math.ceil(DamageCalculationUtil.monsterElement1DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team));
+//        return 0;
+//    }
+//
+//    public int getElement2Damage(Team team, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement2Damage(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, team);
+//        return 0;
+//    }
+//
+//
+//    public int getElement2DamageEnemy(Team team, Enemy enemy, int combos) {
+////        return (int) Math.ceil(DamageCalculationUtil.monsterElement2DamageEnemy(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team));
+//        return 0;
+//    }
+//
+//    public int getElement1DamageReduction(Team team, Enemy enemy, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement1DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+//        return 0;
+//    }
+//
+//    public int getElement2DamageReduction(Team team, Enemy enemy, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement2DamageReduction(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+//        return 0;
+//    }
+//
+//    public int getElement1DamageAbsorb(Team team, Enemy enemy, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement1DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+//        return 0;
+//    }
+//
+//    public int getElement2DamageAbsorb(Team team, Enemy enemy, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement2DamageAbsorb(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+//        return 0;
+//    }
+//
+//    public int getElement1DamageThreshold(Team team, Enemy enemy, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement1DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+//        return 0;
+//    }
+//
+//    public int getElement2DamageThreshold(Team team, Enemy enemy, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement2DamageThreshold(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+//        return 0;
+//    }
+//
+//    public int getElement1DamageImmunity(Team team, Enemy enemy, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement1DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement1()), combos, enemy, team);
+//        return 0;
+//    }
+//
+//    public int getElement2DamageImmunity(Team team, Enemy enemy, int combos) {
+////        return (int) DamageCalculationUtil.monsterElement2DamageImmunity(this, team.getOrbMatches(), team.getOrbPlusAwakenings(baseMonster.getElement2()), combos, enemy, team);
+//        return 0;
+//    }
 
     public int getCurrentLevel() {
         return currentLevel;

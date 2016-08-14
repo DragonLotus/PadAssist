@@ -26,9 +26,12 @@ import io.realm.annotations.PrimaryKey;
 public class Team extends RealmObject implements Parcelable {
     @PrimaryKey
     private long teamId;
+    @Ignore
     private int teamHealth;
+    @Ignore
     private int teamRcv;
-    private int totalDamage;
+    @Ignore
+    private long totalDamage;
     @Ignore
     private ArrayList<Integer> rowAwakenings = new ArrayList<Integer>();
     @Ignore
@@ -74,7 +77,7 @@ public class Team extends RealmObject implements Parcelable {
     private ArrayList<Double> atk1Multiplier;
     @Ignore
     private ArrayList<Double> atk2Multiplier;
-
+    @Ignore
     private int teamHp;
     @Ignore
     private ArrayList<Element> compareElements = new ArrayList<>();
@@ -188,11 +191,11 @@ public class Team extends RealmObject implements Parcelable {
         return baseMonsterId;
     }
 
-    public int getTotalDamage() {
+    public long getTotalDamage() {
         return totalDamage;
     }
 
-    public void setTotalDamage(int totalDamage) {
+    public void setTotalDamage(long totalDamage) {
         this.totalDamage = totalDamage;
     }
 
@@ -738,7 +741,7 @@ public class Team extends RealmObject implements Parcelable {
     public void setTeamStats() {
         realm.beginTransaction();
         setHpRcvMultiplierArrays();
-        Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
+        Log.d("Team", "hpMultiplier is: " + hpMultiplier + " atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier + " rcvMultiplier is: " + rcvMultiplier);
         int hp = 0;
         double rcv = 0;
         for (int i = 0; i < getMonsters().size(); i++) {
@@ -754,6 +757,15 @@ public class Team extends RealmObject implements Parcelable {
         for (int i = 0; i < getMonsters().size(); i++) {
             hpMultiplier.set(i, LeaderSkillCalculationUtil.hpMultiplier(getMonsters().get(i), this));
             rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
+        }
+    }
+
+    public void setAtkMultiplierArrays(int combos) {
+        for (int i = 0; i < getMonsters().size(); i++){
+            ArrayList<Double> atkMultiplier = new ArrayList<>();
+            atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
+            atk1Multiplier.set(i, atkMultiplier.get(0));
+            atk2Multiplier.set(i, atkMultiplier.get(1));
         }
     }
 
@@ -773,7 +785,7 @@ public class Team extends RealmObject implements Parcelable {
     public Team(Parcel source) {
         teamHealth = source.readInt();
         teamRcv = source.readInt();
-        totalDamage = source.readInt();
+        totalDamage = source.readLong();
         orbPlusAwakenings = source.readArrayList(Integer.class.getClassLoader());
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
@@ -802,7 +814,7 @@ public class Team extends RealmObject implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(teamHealth);
         dest.writeInt(teamRcv);
-        dest.writeInt(totalDamage);
+        dest.writeLong(totalDamage);
         dest.writeList(orbPlusAwakenings);
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);

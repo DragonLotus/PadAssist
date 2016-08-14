@@ -250,7 +250,6 @@ public class LeaderSkillCalculationUtil {
         rcvMultiplier = 1;
 
         if (team.getLeadSkill().getRcvSkillType() != null) {
-            Log.d("LeaderSkillCalcUtil", "rcv data is: " + team.getLeadSkill().getRcvData().get(0).getValue());
             switch (team.getLeadSkill().getRcvSkillType().getValue()) {
                 case FLAT:
                     flat(monster, team.getLeadSkill(), 3);
@@ -269,34 +268,25 @@ public class LeaderSkillCalculationUtil {
                     break;
             }
         }
-//        if (rcvSkillType != null) {
-//            switch (rcvSkillType) {
-//                case FLAT:
-//                    flat(monster, 3);
-//                    break;
-//                case MONSTER_CONDITIONAL:
-//                    monsterConditional(monster, team, 3);
-//                    break;
-//                case MATCH_ELEMENT_ACTIVE:
-//                    matchElementActive(monster, team, 3);
-//                    break;
-//                case FLAT_ACTIVE:
-//                    flatActive(monster, team, 3);
-//                    break;
-//                case COMBO_ACTIVE:
-//                    comboActive(monster, team, 0, 3);
-//                    break;
-//                case HP_FLAT:
-//                    hpFlat(monster, team, 3);
-//                    break;
-//                case ACTIVE:
-//                    active(monster, team, 3);
-//                    break;
-//                case CO_OP:
-//                    coop(monster, team, 3);
-//                    break;
-//            }
-//        }
+        if (team.getHelperSkill().getRcvSkillType() != null) {
+            switch (team.getHelperSkill().getRcvSkillType().getValue()) {
+                case FLAT:
+                    flat(monster, team.getHelperSkill(), 3);
+                    break;
+                case MONSTER_CONDITIONAL:
+                    monsterConditional(monster, team, team.getHelperSkill(), 3);
+                    break;
+                case HP_FLAT:
+                    hpFlat(monster, team, team.getHelperSkill(), 3);
+                    break;
+                case ACTIVE:
+                    active(monster, team, team.getHelperSkill(), 3);
+                    break;
+                case CO_OP:
+                    coop(monster, team, team.getHelperSkill(), 3);
+                    break;
+            }
+        }
         return rcvMultiplier;
     }
 

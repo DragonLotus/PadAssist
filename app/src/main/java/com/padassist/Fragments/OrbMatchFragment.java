@@ -677,15 +677,11 @@ public class OrbMatchFragment extends Fragment {
                 orbMatchList.get(i).setMatchId(i);
                 realm.copyToRealm(orbMatchList.get(i));
             }
-            Log.d("OrbMatchList", "Orb Matches are: " + realm.where(OrbMatch.class).findAllSorted("matchId"));
         } else {
             RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
-            Log.d("OrbMatchList", "results contains: " + results.contains(orbMatchList.get(0)));
-            Log.d("OrbMatchList", "Results size before delete: " + results.size());
             for (int i = 0; i < results.size(); i++) {
                 if (!orbMatchList.contains(results.get(i))) {
                     results.get(i).deleteFromRealm();
-                    Log.d("OrbMatchList", "Results size after delete: " + results.size());
                 }
             }
             results = realm.where(OrbMatch.class).findAllSorted("matchId");
@@ -695,7 +691,6 @@ public class OrbMatchFragment extends Fragment {
             } else {
                 lastMatchId = results.get(results.size() - 1).getMatchId();
             }
-            Log.d("OrbMatchList", "Results are: " + realm.where(OrbMatch.class).findAllSorted("matchId"));
             for (int i = 0; i < orbMatchList.size(); i++) {
                 if ((orbMatchList.get(i).getMatchId() == 0)) {
                     orbMatchList.get(i).setMatchId(lastMatchId + 1);
