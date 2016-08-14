@@ -741,7 +741,7 @@ public class Team extends RealmObject implements Parcelable {
     public void setTeamStats() {
         realm.beginTransaction();
         setHpRcvMultiplierArrays();
-        Log.d("Team", "hpMultiplier is: " + hpMultiplier + " atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier + " rcvMultiplier is: " + rcvMultiplier);
+        Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
         int hp = 0;
         double rcv = 0;
         for (int i = 0; i < getMonsters().size(); i++) {
@@ -767,6 +767,7 @@ public class Team extends RealmObject implements Parcelable {
             atk1Multiplier.set(i, atkMultiplier.get(0));
             atk2Multiplier.set(i, atkMultiplier.get(1));
         }
+        Log.d("Team","atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier);
     }
 
 //    public void updateLeaderSkills() {

@@ -146,6 +146,7 @@ public class TeamDamageListFragment extends Fragment {
                     totalCombos = realm.where(OrbMatch.class).findAll().size();
                 }
                 monsterListAdapter.setCombos(totalCombos);
+                team.setAtkMultiplierArrays(totalCombos);
                 updateTextView();
                 monsterListAdapter.notifyDataSetChanged();
                 additionalComboValue.setText("0");
@@ -527,6 +528,8 @@ public class TeamDamageListFragment extends Fragment {
             }
             team.updateAwakenings();
             team.updateOrbs();
+            team.setAtkMultiplierArrays(totalCombos);
+            Log.d("TeamDamageList", "bound list: " + team.getIsBound());
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }

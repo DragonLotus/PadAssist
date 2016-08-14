@@ -58,7 +58,6 @@ public class OrbMatch extends RealmObject implements Parcelable {
     }
 
     public Element getElement() {
-        Log.d("OrbMatch", "elementInt is: " + elementInt);
         switch (elementInt){
             case 0:
                 return Element.RED;

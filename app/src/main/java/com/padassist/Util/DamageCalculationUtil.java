@@ -522,8 +522,6 @@ public class DamageCalculationUtil {
     public static int monsterHpCalc(Monster monster, Team team, int position){
         double monsterHp = 0;
         monsterHp = monster.getTotalHp();
-        Log.d("Damage Calc Util", "monster 0 is: " + team.getMonsters().get(0) + team.getMonsters().get(0).getName());
-        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " hpData is: " + team.getLeadSkill().getHpData() + " multiplier is: " + team.getHpMultiplier().get(position));
         monsterHp = monsterHp * team.getHpMultiplier().get(position);
         return (int) Math.ceil(monsterHp);
     }

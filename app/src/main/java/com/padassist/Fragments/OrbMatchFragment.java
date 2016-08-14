@@ -702,6 +702,7 @@ public class OrbMatchFragment extends Fragment {
         realm.commitTransaction();
         team.setOrbMatches();
         team.updateOrbs();
+        team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
     }
 
 }
