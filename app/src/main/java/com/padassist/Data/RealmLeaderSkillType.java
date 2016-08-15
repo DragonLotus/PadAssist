@@ -136,6 +136,10 @@ public class RealmLeaderSkillType extends RealmObject {
                 return LeaderSkillType.CO_OP_FLAT;
             case 58:
                 return LeaderSkillType.CO_OP;
+            case 59:
+                return LeaderSkillType.FLAT_CROSS;
+            case 60:
+                return LeaderSkillType.HEART_CROSS_CROSS;
             default:
                 return LeaderSkillType.BLANK;
         }

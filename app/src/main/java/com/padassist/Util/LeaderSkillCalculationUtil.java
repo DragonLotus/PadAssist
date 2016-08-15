@@ -240,6 +240,12 @@ public class LeaderSkillCalculationUtil {
                 case CO_OP:
                     coop(monster, team, team.getLeadSkill(), 2);
                     break;
+                case FLAT_CROSS:
+                    flatCross(monster, team, team.getLeadSkill());
+                    break;
+                case HEART_CROSS_CROSS:
+                    heartCrossCross(monster, team, team.getLeadSkill());
+                    break;
             }
         }
 
@@ -418,6 +424,12 @@ public class LeaderSkillCalculationUtil {
                     break;
                 case CO_OP:
                     coop(monster, team, team.getHelperSkill(), 2);
+                    break;
+                case FLAT_CROSS:
+                    flatCross(monster, team, team.getHelperSkill());
+                    break;
+                case HEART_CROSS_CROSS:
+                    heartCrossCross(monster, team, team.getHelperSkill());
                     break;
             }
         }
@@ -2515,8 +2527,8 @@ public class LeaderSkillCalculationUtil {
 
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             if(team.getOrbMatches().get(i).isCross()){
-                for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())){
+                for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getValue())){
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     }
@@ -2648,6 +2660,73 @@ public class LeaderSkillCalculationUtil {
                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
             } else if (stat == 3) {
                 rcvMultiplier *= leaderSkill.getRcvData().get(0).getValue();
+            }
+        }
+    }
+
+    private static void flatCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if(team.getOrbMatches().get(i).isCross()){
+                for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())){
+                        atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
+                        atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
+                    }
+                }
+            }
+        }
+
+        boolean buffed = false;
+        if (leaderSkill.getAtkType().size() != 0) {
+            for (int i = 0; i < leaderSkill.getAtkType().size(); i++) {
+                if (monster.getTypes().contains(leaderSkill.getAtkType().get(i).getValue()) && !buffed) {
+                    atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
+                    atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
+                    buffed = true;
+                }
+            }
+        }
+        if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
+            for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
+                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
+                    atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
+                    buffed = true;
+                }
+            }
+        }
+    }
+
+    private static void heartCrossCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if(team.getOrbMatches().get(i).isCross()){
+                for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())){
+                        atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
+                        atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
+                    }
+                }
+            }
+        }
+
+        if (Singleton.getInstance().isHeartCarryOver()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
+        } else {
+            Boolean matched = false;
+            int i = 0;
+            while (!matched) {
+                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
+                    if (team.getOrbMatches().get(i).isCross()) {
+                        atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
+                        atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
+                        matched = true;
+                    }
+                }
+                i++;
+                if (i == team.getOrbMatches().size()) {
+                    break;
+                }
             }
         }
     }

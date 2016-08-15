@@ -315,7 +315,7 @@ public abstract class MonsterPageUtil extends Fragment {
 
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
-        getActivity().setTitle("Monster Stats");
+        getActivity().setTitle("Modify Monster");
         Log.d("MonsterPageUtil", "Is monster valid onActivityCreated end: " + monster.isValid());
     }
 

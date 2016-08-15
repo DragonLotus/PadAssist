@@ -49,8 +49,15 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
 
     @Override
     public void onActivityCreatedSpecific() {
-        RealmResults results = realm.where(Monster.class).equalTo("helper", false).findAll();
-            monsterListAll.addAll(results);
+        if(monsterListAll == null){
+            monsterListAll = new ArrayList<>();
+        } else {
+            monsterListAll.clear();
+        }
+        RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
+        for(int i = 0; i < results.size(); i++){
+            monsterListAll.add(realm.copyFromRealm(results.get(i)));
+        }
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

@@ -98,6 +98,10 @@ public class MonsterPageFragment extends MonsterPageUtil {
                 getActivity().setTitle("Modify Helper");
         }
 
+        for(int i = 0; i < monster.getEvolutions().size(); i++){
+            Log.d("MonsterPage", "Evolutions are: " + monster.getEvolutions().get(i).getValue());
+        }
+
     }
 
     public Monster getMonster() {

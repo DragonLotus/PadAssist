@@ -184,6 +184,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
         if(monsterListAll == null){
             monsterListAll = new ArrayList<>();
         }
+        monsterListAll.clear();
         RealmResults<BaseMonster> results = realm.where(BaseMonster.class).findAll();
         for(int i = 0; i < results.size(); i++) {
              monsterListAll.add(realm.copyFromRealm(results.get(i)));

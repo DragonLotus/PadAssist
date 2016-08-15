@@ -718,7 +718,6 @@ public class OrbMatchFragment extends Fragment {
         realm.commitTransaction();
         team.setOrbMatches();
         team.updateOrbs();
-        Log.d("OrbMatchList", "onDestroyView");
         if(orbMatchList.size() != 0){
             team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
         }
