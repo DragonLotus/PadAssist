@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class ExtraMultiplierDialogFragment extends DialogFragment {
     private RadioGroup elementRadioGroup;
-    private CheckBox redOrb, blueOrb, greenOrb, lightOrb, darkOrb, enable;
+    private CheckBox redOrb, blueOrb, greenOrb, lightOrb, darkOrb, enable, coopCheck;
     private ExpandableHeightGridView typeGrid;
     private EditText multiplier;
     private SaveTeam saveTeam;
@@ -39,7 +39,6 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
     private ArrayList<Integer> typeList;
     private TypeGridAdapter typeGridAdapter;
     private Button clearButton;
-    private Button coopButton;
 
     public interface SaveTeam {
         public void update();
@@ -50,6 +49,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         dialogFragment.setSaveTeam(saveTeam);
         Bundle args = new Bundle();
         args.putParcelable("team", team);
+        dialogFragment.setArguments(args);
         return dialogFragment;
     }
 
@@ -69,7 +69,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         clearButton = (Button) rootView.findViewById(R.id.clearButton);
         multiplier = (EditText) rootView.findViewById(R.id.multiplier);
         enable = (CheckBox) rootView.findViewById(R.id.enable);
-        coopButton = (Button) rootView.findViewById(R.id.coopButton);
+        coopCheck = (CheckBox) rootView.findViewById(R.id.coopCheck);
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         typeList = new ArrayList<>();
@@ -116,6 +116,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     saveTeam.update();
+                    Singleton.getInstance().setCoopEnable(coopCheck.isChecked());
                     dismiss();
                 }
             });
@@ -138,7 +139,6 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         typeGrid.setOnItemClickListener(typeGridOnClickListener);
         multiplier.addTextChangedListener(multiplierTextWatcher);
         enable.setOnCheckedChangeListener(enableOnCheckedChangeListener);
-        coopButton.setOnClickListener(clearOnClickListener);
     }
 
     private Button.OnClickListener clearOnClickListener = new Button.OnClickListener() {
@@ -153,14 +153,6 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
                 lightOrb.setChecked(false);
                 darkOrb.setChecked(false);
                 typeGridAdapter.notifyDataSetChanged();
-            } else if(v == coopButton) {
-                Boolean isEnable = !Singleton.getInstance().isCoopEnable();
-                Singleton.getInstance().setCoopEnable(isEnable);
-                if(isEnable){
-                    coopButton.setText("Co-Op On");
-                } else {
-                    coopButton.setText("Co-Op Off");
-                }
             }
         }
     };
@@ -182,9 +174,9 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
             }
         }
         if(Singleton.getInstance().isCoopEnable()){
-            coopButton.setText("Co-Op On");
+            coopCheck.setChecked(true);
         } else {
-            coopButton.setText("Co-Op Off");
+            coopCheck.setChecked(false);
         }
     }
 

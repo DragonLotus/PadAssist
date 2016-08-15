@@ -51,7 +51,7 @@ public class OrbMatchFragment extends Fragment {
     private int additionalCombos = 0;
     private TextView editTeam, orbsLinkedValue, orbsPlusValue, emptyText;
     private EditText additionalComboValue;
-    private Button addMatch, calculateButton, reset;
+    private Button addMatch, calculateButton, reset, options;
     private Spinner orbsLinked, orbsPlus, boardSize;
     private List<String> orbsLinkedItems, orbsPlusItems, boardSizeItems;
     private CheckBox rowCheckBox, maxLeadMultiplierCheckBox, ignoreEnemyCheckBox, crossCheckBox;
@@ -65,6 +65,7 @@ public class OrbMatchFragment extends Fragment {
     private RadioGroup orbRadioGroup;
     private MyDialogFragment dialog;
     private ArrayList<OrbMatch> orbMatchList;
+    private OrbMatchOptionsDialogFragment orbMatchOptionsDialogFragment;
     private Realm realm = Realm.getDefaultInstance();
 
     private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout() {
@@ -122,7 +123,7 @@ public class OrbMatchFragment extends Fragment {
     private Spinner.OnItemSelectedListener orbsLinkedSpinnerSelectedListener = new Spinner.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (orbsPlus.getSelectedItemPosition() > position) {
+            if (orbsPlus.getSelectedItemPosition() > position + 3) {
                 orbsPlus.setSelection(position + 3);
             }
             orbsPlusItems.clear();
@@ -437,9 +438,23 @@ public class OrbMatchFragment extends Fragment {
                 if (dialog == null) {
                     dialog = MyDialogFragment.newInstance(dialogFrag);
                 }
-                dialog.show(getChildFragmentManager(), "String");
+                if(!dialog.isAdded()){
+                    dialog.show(getChildFragmentManager(), "String");
+                }
             }
 
+        }
+    };
+
+    private Button.OnClickListener optionsOnClickListener = new Button.OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            if (orbMatchOptionsDialogFragment == null) {
+                orbMatchOptionsDialogFragment = orbMatchOptionsDialogFragment.newInstance();
+            }
+            if(!orbMatchOptionsDialogFragment.isAdded()){
+                orbMatchOptionsDialogFragment.show(getChildFragmentManager(), "Options");
+            }
         }
     };
 
@@ -584,6 +599,7 @@ public class OrbMatchFragment extends Fragment {
         orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.elementRadioGroup);
         additionalComboValue = (EditText) rootView.findViewById(R.id.additionalComboValue);
         emptyText = (TextView) rootView.findViewById(R.id.emptyText);
+        options = (Button) rootView.findViewById(R.id.options);
         return rootView;
     }
 
@@ -645,6 +661,8 @@ public class OrbMatchFragment extends Fragment {
         orbsLinked.setOnItemSelectedListener(orbsLinkedSpinnerSelectedListener);
         boardSize.setOnItemSelectedListener(boardSizeSpinnerSelectedListener);
 
+        options.setOnClickListener(optionsOnClickListener);
+
         getActivity().setTitle("Set Orb Matches");
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
@@ -700,7 +718,10 @@ public class OrbMatchFragment extends Fragment {
         realm.commitTransaction();
         team.setOrbMatches();
         team.updateOrbs();
-        team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
+        Log.d("OrbMatchList", "onDestroyView");
+        if(orbMatchList.size() != 0){
+            team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
+        }
     }
 
 }
