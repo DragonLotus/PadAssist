@@ -99,8 +99,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
             monsterPosition = getArguments().getInt("monsterPosition");
         }
-        Log.d("SaveMonsterList", "monsterPosition is: " + monsterPosition + " replaceMonsterId is: " + replaceMonsterId);
-        Log.d("SaveMonsterList", "realm monsters is: " + realm.where(Monster.class).findAll());
         if (monsterPosition == 5) {
             monsterListAll.clear();
             RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", true).findAll();
@@ -115,7 +113,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                 monsterListAll.add(realm.copyFromRealm(results.get(i)));
             }
         }
-        Log.d("SaveMonsterList", "MonsterListAll is: " + monsterListAll);
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
@@ -194,53 +191,57 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
         @Override
         public boolean onLongClick(View v) {
             int position = (int) v.getTag(R.string.index);
-//            Team newTeam = new Team(Team.getTeamById(0));
-//            if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && Singleton.getInstance().getMonsterOverwrite() == 0) {
-//                if (toast != null) {
-//                    toast.cancel();
-//                }
-//                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
-//                toast.show();
-//            } else {
-//                if (replaceAll) {
-//                    ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-//                    Team replaceTeam;
-//                    for (int i = 0; i < teamList.size(); i++) {
-//                        replaceTeam = teamList.get(i);
-//                        for (int j = 0; j < replaceTeam.getMonsters().size(); j++) {
-//                            if (replaceTeam.getMonsters().get(j).getMonsterId() == replaceMonsterId) {
-//                                replaceTeam.setMonsters(j, saveMonsterListRecycler.getItem(position));
-//                            }
-//                        }
-//                        replaceTeam.save();
-//                    }
-//                } else {
-//
-//                    switch (Singleton.getInstance().getMonsterOverwrite()) {
-//                        case 0:
-//                            newTeam.setLead(saveMonsterListRecycler.getItem(position));
-//                            break;
-//                        case 1:
-//                            newTeam.setSub1(saveMonsterListRecycler.getItem(position));
-//                            break;
-//                        case 2:
-//                            newTeam.setSub2(saveMonsterListRecycler.getItem(position));
-//                            break;
-//                        case 3:
-//                            newTeam.setSub3(saveMonsterListRecycler.getItem(position));
-//                            break;
-//                        case 4:
-//                            newTeam.setSub4(saveMonsterListRecycler.getItem(position));
-//                            break;
-//                        case 5:
-//                            newTeam.setHelper(saveMonsterListRecycler.getItem(position));
-//                            break;
-//                    }
-//                    newTeam.save();
-//                }
-//                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-//                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position), Singleton.getInstance().getMonsterOverwrite()), MonsterPageFragment.TAG, "good");
-//            }
+            Team newTeam = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+            if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && monsterPosition == 0) {
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                if (replaceAll) {
+                    ArrayList<Team> teamList = new ArrayList<>();
+                    RealmResults results = realm.where(Team.class).findAll();
+                    teamList.addAll(results);
+                    for(int i = 0; i < teamList.size(); i++){
+                        for(int j = 0; j < teamList.get(i).getMonsters().size(); j++){
+                            if(teamList.get(i).getMonsters().get(j).getMonsterId() == replaceMonsterId){
+                                realm.beginTransaction();
+                                teamList.get(i).setMonsters(j, saveMonsterListRecycler.getItem(position));
+                                realm.commitTransaction();
+                            }
+                        }
+                    }
+                } else {
+                    realm.beginTransaction();
+                    Log.d("SaveMonsterList", "Is team valid: " + newTeam.isValid());
+                    Log.d("SaveMonsterList", "Is monster valid: " + saveMonsterListRecycler.getItem(position).isValid());
+                    Monster monster = realm.copyToRealmOrUpdate(saveMonsterListRecycler.getItem(position));
+                    switch (monsterPosition) {
+                        case 0:
+                            newTeam.setLead(monster);
+                            break;
+                        case 1:
+                            newTeam.setSub1(monster);
+                            break;
+                        case 2:
+                            newTeam.setSub2(monster);
+                            break;
+                        case 3:
+                            newTeam.setSub3(monster);
+                            break;
+                        case 4:
+                            newTeam.setSub4(monster);
+                            break;
+                        case 5:
+                            newTeam.setHelper(monster);
+                            break;
+                    }
+                    realm.commitTransaction();
+                }
+                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
+            }
             return true;
         }
     };
@@ -283,12 +284,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst().deleteFromRealm();
                 }
             });
-//            for(int i = 0; i < monsterListAll.size(); i++){
-//                if(monsterListAll.get(i).getMonsterId() == monsterId){
-//                    monsterListAll.remove(i);
-//                }
-//            }
-            Log.d("SaveMonsterList", "Team zero is: " + realm.where(Team.class).equalTo("teamId", 0).findFirst().getMonsters());
             monsterListAll.clear();
             monsterListAll.addAll(realm.where(Monster.class).findAll());
             monsterList.remove(position);

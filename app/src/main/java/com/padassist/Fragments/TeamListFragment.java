@@ -379,7 +379,6 @@ public class TeamListFragment extends Fragment {
         @Override
         public void editTeam(String teamName) {
             Team editTeam = teamList.get(selectedTeam);
-            Log.d("TeamList", "Is edit team valid: " + editTeam.isValid());
             editTeam = realm.copyFromRealm(editTeam);
             editTeam.setTeamName(teamName);
             realm.beginTransaction();

@@ -1,6 +1,8 @@
 package com.padassist.Threads;
 
 //import com.activeandroid.ActiveAndroid;
+import android.util.Log;
+
 import com.padassist.BuildConfig;
 import com.padassist.Constants;
 import com.padassist.Data.BaseMonster;
@@ -50,7 +52,6 @@ public class ParseMonsterDatabaseThread extends Thread {
         parseMonsterDatabase();
         parseLeaderSkillDatabase();
 
-        SharedPreferencesUtil.savePreferences(Constants.VERSION, BuildConfig.VERSION_CODE);
     }
 
     private void parseMonsterDatabase() {
@@ -140,10 +141,12 @@ public class ParseMonsterDatabaseThread extends Thread {
                     monster.setEvolutions(parseLongArrayList(monsterNode.get("evolutions")));
                 }
                 realm.copyToRealmOrUpdate(monster);
+                update.updateValues(counter);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            Log.d("ParseMonsterDatabase", "Monster counter is: " + counter);
         }
     }
 
@@ -228,10 +231,12 @@ public class ParseMonsterDatabaseThread extends Thread {
                     leaderSkill.setName(leaderSkillNode.get("name").asText());
                 }
                 realm.copyToRealmOrUpdate(leaderSkill);
+                update.updateValues(counter);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            Log.d("ParseMonsterDatabase", "leaderSkill counter is: " + counter);
         }
     }
 

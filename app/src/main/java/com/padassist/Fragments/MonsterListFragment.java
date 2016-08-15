@@ -126,10 +126,8 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Log.d("MonsterListFragment", "Is team valid: " + team.isValid());
         team.setTeamStats();
         team.setAwakenings();
-        Log.d("MonsterListFragment", "Orb Plus awakenings: " + team.getOrbPlusAwakenings());
     }
 
     /**
@@ -205,10 +203,8 @@ public class MonsterListFragment extends Fragment {
             enemy = getArguments().getParcelable("enemy");
         }
         team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
-        Log.d("MonsterList", "Team is: " + team);
 
         monsters = team.getMonsters();
-        Log.d("MonsterList", "Monsters is: " + monsters);
 
 //        if (savedInstanceState != null) {
 //            monsters = savedInstanceState.getParcelableArrayList("monsters");
@@ -326,7 +322,6 @@ public class MonsterListFragment extends Fragment {
             realm.copyToRealmOrUpdate(newTeam);
             realm.commitTransaction();
             teamName.setText(teamNameString);
-            Log.d("MonsterList", "Is newTeam valid: " + newTeam.isValid());
         }
 
         @Override

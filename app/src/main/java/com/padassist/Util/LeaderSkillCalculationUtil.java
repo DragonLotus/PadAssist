@@ -26,7 +26,6 @@ public class LeaderSkillCalculationUtil {
 
     public static double hpMultiplier(Monster monster, Team team) {
         hpMultiplier = 1;
-        Log.d("LeaderSkillCalcUtil", "Is leadSkill valid: " + team.getLeadSkill().isValid());
         if (team.getLeadSkill().getHpSkillType() != null) {
             switch (team.getLeadSkill().getHpSkillType().getValue()) {
                 case FLAT:

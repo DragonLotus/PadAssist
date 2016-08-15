@@ -279,6 +279,7 @@ public abstract class MonsterPageUtil extends Fragment {
         setTextViews();
         setImageViews();
         setLatents();
+        setFavorite();
         monsterLevelValue.addTextChangedListener(currentLevelWatcher);
         monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
         monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
@@ -475,7 +476,6 @@ public abstract class MonsterPageUtil extends Fragment {
         public void onClick(View v) {
             if (monster.isFavorite()) {
                 monster.setFavorite(false);
-                setFavorite();
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -483,13 +483,13 @@ public abstract class MonsterPageUtil extends Fragment {
                 toast.show();
             } else {
                 monster.setFavorite(true);
-                setFavorite();
                 if (toast != null) {
                     toast.cancel();
                 }
                 toast = Toast.makeText(getActivity(), "Monster favorited", Toast.LENGTH_SHORT);
                 toast.show();
             }
+            setFavorite();
         }
     };
 
@@ -1205,6 +1205,22 @@ public abstract class MonsterPageUtil extends Fragment {
 //            monsterStatsRCVPlus.setEnabled(false);
 //            monsterAwakeningsValue.setEnabled(false);
 //        }
+    }
+
+    protected void awakeningsCheck(){
+        if(monster.getMaxAwakenings() > 0 && awakeningHolder.getVisibility() == View.GONE){
+            monsterAwakenings.setVisibility(View.VISIBLE);
+            awakeningHolder.setVisibility(View.VISIBLE);
+            awakeningPlus.setVisibility(View.VISIBLE);
+            awakeningMinus.setVisibility(View.VISIBLE);
+            monsterAwakeningsMax.setVisibility(View.VISIBLE);
+            monsterAwakeningsValue.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            z.addRule(RelativeLayout.BELOW, awakeningHolder.getId());
+            z.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            z.addRule(RelativeLayout.CENTER_VERTICAL);
+            latentHolder.setLayoutParams(z);
+        }
     }
 
     protected void clearTextFocus() {

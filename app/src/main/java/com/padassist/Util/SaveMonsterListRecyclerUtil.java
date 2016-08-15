@@ -280,8 +280,8 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         }
         viewHolder.favorite.setTag(R.string.index, position);
         viewHolder.favoriteOutline.setTag(R.string.index, position);
-        viewHolder.favorite.setOnClickListener(favoriteOnClickListener);
-        viewHolder.favoriteOutline.setOnClickListener(favoriteOnClickListener);
+//        viewHolder.favorite.setOnClickListener(favoriteOnClickListener);
+//        viewHolder.favoriteOutline.setOnClickListener(favoriteOnClickListener);
         viewHolder.itemView.setOnClickListener(onItemClickListener);
 
         viewHolder.monsterName.setSelected(true);
@@ -810,6 +810,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
             Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterList.get(position).getMonsterId()).findFirst();
+            realm.beginTransaction();
             if (!monster.isFavorite()){
                 monster.setFavorite(true);
                 if (toast != null) {
@@ -825,7 +826,8 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 toast = Toast.makeText(mContext, "Monster unfavorited", Toast.LENGTH_SHORT);
                 toast.show();
             }
-            notifyItemChanged(position);
+            realm.commitTransaction();
+            notifyDataSetChanged();
         }
     };
 

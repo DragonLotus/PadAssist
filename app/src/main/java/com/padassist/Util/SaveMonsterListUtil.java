@@ -559,9 +559,6 @@ public abstract class SaveMonsterListUtil extends Fragment {
 //            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
             firstRun = false;
             saveMonsterListRecycler.setExpandedPosition(-1);
-
-            Log.d("SaveMonsterListUtil", "MonsterListAll is: " + monsterListAll);
-            Log.d("SaveMonsterListUtil", "MonsterList is: " + monsterList);
         }
 
 

@@ -187,7 +187,6 @@ public class MonsterPageFragment extends MonsterPageUtil {
         @Override
         public void favoriteMonster(boolean favorite) {
             monster.setFavorite(favorite);
-//            monster.save();
             setFavorite();
         }
 
@@ -209,19 +208,17 @@ public class MonsterPageFragment extends MonsterPageUtil {
 
         @Override
         public void evolveMonster(long baseMonsterId) {
-//            if (baseMonsterId != 0) {
-//                monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
-//                monster.save();
-//                rarity.setText("" + monster.getRarity());
-//                initBackup();
-//                monsterPicture.setImageResource(monster.getMonsterPicture());
-//                monsterName.setText(monster.getName());
-//                showAwakenings();
-//                grayAwakenings();
-//                initializeEditTexts();
-//                setImageViews();
-//                monsterStats();
-//            }
+            if(baseMonsterId != 0){
+                monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
+                showAwakenings();
+                grayAwakenings();
+                monsterStats();
+                setImageViews();
+                rarity.setText("" + monster.getRarity());
+                monsterName.setText(monster.getName());
+                monsterPicture.setImageResource(monster.getMonsterPicture());
+                awakeningsCheck();
+            }
         }
     };
 

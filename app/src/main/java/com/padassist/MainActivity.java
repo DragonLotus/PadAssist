@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.PersistableBundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
@@ -44,11 +45,13 @@ import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.TeamListFragment;
 import com.padassist.Fragments.TeamSaveDialogFragment;
 import com.padassist.Threads.ParseMonsterDatabaseThread;
+import com.padassist.Util.LoadingFragment;
 import com.padassist.Util.SaveMonsterListUtil;
 import com.padassist.Util.Singleton;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 import java.util.Locale;
 import java.util.Set;
 
@@ -80,10 +83,10 @@ public class MainActivity extends AppCompatActivity {
     private Team team;
     private MenuItem searchMenuItem;
     private SearchView searchView;
-    private TeamSaveDialogFragment teamSaveDialogFragment;
     private AboutDialogFragment aboutDialogFragment;
     private ProgressDialog progressDialog;
     private SharedPreferences preferences;
+    private DisclaimerDialogFragment disclaimerDialog;
     private Toast toast;
     private Realm realm;
 
@@ -99,34 +102,35 @@ public class MainActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
 
-        preferences = getSharedPreferences("SharedPreferences", MODE_PRIVATE);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 //        preferences.edit().putInt("version", 1).apply();
+        Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
         if (preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1) {
-//            Intent loadIntent = new Intent(getApplicationContext(), LoadingScreenActivity.class);
-//            startActivity(loadIntent);
 
-//            new LoadViewTask().execute();
-            Realm.Transaction realmTransactionAsyncExecute = new Realm.Transaction(){
-                @Override
-                public void execute(Realm realm) {
-                    ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread();
-                    parseMonsterDatabaseThread.run();
-                }
-            };
-
-            Realm.Transaction.OnSuccess realmTransactionAsyncSuccess = new Realm.Transaction.OnSuccess(){
-                @Override
-                public void onSuccess() {
-
-                }
-            };
-
-            realm.executeTransactionAsync(realmTransactionAsyncExecute, realmTransactionAsyncSuccess);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.pager, new LoadingFragment())
+                    .commit();
 
             preferences.edit().putBoolean("firstRun", false).apply();
             preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
-//        }
+            Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
+        }
+
+//        preferences.edit().putBoolean("showDisclaimer", true).apply();
+        Log.d("MainActivity", "Version is: " + preferences.getBoolean("showDisclaimer", true));
+        if(preferences.getBoolean("showDisclaimer", true)){
+            disclaimerDialog = DisclaimerDialogFragment.newInstance(new DisclaimerDialogFragment.Preferences() {
+                @Override
+                public void setShowAgain(boolean showAgain) {
+                    if(showAgain == false){
+                        preferences.edit().putBoolean("showDisclaimer", true).apply();
+                    } else {
+                        preferences.edit().putBoolean("showDisclaimer", false).apply();
+                    }
+                }
+            });
+            disclaimerDialog.show(getSupportFragmentManager(), "Show Disclaimer");
         }
 
         Log.d("Total", "Total Monsters: " + realm.where(BaseMonster.class).findAll().size() + " Total Leader Skills: " + realm.where(LeaderSkill.class).findAll().size());
@@ -220,72 +224,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-    }
-
-    private class LoadViewTask extends AsyncTask<Void, Integer, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(getApplicationContext());
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressDialog.setTitle("Loading...");
-            progressDialog.setMessage("Loading monsters...");
-            progressDialog.setCancelable(false);
-            progressDialog.setIndeterminate(false);
-            progressDialog.setMax(3043);
-            progressDialog.setProgress(0);
-            progressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread(new ParseMonsterDatabaseThread.UpdateProgress() {
-                    @Override
-                    public void updateValues(int counter) {
-                        publishProgress(counter);
-                    }
-                });
-                synchronized (this) {
-                    parseMonsterDatabaseThread.start();
-                    this.wait();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-//            complete = true;
-            progressDialog.dismiss();
-//            if(!disclaimerDialog.getShowing()){
-                finish();
-//            }
-
-
-        }
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            progressDialog.setProgress(values[0]);
-            Log.d("LoadingScreenTag", "values is: " + values[0]);
-//            if (values[0] == 4830) {
-//                synchronized (this) {
-//                    this.notify();
-//                }
-//            } else {
-//                if (values[0] >= 3043) {
-//                    progressDialog.setMessage("Loading leader skills...");
-//                }
-//            }
-            if (values[0] == 3043) {
-                synchronized (this) {
-                    this.notify();
-                }
-            }
-        }
     }
 
     @Override
