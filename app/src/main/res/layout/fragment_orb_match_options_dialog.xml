@@ -1,0 +1,27 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context="com.padassist.Fragments.ExtraMultiplierDialogFragment">
+
+    <TextView
+        android:id="@+id/heartText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/enableHeartCarry"
+        android:layout_alignTop="@+id/enableHeartCarry"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:text="Heart Cross Carry Over: "
+        android:textSize="16dp" />
+
+    <CheckBox
+        android:id="@+id/enableHeartCarry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/heartText"
+        android:gravity="center" />
+
+</RelativeLayout>

@@ -12,58 +12,84 @@ import com.padassist.Data.Team;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 /**
  * Created by Thomas on 7/11/2015.
  */
 public class DamageCalculationUtil {
 
-    public static double monsterElement1Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Team team) {
+    private static Realm realm = Realm.getDefaultInstance();
+
+    public static double monsterElement1Damage(Team team, Monster monster, int position, int combos) {
         double totalOrbDamage = 0;
-        for (int i = 0; i < orbMatches.size(); i++) {
-            if (orbMatches.get(i).getElement().equals(monster.getElement1())) {
-                totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatches.get(i), orbAwakenings, monster.getTPA());
+        int orbAwakenings = team.getOrbPlusAwakenings(monster.getElement1());
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement1())) {
+                totalOrbDamage += orbMatch(monster.getTotalAtk(), team.getOrbMatches().get(i), orbAwakenings, monster.getTPA());
             }
         }
-        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement1Multiplier(monster, team, combos) * team.getHelperSkill().atkElement1Multiplier(monster, team, combos));
-        return Math.ceil(leadOtherMultiplier1(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
+        return Math.ceil(leadOtherMultiplier1(comboMultiplier(totalOrbDamage, combos), monster, team, position));
     }
 
-    public static double monsterElement2Damage(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Team team) {
+    public static double monsterElement2Damage(Team team, Monster monster, int position, int combos) {
         double totalOrbDamage = 0;
+        int orbAwakenings = team.getOrbPlusAwakenings(monster.getElement2());
         if (monster.getElement1().equals(monster.getElement2())) {
-            for (int i = 0; i < orbMatches.size(); i++) {
-                if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
-                    totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() * .1), orbMatches.get(i), orbAwakenings, monster.getTPA());
+            for (int i = 0; i < team.getOrbMatches().size(); i++) {
+                if (team.getOrbMatches().get(i).getElement().equals(monster.getElement2())) {
+                    totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() * .1), team.getOrbMatches().get(i), orbAwakenings, monster.getTPA());
                 }
             }
-            Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement2Multiplier(monster, team, combos) * team.getHelperSkill().atkElement2Multiplier(monster, team, combos));
-            return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
+            return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, position));
         }
-        for (int i = 0; i < orbMatches.size(); i++) {
-            if (orbMatches.get(i).getElement().equals(monster.getElement2())) {
-                totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() / 3), orbMatches.get(i), orbAwakenings, monster.getTPA());
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement2())) {
+                totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() / 3), team.getOrbMatches().get(i), orbAwakenings, monster.getTPA());
             }
         }
-        Log.d("Damage Util Log", "Monster: " + monster.getName() + " Combo Multiplier Damage: " + comboMultiplier(totalOrbDamage, combos) + " Lead Skill Multiplier: " + team.getLeadSkill().atkElement2Multiplier(monster, team, combos) * team.getHelperSkill().atkElement2Multiplier(monster, team, combos));
-        return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, combos));
+        return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, position));
     }
 
     public static double comboMultiplier(double damage, int combos) {
         return Math.ceil(damage * ((combos - 1) * .25 + 1.0));
     }
 
-    public static double leadOtherMultiplier1(double damage, Monster monster, Team team, int totalCombos) {
+    public static double orbMatch(int Attack, OrbMatch orbMatches, int OrbAwakenings, int TPAwakenings) {
+        // Write in combos
+        // Attack, Orb Awakenings, TPA from API, draw from Monster Database
+        //(1 + (number of plus orbs).06) x (1 + (number of plus orb awakenings).05)
+        double damage = 0;
+        if (orbMatches.getOrbsLinked() < 3) {
+            throw new IllegalArgumentException();
+        }
+        if (orbMatches.getNumOrbPlus() == 0) {
+            damage = Attack * (((orbMatches.getOrbsLinked() - 3) * .25) + 1);
+        } else {
+            damage = Attack * (((orbMatches.getOrbsLinked() - 3) * .25) + 1)
+                    * ((orbMatches.getNumOrbPlus() * .06) + 1) * ((OrbAwakenings * .05) + 1);
+        }
+        if (orbMatches.getOrbsLinked() == 4) {
+            damage = damage * Math.pow(1.5, TPAwakenings);
+        }
+
+        return Math.ceil(damage);
+    }
+
+    public static double leadOtherMultiplier1(double damage, Monster monster, Team team, int position) {
         //No active skill multiplier
         double returnDamage = damage;
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement1())) {
-                if (team.getOrbMatches().get(i).isRow()) {
+        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement1())) {
+                if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
                     counter++;
                 }
             }
         }
-        returnDamage = returnDamage * team.getLeadSkill().atkElement1Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement1Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement1()) * 0.1 * counter + 1);
+        //Need to choose the correct multiplier for the monster
+        returnDamage = returnDamage * team.getAtk1Multiplier().get(position) * (team.getRowAwakenings(monster.getElement1()) * 0.1 * counter + 1);
 
         if (Singleton.getInstance().isEnableMultiplier()) {
             Boolean affected = false;
@@ -80,18 +106,19 @@ public class DamageCalculationUtil {
         return returnDamage;
     }
 
-    public static double leadOtherMultiplier2(double damage, Monster monster, Team team, int totalCombos) {
+    public static double leadOtherMultiplier2(double damage, Monster monster, Team team, int position) {
         //No active skill multiplier
         double returnDamage = damage;
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement2())) {
-                if (team.getOrbMatches().get(i).isRow()) {
+        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
+            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement2())) {
+                if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
                     counter++;
                 }
             }
         }
-        returnDamage = returnDamage * team.getLeadSkill().atkElement2Multiplier(monster, team, totalCombos) * team.getHelperSkill().atkElement2Multiplier(monster, team, totalCombos) * (team.getRowAwakenings(monster.getElement2()) * 0.1 * counter + 1);
+        // Need to choose the correct multiplier for the monster
+        returnDamage = returnDamage * team.getAtk2Multiplier().get(position) * (team.getRowAwakenings(monster.getElement2()) * 0.1 * counter + 1);
 
         if (Singleton.getInstance().isEnableMultiplier()) {
             Boolean affected = false;
@@ -108,8 +135,8 @@ public class DamageCalculationUtil {
         return returnDamage;
     }
 
-    public static double monsterElement1DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement1DamageEnemy(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement1DamageEnemyElement(team, monster, position, combos, enemy);
         if (damage == 0) {
             return 0;
         }
@@ -117,8 +144,8 @@ public class DamageCalculationUtil {
         return damage;
     }
 
-    public static double monsterElement2DamageEnemy(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement2DamageEnemy(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement2DamageEnemyElement(team, monster, position, combos, enemy);
         if (damage == 0) {
             return 0;
         }
@@ -127,8 +154,11 @@ public class DamageCalculationUtil {
         return damage;
     }
 
-    public static double monsterElement1DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement1Damage(monster, orbMatches, orbAwakenings, combos, team);
+    public static double monsterElement1DamageEnemyElement(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement1Damage(team, monster, position, combos);
+        if(damage == 0){
+            return 0;
+        }
         if (monster.getElement1().equals(Element.RED)) {
             if (enemy.getTargetElement().equals(Element.BLUE)) {
                 damage = damage / 2;
@@ -158,7 +188,7 @@ public class DamageCalculationUtil {
         }
         if(monster.getKillerAwakenings().size() != 0){
             for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
-                switch(monster.getKillerAwakenings().get(i)){
+                switch(monster.getKillerAwakenings().get(i).getValue()){
                     case 31:
                         if(enemy.getTypes().contains(4)){
                             damage *= 3;
@@ -225,8 +255,8 @@ public class DamageCalculationUtil {
         return damage;
     }
 
-    public static double monsterElement2DamageEnemyElement(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement2Damage(monster, orbMatches, orbAwakenings, combos, team);
+    public static double monsterElement2DamageEnemyElement(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement2Damage(team, monster, position, combos);
         if (damage == 0) {
             return 0;
         }
@@ -258,9 +288,8 @@ public class DamageCalculationUtil {
             }
         }
         if(monster.getKillerAwakenings().size() != 0){
-            Log.d("DamageCalcTag", "Monster has killer awakenings.");
             for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
-                switch(monster.getKillerAwakenings().get(i)){
+                switch(monster.getKillerAwakenings().get(i).getValue()){
                     case 31:
                         if(enemy.getTypes().contains(4)){
                             damage *= 3;
@@ -334,8 +363,8 @@ public class DamageCalculationUtil {
         return damage - enemy.getTargetDef();
     }
 
-    public static double monsterElement1DamageReduction(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement1DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement1DamageReduction(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement1DamageEnemyElement(team, monster, position, combos, enemy);
         if (damage == 0) {
             return 0;
         }
@@ -346,8 +375,8 @@ public class DamageCalculationUtil {
         } else return monsterDamageEnemyDefense(damage, enemy);
     }
 
-    public static double monsterElement2DamageReduction(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement2DamageEnemyElement(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement2DamageReduction(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement2DamageEnemyElement(team, monster, position, combos, enemy);
         if (damage == 0) {
             return 0;
         }
@@ -358,91 +387,77 @@ public class DamageCalculationUtil {
         } else return monsterDamageEnemyDefense(damage, enemy);
     }
 
-    public static double monsterElement1DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement1DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement1DamageAbsorb(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement1DamageReduction(team, monster, position, combos, enemy);
         if (enemy.getAbsorb().contains(monster.getElement1())) {
             return damage * -1;
         }
         return damage;
     }
 
-    public static double monsterElement2DamageAbsorb(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement2DamageReduction(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement2DamageAbsorb(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement2DamageReduction(team, monster, position, combos, enemy);
         if (enemy.getAbsorb().contains(monster.getElement2())) {
             return damage * -1;
         } else return damage;
     }
 
-    public static double monsterElement1DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement1DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement1DamageThreshold(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement1DamageAbsorb(team, monster, position, combos, enemy);
         if (damage >= enemy.getDamageThreshold()) {
             return ((damage - enemy.getDamageThreshold()) * -1);
         }
         return damage;
     }
 
-    public static double monsterElement2DamageThreshold(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement2DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement2DamageThreshold(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement2DamageAbsorb(team, monster, position, combos, enemy);
         if (damage >= enemy.getDamageThreshold()) {
             return ((damage - enemy.getDamageThreshold()) * -1);
         }
         return damage;
     }
 
-    public static double monsterElement1DamageImmunity(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement1DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement1DamageImmunity(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement1DamageAbsorb(team, monster, position, combos, enemy);
         if (damage >= enemy.getDamageImmunity()) {
             return 0;
         }
         return damage;
     }
 
-    public static double monsterElement2DamageImmunity(Monster monster, ArrayList<OrbMatch> orbMatches, int orbAwakenings, int combos, Enemy enemy, Team team) {
-        double damage = monsterElement2DamageAbsorb(monster, orbMatches, orbAwakenings, combos, enemy, team);
+    public static double monsterElement2DamageImmunity(Team team, Monster monster, int position, int combos, Enemy enemy) {
+        double damage = monsterElement2DamageAbsorb(team, monster, position, combos, enemy);
         if (damage >= enemy.getDamageImmunity()) {
             return 0;
         }
         return damage;
-    }
-
-
-
-    public static double orbMatch(int Attack, OrbMatch orbMatches, int OrbAwakenings, int TPAwakenings) {
-        // Write in combos
-        // Attack, Orb Awakenings, TPA from API, draw from Monster Database
-        //(1 + (number of plus orbs).06) x (1 + (number of plus orb awakenings).05)
-        double damage = 0;
-        if (orbMatches.getOrbsLinked() < 3) {
-            throw new IllegalArgumentException();
-        }
-        if (orbMatches.getNumOrbPlus() == 0) {
-            damage = Attack * (((orbMatches.getOrbsLinked() - 3) * .25) + 1);
-        } else {
-            damage = Attack * (((orbMatches.getOrbsLinked() - 3) * .25) + 1)
-                    * ((orbMatches.getNumOrbPlus() * .06) + 1) * ((OrbAwakenings * .05) + 1);
-        }
-        if (orbMatches.getOrbsLinked() == 4) {
-            damage = damage * Math.pow(1.5, TPAwakenings);
-        }
-
-        return Math.ceil(damage);
     }
 
     public static double hpRecovered(Team team, int combos) {
         double totalRcv = 0;
         ArrayList<OrbMatch> heartOrbMatches = new ArrayList<>();
         ArrayList<OrbMatch> poisonOrbMatches = new ArrayList<>();
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getElement().equals(Element.HEART)) {
-               // totalOrbDamage += orbMatch(rcv, team.getOrbMatches().get(i));
-                heartOrbMatches.add(team.getOrbMatches().get(i));
-            } else if (team.getOrbMatches().get(i).getElement().equals(Element.POISON) || team.getOrbMatches().get(i).getElement().equals(Element.MORTAL_POISON)){
-                poisonOrbMatches.add(team.getOrbMatches().get(i));
-            }
+        RealmResults<OrbMatch> heartResults = realm.where(OrbMatch.class).equalTo("elementInt", 5).findAll();
+        RealmResults<OrbMatch> poisonResults = realm.where(OrbMatch.class).equalTo("elementInt", 7).or().equalTo("elementInt", 8).findAll();
+        for(int i = 0; i < heartResults.size(); i++){
+            heartOrbMatches.add(realm.copyFromRealm(heartResults.get(i)));
         }
+        for(int i = 0; i < poisonResults.size(); i++){
+            poisonOrbMatches.add(realm.copyFromRealm(poisonResults.get(i)));
+        }
+
+//        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
+//            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(Element.HEART)) {
+//               // totalOrbDamage += orbMatch(rcv, realm.where(OrbMatch.class).findAll().get(i));
+//                heartOrbMatches.add(realm.where(OrbMatch.class).findAll().get(i));
+//            } else if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(Element.POISON) || realm.where(OrbMatch.class).findAll().get(i).getElement().equals(Element.MORTAL_POISON)){
+//                poisonOrbMatches.add(realm.where(OrbMatch.class).findAll().get(i));
+//            }
+//        }
         for(int i = 0; i < team.getMonsters().size(); i++){
             double totalOrbDamage = 0;
-            double rcv = team.getMonsters().get(i).getTotalRcv() * team.getLeadSkill().rcvMultiplier(team.getMonsters().get(i), team) * team.getHelperSkill().rcvMultiplier(team.getMonsters().get(i), team);
+            double rcv = team.getMonsters().get(i).getTotalRcv() * team.getRcvMultiplier().get(i);
             for(int j = 0; j < heartOrbMatches.size(); j++){
                 totalOrbDamage += orbMatch((int)Math.floor(rcv + 0.5d), heartOrbMatches.get(j));
             }
@@ -484,17 +499,17 @@ public class DamageCalculationUtil {
         return damage;
     }
 
-    public static double finalMultiplier(double leadMul, double extraMul, int rowAwakenings, int numberOfRows) {
-        //Extra multiplier can be skills
-        //Lead multiplier needs conditions
-        double multiplier;
-        if (numberOfRows == 0) {
-            multiplier = leadMul * extraMul;
-        } else {
-            multiplier = leadMul * extraMul * ((rowAwakenings * 0.1) * numberOfRows + 1);
-        }
-        return multiplier;
-    }
+//    public static double finalMultiplier(double leadMul, double extraMul, int rowAwakenings, int numberOfRows) {
+//        //Extra multiplier can be skills
+//        //Lead multiplier needs conditions
+//        double multiplier;
+//        if (numberOfRows == 0) {
+//            multiplier = leadMul * extraMul;
+//        } else {
+//            multiplier = leadMul * extraMul * ((rowAwakenings * 0.1) * numberOfRows + 1);
+//        }
+//        return multiplier;
+//    }
 
     public static double monsterStatCalc(int minimumStat, int maximumStat, int currentLevel, int maxLevel, double statScale) {
         if (currentLevel <= 1) {
@@ -504,31 +519,28 @@ public class DamageCalculationUtil {
         return Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) (currentLevel - 1) / (maxLevel - 1), statScale)));
     }
 
-    public static int monsterHpCalc(Monster monster, Team team){
+    public static int monsterHpCalc(Monster monster, Team team, int position){
         double monsterHp = 0;
         monsterHp = monster.getTotalHp();
-        Log.d("Damage Calc Util", "monster 0 is: " + team.getMonsters().get(0) + team.getMonsters().get(0).getName());
-        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " hpData is: " + team.getLeadSkill().getHpData() + " multiplier is: " + team.getLeadSkill().hpMultiplier(monster, team));
-        monsterHp = monsterHp * team.getLeadSkill().hpMultiplier(monster, team) * team.getHelperSkill().hpMultiplier(monster, team);
+        monsterHp = monsterHp * team.getHpMultiplier().get(position);
         return (int) Math.ceil(monsterHp);
     }
 
-    public static double monsterRcvCalc(Monster monster, Team team){
+    public static double monsterRcvCalc(Monster monster, Team team, int position){
         double monsterRcv;
-        monsterRcv = monster.getTotalRcv();
-        Log.d("DamageCalcUtil", "LeadSkill is: " + team.getLeadSkill().getName() + " rcvSkillType is: " + team.getLeadSkill().getRcvSkillType());
-        if(team.getLeadSkill().getRcvSkillType() != null){
-            if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
-                monsterRcv *= team.getLeadSkill().rcvMultiplier(monster, team);
-            }
-        }
-        if(team.getHelperSkill().getRcvSkillType() != null){
-            if(team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
-                monsterRcv *= team.getHelperSkill().rcvMultiplier(monster, team);
-            }
-        }
-        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " RcvData is: " + team.getLeadSkill().getRcvData() + " multiplier is: " + team.getLeadSkill().rcvMultiplier(monster, team));
-       // monsterRcv = monsterRcv * team.getLeadSkill().rcvMultiplier(monster, team) * team.getHelperSkill().rcvMultiplier(monster, team);
+        monsterRcv = monster.getTotalRcv() * team.getRcvMultiplier().get(position);
+//        Log.d("DamageCalcUtil", "LeadSkill is: " + team.getLeadSkill().getName() + " rcvSkillType is: " + team.getLeadSkill().getRcvSkillType());
+//        if(team.getLeadSkill().getRcvSkillType() != null){
+//            if(team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getLeadSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
+//                monsterRcv *= team.getLeadSkill().rcvMultiplier(monster, team);
+//            }
+//        }
+//        if(team.getHelperSkill().getRcvSkillType() != null){
+//            if(team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.MONSTER_CONDITIONAL) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.HP_FLAT) || team.getHelperSkill().getRcvSkillType().equals(LeaderSkillType.CO_OP)){
+//                monsterRcv *= team.getHelperSkill().rcvMultiplier(monster, team);
+//            }
+//        }
+//        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " RcvData is: " + team.getLeadSkill().getRcvData() + " multiplier is: " + team.getLeadSkill().rcvMultiplier(monster, team));
         return monsterRcv;
     }
 }

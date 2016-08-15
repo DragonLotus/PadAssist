@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 /**
  * Created by DragonLotus on 11/4/2015.
  */
@@ -31,6 +34,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> latentList;
+    private Realm realm = Realm.getDefaultInstance();
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -42,7 +46,9 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             if (monsterList.get(holder.getAdapterPosition()).getMonsterId() == 0) {
                 ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
             } else {
-                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
+                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
+
+//                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(realm.copyFromRealm(monsterList.get(holder.getAdapterPosition())), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
             }
         }
     };
@@ -94,7 +100,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         }
 
         for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
-            if (monsterList.get(position).getLatents().get(i) != 0) {
+            if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
                 latentList.add(1);
             }
         }
@@ -147,7 +153,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             viewHolder.rarityStar.setVisibility(View.VISIBLE);
         }
 
-        if (monsterList.get(position).getType2() == -1 && monsterList.get(position).getId() != 0) {
+        if (monsterList.get(position).getType2() == -1 && monsterList.get(position).getMonsterId() != 0) {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.type1.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             viewHolder.type1.setLayoutParams(params);

@@ -2,105 +2,145 @@ package com.padassist.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
-import com.activeandroid.query.Delete;
-import com.activeandroid.query.Select;
 import com.padassist.Util.DamageCalculationUtil;
+import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Util.NumberComparator;
+import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmObject;
+import io.realm.RealmResults;
+import io.realm.annotations.Ignore;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by DragonLotus on 8/10/2015.
  */
-@Table(name = "Team")
-public class Team extends Model implements Parcelable {
-    @Column(name = "teamId", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+
+public class Team extends RealmObject implements Parcelable {
+    @PrimaryKey
     private long teamId;
+    @Ignore
     private int teamHealth;
+    @Ignore
     private int teamRcv;
-    private int totalDamage;
+    @Ignore
+    private long totalDamage;
+    @Ignore
     private ArrayList<Integer> rowAwakenings = new ArrayList<Integer>();
+    @Ignore
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
+    @Ignore
     private ArrayList<Monster> monsters;
+    @Ignore
     private ArrayList<Long> baseMonsterId = new ArrayList<Long>();
-    @Column(name = "lead", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster lead;
-    @Column(name = "sub1", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster sub1;
-    @Column(name = "sub2", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster sub2;
-    @Column(name = "sub3", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster sub3;
-    @Column(name = "sub4", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster sub4;
-    @Column(name = "helper", onDelete = Column.ForeignKeyAction.NO_ACTION, onUpdate = Column.ForeignKeyAction.CASCADE, onUniqueConflict = Column.ConflictAction.REPLACE, index = true)
+
     private Monster helper;
+    @Ignore
     private ArrayList<OrbMatch> orbMatches;
-    @Column(name = "teamName")
+
     private String teamName;
-    @Column(name = "teamGroup")
+
     private int teamGroup;
     //Position in Team Group
-    @Column(name = "teamOrder")
+
     private int teamOrder;
-    @Column(name = "favorite")
+
     private boolean favorite;
-    private boolean hasAwakenings;
-    private boolean isActiveSkillUsed;
-    @Column(name = "teamIdOverwrite")
+//    private boolean hasAwakenings;
+//    private boolean isActiveSkillUsed;
+
     private long teamIdOverwrite;
+    @Ignore
     private ArrayList<Boolean> isBound = new ArrayList<>();
-    @Column(name = "teamHp")
+    @Ignore
+    private ArrayList<Double> hpMultiplier;
+    @Ignore
+    private ArrayList<Double> rcvMultiplier;
+    @Ignore
+    private ArrayList<Double> atk1Multiplier;
+    @Ignore
+    private ArrayList<Double> atk2Multiplier;
+    @Ignore
     private int teamHp;
+    @Ignore
     private ArrayList<Element> compareElements = new ArrayList<>();
+    @Ignore
     private ArrayList<Element> haveElements = new ArrayList();
+    @Ignore
     private ArrayList<Element> compareAllElements = new ArrayList<>();
-    @Column(name = "leadSkill")
-    private LeaderSkill leadSkill;
-    @Column(name = "helperSkill")
-    private LeaderSkill helperSkill;
+    @Ignore
     private ArrayList<Integer> awakeningsList = new ArrayList<>();
+    @Ignore
     private ArrayList<Integer> latentsList = new ArrayList<>();
+    @Ignore
     private Comparator<Integer> numberComparator = new NumberComparator();
+    @Ignore
+    private Realm realm = Realm.getDefaultInstance();
 
     public Team() {
+        for (int i = 0; i < 5; i++) {
+            orbPlusAwakenings.add(0);
+            rowAwakenings.add(0);
+        }
+        //For heart +;
+        orbPlusAwakenings.add(0);
         teamId = 0;
         teamIdOverwrite = 0;
         teamHealth = 0;
         teamRcv = 0;
-        orbMatches = new ArrayList<OrbMatch>();
-        hasAwakenings = true;
+        orbMatches = new ArrayList<>();
+//        hasAwakenings = true;
         favorite = false;
-        isActiveSkillUsed = false;
+//        isActiveSkillUsed = false;
         teamName = "Untitled Team";
         teamHp = 100;
         isBound.clear();
         for (int i = 0; i < 6; i++) {
             isBound.add(false);
         }
+        hpMultiplier = new ArrayList<>();
+        rcvMultiplier = new ArrayList<>();
+        atk1Multiplier = new ArrayList<>();
+        atk2Multiplier = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            hpMultiplier.add(1.0);
+            rcvMultiplier.add(1.0);
+            atk1Multiplier.add(1.0);
+            atk2Multiplier.add(1.0);
+        }
     }
 
-    public Team(Team oldTeam) {
-        teamId = oldTeam.getTeamId();
-        teamIdOverwrite = oldTeam.getTeamIdOverwrite();
-        lead = oldTeam.getLead();
-        sub1 = oldTeam.getSub1();
-        sub2 = oldTeam.getSub2();
-        sub3 = oldTeam.getSub3();
-        sub4 = oldTeam.getSub4();
-        helper = oldTeam.getHelper();
-        teamName = oldTeam.getTeamName();
-        teamGroup = oldTeam.getTeamGroup();
-        teamOrder = oldTeam.getTeamOrder();
-        favorite = oldTeam.favorite;
-    }
+//    public Team(Team oldTeam) {
+//        teamId = oldTeam.getTeamId();
+//        teamIdOverwrite = oldTeam.getTeamIdOverwrite();
+//        lead = oldTeam.getLead();
+//        sub1 = oldTeam.getSub1();
+//        sub2 = oldTeam.getSub2();
+//        sub3 = oldTeam.getSub3();
+//        sub4 = oldTeam.getSub4();
+//        helper = oldTeam.getHelper();
+//        teamName = oldTeam.getTeamName();
+//        teamGroup = oldTeam.getTeamGroup();
+//        teamOrder = oldTeam.getTeamOrder();
+//        favorite = oldTeam.favorite;
+//    }
 
     public int getTeamHealth() {
         return teamHealth;
@@ -151,42 +191,27 @@ public class Team extends Model implements Parcelable {
         return baseMonsterId;
     }
 
-    public int getTotalDamage() {
+    public long getTotalDamage() {
         return totalDamage;
     }
 
-    public void setTotalDamage(int totalDamage) {
+    public void setTotalDamage(long totalDamage) {
         this.totalDamage = totalDamage;
     }
 
     public ArrayList<OrbMatch> getOrbMatches() {
-        if (!orbMatches.equals((ArrayList) OrbMatch.getAllOrbMatches())) {
-            orbMatches = (ArrayList) OrbMatch.getAllOrbMatches();
-        }
-
         return orbMatches;
 
     }
-//
-//    public void addOrbMatches(OrbMatch orbMatch) {
-//        orbMatches.add(orbMatch);
-//    }
-//
-//    public void clearOrbMatches() {
-//        orbMatches.clear();
-//    }
-//
-//    public void removeOrbMatches(int position) {
-//        orbMatches.remove(position);
-//    }
-//
-//    public int sizeOrbMatches() {
-//        return orbMatches.size();
-//    }
 
-    public OrbMatch getOrbMatches(int position) {
-        return orbMatches.get(position);
+    public void setOrbMatches() {
+        RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
+        orbMatches.clear();
+        for (int i = 0; i < results.size(); i++) {
+            orbMatches.add(realm.copyFromRealm(results.get(i)));
+        }
     }
+
 
     public int sizeMonsters() {
         return monsters.size();
@@ -246,7 +271,7 @@ public class Team extends Model implements Parcelable {
     }
 
     public void setMonsters(int position, Monster monster) {
-        if(monsters == null){
+        if (monsters == null) {
             monsters = new ArrayList<>();
         }
         monsters.set(position, monster);
@@ -329,27 +354,57 @@ public class Team extends Model implements Parcelable {
     }
 
     public LeaderSkill getLeadSkill() {
+        LeaderSkill leaderSkill;
         if (isBound.get(0) || monsters.get(0).getMonsterId() == 0) {
-            return LeaderSkill.getLeaderSkill("Blank");
+            leaderSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
+            return realm.copyFromRealm(leaderSkill);
         } else {
-            return leadSkill;
+            leaderSkill = realm.where(LeaderSkill.class).equalTo("name", lead.getLeaderSkill()).findFirst();
+            return realm.copyFromRealm(leaderSkill);
         }
-    }
-
-    public void setLeadSkill(LeaderSkill leadSkill) {
-        this.leadSkill = leadSkill;
     }
 
     public LeaderSkill getHelperSkill() {
+        LeaderSkill helperSkill;
         if (isBound.get(5) || monsters.get(5).getMonsterId() == 0) {
-            return LeaderSkill.getLeaderSkill("Blank");
+            helperSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
+            return realm.copyFromRealm(helperSkill);
         } else {
-            return helperSkill;
+            helperSkill = realm.where(LeaderSkill.class).equalTo("name", helper.getLeaderSkill()).findFirst();
+            return realm.copyFromRealm(helperSkill);
         }
     }
 
-    public void setHelperSkill(LeaderSkill helperSkill) {
-        this.helperSkill = helperSkill;
+    public ArrayList<Double> getAtk1Multiplier() {
+        return atk1Multiplier;
+    }
+
+    public void setAtk1Multiplier(ArrayList<Double> atk1Multiplier) {
+        this.atk1Multiplier = atk1Multiplier;
+    }
+
+    public ArrayList<Double> getAtk2Multiplier() {
+        return atk2Multiplier;
+    }
+
+    public void setAtk2Multiplier(ArrayList<Double> atk2Multiplier) {
+        this.atk2Multiplier = atk2Multiplier;
+    }
+
+    public ArrayList<Double> getRcvMultiplier() {
+        return rcvMultiplier;
+    }
+
+    public void setRcvMultiplier(ArrayList<Double> rcvMultiplier) {
+        this.rcvMultiplier = rcvMultiplier;
+    }
+
+    public ArrayList<Double> getHpMultiplier() {
+        return hpMultiplier;
+    }
+
+    public void setHpMultiplier(ArrayList<Double> hpMultiplier) {
+        this.hpMultiplier = hpMultiplier;
     }
 
     public int getTeamHp() {
@@ -368,8 +423,8 @@ public class Team extends Model implements Parcelable {
         if (compareAllElements.size() != 0) {
             compareAllElements.clear();
         }
-        for (int i = 0; i < getOrbMatches().size(); i++) {
-            compareAllElements.add(getOrbMatches().get(i).getElement());
+        for (int i = 0; i < orbMatches.size(); i++) {
+            compareAllElements.add(orbMatches.get(i).getElement());
         }
         return compareAllElements;
     }
@@ -402,21 +457,21 @@ public class Team extends Model implements Parcelable {
         } else return 0;
     }
 
-    public boolean hasAwakenings() {
-        return hasAwakenings;
-    }
+//    public boolean hasAwakenings() {
+//        return hasAwakenings;
+//    }
+//
+//    public void setHasAwakenings(boolean hasAwakenings) {
+//        this.hasAwakenings = hasAwakenings;
+//    }
 
-    public void setHasAwakenings(boolean hasAwakenings) {
-        this.hasAwakenings = hasAwakenings;
-    }
-
-    public boolean isActiveSkillUsed() {
-        return isActiveSkillUsed;
-    }
-
-    public void isActiveSkillUsed(boolean isActiveSkillUsed) {
-        this.isActiveSkillUsed = isActiveSkillUsed;
-    }
+//    public boolean isActiveSkillUsed() {
+//        return isActiveSkillUsed;
+//    }
+//
+//    public void isActiveSkillUsed(boolean isActiveSkillUsed) {
+//        this.isActiveSkillUsed = isActiveSkillUsed;
+//    }
 
     public boolean isFavorite() {
         return favorite;
@@ -426,34 +481,138 @@ public class Team extends Model implements Parcelable {
         this.favorite = favorite;
     }
 
-    public ArrayList<Integer> getAwakenings(){
-        if(awakeningsList.size() == 0){
-            for (int i = 0; i < monsters.size(); i++){
-                if(monsters.get(i).getCurrentAwakenings() < monsters.get(i).getMaxAwakenings()){
-                    for(int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
-                        awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+    public void setAwakenings() {
+        awakeningsList.clear();
+        for (int i = 0; i < 5; i++) {
+            orbPlusAwakenings.set(i, 0);
+            rowAwakenings.set(i, 0);
+        }
+        for (int i = 0; i < monsters.size(); i++) {
+            if (monsters.get(i).getCurrentAwakenings() < monsters.get(i).getMaxAwakenings()) {
+                for (int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++) {
+                    awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+                    if (!isBound.get(i)) {
+                        switch (monsters.get(i).getAwokenSkills(j)) {
+                            case 14:
+                                orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
+                                break;
+                            case 15:
+                                orbPlusAwakenings.set(1, orbPlusAwakenings.get(1) + 1);
+                                break;
+                            case 16:
+                                orbPlusAwakenings.set(2, orbPlusAwakenings.get(2) + 1);
+                                break;
+                            case 17:
+                                orbPlusAwakenings.set(3, orbPlusAwakenings.get(3) + 1);
+                                break;
+                            case 18:
+                                orbPlusAwakenings.set(4, orbPlusAwakenings.get(4) + 1);
+                                break;
+                            case 29:
+                                orbPlusAwakenings.set(5, orbPlusAwakenings.get(5) + 1);
+                                break;
+                            case 22:
+                                rowAwakenings.set(0, rowAwakenings.get(0) + 1);
+                                break;
+                            case 23:
+                                rowAwakenings.set(1, rowAwakenings.get(1) + 1);
+                                break;
+                            case 24:
+                                rowAwakenings.set(2, rowAwakenings.get(2) + 1);
+                                break;
+                            case 25:
+                                rowAwakenings.set(3, rowAwakenings.get(3) + 1);
+                                break;
+                            case 26:
+                                rowAwakenings.set(4, rowAwakenings.get(4) + 1);
+                                break;
+                        }
                     }
-                } else {
-                    for(int j = 0; j < monsters.get(i).getMaxAwakenings(); j++){
-                        awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+                }
+            } else {
+                for (int j = 0; j < monsters.get(i).getMaxAwakenings(); j++) {
+                    awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+                    if (!isBound.get(i)) {
+                        switch (monsters.get(i).getAwokenSkills(j)) {
+                            case 14:
+                                orbPlusAwakenings.set(0, orbPlusAwakenings.get(0) + 1);
+                                break;
+                            case 15:
+                                orbPlusAwakenings.set(1, orbPlusAwakenings.get(1) + 1);
+                                break;
+                            case 16:
+                                orbPlusAwakenings.set(2, orbPlusAwakenings.get(2) + 1);
+                                break;
+                            case 17:
+                                orbPlusAwakenings.set(3, orbPlusAwakenings.get(3) + 1);
+                                break;
+                            case 18:
+                                orbPlusAwakenings.set(4, orbPlusAwakenings.get(4) + 1);
+                                break;
+                            case 29:
+                                orbPlusAwakenings.set(5, orbPlusAwakenings.get(5) + 1);
+                                break;
+                            case 22:
+                                rowAwakenings.set(0, rowAwakenings.get(0) + 1);
+                                break;
+                            case 23:
+                                rowAwakenings.set(1, rowAwakenings.get(1) + 1);
+                                break;
+                            case 24:
+                                rowAwakenings.set(2, rowAwakenings.get(2) + 1);
+                                break;
+                            case 25:
+                                rowAwakenings.set(3, rowAwakenings.get(3) + 1);
+                                break;
+                            case 26:
+                                rowAwakenings.set(4, rowAwakenings.get(4) + 1);
+                                break;
+                        }
                     }
                 }
             }
-            Collections.sort(awakeningsList, numberComparator);
         }
+        Collections.sort(awakeningsList, numberComparator);
+        latentsList.clear();
+        for (int i = 0; i < monsters.size(); i++) {
+            for (int j = 0; j < monsters.get(i).getLatents().size(); j++) {
+                if (monsters.get(i).getLatents().get(j).getValue() != 0) {
+                    latentsList.add(monsters.get(i).getLatents().get(j).getValue());
+                }
+            }
+        }
+        Collections.sort(latentsList, numberComparator);
+    }
+
+    public ArrayList<Integer> getAwakenings() {
+//        if(awakeningsList.size() == 0){
+//            for (int i = 0; i < monsters.size(); i++){
+//                if(monsters.get(i).getCurrentAwakenings() < monsters.get(i).getMaxAwakenings()){
+//                    for(int j = 0; j < monsters.get(i).getCurrentAwakenings(); j++){
+//                        awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+//                    }
+//                } else {
+//                    for(int j = 0; j < monsters.get(i).getMaxAwakenings(); j++){
+//                        awakeningsList.add(monsters.get(i).getAwokenSkills(j));
+//                    }
+//                }
+//            }
+//            Collections.sort(awakeningsList, numberComparator);
+//        }
         return awakeningsList;
     }
-    public ArrayList<Integer> getLatents(){
-        if(latentsList.size() == 0){
-            for (int i = 0; i < monsters.size(); i++){
-                for(int j = 0; j < monsters.get(i).getLatents().size(); j++){
-                    if(monsters.get(i).getLatents().get(j) != 0){
-                        latentsList.add(monsters.get(i).getLatents().get(j));
-                    }
-                }
-            }
-            Collections.sort(latentsList, numberComparator);
-        }
+
+    public ArrayList<Integer> getLatents() {
+//        if(latentsList.size() == 0){
+//            for (int i = 0; i < monsters.size(); i++){
+//                for(int j = 0; j < monsters.get(i).getLatents().size(); j++){
+//                    if(monsters.get(i).getLatents().get(j).getValue() != 0){
+//                        latentsList.add(monsters.get(i).getLatents().get(j).getValue());
+//                    }
+//                }
+//            }
+//            Collections.sort(latentsList, numberComparator);
+//        }
         return latentsList;
     }
 
@@ -461,8 +620,6 @@ public class Team extends Model implements Parcelable {
         //Case Switch thing for each color. 5 elements for 5 colors. 0 red, 1 blue, 2 green, 3 light, 4 dark
         //Check for monster bound
 //        compareAllElements.clear();
-        awakeningsList.clear();
-        latentsList.clear();
         orbPlusAwakenings.clear();
         rowAwakenings.clear();
         for (int i = 0; i < 5; i++) {
@@ -471,10 +628,9 @@ public class Team extends Model implements Parcelable {
         }
         orbPlusAwakenings.add(0);
         for (int i = 0; i < getMonsters().size(); i++) {
-            if (!isBound.get(i) && hasAwakenings) {
-                //This isn't necessary anymore
+            if (!isBound.get(i) && Singleton.getInstance().hasAwakenings()) {
                 if (getMonsters().get(i).getAwokenSkills().size() != 0) {
-                    if(getMonsters().get(i).getCurrentAwakenings()<getMonsters(i).getMaxAwakenings()){
+                    if (getMonsters().get(i).getCurrentAwakenings() < getMonsters(i).getMaxAwakenings()) {
                         for (int j = 0; j < getMonsters().get(i).getCurrentAwakenings(); j++) {
                             int awokenSkill = getMonsters().get(i).getAwokenSkills(j);
                             switch (awokenSkill) {
@@ -572,49 +728,76 @@ public class Team extends Model implements Parcelable {
             }
 
         }
-        for (int i = 0; i < getOrbMatches().size(); i++) {
-            if (haveElements.contains(getOrbMatches().get(i).getElement())) {
-                compareElements.add(getOrbMatches().get(i).getElement());
+        for (int i = 0; i < orbMatches.size(); i++) {
+            if (haveElements.contains(orbMatches.get(i).getElement())) {
+                compareElements.add(orbMatches.get(i).getElement());
             }
-            if (getOrbMatches().get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
+            if (orbMatches.get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
                 compareElements.add(Element.HEART);
             }
         }
     }
 
-    public void setTeamStats(){
+    public void setTeamStats() {
+        realm.beginTransaction();
+        setHpRcvMultiplierArrays();
+        Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
         int hp = 0;
         double rcv = 0;
-        for(int i = 0; i < getMonsters().size(); i++) {
-            hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this);
-            rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this);
+        for (int i = 0; i < getMonsters().size(); i++) {
+            hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this, i);
+            rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this, i);
         }
         this.teamHealth = hp;
-        this.teamRcv = (int)Math.floor(rcv + 0.5d);
+        this.teamRcv = (int) Math.floor(rcv + 0.5d);
+        realm.commitTransaction();
     }
 
-    public void updateLeaderSkills() {
-        if(LeaderSkill.getLeaderSkill(lead.getLeaderSkill()) == null){
-            leadSkill = LeaderSkill.getLeaderSkill("Blank");
-        } else {
-            leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
-        }
-        if(LeaderSkill.getLeaderSkill(helper.getLeaderSkill()) == null){
-            helperSkill = LeaderSkill.getLeaderSkill("Blank");
-        } else {
-            helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
+    public void setHpRcvMultiplierArrays() {
+        for (int i = 0; i < getMonsters().size(); i++) {
+            hpMultiplier.set(i, LeaderSkillCalculationUtil.hpMultiplier(getMonsters().get(i), this));
+            rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
         }
     }
+
+    public void setAtkMultiplierArrays(int combos) {
+        for (int i = 0; i < getMonsters().size(); i++){
+            ArrayList<Double> atkMultiplier = new ArrayList<>();
+            atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
+            atk1Multiplier.set(i, atkMultiplier.get(0));
+            atk2Multiplier.set(i, atkMultiplier.get(1));
+        }
+        Log.d("Team","atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier);
+    }
+
+//    public void updateLeaderSkills() {
+//        if(LeaderSkill.getLeaderSkill(lead.getLeaderSkill()) == null){
+//            leadSkill = LeaderSkill.getLeaderSkill("Blank");
+//        } else {
+//            leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
+//        }
+//        if(LeaderSkill.getLeaderSkill(helper.getLeaderSkill()) == null){
+//            helperSkill = LeaderSkill.getLeaderSkill("Blank");
+//        } else {
+//            helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
+//        }
+//    }
 
     public Team(Parcel source) {
         teamHealth = source.readInt();
         teamRcv = source.readInt();
-        totalDamage = source.readInt();
+        totalDamage = source.readLong();
+        orbPlusAwakenings = source.readArrayList(Integer.class.getClassLoader());
         rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
         monsters = source.readArrayList(Monster.class.getClassLoader());
         orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
         haveElements = source.readArrayList(Element.class.getClassLoader());
         compareElements = source.readArrayList(Element.class.getClassLoader());
+        isBound = source.readArrayList(Boolean.class.getClassLoader());
+        hpMultiplier = source.readArrayList(Double.class.getClassLoader());
+        rcvMultiplier = source.readArrayList(Double.class.getClassLoader());
+        atk1Multiplier = source.readArrayList(Double.class.getClassLoader());
+        atk2Multiplier = source.readArrayList(Double.class.getClassLoader());
         teamId = source.readLong();
         teamName = source.readString();
         teamGroup = source.readInt();
@@ -632,12 +815,18 @@ public class Team extends Model implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(teamHealth);
         dest.writeInt(teamRcv);
-        dest.writeInt(totalDamage);
+        dest.writeLong(totalDamage);
+        dest.writeList(orbPlusAwakenings);
         dest.writeList(rowAwakenings);
         dest.writeList(monsters);
         dest.writeList(orbMatches);
         dest.writeList(haveElements);
         dest.writeList(compareElements);
+        dest.writeList(isBound);
+        dest.writeList(hpMultiplier);
+        dest.writeList(rcvMultiplier);
+        dest.writeList(atk1Multiplier);
+        dest.writeList(atk2Multiplier);
         dest.writeLong(teamId);
         dest.writeString(teamName);
         dest.writeInt(teamGroup);
@@ -656,25 +845,25 @@ public class Team extends Model implements Parcelable {
         }
     };
 
-    public static List<Team> getAllTeams() {
-        return new Select().from(Team.class).where("teamId > ?", 0).execute();
-    }
-
-    public static List<Team> getAllTeamsAndZero() {
-        return new Select().from(Team.class).execute();
-    }
-
-    public static Team getTeamById(long id) {
-        return new Select().from(Team.class).where("teamId = ?", id).executeSingle();
-    }
-
-    public static void deleteAllTeams() {
-        new Delete().from(Team.class).execute();
-    }
-
-    public static void deleteTeam(int id) {
-        new Delete().from(Team.class).where("teamId = ?", id).executeSingle();
-    }
+//    public static List<Team> getAllTeams() {
+//        return new Select().from(Team.class).where("teamId > ?", 0).execute();
+//    }
+//
+//    public static List<Team> getAllTeamsAndZero() {
+//        return new Select().from(Team.class).execute();
+//    }
+//
+//    public static Team getTeamById(long id) {
+//        return new Select().from(Team.class).where("teamId = ?", id).executeSingle();
+//    }
+//
+//    public static void deleteAllTeams() {
+//        new Delete().from(Team.class).execute();
+//    }
+//
+//    public static void deleteTeam(int id) {
+//        new Delete().from(Team.class).where("teamId = ?", id).executeSingle();
+//    }
 
 
 }

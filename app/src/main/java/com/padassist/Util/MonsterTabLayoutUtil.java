@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import com.padassist.R;
 
+import io.realm.Realm;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -28,6 +30,7 @@ public abstract class MonsterTabLayoutUtil extends Fragment {
     protected OnFragmentInteractionListener mListener;
     protected TabLayout tabLayout;
     protected ViewPager viewPager;
+    protected Realm realm = Realm.getDefaultInstance();
 
     public MonsterTabLayoutUtil() {
         // Required empty public constructor

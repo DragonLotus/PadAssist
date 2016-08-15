@@ -21,6 +21,8 @@ import com.padassist.R;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 /**
  * Created by DragonLotus on 11/4/2015.
  */
@@ -36,6 +38,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
     protected int expandedPosition = -1;
     protected RecyclerView monsterListView;
     protected View.OnClickListener deleteOnClickListener;
+    protected Realm realm = Realm.getDefaultInstance();
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
@@ -113,7 +116,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         }
 
         for(int i = 0; i < monsterList.get(position).getLatents().size(); i++){
-            if(monsterList.get(position).getLatents().get(i) != 0){
+            if(monsterList.get(position).getLatents().get(i).getValue() != 0){
                 latentList.add(1);
             }
         }
@@ -277,8 +280,8 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         }
         viewHolder.favorite.setTag(R.string.index, position);
         viewHolder.favoriteOutline.setTag(R.string.index, position);
-        viewHolder.favorite.setOnClickListener(favoriteOnClickListener);
-        viewHolder.favoriteOutline.setOnClickListener(favoriteOnClickListener);
+//        viewHolder.favorite.setOnClickListener(favoriteOnClickListener);
+//        viewHolder.favoriteOutline.setOnClickListener(favoriteOnClickListener);
         viewHolder.itemView.setOnClickListener(onItemClickListener);
 
         viewHolder.monsterName.setSelected(true);
@@ -317,7 +320,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             }
             if(monsterList.get(position).getCurrentAwakenings() < monsterList.get(position).getMaxAwakenings()){
                 for (int j = 0; j < monsterList.get(position).getCurrentAwakenings(); j++) {
-                    switch (monsterList.get(position).getAwokenSkills().get(j)) {
+                    switch (monsterList.get(position).getAwokenSkills().get(j).getValue()) {
                         case 1:
                             viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
                             break;
@@ -451,7 +454,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 }
 
                 for (int j = monsterList.get(position).getCurrentAwakenings(); j < monsterList.get(position).getMaxAwakenings(); j++) {
-                    switch (monsterList.get(position).getAwokenSkills().get(j)) {
+                    switch (monsterList.get(position).getAwokenSkills().get(j).getValue()) {
                         case 1:
                             viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1_disabled);
                             break;
@@ -585,7 +588,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 }
             } else {
                 for (int j = 0; j < monsterList.get(position).getMaxAwakenings(); j++) {
-                    switch (monsterList.get(position).getAwokenSkills().get(j)) {
+                    switch (monsterList.get(position).getAwokenSkills().get(j).getValue()) {
                         case 1:
                             viewHolder.awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
                             break;
@@ -724,7 +727,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             }else {
                 viewHolder.latentHolder.setVisibility(View.VISIBLE);
                 for (int j = 0; j < monsterList.get(position).getLatents().size(); j++) {
-                    switch (monsterList.get(position).getLatents().get(j)) {
+                    switch (monsterList.get(position).getLatents().get(j).getValue()) {
                         case 1:
                             viewHolder.latentHolder.getChildAt(j).setBackgroundResource(R.drawable.latent_awakening_1);
                             break;
@@ -783,7 +786,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 viewHolder.leaderSkillName.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillDesc.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
-                viewHolder.leaderSkillDesc.setText(LeaderSkill.getLeaderSkill(monsterList.get(position).getLeaderSkill()).getDescription());
+                viewHolder.leaderSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst().getDescription());
             }
         } else {
             viewHolder.expandLayout.setVisibility(View.GONE);
@@ -806,24 +809,25 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            if (!monsterList.get(position).isFavorite()){
-                monsterList.get(position).setFavorite(true);
-                monsterList.get(position).save();
+            Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterList.get(position).getMonsterId()).findFirst();
+            realm.beginTransaction();
+            if (!monster.isFavorite()){
+                monster.setFavorite(true);
                 if (toast != null) {
                     toast.cancel();
                 }
                 toast = Toast.makeText(mContext, "Monster favorited", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                monsterList.get(position).setFavorite(false);
-                monsterList.get(position).save();
+                monster.setFavorite(false);
                 if (toast != null) {
                     toast.cancel();
                 }
                 toast = Toast.makeText(mContext, "Monster unfavorited", Toast.LENGTH_SHORT);
                 toast.show();
             }
-            notifyItemChanged(position);
+            realm.commitTransaction();
+            notifyDataSetChanged();
         }
     };
 

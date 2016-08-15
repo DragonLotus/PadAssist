@@ -1,12 +1,19 @@
 package com.padassist.Threads;
 
-import com.activeandroid.ActiveAndroid;
+//import com.activeandroid.ActiveAndroid;
+import android.util.Log;
+
 import com.padassist.BuildConfig;
 import com.padassist.Constants;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
 import com.padassist.Data.LeaderSkill;
 import com.padassist.Data.LeaderSkillType;
+import com.padassist.Data.RealmDouble;
+import com.padassist.Data.RealmElement;
+import com.padassist.Data.RealmInt;
+import com.padassist.Data.RealmLeaderSkillType;
+import com.padassist.Data.RealmLong;
 import com.padassist.R;
 import com.padassist.Util.SharedPreferencesUtil;
 import com.padassist.Util.Singleton;
@@ -15,6 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+
 /**
  * Created by Thomas on 11/22/2015.
  */
@@ -22,6 +32,7 @@ public class ParseMonsterDatabaseThread extends Thread {
 
     private UpdateProgress update;
     int counter = 0;
+    private Realm realm = Realm.getDefaultInstance();
 
     public interface UpdateProgress {
         public void updateValues(int counter);
@@ -41,7 +52,6 @@ public class ParseMonsterDatabaseThread extends Thread {
         parseMonsterDatabase();
         parseLeaderSkillDatabase();
 
-        SharedPreferencesUtil.savePreferences(Constants.VERSION, BuildConfig.VERSION_CODE);
     }
 
     private void parseMonsterDatabase() {
@@ -49,7 +59,7 @@ public class ParseMonsterDatabaseThread extends Thread {
             ObjectMapper m = new ObjectMapper();
             JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.monsters));
             BaseMonster monster;
-            ActiveAndroid.beginTransaction();
+//            realm.beginTransaction();
             for (JsonNode monsterNode : rootNode) {
                 counter++;
                 monster = new BaseMonster();
@@ -58,6 +68,9 @@ public class ParseMonsterDatabaseThread extends Thread {
                 } else if (monsterNode.hasNonNull("id")) {
                     monster.setMonsterId(monsterNode.get("id").asLong());
                 }
+//                if (monsterNode.hasNonNull("id")) {
+//                    monster.setMonsterId(monsterNode.get("id").asLong());
+//                }
                 if (monsterNode.hasNonNull("element")) {
                     monster.setElement1(monsterNode.get("element").asInt());
                 }
@@ -127,14 +140,13 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (monsterNode.hasNonNull("evolutions")) {
                     monster.setEvolutions(parseLongArrayList(monsterNode.get("evolutions")));
                 }
-                monster.save();
+                realm.copyToRealmOrUpdate(monster);
                 update.updateValues(counter);
             }
-            ActiveAndroid.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            ActiveAndroid.endTransaction();
+            Log.d("ParseMonsterDatabase", "Monster counter is: " + counter);
         }
     }
 
@@ -143,7 +155,6 @@ public class ParseMonsterDatabaseThread extends Thread {
             ObjectMapper m = new ObjectMapper();
             JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.leader_skills));
             LeaderSkill leaderSkill;
-            ActiveAndroid.beginTransaction();
             for (JsonNode leaderSkillNode : rootNode) {
                 counter++;
                 leaderSkill = new LeaderSkill();
@@ -219,15 +230,13 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (leaderSkillNode.hasNonNull("name")) {
                     leaderSkill.setName(leaderSkillNode.get("name").asText());
                 }
-
-                leaderSkill.save();
+                realm.copyToRealmOrUpdate(leaderSkill);
                 update.updateValues(counter);
             }
-            ActiveAndroid.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            ActiveAndroid.endTransaction();
+            Log.d("ParseMonsterDatabase", "leaderSkill counter is: " + counter);
         }
     }
 
@@ -239,192 +248,71 @@ public class ParseMonsterDatabaseThread extends Thread {
         return returnArrayList;
     }
 
-    public static ArrayList<Integer> parseIntArrayList(JsonNode stringNode) {
-        ArrayList<Integer> returnArrayList = new ArrayList<>();
+    public static RealmList<RealmInt> parseIntArrayList(JsonNode stringNode) {
+        RealmList<RealmInt> returnArrayList = new RealmList<>();
         for (JsonNode string : stringNode) {
-            returnArrayList.add(string.asInt());
+            returnArrayList.add(new RealmInt(string.asInt()));
         }
         return returnArrayList;
     }
 
-    public static ArrayList<Long> parseLongArrayList(JsonNode stringNode) {
-        ArrayList<Long> returnArrayList = new ArrayList<>();
+    public static RealmList<RealmLong> parseLongArrayList(JsonNode stringNode) {
+        RealmList<RealmLong> returnArrayList = new RealmList<>();
         for (JsonNode string : stringNode) {
-            returnArrayList.add(string.asLong());
+            returnArrayList.add(new RealmLong(string.asLong()));
         }
         return returnArrayList;
     }
 
-    public static ArrayList<Double> parseDoubleArrayList(JsonNode stringNode) {
-        ArrayList<Double> returnArrayList = new ArrayList<>();
+    public static RealmList<RealmDouble> parseDoubleArrayList(JsonNode stringNode) {
+        RealmList<RealmDouble> returnArrayList = new RealmList<>();
         for (JsonNode string : stringNode) {
-            returnArrayList.add(string.asDouble());
+            returnArrayList.add(new RealmDouble(string.asDouble()));
         }
         return returnArrayList;
     }
 
-    public static LeaderSkillType parseLeadSkillType(int leadSkillInt) {
-        switch (leadSkillInt) {
-            case 0:
-                return LeaderSkillType.BLANK;
-            case 1:
-                return LeaderSkillType.FLAT;
-            case 2:
-                return LeaderSkillType.FLAT_ATTRIBUTE_ACTIVE_ATTRIBUTE;
-            case 3:
-                return LeaderSkillType.FLAT_TYPE_FLAT_ATTRIBUTE;
-            case 4:
-                return LeaderSkillType.COMBO;
-            case 5:
-                return LeaderSkillType.MATCH_ELEMENT;
-            case 6:
-                return LeaderSkillType.MONSTER_CONDITIONAL;
-            case 7:
-                return LeaderSkillType.FLAT_MONSTER_CONDITIONAL;
-            case 8:
-                return LeaderSkillType.ORB_LINK;
-            case 9:
-                return LeaderSkillType.ORB_LINK_FLAT;
-            case 10:
-                return LeaderSkillType.ORB_LINK_INDIAN;
-            case 11:
-                return LeaderSkillType.MATCH_ELEMENT_FLAT;
-            case 12:
-                return LeaderSkillType.COMBO_MATCH_ELEMENT;
-            case 13:
-                return LeaderSkillType.MATCH_ELEMENT_ACTIVE;
-            case 14:
-                return LeaderSkillType.FLAT_ACTIVE;
-            case 15:
-                return LeaderSkillType.COMBO_ACTIVE;
-            case 16:
-                return LeaderSkillType.COMBO_FLAT;
-            case 17:
-                return LeaderSkillType.COMBO_ATTRIBUTE;
-            case 18:
-                return LeaderSkillType.COMBO_EXACT;
-            case 19:
-                return LeaderSkillType.INDIAN;
-            case 20:
-                return LeaderSkillType.INDIAN_FLAT;
-            case 21:
-                return LeaderSkillType.ORB_PLUS;
-            case 22:
-                return LeaderSkillType.ORB_PLUS_FLAT;
-            case 23:
-                return LeaderSkillType.INDIAN_ORB_PLUS;
-            case 24:
-                return LeaderSkillType.MATCH_ELEMENT_ORB_PLUS;
-            case 25:
-                return LeaderSkillType.COMBO_ORB_PLUS;
-            case 26:
-                return LeaderSkillType.GRIMOIRE_FLAT;
-            case 27:
-                return LeaderSkillType.HP_FLAT;
-            case 28:
-                return LeaderSkillType.FLAT_HP_FLAT;
-            case 29:
-                return LeaderSkillType.HP_FLAT_ATTRIBUTE_FLAT_TYPE;
-            case 30:
-                return LeaderSkillType.ACTIVE;
-            case 31:
-                return LeaderSkillType.FLAT_TYPE_ACTIVE_ATTRIBUTE;
-            case 32:
-                return LeaderSkillType.ORB_LINK_EXACT_FLAT;
-            case 33:
-                return LeaderSkillType.ORB_LINK_EXACT;
-            case 34:
-                return LeaderSkillType.ORB_LINK_ORB_PLUS;
-            case 35:
-                return LeaderSkillType.MATCH_ELEMENT_ORB_LINK;
-            case 36:
-                return LeaderSkillType.FLAT_TYPE_FLAT_TYPE;
-            case 37:
-                return LeaderSkillType.HP_FLAT_ORB_PLUS;
-            case 38:
-                return LeaderSkillType.HP_FLAT_MATCH_ELEMENT;
-            case 39:
-                return LeaderSkillType.HP_FLAT_ACTIVE;
-            case 40:
-                return LeaderSkillType.ORB_LINK_ACTIVE;
-            case 41:
-                return LeaderSkillType.HP_FLAT_ATTRIBUTE_FLAT_ATTRIBUTE;
-            case 42:
-                return LeaderSkillType.INDIAN_ACTIVE;
-            case 43:
-                return LeaderSkillType.HEART_CROSS;
-            case 44:
-                return LeaderSkillType.COMBO_INDIAN;
-            case 45:
-                return LeaderSkillType.ORB_LINK_HP_FLAT;
-            case 46:
-                return LeaderSkillType.ORB_PLUS_HEART_CROSS;
-            case 47:
-                return LeaderSkillType.INDIAN_HEART_CROSS;
-            case 48:
-                return LeaderSkillType.FLAT_HEART_CROSS;
-            case 49:
-                return LeaderSkillType.MATCH_ELEMENT_HEART_CROSS;
-            case 50:
-                return LeaderSkillType.ACTIVE_HEART_CROSS;
-            case 51:
-                return LeaderSkillType.INDIAN_MONSTER_CONDITIONAL;
-            case 52:
-                return LeaderSkillType.ORB_PLUS_MONSTER_CONDITIONAL;
-            case 53:
-                return LeaderSkillType.CROSS;
-            case 54:
-                return LeaderSkillType.INDIAN_CROSS;
-            case 55:
-                return LeaderSkillType.ACTIVE_CROSS;
-            case 56:
-                return LeaderSkillType.CO_OP_HP_FLAT;
-            case 57:
-                return LeaderSkillType.CO_OP_FLAT;
-            case 58:
-                return LeaderSkillType.CO_OP;
-            default:
-                return LeaderSkillType.BLANK;
-        }
-        //Fill out if statement or switch for this following format from parseElement
+    public static RealmLeaderSkillType parseLeadSkillType(int leadSkillInt) {
+        return new RealmLeaderSkillType(leadSkillInt);
     }
 
-    public static ArrayList<Element> parseElementArrayList(JsonNode stringNode) {
-        ArrayList<Element> returnArrayList = new ArrayList<>();
+    public static RealmList<RealmElement> parseElementArrayList(JsonNode stringNode) {
+        RealmList<RealmElement> returnArrayList = new RealmList<>();
         for (JsonNode string : stringNode) {
             returnArrayList.add(parseElement(string.asInt()));
         }
         return returnArrayList;
     }
 
-    public static Element parseElement(int elementType) {
-        if (elementType == 0) {
-            return Element.RED;
-        }
-        if (elementType == 1) {
-            return Element.BLUE;
-        }
-        if (elementType == 2) {
-            return Element.GREEN;
-        }
-        if (elementType == 3) {
-            return Element.LIGHT;
-        }
-        if (elementType == 4) {
-            return Element.DARK;
-        }
-        if (elementType == 5) {
-            return Element.HEART;
-        }
-        if (elementType == 6) {
-            return Element.JAMMER;
-        }
-        if (elementType == 7) {
-            return Element.POISON;
-        }
-        if (elementType == 8) {
-            return Element.MORTAL_POISON;
-        }
-        return Element.BLANK;
+    public static RealmElement parseElement(int elementType) {
+//        if (elementType == 0) {
+//            return Element.RED;
+//        }
+//        if (elementType == 1) {
+//            return Element.BLUE;
+//        }
+//        if (elementType == 2) {
+//            return Element.GREEN;
+//        }
+//        if (elementType == 3) {
+//            return Element.LIGHT;
+//        }
+//        if (elementType == 4) {
+//            return Element.DARK;
+//        }
+//        if (elementType == 5) {
+//            return Element.HEART;
+//        }
+//        if (elementType == 6) {
+//            return Element.JAMMER;
+//        }
+//        if (elementType == 7) {
+//            return Element.POISON;
+//        }
+//        if (elementType == 8) {
+//            return Element.MORTAL_POISON;
+//        }
+//        return Element.BLANK;
+        return new RealmElement(elementType);
     }
 }

@@ -15,6 +15,8 @@ import com.padassist.R;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+
 /**
  * Created by DragonLotus on 10/11/2015.
  */
@@ -24,6 +26,7 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
     private LayoutInflater inflater;
     private ArrayList<Long> evolutions;
     private int resourceId;
+    private Realm realm = Realm.getDefaultInstance();
 
     public EvolutionSpinnerAdapter(Context context, int resource, int textViewResourceId, ArrayList<Long> evolutions) {
         super(context, resource, textViewResourceId, evolutions);
@@ -50,9 +53,9 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
         }else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        viewHolder.monsterName.setText(BaseMonster.getMonsterId(evolutions.get(position)).getName());
-        viewHolder.monsterPicture.setImageResource(BaseMonster.getMonsterId(evolutions.get(position)).getMonsterPicture());
-        viewHolder.rarity.setText("" + BaseMonster.getMonsterId(evolutions.get(position)).getRarity());
+        viewHolder.monsterName.setText(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getName());
+        viewHolder.monsterPicture.setImageResource(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getMonsterPicture());
+        viewHolder.rarity.setText("" + realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getRarity());
         viewHolder.rarityStar.setColorFilter(0xFFD4D421);
 
         if(evolutions.get(position) == 0){
@@ -78,7 +81,7 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
             viewHolder.type3.setVisibility(View.VISIBLE);
         }
 
-        switch(BaseMonster.getMonsterId(evolutions.get(position)).getType1()){
+        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType1()){
             case 0:
                 viewHolder.type1.setImageResource(R.drawable.type_evo_material);
                 break;
@@ -119,7 +122,7 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
                 viewHolder.type1.setVisibility(View.INVISIBLE);
                 break;
         }
-        switch(BaseMonster.getMonsterId(evolutions.get(position)).getType2()){
+        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType2()){
             case 0:
                 viewHolder.type2.setImageResource(R.drawable.type_evo_material);
                 break;
@@ -160,7 +163,7 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
                 viewHolder.type2.setVisibility(View.INVISIBLE);
                 break;
         }
-        switch(BaseMonster.getMonsterId(evolutions.get(position)).getType3()){
+        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType3()){
             case 0:
                 viewHolder.type3.setImageResource(R.drawable.type_evo_material);
                 break;

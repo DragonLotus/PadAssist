@@ -62,5 +62,7 @@ public enum LeaderSkillType {
     ACTIVE_CROSS,
     CO_OP_HP_FLAT,
     CO_OP_FLAT,
-    CO_OP
+    CO_OP,
+    FLAT_CROSS,
+    HEART_CROSS_CROSS
 }

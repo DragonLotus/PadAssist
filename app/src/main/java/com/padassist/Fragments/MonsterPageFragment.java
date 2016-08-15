@@ -34,6 +34,9 @@ import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,13 +53,13 @@ public class MonsterPageFragment extends MonsterPageUtil {
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
-    private int position;
 
-    public static MonsterPageFragment newInstance(Monster monster, int position) {
+    public static MonsterPageFragment newInstance(long monsterId, int position) {
         MonsterPageFragment fragment = new MonsterPageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
-        args.putParcelable("monster", monster);
+        args.putLong("monsterId", monsterId);
+//        args.putParcelable("monster", monster);
         args.putInt("position", position);
         return fragment;
     }
@@ -69,17 +72,49 @@ public class MonsterPageFragment extends MonsterPageUtil {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            monster = getArguments().getParcelable("monster");
+//            monster = getArguments().getParcelable("monster");
+            monsterId = getArguments().getLong("monsterId");
             position = getArguments().getInt("position");
         }
         Log.d("MonsterPage", "monster is: " + monster);
         monsterRemove.setOnClickListener(maxButtons);
+        switch (position) {
+            case 0:
+                getActivity().setTitle("Modify Leader");
+                break;
+            case 1:
+                getActivity().setTitle("Modify Sub 1");
+                break;
+            case 2:
+                getActivity().setTitle("Modify Sub 2");
+                break;
+            case 3:
+                getActivity().setTitle("Modify Sub 3");
+                break;
+            case 4:
+                getActivity().setTitle("Modify Sub 4");
+                break;
+            case 5:
+                getActivity().setTitle("Modify Helper");
+        }
+
+        for(int i = 0; i < monster.getEvolutions().size(); i++){
+            Log.d("MonsterPage", "Evolutions are: " + monster.getEvolutions().get(i).getValue());
+        }
 
     }
 
-    public Monster getMonster(){
-        if(getArguments() != null){
-            return getArguments().getParcelable("monster");
+    public Monster getMonster() {
+        if (getArguments() != null) {
+//            Monster monster = getArguments().getParcelable("monster");
+//            monster = realm.copyFromRealm(monster);
+
+            monsterId = getArguments().getLong("monsterId");
+            Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst();
+            monster = realm.copyFromRealm(monster);
+
+//            return realm.where(Monster.class).equalTo("monsterId", getArguments().getLong("monsterId")).findFirst();
+            return monster;
         } else return null;
     }
 
@@ -89,7 +124,9 @@ public class MonsterPageFragment extends MonsterPageUtil {
             if (monsterRemoveDialogFragment == null) {
                 monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster, monster);
             }
-            monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);
+            if(!monsterRemoveDialogFragment.isAdded()){
+                monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);
+            }
 
         }
     };
@@ -100,43 +137,48 @@ public class MonsterPageFragment extends MonsterPageUtil {
             if (deleteConfirmationDialog == null) {
                 deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster, 0);
             }
-            deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            if(!deleteConfirmationDialog.isAdded()){
+                deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            }
             monsterRemoveDialogFragment.dismiss();
         }
 
         @Override
         public void removeMonsterTeam() {
-            if (Singleton.getInstance().getMonsterOverwrite() == 0) {
+            if (position == 0) {
                 if (toast != null) {
                     toast.cancel();
                 }
                 toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                Team newTeam = new Team(Team.getTeamById(0));
+                Team newTeam = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+                newTeam = realm.copyFromRealm(newTeam);
+                Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
                 switch (Singleton.getInstance().getMonsterOverwrite()) {
                     case 0:
-                        newTeam.setLead(Monster.getMonsterId(0));
+                        newTeam.setLead(monsterZero);
                         break;
                     case 1:
-                        newTeam.setSub1(Monster.getMonsterId(0));
+                        newTeam.setSub1(monsterZero);
                         break;
                     case 2:
-                        newTeam.setSub2(Monster.getMonsterId(0));
+                        newTeam.setSub2(monsterZero);
                         break;
                     case 3:
-                        newTeam.setSub3(Monster.getMonsterId(0));
+                        newTeam.setSub3(monsterZero);
                         break;
                     case 4:
-                        newTeam.setSub4(Monster.getMonsterId(0));
+                        newTeam.setSub4(monsterZero);
                         break;
                     case 5:
-                        newTeam.setHelper(Monster.getMonsterId(0));
+                        newTeam.setHelper(monsterZero);
                         break;
                 }
-                for (int i = 0; i < newTeam.getMonsters().size(); i++) {
-                }
-                newTeam.save();
+
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(newTeam);
+                realm.commitTransaction();
                 monsterRemoveDialogFragment.dismiss();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
@@ -145,7 +187,6 @@ public class MonsterPageFragment extends MonsterPageUtil {
         @Override
         public void favoriteMonster(boolean favorite) {
             monster.setFavorite(favorite);
-            monster.save();
             setFavorite();
         }
 
@@ -154,7 +195,9 @@ public class MonsterPageFragment extends MonsterPageUtil {
             if (replaceConfirmationDialog == null) {
                 replaceConfirmationDialog = ReplaceAllConfirmationDialogFragment.newInstance(replaceAllMonster);
             }
-            replaceConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            if(!replaceConfirmationDialog.isAdded()){
+                replaceConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            }
         }
 
         @Override
@@ -165,18 +208,16 @@ public class MonsterPageFragment extends MonsterPageUtil {
 
         @Override
         public void evolveMonster(long baseMonsterId) {
-            if (baseMonsterId != 0) {
-                monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
-                monster.save();
-                rarity.setText("" + monster.getRarity());
-                initBackup();
-                monsterPicture.setImageResource(monster.getMonsterPicture());
-                monsterName.setText(monster.getName());
+            if(baseMonsterId != 0){
+                monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
                 showAwakenings();
                 grayAwakenings();
-                initializeEditTexts();
-                setImageViews();
                 monsterStats();
+                setImageViews();
+                rarity.setText("" + monster.getRarity());
+                monsterName.setText(monster.getName());
+                monsterPicture.setImageResource(monster.getMonsterPicture());
+                awakeningsCheck();
             }
         }
     };
@@ -192,18 +233,27 @@ public class MonsterPageFragment extends MonsterPageUtil {
     private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout(int position) {
-            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-            Team newTeam;
+            ArrayList<Team> teamList = new ArrayList<>();
+            RealmResults results = realm.where(Team.class).findAll();
+            teamList.addAll(results);
+            final long monsterId = monster.getMonsterId();
+            Log.d("SaveMonsterList", "teamlist is: " + teamList);
             for (int i = 0; i < teamList.size(); i++) {
-                newTeam = teamList.get(i);
-                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
-                    if (newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()) {
-                        newTeam.setMonsters(j, Monster.getMonsterId(0));
+                for (int j = 0; j < teamList.get(i).getMonsters().size(); j++) {
+                    if (teamList.get(i).getMonsters().get(j).getMonsterId() == monsterId) {
+                        realm.beginTransaction();
+                        teamList.get(i).setMonsters(j, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+                        realm.commitTransaction();
+                        Log.d("SaveMonsterList", "team " + i + " monsters is: " + teamList.get(i).getMonsters());
                     }
                 }
-                newTeam.save();
             }
-            monster.delete();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst().deleteFromRealm();
+                }
+            });
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };

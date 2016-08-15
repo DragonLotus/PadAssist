@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/monsterPicture"
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/monsterPicture"
         android:layout_toRightOf="@+id/monsterPicture"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="Kirin of the Sacred Gleam, Sakuya"
         android:textSize="16dp"
         android:ellipsize="marquee"

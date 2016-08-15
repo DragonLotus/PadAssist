@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,6 +59,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import io.realm.Realm;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -92,6 +95,7 @@ public class TeamListFragment extends Fragment {
     private TeamLoadDialogFragment teamLoadDialogFragment;
     private LoadTeamConfirmationDialogFragment loadTeamConfirmationDialogFragment;
     private int selectedTeam;
+    private boolean firstRun = true;
     private OnFragmentInteractionListener mListener;
     private SortLeaderDialogFragment sortLeaderDialogFragment;
     private SortHelperDialogFragment sortHelperDialogFragment;
@@ -123,6 +127,7 @@ public class TeamListFragment extends Fragment {
     private Comparator<Team> teamHelperPlusAtkComparator = new TeamHelperPlusAtkComparator();
     private Comparator<Team> teamHelperPlusRcvComparator = new TeamHelperPlusRcvComparator();
     private Comparator<Team> teamHelperRarityComparator = new TeamHelperRarityComparator();
+    private Realm realm = Realm.getDefaultInstance();
 
 //    private FastScroller fastScroller;
 
@@ -182,7 +187,7 @@ public class TeamListFragment extends Fragment {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchFilter(newText);
@@ -191,7 +196,7 @@ public class TeamListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 return true;
             }
@@ -262,7 +267,8 @@ public class TeamListFragment extends Fragment {
         if (getArguments() != null) {
 
         }
-        teamListAll = (ArrayList) Team.getAllTeams();
+        teamListAll = new ArrayList<>();
+        teamListAll.addAll(realm.where(Team.class).greaterThan("teamId", 0).findAll());
         teamList = new ArrayList<>();
         if (teamListAll.size() != 0) {
             for (int i = 0; i < teamList.size(); i++) {
@@ -309,75 +315,92 @@ public class TeamListFragment extends Fragment {
             if (teamLoadDialogFragment == null) {
                 teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(selectedTeam));
             }
-            teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(selectedTeam));
+            if(!teamLoadDialogFragment.isAdded()){
+                teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(selectedTeam));
+            }
         }
     };
 
     private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam() {
         @Override
         public void loadTeam() {
-            Team teamZero = Team.getTeamById(0);
-            Monster monsterZero = Monster.getMonsterId(0);
+            Team teamZero = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+            Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+            Team loadTeam = teamList.get(selectedTeam);
+            loadTeam = realm.copyFromRealm(loadTeam);
+
             if (teamZero.getTeamIdOverwrite() == 0) {
                 ArrayList<Monster> zeroMonsterList = new ArrayList<>();
                 for (int i = 0; i < 6; i++) {
                     zeroMonsterList.add(monsterZero);
                 }
                 if (teamZero.getMonsters().equals(zeroMonsterList)) {
-                    Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
                     loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
                     loadTeam.setTeamId(0);
-                    loadTeam.save();
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(loadTeam);
+                    realm.commitTransaction();
                     getActivity().getSupportFragmentManager().popBackStack();
                 } else {
                     if (loadTeamConfirmationDialogFragment == null) {
                         loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
                     }
-                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                    if(!loadTeamConfirmationDialogFragment.isAdded()){
+                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                    }
                 }
-            } else if (Team.getTeamById(teamZero.getTeamIdOverwrite()) != null) {
-                if (!teamZero.getMonsters().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getMonsters()) || !teamZero.getTeamName().equals(Team.getTeamById(teamZero.getTeamIdOverwrite()).getTeamName())) {
+            } else if (realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst() != null) {
+                if (!teamZero.getMonsters().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getMonsters()) || !teamZero.getTeamName().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getTeamName())) {
                     if (loadTeamConfirmationDialogFragment == null) {
                         loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
                     }
-                    loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                    if(!loadTeamConfirmationDialogFragment.isAdded()){
+                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                    }
                 } else {
-                    Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
                     loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
                     loadTeam.setTeamId(0);
-                    loadTeam.save();
+                    realm.beginTransaction();
+                    realm.copyToRealmOrUpdate(loadTeam);
+                    realm.commitTransaction();
                     getActivity().getSupportFragmentManager().popBackStack();
                 }
             } else {
-                Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
                 loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
                 loadTeam.setTeamId(0);
-                loadTeam.save();
+                realm.beginTransaction();
+                realm.copyToRealmOrUpdate(loadTeam);
+                realm.commitTransaction();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
+
         }
 
         @Override
         public void editTeam(String teamName) {
-            Team loadTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
-            loadTeam.setTeamName(teamName);
-            loadTeam.save();
-            if (loadTeam.getTeamId() == Team.getTeamById(0).getTeamIdOverwrite()) {
-                Team teamZero = Team.getTeamById(0);
-                teamZero.setTeamName(teamName);
-                teamZero.save();
+            Team editTeam = teamList.get(selectedTeam);
+            editTeam = realm.copyFromRealm(editTeam);
+            editTeam.setTeamName(teamName);
+            realm.beginTransaction();
+            if (realm.where(Team.class).equalTo("teamId", 0).findFirst().getTeamIdOverwrite() == editTeam.getTeamId()) {
+                realm.where(Team.class).equalTo("teamId", 0).findFirst().setTeamName(teamName);
             }
+            realm.copyToRealmOrUpdate(editTeam);
+            realm.commitTransaction();
             teamListAdapter.notifyItemChanged(selectedTeam);
-//            teamList = (ArrayList) Team.getAllTeams();
-//            teamListAdapter.updateList(teamList);
         }
 
         @Override
         public void deleteTeam() {
-            Team deleteTeam = Team.getTeamById(teamListAdapter.getItem(selectedTeam).getTeamId());
-            deleteTeam.delete();
+            final Team deleteTeam = teamList.get(selectedTeam);
             teamList.remove(selectedTeam);
             teamListAdapter.notifyDataSetChanged();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.copyToRealm(deleteTeam).deleteFromRealm();
+                }
+            });
             if (teamList.size() == 0) {
                 savedTeams.setVisibility(View.VISIBLE);
             } else {
@@ -388,8 +411,9 @@ public class TeamListFragment extends Fragment {
         @Override
         public void favoriteTeam(boolean favorite) {
             if (selectedTeam < teamListAdapter.getItemCount() && teamListAdapter.getItemCount() != 0) {
+                realm.beginTransaction();
                 teamListAdapter.getItem(selectedTeam).setFavorite(favorite);
-                teamListAdapter.getItem(selectedTeam).save();
+                realm.commitTransaction();
                 teamListAdapter.notifyItemChanged(selectedTeam);
             }
         }
@@ -398,11 +422,12 @@ public class TeamListFragment extends Fragment {
     private LoadTeamConfirmationDialogFragment.ResetLayout loadTeamConfirmation = new LoadTeamConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-            Team loadTeam = new Team(teamListAdapter.getItem(selectedTeam));
+            Team loadTeam = teamList.get(selectedTeam);
             loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
             loadTeam.setTeamId(0);
-            loadTeam.save();
-            teamLoadDialogFragment.dismiss();
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(loadTeam);
+            realm.commitTransaction();
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };
@@ -423,13 +448,17 @@ public class TeamListFragment extends Fragment {
                 if (sortLeaderDialogFragment == null) {
                     sortLeaderDialogFragment = SortLeaderDialogFragment.newInstance(sortByLead);
                 }
-                sortLeaderDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                if(!sortLeaderDialogFragment.isAdded() && !firstRun){
+                    sortLeaderDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                }
                 break;
             case 11:
                 if (sortHelperDialogFragment == null) {
                     sortHelperDialogFragment = SortHelperDialogFragment.newInstance(sortByHelper);
                 }
-                sortHelperDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                if(!sortHelperDialogFragment.isAdded() && !firstRun){
+                    sortHelperDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+                }
                 break;
             case 1001:
                 Collections.sort(teamList, teamLeaderElement1Comparator);
@@ -554,7 +583,9 @@ public class TeamListFragment extends Fragment {
             if (sortElementDialogFragment == null) {
                 sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
             }
-            sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+            if(!sortElementDialogFragment.isAdded()){
+                sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
+            }
         }
 
         @Override
@@ -562,7 +593,9 @@ public class TeamListFragment extends Fragment {
             if (sortTypeDialogFragment == null) {
                 sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
             }
-            sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+            if(!sortTypeDialogFragment.isAdded()){
+                sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+            }
         }
 
         @Override
@@ -570,7 +603,9 @@ public class TeamListFragment extends Fragment {
             if (sortStatsDialogFragment == null) {
                 sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
             }
-            sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+            if(!sortStatsDialogFragment.isAdded()){
+                sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+            }
         }
 
         @Override
@@ -578,7 +613,9 @@ public class TeamListFragment extends Fragment {
             if (sortPlusDialogFragment == null) {
                 sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
             }
-            sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+            if(!sortPlusDialogFragment.isAdded()){
+                sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+            }
         }
 
         @Override
@@ -596,7 +633,9 @@ public class TeamListFragment extends Fragment {
             if (sortElementDialogFragment == null) {
                 sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
             }
-            sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+            if(!sortElementDialogFragment.isAdded()){
+                sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
+            }
         }
 
         @Override
@@ -604,7 +643,9 @@ public class TeamListFragment extends Fragment {
             if (sortTypeDialogFragment == null) {
                 sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
             }
-            sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+            if(!sortTypeDialogFragment.isAdded()){
+                sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
+            }
         }
 
         @Override
@@ -612,7 +653,9 @@ public class TeamListFragment extends Fragment {
             if (sortStatsDialogFragment == null) {
                 sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
             }
-            sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+            if(!sortStatsDialogFragment.isAdded()){
+                sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
+            }
         }
 
         @Override
@@ -620,7 +663,9 @@ public class TeamListFragment extends Fragment {
             if (sortPlusDialogFragment == null) {
                 sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
             }
-            sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+            if(!sortPlusDialogFragment.isAdded()){
+                sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+            }
         }
 
         @Override
@@ -827,6 +872,7 @@ public class TeamListFragment extends Fragment {
                 teamList.addAll(teamListAll);
             }
             sortArrayList(Singleton.getInstance().getTeamSortMethod());
+            firstRun = false;
 //            if(fastScroller!=null){
 //                fastScroller.resizeScrollBar(teamListAdapter.expanded(), FastScroller.TEAM_LIST);
 //            }

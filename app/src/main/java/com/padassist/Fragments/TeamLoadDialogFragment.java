@@ -83,7 +83,6 @@ public class TeamLoadDialogFragment extends DialogFragment {
                         loadTeam.deleteTeam();
                     } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.editTeam) {
                         if (!teamName.getText().toString().equals("")) {
-                            Log.d("Team Name", "" + teamName.getText());
                             loadTeam.editTeam(teamName.getText().toString());
                         } else {
                             if (toast != null) {

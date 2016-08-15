@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.padassist.Adapters.BaseMonsterListRecycler;
+import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.MainActivity;
 import com.padassist.R;
@@ -42,13 +43,14 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListUtil {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            Monster newMonster;
-            if(monsterList.get(position).getMonsterId() != 0){
-               newMonster = new Monster(monsterList.get(position).getMonsterId());
-                newMonster.setMonsterId(Monster.getAllMonsters().get(Monster.getAllMonsters().size() - 1).getMonsterId() + 1);
-                newMonster.save();
-                ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(newMonster), ManageMonsterPageFragment.TAG, "good");
-            }
+            Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
+            long lastMonsterId = realm.where(Monster.class).findAllSorted("monsterId").last().getMonsterId();
+            newMonster.setMonsterId(lastMonsterId + 1);
+            realm.beginTransaction();
+            realm.copyToRealm(newMonster);
+            realm.commitTransaction();
+            ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(newMonster), MonsterTabLayoutFragment.TAG, "good");
+//
         }
     };
 

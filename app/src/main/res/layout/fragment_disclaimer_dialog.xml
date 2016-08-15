@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:context="com.padassist.Fragments.ExtraMultiplierDialogFragment">
+
+    <TextView
+        android:id="@+id/showAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/showAgainCheck"
+        android:layout_alignBottom="@+id/showAgainCheck"
+        android:gravity="center"
+        android:text="Never show again "
+        android:textSize="14dp"
+        android:textColor="#000000"/>
+
+    <CheckBox
+        android:id="@+id/showAgainCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/showAgain"
+        android:gravity="center" />
+
+</RelativeLayout>

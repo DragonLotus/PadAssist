@@ -24,7 +24,7 @@
         android:enabled="false"
         android:inputType="numberDecimal"
         android:maxLength="6"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="2"
         android:textSize="16dp" />
 
@@ -48,26 +48,30 @@
         android:layout_alignTop="@+id/multiplier"
         android:gravity="center" />
 
-    <LinearLayout
-        android:id="@+id/buttonLinearLayout"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/clearButton"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/typeGrid">
+        android:layout_below="@+id/coopCheck"
+        android:text="Clear" />
 
-        <Button
-            android:id="@+id/clearButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="Clear" />
+    <TextView
+        android:id="@+id/coopText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/coopCheck"
+        android:layout_alignTop="@+id/coopCheck"
+        android:layout_toLeftOf="@+id/coopCheck"
+        android:gravity="center"
+        android:text="Toggle Co-op: "
+        android:textSize="16dp" />
 
-        <Button
-            android:id="@+id/coopButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5"
-            android:text="Co-op Off" />
-    </LinearLayout>
+    <CheckBox
+        android:id="@+id/coopCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/typeGrid"
+        android:layout_alignParentRight="true"/>
 
     <TextView
         android:id="@+id/elements"

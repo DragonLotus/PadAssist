@@ -45,13 +45,13 @@ public class MonsterTabLayoutFragment extends MonsterTabLayoutUtil {
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
             monsterPosition = getArguments().getInt("monsterPosition");
         }
-        monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), replaceAll, replaceMonsterId);
+        monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), replaceAll, replaceMonsterId, monsterPosition);
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-        if(Monster.getAllHelperMonsters().size() < 1 && monsterPosition == 5 && replaceMonsterId == 0){
+        if(realm.where(Monster.class).equalTo("helper", true).findAll().size() < 1 && monsterPosition == 5 && replaceMonsterId == 0){
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
-        }else if(Monster.getAllMonsters().size() <= 1){
+        }else if(realm.where(Monster.class).findAll().size() <= 1){
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
         }

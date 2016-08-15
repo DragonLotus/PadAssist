@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.padassist.Data.Monster;
+import com.padassist.Data.RealmInt;
 import com.padassist.Graphics.ExpandableHeightGridView;
 import com.padassist.R;
 
@@ -131,10 +132,10 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             latentListAll.clear();
         }
 
-        if (monsterList.get(position).getLatents().get(0) != 0 || monsterList.get(position).getLatents().get(1) != 0 || monsterList.get(position).getLatents().get(2) != 0 || monsterList.get(position).getLatents().get(3) != 0 || monsterList.get(position).getLatents().get(4) != 0) {
+        if (monsterList.get(position).getLatents().get(0).getValue() != 0 || monsterList.get(position).getLatents().get(1).getValue() != 0 || monsterList.get(position).getLatents().get(2).getValue() != 0 || monsterList.get(position).getLatents().get(3).getValue() != 0 || monsterList.get(position).getLatents().get(4).getValue() != 0) {
 
             for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
-                latentListAll.add(monsterList.get(position).getLatents().get(i));
+                latentListAll.add(monsterList.get(position).getLatents().get(i).getValue());
             }
             for (int i = 0; i < latentListAll.size(); i++) {
                 if (latentMonsterSpecificFilter.contains(latentListAll.get(i))) {

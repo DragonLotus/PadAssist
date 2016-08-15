@@ -27,6 +27,9 @@ import com.padassist.R;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,7 +39,7 @@ import java.util.ArrayList;
  * Use the {@link MonsterListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterListFragment extends Fragment{
+public class MonsterListFragment extends Fragment {
     public static final String TAG = MonsterListFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,7 +62,8 @@ public class MonsterListFragment extends Fragment{
     private Toast toast;
     private TeamSaveDialogFragment teamSaveDialogFragment;
     private ClearTeamConfirmationDialogFragment clearTeamConfirmationDialogFragment;
-    private Monster monster0 = Monster.getMonsterId(0);
+    private Realm realm = Realm.getDefaultInstance();
+    private Monster monster0 = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
 
     /**
      * Use this factory method to create a new instance of
@@ -119,6 +123,13 @@ public class MonsterListFragment extends Fragment{
         mListener = null;
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        team.setTeamStats();
+        team.setAwakenings();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -143,19 +154,21 @@ public class MonsterListFragment extends Fragment{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.saveTeam:
-                if(team.getMonsters(0).getMonsterId() == 0){
+                if (team.getMonsters(0).getMonsterId() == 0) {
                     if (toast != null) {
                         toast.cancel();
                     }
                     toast = Toast.makeText(getActivity(), "Enter a leader before saving", Toast.LENGTH_SHORT);
                     toast.show();
-                }else {
+                } else {
                     if (teamSaveDialogFragment == null) {
                         teamSaveDialogFragment = teamSaveDialogFragment.newInstance(saveTeam, team.getTeamIdOverwrite());
                     }
-                    teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(),team.getTeamIdOverwrite(), "Show Team Save Dialog");
+                    if (!teamSaveDialogFragment.isAdded()) {
+                        teamSaveDialogFragment.show(getActivity().getSupportFragmentManager(), team.getTeamIdOverwrite(), "Show Team Save Dialog");
+                    }
                 }
                 break;
             case R.id.toggleCoop:
@@ -175,49 +188,47 @@ public class MonsterListFragment extends Fragment{
     @Override
     public void onResume() {
         super.onResume();
-        team = Team.getTeamById(0);
-        monsters = team.getMonsters();
-        monsterListRecycler.updateList(monsters);
-        team.updateAwakenings();
-        team.updateLeaderSkills();
-        team.setTeamStats();
-        teamName.setText(team.getTeamName());
-        if (team.isFavorite()) {
-            favorite.setVisibility(View.VISIBLE);
-        } else {
-            favorite.setVisibility(View.INVISIBLE);
-        }
+//        team = Team.getTeamById(0);
+//        monsters = team.getMonsters();
+//        monsterListRecycler.updateList(monsters);
+//        team.updateAwakenings();
+//        team.updateLeaderSkills();
+//        team.setTeamStats();
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
 
-        if (savedInstanceState != null) {
-            monsters = savedInstanceState.getParcelableArrayList("monsters");
+        monsters = team.getMonsters();
+
+//        if (savedInstanceState != null) {
+//            monsters = savedInstanceState.getParcelableArrayList("monsters");
+//        } else {
+//            monsters = team.getMonsters();
+//            if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
+//                monsters = new ArrayList<Monster>();
+//                for (int i = 0; i < 6; i++) {
+//                    monsters.add(monster0);
+//                }
+//
+//                updateTeam();
+//            }
+//
+//            team.updateAwakenings();
+//            monsters = team.getMonsters();
+//        }
+
+        teamName.setText(team.getTeamName());
+        if (team.isFavorite()) {
+            favorite.setVisibility(View.VISIBLE);
         } else {
-            monsters = team.getMonsters();
-        Log.d("MonsterList", "Monsters are: " + Monster.getAllMonsters());
-            if(Monster.getAllMonsters().size() > 1){
-                Log.d("MonsterList", "Monster name is: " + Monster.getAllMonsters().get(1).getBaseMonster());
-            }
-            if (monsters == null || monsters.size() == 0 || monsters.contains(null)) {
-                monsters = new ArrayList<Monster>();
-                for (int i = 0; i < 6; i++) {
-                    monsters.add(monster0);
-                }
-
-                updateTeam();
-            }
-
-            team.updateAwakenings();
-            monsters = team.getMonsters();
+            favorite.setVisibility(View.INVISIBLE);
         }
-
         monsterListRecycler = new MonsterListRecycler(getActivity(), monsters);
         monsterListView.setAdapter(monsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -248,8 +259,8 @@ public class MonsterListFragment extends Fragment{
                 toast = Toast.makeText(getActivity(), "Leader cannot be empty", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                team.updateLeaderSkills();
-                team.save();
+//                team.updateLeaderSkills();
+//                team.save();
                 ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(team, enemy), OrbMatchFragment.TAG, "good");
             }
         }
@@ -258,90 +269,94 @@ public class MonsterListFragment extends Fragment{
     private View.OnClickListener favoriteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(team.getTeamIdOverwrite() != 0){
-                if(!team.isFavorite()){
+            if (team.getTeamIdOverwrite() != 0) {
+                realm.beginTransaction();
+                if (!team.isFavorite()) {
                     team.setFavorite(true);
                     favorite.setVisibility(View.VISIBLE);
                 } else {
                     team.setFavorite(false);
                     favorite.setVisibility(View.INVISIBLE);
                 }
-                Team overwriteTeam = new Team(team);
-                overwriteTeam.setTeamId(team.getTeamIdOverwrite());
-                team.save();
-                overwriteTeam.save();
+//                Team overwriteTeam = realm.copyFromRealm(team);
+//                overwriteTeam.setTeamId(team.getTeamIdOverwrite());
+                realm.commitTransaction();
+
             }
 
         }
     };
 
     public void updateTeam() {
+        realm.beginTransaction();
         team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
+        realm.commitTransaction();
         for (Monster monster : team.getMonsters()) {
-            monster.save();
+//            monster.save();
         }
         team.updateAwakenings();
-        team.updateLeaderSkills();
-        team.setTeamStats();
-        team.save();
+//        team.updateLeaderSkills();
+//        team.setTeamStats();
+//        team.save();
     }
 
     private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
         @Override
         public void overwriteTeam() {
-            Team overwriteTeam = new Team(team);
+            Team overwriteTeam = realm.copyFromRealm(team);
             overwriteTeam.setTeamId(team.getTeamIdOverwrite());
-            overwriteTeam.save();
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(overwriteTeam);
+            realm.commitTransaction();
         }
 
         @Override
         public void saveNewTeam(String teamNameString) {
-            long teamId;
-            if (Team.getAllTeams().size() == 0) {
-                teamId = 1;
-            } else {
-                teamId = Team.getAllTeams().get(Team.getAllTeams().size() - 1).getTeamId() + 1;
-            }
-            Team newTeam = new Team(team);
-            newTeam.setTeamName(teamNameString);
-            newTeam.setTeamId(teamId);
-            newTeam.setFavorite(false);
-            newTeam.save();
-            Team teamZero = new Team(newTeam);
-            teamZero.setTeamId(0);
-            teamZero.setTeamIdOverwrite(teamId);
-            teamZero.save();
+            RealmResults<Team> results = realm.where(Team.class).findAllSorted("teamId");
+            long newTeamId = results.get(results.size() - 1).getTeamId() + 1;
+            realm.beginTransaction();
+            team.setTeamIdOverwrite(newTeamId);
+            team.setTeamName(teamNameString);
+            Team newTeam = realm.copyFromRealm(team);
+            newTeam.setTeamId(newTeamId);
+            realm.copyToRealmOrUpdate(newTeam);
+            realm.commitTransaction();
             teamName.setText(teamNameString);
-            favorite.setVisibility(View.INVISIBLE);
         }
 
         @Override
         public void clearTeam() {
-            if(team.getTeamIdOverwrite() == 0){
-                for(int i = 0; i < monsters.size(); i++){
-                    if(!monsters.get(i).equals(monster0)){
+            if (team.getTeamIdOverwrite() == 0) {
+                for (int i = 0; i < monsters.size(); i++) {
+                    if (!monsters.get(i).equals(monster0)) {
                         if (clearTeamConfirmationDialogFragment == null) {
                             clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                         }
-                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                        if (!clearTeamConfirmationDialogFragment.isAdded()) {
+                            clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+                        }
                         teamSaveDialogFragment.dismiss();
                     }
                 }
-            }else if(!team.getMonsters().equals(Team.getTeamById(team.getTeamIdOverwrite()).getMonsters()) || !team.getTeamName().equals(Team.getTeamById(team.getTeamIdOverwrite()).getTeamName())){
+            } else if (!team.getMonsters().equals(realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst().getMonsters()) || !team.getTeamName().equals(realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst().getTeamName())) {
                 if (clearTeamConfirmationDialogFragment == null) {
                     clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                 }
-                clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Monster Replace All");
+                if (!clearTeamConfirmationDialogFragment.isAdded()) {
+                    clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+                }
                 teamSaveDialogFragment.dismiss();
             } else {
-                Team newTeam = new Team();
-                team = newTeam;
+                realm.beginTransaction();
                 for (int i = 0; i < 6; i++) {
-                    monsters.set(i,monster0);
+                    monsters.set(i, monster0);
+                    team.setMonsters(i, monster0);
                 }
-                updateTeam();
                 monsterListRecycler.updateList(team.getMonsters());
-                team.save();
+                team.setTeamName("Untitled Team");
+                team.setTeamIdOverwrite(0);
+                team.setFavorite(false);
+                realm.commitTransaction();
                 teamName.setText(team.getTeamName());
                 favorite.setVisibility(View.INVISIBLE);
             }
@@ -351,14 +366,16 @@ public class MonsterListFragment extends Fragment{
     private ClearTeamConfirmationDialogFragment.ResetLayout clearTeam = new ClearTeamConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-            Team newTeam = new Team();
-            team = newTeam;
+            realm.beginTransaction();
             for (int i = 0; i < 6; i++) {
-                monsters.set(i,monster0);
+                monsters.set(i, monster0);
+                team.setMonsters(i, monster0);
             }
-            updateTeam();
             monsterListRecycler.updateList(team.getMonsters());
-            team.save();
+            team.setTeamName("Untitled Team");
+            team.setTeamIdOverwrite(0);
+            team.setFavorite(false);
+            realm.commitTransaction();
             teamName.setText(team.getTeamName());
             favorite.setVisibility(View.INVISIBLE);
         }

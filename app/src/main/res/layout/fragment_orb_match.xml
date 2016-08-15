@@ -124,7 +124,7 @@
         <Button
             android:id="@+id/reset"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight=".5"
             android:gravity="center"
             android:text="Reset Matches" />
@@ -146,12 +146,29 @@
         android:layout_above="@+id/additionalComboValue"
         android:layout_below="@+id/List" />
 
-    <Button
-        android:id="@+id/calculateButton"
+    <LinearLayout
+        android:id="@+id/buttonHolder2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Enemy Attributes" />
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/options"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:text="More Options" />
+
+        <Button
+            android:id="@+id/calculateButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:gravity="center"
+            android:text="Enemy Attributes" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/additionalCombo"
@@ -167,7 +184,7 @@
         android:id="@+id/additionalComboValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/calculateButton"
+        android:layout_above="@+id/buttonHolder2"
         android:layout_toRightOf="@+id/additionalCombo"
         android:inputType="number"
         android:maxLength="5"
@@ -285,5 +302,15 @@
             android:layout_height="wrap_content"
             android:layout_weight=".5" />
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/emptyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/orbMatches"
+        android:layout_alignBottom="@+id/orbMatches"
+        android:gravity="center"
+        android:text="Add orb matches by selecting the appropriate settings above."
+        android:textSize="16dp"/>
 
 </RelativeLayout>

@@ -2,11 +2,13 @@ package com.padassist.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
@@ -16,6 +18,9 @@ import com.padassist.Util.MonsterPageUtil;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ManageMonsterPageFragment extends MonsterPageUtil {
     public static final String TAG = ManageMonsterPageFragment.class.getSimpleName();
@@ -59,8 +64,9 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
             if (monsterManageDialogFragment == null) {
                 monsterManageDialogFragment = MonsterManageDialogFragment.newInstance(removeMonster, monster);
             }
-            monsterManageDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);
-
+            if(!monsterManageDialogFragment.isAdded()){
+                monsterManageDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);
+            }
         }
     };
 
@@ -70,14 +76,15 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
             if (deleteConfirmationDialog == null) {
                 deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster, 0);
             }
-            deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
-            monsterManageDialogFragment.dismiss();
+            if(!deleteConfirmationDialog.isAdded()){
+                deleteConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            }
+//            monsterManageDialogFragment.dismiss();
         }
 
         @Override
         public void favoriteMonster(boolean favorite) {
             monster.setFavorite(favorite);
-            monster.save();
             setFavorite();
         }
 
@@ -86,23 +93,23 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
             if (replaceConfirmationDialog == null) {
                 replaceConfirmationDialog = ReplaceAllConfirmationDialogFragment.newInstance(replaceAllMonster);
             }
-            replaceConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            if(!replaceConfirmationDialog.isAdded()){
+                replaceConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
+            }
         }
 
         @Override
         public void evolveMonster(long baseMonsterId) {
-            if (baseMonsterId != 0) {
-                monster.setBaseMonster(BaseMonster.getMonsterId(baseMonsterId));
-                monster.save();
-                rarity.setText("" + monster.getRarity());
-                initBackup();
-                monsterPicture.setImageResource(monster.getMonsterPicture());
-                monsterName.setText(monster.getName());
+            if(baseMonsterId != 0){
+                monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
                 showAwakenings();
                 grayAwakenings();
-                initializeEditTexts();
-                setImageViews();
                 monsterStats();
+                setImageViews();
+                rarity.setText("" + monster.getRarity());
+                monsterName.setText(monster.getName());
+                monsterPicture.setImageResource(monster.getMonsterPicture());
+                awakeningsCheck();
             }
         }
     };
@@ -110,7 +117,7 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
     private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId(), 99), MonsterTabLayoutFragment.TAG, "good");
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId(), position), MonsterTabLayoutFragment.TAG, "good");
             replaceConfirmationDialog.dismiss();
         }
     };
@@ -118,18 +125,27 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
     private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout(int position) {
-            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-            Team newTeam;
+            ArrayList<Team> teamList = new ArrayList<>();
+            RealmResults results = realm.where(Team.class).findAll();
+            teamList.addAll(results);
+            final long monsterId = monster.getMonsterId();
+            Log.d("SaveMonsterList", "teamlist is: " + teamList);
             for (int i = 0; i < teamList.size(); i++) {
-                newTeam = teamList.get(i);
-                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
-                    if (newTeam.getMonsters().get(j).getMonsterId() == monster.getMonsterId()) {
-                        newTeam.setMonsters(j, Monster.getMonsterId(0));
+                for (int j = 0; j < teamList.get(i).getMonsters().size(); j++) {
+                    if (teamList.get(i).getMonsters().get(j).getMonsterId() == monsterId) {
+                        realm.beginTransaction();
+                        teamList.get(i).setMonsters(j, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+                        realm.commitTransaction();
+                        Log.d("SaveMonsterList", "team " + i + " monsters is: " + teamList.get(i).getMonsters());
                     }
                 }
-                newTeam.save();
             }
-            monster.delete();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst().deleteFromRealm();
+                }
+            });
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };

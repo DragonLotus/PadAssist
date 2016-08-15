@@ -146,7 +146,7 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
             case 3:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_3);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("Base RCV increased by 4%.");
+                viewHolder.latentDesc.setText("Base RCV increased by 5%.");
                 break;
             case 4:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_4);

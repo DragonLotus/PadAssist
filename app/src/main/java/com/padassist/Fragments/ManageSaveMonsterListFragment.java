@@ -17,11 +17,13 @@ import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
     public static final String TAG = ManageSaveMonsterListFragment.class.getSimpleName();
     private Toast toast;
-    private Monster monsterZero = Monster.getMonsterId(0);
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
 
@@ -48,7 +50,17 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
 
     @Override
     public void onActivityCreatedSpecific() {
-            monsterListAll = (ArrayList) Monster.getAllSavedMonsters();
+        if(monsterListAll == null){
+            monsterListAll = new ArrayList<>();
+        } else {
+            monsterListAll.clear();
+        }
+        RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
+        for(int i = 0; i < results.size(); i++){
+            if(results.get(i).getMonsterId() != 0){
+                monsterListAll.add(realm.copyFromRealm(results.get(i)));
+            }
+        }
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
@@ -74,30 +86,36 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
             if (deleteConfirmationDialog == null) {
                 deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster, position);
             }
-            deleteConfirmationDialog.show(getChildFragmentManager(), position, "Delete Confirmation");
+            if (!deleteConfirmationDialog.isAdded()) {
+                deleteConfirmationDialog.show(getChildFragmentManager(), position, "Delete Confirmation");
+            }
         }
     };
 
     protected DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout(int position) {
-            ArrayList<Team> teamList = (ArrayList) Team.getAllTeamsAndZero();
-            Team newTeam;
+            ArrayList<Team> teamList = new ArrayList<>();
+            RealmResults results = realm.where(Team.class).findAll();
+            teamList.addAll(results);
+            final long monsterId = saveMonsterListRecycler.getItem(position).getMonsterId();
             for (int i = 0; i < teamList.size(); i++) {
-                newTeam = teamList.get(i);
-                for (int j = 0; j < newTeam.getMonsters().size(); j++) {
-                    if (newTeam.getMonsters().get(j).getMonsterId() == saveMonsterListRecycler.getItem(position).getMonsterId()) {
-                        newTeam.setMonsters(j, Monster.getMonsterId(0));
+                for (int j = 0; j < teamList.get(i).getMonsters().size(); j++) {
+                    if (teamList.get(i).getMonsters().get(j).getMonsterId() == monsterId) {
+                        realm.beginTransaction();
+                        teamList.get(i).setMonsters(j, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+                        realm.commitTransaction();
                     }
                 }
-                newTeam.save();
             }
-            Monster.getMonsterId(saveMonsterListRecycler.getItem(position).getMonsterId()).delete();
-            for(int i = 0; i < monsterListAll.size(); i++){
-                if(monsterListAll.get(i).getMonsterId() == saveMonsterListRecycler.getItem(position).getMonsterId()){
-                    monsterListAll.remove(i);
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst().deleteFromRealm();
                 }
-            }
+            });
+            monsterListAll.clear();
+            monsterListAll.addAll(realm.where(Monster.class).findAll());
             monsterList.remove(position);
             saveMonsterListRecycler.notifyItemRemoved(position);
             saveMonsterListRecycler.notifyDataSetChanged(monsterList);

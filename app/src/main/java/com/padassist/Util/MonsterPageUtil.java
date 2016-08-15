@@ -36,6 +36,9 @@ import com.padassist.TextWatcher.MyTextWatcher;
 
 import java.util.ArrayList;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,17 +65,19 @@ public abstract class MonsterPageUtil extends Fragment {
     private LinearLayout awakeningHolder, latentHolder;
     protected TableLayout table1;
     protected Monster monster;
+    protected long monsterId;
+    protected int position;
     private Toast toast;
     private MonsterRemoveDialogFragment monsterRemoveDialogFragment;
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
     private LatentAwakeningDialogFragment latentAwakeningDialogFragment;
     private int level, hp, atk, rcv, awakening;
+    protected Realm realm = Realm.getDefaultInstance();
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
         @Override
         public void changeMonsterAttribute(int statToChange, int statValue) {
-
             if (statToChange == MyTextWatcher.CURRENT_LEVEL) {
                 if (statValue == 0) {
                     statValue = 1;
@@ -102,6 +107,7 @@ public abstract class MonsterPageUtil extends Fragment {
                 monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
 //                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.AWAKENINGS) {
+                Log.d("MonsterPageUtil", "Is monster valid: " + monster.isValid());
                 monster.setCurrentAwakenings(statValue);
                 grayAwakenings();
             }
@@ -133,7 +139,7 @@ public abstract class MonsterPageUtil extends Fragment {
                 } else if (monsterStatsRCVPlus.getText().toString().equals("")) {
                     monsterStatsRCVPlus.setText("0");
                 }
-                monsterStats();
+                setMonsterStats();
             }
         }
     };
@@ -147,7 +153,6 @@ public abstract class MonsterPageUtil extends Fragment {
      * @return A new instance of fragment MonsterPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-
     public MonsterPageUtil() {
         // Required empty public constructor
     }
@@ -202,25 +207,39 @@ public abstract class MonsterPageUtil extends Fragment {
 //        monster = Team.getTeamById(0).getMonsters(Team.getTeamById(0).getMonsterOverwrite());
 //        Log.d("Monster Page Log", "Monster is: " + monster);
 //        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
-        ArrayList<Monster> checkList = (ArrayList) Monster.getAllMonsters();
+
+        if (deleteCheck()) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+
+//        if(monster.isValid()){
+//            monster = realm.copyFromRealm(monster);
+//        }
+        Log.d("MonsterPageUtil", "Is monster valid onResume: " + monster.isValid());
+        Log.d("MonsterPageUtil", "monster is: " + monster + "monsterid is: " + monster.getMonsterId() + " monster get id is: " + monster.getMonsterId());
+
+//        loadBackup();
+//        showAwakenings();
+//        grayAwakenings();
+//        initializeEditTexts();
+//        setImageViews();
+//        setLatents();
+//        monsterStats();
+    }
+
+    private boolean deleteCheck(){
+        RealmResults<Monster> results = realm.where(Monster.class).findAll();
+//        ArrayList<Monster> checkList = new ArrayList<>();
+//        checkList.addAll(results);
         Boolean bounce = true;
-        for(int i = 0; i < checkList.size(); i++){
-            if(checkList.get(i).getMonsterId() == monster.getMonsterId()){
+        for (int i = 0; i < results.size(); i++) {
+            if (results.get(i).getMonsterId() == monster.getMonsterId()) {
                 bounce = false;
                 break;
             }
         }
-        if(bounce){
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
-        Log.d("MonsterPageUtil", "monster is: " + monster + "monsterid is: " + monster.getMonsterId() + " monster get id is: " + monster.getId());
-        loadBackup();
-        showAwakenings();
-        grayAwakenings();
-        initializeEditTexts();
-        setImageViews();
-        setLatents();
-        monsterStats();
+
+        return bounce;
     }
 
     @Override
@@ -232,12 +251,14 @@ public abstract class MonsterPageUtil extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.toggleCoop:
-                if(monster.setAwakenings().contains(30)){
+                if (monster.setAwakenings().contains(30)) {
                     monsterStats();
                 }
                 break;
+            case R.id.monsterList:
+                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, monster.getMonsterId(), position), MonsterTabLayoutFragment.TAG, "good");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -247,15 +268,18 @@ public abstract class MonsterPageUtil extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
         }
-        if(monster == null){
+        if (monster == null) {
             monster = getMonster();
         }
+        Log.d("MonsterPageUtil", "Is monster valid onActivityCreated start: " + monster.isValid());
         disableStuff();
         initBackup();
         monsterPicture.setImageResource(monster.getMonsterPicture());
         monsterName.setText(monster.getName());
-        initializeEditTexts();
-        monsterStats();
+        setTextViews();
+        setImageViews();
+        setLatents();
+        setFavorite();
         monsterLevelValue.addTextChangedListener(currentLevelWatcher);
         monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
         monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
@@ -268,7 +292,7 @@ public abstract class MonsterPageUtil extends Fragment {
         monsterStatsRCVPlus.setOnFocusChangeListener(editTextOnFocusChange);
         monsterAwakeningsValue.setOnFocusChangeListener(editTextOnFocusChange);
 
-        monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
+//        monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
         showAwakenings();
         grayAwakenings();
         awakeningMinus.setOnClickListener(awakeningButtons);
@@ -292,7 +316,8 @@ public abstract class MonsterPageUtil extends Fragment {
 
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
-        getActivity().setTitle("Monster Stats");
+        getActivity().setTitle("Modify Monster");
+        Log.d("MonsterPageUtil", "Is monster valid onActivityCreated end: " + monster.isValid());
     }
 
     public abstract Monster getMonster();
@@ -312,9 +337,14 @@ public abstract class MonsterPageUtil extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("MonsterPageUtil", "monster is: " + monster + " monster level is: " + monster.getCurrentLevel() + " monsterId: " + monster.getId());
-        monster.save();
-        Monster.getMonsterId(monster.getMonsterId());
+        Log.d("MonsterPageUtil", "monster is: " + monster + " monster level is: " + monster.getCurrentLevel() + " monsterId: " + monster.getMonsterId());
+        if(!deleteCheck()){
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(monster);
+            realm.commitTransaction();
+        }
+//        monster.save();
+//        Monster.getMonsterId(monster.getMonsterId());
 //        Log.d("MonsterPageUtil", "monster load is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster level is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster Id is: " + Monster.getMonsterId(monster.getMonsterId()));
     }
 
@@ -338,8 +368,8 @@ public abstract class MonsterPageUtil extends Fragment {
         monsterStatsATKTotal = (TextView) rootView.findViewById(R.id.monsterStatsATKTotal);
         monsterStatsRCVBase = (TextView) rootView.findViewById(R.id.monsterStatsRCVBase);
         monsterStatsRCVTotal = (TextView) rootView.findViewById(R.id.monsterStatsRCVTotal);
- //       monsterStatsWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsWeightedValue);
- //       monsterStatsTotalWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsTotalWeightedValue);
+        //       monsterStatsWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsWeightedValue);
+        //       monsterStatsTotalWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsTotalWeightedValue);
         rarity = (TextView) rootView.findViewById(R.id.rarity);
         rarityStar = (ImageView) rootView.findViewById(R.id.rarityStar);
 
@@ -364,7 +394,6 @@ public abstract class MonsterPageUtil extends Fragment {
                 setTextViewValues();
             }
             grayAwakenings();
-
         }
     };
 
@@ -447,7 +476,6 @@ public abstract class MonsterPageUtil extends Fragment {
         public void onClick(View v) {
             if (monster.isFavorite()) {
                 monster.setFavorite(false);
-                setFavorite();
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -455,22 +483,22 @@ public abstract class MonsterPageUtil extends Fragment {
                 toast.show();
             } else {
                 monster.setFavorite(true);
-                setFavorite();
                 if (toast != null) {
                     toast.cancel();
                 }
                 toast = Toast.makeText(getActivity(), "Monster favorited", Toast.LENGTH_SHORT);
                 toast.show();
             }
+            setFavorite();
         }
     };
 
     public void showAwakenings() {
         // Show max # of awakenings
-        for(int i = 0; i < 9; i++){
-            if(i >= monster.getMaxAwakenings()){
+        for (int i = 0; i < 9; i++) {
+            if (i >= monster.getMaxAwakenings()) {
                 awakeningHolder.getChildAt(i).setVisibility(View.GONE);
-            }else {
+            } else {
                 awakeningHolder.getChildAt(i).setVisibility(View.VISIBLE);
             }
         }
@@ -479,9 +507,9 @@ public abstract class MonsterPageUtil extends Fragment {
     //Gray out depending on monsterAwakeningsValue
     //@TargetApi(11)
     public void grayAwakenings() {
-        if(monster.getCurrentAwakenings()<monster.getMaxAwakenings()) {
+        if (monster.getCurrentAwakenings() < monster.getMaxAwakenings()) {
             for (int j = 0; j < monster.getCurrentAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j)) {
+                switch (monster.getAwokenSkills().get(j).getValue()) {
                     case 1:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
                         break;
@@ -615,7 +643,7 @@ public abstract class MonsterPageUtil extends Fragment {
             }
 
             for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j)) {
+                switch (monster.getAwokenSkills().get(j).getValue()) {
                     case 1:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1_disabled);
                         break;
@@ -749,7 +777,7 @@ public abstract class MonsterPageUtil extends Fragment {
             }
         } else {
             for (int j = 0; j < monster.getMaxAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j)) {
+                switch (monster.getAwokenSkills().get(j).getValue()) {
                     case 1:
                         awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
                         break;
@@ -1049,6 +1077,11 @@ public abstract class MonsterPageUtil extends Fragment {
 
     }
 
+    protected void setTextViews() {
+        setTextViewValues();
+        initializeEditTexts();
+    }
+
     protected void setMonsterStats() {
         monster.setCurrentLevel(Integer.parseInt(monsterLevelValue.getText().toString()));
         monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
@@ -1106,7 +1139,7 @@ public abstract class MonsterPageUtil extends Fragment {
         if (monster.getMonsterId() == 0) {
             getActivity().getSupportFragmentManager().popBackStack();
         }
-        if (monster.getType1() == 0 || monster.getType1() == 14){
+        if (monster.getType1() == 0 || monster.getType1() == 14) {
             monsterStatsHPPlus.setEnabled(false);
             monsterStatsATKPlus.setEnabled(false);
             monsterStatsRCVPlus.setEnabled(false);
@@ -1135,7 +1168,7 @@ public abstract class MonsterPageUtil extends Fragment {
             monsterStatsMaxAll.setEnabled(true);
             latentHolder.setVisibility(View.VISIBLE);
         }
-        if(monster.getMaxAwakenings() == 0){
+        if (monster.getMaxAwakenings() == 0) {
             monsterAwakenings.setVisibility(View.GONE);
             awakeningHolder.setVisibility(View.GONE);
             awakeningPlus.setVisibility(View.GONE);
@@ -1149,7 +1182,7 @@ public abstract class MonsterPageUtil extends Fragment {
             z.addRule(RelativeLayout.CENTER_HORIZONTAL);
             z.addRule(RelativeLayout.CENTER_VERTICAL);
             latentHolder.setLayoutParams(z);
-        }else {
+        } else {
             monsterAwakenings.setVisibility(View.VISIBLE);
             awakeningHolder.setVisibility(View.VISIBLE);
             awakeningPlus.setVisibility(View.VISIBLE);
@@ -1174,6 +1207,22 @@ public abstract class MonsterPageUtil extends Fragment {
 //        }
     }
 
+    protected void awakeningsCheck(){
+        if(monster.getMaxAwakenings() > 0 && awakeningHolder.getVisibility() == View.GONE){
+            monsterAwakenings.setVisibility(View.VISIBLE);
+            awakeningHolder.setVisibility(View.VISIBLE);
+            awakeningPlus.setVisibility(View.VISIBLE);
+            awakeningMinus.setVisibility(View.VISIBLE);
+            monsterAwakeningsMax.setVisibility(View.VISIBLE);
+            monsterAwakeningsValue.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            z.addRule(RelativeLayout.BELOW, awakeningHolder.getId());
+            z.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            z.addRule(RelativeLayout.CENTER_VERTICAL);
+            latentHolder.setLayoutParams(z);
+        }
+    }
+
     protected void clearTextFocus() {
         monsterLevelValue.clearFocus();
         monsterStatsHPPlus.clearFocus();
@@ -1182,7 +1231,7 @@ public abstract class MonsterPageUtil extends Fragment {
         monsterAwakeningsValue.clearFocus();
     }
 
-    private View.OnClickListener latentOnClickListener = new View.OnClickListener(){
+    private View.OnClickListener latentOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (latentAwakeningDialogFragment == null) {
@@ -1192,7 +1241,7 @@ public abstract class MonsterPageUtil extends Fragment {
         }
     };
 
-    private LatentAwakeningDialogFragment.ResetLatents setLatents = new LatentAwakeningDialogFragment.ResetLatents(){
+    private LatentAwakeningDialogFragment.ResetLatents setLatents = new LatentAwakeningDialogFragment.ResetLatents() {
         @Override
         public void refreshLatents() {
             setLatents();
@@ -1200,9 +1249,9 @@ public abstract class MonsterPageUtil extends Fragment {
         }
     };
 
-    private void setLatents(){
-        for (int i = 0; i < monster.getLatents().size(); i++){
-            switch(monster.getLatents().get(i)){
+    private void setLatents() {
+        for (int i = 0; i < monster.getLatents().size(); i++) {
+            switch (monster.getLatents().get(i).getValue()) {
                 case 0:
                     latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_blank);
                     break;
