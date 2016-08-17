@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -372,88 +373,94 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public void setCurrentAwakenings(int currentAwakenings) {
-        if (getAwokenSkills().contains(new RealmInt(31)) || getAwokenSkills().contains(new RealmInt(32)) || getAwokenSkills().contains(new RealmInt(33)) || getAwokenSkills().contains(new RealmInt(34)) || getAwokenSkills().contains(new RealmInt(35)) || getAwokenSkills().contains(new RealmInt(36)) || getAwokenSkills().contains(new RealmInt(37)) || getAwokenSkills().contains(new RealmInt(38)) || getAwokenSkills().contains(new RealmInt(39)) || getAwokenSkills().contains(new RealmInt(40)) || getAwokenSkills().contains(new RealmInt(41)) || getAwokenSkills().contains(new RealmInt(42))) {
-            killerAwakenings.clear();
-            if (currentAwakenings > getMaxAwakenings()) {
-                for (int i = 0; i < getMaxAwakenings(); i++) {
-                    switch (baseMonster.getAwokenSkills(i).getValue()) {
-                        case 31:
-                            killerAwakenings.add(new RealmInt(31));
-                            break;
-                        case 32:
-                            killerAwakenings.add(new RealmInt(32));
-                            break;
-                        case 33:
-                            killerAwakenings.add(new RealmInt(33));
-                            break;
-                        case 34:
-                            killerAwakenings.add(new RealmInt(34));
-                            break;
-                        case 35:
-                            killerAwakenings.add(new RealmInt(35));
-                            break;
-                        case 36:
-                            killerAwakenings.add(new RealmInt(36));
-                            break;
-                        case 37:
-                            killerAwakenings.add(new RealmInt(37));
-                            break;
-                        case 38:
-                            killerAwakenings.add(new RealmInt(38));
-                            break;
-                        case 39:
-                            killerAwakenings.add(new RealmInt(39));
-                            break;
-                        case 40:
-                            killerAwakenings.add(new RealmInt(40));
-                            break;
-                        case 41:
-                            killerAwakenings.add(new RealmInt(41));
-                            break;
-                        case 42:
-                            killerAwakenings.add(new RealmInt(42));
-                            break;
+        if(killerAwakenings.size() == 0 || currentAwakenings != this.currentAwakenings){
+            ArrayList<Integer> awokenSkills = new ArrayList<>();
+            for(int i = 0; i < getAwokenSkills().size(); i++){
+                awokenSkills.add(getAwokenSkills().get(i).getValue());
+            }
+            if (awokenSkills.contains(31) || awokenSkills.contains(32) || awokenSkills.contains(33) || awokenSkills.contains(34) || awokenSkills.contains(35) || awokenSkills.contains(36) || awokenSkills.contains(37) || awokenSkills.contains(38) || awokenSkills.contains(39) || awokenSkills.contains(40) || awokenSkills.contains(41) || awokenSkills.contains(42)) {
+                killerAwakenings.clear();
+                if (currentAwakenings > getMaxAwakenings()) {
+                    for (int i = 0; i < getMaxAwakenings(); i++) {
+                        switch (baseMonster.getAwokenSkills(i).getValue()) {
+                            case 31:
+                                killerAwakenings.add(new RealmInt(31));
+                                break;
+                            case 32:
+                                killerAwakenings.add(new RealmInt(32));
+                                break;
+                            case 33:
+                                killerAwakenings.add(new RealmInt(33));
+                                break;
+                            case 34:
+                                killerAwakenings.add(new RealmInt(34));
+                                break;
+                            case 35:
+                                killerAwakenings.add(new RealmInt(35));
+                                break;
+                            case 36:
+                                killerAwakenings.add(new RealmInt(36));
+                                break;
+                            case 37:
+                                killerAwakenings.add(new RealmInt(37));
+                                break;
+                            case 38:
+                                killerAwakenings.add(new RealmInt(38));
+                                break;
+                            case 39:
+                                killerAwakenings.add(new RealmInt(39));
+                                break;
+                            case 40:
+                                killerAwakenings.add(new RealmInt(40));
+                                break;
+                            case 41:
+                                killerAwakenings.add(new RealmInt(41));
+                                break;
+                            case 42:
+                                killerAwakenings.add(new RealmInt(42));
+                                break;
+                        }
                     }
-                }
-            } else {
-                for (int i = 0; i < currentAwakenings; i++) {
-                    switch (baseMonster.getAwokenSkills(i).getValue()) {
-                        case 31:
-                            killerAwakenings.add(new RealmInt(31));
-                            break;
-                        case 32:
-                            killerAwakenings.add(new RealmInt(32));
-                            break;
-                        case 33:
-                            killerAwakenings.add(new RealmInt(33));
-                            break;
-                        case 34:
-                            killerAwakenings.add(new RealmInt(34));
-                            break;
-                        case 35:
-                            killerAwakenings.add(new RealmInt(35));
-                            break;
-                        case 36:
-                            killerAwakenings.add(new RealmInt(36));
-                            break;
-                        case 37:
-                            killerAwakenings.add(new RealmInt(37));
-                            break;
-                        case 38:
-                            killerAwakenings.add(new RealmInt(38));
-                            break;
-                        case 39:
-                            killerAwakenings.add(new RealmInt(39));
-                            break;
-                        case 40:
-                            killerAwakenings.add(new RealmInt(40));
-                            break;
-                        case 41:
-                            killerAwakenings.add(new RealmInt(41));
-                            break;
-                        case 42:
-                            killerAwakenings.add(new RealmInt(42));
-                            break;
+                } else {
+                    for (int i = 0; i < currentAwakenings; i++) {
+                        switch (baseMonster.getAwokenSkills(i).getValue()) {
+                            case 31:
+                                killerAwakenings.add(new RealmInt(31));
+                                break;
+                            case 32:
+                                killerAwakenings.add(new RealmInt(32));
+                                break;
+                            case 33:
+                                killerAwakenings.add(new RealmInt(33));
+                                break;
+                            case 34:
+                                killerAwakenings.add(new RealmInt(34));
+                                break;
+                            case 35:
+                                killerAwakenings.add(new RealmInt(35));
+                                break;
+                            case 36:
+                                killerAwakenings.add(new RealmInt(36));
+                                break;
+                            case 37:
+                                killerAwakenings.add(new RealmInt(37));
+                                break;
+                            case 38:
+                                killerAwakenings.add(new RealmInt(38));
+                                break;
+                            case 39:
+                                killerAwakenings.add(new RealmInt(39));
+                                break;
+                            case 40:
+                                killerAwakenings.add(new RealmInt(40));
+                                break;
+                            case 41:
+                                killerAwakenings.add(new RealmInt(41));
+                                break;
+                            case 42:
+                                killerAwakenings.add(new RealmInt(42));
+                                break;
+                        }
                     }
                 }
             }

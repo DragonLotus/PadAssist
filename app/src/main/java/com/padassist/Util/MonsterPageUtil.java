@@ -215,8 +215,6 @@ public abstract class MonsterPageUtil extends Fragment {
 //        if(monster.isValid()){
 //            monster = realm.copyFromRealm(monster);
 //        }
-        Log.d("MonsterPageUtil", "Is monster valid onResume: " + monster.isValid());
-        Log.d("MonsterPageUtil", "monster is: " + monster + "monsterid is: " + monster.getMonsterId() + " monster get id is: " + monster.getMonsterId());
 
 //        loadBackup();
 //        showAwakenings();
@@ -271,7 +269,6 @@ public abstract class MonsterPageUtil extends Fragment {
         if (monster == null) {
             monster = getMonster();
         }
-        Log.d("MonsterPageUtil", "Is monster valid onActivityCreated start: " + monster.isValid());
         disableStuff();
         initBackup();
         monsterPicture.setImageResource(monster.getMonsterPicture());
@@ -317,7 +314,6 @@ public abstract class MonsterPageUtil extends Fragment {
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
         getActivity().setTitle("Modify Monster");
-        Log.d("MonsterPageUtil", "Is monster valid onActivityCreated end: " + monster.isValid());
     }
 
     public abstract Monster getMonster();
@@ -337,7 +333,6 @@ public abstract class MonsterPageUtil extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("MonsterPageUtil", "monster is: " + monster + " monster level is: " + monster.getCurrentLevel() + " monsterId: " + monster.getMonsterId());
         if(!deleteCheck()){
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(monster);

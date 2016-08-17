@@ -27,7 +27,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:marqueeRepeatLimit="marquee_forever"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="Kirin of the Sacred Gleam, Sakuya"
         android:textSize="25dp" />
 
@@ -553,7 +553,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:text="Awakenings"
+        android:text="Awakenings: "
         android:textSize="18dp"
         android:layout_alignBaseline="@+id/awakeningMinus"
         android:layout_alignBottom="@+id/awakeningMinus"

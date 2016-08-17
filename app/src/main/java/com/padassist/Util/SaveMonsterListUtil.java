@@ -340,13 +340,14 @@ public abstract class SaveMonsterListUtil extends Fragment {
     };
 
     public void sortArrayList(int sortMethod) {
-        Singleton.getInstance().setSaveSortMethod(sortMethod);
         switch (sortMethod) {
             case 0:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterAlphabeticalComparator);
                 saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 1:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterNumberComparator);
                 saveMonsterListRecycler.notifyDataSetChanged();
                 break;
@@ -375,14 +376,17 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 }
                 break;
             case 5:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterRarityComparator);
                 saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 6:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterAwakeningComparator);
                 saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 7:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 if (sortPlusDialogFragment == null) {
                     sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
                 }
@@ -391,10 +395,12 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 }
                 break;
             case 8:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterFavoriteComparator);
                 saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 9:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterLevelComparator);
                 saveMonsterListRecycler.notifyDataSetChanged();
                 break;

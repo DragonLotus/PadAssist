@@ -195,7 +195,7 @@
         android:id="@+id/ignoreEnemy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/calculateButton"
+        android:layout_above="@+id/buttonHolder2"
         android:layout_alignBottom="@+id/additionalComboValue"
         android:layout_alignTop="@+id/additionalComboValue"
         android:layout_toLeftOf="@+id/ignoreEnemyCheckBox"

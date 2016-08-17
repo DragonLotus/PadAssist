@@ -434,13 +434,14 @@ public class TeamListFragment extends Fragment {
 
 
     public void sortArrayList(int sortMethod) {
-        Singleton.getInstance().setTeamSortMethod(sortMethod);
         switch (sortMethod) {
             case 0:
+                Singleton.getInstance().setTeamSortMethod(sortMethod);
                 Collections.sort(teamList, teamAlphabeticalComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
             case 8:
+                Singleton.getInstance().setTeamSortMethod(sortMethod);
                 Collections.sort(teamList, teamFavoriteComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;

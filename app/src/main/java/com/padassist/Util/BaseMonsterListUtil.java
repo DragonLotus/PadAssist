@@ -273,13 +273,14 @@ public abstract class BaseMonsterListUtil extends Fragment {
     };
 
     public void sortArrayList(int sortMethod) {
-        Singleton.getInstance().setBaseSortMethod(sortMethod);
         switch (sortMethod) {
             case 0:
+                Singleton.getInstance().setBaseSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterAlphabeticalComparator);
                 baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 1:
+                Singleton.getInstance().setBaseSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterNumberComparator);
                 baseMonsterListRecycler.notifyDataSetChanged();
                 break;
@@ -308,10 +309,12 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 }
                 break;
             case 5:
+                Singleton.getInstance().setBaseSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterRarityComparator);
                 baseMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 6:
+                Singleton.getInstance().setBaseSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterAwakeningComparator);
                 baseMonsterListRecycler.notifyDataSetChanged();
                 break;
