@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         Singleton.getInstance().setContext(getApplicationContext());
 
         RealmConfiguration config = new RealmConfiguration.Builder(this)
-                .deleteRealmIfMigrationNeeded()
+//                .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
 

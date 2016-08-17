@@ -229,6 +229,9 @@ public class MonsterListFragment extends Fragment {
         } else {
             favorite.setVisibility(View.INVISIBLE);
         }
+        teamName.setSelected(true);
+        teamName.setHorizontallyScrolling(true);
+
         monsterListRecycler = new MonsterListRecycler(getActivity(), monsters);
         monsterListView.setAdapter(monsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -3,6 +3,7 @@ package com.padassist.Util;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -280,10 +281,12 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         }
         viewHolder.favorite.setTag(R.string.index, position);
         viewHolder.favoriteOutline.setTag(R.string.index, position);
-//        viewHolder.favorite.setOnClickListener(favoriteOnClickListener);
-//        viewHolder.favoriteOutline.setOnClickListener(favoriteOnClickListener);
+        viewHolder.favorite.setOnClickListener(favoriteOnClickListener);
+        viewHolder.favoriteOutline.setOnClickListener(favoriteOnClickListener);
         viewHolder.itemView.setOnClickListener(onItemClickListener);
 
+        viewHolder.monsterName.setHorizontallyScrolling(true);
+        viewHolder.leaderSkillName.setHorizontallyScrolling(true);
         viewHolder.monsterName.setSelected(true);
         viewHolder.leaderSkillName.setSelected(true);
         viewHolder.itemView.setTag(viewHolder);
@@ -809,10 +812,11 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterList.get(position).getMonsterId()).findFirst();
             realm.beginTransaction();
+            Monster monster = realm.copyToRealmOrUpdate(monsterList.get(position));
             if (!monster.isFavorite()){
                 monster.setFavorite(true);
+                monsterList.get(position).setFavorite(true);
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -820,6 +824,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 toast.show();
             } else {
                 monster.setFavorite(false);
+                monsterList.get(position).setFavorite(false);
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -827,7 +832,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 toast.show();
             }
             realm.commitTransaction();
-            notifyDataSetChanged();
+            notifyItemChanged(position);
         }
     };
 

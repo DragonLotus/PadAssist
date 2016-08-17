@@ -229,7 +229,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
                 viewHolder.type3.setVisibility(View.INVISIBLE);
                 break;
         }
-
+        viewHolder.monsterName.setHorizontallyScrolling(true);
         viewHolder.monsterName.setSelected(true);
         viewHolder.itemView.setOnClickListener(onItemClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
@@ -237,6 +237,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
         viewHolder.choose.setOnClickListener(monsterListOnClickListener);
         viewHolder.choose.setTag(R.string.index, position);
         viewHolder.itemView.setOnLongClickListener(monsterListOnLongClickListener);
+        viewHolder.leaderSkillName.setHorizontallyScrolling(true);
         viewHolder.leaderSkillName.setSelected(true);
         if (monsterList.get(position).getMonsterId() == 0) {
             viewHolder.itemView.setOnClickListener(monsterListOnClickListener);

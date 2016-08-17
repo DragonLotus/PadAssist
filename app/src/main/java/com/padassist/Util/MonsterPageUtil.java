@@ -208,6 +208,12 @@ public abstract class MonsterPageUtil extends Fragment {
 //        Log.d("Monster Page Log", "Monster is: " + monster);
 //        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
 
+        Monster checkMonster = realm.where(Monster.class).equalTo("monsterId", monster.getMonsterId()).findFirst();
+        if(checkMonster.isFavorite()){
+            monster.setFavorite(checkMonster.isFavorite());
+            setFavorite();
+        }
+
         if (deleteCheck()) {
             getActivity().getSupportFragmentManager().popBackStack();
         }
@@ -309,6 +315,7 @@ public abstract class MonsterPageUtil extends Fragment {
         monsterPicture.setOnClickListener(monsterPictureOnClickListener);
         latentHolder.setOnClickListener(latentOnClickListener);
 
+        monsterName.setHorizontallyScrolling(true);
         monsterName.setSelected(true);
 
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);

@@ -318,6 +318,9 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             viewHolder.monster6Awakenings.setVisibility(View.VISIBLE);
         }
 
+        viewHolder.teamName.setHorizontallyScrolling(true);
+        viewHolder.teamName.setSelected(true);
+
         viewHolder.itemView.setOnClickListener(teamListOnClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
         if (position % 2 == 1) {

@@ -335,6 +335,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
                 viewHolder.type3.setVisibility(View.GONE);
                 break;
         }
+        viewHolder.monsterName.setHorizontallyScrolling(true);
         viewHolder.monsterName.setSelected(true);
 
         viewHolder.itemView.setOnClickListener(onItemClickListener);

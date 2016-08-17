@@ -33,7 +33,7 @@
         android:scrollHorizontally="true"
         android:marqueeRepeatLimit="marquee_forever"
         android:gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="Monster name"
         android:textSize="16dp" />
 
@@ -277,7 +277,7 @@
             android:layout_toRightOf="@id/leaderSkill"
             android:text="Leader Skill Name: "
             android:textSize="16dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:ellipsize="marquee"/>
