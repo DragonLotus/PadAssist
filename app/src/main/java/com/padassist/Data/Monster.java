@@ -2,6 +2,7 @@ package com.padassist.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 
 import com.padassist.Util.DamageCalculationUtil;
@@ -550,7 +551,7 @@ public class Monster extends RealmObject implements Parcelable {
 
     public int getTPA() {
         int numOfDoubleProngs = 0;
-        if (Singleton.getInstance().hasAwakenings()) {
+        if (!Singleton.getInstance().hasAwakenings()) {
             return numOfDoubleProngs;
         } else {
             if (currentAwakenings < getMaxAwakenings()) {

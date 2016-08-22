@@ -65,7 +65,6 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         greenOrb = (CheckBox) rootView.findViewById(R.id.greenOrb);
         darkOrb = (CheckBox) rootView.findViewById(R.id.darkOrb);
         lightOrb = (CheckBox) rootView.findViewById(R.id.lightOrb);
-        multiplier = (EditText) rootView.findViewById(R.id.multiplier);
         clearButton = (Button) rootView.findViewById(R.id.clearButton);
         multiplier = (EditText) rootView.findViewById(R.id.multiplier);
         enable = (CheckBox) rootView.findViewById(R.id.enable);
@@ -85,7 +84,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         typeList.add(12);
         typeList.add(14);
         typeList.add(15);
-        typeGridAdapter = new TypeGridAdapter(getActivity(), typeList);
+        typeGridAdapter = new TypeGridAdapter(getActivity(), typeList, Singleton.getInstance().getExtraTypeMultiplier());
         typeGrid.setAdapter(typeGridAdapter);
         typeGrid.setExpanded(true);
         setEnable();
@@ -181,33 +180,53 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
     }
 
     private void setElements() {
-        if (Singleton.getInstance().getExtraElementMultiplier().size() != 0) {
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.RED)) {
-                redOrb.setChecked(true);
-            } else {
-                redOrb.setChecked(false);
-            }
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.BLUE)) {
-                blueOrb.setChecked(true);
-            } else {
-                blueOrb.setChecked(false);
-            }
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.GREEN)) {
-                greenOrb.setChecked(true);
-            } else {
-                greenOrb.setChecked(false);
-            }
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.LIGHT)) {
-                lightOrb.setChecked(true);
-            } else {
-                lightOrb.setChecked(false);
-            }
-            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.DARK)) {
-                darkOrb.setChecked(true);
-            } else {
-                darkOrb.setChecked(false);
+        for(int i = 0; i < Singleton.getInstance().getExtraElementMultiplier().size(); i++){
+            switch (Singleton.getInstance().getExtraElementMultiplier().get(i)){
+                case RED:
+                    redOrb.setChecked(true);
+                    break;
+                case BLUE:
+                    blueOrb.setChecked(true);
+                    break;
+                case GREEN:
+                    greenOrb.setChecked(true);
+                    break;
+                case LIGHT:
+                    lightOrb.setChecked(true);
+                    break;
+                case DARK:
+                    darkOrb.setChecked(true);
+                    break;
+
             }
         }
+//        if (Singleton.getInstance().getExtraElementMultiplier().size() != 0) {
+//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.RED)) {
+//                redOrb.setChecked(true);
+//            } else {
+//                redOrb.setChecked(false);
+//            }
+//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.BLUE)) {
+//                blueOrb.setChecked(true);
+//            } else {
+//                blueOrb.setChecked(false);
+//            }
+//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.GREEN)) {
+//                greenOrb.setChecked(true);
+//            } else {
+//                greenOrb.setChecked(false);
+//            }
+//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.LIGHT)) {
+//                lightOrb.setChecked(true);
+//            } else {
+//                lightOrb.setChecked(false);
+//            }
+//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.DARK)) {
+//                darkOrb.setChecked(true);
+//            } else {
+//                darkOrb.setChecked(false);
+//            }
+//        }
     }
 
     private GridView.OnItemClickListener typeGridOnClickListener = new GridView.OnItemClickListener() {

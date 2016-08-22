@@ -24,6 +24,7 @@ import com.padassist.Adapters.SaveMonsterListRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
+import com.padassist.Fragments.FilterDialogFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
 import com.padassist.Fragments.SortPlusDialogFragment;
 import com.padassist.Fragments.SortStatsDialogFragment;
@@ -72,6 +73,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
     private Comparator<Monster> monsterPlusRcvComparator = new MonsterPlusRcvComparator();
     private Comparator<Monster> monsterLevelComparator = new MonsterLevelComparator();
     private Comparator<Monster> monsterFavoriteComparator = new MonsterFavoriteComparator();
+    private FilterDialogFragment filterDialogFragment;
     protected Realm realm = Realm.getDefaultInstance();
     private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
 
@@ -109,7 +111,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchFilter(newText);
@@ -118,7 +120,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 return true;
             }
@@ -170,6 +172,14 @@ public abstract class SaveMonsterListUtil extends Fragment {
             case R.id.sortHelper:
                 sortArrayList(11);
                 break;
+            case R.id.filterList:
+                if (filterDialogFragment == null) {
+                    filterDialogFragment = FilterDialogFragment.newInstance(saveTeam);
+                }
+                if (!filterDialogFragment.isAdded() && !firstRun) {
+                    filterDialogFragment.show(getChildFragmentManager(), "Filter");
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -205,7 +215,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
 
     public abstract void onActivityCreatedSpecific();
 
-    protected void emptyCheck(){
+    protected void emptyCheck() {
         if (monsterListAll.size() == 1) {
             if (monsterListAll.get(0).getMonsterId() != 0) {
                 monsterListAll.add(0, monsterZero);
@@ -623,4 +633,11 @@ public abstract class SaveMonsterListUtil extends Fragment {
             }
         }
     }
+
+    private FilterDialogFragment.SaveTeam saveTeam = new FilterDialogFragment.SaveTeam(){
+        @Override
+        public void update() {
+
+        }
+    };
 }

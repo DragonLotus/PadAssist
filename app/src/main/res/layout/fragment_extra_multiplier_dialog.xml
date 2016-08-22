@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/multiplier"
         android:layout_alignTop="@+id/multiplier"
+        android:layout_toLeftOf="@+id/multiplier"
         android:gravity="center"
         android:text="Multiplier: "
         android:textSize="16dp" />
@@ -20,7 +21,7 @@
         android:id="@+id/multiplier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/multiplierText"
+        android:layout_alignParentRight="true"
         android:enabled="false"
         android:inputType="numberDecimal"
         android:maxLength="6"
@@ -34,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/multiplier"
         android:layout_alignTop="@+id/multiplier"
-        android:layout_toLeftOf="@+id/enable"
         android:gravity="center"
         android:text="Enable Multiplier: "
         android:textSize="16dp" />
@@ -44,8 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/multiplier"
-        android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/multiplier"
+        android:layout_toRightOf="@+id/enableText"
         android:gravity="center" />
 
     <Button

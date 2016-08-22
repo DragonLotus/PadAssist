@@ -57,6 +57,11 @@
             android:title="Reverse List"
             app:showAsAction="ifRoom" />
         <item
+            android:id="@+id/filterList"
+            android:icon="@drawable/filter"
+            android:title="Filter List"
+            app:showAsAction="ifRoom" />
+        <item
             android:id="@+id/sortAlphabetical"
             android:title="Sort A-Z"
             app:showAsAction="never" />

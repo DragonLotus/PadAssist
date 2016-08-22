@@ -23,10 +23,12 @@ public class TypeGridAdapter extends BaseAdapter {
     private ArrayList<Integer> typeList;
     private int resourceId;
     private Boolean isEnable = false;
+    private ArrayList<Integer> filterList;
 
-    public TypeGridAdapter(Context context, ArrayList<Integer> types) {
+    public TypeGridAdapter(Context context, ArrayList<Integer> types, ArrayList<Integer> filterList) {
         mContext = context;
         typeList = types;
+        this.filterList = filterList;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class TypeGridAdapter extends BaseAdapter {
         switch (typeList.get(position)) {
             case 0:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(0)) {
+                    if (filterList.contains(0)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_evo_material);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_evo_material_gray);
@@ -72,7 +74,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 1:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(1)) {
+                    if (filterList.contains(1)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_balanced);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_balanced_gray);
@@ -83,7 +85,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 2:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(2)) {
+                    if (filterList.contains(2)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_physical);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_physical_gray);
@@ -94,7 +96,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 3:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(3)) {
+                    if (filterList.contains(3)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_healer);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_healer_gray);
@@ -105,7 +107,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 4:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(4)) {
+                    if (filterList.contains(4)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_dragon);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_dragon_gray);
@@ -116,7 +118,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 5:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(5)) {
+                    if (filterList.contains(5)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_god);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_god_gray);
@@ -127,7 +129,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 6:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(6)) {
+                    if (filterList.contains(6)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_attacker);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_attacker_gray);
@@ -138,7 +140,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 7:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(7)) {
+                    if (filterList.contains(7)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_devil);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_devil_gray);
@@ -149,7 +151,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 8:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(8)) {
+                    if (filterList.contains(8)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_machine);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_machine_gray);
@@ -160,7 +162,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 12:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(12)) {
+                    if (filterList.contains(12)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_awoken);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_awoken_gray);
@@ -171,7 +173,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 14:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(14)) {
+                    if (filterList.contains(14)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_enhance_material);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_enhance_material_gray);
@@ -182,7 +184,7 @@ public class TypeGridAdapter extends BaseAdapter {
                 break;
             case 15:
                 if (isEnable) {
-                    if (Singleton.getInstance().getExtraTypeMultiplier().contains(15)) {
+                    if (filterList.contains(15)) {
                         viewHolder.typePicture.setImageResource(R.drawable.type_vendor);
                     } else {
                         viewHolder.typePicture.setImageResource(R.drawable.type_vendor_gray);
