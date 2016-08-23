@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
+import com.padassist.Data.Monster;
 import com.padassist.Fragments.FilterDialogFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
 import com.padassist.Fragments.SortStatsDialogFragment;
@@ -33,6 +34,7 @@ import com.padassist.R;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -44,6 +46,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     private boolean replaceAll;
     private long replaceMonsterId;
     protected RecyclerView monsterListView;
+    protected ArrayList<BaseMonster> filteredMonsters = new ArrayList<>();
     protected ArrayList<BaseMonster> monsterList;
     protected ArrayList<BaseMonster> monsterListAll;
     protected BaseMonsterListRecycler baseMonsterListRecycler;
@@ -530,12 +533,115 @@ public abstract class BaseMonsterListUtil extends Fragment {
     private FilterDialogFragment.SaveTeam saveTeam = new FilterDialogFragment.SaveTeam() {
         @Override
         public void filter() {
-
+            boolean remove = true;
+            if(filteredMonsters.size() > 0){
+                for(int i = 0; i < filteredMonsters.size(); i++){
+                    monsterList.add(filteredMonsters.get(i));
+                }
+                filteredMonsters.clear();
+            }
+            Iterator<BaseMonster> iter = monsterList.iterator();
+            if (Singleton.getInstance().getFilterElement1().size() != 0 || Singleton.getInstance().getFilterElement2().size() != 0 || Singleton.getInstance().getFilterTypes().size() != 0 || Singleton.getInstance().getFilterAwakenings().size() != 0 || Singleton.getInstance().getFilterLatents().size() != 0) {
+                while (iter.hasNext()) {
+                    BaseMonster monster = iter.next();
+                    if (Singleton.getInstance().getFilterElement1().size() != 0) {
+                        if (Singleton.getInstance().getFilterElement1().contains(monster.getElement1())) {
+                            remove = false;
+                        }
+                    }
+                    if (Singleton.getInstance().getFilterElement2().size() != 0 && remove) {
+                        if (Singleton.getInstance().getFilterElement2().contains(monster.getElement2())) {
+                            remove = false;
+                        }
+                    }
+                    if (Singleton.getInstance().getFilterTypes().size() != 0 && remove) {
+                        for (int i = 0; i < monster.getTypes().size(); i++) {
+                            if (Singleton.getInstance().getFilterTypes().contains(monster.getTypes().get(i)) && remove) {
+                                remove = false;
+                            }
+                        }
+                    }
+                    if (Singleton.getInstance().getFilterAwakenings().size() != 0 && remove) {
+                        for (int i = 0; i < monster.getAwokenSkills().size(); i++) {
+                            if (Singleton.getInstance().getFilterAwakenings().contains(monster.getAwokenSkills(i).getValue()) && remove) {
+                                remove = false;
+                            }
+                        }
+                    }
+                    if (remove) {
+                        filteredMonsters.add(monster);
+                        iter.remove();
+                    }
+                    remove = true;
+                }
+            }
+            sortArrayList(Singleton.getInstance().getBaseSortMethod());
+            baseMonsterListRecycler.setExpandedPosition(-1);
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void filterRequirements() {
-
+            boolean match = true;
+            int counter = 0;
+            if(filteredMonsters.size() > 0){
+                for(int i = 0; i < filteredMonsters.size(); i++){
+                    monsterList.add(filteredMonsters.get(i));
+                }
+                filteredMonsters.clear();
+            }
+            Iterator<BaseMonster> iter = monsterList.iterator();
+            if (Singleton.getInstance().getFilterElement1().size() != 0 || Singleton.getInstance().getFilterElement2().size() != 0 || Singleton.getInstance().getFilterTypes().size() != 0 || Singleton.getInstance().getFilterAwakenings().size() != 0 || Singleton.getInstance().getFilterLatents().size() != 0) {
+                while (iter.hasNext()) {
+                    BaseMonster monster = iter.next();
+                    if (Singleton.getInstance().getFilterElement1().size() != 0) {
+                        if (!Singleton.getInstance().getFilterElement1().contains(monster.getElement1())) {
+                            match = false;
+                        }
+                    }
+                    if (Singleton.getInstance().getFilterElement2().size() != 0 && match) {
+                        if (!Singleton.getInstance().getFilterElement2().contains(monster.getElement2())) {
+                            match = false;
+                        }
+                    }
+                    if (Singleton.getInstance().getFilterTypes().size() != 0 && match) {
+                        for (int i = 0; i < monster.getTypes().size(); i++) {
+                            if(Singleton.getInstance().getFilterTypes().contains(monster.getTypes().get(i))){
+                                counter++;
+                            }
+                        }
+                        if(counter != Singleton.getInstance().getFilterTypes().size()){
+                            match = false;
+                        }
+                        counter = 0;
+                    }
+                    if (Singleton.getInstance().getFilterAwakenings().size() != 0 && match) {
+                        ArrayList<Integer> trimmedAwakenings = new ArrayList<>();
+                        for(int i = 0; i < monster.getAwokenSkills().size(); i++){
+                            if(!trimmedAwakenings.contains(monster.getAwokenSkills(i).getValue())){
+                                trimmedAwakenings.add(monster.getAwokenSkills(i).getValue());
+                            }
+                        }
+                        for (int i = 0; i < trimmedAwakenings.size(); i++) {
+                            if(Singleton.getInstance().getFilterAwakenings().contains(trimmedAwakenings.get(i))){
+                                counter++;
+                            }
+                        }
+                        if(counter != Singleton.getInstance().getFilterAwakenings().size()){
+                            match = false;
+                        }
+                        counter = 0;
+                    }
+                    if (!match) {
+                        filteredMonsters.add(monster);
+                        iter.remove();
+                    }
+                    match = true;
+                }
+            }
+            sortArrayList(Singleton.getInstance().getBaseSortMethod());
+            baseMonsterListRecycler.setExpandedPosition(-1);
+            baseMonsterListRecycler.notifyDataSetChanged();
         }
     };
 }

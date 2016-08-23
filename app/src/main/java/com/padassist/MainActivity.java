@@ -37,6 +37,7 @@ import com.padassist.Data.RealmInt;
 import com.padassist.Data.RealmLeaderSkillType;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
+import com.padassist.Fragments.CloseDialogFragment;
 import com.padassist.Fragments.DisclaimerDialogFragment;
 import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
 import com.padassist.Fragments.MonsterListFragment;
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private SharedPreferences preferences;
     private DisclaimerDialogFragment disclaimerDialog;
+    private CloseDialogFragment closeDialogFragment;
     private Toast toast;
     private Realm realm;
 
@@ -421,9 +423,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (getSupportFragmentManager().getBackStackEntryCount() <= 1) {
-            finish();
+            if (closeDialogFragment == null) {
+                closeDialogFragment = CloseDialogFragment.newInstance(closeApplication);
+            }
+            if (!closeDialogFragment.isAdded()) {
+                closeDialogFragment.show(getSupportFragmentManager(), "Close");
+            }
         } else {
             getSupportFragmentManager().popBackStack();
         }
     }
+
+    private CloseDialogFragment.CloseApplication closeApplication = new CloseDialogFragment.CloseApplication() {
+        @Override
+        public void quit() {
+            finish();
+        }
+    };
 }

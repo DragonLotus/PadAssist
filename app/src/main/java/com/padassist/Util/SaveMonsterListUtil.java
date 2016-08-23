@@ -689,6 +689,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 }
             }
             sortArrayList(Singleton.getInstance().getSaveSortMethod());
+            saveMonsterListRecycler.setExpandedPosition(-1);
             saveMonsterListRecycler.notifyDataSetChanged();
         }
 
@@ -769,6 +770,7 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 }
             }
             sortArrayList(Singleton.getInstance().getSaveSortMethod());
+            saveMonsterListRecycler.setExpandedPosition(-1);
             saveMonsterListRecycler.notifyDataSetChanged();
         }
     };
