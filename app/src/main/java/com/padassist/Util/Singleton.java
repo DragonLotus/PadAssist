@@ -23,6 +23,7 @@ public class Singleton {
     private ArrayList<Element> filterElement2 = new ArrayList<>();
     private ArrayList<Integer> filterTypes = new ArrayList<>();
     private ArrayList<Integer> filterAwakenings = new ArrayList<>();
+    private ArrayList<Integer> filterLatents = new ArrayList<>();
     private double extraDamageMultiplier = 2;
     private boolean enableMultiplier = false;
     private boolean coopEnable = false;
@@ -202,5 +203,13 @@ public class Singleton {
 
     public void setMeetsFilterRequirements(boolean meetsFilterRequirements) {
         this.meetsFilterRequirements = meetsFilterRequirements;
+    }
+
+    public ArrayList<Integer> getFilterLatents() {
+        return filterLatents;
+    }
+
+    public void setFilterLatents(ArrayList<Integer> filterLatents) {
+        this.filterLatents = filterLatents;
     }
 }

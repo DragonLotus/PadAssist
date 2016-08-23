@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
+import com.padassist.Fragments.FilterDialogFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
 import com.padassist.Fragments.SortStatsDialogFragment;
 import com.padassist.Fragments.SortTypeDialogFragment;
@@ -66,6 +67,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     private Comparator<BaseMonster> monsterRarityComparator = new BaseMonsterRarityComparator();
     private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
     protected Realm realm = Realm.getDefaultInstance();
+    private FilterDialogFragment filterDialogFragment;
 
     private FastScroller fastScroller;
 
@@ -169,6 +171,14 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 break;
             case R.id.sortHelper:
                 sortArrayList(11);
+                break;
+            case R.id.filterList:
+                if (filterDialogFragment == null) {
+                    filterDialogFragment = FilterDialogFragment.newInstance(saveTeam, false);
+                }
+                if (!filterDialogFragment.isAdded() && !firstRun) {
+                    filterDialogFragment.show(getChildFragmentManager(), false, "Filter");
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -516,4 +526,16 @@ public abstract class BaseMonsterListUtil extends Fragment {
             }
         }
     }
+
+    private FilterDialogFragment.SaveTeam saveTeam = new FilterDialogFragment.SaveTeam() {
+        @Override
+        public void filter() {
+
+        }
+
+        @Override
+        public void filterRequirements() {
+
+        }
+    };
 }

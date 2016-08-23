@@ -3,7 +3,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp">
 
     <TextView
         android:id="@+id/requirementsText"
@@ -61,9 +62,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:background="@drawable/red_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="true" />
+                    android:button="@null" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -75,9 +74,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:background="@drawable/blue_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="true" />
+                    android:button="@null" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -89,9 +86,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:background="@drawable/green_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="true" />
+                    android:button="@null"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -103,9 +98,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:background="@drawable/light_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="true" />
+                    android:button="@null"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -117,9 +110,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:background="@drawable/dark_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="true" />
+                    android:button="@null"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -254,6 +245,22 @@
                 android:gravity="center_horizontal"
                 android:numColumns="5" />
 
+            <TextView
+                android:id="@+id/latentAwakenings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/awakeningsGrid"
+                android:gravity="center"
+                android:text="Latent Awakenings: "
+                android:textSize="16dp" />
+
+            <com.padassist.Graphics.ExpandableHeightGridView
+                android:id="@+id/latentAwakeningsGrid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/latentAwakenings"
+                android:gravity="center_horizontal"
+                android:numColumns="5" />
         </RelativeLayout>
 
     </ScrollView>

@@ -142,8 +142,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     }
                 } else {
                     realm.beginTransaction();
-                    Log.d("SaveMonsterList", "Is team valid: " + newTeam.isValid());
-                    Log.d("SaveMonsterList", "Is monster valid: " + saveMonsterListRecycler.getItem(position).isValid());
                     Monster monster = realm.copyToRealmOrUpdate(saveMonsterListRecycler.getItem(position));
                     switch (monsterPosition) {
                         case 0:
@@ -214,8 +212,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     }
                 } else {
                     realm.beginTransaction();
-                    Log.d("SaveMonsterList", "Is team valid: " + newTeam.isValid());
-                    Log.d("SaveMonsterList", "Is monster valid: " + saveMonsterListRecycler.getItem(position).isValid());
                     Monster monster = realm.copyToRealmOrUpdate(saveMonsterListRecycler.getItem(position));
                     switch (monsterPosition) {
                         case 0:
@@ -267,14 +263,12 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
             RealmResults results = realm.where(Team.class).findAll();
             teamList.addAll(results);
             final long monsterId = saveMonsterListRecycler.getItem(position).getMonsterId();
-            Log.d("SaveMonsterList", "teamlist is: " + teamList);
             for (int i = 0; i < teamList.size(); i++) {
                 for (int j = 0; j < teamList.get(i).getMonsters().size(); j++) {
                     if (teamList.get(i).getMonsters().get(j).getMonsterId() == monsterId) {
                         realm.beginTransaction();
                         teamList.get(i).setMonsters(j, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
                         realm.commitTransaction();
-                        Log.d("SaveMonsterList", "team " + i + " monsters is: " + teamList.get(i).getMonsters());
                     }
                 }
             }
