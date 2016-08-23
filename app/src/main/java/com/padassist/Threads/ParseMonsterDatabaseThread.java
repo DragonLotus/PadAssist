@@ -232,11 +232,11 @@ public class ParseMonsterDatabaseThread extends Thread {
                 }
                 realm.copyToRealmOrUpdate(leaderSkill);
                 update.updateValues(counter);
+//                Log.d("ParseMonsterDatabase", "leaderSkill counter is: " + counter);
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            Log.d("ParseMonsterDatabase", "leaderSkill counter is: " + counter);
         }
     }
 

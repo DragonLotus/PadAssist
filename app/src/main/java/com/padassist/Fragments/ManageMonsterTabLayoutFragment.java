@@ -43,6 +43,8 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutUtil {
         if(tabLayout.getSelectedTabPosition() == 0){
             getActivity().setTitle("Saved Monsters");
         } else if(tabLayout.getSelectedTabPosition() == 1) {
+            getActivity().setTitle("Saved Helpers");
+        }else if(tabLayout.getSelectedTabPosition() == 2) {
             getActivity().setTitle("Create Monster");
         }
         viewPager.addOnPageChangeListener(tabLayoutOnPageChangeListener);
@@ -65,6 +67,8 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutUtil {
             if(position == 0){
                 getActivity().setTitle("Saved Monsters");
             } else if(position == 1) {
+                getActivity().setTitle("Saved Helpers");
+            }else if(position == 2) {
                 getActivity().setTitle("Create Monster");
             }
         }

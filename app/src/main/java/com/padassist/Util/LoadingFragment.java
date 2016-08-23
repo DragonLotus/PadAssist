@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.padassist.Constants;
 import com.padassist.Fragments.DisclaimerDialogFragment;
 import com.padassist.R;
 import com.padassist.Threads.ParseMonsterDatabaseThread;
@@ -50,7 +51,7 @@ public class LoadingFragment extends Fragment {
             progressDialog.setMessage("Loading monsters...");
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
-            progressDialog.setMax(4888);
+            progressDialog.setMax(Constants.finalParseCount);
             progressDialog.setProgress(0);
             progressDialog.show();
         }
@@ -87,7 +88,7 @@ public class LoadingFragment extends Fragment {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            if (values[0] == 3075) {
+            if (values[0] == Constants.numOfMonsters) {
                 progressDialog.setMessage("Loading Leader Skills...");
             }
         }

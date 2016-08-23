@@ -25,11 +25,13 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
     public static final String TAG = ManageSaveMonsterListFragment.class.getSimpleName();
     private Toast toast;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
+    private boolean helper;
 
 
-    public static ManageSaveMonsterListFragment newInstance() {
+    public static ManageSaveMonsterListFragment newInstance(boolean helper) {
         ManageSaveMonsterListFragment fragment = new ManageSaveMonsterListFragment();
         Bundle args = new Bundle();
+        args.putBoolean("helper", helper);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,12 +57,25 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
         } else {
             monsterListAll.clear();
         }
-        RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
-        for(int i = 0; i < results.size(); i++){
-            if(results.get(i).getMonsterId() != 0){
-                monsterListAll.add(realm.copyFromRealm(results.get(i)));
+        if (getArguments() != null) {
+            helper = getArguments().getBoolean("helper");
+        }
+        if(!helper){
+            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
+            for(int i = 0; i < results.size(); i++){
+                if(results.get(i).getMonsterId() != 0){
+                    monsterListAll.add(realm.copyFromRealm(results.get(i)));
+                }
+            }
+        } else {
+            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", true).findAll();
+            for(int i = 0; i < results.size(); i++){
+                if(results.get(i).getMonsterId() != 0){
+                    monsterListAll.add(realm.copyFromRealm(results.get(i)));
+                }
             }
         }
+
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
