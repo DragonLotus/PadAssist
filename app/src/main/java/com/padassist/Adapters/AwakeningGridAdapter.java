@@ -1,7 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.padassist.Graphics.Tooltip;
 import com.padassist.R;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> awakeningList;
-    private ArrayList<Integer> latentList;
+    private ArrayList<Integer> latentList = new ArrayList<>();
     private ArrayList<Integer> awakeningListAll;
     private ArrayList<Integer> latentListAll;
     private ArrayList<Integer> awakeningAmountList;
@@ -58,6 +59,8 @@ public class AwakeningGridAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -249,9 +252,20 @@ public class AwakeningGridAdapter extends BaseAdapter {
             }
             viewHolder.awakeningAmount.setText("x" + awakeningAmountList.get(position));
         }
+        viewHolder.relativeLayout.setTag(R.string.index, position);
+        viewHolder.relativeLayout.setOnClickListener(awakeningToolTipOnClickListener);
         return convertView;
     }
 
+    private View.OnClickListener awakeningToolTipOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int) v.getTag(R.string.index);
+            Log.d("AwakeningGridAdapter", "position is: " + position);
+            Tooltip tooltip = new Tooltip(mContext, "Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino");
+            tooltip.show(v);
+        }
+    };
 
     static class ViewHolder {
         TextView awakeningAmount;

@@ -488,7 +488,7 @@ public class DamageCalculationUtil {
             return 0;
         }
         double damage = 0;
-        double teamHealth = team.getTeamHealth() * team.getTeamHp()/100;
+        double teamHealth = team.getTeamHealth();
         for(int i = 0; i < poisonOrbMatches.size(); i++){
             if(poisonOrbMatches.get(i).getElement().equals(Element.POISON)){
                 damage += ((poisonOrbMatches.get(i).getOrbsLinked() - 3)*.05 + .20)*teamHealth;
