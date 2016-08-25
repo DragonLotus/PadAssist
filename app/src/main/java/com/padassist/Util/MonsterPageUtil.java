@@ -1239,7 +1239,9 @@ public abstract class MonsterPageUtil extends Fragment {
             if (latentAwakeningDialogFragment == null) {
                 latentAwakeningDialogFragment = LatentAwakeningDialogFragment.newInstance(setLatents, monster);
             }
-            latentAwakeningDialogFragment.show(getChildFragmentManager(), "LAATENTSNTSNTS", monster);
+            if (!latentAwakeningDialogFragment.isAdded()) {
+                latentAwakeningDialogFragment.show(getChildFragmentManager(), "LAATENTSNTSNTS", monster);
+            }
         }
     };
 

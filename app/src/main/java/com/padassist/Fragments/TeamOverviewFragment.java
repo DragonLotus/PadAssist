@@ -105,12 +105,12 @@ public class TeamOverviewFragment extends Fragment {
         setTeamStats();
         setupAwakeningFilters();
         trimAwakenings();
-        utilityAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), utilityAwakeningList, latentUtilityAwakeningList);
+        utilityAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), team.getMonsters(), utilityAwakeningList, latentUtilityAwakeningList, false);
         utilityAwakenings.setAdapter(utilityAwakeningGridAdapter);
 //        utilityAwakenings.setHasFixedSize(true);
 //        utilityAwakenings.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         utilityAwakenings.setExpanded(true);
-        damageAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), damageAwakeningList, latentDamageAwakeningList);
+        damageAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), team.getMonsters(), damageAwakeningList, latentDamageAwakeningList, false);
         damageAwakenings.setAdapter(damageAwakeningGridAdapter);
 //        damageAwakenings.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         damageAwakenings.setExpanded(true);

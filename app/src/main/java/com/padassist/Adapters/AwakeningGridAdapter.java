@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.padassist.Data.Monster;
 import com.padassist.Graphics.Tooltip;
 import com.padassist.R;
 
@@ -23,16 +24,20 @@ public class AwakeningGridAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> awakeningList;
+    private ArrayList<Monster> monsterList;
     private ArrayList<Integer> latentList = new ArrayList<>();
     private ArrayList<Integer> awakeningListAll;
     private ArrayList<Integer> latentListAll;
     private ArrayList<Integer> awakeningAmountList;
     private ArrayList<Integer> latentAmountList;
+    private boolean monsterSpecificAdapater;
 
-    public AwakeningGridAdapter(Context context, ArrayList<Integer> awakenings, ArrayList<Integer> latents) {
+    public AwakeningGridAdapter(Context context, ArrayList<Monster> monsterList, ArrayList<Integer> awakenings, ArrayList<Integer> latents, boolean monsterSpecificAdapter) {
         mContext = context;
+        this.monsterList = monsterList;
         awakeningListAll = awakenings;
         latentListAll = latents;
+        this.monsterSpecificAdapater = monsterSpecificAdapter;
         trimAwakenings();
     }
 
@@ -252,8 +257,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
             }
             viewHolder.awakeningAmount.setText("x" + awakeningAmountList.get(position));
         }
-        viewHolder.relativeLayout.setTag(R.string.index, position);
-        viewHolder.relativeLayout.setOnClickListener(awakeningToolTipOnClickListener);
+            viewHolder.relativeLayout.setTag(R.string.index, position);
+            viewHolder.relativeLayout.setOnClickListener(awakeningToolTipOnClickListener);
+
         return convertView;
     }
 
@@ -262,7 +268,201 @@ public class AwakeningGridAdapter extends BaseAdapter {
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
             Log.d("AwakeningGridAdapter", "position is: " + position);
-            Tooltip tooltip = new Tooltip(mContext, "Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino Testerino");
+            ArrayList<Monster> filteredMonsters = new ArrayList<>();
+            Tooltip tooltip;
+            String text = "Testerino";
+            int awakening;
+            double counter;
+            if(position >= awakeningList.size()){
+                awakening = latentList.get(position - awakeningList.size());
+                counter = latentAmountList.get(position - awakeningList.size());
+                switch (awakening) {
+                    case 1:
+                        text = "Bonus " + counter * 1.5 + "% of base HP";
+                        break;
+                    case 2:
+                        text = "Bonus " + counter + "% of base ATK";
+                        break;
+                    case 3:
+                        text = "Bonus " + counter * 5 + "% of base RCV";
+                        break;
+                    case 4:
+                        text = "Extra " + counter * .05 + " seconds to match";
+                        break;
+                    case 5:
+                        text = "Auto-heal " + counter * 15 + "% of total RCV";
+                        break;
+                    case 6:
+                        text = "Resist " + counter + "% of fire damage";
+                        break;
+                    case 7:
+                        text = "Resist " + counter + "% of water damage";
+                        break;
+                    case 8:
+                        text = "Resist " + counter + "% of grass damage";
+                        break;
+                    case 9:
+                        text = "Resist " + counter + "% of light damage";
+                        break;
+                    case 10:
+                        text = "Resist " + counter + "% of dark damage";
+                        break;
+                    case 11:
+                        text = "Resist " + counter + " turns of skill delay";
+                        break;
+                }
+                for (int i = 0; i < monsterList.size(); i++){
+                    for(int j = 0; j < monsterList.get(i).getLatents().size(); j++){
+                        if(monsterList.get(i).getLatents().get(j).getValue() == awakening){
+                            if(!filteredMonsters.contains(monsterList.get(i))){
+                                filteredMonsters.add(monsterList.get(i));
+                            }
+                        }
+                    }
+                }
+                tooltip = new Tooltip(mContext, text, awakening, true, filteredMonsters, monsterSpecificAdapater);
+            } else {
+                awakening = awakeningList.get(position);
+                counter = awakeningAmountList.get(position);
+                switch (awakening) {
+                    case 1:
+                        text = "Bonus " + counter * 200 + "% HP";
+                        break;
+                    case 2:
+                        text = "Bonus " + counter * 100 + "% ATK";
+                        break;
+                    case 3:
+                        text = "Bonus " + counter * 50 + "% RCV";
+                        break;
+                    case 4:
+                        text = "Resist " + counter * 5 + "% of fire damage";
+                        break;
+                    case 5:
+                        text = "Resist " + counter * 5 + "% of water damage";
+                        break;
+                    case 6:
+                        text = "Resist " + counter * 5 + "% of grass damage";
+                        break;
+                    case 7:
+                        text = "Resist " + counter * 5 + "% of light damage";
+                        break;
+                    case 8:
+                        text = "Resist " + counter * 5 + "% of dark damage";
+                        break;
+                    case 9:
+                        text = "Auto-Heal " + counter * 500 + " HP";
+                        break;
+                    case 10:
+                        text = counter * 50 + "% chance to resist bind";
+                        break;
+                    case 11:
+                        text = counter * 20 + "% chance to resist blind";
+                        break;
+                    case 12:
+                        text = counter * 20 + "% chance to resist jammer orbs";
+                        break;
+                    case 13:
+                        text = counter * 20 + "% chance to resist poison orbs";
+                        break;
+                    case 14:
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced fire orbs.";
+                        break;
+                    case 15:
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced water orbs.";
+                        break;
+                    case 16:
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced grass orbs.";
+                        break;
+                    case 17:
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced light orbs.";
+                        break;
+                    case 18:
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced dark orbs.";
+                        break;
+                    case 19:
+                        text = "Extra " + counter * .5 + " seconds to match";
+                        break;
+                    case 20:
+                        text = counter * 3 + " turns of bind recovery when matching a row of heart orbs";
+                        break;
+                    case 21:
+                        text = counter  + " turns charged for active skills";
+                        break;
+                    case 22:
+                        text = counter * 10 + "% bonus damage for matching a row of fire orbs";
+                        break;
+                    case 23:
+                        text = counter * 10 + "% bonus damage for matching a row of water orbs";
+                        break;
+                    case 24:
+                        text = counter * 10 + "% bonus damage for matching a row of grass orbs";
+                        break;
+                    case 25:
+                        text = counter * 10 + "% bonus damage for matching a row of light orbs";
+                        break;
+                    case 26:
+                        text = counter * 10 + "% bonus damage for matching a row of dark orbs";
+                        break;
+                    case 27:
+                        text = "Attack two targets and " + counter * 1.5 + "x bonus damage when matching 4 orbs";
+                        break;
+                    case 28:
+                        text = counter * 20 + "% chance to resist skill bind";
+                        break;
+                    case 29:
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus healing for enhanced heart orbs.";
+                        break;
+                    case 30:
+                        text = "Boost stats by " + counter * 1.5 + " during cooperation mode";
+                        break;
+                    case 31:
+                        text = counter * 3 + "x bonus damage versus Dragon types";
+                        break;
+                    case 32:
+                        text = counter * 3 + "x bonus damage versus God types";
+                        break;
+                    case 33:
+                        text = counter * 3 + "x bonus damage versus Devil types";
+                        break;
+                    case 34:
+                        text = counter * 3 + "x bonus damage versus Machine types";
+                        break;
+                    case 35:
+                        text = counter * 3 + "x bonus damage versus Attacker types";
+                        break;
+                    case 36:
+                        text = counter * 3 + "x bonus damage versus Physical types";
+                        break;
+                    case 37:
+                        text = counter * 3 + "x bonus damage versus Healer types";
+                        break;
+                    case 38:
+                        text = counter * 3 + "x bonus damage versus Balanced types";
+                        break;
+                    case 39:
+                        text = counter * 3 + "x bonus damage versus Awoken Material types";
+                        break;
+                    case 40:
+                        text = counter * 3 + "x bonus damage versus Enhance Material types";
+                        break;
+                    case 41:
+                        text = counter * 3 + "x bonus damage versus Vendor types";
+                        break;
+                    case 42:
+                        text = counter * 3 + "x bonus damage versus Evo Material types";
+                        break;
+                }
+                for (int i = 0; i < monsterList.size(); i++){
+                    for(int j = 0; j < monsterList.get(i).getAwokenSkills().size(); j++){
+                        if(monsterList.get(i).getAwokenSkills(j) == awakening){
+                            if(!filteredMonsters.contains(monsterList.get(i))){
+                                filteredMonsters.add(monsterList.get(i));
+                            }
+                        }
+                    }
+                }
+                tooltip = new Tooltip(mContext, text, awakening, false, filteredMonsters, monsterSpecificAdapater);
+            }
             tooltip.show(v);
         }
     };

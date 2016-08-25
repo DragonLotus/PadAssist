@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="8dp"
+    android:paddingLeft="8dp">
+
+    <ImageView
+        android:id="@+id/monsterPicture"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/monster_1218" />
+
+    <ImageView
+        android:id="@+id/awakening"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_below="@+id/monsterPicture"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/awakening" />
+
+    <TextView
+        android:id="@+id/awakeningAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/awakening"
+        android:gravity="center"
+        android:text="x31"
+        android:textSize="16dp" />
+
+</RelativeLayout>

@@ -423,6 +423,7 @@ public class TeamListFragment extends Fragment {
         @Override
         public void resetLayout() {
             Team loadTeam = teamList.get(selectedTeam);
+            loadTeam = realm.copyFromRealm(loadTeam);
             loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
             loadTeam.setTeamId(0);
             realm.beginTransaction();
