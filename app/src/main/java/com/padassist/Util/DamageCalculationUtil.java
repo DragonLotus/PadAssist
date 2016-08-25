@@ -8,6 +8,7 @@ import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
+import com.padassist.Fragments.DisclaimerDialogFragment;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -103,7 +104,11 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        return returnDamage;
+        if(team.getTeamBadge() == 6){
+            return (int)(returnDamage * 1.05);
+        } else {
+            return returnDamage;
+        }
     }
 
     public static double leadOtherMultiplier2(double damage, Monster monster, Team team, int position) {
@@ -132,7 +137,11 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        return returnDamage;
+        if(team.getTeamBadge() == 6){
+            return (int)(returnDamage * 1.05);
+        } else {
+            return returnDamage;
+        }
     }
 
     public static double monsterElement1DamageEnemy(Team team, Monster monster, int position, int combos, Enemy enemy) {

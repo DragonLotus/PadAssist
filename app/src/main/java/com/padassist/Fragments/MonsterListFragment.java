@@ -57,10 +57,12 @@ public class MonsterListFragment extends Fragment {
     private Button importButton, orbMatchButton;
     private ImageView favorite, favoriteOutline;
     private TextView teamName;
+    private ImageView teamBadge;
     private Team team;
     private Enemy enemy;
     private Toast toast;
     private TeamSaveDialogFragment teamSaveDialogFragment;
+    private TeamBadgeDialogFragment teamBadgeDialogFragment;
     private ClearTeamConfirmationDialogFragment clearTeamConfirmationDialogFragment;
     private Realm realm = Realm.getDefaultInstance();
     private Monster monster0 = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
@@ -107,6 +109,8 @@ public class MonsterListFragment extends Fragment {
         teamName = (TextView) rootView.findViewById(R.id.teamName);
         favorite = (ImageView) rootView.findViewById(R.id.favorite);
         favoriteOutline = (ImageView) rootView.findViewById(R.id.favoriteOutline);
+        teamBadge = (ImageView) rootView.findViewById(R.id.teamBadge);
+
         return rootView;
     }
 
@@ -229,6 +233,7 @@ public class MonsterListFragment extends Fragment {
         } else {
             favorite.setVisibility(View.INVISIBLE);
         }
+        setTeamBadge();
         teamName.setSelected(true);
         teamName.setHorizontallyScrolling(true);
 
@@ -239,6 +244,7 @@ public class MonsterListFragment extends Fragment {
         orbMatchButton.setOnClickListener(orbMatchOnClickListener);
         favorite.setColorFilter(0xFFFFAADD);
         favoriteOutline.setOnClickListener(favoriteOnClickListener);
+        teamBadge.setOnClickListener(teamBadgeOnClickListener);
         getActivity().setTitle("Set Team");
     }
 
@@ -289,6 +295,66 @@ public class MonsterListFragment extends Fragment {
 
         }
     };
+
+    private View.OnClickListener teamBadgeOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (teamBadgeDialogFragment == null) {
+                teamBadgeDialogFragment = TeamBadgeDialogFragment.newInstance(setTeamBadge, team);
+            }
+            if (!teamBadgeDialogFragment.isAdded()) {
+                teamBadgeDialogFragment.show(getActivity().getSupportFragmentManager(), "Team Badge Dialog");
+            }
+        }
+    };
+
+    private TeamBadgeDialogFragment.SetTeamBadge setTeamBadge = new TeamBadgeDialogFragment.SetTeamBadge() {
+        @Override
+        public void setBadge(int badge) {
+            realm.beginTransaction();
+            team.setTeamBadge(badge);
+            if(team.getIsBound().get(0) && badge == 8){
+                team.getIsBound().set(0, false);
+            }
+            realm.commitTransaction();
+            setTeamBadge();
+        }
+    };
+
+    private void setTeamBadge(){
+        switch (team.getTeamBadge()){
+            case 0:
+                teamBadge.setImageResource(R.drawable.team_badge_nothing);
+                break;
+            case 1:
+                teamBadge.setImageResource(R.drawable.team_badge_cost);
+                break;
+            case 2:
+                teamBadge.setImageResource(R.drawable.team_badge_time_extend);
+                break;
+            case 3:
+                teamBadge.setImageResource(R.drawable.team_badge_mass_attack);
+                break;
+            case 4:
+                teamBadge.setImageResource(R.drawable.team_badge_rcv);
+                break;
+            case 5:
+                teamBadge.setImageResource(R.drawable.team_badge_hp);
+                break;
+            case 6:
+                teamBadge.setImageResource(R.drawable.team_badge_attack);
+                break;
+            case 7:
+                teamBadge.setImageResource(R.drawable.team_badge_skill_boost);
+                break;
+            case 8:
+                teamBadge.setImageResource(R.drawable.team_badge_bind_resist);
+                break;
+            case 9:
+                teamBadge.setImageResource(R.drawable.team_badge_skill_bind_resist);
+                break;
+        }
+    }
 
     public void updateTeam() {
         realm.beginTransaction();

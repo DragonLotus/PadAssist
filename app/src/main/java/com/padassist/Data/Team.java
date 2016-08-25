@@ -93,6 +93,7 @@ public class Team extends RealmObject implements Parcelable {
     private Comparator<Integer> numberComparator = new NumberComparator();
     @Ignore
     private Realm realm = Realm.getDefaultInstance();
+    private int teamBadge = 0;
 
     public Team() {
         for (int i = 0; i < 5; i++) {
@@ -429,6 +430,14 @@ public class Team extends RealmObject implements Parcelable {
         return compareAllElements;
     }
 
+    public int getTeamBadge() {
+        return teamBadge;
+    }
+
+    public void setTeamBadge(int teamBadge) {
+        this.teamBadge = teamBadge;
+    }
+
     public int getOrbPlusAwakenings(Element element) {
         if (element.equals(Element.RED)) {
             return orbPlusAwakenings.get(0);
@@ -748,8 +757,17 @@ public class Team extends RealmObject implements Parcelable {
             hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this, i);
             rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this, i);
         }
-        this.teamHealth = hp;
-        this.teamRcv = (int) Math.floor(rcv + 0.5d);
+        if(teamBadge == 5){
+            this.teamHealth = (int) (hp * 1.05);
+        } else {
+            this.teamHealth = hp;
+        }
+        if(teamBadge == 4){
+            Log.d("Team", "Team badge is: " + teamBadge);
+            this.teamRcv = (int) Math.floor(rcv * 1.25 + 0.5d);
+        } else {
+            this.teamRcv = (int) Math.floor(rcv + 0.5d);
+        }
         realm.commitTransaction();
     }
 

@@ -15,8 +15,9 @@
         android:layout_height="26dp"
         android:layout_alignBottom="@+id/monsterPicture"
         android:layout_alignTop="@+id/monsterPicture"
-        android:layout_marginRight="6dp"
-        android:src="@drawable/favorite" />
+        android:src="@drawable/favorite"
+        android:layout_marginBottom="4dp"
+        android:layout_marginRight="4dp"/>
 
     <ImageView
         android:id="@+id/favoriteOutline"
@@ -24,14 +25,23 @@
         android:layout_height="26dp"
         android:layout_alignBottom="@+id/monsterPicture"
         android:layout_alignTop="@+id/monsterPicture"
-        android:src="@drawable/not_favorite" />
+        android:src="@drawable/not_favorite"/>
+
+    <ImageView
+        android:id="@+id/teamBadge"
+        android:layout_width="34dp"
+        android:layout_height="26dp"
+        android:src="@drawable/team_badge_nothing"
+        android:background="@drawable/team_badge_background"
+        android:layout_toRightOf="@+id/favorite"
+        android:layout_marginRight="6dp"/>
 
     <TextView
         android:id="@+id/teamName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="THIS IS MY TEAM NAME"
-        android:layout_toRightOf="@+id/favorite"
+        android:layout_toRightOf="@+id/teamBadge"
         android:layout_alignTop="@+id/favorite"
         android:layout_alignBottom="@+id/favorite"
         android:gravity="center"

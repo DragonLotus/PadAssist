@@ -23,8 +23,9 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
     private ArrayList<Integer> awakeningList, awakeningListAll, monsterSpecificFilter, latentList, latentListAll, latentMonsterSpecificFilter;
     private AwakeningGridAdapter monsterAwakeningsGridAdapter;
     private int resourceId;
+    private int teamBadge;
 
-    public MonsterSpecificAwakeningsListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList) {
+    public MonsterSpecificAwakeningsListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, int teamBadge) {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
@@ -35,6 +36,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         latentList = new ArrayList<>();
         latentListAll = new ArrayList<>();
         latentMonsterSpecificFilter = new ArrayList<>();
+        this.teamBadge = teamBadge;
 
         setupAwakeningFilters();
     }
@@ -50,7 +52,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             viewHolder.monsterAwakenings = (ExpandableHeightGridView) convertView.findViewById(R.id.monsterAwakenings);
             viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             trimAwakenings(position);
-            monsterAwakeningsGridAdapter = new AwakeningGridAdapter(mContext, monsterList, awakeningList, latentList, true);
+            monsterAwakeningsGridAdapter = new AwakeningGridAdapter(mContext, monsterList, awakeningList, latentList, true, teamBadge);
             viewHolder.monsterAwakenings.setAdapter(monsterAwakeningsGridAdapter);
             viewHolder.monsterAwakenings.setExpanded(true);
             if (position % 2 == 1) {

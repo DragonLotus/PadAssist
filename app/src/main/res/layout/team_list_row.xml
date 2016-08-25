@@ -22,11 +22,20 @@
         android:src="@drawable/not_favorite"
         android:layout_marginRight="4dp"/>
 
+    <ImageView
+        android:id="@+id/teamBadge"
+        android:layout_width="26dp"
+        android:layout_height="20dp"
+        android:src="@drawable/team_badge_nothing"
+        android:background="@drawable/team_badge_background"
+        android:layout_toRightOf="@+id/favorite"
+        android:layout_marginRight="6dp"/>
+
     <TextView
         android:id="@+id/teamName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/favorite"
+        android:layout_toRightOf="@+id/teamBadge"
         android:maxLines="1"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"

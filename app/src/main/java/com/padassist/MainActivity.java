@@ -61,6 +61,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
 import io.realm.RealmResults;
+import io.realm.RealmSchema;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -99,8 +100,22 @@ public class MainActivity extends AppCompatActivity {
 
         RealmConfiguration config = new RealmConfiguration.Builder(this)
 //                .deleteRealmIfMigrationNeeded()
+                .schemaVersion(1)
+                .migration(new RealmMigration() {
+                    @Override
+                    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
+                        Log.d("MainActivity", "oldVersion is: " + oldVersion + " newVersion is: " + newVersion);
+                        RealmSchema schema = realm.getSchema();
+                        if(oldVersion == 0){
+                            schema.get("Team").addField("teamBadge", int.class);
+                            oldVersion++;
+                        }
+                    }
+                })
                 .build();
         Realm.setDefaultConfiguration(config);
+
+        Log.d("MainActivity", "config schema is: " + config.getSchemaVersion());
 
         realm = Realm.getDefaultInstance();
 

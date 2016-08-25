@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.Data.Monster;
+import com.padassist.Fragments.DisclaimerDialogFragment;
 import com.padassist.Graphics.Tooltip;
 import com.padassist.R;
 
@@ -30,14 +31,16 @@ public class AwakeningGridAdapter extends BaseAdapter {
     private ArrayList<Integer> latentListAll;
     private ArrayList<Integer> awakeningAmountList;
     private ArrayList<Integer> latentAmountList;
-    private boolean monsterSpecificAdapater;
+    private boolean monsterSpecificAdapter;
+    private int teamBadge;
 
-    public AwakeningGridAdapter(Context context, ArrayList<Monster> monsterList, ArrayList<Integer> awakenings, ArrayList<Integer> latents, boolean monsterSpecificAdapter) {
+    public AwakeningGridAdapter(Context context, ArrayList<Monster> monsterList, ArrayList<Integer> awakenings, ArrayList<Integer> latents, boolean monsterSpecificAdapter, int teamBadge) {
         mContext = context;
         this.monsterList = monsterList;
         awakeningListAll = awakenings;
         latentListAll = latents;
-        this.monsterSpecificAdapater = monsterSpecificAdapter;
+        this.monsterSpecificAdapter = monsterSpecificAdapter;
+        this.teamBadge = teamBadge;
         trimAwakenings();
     }
 
@@ -320,7 +323,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         }
                     }
                 }
-                tooltip = new Tooltip(mContext, text, awakening, true, filteredMonsters, monsterSpecificAdapater);
+                tooltip = new Tooltip(mContext, text, awakening, true, filteredMonsters, monsterSpecificAdapter);
             } else {
                 awakening = awakeningList.get(position);
                 counter = awakeningAmountList.get(position);
@@ -380,13 +383,21 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced dark orbs.";
                         break;
                     case 19:
-                        text = "Extra " + counter * .5 + " seconds to match";
+                        if(teamBadge == 2){
+                            text = "Extra " + (counter * .5 + 1) + " seconds to match (1s from Team Badge)";
+                        } else {
+                            text = "Extra " + counter * .5 + " seconds to match";
+                        }
                         break;
                     case 20:
                         text = counter * 3 + " turns of bind recovery when matching a row of heart orbs";
                         break;
                     case 21:
-                        text = counter  + " turns charged for active skills";
+                        if(teamBadge == 7){
+                            text = (counter + 1) + " turns charged for active skills (1 from Team Badge)";
+                        } else {
+                            text = counter  + " turns charged for active skills";
+                        }
                         break;
                     case 22:
                         text = counter * 10 + "% bonus damage for matching a row of fire orbs";
@@ -407,7 +418,15 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = "Attack two targets and " + counter * 1.5 + "x bonus damage when matching 4 orbs";
                         break;
                     case 28:
-                        text = counter * 20 + "% chance to resist skill bind";
+                        if(teamBadge == 9){
+                            if(counter >= 5){
+                                text = counter * 20 + "% chance to resist skill bind (Team Badge has no effect)";
+                            } else {
+                                text = (((100 - (counter * 20)) * .5) + counter * 20) + "% chance to resist skill bind (Stacks multiplicatively with Team Badge)";
+                            }
+                        } else {
+                            text = counter * 20 + "% chance to resist skill bind";
+                        }
                         break;
                     case 29:
                         text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus healing for enhanced heart orbs.";
@@ -461,7 +480,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         }
                     }
                 }
-                tooltip = new Tooltip(mContext, text, awakening, false, filteredMonsters, monsterSpecificAdapater);
+                tooltip = new Tooltip(mContext, text, awakening, false, filteredMonsters, monsterSpecificAdapter);
             }
             tooltip.show(v);
         }
