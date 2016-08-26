@@ -2,8 +2,11 @@ package com.padassist.Util;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,14 +43,28 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
     protected RecyclerView monsterListView;
     protected View.OnClickListener deleteOnClickListener;
     protected Realm realm = Realm.getDefaultInstance();
+    protected boolean isGrid;
 
-    private View.OnClickListener onItemClickListener = new View.OnClickListener(){
+    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int previous;
             ViewHolder holder = (ViewHolder) v.getTag();
-            if(holder.getAdapterPosition() != expandedPosition){
-                if (expandedPosition >= 0){
+            if (holder.getAdapterPosition() != expandedPosition) {
+                if (isGrid) {
+//                    ((GridLayoutManager) monsterListView.getLayoutManager()).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                        @Override
+//                        public int getSpanSize(int position) {
+//                            if (position == holder.getAdapterPosition()) {
+//                                return 5;
+//                            } else {
+//                                return 1;
+//                            }
+//                        }
+//                    });
+
+                }
+                if (expandedPosition >= 0) {
                     previous = expandedPosition;
                     notifyItemChanged(previous);
                 }
@@ -55,80 +72,58 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 notifyItemChanged(expandedPosition);
                 monsterListView.smoothScrollToPosition(expandedPosition);
             } else {
+                if (isGrid) {
+//                    ((GridLayoutManager) monsterListView.getLayoutManager()).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+//                        @Override
+//                        public int getSpanSize(int position) {
+//                            return 1;
+//                        }
+//                    });
+                }
                 previous = expandedPosition;
                 expandedPosition = -1;
                 notifyItemChanged(previous);
             }
+
         }
     };
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolder.monsterPlus.setText(" +" + monsterList.get(position).getTotalPlus() + " ");
         viewHolder.monsterName.setText(monsterList.get(position).getName());
         viewHolder.monsterLevel.setText("Lv. " + monsterList.get(position).getCurrentLevel() + " - ");
-        viewHolder.monsterPlus.setText(" +"+ monsterList.get(position).getTotalPlus() + " ");
         viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()) + " / ");
         viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));
         viewHolder.monsterHP.setText(Integer.toString(monsterList.get(position).getTotalHp()) + " / ");
-        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
         viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
         if (monsterList.get(position).getCurrentAwakenings() >= monsterList.get(position).getMaxAwakenings()) {
             viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
             viewHolder.monsterAwakenings.setText("");
         }
-        if (monsterList.get(position).getMonsterId() == 0) {
-            viewHolder.type1.setVisibility(View.GONE);
-            viewHolder.type2.setVisibility(View.GONE);
-            viewHolder.type3.setVisibility(View.GONE);
-            viewHolder.monsterPlus.setVisibility(View.GONE);
-            viewHolder.monsterAwakenings.setVisibility(View.GONE);
-            viewHolder.monsterHP.setVisibility(View.GONE);
-            viewHolder.monsterATK.setVisibility(View.GONE);
-            viewHolder.monsterRCV.setVisibility(View.GONE);
-            viewHolder.monsterLevel.setVisibility(View.GONE);
-            viewHolder.favorite.setVisibility(View.INVISIBLE);
-            viewHolder.favoriteOutline.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.type1.setVisibility(View.VISIBLE);
-            viewHolder.type2.setVisibility(View.VISIBLE);
-            viewHolder.type3.setVisibility(View.VISIBLE);
-            viewHolder.monsterPlus.setVisibility(View.VISIBLE);
-            viewHolder.monsterPicture.setVisibility(View.VISIBLE);
-            viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
-            viewHolder.monsterHP.setVisibility(View.VISIBLE);
-            viewHolder.monsterATK.setVisibility(View.VISIBLE);
-            viewHolder.monsterRCV.setVisibility(View.VISIBLE);
-            viewHolder.monsterLevel.setVisibility(View.VISIBLE);
-            viewHolder.favorite.setVisibility(View.VISIBLE);
-            viewHolder.favoriteOutline.setVisibility(View.VISIBLE);
-        }
 
         viewHolder.favorite.setColorFilter(0xFFFFAADD);
-        if(monsterList.get(position).isFavorite()){
-            viewHolder.favorite.setVisibility(View.VISIBLE);
-        }else {
-            viewHolder.favorite.setVisibility(View.INVISIBLE);
-        }
 
-        if(latentList == null){
+        if (latentList == null) {
             latentList = new ArrayList<>();
         } else {
             latentList.clear();
         }
 
-        for(int i = 0; i < monsterList.get(position).getLatents().size(); i++){
-            if(monsterList.get(position).getLatents().get(i).getValue() != 0){
+        for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
+            if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
                 latentList.add(1);
             }
         }
-        if(latentList.size() == 5){
+        if (latentList.size() == 5) {
             viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monsterLatents.setText("");
             viewHolder.monsterLatents.setVisibility(View.VISIBLE);
-        }else if(latentList.size() == 0) {
+        } else if (latentList.size() == 0) {
             viewHolder.monsterLatents.setVisibility(View.INVISIBLE);
-        }else {
-            viewHolder.monsterLatents.setText(" "+latentList.size());
+        } else {
+            viewHolder.monsterLatents.setText(" " + latentList.size());
             viewHolder.monsterLatents.setVisibility(View.VISIBLE);
         }
 
@@ -139,7 +134,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         }
         if (monsterList.get(position).getCurrentAwakenings() == 0) {
             viewHolder.monsterAwakenings.setVisibility(View.INVISIBLE);
-            if(latentList.size() != 0){
+            if (latentList.size() != 0) {
                 ViewGroup.LayoutParams z = viewHolder.monsterAwakenings.getLayoutParams();
                 viewHolder.monsterLatents.setLayoutParams(z);
             }
@@ -147,7 +142,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
         }
 
-        switch(monsterList.get(position).getType1()){
+        switch (monsterList.get(position).getType1()) {
             case 0:
                 viewHolder.type1.setImageResource(R.drawable.type_evo_material);
                 break;
@@ -191,7 +186,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 viewHolder.type1.setVisibility(View.INVISIBLE);
                 break;
         }
-        switch(monsterList.get(position).getType2()){
+        switch (monsterList.get(position).getType2()) {
             case 0:
                 viewHolder.type2.setImageResource(R.drawable.type_evo_material);
                 break;
@@ -235,7 +230,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 viewHolder.type2.setVisibility(View.INVISIBLE);
                 break;
         }
-        switch(monsterList.get(position).getType3()){
+        switch (monsterList.get(position).getType3()) {
             case 0:
                 viewHolder.type3.setImageResource(R.drawable.type_evo_material);
                 break;
@@ -296,32 +291,59 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         viewHolder.choose.setOnClickListener(monsterListOnClickListener);
         viewHolder.delete.setOnClickListener(deleteOnClickListener);
         viewHolder.itemView.setOnLongClickListener(monsterListOnLongClickListener);
-        if(monsterList.get(position).getMonsterId() == 0){
+
+        if (isGrid) {
+            setGridLayout(viewHolder, position);
+        } else {
+            setLinearLayout(viewHolder, position);
+        }
+
+        if (monsterList.get(position).getMonsterId() == 0) {
             viewHolder.itemView.setOnClickListener(monsterListOnClickListener);
         } else {
             viewHolder.itemView.setOnClickListener(onItemClickListener);
         }
-        if(position == expandedPosition && monsterList.get(position).getMonsterId() != 0){
+        if (position == expandedPosition && monsterList.get(position).getMonsterId() != 0) {
             viewHolder.expandLayout.setVisibility(View.VISIBLE);
             viewHolder.rarity.setVisibility(View.VISIBLE);
             viewHolder.rarityStar.setVisibility(View.VISIBLE);
             viewHolder.monsterHP.setVisibility(View.GONE);
             viewHolder.monsterATK.setVisibility(View.GONE);
             viewHolder.monsterRCV.setVisibility(View.GONE);
-            if(monsterList.get(position).getMaxAwakenings() == 0 && monsterList.get(position).getMonsterId() != 14){
+            viewHolder.monsterName.setVisibility(View.VISIBLE);
+            viewHolder.monsterLevel.setVisibility(View.VISIBLE);
+            if(monsterList.get(position).isFavorite()){
+                viewHolder.favorite.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.favorite.setVisibility(View.INVISIBLE);
+            }
+            viewHolder.favoriteOutline.setVisibility(View.VISIBLE);
+            if (monsterList.get(position).getType1() > -1) {
+                viewHolder.type1.setVisibility(View.VISIBLE);
+                viewHolder.type2.setVisibility(View.INVISIBLE);
+                viewHolder.type3.setVisibility(View.INVISIBLE);
+            }
+            if (monsterList.get(position).getType2() > -1) {
+                viewHolder.type2.setVisibility(View.VISIBLE);
+                viewHolder.type3.setVisibility(View.INVISIBLE);
+            }
+            if (monsterList.get(position).getType3() > -1) {
+                viewHolder.type3.setVisibility(View.VISIBLE);
+            }
+            if (monsterList.get(position).getMaxAwakenings() == 0 && monsterList.get(position).getMonsterId() != 14) {
                 RelativeLayout.LayoutParams z = (RelativeLayout.LayoutParams) viewHolder.leaderSkill.getLayoutParams();
                 z.addRule(RelativeLayout.BELOW, R.id.latentHolder);
                 RelativeLayout.LayoutParams x = (RelativeLayout.LayoutParams) viewHolder.leaderSkillName.getLayoutParams();
                 x.addRule(RelativeLayout.BELOW, R.id.latentHolder);
             }
-            for(int i = 0; i < 9; i++){
-                if(i >= monsterList.get(position).getMaxAwakenings()){
+            for (int i = 0; i < 9; i++) {
+                if (i >= monsterList.get(position).getMaxAwakenings()) {
                     viewHolder.awakeningHolder.getChildAt(i).setVisibility(View.GONE);
-                }else {
+                } else {
                     viewHolder.awakeningHolder.getChildAt(i).setVisibility(View.VISIBLE);
                 }
             }
-            if(monsterList.get(position).getCurrentAwakenings() < monsterList.get(position).getMaxAwakenings()){
+            if (monsterList.get(position).getCurrentAwakenings() < monsterList.get(position).getMaxAwakenings()) {
                 for (int j = 0; j < monsterList.get(position).getCurrentAwakenings(); j++) {
                     switch (monsterList.get(position).getAwokenSkills().get(j).getValue()) {
                         case 1:
@@ -725,9 +747,9 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 }
             }
 
-            if(monsterList.get(position).getType1() == 0 || monsterList.get(position).getType1() == 14){
+            if (monsterList.get(position).getType1() == 0 || monsterList.get(position).getType1() == 14) {
                 viewHolder.latentHolder.setVisibility(View.GONE);
-            }else {
+            } else {
                 viewHolder.latentHolder.setVisibility(View.VISIBLE);
                 for (int j = 0; j < monsterList.get(position).getLatents().size(); j++) {
                     switch (monsterList.get(position).getLatents().get(j).getValue()) {
@@ -782,39 +804,97 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             viewHolder.hpTotal.setText("" + monsterList.get(position).getTotalHp());
             viewHolder.atkTotal.setText("" + monsterList.get(position).getTotalAtk());
             viewHolder.rcvTotal.setText("" + monsterList.get(position).getTotalRcv());
-            if(monsterList.get(position).getLeaderSkill().equals("Blank")){
+            if (monsterList.get(position).getLeaderSkill().equals("Blank")) {
                 viewHolder.leaderSkillName.setText("None");
                 viewHolder.leaderSkillDesc.setVisibility(View.GONE);
-            } else{
+            } else {
                 viewHolder.leaderSkillName.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillDesc.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
                 viewHolder.leaderSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst().getDescription());
             }
+            if(isGrid){
+                ((StaggeredGridLayoutManager.LayoutParams)viewHolder.itemView.getLayoutParams()).setFullSpan(true);
+            }
         } else {
             viewHolder.expandLayout.setVisibility(View.GONE);
             viewHolder.rarity.setVisibility(View.GONE);
             viewHolder.rarityStar.setVisibility(View.GONE);
-            if(monsterList.get(position).getType1() != -1){
+            if (monsterList.get(position).getType1() != -1 && !isGrid) {
                 viewHolder.monsterHP.setVisibility(View.VISIBLE);
                 viewHolder.monsterATK.setVisibility(View.VISIBLE);
                 viewHolder.monsterRCV.setVisibility(View.VISIBLE);
             }
+            if(isGrid){
+                ((StaggeredGridLayoutManager.LayoutParams)viewHolder.itemView.getLayoutParams()).setFullSpan(false);
+            }
         }
-        if(position%2 == 1){
+    }
+
+    private void setLinearLayout(ViewHolder viewHolder, int position) {
+        if (monsterList.get(position).getMonsterId() == 0) {
+            viewHolder.type1.setVisibility(View.GONE);
+            viewHolder.type2.setVisibility(View.GONE);
+            viewHolder.type3.setVisibility(View.GONE);
+            viewHolder.monsterPlus.setVisibility(View.GONE);
+            viewHolder.monsterAwakenings.setVisibility(View.GONE);
+            viewHolder.monsterHP.setVisibility(View.GONE);
+            viewHolder.monsterATK.setVisibility(View.GONE);
+            viewHolder.monsterRCV.setVisibility(View.GONE);
+            viewHolder.monsterLevel.setVisibility(View.GONE);
+            viewHolder.favorite.setVisibility(View.INVISIBLE);
+            viewHolder.favoriteOutline.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.type1.setVisibility(View.VISIBLE);
+            viewHolder.type2.setVisibility(View.VISIBLE);
+            viewHolder.type3.setVisibility(View.VISIBLE);
+            viewHolder.monsterPlus.setVisibility(View.VISIBLE);
+            viewHolder.monsterPicture.setVisibility(View.VISIBLE);
+            viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
+            viewHolder.monsterHP.setVisibility(View.VISIBLE);
+            viewHolder.monsterATK.setVisibility(View.VISIBLE);
+            viewHolder.monsterRCV.setVisibility(View.VISIBLE);
+            viewHolder.monsterLevel.setVisibility(View.VISIBLE);
+            viewHolder.favorite.setVisibility(View.VISIBLE);
+            viewHolder.favoriteOutline.setVisibility(View.VISIBLE);
+        }
+        if (monsterList.get(position).isFavorite()) {
+            viewHolder.favorite.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.favorite.setVisibility(View.INVISIBLE);
+        }
+
+        if (position % 2 == 1) {
             viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
         } else {
             viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
         }
     }
 
-    private View.OnClickListener favoriteOnClickListener = new View.OnClickListener(){
+    private void setGridLayout(ViewHolder viewHolder, int position) {
+        int eightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+        viewHolder.relativeLayout.setPadding(eightDp, eightDp, eightDp, eightDp);
+        viewHolder.monsterName.setVisibility(View.GONE);
+        viewHolder.monsterLevel.setVisibility(View.GONE);
+        viewHolder.monsterATK.setVisibility(View.GONE);
+        viewHolder.monsterHP.setVisibility(View.GONE);
+        viewHolder.monsterRCV.setVisibility(View.GONE);
+        viewHolder.type1.setVisibility(View.GONE);
+        viewHolder.type2.setVisibility(View.GONE);
+        viewHolder.type3.setVisibility(View.GONE);
+        viewHolder.rarity.setVisibility(View.GONE);
+        viewHolder.rarity.setVisibility(View.GONE);
+        viewHolder.favorite.setVisibility(View.GONE);
+        viewHolder.favoriteOutline.setVisibility(View.GONE);
+    }
+
+    private View.OnClickListener favoriteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
             realm.beginTransaction();
             Monster monster = realm.copyToRealmOrUpdate(monsterList.get(position));
-            if (!monster.isFavorite()){
+            if (!monster.isFavorite()) {
                 monster.setFavorite(true);
                 monsterList.get(position).setFavorite(true);
                 if (toast != null) {
@@ -854,7 +934,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         Button choose, delete;
         RelativeLayout relativeLayout;
 
-        public ViewHolder(View convertView){
+        public ViewHolder(View convertView) {
             super(convertView);
             monsterName = (TextView) convertView.findViewById(R.id.monsterName);
             monsterPlus = (TextView) convertView.findViewById(R.id.monsterPlus);
@@ -912,6 +992,11 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         notifyDataSetChanged();
     }
 
+    public void notifyDataSetChanged(boolean isGrid){
+        this.isGrid = isGrid;
+        notifyDataSetChanged();
+    }
+
     public ArrayList<Monster> getMonsterList() {
         return monsterList;
     }
@@ -920,12 +1005,12 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         this.monsterList = monsterList;
     }
 
-    public Monster getItem(int position){
+    public Monster getItem(int position) {
         return monsterList.get(position);
     }
 
     public boolean expanded() {
-        if(expandedPosition!=-1){
+        if (expandedPosition != -1) {
             return true;
         } else return false;
     }
@@ -934,7 +1019,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         int previous = this.expandedPosition;
         this.expandedPosition = expandedPosition;
         notifyItemChanged(previous);
-        if(expandedPosition >= 0){
+        if (expandedPosition >= 0) {
             notifyItemChanged(expandedPosition);
         }
     }

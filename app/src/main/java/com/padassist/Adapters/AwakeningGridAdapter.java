@@ -415,7 +415,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = counter * 10 + "% bonus damage for matching a row of dark orbs";
                         break;
                     case 27:
-                        text = "Attack two targets and " + counter * 1.5 + "x bonus damage when matching 4 orbs";
+                        text = "Attack two targets and " + Math.pow(1.5, counter) + "x bonus damage when matching 4 orbs";
                         break;
                     case 28:
                         if(teamBadge == 9){
@@ -432,7 +432,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus healing for enhanced heart orbs.";
                         break;
                     case 30:
-                        text = "Boost stats by " + counter * 1.5 + " during cooperation mode";
+                        text = "Boost stats by " + Math.pow(1.5, counter) + "x during cooperation mode";
                         break;
                     case 31:
                         text = counter * 3 + "x bonus damage versus Dragon types";

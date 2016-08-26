@@ -62,6 +62,11 @@
             android:title="Filter List"
             app:showAsAction="ifRoom" />
         <item
+            android:id="@+id/toggleGrid"
+            android:icon="@drawable/filter"
+            android:title="Toggle Grid"
+            app:showAsAction="never" />
+        <item
             android:id="@+id/sortAlphabetical"
             android:title="Sort A-Z"
             app:showAsAction="never" />

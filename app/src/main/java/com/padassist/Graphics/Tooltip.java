@@ -104,11 +104,8 @@ public class Tooltip {
         int[] location = new int[2];
 
         anchor.getLocationOnScreen(location);
-        Log.d("Tooltip", "location X is: " + location[0] + " location Y is: " + location[1]);
         Rect anchorRect = new Rect(location[0], location[1], location[0]
                 + anchor.getWidth(), location[1] + anchor.getHeight());
-
-        Log.d("Tooltip", "Rectangle left is: " + anchorRect.left + " rectangle right is: " + anchorRect.right + " rectangle top is: " + anchorRect.top + " rectangle bottom is: " + anchorRect.bottom);
 
         final int screenWidth = mWindowManager.getDefaultDisplay().getWidth();
         final int screenHeight = mWindowManager.getDefaultDisplay().getHeight();
@@ -122,8 +119,6 @@ public class Tooltip {
             mWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         }
         int tooltipHeight = mView.getMeasuredHeight();
-
-        Log.d("Tooltip", "tooltipHeight is: " + tooltipHeight + " tooltipWidth is: " + tooltipWidth + " screen height is: " + screenHeight + " screen width is: " + screenWidth);
 
 
         boolean onTop = true;
@@ -145,7 +140,6 @@ public class Tooltip {
 
 
         final int arrowWidth = arrow.getMeasuredWidth();
-        Log.d("Tooltip", "ArrowWidth: " + arrowWidth);
 
         arrow.setVisibility(View.VISIBLE);
 
@@ -155,18 +149,13 @@ public class Tooltip {
 
         int xPos = 0;
 
-        Log.d("Tooltip", "tooltipHeight is: " + mView.getMeasuredHeight() + " tooltipWidth is: " + mView.getMeasuredWidth());
         if (anchorRect.left + tooltipWidth > screenWidth) {
-            Log.d("Tooltip", "First if");
             xPos = (screenWidth - tooltipWidth);
         } else if (anchorRect.left - (tooltipWidth / 2) < 0) {
-            Log.d("Tooltip", "Second if");
-            xPos = anchorRect.left;
+           xPos = anchorRect.left;
         } else {
-            Log.d("Tooltip", "Third if");
             xPos = (anchorRect.centerX() - (tooltipWidth / 2));
         }
-        Log.d("Tooltip", "xPos is: " + xPos + " anchorCenterX is: " + anchorCenterX);
 
         if (mView.getMeasuredWidth() > screenWidth) {
             param.leftMargin = ((anchorRect.right - anchorRect.left) / 2) + location[0] - (arrowWidth / 2);
@@ -187,7 +176,6 @@ public class Tooltip {
         mView.post(new Runnable() {
             @Override
             public void run() {
-                Log.d("Tooltip", "tooltipHeight post is: " + mView.getMeasuredHeight() + " tooltipWidth post is: " + mView.getMeasuredWidth());
                 setUpWindow(anchor, mView.getMeasuredWidth(), mView.getMeasuredHeight());
             }
         });
@@ -197,11 +185,9 @@ public class Tooltip {
         int[] location = new int[2];
 
         anchor.getLocationOnScreen(location);
-        Log.d("Tooltip", "location X is: " + location[0] + " location Y is: " + location[1]);
         Rect anchorRect = new Rect(location[0], location[1], location[0]
                 + anchor.getWidth(), location[1] + anchor.getHeight());
 
-        Log.d("Tooltip", "Rectangle left is: " + anchorRect.left + " rectangle right is: " + anchorRect.right + " rectangle top is: " + anchorRect.top + " rectangle bottom is: " + anchorRect.bottom);
 
         final int screenWidth = mWindowManager.getDefaultDisplay().getWidth();
         final int screenHeight = mWindowManager.getDefaultDisplay().getHeight();
@@ -210,14 +196,10 @@ public class Tooltip {
             mWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         }
 
-        Log.d("Tooltip", "tooltipHeight is: " + height + " tooltipWidth is: " + width + " screen height is: " + screenHeight + " screen width is: " + screenWidth);
-
-
         boolean onTop = true;
 
         int yPos = anchorRect.top - height;
-        Log.d("Tooltip", "yPos is: " + yPos);
-        if (anchorRect.top < screenHeight / 2) {
+         if (anchorRect.top < screenHeight / 2) {
             yPos = anchorRect.bottom;
             onTop = false;
         }
@@ -233,7 +215,6 @@ public class Tooltip {
 
 
         final int arrowWidth = arrow.getMeasuredWidth();
-        Log.d("Tooltip", "ArrowWidth: " + arrowWidth);
 
         arrow.setVisibility(View.VISIBLE);
 
@@ -243,18 +224,13 @@ public class Tooltip {
 
         int xPos = 0;
 
-        Log.d("Tooltip", "tooltipHeight is: " + mView.getMeasuredHeight() + " tooltipWidth is: " + mView.getMeasuredWidth());
         if (anchorRect.left + width > screenWidth) {
-            Log.d("Tooltip", "First if");
             xPos = (screenWidth - width);
         } else if (anchorRect.left - (width / 2) < 0) {
-            Log.d("Tooltip", "Second if");
             xPos = anchorRect.left;
         } else {
-            Log.d("Tooltip", "Third if");
             xPos = (anchorRect.centerX() - (width / 2));
         }
-        Log.d("Tooltip", "xPos is: " + xPos + " anchorCenterX is: " + anchorCenterX);
 
         if (mView.getMeasuredWidth() > screenWidth) {
             param.leftMargin = ((anchorRect.right - anchorRect.left) / 2) + location[0] - (arrowWidth / 2);

@@ -2,12 +2,16 @@ package com.padassist.Util;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +23,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.padassist.Adapters.SaveMonsterListRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
@@ -78,6 +81,12 @@ public abstract class SaveMonsterListUtil extends Fragment {
     private FilterDialogFragment filterDialogFragment;
     protected Realm realm = Realm.getDefaultInstance();
     private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+
+    protected StaggeredGridLayoutManager saveMonsterGridLayoutManager = new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL);
+    protected LinearLayoutManager saveMonsterLinearLayoutManager = new LinearLayoutManager(getContext());
+
+    protected SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
+    protected boolean isGrid = preferences.getBoolean("isGrid", true);
 
     private FastScroller fastScroller;
 
@@ -181,6 +190,18 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 if (!filterDialogFragment.isAdded() && !firstRun) {
                     filterDialogFragment.show(getChildFragmentManager(), true, "Filter");
                 }
+                break;
+            case R.id.toggleGrid:
+                Log.d("SaveMonsterList", "Before preference apply: " + preferences.getBoolean("isGrid", true) + " isGrid is: " + isGrid);
+                preferences.edit().putBoolean("isGrid", !isGrid).apply();
+                isGrid = !isGrid;
+                Log.d("SaveMonsterList", "After preference apply: " + preferences.getBoolean("isGrid", true) + " isGrid is: " + isGrid);
+                if(isGrid){
+                    monsterListView.setLayoutManager(saveMonsterGridLayoutManager);
+                } else {
+                    monsterListView.setLayoutManager(saveMonsterLinearLayoutManager);
+                }
+                saveMonsterListRecycler.notifyDataSetChanged(isGrid);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -5,6 +5,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.net.ConnectivityManagerCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
@@ -47,6 +50,7 @@ import com.padassist.Fragments.TeamListFragment;
 import com.padassist.Fragments.TeamSaveDialogFragment;
 import com.padassist.Threads.ParseMonsterDatabaseThread;
 import com.padassist.Util.LoadingFragment;
+import com.padassist.Util.Migration;
 import com.padassist.Util.SaveMonsterListUtil;
 import com.padassist.Util.Singleton;
 
@@ -98,20 +102,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Singleton.getInstance().setContext(getApplicationContext());
 
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        Log.d("MainActivity", "isConnected: " + isConnected);
+        if(isConnected){
+            boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+            Log.d("MainActivity", "isWiFi: " + isWiFi);
+        }
+
         RealmConfiguration config = new RealmConfiguration.Builder(this)
-//                .deleteRealmIfMigrationNeeded()
                 .schemaVersion(1)
-                .migration(new RealmMigration() {
-                    @Override
-                    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
-                        Log.d("MainActivity", "oldVersion is: " + oldVersion + " newVersion is: " + newVersion);
-                        RealmSchema schema = realm.getSchema();
-                        if(oldVersion == 0){
-                            schema.get("Team").addField("teamBadge", int.class);
-                            oldVersion++;
-                        }
-                    }
-                })
+                .migration(new Migration())
                 .build();
         Realm.setDefaultConfiguration(config);
 
@@ -286,6 +292,8 @@ public class MainActivity extends AppCompatActivity {
         menu.findItem(R.id.search).setVisible(false);
         MenuItem toggleCoop = menu.findItem(R.id.toggleCoop);
         toggleCoop.setTitle(Singleton.getInstance().isCoopEnable() ? "Toggle Co-op off" : "Toggle Co-op on");
+//        MenuItem toggleGrid = menu.findItem(R.id.toggleGrid);
+//        toggleGrid.setTitle(preferences.getBoolean("isGrid", true) ? "Toggle Grid off" : "Toggle Grid on");
         return true;
     }
 

@@ -33,7 +33,6 @@ public class TeamBadgeGridRecycler extends RecyclerView.Adapter<TeamBadgeGridRec
         this.teamBadgeList = teamBadgeList;
         this.selected = selected;
         this.selectOnClickListener = selectOnClickListener;
-        Log.d("TeamBadgeGridRecycler", "selected is: " + selected);
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

@@ -26,13 +26,14 @@ import java.util.ArrayList;
  */
 public class SaveMonsterListRecycler extends SaveMonsterListRecyclerUtil {
 
-    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener, View.OnClickListener deleteOnClickListener){
+    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener, View.OnClickListener deleteOnClickListener, boolean isGrid){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
         this.monsterListOnLongClickListener = monsterListOnLongClickListener;
         this.monsterListView = monsterListView;
         this.deleteOnClickListener = deleteOnClickListener;
+        this.isGrid = isGrid;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 }

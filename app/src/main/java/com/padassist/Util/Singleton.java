@@ -32,7 +32,8 @@ public class Singleton {
     private boolean heartCarryOver = false;
     private boolean meetsFilterRequirements = false;
 
-    private Context _context;
+    private Context context;
+
     public static Singleton getInstance() {
         if(instance == null){
             instance = new Singleton();
@@ -93,12 +94,12 @@ public class Singleton {
 
     public Context getContext()
     {
-        return _context;
+        return context;
     }
 
     public void setContext(Context context)
     {
-        this._context = context;
+        this.context = context;
     }
 
     public ArrayList<Element> getExtraElementMultiplier() {

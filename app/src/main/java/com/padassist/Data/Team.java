@@ -757,13 +757,12 @@ public class Team extends RealmObject implements Parcelable {
             hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this, i);
             rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this, i);
         }
-        if(teamBadge == 5){
+        if(teamBadge == 5 && !Singleton.getInstance().isCoopEnable()){
             this.teamHealth = (int) (hp * 1.05);
         } else {
             this.teamHealth = hp;
         }
-        if(teamBadge == 4){
-            Log.d("Team", "Team badge is: " + teamBadge);
+        if(teamBadge == 4 && !Singleton.getInstance().isCoopEnable()){
             this.teamRcv = (int) Math.floor(rcv * 1.25 + 0.5d);
         } else {
             this.teamRcv = (int) Math.floor(rcv + 0.5d);

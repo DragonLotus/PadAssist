@@ -104,7 +104,7 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        if(team.getTeamBadge() == 6){
+        if(team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()){
             return (int)(returnDamage * 1.05);
         } else {
             return returnDamage;
@@ -137,7 +137,7 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        if(team.getTeamBadge() == 6){
+        if(team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()){
             return (int)(returnDamage * 1.05);
         } else {
             return returnDamage;
