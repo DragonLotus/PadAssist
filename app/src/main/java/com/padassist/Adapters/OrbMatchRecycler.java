@@ -104,10 +104,11 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
 
         viewHolder.itemView.setOnClickListener(orbMatchOnClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
+
         if (position % 2 == 1) {
-            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
-        } else {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
+        } else {
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
     }
 

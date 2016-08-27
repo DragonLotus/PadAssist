@@ -469,9 +469,9 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
             viewHolder.monsterRCV.setVisibility(View.VISIBLE);
         }
         if (position % 2 == 1) {
-            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
-        } else {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
+        } else {
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
     }
 

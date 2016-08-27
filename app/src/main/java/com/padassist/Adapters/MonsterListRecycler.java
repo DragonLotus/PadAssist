@@ -341,10 +341,11 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         viewHolder.itemView.setOnClickListener(onItemClickListener);
         viewHolder.itemView.setOnLongClickListener(onItemLongClickListener);
         viewHolder.itemView.setTag(viewHolder);
+
         if (position % 2 == 1) {
-            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
-        } else {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
+        } else {
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
     }
 

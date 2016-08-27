@@ -5,8 +5,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="8dp"
-    tools:context="com.padassist.Fragments.MonsterRemoveDialogFragment"
-    android:background="@color/background">
+    tools:context="com.padassist.Fragments.MonsterRemoveDialogFragment">
 
     <TextView
         android:id="@+id/latent1"

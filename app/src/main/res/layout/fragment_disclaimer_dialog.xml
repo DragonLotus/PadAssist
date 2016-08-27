@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    tools:context="com.padassist.Fragments.ExtraMultiplierDialogFragment"
-    android:background="@color/background">
+    tools:context="com.padassist.Fragments.ExtraMultiplierDialogFragment">
 
     <TextView
         android:id="@+id/showAgain"

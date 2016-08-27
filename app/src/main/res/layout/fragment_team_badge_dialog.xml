@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingBottom="16dp"
-    android:background="@color/background">
+    android:paddingBottom="16dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/teamBadgeRecyclerView"
