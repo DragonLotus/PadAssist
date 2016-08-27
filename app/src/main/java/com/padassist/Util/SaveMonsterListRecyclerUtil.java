@@ -793,9 +793,12 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 viewHolder.leaderSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst().getDescription());
             }
             if (isGrid) {
-                Log.d("SaveMonsterListRecUtil", "" + viewHolder.itemView.getLayoutParams().getClass() + " LayoutManager is: " + monsterListView.getLayoutManager().getClass());
                 StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
                 layoutParams.setFullSpan(true);
+                int fortyEightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, mContext.getResources().getDisplayMetrics());
+                viewHolder.monsterPicture.getLayoutParams().height = fortyEightDp;
+                viewHolder.monsterPicture.getLayoutParams().width = fortyEightDp;
+                viewHolder.monsterPicture.requestLayout();
             }
         } else {
             viewHolder.expandLayout.setVisibility(View.GONE);
@@ -808,6 +811,10 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             }
             if (isGrid) {
                 ((StaggeredGridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams()).setFullSpan(false);
+                int fiftyFourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 54, mContext.getResources().getDisplayMetrics());
+                viewHolder.monsterPicture.getLayoutParams().height = fiftyFourDp;
+                viewHolder.monsterPicture.getLayoutParams().width = fiftyFourDp;
+                viewHolder.monsterPicture.requestLayout();
             }
         }
     }

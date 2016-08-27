@@ -108,15 +108,13 @@
         android:textSize="18dp"
         android:maxLength="9"/>
 
-    <TextView
-        android:id="@+id/spinnerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DEF Break"
-        android:textSize="16dp"
-        android:layout_alignTop="@+id/targetDefenseValue"
-        android:layout_alignBottom="@+id/targetDefenseValue"
-        android:gravity="center_vertical"
+    <ImageView
+        android:id="@+id/spinnerIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/defense_break"
+        android:layout_alignTop="@+id/defenseBreakSpinner"
+        android:layout_alignBottom="@+id/defenseBreakSpinner"
         android:layout_toLeftOf="@+id/defenseBreakSpinner"/>
 
     <Spinner
@@ -317,16 +315,16 @@
                 android:layout_below="@+id/gravityHolder"
                 android:visibility="invisible"
                 android:focusable="false"/>
-
-            <TextView
+            
+            <ImageView
                 android:id="@+id/elementAbsorb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/absorbAlign"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignTop="@+id/absorbAlign"
-                android:gravity="center_vertical"
-                android:text="Absorb: "
-                android:textSize="18dp"/>
+                android:layout_alignBottom="@+id/absorbAlign"
+                android:layout_centerVertical="true"
+                android:src="@drawable/color_wheel_absorb"
+                android:layout_marginRight="4dp"/>
 
             <RadioGroup
                 android:id="@+id/absorbOrbRadioGroup"
@@ -340,8 +338,8 @@
 
                 <CheckBox
                     android:id="@+id/redOrbAbsorb"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/red_orb_selector"
                     android:button="@null"
@@ -350,8 +348,8 @@
 
                 <CheckBox
                     android:id="@+id/blueOrbAbsorb"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/blue_orb_selector"
                     android:button="@null"
@@ -360,8 +358,8 @@
 
                 <CheckBox
                     android:id="@+id/greenOrbAbsorb"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/green_orb_selector"
                     android:button="@null"
@@ -370,8 +368,8 @@
 
                 <CheckBox
                     android:id="@+id/lightOrbAbsorb"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/light_orb_selector"
                     android:button="@null"
@@ -380,8 +378,8 @@
 
                 <CheckBox
                     android:id="@+id/darkOrbAbsorb"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/dark_orb_selector"
                     android:button="@null"
@@ -405,23 +403,25 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/absorbOrbRadioGroup"
                 android:visibility="invisible"
-                android:focusable="false"/>
+                android:focusable="false"
+                android:layout_marginTop="-10dp"/>
 
-            <TextView
+            <ImageView
                 android:id="@+id/elementReduction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/reductionAlign"
-                android:layout_alignTop="@+id/reductionAlign"
-                android:gravity="center_vertical"
-                android:text="Reduction: "
-                android:textSize="18dp"/>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@+id/absorbCheck"
+                android:layout_centerVertical="true"
+                android:background="@drawable/damage_background"
+                android:src="@drawable/damage_defense"
+                android:layout_marginRight="4dp"/>
 
             <EditText
                 android:id="@+id/reductionValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/absorbCheck"
+                android:layout_alignTop="@+id/reductionAlign"
+                android:layout_alignBottom="@+id/reductionAlign"
                 android:layout_toRightOf="@+id/elementReduction"
                 android:inputType="number"
                 android:text="50"
@@ -451,8 +451,8 @@
 
                 <CheckBox
                     android:id="@+id/redOrbReduction"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/red_orb_selector"
                     android:button="@null"
@@ -461,8 +461,8 @@
 
                 <CheckBox
                     android:id="@+id/blueOrbReduction"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/blue_orb_selector"
                     android:button="@null"
@@ -471,8 +471,8 @@
 
                 <CheckBox
                     android:id="@+id/greenOrbReduction"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/green_orb_selector"
                     android:button="@null"
@@ -481,8 +481,8 @@
 
                 <CheckBox
                     android:id="@+id/lightOrbReduction"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/light_orb_selector"
                     android:button="@null"
@@ -491,8 +491,8 @@
 
                 <CheckBox
                     android:id="@+id/darkOrbReduction"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/dark_orb_selector"
                     android:button="@null"
@@ -510,27 +510,28 @@
                 android:gravity="center_vertical"
                 android:checked="false"/>
 
-            <TextView
+            <ImageView
                 android:id="@+id/damageThreshold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Damage Threshold: "
-                android:textSize="18dp"
-                android:layout_alignTop="@+id/damageThresholdValue"
-                android:layout_alignBottom="@+id/damageThresholdValue"
-                android:gravity="center_vertical"/>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@+id/reductionCheck"
+                android:layout_centerVertical="true"
+                android:background="@drawable/damage_background"
+                android:src="@drawable/damage_threshold"
+                android:layout_marginRight="4dp"/>
 
             <EditText
                 android:id="@+id/damageThresholdValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/elementReduction"
+                android:layout_below="@+id/reductionCheck"
                 android:layout_toRightOf="@+id/damageThreshold"
                 android:textSize="18dp"
                 android:text="200000"
                 android:maxLength="9"
                 android:inputType="number"
-                android:enabled="false"/>
+                android:enabled="false"
+                android:layout_marginTop="-10dp"/>
 
             <CheckBox
                 android:id="@+id/damageThresholdCheck"
@@ -542,21 +543,21 @@
                 android:gravity="center_vertical"
                 android:checked="false"/>
 
-            <TextView
+            <ImageView
                 android:id="@+id/damageImmunity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Damage Immunity: "
-                android:textSize="18dp"
-                android:layout_alignTop="@+id/damageImmunityValue"
-                android:layout_alignBottom="@+id/damageImmunityValue"
-                android:gravity="center_vertical"/>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_below="@+id/damageThresholdCheck"
+                android:layout_centerVertical="true"
+                android:background="@drawable/damage_background"
+                android:src="@drawable/damage_immunity"
+                android:layout_marginRight="4dp"/>
 
             <EditText
                 android:id="@+id/damageImmunityValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/damageThresholdValue"
+                android:layout_below="@+id/damageThreshold"
                 android:layout_toRightOf="@+id/damageImmunity"
                 android:textSize="18dp"
                 android:text="200000"

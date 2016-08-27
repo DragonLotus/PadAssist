@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -32,6 +33,7 @@ import com.padassist.Adapters.TypeSpinnerAdapter;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.Team;
+import com.padassist.Graphics.TooltipText;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
@@ -61,6 +63,7 @@ public class EnemyTargetFragment extends Fragment {
     private String mParam2;
     private Team team;
     private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, damageImmunityValue, reductionValue;
+    private ImageView targetAbsorb, targetReduction, damageThreshold, damageImmunity, defenseBreakIcon;
     private TextView percentHpValue, totalGravityValue;
     private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
     private RadioButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb;
@@ -215,6 +218,11 @@ public class EnemyTargetFragment extends Fragment {
         damageImmunityValue = (EditText) rootView.findViewById(R.id.damageImmunityValue);
         damageImmunityCheck = (CheckBox) rootView.findViewById(R.id.damageImmunityCheck);
         reductionValue = (EditText) rootView.findViewById(R.id.reductionValue);
+        targetAbsorb = (ImageView) rootView.findViewById(R.id.elementAbsorb);
+        targetReduction = (ImageView) rootView.findViewById(R.id.elementReduction);
+        damageThreshold = (ImageView) rootView.findViewById(R.id.damageThreshold);
+        damageImmunity = (ImageView) rootView.findViewById(R.id.damageImmunity);
+        defenseBreakIcon = (ImageView) rootView.findViewById(R.id.spinnerIcon);
         return rootView;
     }
 
@@ -333,6 +341,12 @@ public class EnemyTargetFragment extends Fragment {
         lightOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
 
         calculate.setOnClickListener(calculateOnClickListener);
+
+        targetAbsorb.setOnClickListener(tooltipOnClickListener);
+        targetReduction.setOnClickListener(tooltipOnClickListener);
+        damageThreshold.setOnClickListener(tooltipOnClickListener);
+        damageImmunity.setOnClickListener(tooltipOnClickListener);
+        defenseBreakIcon.setOnClickListener(tooltipOnClickListener);
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
         getActivity().setTitle("Set Enemy");
     }
@@ -1032,6 +1046,34 @@ public class EnemyTargetFragment extends Fragment {
         @Override
         public void onClick(View v) {
             ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, additionalCombos, team, enemy), TeamDamageListFragment.TAG, "good");
+        }
+    };
+
+    private View.OnClickListener tooltipOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            TooltipText tooltipText;
+            switch (id) {
+                case R.id.elementAbsorb:
+                    tooltipText = new TooltipText(getContext(), "Enemy will absorb all selected elements");
+                    break;
+                case R.id.elementReduction:
+                    tooltipText = new TooltipText(getContext(), "Enemy will reduce a percentage amount of damage from all selected elements");
+                    break;
+                case R.id.damageThreshold:
+                    tooltipText = new TooltipText(getContext(), "Enemy will absorb any hit over the specified value");
+                    break;
+                case R.id.damageImmunity:
+                    tooltipText = new TooltipText(getContext(), "Enemy will take 0 damage for any hit over the specified value");
+                    break;
+                case R.id.spinnerIcon:
+                    tooltipText = new TooltipText(getContext(), "Enemy defense will be reduced by this value");
+                    break;
+                default:
+                    tooltipText = new TooltipText(getContext(), "How did you get this tooltip?");
+            }
+            tooltipText.show(v);
         }
     };
 

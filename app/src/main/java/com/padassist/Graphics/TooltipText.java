@@ -4,10 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +13,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.padassist.Adapters.MonsterGridAwakeningRecycler;
 import com.padassist.Data.Monster;
 import com.padassist.R;
 
@@ -29,23 +24,19 @@ import java.util.ArrayList;
  * Created by DragonLotus on 8/23/2016.
  */
 
-public class Tooltip {
+public class TooltipText {
     protected WindowManager mWindowManager;
     protected Context mContext;
     protected PopupWindow mWindow;
-    private RecyclerView monsterGrid;
-    private TextView awakeningDesc;
+    private TextView tooltipText;
     private ImageView upArrow, downArrow;
-    private RelativeLayout tooltipContent;
-    private MonsterGridAwakeningRecycler monsterGridAwakeningRecycler;
-    private boolean monsterSpecificAdapter = false;
 
     protected View mView;
 
     protected Drawable mBackgroundDrawable = null;
 //    protected ShowListener showListener;
 
-    public Tooltip(Context context, String text, int viewResource, int awakening, boolean isLatent, ArrayList<Monster> monsterList, boolean monsterSpecificAdapter) {
+    public TooltipText(Context context, String text, int viewResource) {
         mContext = context;
         mWindow = new PopupWindow(context);
 
@@ -56,33 +47,21 @@ public class Tooltip {
 
         setContentView(layoutInflater.inflate(viewResource, null));
 
-        awakeningDesc = (TextView) mView.findViewById(R.id.awakeningDesc);
+        tooltipText = (TextView) mView.findViewById(R.id.tooltipText);
         upArrow = (ImageView) mView.findViewById(R.id.arrow_up);
         downArrow = (ImageView) mView.findViewById(R.id.arrow_down);
-        tooltipContent = (RelativeLayout) mView.findViewById(R.id.tooltipContent);
-        monsterGrid = (RecyclerView) mView.findViewById(R.id.monsterGrid);
 
-        if(monsterSpecificAdapter){
-            monsterGrid.setVisibility(View.GONE);
-        } else {
-            monsterGridAwakeningRecycler = new MonsterGridAwakeningRecycler(context, awakening, isLatent, monsterList);
-//        monsterGrid.setHasFixedSize(false);
-            GridLayoutManager monsterGridLayoutManager = new GridLayoutManager(context, monsterList.size());
-            monsterGrid.setLayoutManager(monsterGridLayoutManager);
-            monsterGrid.setAdapter(monsterGridAwakeningRecycler);
-        }
-
-        awakeningDesc.setMovementMethod(ScrollingMovementMethod.getInstance());
-        awakeningDesc.setSelected(true);
+        tooltipText.setMovementMethod(ScrollingMovementMethod.getInstance());
+        tooltipText.setSelected(true);
     }
 
-//    public Tooltip(Context context) {
-//        this(context, "", R.layout.tooltip);
+//    public TooltipAwakening(Context context) {
+//        this(context, "", R.layout.tooltip_awakening);
 //
 //    }
 
-    public Tooltip(Context context, String text, int awakening, boolean isLatent, ArrayList<Monster> monsterList, boolean monsterSpecificAdapter) {
-        this(context, text, R.layout.tooltip, awakening, isLatent, monsterList, monsterSpecificAdapter);
+    public TooltipText(Context context, String text) {
+        this(context, text, R.layout.tooltip_text);
 
         setText(text);
     }
@@ -257,7 +236,7 @@ public class Tooltip {
     }
 
     public void setText(String text) {
-        awakeningDesc.setText(text);
+        tooltipText.setText(text);
     }
 
     public void setContentView(int layoutResID) {

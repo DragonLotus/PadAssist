@@ -24,6 +24,19 @@
         android:src="@drawable/monster_1218"
         android:layout_marginRight="4dp"/>
 
+    <com.padassist.Graphics.TextStroke
+        android:id="@+id/monsterIdStroke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No. 1337"
+        android:textSize="16dp"
+        android:textColor="#BBBBBB"
+        android:layout_alignLeft="@+id/monsterPicture"
+        android:layout_alignRight="@+id/monsterPicture"
+        android:gravity="center_horizontal"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/monsterName"
         android:layout_width="wrap_content"

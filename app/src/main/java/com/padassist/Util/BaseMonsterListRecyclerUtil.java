@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.LeaderSkill;
+import com.padassist.Graphics.TextStroke;
 import com.padassist.R;
 
 import java.util.ArrayList;
@@ -412,7 +413,12 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
             }
             viewHolder.levelMax.setText("Level " + monsterList.get(position).getMaxLevel());
             if(isGrid){
+                viewHolder.monsterIdStroke.setVisibility(View.GONE);
                 ((StaggeredGridLayoutManager.LayoutParams)viewHolder.itemView.getLayoutParams()).setFullSpan(true);
+                int fortyEightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, mContext.getResources().getDisplayMetrics());
+                viewHolder.monsterPicture.getLayoutParams().height = fortyEightDp;
+                viewHolder.monsterPicture.getLayoutParams().width = fortyEightDp;
+                viewHolder.monsterPicture.requestLayout();
             }
         } else {
             viewHolder.expandLayout.setVisibility(View.GONE);
@@ -422,12 +428,18 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
                 viewHolder.monsterRCV.setVisibility(View.VISIBLE);
             }
             if(isGrid){
+                viewHolder.monsterIdStroke.setVisibility(View.VISIBLE);
                 ((StaggeredGridLayoutManager.LayoutParams)viewHolder.itemView.getLayoutParams()).setFullSpan(false);
+                int fiftyFourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 54, mContext.getResources().getDisplayMetrics());
+                viewHolder.monsterPicture.getLayoutParams().height = fiftyFourDp;
+                viewHolder.monsterPicture.getLayoutParams().width = fiftyFourDp;
+                viewHolder.monsterPicture.requestLayout();
             }
         }
     }
 
     private void setLinearLayout(ViewHolder viewHolder, int position){
+        viewHolder.monsterIdStroke.setVisibility(View.GONE);
         int eightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
         int fortyEightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, mContext.getResources().getDisplayMetrics());
         viewHolder.monsterPicture.getLayoutParams().height = fortyEightDp;
@@ -464,6 +476,8 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
     }
 
     private void setGridLayout(ViewHolder viewHolder, int position){
+        viewHolder.monsterIdStroke.setVisibility(View.VISIBLE);
+        viewHolder.monsterIdStroke.setText("" + monsterList.get(position).getMonsterId());
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         int eightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
         int fiftyFourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 54, mContext.getResources().getDisplayMetrics());
@@ -500,6 +514,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
         LinearLayout awakeningHolder, latentHolder;
         Button choose;
         RelativeLayout relativeLayout;
+        TextStroke monsterIdStroke;
 
         public ViewHolder(View convertView) {
             super(convertView);
@@ -538,6 +553,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
             expandLayout = (RelativeLayout) convertView.findViewById(R.id.expandLayout);
             levelMax = (TextView) convertView.findViewById(R.id.levelMax);
             relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
+            monsterIdStroke = (TextStroke) convertView.findViewById(R.id.monsterIdStroke);
         }
     }
 

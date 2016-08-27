@@ -11,8 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.Data.Monster;
-import com.padassist.Fragments.DisclaimerDialogFragment;
-import com.padassist.Graphics.Tooltip;
+import com.padassist.Graphics.TooltipAwakening;
 import com.padassist.R;
 
 import java.util.ArrayList;
@@ -272,7 +271,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
             int position = (int) v.getTag(R.string.index);
             Log.d("AwakeningGridAdapter", "position is: " + position);
             ArrayList<Monster> filteredMonsters = new ArrayList<>();
-            Tooltip tooltip;
+            TooltipAwakening tooltipAwakening;
             String text = "Testerino";
             int awakening;
             double counter;
@@ -323,7 +322,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         }
                     }
                 }
-                tooltip = new Tooltip(mContext, text, awakening, true, filteredMonsters, monsterSpecificAdapter);
+                tooltipAwakening = new TooltipAwakening(mContext, text, awakening, true, filteredMonsters, monsterSpecificAdapter);
             } else {
                 awakening = awakeningList.get(position);
                 counter = awakeningAmountList.get(position);
@@ -480,9 +479,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         }
                     }
                 }
-                tooltip = new Tooltip(mContext, text, awakening, false, filteredMonsters, monsterSpecificAdapter);
+                tooltipAwakening = new TooltipAwakening(mContext, text, awakening, false, filteredMonsters, monsterSpecificAdapter);
             }
-            tooltip.show(v);
+            tooltipAwakening.show(v);
         }
     };
 

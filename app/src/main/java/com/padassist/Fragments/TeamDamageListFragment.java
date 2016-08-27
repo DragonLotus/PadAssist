@@ -2,12 +2,14 @@ package com.padassist.Fragments;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -30,6 +33,7 @@ import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
+import com.padassist.Graphics.TooltipText;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.DamageCalculationUtil;
@@ -64,6 +68,7 @@ public class TeamDamageListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private RecyclerView monsterListView;
     private EditText additionalComboValue, damageThresholdValue, damageImmunityValue, reductionValue;
+    private ImageView damageThreshold, damageImmunity, targetReduction, targetAbsorb, hasAwakenings, activeUsed;
     private MonsterDamageListRecycler monsterListAdapter;
     private Enemy enemy;
     private Team team;
@@ -72,7 +77,7 @@ public class TeamDamageListFragment extends Fragment {
     //private ArrayList<Monster> monsterList;
     private int additionalCombos, additionalCombosFragment, totalCombos = 0;
     private long totalDamage = 0, temp = 0;
-    private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, targetReduction, targetAbsorb, damageThreshold, hasAwakenings, teamHpValue, damageImmunity, reductionPercent;
+    private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, teamHpValue, reductionPercent;
     private RadioGroup reductionRadioGroup;
     private Button monsterListToggle;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, redOrbAbsorb, blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb;
@@ -185,9 +190,9 @@ public class TeamDamageListFragment extends Fragment {
         totalDamageValue = (TextView) rootView.findViewById(R.id.totalDamageValue);
         totalComboValue = (TextView) rootView.findViewById(R.id.totalComboValue);
         hpRecoveredValue = (TextView) rootView.findViewById(R.id.hpRecoveredValue);
-        targetReduction = (TextView) rootView.findViewById(R.id.targetReduction);
-        targetAbsorb = (TextView) rootView.findViewById(R.id.elementAbsorb);
-        hasAwakenings = (TextView) rootView.findViewById(R.id.hasAwakenings);
+        targetReduction = (ImageView) rootView.findViewById(R.id.targetReduction);
+        targetAbsorb = (ImageView) rootView.findViewById(R.id.elementAbsorb);
+        hasAwakenings = (ImageView) rootView.findViewById(R.id.hasAwakenings);
         optionButton = (Button) rootView.findViewById(R.id.options);
         reductionRadioGroup = (RadioGroup) rootView.findViewById(R.id.reductionOrbRadioGroup);
         absorbRadioGroup = (RadioGroup) rootView.findViewById(R.id.absorbOrbRadioGroup);
@@ -204,16 +209,17 @@ public class TeamDamageListFragment extends Fragment {
         reductionCheck = (CheckBox) rootView.findViewById(R.id.reductionCheck);
         damageThresholdValue = (EditText) rootView.findViewById(R.id.damageThresholdValue);
         damageThresholdCheck = (CheckBox) rootView.findViewById(R.id.damageThresholdCheck);
-        damageThreshold = (TextView) rootView.findViewById(R.id.damageThreshold);
+        damageThreshold = (ImageView) rootView.findViewById(R.id.damageThreshold);
         absorbCheck = (CheckBox) rootView.findViewById(R.id.absorbCheck);
         hasAwakeningsCheck = (CheckBox) rootView.findViewById(R.id.hasAwakeningsCheck);
+        activeUsed = (ImageView) rootView.findViewById(R.id.activeUsed);
         activeUsedCheck = (CheckBox) rootView.findViewById(R.id.activeUsedCheck);
         teamHp = (SeekBar) rootView.findViewById(R.id.teamHpSeekBar);
         teamHpValue = (TextView) rootView.findViewById(R.id.teamHpValue);
         reductionValue = (EditText) rootView.findViewById(R.id.reductionValue);
         damageImmunityValue = (EditText) rootView.findViewById(R.id.damageImmunityValue);
         damageImmunityCheck = (CheckBox) rootView.findViewById(R.id.damageImmunityCheck);
-        damageImmunity = (TextView) rootView.findViewById(R.id.damageImmunity);
+        damageImmunity = (ImageView) rootView.findViewById(R.id.damageImmunity);
         reductionPercent = (TextView) rootView.findViewById(R.id.reductionPercent);
         return rootView;
     }
@@ -277,6 +283,13 @@ public class TeamDamageListFragment extends Fragment {
         } else {
             getActivity().setTitle("Team Damage (no target)");
         }
+
+        targetAbsorb.setOnClickListener(tooltipOnClickListener);
+        targetReduction.setOnClickListener(tooltipOnClickListener);
+        damageThreshold.setOnClickListener(tooltipOnClickListener);
+        damageImmunity.setOnClickListener(tooltipOnClickListener);
+        hasAwakenings.setOnClickListener(tooltipOnClickListener);
+        activeUsed.setOnClickListener(tooltipOnClickListener);
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
@@ -341,11 +354,27 @@ public class TeamDamageListFragment extends Fragment {
             damageImmunity.setVisibility(View.GONE);
             damageImmunityCheck.setVisibility(View.GONE);
             reductionPercent.setVisibility(View.GONE);
-            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            z.addRule(RelativeLayout.BELOW, totalComboValue.getId());
-            z.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            hasAwakeningsCheck.setLayoutParams(z);
+//            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT);
+//            z.addRule(RelativeLayout.BELOW, totalComboValue.getId());
+//            z.addRule(RelativeLayout.RIGHT_OF, hasAwakenings.getId());
+//            hasAwakeningsCheck.setLayoutParams(z);
+
+            int fourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getContext().getResources().getDisplayMetrics());
+            int twentyFourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getContext().getResources().getDisplayMetrics());
+            int thirtyNineDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 39, getContext().getResources().getDisplayMetrics());
+            RelativeLayout.LayoutParams hasAwakeningsLayout = new RelativeLayout.LayoutParams(twentyFourDp, twentyFourDp);
+            hasAwakeningsLayout.addRule(RelativeLayout.BELOW, totalComboValue.getId());
+            hasAwakeningsLayout.rightMargin = fourDp;
+            hasAwakenings.setLayoutParams(hasAwakeningsLayout);
+
+            RelativeLayout.LayoutParams activeUsedLayout = new RelativeLayout.LayoutParams(thirtyNineDp, twentyFourDp);
+            activeUsedLayout.addRule(RelativeLayout.BELOW, totalComboValue.getId());
+            activeUsedLayout.addRule(RelativeLayout.RIGHT_OF, hasAwakeningsCheck.getId());
+            activeUsedLayout.rightMargin = fourDp;
+            activeUsedLayout.leftMargin = fourDp * 2;
+            activeUsed.setLayoutParams(activeUsedLayout);
+
             for (int i = 0; i < team.sizeMonsters(); i++) {
                 if (team.getIsBound().get(i)) {
                 } else {
@@ -761,7 +790,7 @@ public class TeamDamageListFragment extends Fragment {
                     }
                 }
             } else if (buttonView.equals(hasAwakeningsCheck)) {
-                Singleton.getInstance().setHasAwakenings(isChecked);
+                Singleton.getInstance().setHasAwakenings(!isChecked);
                 team.updateAwakenings();
             } else if (buttonView.equals(activeUsedCheck)) {
                 Singleton.getInstance().setActiveSkillUsed(isChecked);
@@ -853,7 +882,7 @@ public class TeamDamageListFragment extends Fragment {
     }
 
     private void setCheckBoxes() {
-        hasAwakeningsCheck.setChecked(Singleton.getInstance().hasAwakenings());
+        hasAwakeningsCheck.setChecked(!Singleton.getInstance().hasAwakenings());
         activeUsedCheck.setChecked(Singleton.getInstance().isActiveSkillUsed());
     }
 
@@ -918,5 +947,36 @@ public class TeamDamageListFragment extends Fragment {
         additionalComboValue.clearFocus();
         damageThresholdValue.clearFocus();
     }
+
+    private View.OnClickListener tooltipOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            TooltipText tooltipText;
+            switch (id) {
+                case R.id.elementAbsorb:
+                    tooltipText = new TooltipText(getContext(), "Enemy will absorb all selected elements");
+                    break;
+                case R.id.targetReduction:
+                    tooltipText = new TooltipText(getContext(), "Enemy will reduce a percentage amount of damage from all selected elements");
+                    break;
+                case R.id.damageThreshold:
+                    tooltipText = new TooltipText(getContext(), "Enemy will absorb any hit over the specified value");
+                    break;
+                case R.id.damageImmunity:
+                    tooltipText = new TooltipText(getContext(), "Enemy will take 0 damage for any hit over the specified value");
+                    break;
+                case R.id.hasAwakenings:
+                    tooltipText = new TooltipText(getContext(), "Disable awakenings");
+                    break;
+                case R.id.activeUsed:
+                    tooltipText = new TooltipText(getContext(), "Active skill was used this turn");
+                    break;
+                default:
+                    tooltipText = new TooltipText(getContext(), "How did you get this tooltip?");
+            }
+            tooltipText.show(v);
+        }
+    };
 
 }
