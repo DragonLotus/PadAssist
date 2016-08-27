@@ -82,9 +82,6 @@ public abstract class SaveMonsterListUtil extends Fragment {
     protected Realm realm = Realm.getDefaultInstance();
     private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
 
-    protected StaggeredGridLayoutManager saveMonsterGridLayoutManager = new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL);
-    protected LinearLayoutManager saveMonsterLinearLayoutManager = new LinearLayoutManager(getContext());
-
     protected SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
     protected boolean isGrid = preferences.getBoolean("isGrid", true);
 
@@ -192,16 +189,17 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 }
                 break;
             case R.id.toggleGrid:
-                Log.d("SaveMonsterList", "Before preference apply: " + preferences.getBoolean("isGrid", true) + " isGrid is: " + isGrid);
                 preferences.edit().putBoolean("isGrid", !isGrid).apply();
-                isGrid = !isGrid;
-                Log.d("SaveMonsterList", "After preference apply: " + preferences.getBoolean("isGrid", true) + " isGrid is: " + isGrid);
+                isGrid = preferences.getBoolean("isGrid", true);
                 if(isGrid){
-                    monsterListView.setLayoutManager(saveMonsterGridLayoutManager);
+                    monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
                 } else {
-                    monsterListView.setLayoutManager(saveMonsterLinearLayoutManager);
+                    monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
                 }
                 saveMonsterListRecycler.notifyDataSetChanged(isGrid);
+                if(saveMonsterListRecycler.getExpandedPosition() > -1){
+                    monsterListView.scrollToPosition(saveMonsterListRecycler.getExpandedPosition());
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

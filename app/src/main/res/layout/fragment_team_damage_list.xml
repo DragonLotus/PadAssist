@@ -9,7 +9,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:contextClickable="true"
-    tools:context="com.padassist.Fragments.TeamDamageListFragment">
+    tools:context="com.padassist.Fragments.TeamDamageListFragment"
+    android:background="@color/background">
 
     <Button
         android:id="@+id/monsterListToggle"

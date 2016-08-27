@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    tools:context="com.padassist.Fragments.TeamLoadDialogFragment">
+    tools:context="com.padassist.Fragments.TeamLoadDialogFragment"
+    android:background="@color/background">
 
     <CheckBox
         android:id="@+id/favoriteCheck"

@@ -6,9 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.GridLayoutManagerMy;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.MyGridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -91,9 +89,9 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
         Log.d("SaveMonsterListFragment", "preferences for grid is: " + isGrid);
 
         if (isGrid) {
-            monsterListView.setLayoutManager(saveMonsterGridLayoutManager);
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
         } else {
-            monsterListView.setLayoutManager(saveMonsterLinearLayoutManager);
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
 
         saveMonsterListRecycler = new SaveMonsterListRecycler(getContext(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, deleteOnClickListener, isGrid);

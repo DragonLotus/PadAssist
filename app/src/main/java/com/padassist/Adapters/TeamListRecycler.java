@@ -356,9 +356,9 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         viewHolder.itemView.setOnClickListener(teamListOnClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
         if (position % 2 == 1) {
-            viewHolder.itemView.setBackgroundColor(Color.parseColor("#e8e8e8"));
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         } else {
-            viewHolder.itemView.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
         }
     }
 

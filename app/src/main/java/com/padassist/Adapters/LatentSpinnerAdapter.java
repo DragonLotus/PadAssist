@@ -191,9 +191,9 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
         }
         viewHolder.latentDesc.setSelected(true);
         if (position % 2 == 1) {
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+            viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         } else {
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
         }
         return convertView;
     }

@@ -156,6 +156,11 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
 
         viewHolder.itemView.setOnClickListener(bindMonsterOnClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
+        if (position % 2 == 1) {
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+        } else {
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
+        }
     }
 
     @Override

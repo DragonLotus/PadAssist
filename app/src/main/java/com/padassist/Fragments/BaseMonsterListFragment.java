@@ -2,6 +2,7 @@ package com.padassist.Fragments;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -51,9 +52,14 @@ public class BaseMonsterListFragment extends BaseMonsterListUtil {
             monsterPosition = getArguments().getInt("monsterPosition");
         }
 
-        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener);
+        if (isGrid) {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
+        } else {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        }
+
+        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid);
         monsterListView.setAdapter(baseMonsterListRecycler);
-        monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     }
 

@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:paddingRight="16dp"
     android:paddingLeft="16dp"
-    tools:context="com.padassist.Fragments.SortElementDialogFragment">
+    tools:context="com.padassist.Fragments.SortElementDialogFragment"
+    android:background="@color/background">
 
     <RadioGroup
         android:id="@+id/choiceRadioGroup"

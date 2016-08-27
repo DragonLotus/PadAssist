@@ -2,12 +2,16 @@ package com.padassist.Util;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -71,6 +75,9 @@ public abstract class BaseMonsterListUtil extends Fragment {
     private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
     protected Realm realm = Realm.getDefaultInstance();
     private FilterDialogFragment filterDialogFragment;
+
+    protected SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
+    protected boolean isGrid = preferences.getBoolean("isGrid", true);
 
     private FastScroller fastScroller;
 
@@ -181,6 +188,19 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 }
                 if (!filterDialogFragment.isAdded() && !firstRun) {
                     filterDialogFragment.show(getChildFragmentManager(), false, "Filter");
+                }
+                break;
+            case R.id.toggleGrid:
+                preferences.edit().putBoolean("isGrid", !isGrid).apply();
+                isGrid = preferences.getBoolean("isGrid", true);
+                if(isGrid){
+                    monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
+                } else {
+                    monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+                }
+                baseMonsterListRecycler.notifyDataSetChanged(isGrid);
+                if(baseMonsterListRecycler.getExpandedPosition() > -1){
+                    monsterListView.scrollToPosition(baseMonsterListRecycler.getExpandedPosition());
                 }
                 break;
         }
