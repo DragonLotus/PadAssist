@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-//        preferences.edit().putInt("version", 1).apply();
+        preferences.edit().putInt("version", 1).apply();
         Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
         if (preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1) {
 

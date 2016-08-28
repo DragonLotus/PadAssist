@@ -6,6 +6,6 @@ package com.padassist;
 public class Constants {
     public static String VERSION = "VERSION";
     public static String KEY_INITIALIZED = "INITIALIZED";
-    public static int numOfMonsters = 3087;
-    public static int finalParseCount = 4909;
+    public static int numOfMonsters = 3125;
+    public static int finalParseCount = 4980;
 }
