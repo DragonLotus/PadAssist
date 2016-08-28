@@ -154,6 +154,7 @@ public class MonsterListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.saveTeamGroup, true);
         menu.findItem(R.id.saveTeam).setVisible(true);
+        menu.findItem(R.id.manageMonsters).setVisible(true);
     }
 
     @Override
@@ -429,6 +430,7 @@ public class MonsterListFragment extends Fragment {
                 realm.commitTransaction();
                 teamName.setText(team.getTeamName());
                 favorite.setVisibility(View.INVISIBLE);
+                teamBadge.setImageResource(R.drawable.team_badge_nothing);
             }
         }
     };

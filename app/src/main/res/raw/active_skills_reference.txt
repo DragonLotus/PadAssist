@@ -1,0 +1,40 @@
+Tags:
+board_change
+board_shuffle
+orb_change
+orb_enhance
+gravity
+delay
+bind_clear
+haste
+damage_reduction
+damage_nuke
+lifesteal
+true_damage
+damage_boost
+add_combo
+poison
+extend_time
+one_hp
+enemy_element_change
+own_element_change
+ctw
+
+possible variables:
+awakeningSynergy (Jewel chicks)
+atkType
+atkElement
+atkData
+convertsFrom
+convertsTo
+trueDamage
+damage
+hasteTurns
+bindClear
+enhance
+delayTurns
+poisonMultiplier
+mainElementTo
+enemyElementTo
+
+active skill 1 -> convertsTo -> active skill 2 -> convertsFrom -> activeSkill 2 -> convertsTo -> endResult

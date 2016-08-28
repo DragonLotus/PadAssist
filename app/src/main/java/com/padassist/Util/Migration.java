@@ -17,12 +17,17 @@ public class Migration implements RealmMigration {
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
         Log.d("Migration", "oldVersion is: " + oldVersion + " newVersion is: " + newVersion);
         RealmSchema schema = realm.getSchema();
-        if(oldVersion == 0){
+        if (oldVersion == 0) {
             schema.get("Team").addField("teamBadge", int.class);
             oldVersion++;
         }
-        if(oldVersion == 1){
+        if (oldVersion == 1) {
             schema.get("LeaderSkill").addField("minimumMatch", int.class);
+            oldVersion++;
+        }
+        if (oldVersion == 2) {
+//            schema.create("RealmString")
+//                    .addField("value", String.class);
             oldVersion++;
         }
     }

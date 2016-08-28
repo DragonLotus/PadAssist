@@ -131,7 +131,7 @@ public class OrbMatchFragment extends Fragment {
                 orbsPlus.setSelection(position + minimumMatch);
             }
             orbsPlusItems.clear();
-            for (int i = 0; i < orbsLinked.getSelectedItemPosition() + minimumMatch + 1; i++) {
+            for (int i = 0; i <= orbsLinked.getSelectedItemPosition() + minimumMatch; i++) {
                 orbsPlusItems.add("" + i);
             }
             switch (boardSize.getSelectedItemPosition()) {
@@ -495,8 +495,12 @@ public class OrbMatchFragment extends Fragment {
             } else {
                 orbsLinked.setSelection(orbMatchList.get(position).getOrbsLinked() - minimumMatch);
             }
-            if (orbMatchList.get(position).getNumOrbPlus() > orbsPlusItems.size()) {
-
+            if (orbMatchList.get(position).getNumOrbPlus() > orbsPlusItems.size() - 1) {
+                orbsPlusItems.clear();
+                for (int i = 0; i <= orbsLinkedItems.size() + minimumMatch; i++){
+                    orbsPlusItems.add("" + i);
+                }
+                orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
             } else {
                 orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
             }
