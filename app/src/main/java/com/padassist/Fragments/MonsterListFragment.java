@@ -425,6 +425,7 @@ public class MonsterListFragment extends Fragment {
                 team.setTeamName("Untitled Team");
                 team.setTeamIdOverwrite(0);
                 team.setFavorite(false);
+                team.setTeamBadge(0);
                 realm.commitTransaction();
                 teamName.setText(team.getTeamName());
                 favorite.setVisibility(View.INVISIBLE);
