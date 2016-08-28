@@ -140,6 +140,16 @@ public class RealmLeaderSkillType extends RealmObject {
                 return LeaderSkillType.FLAT_CROSS;
             case 60:
                 return LeaderSkillType.HEART_CROSS_CROSS;
+            case 61:
+                return LeaderSkillType.MATCH_ELEMENT_INDIAN;
+            case 62:
+                return LeaderSkillType.MINIMUM_MATCH_INDIAN_FLAT;
+            case 63:
+                return LeaderSkillType.MINIMUM_MATCH_ORB_LINK_FLAT;
+            case 64:
+                return LeaderSkillType.MINIMUM_MATCH_MATCH_ELEMENT_FLAT;
+            case 65:
+                return LeaderSkillType.MINIMUM_MATCH_COMBO_FLAT;
             default:
                 return LeaderSkillType.BLANK;
         }

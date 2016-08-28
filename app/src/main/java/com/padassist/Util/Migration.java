@@ -3,6 +3,7 @@ package com.padassist.Util;
 import android.util.Log;
 
 import io.realm.DynamicRealm;
+import io.realm.RealmList;
 import io.realm.RealmMigration;
 import io.realm.RealmSchema;
 
@@ -18,6 +19,10 @@ public class Migration implements RealmMigration {
         RealmSchema schema = realm.getSchema();
         if(oldVersion == 0){
             schema.get("Team").addField("teamBadge", int.class);
+            oldVersion++;
+        }
+        if(oldVersion == 1){
+            schema.get("LeaderSkill").addField("minimumMatch", int.class);
             oldVersion++;
         }
     }

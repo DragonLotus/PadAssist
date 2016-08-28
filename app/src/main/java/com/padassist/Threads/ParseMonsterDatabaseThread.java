@@ -230,6 +230,9 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (leaderSkillNode.hasNonNull("name")) {
                     leaderSkill.setName(leaderSkillNode.get("name").asText());
                 }
+                if (leaderSkillNode.hasNonNull("minimumMatch")) {
+                    leaderSkill.setMinimumMatch(leaderSkillNode.get("minimumMatch").asInt());
+                }
                 realm.copyToRealmOrUpdate(leaderSkill);
                 update.updateValues(counter);
 //                Log.d("ParseMonsterDatabase", "leaderSkill counter is: " + counter);

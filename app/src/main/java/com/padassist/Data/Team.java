@@ -778,6 +778,7 @@ public class Team extends RealmObject implements Parcelable {
     }
 
     public void setAtkMultiplierArrays(int combos) {
+        Log.d("Team", "Leader skill is: " + getLeadSkill().getName() + " Helper skill is: " + getHelperSkill().getName());
         for (int i = 0; i < getMonsters().size(); i++){
             ArrayList<Double> atkMultiplier = new ArrayList<>();
             atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
