@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         RealmConfiguration config = new RealmConfiguration.Builder(this)
-                .schemaVersion(2)
+                .schemaVersion(3)
                 .migration(new Migration())
                 .build();
         Realm.setDefaultConfiguration(config);

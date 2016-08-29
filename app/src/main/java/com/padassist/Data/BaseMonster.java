@@ -101,6 +101,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //        element2 = new RealmElement(0);
         name = "Empty";
         leaderSkill = "Blank";
+        activeSkill = "Blank";
         type1 = -1;
         type2 = -1;
         type3 = -1;

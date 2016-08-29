@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.LeaderSkill;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
@@ -310,9 +311,9 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
                 viewHolder.type3.setVisibility(View.VISIBLE);
             }
             if (monsterList.get(position).getMaxAwakenings() == 0 && monsterList.get(position).getMonsterId() != 14) {
-                RelativeLayout.LayoutParams z = (RelativeLayout.LayoutParams) viewHolder.leaderSkill.getLayoutParams();
+                RelativeLayout.LayoutParams z = (RelativeLayout.LayoutParams) viewHolder.activeSkill.getLayoutParams();
                 z.addRule(RelativeLayout.BELOW, R.id.latentHolder);
-                RelativeLayout.LayoutParams x = (RelativeLayout.LayoutParams) viewHolder.leaderSkillName.getLayoutParams();
+                RelativeLayout.LayoutParams x = (RelativeLayout.LayoutParams) viewHolder.activeSkillName.getLayoutParams();
                 x.addRule(RelativeLayout.BELOW, R.id.latentHolder);
             }
             for (int i = 0; i < 9; i++) {
@@ -783,14 +784,31 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             viewHolder.hpTotal.setText("" + monsterList.get(position).getTotalHp());
             viewHolder.atkTotal.setText("" + monsterList.get(position).getTotalAtk());
             viewHolder.rcvTotal.setText("" + monsterList.get(position).getTotalRcv());
+            if (monsterList.get(position).getActiveSkill().equals("Blank")) {
+                viewHolder.activeSkillName.setText("None");
+                viewHolder.activeSkillDesc.setVisibility(View.GONE);
+            } else {
+                if(realm.where(ActiveSkill.class).equalTo("name", monsterList.get(position).getActiveSkill()).findFirst() == null){
+                    viewHolder.activeSkillDesc.setText("This monster has an active skill but the author of this app  has not realized that it doesn't exist in his database yet.");
+                } else {
+                    viewHolder.activeSkillDesc.setText(realm.where(ActiveSkill.class).equalTo("name", monsterList.get(position).getActiveSkill()).findFirst().getDescription());
+                }
+                viewHolder.activeSkillName.setVisibility(View.VISIBLE);
+                viewHolder.activeSkillDesc.setVisibility(View.VISIBLE);
+                viewHolder.activeSkillName.setText("" + monsterList.get(position).getActiveSkill() + "");
+            }
             if (monsterList.get(position).getLeaderSkill().equals("Blank")) {
                 viewHolder.leaderSkillName.setText("None");
                 viewHolder.leaderSkillDesc.setVisibility(View.GONE);
             } else {
+                if(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst() == null){
+                    viewHolder.leaderSkillDesc.setText("This monster has a leader skill but the author of this app has not realized that it doesn't exist in his database yet.\n(Hint: This leader skill does nothing.)");
+                } else {
+                    viewHolder.leaderSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst().getDescription());
+                }
                 viewHolder.leaderSkillName.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillDesc.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
-                viewHolder.leaderSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst().getDescription());
             }
             if (isGrid) {
                 StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) viewHolder.itemView.getLayoutParams();
@@ -926,8 +944,8 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV, monsterLevel, monsterLatents, hpBase, hpPlus, hpTotal, atkBase, atkPlus, atkTotal, rcvBase, rcvPlus, rcvTotal, rarity, leaderSkill, leaderSkillName, leaderSkillDesc;
-        ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9, latent1, latent2, latent3, latent4, latent5, rarityStar;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV, monsterLevel, monsterLatents, hpBase, hpPlus, hpTotal, atkBase, atkPlus, atkTotal, rcvBase, rcvPlus, rcvTotal, rarity, leaderSkillName, leaderSkillDesc, activeSkillName, activeSkillDesc;
+        ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9, latent1, latent2, latent3, latent4, latent5, rarityStar, leaderSkill, activeSkill;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose, delete;
@@ -979,10 +997,13 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
             rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
             choose = (Button) convertView.findViewById(R.id.choose);
             delete = (Button) convertView.findViewById(R.id.delete);
-            leaderSkill = (TextView) convertView.findViewById(R.id.leaderSkill);
+            leaderSkill = (ImageView) convertView.findViewById(R.id.leaderSkill);
             leaderSkillDesc = (TextView) convertView.findViewById(R.id.leaderSkillDesc);
             leaderSkillName = (TextView) convertView.findViewById(R.id.leaderSkillName);
             relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
+            activeSkill = (ImageView) convertView.findViewById(R.id.activeSkill);
+            activeSkillDesc = (TextView) convertView.findViewById(R.id.activeSkillDesc);
+            activeSkillName = (TextView) convertView.findViewById(R.id.activeSkillName);
         }
     }
 

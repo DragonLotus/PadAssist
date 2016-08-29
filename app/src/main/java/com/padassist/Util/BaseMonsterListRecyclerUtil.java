@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.LeaderSkill;
 import com.padassist.Graphics.TextStroke;
@@ -402,14 +403,31 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
             viewHolder.hpTotal.setText("" + monsterList.get(position).getHpMax());
             viewHolder.atkTotal.setText("" + monsterList.get(position).getAtkMax());
             viewHolder.rcvTotal.setText("" + monsterList.get(position).getRcvMax());
+            if (monsterList.get(position).getActiveSkill().equals("Blank")) {
+                viewHolder.activeSkillName.setText("None");
+                viewHolder.activeSkillDesc.setVisibility(View.GONE);
+            } else {
+                if(realm.where(ActiveSkill.class).equalTo("name", monsterList.get(position).getActiveSkill()).findFirst() == null){
+                    viewHolder.activeSkillDesc.setText("This monster has an active skill but the author of this app  has not realized that it doesn't exist in his database yet.");
+                } else {
+                    viewHolder.activeSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getActiveSkill()).findFirst().getDescription());
+                }
+                viewHolder.activeSkillName.setVisibility(View.VISIBLE);
+                viewHolder.activeSkillDesc.setVisibility(View.VISIBLE);
+                viewHolder.activeSkillName.setText("" + monsterList.get(position).getActiveSkill() + "");
+            }
             if(monsterList.get(position).getLeaderSkill().equals("Blank")){
                 viewHolder.leaderSkillName.setText("None");
                 viewHolder.leaderSkillDesc.setVisibility(View.GONE);
             } else{
+                if(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst() == null){
+                    viewHolder.leaderSkillDesc.setText("This monster has a leader skill but the author of this app  has not realized that it doesn't exist in his database yet.\n(Hint: This leader skill does nothing.)");
+                } else {
+                    viewHolder.leaderSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst().getDescription());
+                }
                 viewHolder.leaderSkillName.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillDesc.setVisibility(View.VISIBLE);
                 viewHolder.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkill() + "");
-                viewHolder.leaderSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getLeaderSkill()).findFirst().getDescription());
             }
             viewHolder.levelMax.setText("Level " + monsterList.get(position).getMaxLevel());
             if(isGrid){
@@ -508,8 +526,8 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV, hpBase, hpTotal, atkBase, atkTotal, rcvBase, rcvTotal, leaderSkill, leaderSkillName, leaderSkillDesc, levelMax;
-        ImageView monsterPicture, type1, type2, type3, rarityStar, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9;
+        TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV, hpBase, hpTotal, atkBase, atkTotal, rcvBase, rcvTotal, leaderSkillName, leaderSkillDesc, levelMax, activeSkillDesc, activeSkillName;
+        ImageView monsterPicture, type1, type2, type3, rarityStar, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9, leaderSkill, activeSkill;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose;
@@ -544,7 +562,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
             awakening7 = (ImageView) convertView.findViewById(R.id.awakening7);
             awakening8 = (ImageView) convertView.findViewById(R.id.awakening8);
             awakening9 = (ImageView) convertView.findViewById(R.id.awakening9);
-            leaderSkill = (TextView) convertView.findViewById(R.id.leaderSkill);
+            leaderSkill = (ImageView) convertView.findViewById(R.id.leaderSkill);
             leaderSkillDesc = (TextView) convertView.findViewById(R.id.leaderSkillDesc);
             leaderSkillName = (TextView) convertView.findViewById(R.id.leaderSkillName);
             awakeningHolder = (LinearLayout) convertView.findViewById(R.id.awakeningHolder);
@@ -554,6 +572,9 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
             levelMax = (TextView) convertView.findViewById(R.id.levelMax);
             relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             monsterIdStroke = (TextStroke) convertView.findViewById(R.id.monsterIdStroke);
+            activeSkill = (ImageView) convertView.findViewById(R.id.activeSkill);
+            activeSkillDesc = (TextView) convertView.findViewById(R.id.activeSkillDesc);
+            activeSkillName = (TextView) convertView.findViewById(R.id.activeSkillName);
         }
     }
 

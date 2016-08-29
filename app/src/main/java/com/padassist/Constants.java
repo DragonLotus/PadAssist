@@ -7,5 +7,6 @@ public class Constants {
     public static String VERSION = "VERSION";
     public static String KEY_INITIALIZED = "INITIALIZED";
     public static int numOfMonsters = 3125;
-    public static int finalParseCount = 4980;
+    public static int numOfLeaderSkills = 1855;
+    public static int finalParseCount = 5931;
 }

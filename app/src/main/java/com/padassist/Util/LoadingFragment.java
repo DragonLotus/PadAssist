@@ -90,6 +90,8 @@ public class LoadingFragment extends Fragment {
         protected void onProgressUpdate(Integer... values) {
             if (values[0] == Constants.numOfMonsters) {
                 progressDialog.setMessage("Loading Leader Skills...");
+            } else if (values[0] == Constants.numOfMonsters + Constants.numOfLeaderSkills){
+                progressDialog.setMessage("Loading Active Skills...");
             }
         }
     }

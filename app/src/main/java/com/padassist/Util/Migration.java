@@ -1,6 +1,7 @@
 package com.padassist.Util;
 
 import android.util.Log;
+import android.util.StringBuilderPrinter;
 
 import io.realm.DynamicRealm;
 import io.realm.RealmList;
@@ -26,13 +27,18 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
         if (oldVersion == 2) {
-//            schema.create("RealmString")
-//                    .addField("value", String.class);
-//            schema.get("Monster")
-//                    .addField("activeSkill2", String.class)
-//                    .addField("activeSkillLevel", int.class)
-//                    .addField("activeSkill2Level", int.class);
-
+            schema.create("RealmString")
+                    .addField("value", String.class);
+            schema.get("Monster")
+                    .addField("activeSkill2", String.class)
+                    .addField("activeSkillLevel", int.class)
+                    .addField("activeSkill2Level", int.class);
+            schema.create("ActiveSkill")
+                    .addField("name", String.class)
+                    .addPrimaryKey("name")
+                    .addField("description", String.class)
+                    .addField("minimumCooldown", int.class)
+                    .addField("maximumCooldown", int.class);
             oldVersion++;
         }
     }

@@ -19,6 +19,8 @@ one_hp
 enemy_element_change
 own_element_change
 ctw
+heal
+defense_break
 
 possible variables:
 awakeningSynergy (Jewel chicks)
@@ -36,5 +38,6 @@ delayTurns
 poisonMultiplier
 mainElementTo
 enemyElementTo
+healPercent
 
 active skill 1 -> convertsTo -> active skill 2 -> convertsFrom -> activeSkill 2 -> convertsTo -> endResult

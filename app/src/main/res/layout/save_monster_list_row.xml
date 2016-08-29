@@ -372,25 +372,72 @@
                 android:layout_height="18dp" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/activeSkill"
+            android:layout_width="51dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/awakeningHolder"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/active_skill"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"/>
+
         <TextView
-            android:id="@+id/leaderSkillName"
+            android:id="@+id/activeSkillName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/awakeningHolder"
-            android:layout_toRightOf="@id/leaderSkill"
+            android:layout_toRightOf="@id/activeSkill"
+            android:layout_alignTop="@+id/activeSkill"
+            android:layout_alignBottom="@+id/activeSkill"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:maxLines="1"
-            android:text="Leader Skill Name: "
-            android:textSize="16dp" />
+            android:text="Active Skill Name"
+            android:textSize="16dp"
+            android:layout_marginBottom="-4dp"/>
+
+        <TextView
+            android:id="@+id/activeSkillDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Does not exist in database."
+            android:textSize="16dp"
+            android:layout_below="@+id/activeSkill"/>
+
+        <ImageView
+            android:id="@+id/leaderSkill"
+            android:layout_width="111dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/activeSkillDesc"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/leader_skill"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/leaderSkillName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/leaderSkill"
+            android:layout_alignTop="@+id/leaderSkill"
+            android:layout_alignBottom="@+id/leaderSkill"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:maxLines="1"
+            android:text="Leader Skill Name"
+            android:textSize="16dp"
+            android:layout_marginBottom="-4dp"/>
 
         <TextView
             android:id="@+id/leaderSkillDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/leaderSkill"
-            android:text="Description goes here."
+            android:text="Does not exist in database."
             android:textSize="16dp" />
 
         <LinearLayout
@@ -413,16 +460,6 @@
                 android:text="Choose Monster"
                 android:layout_weight=".5"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/leaderSkill"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Leader Skill: "
-            android:textSize="16dp"
-            android:layout_below="@+id/awakeningHolder"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 

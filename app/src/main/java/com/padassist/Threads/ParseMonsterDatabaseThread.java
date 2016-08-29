@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.padassist.BuildConfig;
 import com.padassist.Constants;
+import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
 import com.padassist.Data.LeaderSkill;
@@ -51,6 +52,7 @@ public class ParseMonsterDatabaseThread extends Thread {
 
         parseMonsterDatabase();
         parseLeaderSkillDatabase();
+        parseActiveSkillDatabase();
 
     }
 
@@ -236,6 +238,36 @@ public class ParseMonsterDatabaseThread extends Thread {
                 realm.copyToRealmOrUpdate(leaderSkill);
                 update.updateValues(counter);
 //                Log.d("ParseMonsterDatabase", "leaderSkill counter is: " + counter);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
+    }
+
+    private void parseActiveSkillDatabase() {
+        try {
+            ObjectMapper m = new ObjectMapper();
+            JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.active_skills));
+            ActiveSkill activeSkill;
+            for (JsonNode activeSkillNode : rootNode) {
+                counter++;
+                activeSkill = new ActiveSkill();
+                if (activeSkillNode.hasNonNull("name")) {
+                    activeSkill.setName(activeSkillNode.get("name").asText());
+                }
+                if (activeSkillNode.hasNonNull("effect")) {
+                    activeSkill.setDescription(activeSkillNode.get("effect").asText());
+                }
+                if (activeSkillNode.hasNonNull("min_cooldown")) {
+                    activeSkill.setMinimumCooldown(activeSkillNode.get("min_cooldown").asInt());
+                }
+                if (activeSkillNode.hasNonNull("max_cooldown")) {
+                    activeSkill.setMinimumCooldown(activeSkillNode.get("max_cooldown").asInt());
+                }
+                realm.copyToRealmOrUpdate(activeSkill);
+                update.updateValues(counter);
+//                Log.d("ParseMonsterDatabase", "activeSkill counter is: " + counter);
             }
         } catch (Exception e) {
             e.printStackTrace();
