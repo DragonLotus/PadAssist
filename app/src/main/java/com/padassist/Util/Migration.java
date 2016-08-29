@@ -28,6 +28,11 @@ public class Migration implements RealmMigration {
         if (oldVersion == 2) {
 //            schema.create("RealmString")
 //                    .addField("value", String.class);
+//            schema.get("Monster")
+//                    .addField("activeSkill2", String.class)
+//                    .addField("activeSkillLevel", int.class)
+//                    .addField("activeSkill2Level", int.class);
+
             oldVersion++;
         }
     }

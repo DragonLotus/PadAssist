@@ -418,9 +418,9 @@
                 android:layout_height="24dp"
                 android:layout_below="@id/damageImmunityCheck"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/hasAwakeningsCheck"
                 android:src="@drawable/active_skill_enable"
-                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@+id/hasLeaderSkillCheck2"
+                android:layout_marginLeft="12dp"
                 android:layout_marginRight="4dp"/>
 
             <CheckBox
@@ -437,20 +437,26 @@
                 android:layout_height="24dp"
                 android:layout_below="@id/damageImmunityCheck"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/activeUsedCheck"
+                android:layout_toRightOf="@+id/hasAwakeningsCheck"
                 android:src="@drawable/leader_skill_enable"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="4dp"
-                android:visibility="gone"/>
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="4dp"/>
 
             <CheckBox
-                android:id="@+id/hasLeaderSkillCheck"
+                android:id="@+id/hasLeaderSkillCheck1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/hasLeaderSkill"
-                android:layout_alignTop="@+id/hasAwakenings"
-                android:layout_alignBottom="@+id/hasAwakenings"
-                android:visibility="gone"/>
+                android:layout_alignTop="@+id/hasAwakeningsCheck"
+                android:layout_alignBottom="@+id/hasAwakeningsCheck"/>
+
+            <CheckBox
+                android:id="@+id/hasLeaderSkillCheck2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/hasLeaderSkillCheck1"
+                android:layout_alignTop="@+id/hasAwakeningsCheck"
+                android:layout_alignBottom="@+id/hasAwakeningsCheck"/>
 
             <TextView
                 android:id="@+id/teamHp"

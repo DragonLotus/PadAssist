@@ -596,6 +596,13 @@ public abstract class SaveMonsterListUtil extends Fragment {
 //            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
             firstRun = false;
             saveMonsterListRecycler.setExpandedPosition(-1);
+            if(monsterList.size() == 0){
+                savedMonsters.setText("No results");
+                savedMonsters.setVisibility(View.VISIBLE);
+            } else {
+                savedMonsters.setText("No Saved Monsters");
+                savedMonsters.setVisibility(View.INVISIBLE);
+            }
         }
 
 
@@ -710,6 +717,13 @@ public abstract class SaveMonsterListUtil extends Fragment {
             sortArrayList(Singleton.getInstance().getSaveSortMethod());
             saveMonsterListRecycler.setExpandedPosition(-1);
             saveMonsterListRecycler.notifyDataSetChanged();
+            if(monsterList.size() == 0){
+                savedMonsters.setText("No results");
+                savedMonsters.setVisibility(View.VISIBLE);
+            } else {
+                savedMonsters.setText("No Saved Monsters");
+                savedMonsters.setVisibility(View.INVISIBLE);
+            }
         }
 
         @Override
@@ -791,6 +805,13 @@ public abstract class SaveMonsterListUtil extends Fragment {
             sortArrayList(Singleton.getInstance().getSaveSortMethod());
             saveMonsterListRecycler.setExpandedPosition(-1);
             saveMonsterListRecycler.notifyDataSetChanged();
+            if(monsterList.size() == 0){
+                savedMonsters.setText("No results");
+                savedMonsters.setVisibility(View.VISIBLE);
+            } else {
+                savedMonsters.setText("No Saved Monsters");
+                savedMonsters.setVisibility(View.INVISIBLE);
+            }
         }
     };
 }

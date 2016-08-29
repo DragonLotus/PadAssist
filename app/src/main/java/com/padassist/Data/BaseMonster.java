@@ -106,6 +106,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
         type3 = -1;
         awokenSkills = new RealmList<>();
         evolutions = new RealmList<>();
+        teamCost = 0;
     }
 
     public String getActiveSkill() {

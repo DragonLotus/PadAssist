@@ -52,6 +52,12 @@ public class Monster extends RealmObject implements Parcelable {
 
     private boolean helper;
 
+    private String activeSkill2;
+
+    private int activeSkillLevel;
+
+    private int activeSkill2Level;
+
     private RealmList<RealmInt> latents;
 
     private RealmList<RealmInt> killerAwakenings;
@@ -92,6 +98,9 @@ public class Monster extends RealmObject implements Parcelable {
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
             setCurrentRcv(DamageCalculationUtil.monsterStatCalc(baseMonster.getRcvMin(), baseMonster.getRcvMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getRcvScale()));
         }
+        activeSkill2 = "Blank";
+        activeSkillLevel = 1;
+        activeSkill2Level = 1;
     }
 
     public int getCurrentLevel() {
@@ -311,6 +320,14 @@ public class Monster extends RealmObject implements Parcelable {
 
     public String getActiveSkill() {
         return baseMonster.getActiveSkill();
+    }
+
+    public String getActiveSkill2() {
+        return activeSkill2;
+    }
+
+    public void setActiveSkill2(String activeSkill2) {
+        this.activeSkill2 = activeSkill2;
     }
 
     public String getLeaderSkill() {

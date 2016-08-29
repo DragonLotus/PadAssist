@@ -26,7 +26,7 @@ public class LeaderSkillCalculationUtil {
 
     public static double hpMultiplier(Monster monster, Team team) {
         hpMultiplier = 1;
-        if (team.getLeadSkill().getHpSkillType() != null) {
+        if (team.getLeadSkill().getHpSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
             switch (team.getLeadSkill().getHpSkillType().getValue()) {
                 case FLAT:
                     flat(monster, team.getLeadSkill(), 1);
@@ -37,7 +37,7 @@ public class LeaderSkillCalculationUtil {
             }
         }
 
-        if (team.getHelperSkill().getHpSkillType() != null) {
+        if (team.getHelperSkill().getHpSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
             switch (team.getHelperSkill().getHpSkillType().getValue()) {
                 case FLAT:
                     flat(monster, team.getHelperSkill(), 1);
@@ -63,7 +63,7 @@ public class LeaderSkillCalculationUtil {
             atkMultiplier.set(0, 1.);
             atkMultiplier.set(1, 1.);
         }
-        if (team.getLeadSkill().getAtkSkillType() != null) {
+        if (team.getLeadSkill().getAtkSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
             switch (team.getLeadSkill().getAtkSkillType().getValue()) {
                 case FLAT:
                     flat(monster, team.getLeadSkill(), 2);
@@ -263,7 +263,7 @@ public class LeaderSkillCalculationUtil {
             }
         }
 
-        if (team.getHelperSkill().getAtkSkillType() != null) {
+        if (team.getHelperSkill().getAtkSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
             switch (team.getHelperSkill().getAtkSkillType().getValue()) {
                 case FLAT:
                     flat(monster, team.getHelperSkill(), 2);
@@ -468,7 +468,7 @@ public class LeaderSkillCalculationUtil {
     public static double rcvMultiplier(Monster monster, Team team) {
         rcvMultiplier = 1;
 
-        if (team.getLeadSkill().getRcvSkillType() != null) {
+        if (team.getLeadSkill().getRcvSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
             switch (team.getLeadSkill().getRcvSkillType().getValue()) {
                 case FLAT:
                     flat(monster, team.getLeadSkill(), 3);
@@ -487,7 +487,7 @@ public class LeaderSkillCalculationUtil {
                     break;
             }
         }
-        if (team.getHelperSkill().getRcvSkillType() != null) {
+        if (team.getHelperSkill().getRcvSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
             switch (team.getHelperSkill().getRcvSkillType().getValue()) {
                 case FLAT:
                     flat(monster, team.getHelperSkill(), 3);

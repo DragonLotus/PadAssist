@@ -68,7 +68,7 @@ public class TeamDamageListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private RecyclerView monsterListView;
     private EditText additionalComboValue, damageThresholdValue, damageImmunityValue, reductionValue;
-    private ImageView damageThreshold, damageImmunity, targetReduction, targetAbsorb, hasAwakenings, activeUsed;
+    private ImageView damageThreshold, damageImmunity, targetReduction, targetAbsorb, hasAwakenings, activeUsed, hasLeaderSkill;
     private MonsterDamageListRecycler monsterListAdapter;
     private Enemy enemy;
     private Team team;
@@ -81,7 +81,7 @@ public class TeamDamageListFragment extends Fragment {
     private RadioGroup reductionRadioGroup;
     private Button monsterListToggle;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, redOrbAbsorb, blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb;
-    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, damageImmunityCheck, hasAwakeningsCheck, activeUsedCheck;
+    private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, damageImmunityCheck, hasAwakeningsCheck, activeUsedCheck, hasLeaderSkillCheck1, hasLeaderSkillCheck2;
     private RadioGroup absorbRadioGroup;
     private Button optionButton;
     private SeekBar teamHp;
@@ -221,6 +221,9 @@ public class TeamDamageListFragment extends Fragment {
         damageImmunityCheck = (CheckBox) rootView.findViewById(R.id.damageImmunityCheck);
         damageImmunity = (ImageView) rootView.findViewById(R.id.damageImmunity);
         reductionPercent = (TextView) rootView.findViewById(R.id.reductionPercent);
+        hasLeaderSkill = (ImageView) rootView.findViewById(R.id.hasLeaderSkill);
+        hasLeaderSkillCheck1 = (CheckBox) rootView.findViewById(R.id.hasLeaderSkillCheck1);
+        hasLeaderSkillCheck2 = (CheckBox) rootView.findViewById(R.id.hasLeaderSkillCheck2);
         return rootView;
     }
 
@@ -277,6 +280,8 @@ public class TeamDamageListFragment extends Fragment {
 
         hasAwakeningsCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         activeUsedCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
+        hasLeaderSkillCheck1.setOnCheckedChangeListener(checkBoxOnChangeListener);
+        hasLeaderSkillCheck2.setOnCheckedChangeListener(checkBoxOnChangeListener);
         teamHp.setOnSeekBarChangeListener(teamHpSeekBarListener);
         if (hasEnemy) {
             getActivity().setTitle("Team Damage (with target)");
@@ -290,6 +295,7 @@ public class TeamDamageListFragment extends Fragment {
         damageImmunity.setOnClickListener(tooltipOnClickListener);
         hasAwakenings.setOnClickListener(tooltipOnClickListener);
         activeUsed.setOnClickListener(tooltipOnClickListener);
+        hasLeaderSkill.setOnClickListener(tooltipOnClickListener);
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
@@ -368,11 +374,19 @@ public class TeamDamageListFragment extends Fragment {
             hasAwakeningsLayout.rightMargin = fourDp;
             hasAwakenings.setLayoutParams(hasAwakeningsLayout);
 
+            int fortySixDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 46, getContext().getResources().getDisplayMetrics());
+            RelativeLayout.LayoutParams hasLeaderSkillLayout = new RelativeLayout.LayoutParams(fortySixDp, twentyFourDp);
+            hasLeaderSkillLayout.addRule(RelativeLayout.BELOW, totalComboValue.getId());
+            hasLeaderSkillLayout.addRule(RelativeLayout.RIGHT_OF, hasAwakeningsCheck.getId());
+            hasLeaderSkillLayout.rightMargin = fourDp;
+            hasLeaderSkillLayout.leftMargin = fourDp * 3;
+            hasLeaderSkill.setLayoutParams(hasLeaderSkillLayout);
+
             RelativeLayout.LayoutParams activeUsedLayout = new RelativeLayout.LayoutParams(thirtyNineDp, twentyFourDp);
             activeUsedLayout.addRule(RelativeLayout.BELOW, totalComboValue.getId());
-            activeUsedLayout.addRule(RelativeLayout.RIGHT_OF, hasAwakeningsCheck.getId());
+            activeUsedLayout.addRule(RelativeLayout.RIGHT_OF, hasLeaderSkillCheck2.getId());
             activeUsedLayout.rightMargin = fourDp;
-            activeUsedLayout.leftMargin = fourDp * 2;
+            activeUsedLayout.leftMargin = fourDp * 3;
             activeUsed.setLayoutParams(activeUsedLayout);
 
             for (int i = 0; i < team.sizeMonsters(); i++) {
@@ -795,6 +809,14 @@ public class TeamDamageListFragment extends Fragment {
             } else if (buttonView.equals(activeUsedCheck)) {
                 Singleton.getInstance().setActiveSkillUsed(isChecked);
                 team.updateAwakenings();
+            } else if (buttonView.equals(hasLeaderSkillCheck1)){
+                Singleton.getInstance().setHasLeaderSkill(isChecked);
+                team.setTeamStats();
+                team.setAtkMultiplierArrays(totalCombos);
+            } else if (buttonView.equals(hasLeaderSkillCheck2)){
+                Singleton.getInstance().setHasHelperSkill(isChecked);
+                team.setTeamStats();
+                team.setAtkMultiplierArrays(totalCombos);
             }
 //            updateTextView();
 //            monsterListAdapter.notifyDataSetChanged();
@@ -884,6 +906,8 @@ public class TeamDamageListFragment extends Fragment {
     private void setCheckBoxes() {
         hasAwakeningsCheck.setChecked(!Singleton.getInstance().hasAwakenings());
         activeUsedCheck.setChecked(Singleton.getInstance().isActiveSkillUsed());
+        hasLeaderSkillCheck1.setChecked(Singleton.getInstance().hasLeaderSkill());
+        hasLeaderSkillCheck2.setChecked(Singleton.getInstance().hasHelperSkill());
     }
 
     private void setupHpSeekBar() {
@@ -971,6 +995,9 @@ public class TeamDamageListFragment extends Fragment {
                     break;
                 case R.id.activeUsed:
                     tooltipText = new TooltipText(getContext(), "Active skill was used this turn");
+                    break;
+                case R.id.hasLeaderSkill:
+                    tooltipText = new TooltipText(getContext(), "Enable Leader skills for leader and helper");
                     break;
                 default:
                     tooltipText = new TooltipText(getContext(), "How did you get this tooltip?");

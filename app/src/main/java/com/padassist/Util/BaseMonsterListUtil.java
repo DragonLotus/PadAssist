@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.deser.Deserializers;
@@ -34,6 +35,8 @@ import com.padassist.Fragments.SortStatsDialogFragment;
 import com.padassist.Fragments.SortTypeDialogFragment;
 import com.padassist.Graphics.FastScroller;
 import com.padassist.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,6 +78,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
     protected Realm realm = Realm.getDefaultInstance();
     private FilterDialogFragment filterDialogFragment;
+    private TextView noResults;
 
     protected SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
     protected boolean isGrid = preferences.getBoolean("isGrid", true);
@@ -106,6 +110,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_base_monster_list, container, false);
         monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
         fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
+        noResults = (TextView) rootView.findViewById(R.id.noResults);
         return rootView;
     }
 
@@ -490,6 +495,11 @@ public abstract class BaseMonsterListUtil extends Fragment {
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
             firstRun = false;
             baseMonsterListRecycler.setExpandedPosition(-1);
+            if(monsterList.size() == 0){
+                noResults.setVisibility(View.VISIBLE);
+            } else {
+                noResults.setVisibility(View.INVISIBLE);
+            }
 //            if(fastScroller != null){
 //                fastScroller.resizeScrollBar(baseMonsterListRecycler.expanded(), FastScroller.BASE_MONSTER_LIST);
 //            }
@@ -598,6 +608,11 @@ public abstract class BaseMonsterListUtil extends Fragment {
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
             baseMonsterListRecycler.setExpandedPosition(-1);
             baseMonsterListRecycler.notifyDataSetChanged();
+            if(monsterList.size() == 0){
+                noResults.setVisibility(View.VISIBLE);
+            } else {
+                noResults.setVisibility(View.INVISIBLE);
+            }
         }
 
         @Override
@@ -662,6 +677,11 @@ public abstract class BaseMonsterListUtil extends Fragment {
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
             baseMonsterListRecycler.setExpandedPosition(-1);
             baseMonsterListRecycler.notifyDataSetChanged();
+            if(monsterList.size() == 0){
+                noResults.setVisibility(View.VISIBLE);
+            } else {
+                noResults.setVisibility(View.INVISIBLE);
+            }
         }
     };
 }

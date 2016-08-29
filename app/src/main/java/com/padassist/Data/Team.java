@@ -788,6 +788,14 @@ public class Team extends RealmObject implements Parcelable {
         Log.d("Team","atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier);
     }
 
+    public int getTeamCost(){
+        int cost = 0;
+        for (int i = 0; i < monsters.size(); i++){
+            cost += monsters.get(i).getTeamCost();
+        }
+        return cost;
+    }
+
 //    public void updateLeaderSkills() {
 //        if(LeaderSkill.getLeaderSkill(lead.getLeaderSkill()) == null){
 //            leadSkill = LeaderSkill.getLeaderSkill("Blank");

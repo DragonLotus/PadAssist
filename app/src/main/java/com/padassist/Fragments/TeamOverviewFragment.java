@@ -10,6 +10,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -20,9 +23,13 @@ import com.padassist.Adapters.MonsterSpecificAwakeningsListAdapter;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.ExpandableHeightGridView;
+import com.padassist.Graphics.TooltipText;
 import com.padassist.R;
+import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
 
 public class TeamOverviewFragment extends Fragment {
     public static final String TAG = TeamOverviewFragment.class.getSimpleName();
@@ -41,6 +48,11 @@ public class TeamOverviewFragment extends Fragment {
     private MonsterSpecificAwakeningsListAdapter monsterSpecificAwakeningsListAdapter;
     private Team team;
     private OnFragmentInteractionListener mListener;
+    private TextView teamCostValue;
+    private CheckBox hasLeaderSkillCheck1, hasLeaderSkillCheck2;
+    private ImageView hasLeaderSkill, teamBadge;
+    private TeamBadgeDialogFragment teamBadgeDialogFragment;
+    private Realm realm = Realm.getDefaultInstance();
 
     // TODO: Rename and change types and number of parameters
     public static TeamOverviewFragment newInstance(Team team) {
@@ -93,6 +105,11 @@ public class TeamOverviewFragment extends Fragment {
         utilityAwakenings = (ExpandableHeightGridView) rootView.findViewById(R.id.utilityAwakenings);
         damageAwakenings = (ExpandableHeightGridView) rootView.findViewById(R.id.damageAwakenings);
         monsterSpecific = (ListView) rootView.findViewById(R.id.monsterSpecific);
+        hasLeaderSkill = (ImageView) rootView.findViewById(R.id.hasLeaderSkill);
+        teamBadge = (ImageView) rootView.findViewById(R.id.teamBadge);
+        hasLeaderSkillCheck1 = (CheckBox) rootView.findViewById(R.id.hasLeaderSkillCheck1);
+        hasLeaderSkillCheck2 = (CheckBox) rootView.findViewById(R.id.hasLeaderSkillCheck2);
+        teamCostValue = (TextView) rootView.findViewById(R.id.teamCostValue);
         return rootView;
     }
 
@@ -113,6 +130,8 @@ public class TeamOverviewFragment extends Fragment {
         setTeamStats();
         setupAwakeningFilters();
         trimAwakenings();
+        setTeamBadge();
+        setCheckBoxes();
         utilityAwakeningGridAdapter = new AwakeningGridAdapter(getActivity(), team.getMonsters(), utilityAwakeningList, latentUtilityAwakeningList, false, team.getTeamBadge());
         utilityAwakenings.setAdapter(utilityAwakeningGridAdapter);
 //        utilityAwakenings.setHasFixedSize(true);
@@ -126,6 +145,10 @@ public class TeamOverviewFragment extends Fragment {
         monsterSpecific.setAdapter(monsterSpecificAwakeningsListAdapter);
         setListViewHeightBasedOnChildren(monsterSpecific);
         getActivity().setTitle("Team Overview");
+        teamBadge.setOnClickListener(teamBadgeOnClickListener);
+        hasLeaderSkillCheck1.setOnCheckedChangeListener(checkBoxOnChangeListener);
+        hasLeaderSkillCheck2.setOnCheckedChangeListener(checkBoxOnChangeListener);
+        hasLeaderSkill.setOnClickListener(tooltipOnClickListener);
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
@@ -221,7 +244,7 @@ public class TeamOverviewFragment extends Fragment {
 //        }
         ArrayList<Integer> tempAwakenings = new ArrayList<>();
         for (int i = 0; i < monsterList.size(); i++) {
-            if (!latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(0)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(1)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(2)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(3)) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(4))) {
+            if (!latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(0).getValue()) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(1).getValue()) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(2).getValue()) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(3).getValue()) && !latentMonsterSpecificFilter.contains(monsterList.get(i).getLatents().get(4).getValue())) {
                 if (monsterList.get(i).getCurrentAwakenings() < monsterList.get(i).getMaxAwakenings()) {
                     for (int j = 0; j < monsterList.get(i).getCurrentAwakenings(); j++) {
                         if (monsterSpecificFilter.contains(monsterList.get(i).getAwokenSkills(j))) {
@@ -296,6 +319,104 @@ public class TeamOverviewFragment extends Fragment {
 //        }
         teamHpValue.setText(String.valueOf(team.getTeamHealth()));
         teamRcvValue.setText(String.valueOf(team.getTeamRcv()));
+        teamCostValue.setText(String.valueOf(team.getTeamCost()));
     }
+
+    private void setTeamBadge(){
+        switch (team.getTeamBadge()){
+            case 0:
+                teamBadge.setImageResource(R.drawable.team_badge_nothing);
+                break;
+            case 1:
+                teamBadge.setImageResource(R.drawable.team_badge_cost);
+                break;
+            case 2:
+                teamBadge.setImageResource(R.drawable.team_badge_time_extend);
+                break;
+            case 3:
+                teamBadge.setImageResource(R.drawable.team_badge_mass_attack);
+                break;
+            case 4:
+                teamBadge.setImageResource(R.drawable.team_badge_rcv);
+                break;
+            case 5:
+                teamBadge.setImageResource(R.drawable.team_badge_hp);
+                break;
+            case 6:
+                teamBadge.setImageResource(R.drawable.team_badge_attack);
+                break;
+            case 7:
+                teamBadge.setImageResource(R.drawable.team_badge_skill_boost);
+                break;
+            case 8:
+                teamBadge.setImageResource(R.drawable.team_badge_bind_resist);
+                break;
+            case 9:
+                teamBadge.setImageResource(R.drawable.team_badge_skill_bind_resist);
+                break;
+        }
+    }
+
+    private void setCheckBoxes() {
+        hasLeaderSkillCheck1.setChecked(Singleton.getInstance().hasLeaderSkill());
+        hasLeaderSkillCheck2.setChecked(Singleton.getInstance().hasHelperSkill());
+    }
+
+    private View.OnClickListener teamBadgeOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (teamBadgeDialogFragment == null) {
+                teamBadgeDialogFragment = TeamBadgeDialogFragment.newInstance(setTeamBadge, team);
+            }
+            if (!teamBadgeDialogFragment.isAdded()) {
+                teamBadgeDialogFragment.show(getActivity().getSupportFragmentManager(), "Team Badge Dialog");
+            }
+        }
+    };
+
+    private TeamBadgeDialogFragment.SetTeamBadge setTeamBadge = new TeamBadgeDialogFragment.SetTeamBadge() {
+        @Override
+        public void setBadge(int badge) {
+            realm.beginTransaction();
+            team.setTeamBadge(badge);
+            if(team.getIsBound().get(0) && badge == 8){
+                team.getIsBound().set(0, false);
+            }
+            realm.commitTransaction();
+            setTeamBadge();
+            team.setTeamStats();
+            setTeamStats();
+            utilityAwakeningGridAdapter.updateTeamBadge(team.getTeamBadge());
+        }
+    };
+
+    private CompoundButton.OnCheckedChangeListener checkBoxOnChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (buttonView.equals(hasLeaderSkillCheck1)){
+                Singleton.getInstance().setHasLeaderSkill(isChecked);
+            } else if (buttonView.equals(hasLeaderSkillCheck2)){
+                Singleton.getInstance().setHasHelperSkill(isChecked);
+            }
+            team.setTeamStats();
+            setTeamStats();
+        }
+    };
+
+    private View.OnClickListener tooltipOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            TooltipText tooltipText;
+            switch (id) {
+                case R.id.hasLeaderSkill:
+                    tooltipText = new TooltipText(getContext(), "Enable Leader skills for leader and helper");
+                    break;
+                default:
+                    tooltipText = new TooltipText(getContext(), "How did you get this tooltip?");
+            }
+            tooltipText.show(v);
+        }
+    };
 
 }

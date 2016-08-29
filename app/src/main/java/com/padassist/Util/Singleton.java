@@ -31,6 +31,8 @@ public class Singleton {
     private boolean activeSkillUsed = false;
     private boolean heartCarryOver = false;
     private boolean meetsFilterRequirements = false;
+    private boolean hasLeaderSkill = true;
+    private boolean hasHelperSkill = true;
 
     private Context context;
 
@@ -212,5 +214,21 @@ public class Singleton {
 
     public void setFilterLatents(ArrayList<Integer> filterLatents) {
         this.filterLatents = filterLatents;
+    }
+
+    public boolean hasHelperSkill() {
+        return hasHelperSkill;
+    }
+
+    public void setHasHelperSkill(boolean hasHelperSkill) {
+        this.hasHelperSkill = hasHelperSkill;
+    }
+
+    public boolean hasLeaderSkill() {
+        return hasLeaderSkill;
+    }
+
+    public void setHasLeaderSkill(boolean hasLeaderSkill) {
+        this.hasLeaderSkill = hasLeaderSkill;
     }
 }

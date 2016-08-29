@@ -30,25 +30,24 @@ public class AwakeningGridAdapter extends BaseAdapter {
     private ArrayList<Integer> latentListAll;
     private ArrayList<Integer> awakeningAmountList;
     private ArrayList<Integer> latentAmountList;
-    private boolean monsterSpecificAdapter;
+    private boolean isMonsterSpecificAdapter;
     private int teamBadge;
 
-    public AwakeningGridAdapter(Context context, ArrayList<Monster> monsterList, ArrayList<Integer> awakenings, ArrayList<Integer> latents, boolean monsterSpecificAdapter, int teamBadge) {
+    public AwakeningGridAdapter(Context context, ArrayList<Monster> monsterList, ArrayList<Integer> awakenings, ArrayList<Integer> latents, boolean isMonsterSpecificAdapter, int teamBadge) {
         mContext = context;
         this.monsterList = monsterList;
         awakeningListAll = awakenings;
         latentListAll = latents;
-        this.monsterSpecificAdapter = monsterSpecificAdapter;
+        this.isMonsterSpecificAdapter = isMonsterSpecificAdapter;
         this.teamBadge = teamBadge;
         trimAwakenings();
     }
 
     @Override
     public int getCount() {
-        if(latentListAll.size() != 0){
+        if (latentListAll.size() != 0) {
             return (awakeningList.size() + latentList.size());
-        }
-        else {
+        } else {
             return awakeningList.size();
         }
     }
@@ -66,7 +65,6 @@ public class AwakeningGridAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-
 
 
     @Override
@@ -259,8 +257,8 @@ public class AwakeningGridAdapter extends BaseAdapter {
             }
             viewHolder.awakeningAmount.setText("x" + awakeningAmountList.get(position));
         }
-            viewHolder.relativeLayout.setTag(R.string.index, position);
-            viewHolder.relativeLayout.setOnClickListener(awakeningToolTipOnClickListener);
+        viewHolder.relativeLayout.setTag(R.string.index, position);
+        viewHolder.relativeLayout.setOnClickListener(awakeningToolTipOnClickListener);
 
         return convertView;
     }
@@ -275,7 +273,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
             String text = "Testerino";
             int awakening;
             double counter;
-            if(position >= awakeningList.size()){
+            if (position >= awakeningList.size()) {
                 awakening = latentList.get(position - awakeningList.size());
                 counter = latentAmountList.get(position - awakeningList.size());
                 switch (awakening) {
@@ -289,76 +287,229 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = "Bonus " + counter * 5 + "% of base RCV";
                         break;
                     case 4:
-                        text = "Extra " + counter * .05 + " seconds to match";
+                        if (awakeningList.contains(19)) {
+                            int awakeningPosition = 0;
+                            for (int i = 0; i < awakeningList.size(); i++) {
+                                if (awakeningList.get(i) != 19) {
+                                    awakeningPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            if (teamBadge == 2) {
+                                text = "Extra " + (counter * .05 + 1 + awakeningAmountList.get(awakeningPosition) * .5) + " seconds to match (1s from Team Badge and " + awakeningAmountList.get(awakeningPosition) * .5 + "s from awakenings)";
+                            } else {
+                                text = "Extra " + (counter * .05 + awakeningAmountList.get(awakeningPosition) * .5) + " seconds to match (" + awakeningAmountList.get(awakeningPosition) * .5 + "s from awakenings)";
+                            }
+                        } else {
+                            if (teamBadge == 2) {
+                                text = "Extra " + (counter * .05 + 1) + " seconds to match (1s from Team Badge)";
+                            } else {
+                                if (counter == 20) {
+                                    text = "Extra " + counter * .05 + " second to match";
+                                } else {
+                                    text = "Extra " + counter * .05 + " seconds to match";
+                                }
+                            }
+                        }
                         break;
                     case 5:
                         text = "Auto-heal " + counter * 15 + "% of total RCV";
                         break;
                     case 6:
-                        text = "Resist " + counter + "% of fire damage";
+                        if (awakeningList.contains(4)) {
+                            int awakeningPosition = 0;
+                            for (int i = 0; i < awakeningList.size(); i++) {
+                                if (awakeningList.get(i) != 4) {
+                                    awakeningPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of fire damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+
+                        } else {
+                            text = "Resist " + counter + "% of fire damage";
+                        }
                         break;
                     case 7:
-                        text = "Resist " + counter + "% of water damage";
+                        if (awakeningList.contains(5)) {
+                            int awakeningPosition = 0;
+                            for (int i = 0; i < awakeningList.size(); i++) {
+                                if (awakeningList.get(i) != 5) {
+                                    awakeningPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of water damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+
+                        } else {
+                            text = "Resist " + counter + "% of water damage";
+                        }
                         break;
                     case 8:
-                        text = "Resist " + counter + "% of grass damage";
+                        if (awakeningList.contains(6)) {
+                            int awakeningPosition = 0;
+                            for (int i = 0; i < awakeningList.size(); i++) {
+                                if (awakeningList.get(i) != 6) {
+                                    awakeningPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of wood damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+
+                        } else {
+                            text = "Resist " + counter + "% of wood damage";
+                        }
                         break;
                     case 9:
-                        text = "Resist " + counter + "% of light damage";
+                        if (awakeningList.contains(7)) {
+                            int awakeningPosition = 0;
+                            for (int i = 0; i < awakeningList.size(); i++) {
+                                if (awakeningList.get(i) != 7) {
+                                    awakeningPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of light damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+
+                        } else {
+                            text = "Resist " + counter + "% of light damage";
+                        }
                         break;
                     case 10:
-                        text = "Resist " + counter + "% of dark damage";
+                        if (awakeningList.contains(8)) {
+                            int awakeningPosition = 0;
+                            for (int i = 0; i < awakeningList.size(); i++) {
+                                if (awakeningList.get(i) != 8) {
+                                    awakeningPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of dark damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+
+                        } else {
+                            text = "Resist " + counter + "% of dark damage";
+                        }
                         break;
                     case 11:
-                        text = "Resist " + counter + " turns of skill delay";
+                        if (counter == 1) {
+                            text = "Resist " + counter + " turn of skill delay";
+                        } else {
+                            text = "Resist " + counter + " turns of skill delay";
+                        }
                         break;
                 }
-                for (int i = 0; i < monsterList.size(); i++){
-                    for(int j = 0; j < monsterList.get(i).getLatents().size(); j++){
-                        if(monsterList.get(i).getLatents().get(j).getValue() == awakening){
-                            if(!filteredMonsters.contains(monsterList.get(i))){
+                for (int i = 0; i < monsterList.size(); i++) {
+                    for (int j = 0; j < monsterList.get(i).getLatents().size(); j++) {
+                        if (monsterList.get(i).getLatents().get(j).getValue() == awakening) {
+                            if (!filteredMonsters.contains(monsterList.get(i))) {
                                 filteredMonsters.add(monsterList.get(i));
                             }
                         }
                     }
                 }
-                tooltipAwakening = new TooltipAwakening(mContext, text, awakening, true, filteredMonsters, monsterSpecificAdapter);
+                tooltipAwakening = new TooltipAwakening(mContext, text, awakening, true, filteredMonsters, isMonsterSpecificAdapter);
             } else {
                 awakening = awakeningList.get(position);
                 counter = awakeningAmountList.get(position);
                 switch (awakening) {
                     case 1:
-                        text = "Bonus " + counter * 200 + "% HP";
+                        text = "Bonus " + counter * 200 + " HP";
                         break;
                     case 2:
-                        text = "Bonus " + counter * 100 + "% ATK";
+                        text = "Bonus " + counter * 100 + " ATK";
                         break;
                     case 3:
-                        text = "Bonus " + counter * 50 + "% RCV";
+                        text = "Bonus " + counter * 50 + " RCV";
                         break;
                     case 4:
-                        text = "Resist " + counter * 5 + "% of fire damage";
+                        if (latentList.contains(6)) {
+                            int latentPosition = 0;
+                            for (int i = 0; i < latentList.size(); i++) {
+                                if (latentList.get(i) != 6) {
+                                    latentPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of fire damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                        } else {
+                            text = "Resist " + counter * 5 + "% of fire damage";
+                        }
                         break;
                     case 5:
-                        text = "Resist " + counter * 5 + "% of water damage";
+                        if (latentList.contains(7)) {
+                            int latentPosition = 0;
+                            for (int i = 0; i < latentList.size(); i++) {
+                                if (latentList.get(i) != 7) {
+                                    latentPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of water damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                        } else {
+                            text = "Resist " + counter * 5 + "% of water damage";
+                        }
                         break;
                     case 6:
-                        text = "Resist " + counter * 5 + "% of grass damage";
+                        if (latentList.contains(8)) {
+                            int latentPosition = 0;
+                            for (int i = 0; i < latentList.size(); i++) {
+                                if (latentList.get(i) != 8) {
+                                    latentPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of wood damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                        } else {
+                            text = "Resist " + counter * 5 + "% of wood damage";
+                        }
                         break;
                     case 7:
-                        text = "Resist " + counter * 5 + "% of light damage";
+                        if (latentList.contains(9)) {
+                            int latentPosition = 0;
+                            for (int i = 0; i < latentList.size(); i++) {
+                                if (latentList.get(i) != 9) {
+                                    latentPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of light damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                        } else {
+                            text = "Resist " + counter * 5 + "% of light damage";
+                        }
                         break;
                     case 8:
-                        text = "Resist " + counter * 5 + "% of dark damage";
+                        if (latentList.contains(10)) {
+                            int latentPosition = 0;
+                            for (int i = 0; i < latentList.size(); i++) {
+                                if (latentList.get(i) != 10) {
+                                    latentPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of dark damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                        } else {
+                            text = "Resist " + counter * 5 + "% of dark damage";
+                        }
                         break;
                     case 9:
                         text = "Auto-Heal " + counter * 500 + " HP";
                         break;
                     case 10:
-                        text = counter * 50 + "% chance to resist bind";
+                        text = counter * 50 + "% chance to resist binds";
                         break;
                     case 11:
-                        text = counter * 20 + "% chance to resist blind";
+                        text = counter * 20 + "% chance to resist blinds";
                         break;
                     case 12:
                         text = counter * 20 + "% chance to resist jammer orbs";
@@ -367,35 +518,55 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = counter * 20 + "% chance to resist poison orbs";
                         break;
                     case 14:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced fire orbs.";
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced fire orbs";
                         break;
                     case 15:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced water orbs.";
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced water orbs";
                         break;
                     case 16:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced grass orbs.";
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced wood orbs";
                         break;
                     case 17:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced light orbs.";
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced light orbs";
                         break;
                     case 18:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced dark orbs.";
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced dark orbs";
                         break;
                     case 19:
-                        if(teamBadge == 2){
-                            text = "Extra " + (counter * .5 + 1) + " seconds to match (1s from Team Badge)";
+                        if (latentList.contains(4)) {
+                            int latentPosition = 0;
+                            for (int i = 0; i < latentList.size(); i++) {
+                                if (latentList.get(i) != 4) {
+                                    latentPosition++;
+                                } else {
+                                    break;
+                                }
+                            }
+                            if (teamBadge == 2) {
+                                text = "Extra " + (counter * .5 + 1 + latentAmountList.get(latentPosition) * .05) + " seconds to match (1s from Team Badge and " + latentAmountList.get(latentPosition) * .05 + "s from latents)";
+                            } else {
+                                text = "Extra " + (counter * .5 + latentAmountList.get(latentPosition) * .05) + " seconds to match (" + latentAmountList.get(latentPosition) * .05 + "s from latents)";
+                            }
                         } else {
-                            text = "Extra " + counter * .5 + " seconds to match";
+                            if (teamBadge == 2) {
+                                text = "Extra " + (counter * .5 + 1) + " seconds to match (1s from Team Badge)";
+                            } else {
+                                if (counter == 2) {
+                                    text = "Extra " + counter * .5 + " second to match";
+                                } else {
+                                    text = "Extra " + counter * .5 + " seconds to match";
+                                }
+                            }
                         }
                         break;
                     case 20:
                         text = counter * 3 + " turns of bind recovery when matching a row of heart orbs";
                         break;
                     case 21:
-                        if(teamBadge == 7){
+                        if (teamBadge == 7) {
                             text = (counter + 1) + " turns charged for active skills (1 from Team Badge)";
                         } else {
-                            text = counter  + " turns charged for active skills";
+                            text = counter + " turns charged for active skills";
                         }
                         break;
                     case 22:
@@ -405,7 +576,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = counter * 10 + "% bonus damage for matching a row of water orbs";
                         break;
                     case 24:
-                        text = counter * 10 + "% bonus damage for matching a row of grass orbs";
+                        text = counter * 10 + "% bonus damage for matching a row of wood orbs";
                         break;
                     case 25:
                         text = counter * 10 + "% bonus damage for matching a row of light orbs";
@@ -414,11 +585,11 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = counter * 10 + "% bonus damage for matching a row of dark orbs";
                         break;
                     case 27:
-                        text = "Attack two targets and " + Math.pow(1.5, counter) + "x bonus damage when matching 4 orbs";
+                        text = "Attack two targets and deal " + Math.pow(1.5, counter) + "x bonus damage when matching 4 orbs";
                         break;
                     case 28:
-                        if(teamBadge == 9){
-                            if(counter >= 5){
+                        if (teamBadge == 9) {
+                            if (counter >= 5) {
                                 text = counter * 20 + "% chance to resist skill bind (Team Badge has no effect)";
                             } else {
                                 text = (((100 - (counter * 20)) * .5) + counter * 20) + "% chance to resist skill bind (Stacks multiplicatively with Team Badge)";
@@ -428,7 +599,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         }
                         break;
                     case 29:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus healing for enhanced heart orbs.";
+                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus healing for enhanced heart orbs";
                         break;
                     case 30:
                         text = "Boost stats by " + Math.pow(1.5, counter) + "x during cooperation mode";
@@ -470,16 +641,16 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = counter * 3 + "x bonus damage versus Evo Material types";
                         break;
                 }
-                for (int i = 0; i < monsterList.size(); i++){
-                    for(int j = 0; j < monsterList.get(i).getAwokenSkills().size(); j++){
-                        if(monsterList.get(i).getAwokenSkills(j) == awakening){
-                            if(!filteredMonsters.contains(monsterList.get(i))){
+                for (int i = 0; i < monsterList.size(); i++) {
+                    for (int j = 0; j < monsterList.get(i).getAwokenSkills().size(); j++) {
+                        if (monsterList.get(i).getAwokenSkills(j) == awakening) {
+                            if (!filteredMonsters.contains(monsterList.get(i))) {
                                 filteredMonsters.add(monsterList.get(i));
                             }
                         }
                     }
                 }
-                tooltipAwakening = new TooltipAwakening(mContext, text, awakening, false, filteredMonsters, monsterSpecificAdapter);
+                tooltipAwakening = new TooltipAwakening(mContext, text, awakening, false, filteredMonsters, isMonsterSpecificAdapter);
             }
             tooltipAwakening.show(v);
         }
@@ -526,7 +697,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
         }
         awakeningAmountList.add(amount);
 
-        if(latentListAll.size() != 0){
+        if (latentListAll.size() != 0) {
             if (latentList != null) {
                 latentList.clear();
             } else {
@@ -561,5 +732,10 @@ public class AwakeningGridAdapter extends BaseAdapter {
             }
             latentAmountList.add(amount2);
         }
+    }
+
+    public void updateTeamBadge(int teamBadge) {
+        this.teamBadge = teamBadge;
+        notifyDataSetChanged();
     }
 }
