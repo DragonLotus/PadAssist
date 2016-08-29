@@ -410,7 +410,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
                 if(realm.where(ActiveSkill.class).equalTo("name", monsterList.get(position).getActiveSkill()).findFirst() == null){
                     viewHolder.activeSkillDesc.setText("This monster has an active skill but the author of this app  has not realized that it doesn't exist in his database yet.");
                 } else {
-                    viewHolder.activeSkillDesc.setText(realm.where(LeaderSkill.class).equalTo("name", monsterList.get(position).getActiveSkill()).findFirst().getDescription());
+                    viewHolder.activeSkillDesc.setText(realm.where(ActiveSkill.class).equalTo("name", monsterList.get(position).getActiveSkill()).findFirst().getDescription());
                 }
                 viewHolder.activeSkillName.setVisibility(View.VISIBLE);
                 viewHolder.activeSkillDesc.setVisibility(View.VISIBLE);
@@ -464,6 +464,7 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
         viewHolder.monsterPicture.getLayoutParams().width = fortyEightDp;
         viewHolder.monsterPicture.requestLayout();
         viewHolder.relativeLayout.setPadding(eightDp, 0, eightDp, 0);
+        viewHolder.monsterName.setVisibility(View.VISIBLE);
         if (monsterList.get(position).getMonsterId() == 0) {
             viewHolder.type1.setVisibility(View.GONE);
             viewHolder.type2.setVisibility(View.GONE);

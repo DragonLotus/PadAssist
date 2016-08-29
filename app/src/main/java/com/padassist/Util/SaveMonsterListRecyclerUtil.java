@@ -844,6 +844,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         viewHolder.monsterPicture.getLayoutParams().width = fortyEightDp;
         viewHolder.monsterPicture.requestLayout();
         viewHolder.relativeLayout.setPadding(eightDp, 0, eightDp, 0);
+        viewHolder.monsterName.setVisibility(View.VISIBLE);
         if (monsterList.get(position).getMonsterId() == 0) {
             viewHolder.type1.setVisibility(View.GONE);
             viewHolder.type2.setVisibility(View.GONE);
@@ -875,6 +876,7 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         } else {
             viewHolder.favorite.setVisibility(View.INVISIBLE);
         }
+
 
         if (position % 2 == 1) {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
