@@ -3,9 +3,16 @@ package com.padassist.Util;
 import android.util.Log;
 import android.util.StringBuilderPrinter;
 
+import com.padassist.Data.ActiveSkill;
+import com.padassist.Data.BaseMonster;
+import com.padassist.Data.LeaderSkill;
+
 import io.realm.DynamicRealm;
+import io.realm.LeaderSkillRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmMigration;
+import io.realm.RealmObject;
+import io.realm.RealmObjectSchema;
 import io.realm.RealmSchema;
 
 /**
@@ -40,6 +47,17 @@ public class Migration implements RealmMigration {
                     .addField("minimumCooldown", int.class)
                     .addField("maximumCooldown", int.class);
             oldVersion++;
+        }
+
+        if(oldVersion == 3){
+//            schema.get("BaseMonster")
+//                    .renameField("leaderSkill", "leaderSkillString")
+//                    .renameField("activeSkill", "activeSkillString")
+//                    .addRealmObjectField("leaderSkill", schema.get("LeaderSkill"))
+//                    .addRealmObjectField("activeSkill", schema.get("ActiveSkill"));
+//            schema.get("Monster")
+//                    .renameField("activeSkill2", "activeSkill2String")
+//                    .addRealmObjectField("activeSkill2", schema.get("ActiveSkill"));
         }
     }
 }

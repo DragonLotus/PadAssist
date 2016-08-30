@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -215,6 +216,8 @@ public abstract class BaseMonsterListUtil extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.d("BaseMonsterListUtil", "Starting base monster copy pasta");
+        long start = SystemClock.currentThreadTimeMillis();
         if (getArguments() != null) {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
@@ -227,6 +230,8 @@ public abstract class BaseMonsterListUtil extends Fragment {
         for(int i = 0; i < results.size(); i++) {
              monsterListAll.add(realm.copyFromRealm(results.get(i)));
         }
+        long end = SystemClock.currentThreadTimeMillis();
+        Log.d("BaseMonsterListUtil", "Time to copy pasta base monsters " + (end-start) + "ms");
 //        monsterListAll.addAll(results);
         if (monsterList == null) {
             monsterList = new ArrayList<>();

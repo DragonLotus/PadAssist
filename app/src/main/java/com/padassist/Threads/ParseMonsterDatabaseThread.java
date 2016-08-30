@@ -3,20 +3,16 @@ package com.padassist.Threads;
 //import com.activeandroid.ActiveAndroid;
 import android.util.Log;
 
-import com.padassist.BuildConfig;
-import com.padassist.Constants;
 import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
-import com.padassist.Data.Element;
 import com.padassist.Data.LeaderSkill;
-import com.padassist.Data.LeaderSkillType;
+import com.padassist.Data.Monster;
 import com.padassist.Data.RealmDouble;
 import com.padassist.Data.RealmElement;
 import com.padassist.Data.RealmInt;
 import com.padassist.Data.RealmLeaderSkillType;
 import com.padassist.Data.RealmLong;
 import com.padassist.R;
-import com.padassist.Util.SharedPreferencesUtil;
 import com.padassist.Util.Singleton;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +21,7 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by Thomas on 11/22/2015.
@@ -53,6 +50,7 @@ public class ParseMonsterDatabaseThread extends Thread {
         parseMonsterDatabase();
         parseLeaderSkillDatabase();
         parseActiveSkillDatabase();
+        linkMonstersToSkills();
 
     }
 
@@ -113,7 +111,7 @@ public class ParseMonsterDatabaseThread extends Thread {
                     monster.setXpCurve(monsterNode.get("xp_curve").asInt());
                 }
                 if (monsterNode.hasNonNull("leader_skill")) {
-                    monster.setLeaderSkill(monsterNode.get("leader_skill").asText());
+                    monster.setLeaderSkillString(monsterNode.get("leader_skill").asText());
                 }
                 if (monsterNode.hasNonNull("team_cost")) {
                     monster.setTeamCost(monsterNode.get("team_cost").asInt());
@@ -131,7 +129,7 @@ public class ParseMonsterDatabaseThread extends Thread {
                     monster.setHpMin(monsterNode.get("hp_min").asInt());
                 }
                 if (monsterNode.hasNonNull("active_skill")) {
-                    monster.setActiveSkill(monsterNode.get("active_skill").asText());
+                    monster.setActiveSkillString(monsterNode.get("active_skill").asText());
                 }
                 if (monsterNode.hasNonNull("atk_min")) {
                     monster.setAtkMin(monsterNode.get("atk_min").asInt());
@@ -263,7 +261,7 @@ public class ParseMonsterDatabaseThread extends Thread {
                     activeSkill.setMinimumCooldown(activeSkillNode.get("min_cooldown").asInt());
                 }
                 if (activeSkillNode.hasNonNull("max_cooldown")) {
-                    activeSkill.setMinimumCooldown(activeSkillNode.get("max_cooldown").asInt());
+                    activeSkill.setMaximumCooldown(activeSkillNode.get("max_cooldown").asInt());
                 }
                 realm.copyToRealmOrUpdate(activeSkill);
                 update.updateValues(counter);
@@ -272,6 +270,27 @@ public class ParseMonsterDatabaseThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+        }
+    }
+
+    private void linkMonstersToSkills(){
+        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).findAll();
+        for (BaseMonster monster : results){
+            counter++;
+            monster.setLeaderSkill(realm.where(LeaderSkill.class).equalTo("name", monster.getLeaderSkillString()).findFirst());
+            monster.setActiveSkill(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkillString()).findFirst());
+            update.updateValues(counter);
+        }
+
+        RealmResults<Monster> savedMonstersResults = realm.where(Monster.class).findAll();
+        if(savedMonstersResults.size() != 0){
+            for(Monster monster: savedMonstersResults){
+                counter++;
+                if(monster.getActiveSkill2String() != "Blank"){
+                    monster.setActiveSkill2(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkill2String()).findFirst());
+                }
+                update.updateValues(counter);
+            }
         }
     }
 

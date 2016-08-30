@@ -9,12 +9,10 @@ import com.padassist.R;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
-import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -59,9 +57,13 @@ public class BaseMonster extends RealmObject implements Parcelable {
 
     private RealmList<RealmInt> awokenSkills;
 
-    private String activeSkill;
+    private String activeSkillString;
 
-    private String leaderSkill;
+    private String leaderSkillString;
+
+    private ActiveSkill activeSkill;
+
+    private LeaderSkill leaderSkill;
 
     private String name;
 
@@ -100,8 +102,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //        element1 = new RealmElement(0);
 //        element2 = new RealmElement(0);
         name = "Empty";
-        leaderSkill = "Blank";
-        activeSkill = "Blank";
+        leaderSkillString = "Blank";
+        activeSkillString = "Blank";
         type1 = -1;
         type2 = -1;
         type3 = -1;
@@ -110,12 +112,12 @@ public class BaseMonster extends RealmObject implements Parcelable {
         teamCost = 0;
     }
 
-    public String getActiveSkill() {
-        return activeSkill;
+    public String getActiveSkillString() {
+        return activeSkillString;
     }
 
-    public void setActiveSkill(String activeSkill) {
-        this.activeSkill = activeSkill;
+    public void setActiveSkillString(String activeSkillString) {
+        this.activeSkillString = activeSkillString;
     }
 
     public int getAtkMax() {
@@ -233,11 +235,27 @@ public class BaseMonster extends RealmObject implements Parcelable {
         this.hpScale = hpScale;
     }
 
-    public String getLeaderSkill() {
+    public String getLeaderSkillString() {
+        return leaderSkillString;
+    }
+
+    public void setLeaderSkillString(String leaderSkillString) {
+        this.leaderSkillString = leaderSkillString;
+    }
+
+    public ActiveSkill getActiveSkill() {
+        return activeSkill;
+    }
+
+    public void setActiveSkill(ActiveSkill activeSkill) {
+        this.activeSkill = activeSkill;
+    }
+
+    public LeaderSkill getLeaderSkill() {
         return leaderSkill;
     }
 
-    public void setLeaderSkill(String leaderSkill) {
+    public void setLeaderSkill(LeaderSkill leaderSkill) {
         this.leaderSkill = leaderSkill;
     }
 
@@ -494,8 +512,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //        element1 = (Element) source.readSerializable();
 //        element2 = (Element) source.readSerializable();
 //        awokenSkills = source.readArrayList(Integer.class.getClassLoader());
-        activeSkill = source.readString();
-        leaderSkill = source.readString();
+        activeSkillString = source.readString();
+        leaderSkillString = source.readString();
         name = source.readString();
         atkScale = source.readDouble();
         rcvScale = source.readDouble();
@@ -529,8 +547,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //        dest.writeSerializable(element1);
 //        dest.writeSerializable(element2);
 //        dest.writeList(awokenSkills);
-        dest.writeString(activeSkill);
-        dest.writeString(leaderSkill);
+        dest.writeString(activeSkillString);
+        dest.writeString(leaderSkillString);
         dest.writeString(name);
         dest.writeDouble(atkScale);
         dest.writeDouble(rcvScale);

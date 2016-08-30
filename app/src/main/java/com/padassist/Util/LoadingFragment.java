@@ -92,6 +92,8 @@ public class LoadingFragment extends Fragment {
                 progressDialog.setMessage("Loading Leader Skills...");
             } else if (values[0] == Constants.numOfMonsters + Constants.numOfLeaderSkills){
                 progressDialog.setMessage("Loading Active Skills...");
+            } else if (values[0] == Constants.numOfMonsters + Constants.numOfLeaderSkills + Constants.numOfActiveSkills){
+                progressDialog.setMessage("Linking monsters' skills...");
             }
         }
     }

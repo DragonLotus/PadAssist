@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -101,6 +102,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
 
     @Override
     public void onActivityCreatedSpecific() {
+        long start = SystemClock.currentThreadTimeMillis();
         if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }
@@ -123,6 +125,8 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                 monsterListAll.add(realm.copyFromRealm(results.get(i)));
             }
         }
+        long end = SystemClock.currentThreadTimeMillis();
+        Log.d("SaveMonsterListFragment", "Time to copy pasta saved monsters " + (end-start) + "ms");
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

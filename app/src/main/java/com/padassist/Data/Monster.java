@@ -2,13 +2,11 @@ package com.padassist.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -52,7 +50,9 @@ public class Monster extends RealmObject implements Parcelable {
 
     private boolean helper;
 
-    private String activeSkill2;
+    private String activeSkill2String;
+
+    private ActiveSkill activeSkill2;
 
     private int activeSkillLevel;
 
@@ -98,7 +98,7 @@ public class Monster extends RealmObject implements Parcelable {
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
             setCurrentRcv(DamageCalculationUtil.monsterStatCalc(baseMonster.getRcvMin(), baseMonster.getRcvMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getRcvScale()));
         }
-        activeSkill2 = "Blank";
+        activeSkill2String = "Blank";
         activeSkillLevel = 1;
         activeSkill2Level = 1;
     }
@@ -227,7 +227,7 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public double getTotalWeighted() {
-        return getWeighted() + hpPlus + atkPlus + rcvPlus;
+        return getTotalHp() / HP_PLUS_MULTIPLIER + getTotalAtk() / HP_PLUS_MULTIPLIER + getTotalRcv() / RCV_PLUS_MULTIPLIER;
     }
 
     public void setCurrentAtk(double currentAtk) {
@@ -318,20 +318,57 @@ public class Monster extends RealmObject implements Parcelable {
         return baseMonster.getAwokenSkills(position).getValue();
     }
 
-    public String getActiveSkill() {
+    public ActiveSkill getActiveSkill(){
         return baseMonster.getActiveSkill();
     }
 
-    public String getActiveSkill2() {
+    public String getActiveSkillString(){
+        return baseMonster.getActiveSkillString();
+    }
+
+    public ActiveSkill getActiveSkill2() {
         return activeSkill2;
     }
 
-    public void setActiveSkill2(String activeSkill2) {
+    public String getActiveSkill2String() {
+        return activeSkill2String;
+    }
+
+    public void setActiveSkill2String(String activeSkill2String) {
+        this.activeSkill2String = activeSkill2String;
+    }
+
+    public void setActiveSkill2(ActiveSkill activeSkill2) {
         this.activeSkill2 = activeSkill2;
     }
 
-    public String getLeaderSkill() {
+    public int getActiveSkill2Level() {
+        if(activeSkill2Level == 0){
+            activeSkill2Level = 1;
+        }
+        return activeSkill2Level;
+    }
+
+    public void setActiveSkill2Level(int activeSkill2Level) {
+        this.activeSkill2Level = activeSkill2Level;
+    }
+
+    public int getActiveSkillLevel() {
+        if(activeSkillLevel == 0){
+            activeSkillLevel = 1;
+        }
+        return activeSkillLevel;
+    }
+
+    public void setActiveSkillLevel(int activeSkillLevel) {
+        this.activeSkillLevel = activeSkillLevel;
+    }
+
+    public LeaderSkill getLeaderSkill() {
         return baseMonster.getLeaderSkill();
+    }
+    public String getLeaderSkillString() {
+        return baseMonster.getLeaderSkillString();
     }
 
     public String getName() {

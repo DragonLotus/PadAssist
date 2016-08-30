@@ -360,8 +360,7 @@ public class Team extends RealmObject implements Parcelable {
             leaderSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
             return realm.copyFromRealm(leaderSkill);
         } else {
-            leaderSkill = realm.where(LeaderSkill.class).equalTo("name", lead.getLeaderSkill()).findFirst();
-            return realm.copyFromRealm(leaderSkill);
+            return lead.getLeaderSkill();
         }
     }
 
@@ -371,8 +370,7 @@ public class Team extends RealmObject implements Parcelable {
             helperSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
             return realm.copyFromRealm(helperSkill);
         } else {
-            helperSkill = realm.where(LeaderSkill.class).equalTo("name", helper.getLeaderSkill()).findFirst();
-            return realm.copyFromRealm(helperSkill);
+            return helper.getLeaderSkill();
         }
     }
 
@@ -797,15 +795,15 @@ public class Team extends RealmObject implements Parcelable {
     }
 
 //    public void updateLeaderSkills() {
-//        if(LeaderSkill.getLeaderSkill(lead.getLeaderSkill()) == null){
-//            leadSkill = LeaderSkill.getLeaderSkill("Blank");
+//        if(LeaderSkill.getLeaderSkillString(lead.getLeaderSkillString()) == null){
+//            leadSkill = LeaderSkill.getLeaderSkillString("Blank");
 //        } else {
-//            leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
+//            leadSkill = LeaderSkill.getLeaderSkillString(lead.getLeaderSkillString());
 //        }
-//        if(LeaderSkill.getLeaderSkill(helper.getLeaderSkill()) == null){
-//            helperSkill = LeaderSkill.getLeaderSkill("Blank");
+//        if(LeaderSkill.getLeaderSkillString(helper.getLeaderSkillString()) == null){
+//            helperSkill = LeaderSkill.getLeaderSkillString("Blank");
 //        } else {
-//            helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
+//            helperSkill = LeaderSkill.getLeaderSkillString(helper.getLeaderSkillString());
 //        }
 //    }
 

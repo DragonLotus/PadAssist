@@ -1,43 +1,54 @@
 Tags:
-board_change
-board_shuffle
-orb_change
-orb_enhance
-gravity
-delay
-bind_clear
-haste
-damage_reduction
-damage_nuke
-lifesteal
-true_damage
-damage_boost
-add_combo
-poison
-extend_time
-one_hp
-enemy_element_change
-own_element_change
-ctw
-heal
-defense_break
+Board Change (convertsTo)
+Board Shuffle
+Orb Change (convertsFrom, convertsTo)
+Orb Change Row (convertsTo, effectData (row #))
+Orb Change Column (convertsTo, effectData (column #))
+Orb Change Random (convertsFrom, convertsTo, effectData (# of orbs))
+Orb Enhance (enhances)
+Gravity (effectData)
+Delay (effectData)
+Bind Clear (effectData)
+Awakening Clear (effectData)
+Haste (effectData)
+Damage Reduction (effectData, effectTurns)
+Damage Nuke (effectData)
+Damage Flat (effectData)
+Life Steal (aint got shit)
+True Damage (effectData)
+Damage Boost (atkType, atkElement, atkData, effectTurns)
+Add Combo (effectData, effectTurns)
+Poison (effectData, effectTurns)
+Extend Time (effectData, effectTurns)
+Reduce Hp (effectData)
+Enemy Element Change (effectData)
+Own Element Change (effectData)
+Change The World (effectData)
+Percent Heal (effectData)
+Flat Heal (effectData)
+Defense Break (effectData, effectTurns)
+Multi Target (effectTurns)
+Recovery Boost (rcvData, effectTurns)
+Counter (effectData, effectTurns)
+Skillfall (effectData, effectTurns, atkElement)
 
 possible variables:
 awakeningSynergy (Jewel chicks)
 atkType
 atkElement
 atkData
+rcvData
 convertsFrom
 convertsTo
-trueDamage
-damage
-hasteTurns
-bindClear
-enhance
-delayTurns
-poisonMultiplier
-mainElementTo
-enemyElementTo
+damageMultiplier (based off of attack for nukes)
+enhances (orbs)
 healPercent
+flatHeal
+effectTurns (# of turns it affects you or enemy)
+effect2Turns (goes in order of tags)
+effect3Turns
+effectData (int)
+effect2Data (int)
+effect3Data (int)
 
-active skill 1 -> convertsTo -> active skill 2 -> convertsFrom -> activeSkill 2 -> convertsTo -> endResult
+active skill 1 -> convertsTo -> active skill 2 -> convertsFrom -> activeSkillString 2 -> convertsTo -> endResult

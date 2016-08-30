@@ -37,7 +37,8 @@
         android:layout_alignTop="@+id/rarity"
         android:layout_toRightOf="@+id/rarity"
         android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
     <ImageView
         android:id="@+id/favoriteOutline"
@@ -388,6 +389,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/activeSkill"
+            android:layout_toLeftOf="@+id/activeSkillCooldown"
             android:layout_alignTop="@+id/activeSkill"
             android:layout_alignBottom="@+id/activeSkill"
             android:ellipsize="marquee"
@@ -397,6 +399,16 @@
             android:text="Active Skill Name"
             android:textSize="16dp"
             android:layout_marginBottom="-4dp"/>
+
+        <TextView
+            android:id="@+id/activeSkillCooldown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/activeSkill"
+            android:layout_alignBottom="@+id/activeSkill"
+            android:layout_alignParentRight="true"
+            android:text="CD 99"
+            android:textSize="16dp"/>
 
         <TextView
             android:id="@+id/activeSkillDesc"
