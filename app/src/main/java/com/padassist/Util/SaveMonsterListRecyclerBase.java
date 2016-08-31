@@ -421,6 +421,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 ViewHolderGrid viewHolderGrid = new ViewHolderGrid(inflater.inflate(R.layout.save_monster_list_grid, parent, false));
                 viewHolderGrid.itemView.setOnClickListener(expandOnItemClickListener);
                 viewHolderGrid.itemView.setTag(viewHolderGrid);
+                viewHolderGrid.itemView.setOnLongClickListener(monsterListOnLongClickListener);
                 return viewHolderGrid;
             default:
                 ViewHolderLinear viewHolderLinear = new ViewHolderLinear(inflater.inflate(R.layout.save_monster_list_row, parent, false));

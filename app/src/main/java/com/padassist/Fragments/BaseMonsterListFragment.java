@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -147,7 +148,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
     private View.OnLongClickListener monsterListOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            int position = (int) v.getTag(R.string.index);
+            int position =  ((RecyclerView.ViewHolder)v.getTag()).getAdapterPosition();
             Team newTeam = realm.where(Team.class).equalTo("teamId", 0).findFirst();
             Monster newMonster;
             if (monsterList.get(position).getMonsterId() == 0 && monsterPosition == 0) {

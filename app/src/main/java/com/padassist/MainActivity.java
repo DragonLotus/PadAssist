@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
+import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.LeaderSkill;
@@ -139,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             disclaimerDialog.show(getSupportFragmentManager(), "Show Disclaimer");
         }
 
-        Log.d("Total", "Total Monsters: " + realm.where(BaseMonster.class).findAll().size() + " Total Leader Skills: " + realm.where(LeaderSkill.class).findAll().size());
+        Log.d("Total", "Total Monsters: " + realm.where(BaseMonster.class).findAll().size() + " Total Leader Skills: " + realm.where(LeaderSkill.class).findAll().size() + " Total Active Skills: " + realm.where(ActiveSkill.class).findAll().size());
         if (savedInstanceState != null) {
             mContent = getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
         }

@@ -759,7 +759,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j))) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -767,7 +767,6 @@ public class LeaderSkillCalculationUtil {
             }
 
         }
-
         if (counter >= leaderSkill.getComboMax()) {
             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff).getValue());
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff).getValue());
