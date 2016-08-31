@@ -48,7 +48,7 @@ public class LoadingFragment extends Fragment {
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setTitle("Loading...");
-            progressDialog.setMessage("Loading monsters...");
+            progressDialog.setMessage("Loading Leader Skills...");
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
             progressDialog.setMax(Constants.finalParseCount);
@@ -88,12 +88,12 @@ public class LoadingFragment extends Fragment {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            if (values[0] == Constants.numOfMonsters) {
-                progressDialog.setMessage("Loading Leader Skills...");
-            } else if (values[0] == Constants.numOfMonsters + Constants.numOfLeaderSkills){
+            if(values[0] == Constants.numOfLeaderSkills){
                 progressDialog.setMessage("Loading Active Skills...");
-            } else if (values[0] == Constants.numOfMonsters + Constants.numOfLeaderSkills + Constants.numOfActiveSkills){
-                progressDialog.setMessage("Linking monsters' skills...");
+            } else if (values[0] == Constants.numOfLeaderSkills + Constants.numOfActiveSkills){
+                progressDialog.setMessage("Loading Monsters...");
+            } else if (values[0] == Constants.numOfLeaderSkills + Constants.numOfActiveSkills + Constants.numOfMonsters) {
+                progressDialog.setMessage("Updating Saved Monsters...");
             }
         }
     }

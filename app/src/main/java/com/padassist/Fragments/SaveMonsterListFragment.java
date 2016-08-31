@@ -113,20 +113,14 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
         }
         if (monsterPosition == 5) {
             monsterListAll.clear();
-            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", true).findAll();
-            for (int i = 0; i < results.size(); i++) {
-                monsterListAll.add(realm.copyFromRealm(results.get(i)));
-            }
-            monsterListAll.add(monsterZero);
+            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", true).findAll());
+            monsterListAll.add(0, monsterZero);
         } else {
             monsterListAll.clear();
-            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
-            for (int i = 0; i < results.size(); i++) {
-                monsterListAll.add(realm.copyFromRealm(results.get(i)));
-            }
+            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", false).findAll());
         }
         long end = SystemClock.currentThreadTimeMillis();
-        Log.d("SaveMonsterListFragment", "Time to copy pasta saved monsters " + (end-start) + "ms");
+        Log.d("SaveMonsterListFragment", "Time to copy pasta saved monsters " + (end - start) + "ms");
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.padassist.Adapters.SaveMonsterListRecycler;
+import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
@@ -40,7 +41,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 public abstract class SaveMonsterListUtil extends Fragment {
@@ -584,9 +587,23 @@ public abstract class SaveMonsterListUtil extends Fragment {
                 if (!monsterList.isEmpty()) {
                     monsterList.clear();
                 }
-                filterMonsterName(query);
-                filterMonsterType(query);
-                filterMonsterNumber(query);
+                RealmResults<Monster> results = realm.where(Monster.class)
+                        .beginGroup()
+                        .contains("name", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type1String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type2String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type3String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("baseMonsterIdString", query, Case.INSENSITIVE)
+                        .endGroup()
+                        .greaterThan("monsterId", 0).findAll();
+                monsterList.addAll(results);
+//                filterMonsterName(query);
+//                filterMonsterType(query);
+//                filterMonsterNumber(query);
 //                filterMonsterElement(query);
             } else {
                 monsterList.clear();

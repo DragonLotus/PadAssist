@@ -26,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.deser.Deserializers;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
@@ -39,11 +41,13 @@ import com.padassist.R;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -127,7 +131,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
                 searchFilter(newText);
@@ -136,7 +140,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 return true;
             }
@@ -199,13 +203,13 @@ public abstract class BaseMonsterListUtil extends Fragment {
             case R.id.toggleGrid:
                 preferences.edit().putBoolean("isGrid", !isGrid).apply();
                 isGrid = preferences.getBoolean("isGrid", true);
-                if(isGrid){
+                if (isGrid) {
                     monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
                 } else {
                     monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
                 }
                 baseMonsterListRecycler.notifyDataSetChanged(isGrid);
-                if(baseMonsterListRecycler.getExpandedPosition() > -1){
+                if (baseMonsterListRecycler.getExpandedPosition() > -1) {
                     monsterListView.scrollToPosition(baseMonsterListRecycler.getExpandedPosition());
                 }
                 break;
@@ -222,16 +226,33 @@ public abstract class BaseMonsterListUtil extends Fragment {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
-        if(monsterListAll == null){
+        if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }
-        monsterListAll.clear();
-        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAll();
-        for(int i = 0; i < results.size(); i++) {
-             monsterListAll.add(realm.copyFromRealm(results.get(i)));
-        }
+
+        monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId"));
+
+//        Gson gson = new Gson();
+//        String baseMonsterList = preferences.getString("BaseMonsterList", "");
+//        if(baseMonsterList.isEmpty()){
+//            RealmResults<BaseMonster> results = realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId");
+//            for(BaseMonster monster : results){
+//                monsterListAll.add(realm.copyFromRealm(monster));
+//            }
+//            String jsonBaseMonsters = gson.toJson(monsterListAll);
+//            preferences.edit().putString("BaseMonsterList", jsonBaseMonsters).apply();
+//        } else {
+//            Type baseMonsterType = new TypeToken<ArrayList<BaseMonster>>(){}.getType();
+//            monsterListAll = gson.fromJson(baseMonsterList, baseMonsterType);
+//        }
+
+//        monsterListAll.clear();
+//        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAll();
+//        for(int i = 0; i < results.size(); i++) {
+//             monsterListAll.add(realm.copyFromRealm(results.get(i)));
+//        }
         long end = SystemClock.currentThreadTimeMillis();
-        Log.d("BaseMonsterListUtil", "Time to copy pasta base monsters " + (end-start) + "ms");
+        Log.d("BaseMonsterListUtil", "Time to copy pasta base monsters " + (end - start) + "ms");
 //        monsterListAll.addAll(results);
         if (monsterList == null) {
             monsterList = new ArrayList<>();
@@ -489,9 +510,23 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 if (!monsterList.isEmpty()) {
                     monsterList.clear();
                 }
-                filterMonsterName(query);
-                filterMonsterType(query);
-                filterMonsterNumber(query);
+                RealmResults<BaseMonster> results = realm.where(BaseMonster.class)
+                        .beginGroup()
+                        .contains("name", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type1String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type2String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type3String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("monsterIdString", query, Case.INSENSITIVE)
+                        .endGroup()
+                        .greaterThan("monsterId", 0).findAll();
+                monsterList.addAll(results);
+//                filterMonsterName(query);
+//                filterMonsterType(query);
+//                filterMonsterNumber(query);
 //                filterMonsterElement(query);
             } else {
                 monsterList.clear();
@@ -500,7 +535,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
             firstRun = false;
             baseMonsterListRecycler.setExpandedPosition(-1);
-            if(monsterList.size() == 0){
+            if (monsterList.size() == 0) {
                 noResults.setVisibility(View.VISIBLE);
             } else {
                 noResults.setVisibility(View.INVISIBLE);
@@ -512,11 +547,14 @@ public abstract class BaseMonsterListUtil extends Fragment {
     }
 
     private void filterMonsterName(String query) {
-        for (BaseMonster monster : monsterListAll) {
-            if (monster.getName().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
-                monsterList.add(monster);
-            }
-        }
+        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).contains("name", query, Case.INSENSITIVE).greaterThan("monsterId", 0).findAll();
+        monsterList.clear();
+        monsterList.addAll(results);
+//        for (BaseMonster monster : monsterListAll) {
+//            if (monster.getName().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+//                monsterList.add(monster);
+//            }
+//        }
     }
 
     private void filterMonsterNumber(String query) {
@@ -569,8 +607,8 @@ public abstract class BaseMonsterListUtil extends Fragment {
         @Override
         public void filter() {
             boolean remove = true;
-            if(filteredMonsters.size() > 0){
-                for(int i = 0; i < filteredMonsters.size(); i++){
+            if (filteredMonsters.size() > 0) {
+                for (int i = 0; i < filteredMonsters.size(); i++) {
                     monsterList.add(filteredMonsters.get(i));
                 }
                 filteredMonsters.clear();
@@ -613,7 +651,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
             baseMonsterListRecycler.setExpandedPosition(-1);
             baseMonsterListRecycler.notifyDataSetChanged();
-            if(monsterList.size() == 0){
+            if (monsterList.size() == 0) {
                 noResults.setVisibility(View.VISIBLE);
             } else {
                 noResults.setVisibility(View.INVISIBLE);
@@ -624,8 +662,8 @@ public abstract class BaseMonsterListUtil extends Fragment {
         public void filterRequirements() {
             boolean match = true;
             int counter = 0;
-            if(filteredMonsters.size() > 0){
-                for(int i = 0; i < filteredMonsters.size(); i++){
+            if (filteredMonsters.size() > 0) {
+                for (int i = 0; i < filteredMonsters.size(); i++) {
                     monsterList.add(filteredMonsters.get(i));
                 }
                 filteredMonsters.clear();
@@ -646,28 +684,28 @@ public abstract class BaseMonsterListUtil extends Fragment {
                     }
                     if (Singleton.getInstance().getFilterTypes().size() != 0 && match) {
                         for (int i = 0; i < monster.getTypes().size(); i++) {
-                            if(Singleton.getInstance().getFilterTypes().contains(monster.getTypes().get(i))){
+                            if (Singleton.getInstance().getFilterTypes().contains(monster.getTypes().get(i))) {
                                 counter++;
                             }
                         }
-                        if(counter != Singleton.getInstance().getFilterTypes().size()){
+                        if (counter != Singleton.getInstance().getFilterTypes().size()) {
                             match = false;
                         }
                         counter = 0;
                     }
                     if (Singleton.getInstance().getFilterAwakenings().size() != 0 && match) {
                         ArrayList<Integer> trimmedAwakenings = new ArrayList<>();
-                        for(int i = 0; i < monster.getAwokenSkills().size(); i++){
-                            if(!trimmedAwakenings.contains(monster.getAwokenSkills(i).getValue())){
+                        for (int i = 0; i < monster.getAwokenSkills().size(); i++) {
+                            if (!trimmedAwakenings.contains(monster.getAwokenSkills(i).getValue())) {
                                 trimmedAwakenings.add(monster.getAwokenSkills(i).getValue());
                             }
                         }
                         for (int i = 0; i < trimmedAwakenings.size(); i++) {
-                            if(Singleton.getInstance().getFilterAwakenings().contains(trimmedAwakenings.get(i))){
+                            if (Singleton.getInstance().getFilterAwakenings().contains(trimmedAwakenings.get(i))) {
                                 counter++;
                             }
                         }
-                        if(counter != Singleton.getInstance().getFilterAwakenings().size()){
+                        if (counter != Singleton.getInstance().getFilterAwakenings().size()) {
                             match = false;
                         }
                         counter = 0;
@@ -682,7 +720,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
             baseMonsterListRecycler.setExpandedPosition(-1);
             baseMonsterListRecycler.notifyDataSetChanged();
-            if(monsterList.size() == 0){
+            if (monsterList.size() == 0) {
                 noResults.setVisibility(View.VISIBLE);
             } else {
                 noResults.setVisibility(View.INVISIBLE);

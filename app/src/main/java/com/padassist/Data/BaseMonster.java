@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -22,6 +23,8 @@ import io.realm.annotations.PrimaryKey;
 public class BaseMonster extends RealmObject implements Parcelable {
     @PrimaryKey
     private long monsterId;
+    @Index
+    private String monsterIdString;
 
     private long monsterNumber;
 
@@ -44,6 +47,12 @@ public class BaseMonster extends RealmObject implements Parcelable {
     private int type2;
 
     private int type3;
+    @Index
+    private String type1String;
+    @Index
+    private String type2String;
+    @Index
+    private String type3String;
 
     private int maxAwakenings;
 
@@ -359,87 +368,35 @@ public class BaseMonster extends RealmObject implements Parcelable {
     }
 
     public String getType1String() {
-        if (type1 == 0) {
-            return "Evo Material";
-        } else if (type1 == 1) {
-            return "Balanced";
-        } else if (type1 == 2) {
-            return "Physical";
-        } else if (type1 == 3) {
-            return "Healer";
-        } else if (type1 == 4) {
-            return "Dragon";
-        } else if (type1 == 5) {
-            return "God";
-        } else if (type1 == 6) {
-            return "Attacker";
-        } else if (type1 == 7) {
-            return "Devil";
-        } else if (type1 == 8) {
-            return "Machine";
-        } else if (type1 == 12) {
-            return "Awoken Skill Material";
-        } else if (type1 == 13) {
-            return "Protected";
-        } else if (type1 == 14) {
-            return "Enhance Material";
-        } else return "";
+        return type1String;
     }
 
-    public String getType2String() {
-        if (type2 == 0) {
-            return "/Evo Material";
-        } else if (type2 == 1) {
-            return "/Balanced";
-        } else if (type2 == 2) {
-            return "/Physical";
-        } else if (type2 == 3) {
-            return "/Healer";
-        } else if (type2 == 4) {
-            return "/Dragon";
-        } else if (type2 == 5) {
-            return "/God";
-        } else if (type2 == 6) {
-            return "/Attacker";
-        } else if (type2 == 7) {
-            return "/Devil";
-        } else if (type2 == 8) {
-            return "/Machine";
-        } else if (type2 == 12) {
-            return "/Awoken Skill Material";
-        } else if (type2 == 13) {
-            return "/Protected";
-        } else if (type2 == 14) {
-            return "/Enhance Material";
-        } else return "";
+    public void setType1String(String type1String) {
+        this.type1String = type1String;
     }
 
     public String getType3String() {
-        if (type3 == 0) {
-            return "/Evo Material";
-        } else if (type3 == 1) {
-            return "/Balanced";
-        } else if (type3 == 2) {
-            return "/Physical";
-        } else if (type3 == 3) {
-            return "/Healer";
-        } else if (type3 == 4) {
-            return "/Dragon";
-        } else if (type3 == 5) {
-            return "/God";
-        } else if (type3 == 6) {
-            return "/Attacker";
-        } else if (type3 == 7) {
-            return "/Devil";
-        } else if (type3 == 8) {
-            return "/Machine";
-        } else if (type3 == 12) {
-            return "/Awoken Skill Material";
-        } else if (type3 == 13) {
-            return "/Protected";
-        } else if (type3 == 14) {
-            return "/Enhance Material";
-        } else return "";
+        return type3String;
+    }
+
+    public void setType3String(String type3String) {
+        this.type3String = type3String;
+    }
+
+    public String getType2String() {
+        return type2String;
+    }
+
+    public void setType2String(String type2String) {
+        this.type2String = type2String;
+    }
+
+    public String getMonsterIdString() {
+        return monsterIdString;
+    }
+
+    public void setMonsterIdString(String monsterIdString) {
+        this.monsterIdString = monsterIdString;
     }
 
     public int getXpCurve() {
@@ -476,13 +433,13 @@ public class BaseMonster extends RealmObject implements Parcelable {
 
     public ArrayList<Integer> getTypes() {
         ArrayList<Integer> types = new ArrayList<>();
-        if(type1 >= 0){
+        if (type1 >= 0) {
             types.add(type1);
         }
-        if(type2 >= 0){
+        if (type2 >= 0) {
             types.add(type2);
         }
-        if(type3 >= 0){
+        if (type3 >= 0) {
             types.add(type3);
         }
         return types;

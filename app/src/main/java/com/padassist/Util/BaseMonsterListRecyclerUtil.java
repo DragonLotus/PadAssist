@@ -91,13 +91,13 @@ public abstract class BaseMonsterListRecyclerUtil extends RecyclerView.Adapter<B
         }
 
         if(monsterList.get(position).getType2() > 0){
-            viewHolder.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType3()));
+            viewHolder.type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType2()));
         } else {
-            viewHolder.type3.setVisibility(View.INVISIBLE);
+            viewHolder.type2.setVisibility(View.INVISIBLE);
         }
 
         if(monsterList.get(position).getType3() > 0){
-            viewHolder.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType2()));
+            viewHolder.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType3()));
         } else {
             viewHolder.type3.setVisibility(View.INVISIBLE);
         }

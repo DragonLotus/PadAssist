@@ -14,6 +14,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
+import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
 public class Monster extends RealmObject implements Parcelable {
@@ -27,6 +28,8 @@ public class Monster extends RealmObject implements Parcelable {
     private long baseMonsterId;
 
     private BaseMonster baseMonster;
+    @Index
+    private String baseMonsterIdString;
 
     private boolean favorite;
 
@@ -59,6 +62,14 @@ public class Monster extends RealmObject implements Parcelable {
     private int activeSkill2Level;
 
     private RealmList<RealmInt> latents;
+    @Index
+    private String name;
+    @Index
+    private String type1String;
+    @Index
+    private String type2String;
+    @Index
+    private String type3String;
 
     private RealmList<RealmInt> killerAwakenings;
     @Ignore
@@ -101,6 +112,12 @@ public class Monster extends RealmObject implements Parcelable {
         activeSkill2String = "Blank";
         activeSkillLevel = 1;
         activeSkill2Level = 1;
+
+        name = baseMonster.getName();
+        baseMonsterIdString = baseMonster.getMonsterIdString();
+        type1String = baseMonster.getType1String();
+        type2String = baseMonster.getType2String();
+        type3String = baseMonster.getType3String();
     }
 
     public int getCurrentLevel() {
@@ -140,7 +157,7 @@ public class Monster extends RealmObject implements Parcelable {
         int latentHp = (int) Math.floor(currentHp * counter2 * 0.015 + .5);
         totalHp = totalHp + (200 * counter) + latentHp;
 
-        if(Singleton.getInstance().isCoopEnable()){
+        if (Singleton.getInstance().isCoopEnable()) {
             if (awakenings.contains(30)) {
                 totalHp *= 1.5;
             }
@@ -166,7 +183,7 @@ public class Monster extends RealmObject implements Parcelable {
         int latentAtk = (int) Math.floor(currentAtk * counter2 * 0.01 + .5);
         totalAtk = totalAtk + (100 * counter) + latentAtk;
 
-        if(Singleton.getInstance().isCoopEnable()){
+        if (Singleton.getInstance().isCoopEnable()) {
             if (awakenings.contains(30)) {
                 totalAtk *= 1.5;
             }
@@ -191,7 +208,7 @@ public class Monster extends RealmObject implements Parcelable {
         }
         int latentRcv = (int) Math.floor(currentRcv * counter2 * 0.05 + .5);
         totalRcv = totalRcv + (50 * counter) + latentRcv;
-        if(Singleton.getInstance().isCoopEnable()){
+        if (Singleton.getInstance().isCoopEnable()) {
             if (awakenings.contains(30)) {
                 totalRcv *= 1.5;
             }
@@ -200,7 +217,7 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public ArrayList<Integer> setAwakenings() {
-        if(currentAwakenings != awakenings.size()){
+        if (currentAwakenings != awakenings.size()) {
             if (currentAwakenings < getMaxAwakenings()) {
                 for (int i = 0; i < currentAwakenings; i++) {
                     awakenings.add(getAwokenSkills().get(i).getValue());
@@ -283,15 +300,35 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public String getType1String() {
-        return baseMonster.getType1String();
+        return type1String;
     }
 
     public String getType2String() {
-        return baseMonster.getType2String();
+        return type2String;
     }
 
     public String getType3String() {
-        return baseMonster.getType3String();
+        return type3String;
+    }
+
+    public String getBaseMonsterIdString() {
+        return baseMonsterIdString;
+    }
+
+    public void setType1String(String type1String) {
+        this.type1String = type1String;
+    }
+
+    public void setType2String(String type2String) {
+        this.type2String = type2String;
+    }
+
+    public void setType3String(String type3String) {
+        this.type3String = type3String;
+    }
+
+    public void setBaseMonsterIdString(String baseMonsterIdString) {
+        this.baseMonsterIdString = baseMonsterIdString;
     }
 
     public Element getElement1() {
@@ -318,11 +355,11 @@ public class Monster extends RealmObject implements Parcelable {
         return baseMonster.getAwokenSkills(position).getValue();
     }
 
-    public ActiveSkill getActiveSkill(){
+    public ActiveSkill getActiveSkill() {
         return baseMonster.getActiveSkill();
     }
 
-    public String getActiveSkillString(){
+    public String getActiveSkillString() {
         return baseMonster.getActiveSkillString();
     }
 
@@ -343,9 +380,6 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public int getActiveSkill2Level() {
-        if(activeSkill2Level == 0){
-            activeSkill2Level = 1;
-        }
         return activeSkill2Level;
     }
 
@@ -354,9 +388,6 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public int getActiveSkillLevel() {
-        if(activeSkillLevel == 0){
-            activeSkillLevel = 1;
-        }
         return activeSkillLevel;
     }
 
@@ -367,12 +398,17 @@ public class Monster extends RealmObject implements Parcelable {
     public LeaderSkill getLeaderSkill() {
         return baseMonster.getLeaderSkill();
     }
+
     public String getLeaderSkillString() {
         return baseMonster.getLeaderSkillString();
     }
 
     public String getName() {
-        return baseMonster.getName();
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getAtkScale() {
@@ -428,9 +464,9 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public void setCurrentAwakenings(int currentAwakenings) {
-        if(killerAwakenings.size() == 0 || currentAwakenings != this.currentAwakenings){
+        if (killerAwakenings.size() == 0 || currentAwakenings != this.currentAwakenings) {
             ArrayList<Integer> awokenSkills = new ArrayList<>();
-            for(int i = 0; i < getAwokenSkills().size(); i++){
+            for (int i = 0; i < getAwokenSkills().size(); i++) {
                 awokenSkills.add(getAwokenSkills().get(i).getValue());
             }
             if (awokenSkills.contains(31) || awokenSkills.contains(32) || awokenSkills.contains(33) || awokenSkills.contains(34) || awokenSkills.contains(35) || awokenSkills.contains(36) || awokenSkills.contains(37) || awokenSkills.contains(38) || awokenSkills.contains(39) || awokenSkills.contains(40) || awokenSkills.contains(41) || awokenSkills.contains(42)) {
@@ -654,7 +690,7 @@ public class Monster extends RealmObject implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(monsterId);
         dest.writeParcelable(baseMonster, flags);
-        dest.writeByte((byte) (favorite ? 1: 0));
+        dest.writeByte((byte) (favorite ? 1 : 0));
         dest.writeInt(priority);
         dest.writeInt(currentLevel);
         dest.writeInt(atkPlus);
@@ -663,7 +699,7 @@ public class Monster extends RealmObject implements Parcelable {
         dest.writeInt(currentAwakenings);
         dest.writeDouble(currentAtk);
         dest.writeDouble(currentHp);
-        dest.writeByte((byte) (helper ? 1: 0));
+        dest.writeByte((byte) (helper ? 1 : 0));
 //        dest.writeList(latents);
 //        dest.writeList(killerAwakenings);
 //        dest.writeList(awakenings);

@@ -30,6 +30,9 @@ import android.widget.FrameLayout;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.LeaderSkill;
@@ -55,7 +58,10 @@ import com.padassist.Util.SaveMonsterListUtil;
 import com.padassist.Util.Singleton;
 
 import java.io.File;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.IllegalFormatException;
 import java.util.Locale;
 import java.util.Set;
@@ -63,6 +69,7 @@ import java.util.Set;
 import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmMigration;
 import io.realm.RealmResults;
 import io.realm.RealmSchema;
@@ -127,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
+//        preferences.edit().putString("BaseMonsterList", "").apply();
+//        Log.d("MainActivity", "BaseMonsterlist is empty: " + preferences.getString("BaseMonsterList", "").isEmpty());
 //        preferences.edit().putInt("version", 1).apply();
         Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
         if (preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1) {

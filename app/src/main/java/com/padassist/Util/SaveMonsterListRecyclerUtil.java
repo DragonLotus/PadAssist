@@ -131,13 +131,13 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         }
 
         if(monsterList.get(position).getType2() > 0){
-            viewHolder.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType3()));
+            viewHolder.type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType2()));
         } else {
-            viewHolder.type3.setVisibility(View.INVISIBLE);
+            viewHolder.type2.setVisibility(View.INVISIBLE);
         }
 
         if(monsterList.get(position).getType3() > 0){
-            viewHolder.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType2()));
+            viewHolder.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType3()));
         } else {
             viewHolder.type3.setVisibility(View.INVISIBLE);
         }
@@ -351,7 +351,8 @@ public abstract class SaveMonsterListRecyclerUtil extends RecyclerView.Adapter<S
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
             realm.beginTransaction();
-            Monster monster = realm.copyToRealmOrUpdate(monsterList.get(position));
+//            Monster monster = realm.copyToRealmOrUpdate(monsterList.get(position));
+            Monster monster = monsterList.get(position);
             if (!monster.isFavorite()) {
                 monster.setFavorite(true);
                 monsterList.get(position).setFavorite(true);

@@ -1,5 +1,9 @@
 package com.padassist;
 
+import com.padassist.Data.Monster;
+
+import io.realm.Realm;
+
 /**
  * Created by Thomas on 4/7/2016.
  */
@@ -9,5 +13,6 @@ public class Constants {
     public static int numOfMonsters = 3125;
     public static int numOfLeaderSkills = 1855;
     public static int numOfActiveSkills = 951;
-    public static int finalParseCount = 9112;
+    public static int numOfSavedMonsters = Realm.getDefaultInstance().where(Monster.class).findAll().size();
+    public static int finalParseCount = numOfMonsters + numOfLeaderSkills + numOfActiveSkills + numOfSavedMonsters;
 }

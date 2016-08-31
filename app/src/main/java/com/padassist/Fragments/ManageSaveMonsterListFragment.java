@@ -65,19 +65,9 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
             helper = getArguments().getBoolean("helper");
         }
         if(!helper){
-            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
-            for(int i = 0; i < results.size(); i++){
-                if(results.get(i).getMonsterId() != 0){
-                    monsterListAll.add(realm.copyFromRealm(results.get(i)));
-                }
-            }
+            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", false).findAll());
         } else {
-            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", true).findAll();
-            for(int i = 0; i < results.size(); i++){
-                if(results.get(i).getMonsterId() != 0){
-                    monsterListAll.add(realm.copyFromRealm(results.get(i)));
-                }
-            }
+            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", true).findAll());
         }
 
     }
