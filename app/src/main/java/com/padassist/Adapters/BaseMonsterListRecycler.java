@@ -1,31 +1,20 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.padassist.Data.BaseMonster;
-import com.padassist.Data.LeaderSkill;
-import com.padassist.R;
-import com.padassist.Util.BaseMonsterListRecyclerUtil;
-import com.padassist.Util.BaseMonsterListUtil;
+import com.padassist.Util.BaseMonsterListRecyclerBase;
 
 import java.util.ArrayList;
 
 /**
  * Created by DragonLotus on 11/4/2015.
  */
-public class BaseMonsterListRecycler extends BaseMonsterListRecyclerUtil {
+public class BaseMonsterListRecycler extends BaseMonsterListRecyclerBase {
 
     public BaseMonsterListRecycler(Context context, ArrayList<BaseMonster> monsterList, RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener, boolean isGrid) {
         mContext = context;

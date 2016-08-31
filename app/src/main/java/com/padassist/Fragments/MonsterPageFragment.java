@@ -1,25 +1,11 @@
 package com.padassist.Fragments;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TableLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Data.BaseMonster;
@@ -27,9 +13,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.TextWatcher.MyTextWatcher;
-import com.padassist.Util.DamageCalculationUtil;
-import com.padassist.Util.MonsterPageUtil;
+import com.padassist.Util.MonsterPageBase;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
@@ -46,7 +30,7 @@ import io.realm.RealmResults;
  * Use the {@link MonsterPageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterPageFragment extends MonsterPageUtil {
+public class MonsterPageFragment extends MonsterPageBase {
     public static final String TAG = MonsterPageFragment.class.getSimpleName();
 
     private Toast toast;

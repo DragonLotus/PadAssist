@@ -3,7 +3,6 @@ package com.padassist.Util;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -19,20 +18,20 @@ import io.realm.Realm;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MonsterTabLayoutUtil.OnFragmentInteractionListener} interface
+ * {@link MonsterTabLayoutBase.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MonsterTabLayoutUtil#newInstance} factory method to
+ * Use the {@link MonsterTabLayoutBase#newInstance} factory method to
  * create an instance of this fragment.
  */
-public abstract class MonsterTabLayoutUtil extends Fragment {
+public abstract class MonsterTabLayoutBase extends Fragment {
 
-    public static final String TAG = MonsterTabLayoutUtil.class.getSimpleName();
+    public static final String TAG = MonsterTabLayoutBase.class.getSimpleName();
     protected OnFragmentInteractionListener mListener;
     protected TabLayout tabLayout;
     protected ViewPager viewPager;
     protected Realm realm = Realm.getDefaultInstance();
 
-    public MonsterTabLayoutUtil() {
+    public MonsterTabLayoutBase() {
         // Required empty public constructor
     }
 

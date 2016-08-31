@@ -1,20 +1,18 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
 import com.padassist.Adapters.BaseMonsterListRecycler;
-import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.BaseMonsterListUtil;
+import com.padassist.Util.BaseMonsterListBase;
 
 
-public class ManageBaseMonsterListFragment extends BaseMonsterListUtil {
+public class ManageBaseMonsterListFragment extends BaseMonsterListBase {
     public static final String TAG = ManageBaseMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
     private Toast toast;

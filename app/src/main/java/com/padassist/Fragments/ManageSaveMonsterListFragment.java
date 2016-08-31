@@ -1,20 +1,16 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.padassist.Adapters.SaveMonsterListRecycler;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
-import com.padassist.Graphics.FastScroller;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.SaveMonsterListUtil;
-import com.padassist.Util.Singleton;
+import com.padassist.Util.SaveMonsterListBase;
 
 import java.util.ArrayList;
 
@@ -22,7 +18,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
+public class ManageSaveMonsterListFragment extends SaveMonsterListBase {
     public static final String TAG = ManageSaveMonsterListFragment.class.getSimpleName();
     private Toast toast;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;

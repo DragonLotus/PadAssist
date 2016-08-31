@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,9 +21,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
-import com.padassist.Data.Team;
 import com.padassist.Fragments.DeleteMonsterConfirmationDialogFragment;
 import com.padassist.Fragments.LatentAwakeningDialogFragment;
 import com.padassist.Fragments.MonsterRemoveDialogFragment;
@@ -34,8 +31,6 @@ import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 
-import java.util.ArrayList;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -43,13 +38,13 @@ import io.realm.RealmResults;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MonsterPageUtil.OnFragmentInteractionListener} interface
+ * {@link MonsterPageBase.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MonsterPageUtil#newInstance} factory method to
+ * Use the {@link MonsterPageBase#newInstance} factory method to
  * create an instance of this fragment.
  */
-public abstract class MonsterPageUtil extends Fragment {
-    public static final String TAG = MonsterPageUtil.class.getSimpleName();
+public abstract class MonsterPageBase extends Fragment {
+    public static final String TAG = MonsterPageBase.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -107,7 +102,7 @@ public abstract class MonsterPageUtil extends Fragment {
                 monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
 //                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.AWAKENINGS) {
-                Log.d("MonsterPageUtil", "Is monster valid: " + monster.isValid());
+                Log.d("MonsterPageBase", "Is monster valid: " + monster.isValid());
                 monster.setCurrentAwakenings(statValue);
                 grayAwakenings();
             }
@@ -153,7 +148,7 @@ public abstract class MonsterPageUtil extends Fragment {
      * @return A new instance of fragment MonsterPageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public MonsterPageUtil() {
+    public MonsterPageBase() {
         // Required empty public constructor
     }
 
@@ -347,7 +342,7 @@ public abstract class MonsterPageUtil extends Fragment {
         }
 //        monster.save();
 //        Monster.getMonsterId(monster.getMonsterId());
-//        Log.d("MonsterPageUtil", "monster load is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster level is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster Id is: " + Monster.getMonsterId(monster.getMonsterId()));
+//        Log.d("MonsterPageBase", "monster load is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster level is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster Id is: " + Monster.getMonsterId(monster.getMonsterId()));
     }
 
     @Override

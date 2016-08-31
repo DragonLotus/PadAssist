@@ -1,28 +1,22 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
-import com.padassist.R;
-import com.padassist.Util.MonsterPageUtil;
-import com.padassist.Util.Singleton;
+import com.padassist.Util.MonsterPageBase;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ManageMonsterPageFragment extends MonsterPageUtil {
+public class ManageMonsterPageFragment extends MonsterPageBase {
     public static final String TAG = ManageMonsterPageFragment.class.getSimpleName();
 
     private Toast toast;

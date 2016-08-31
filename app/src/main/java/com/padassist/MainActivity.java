@@ -1,13 +1,11 @@
 package com.padassist;
 
 import android.app.ProgressDialog;
-import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.AsyncTask;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,31 +13,22 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.net.ConnectivityManagerCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.deser.Deserializers;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.LeaderSkill;
-import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
-import com.padassist.Data.RealmInt;
 import com.padassist.Data.RealmLeaderSkillType;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
@@ -47,32 +36,17 @@ import com.padassist.Fragments.CloseDialogFragment;
 import com.padassist.Fragments.DisclaimerDialogFragment;
 import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
 import com.padassist.Fragments.MonsterListFragment;
-import com.padassist.Fragments.MonsterPageFragment;
-import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.TeamListFragment;
-import com.padassist.Fragments.TeamSaveDialogFragment;
-import com.padassist.Threads.ParseMonsterDatabaseThread;
 import com.padassist.Util.LoadingFragment;
 import com.padassist.Util.Migration;
-import com.padassist.Util.SaveMonsterListUtil;
 import com.padassist.Util.Singleton;
 
 import java.io.File;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.IllegalFormatException;
 import java.util.Locale;
-import java.util.Set;
 
-import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmList;
-import io.realm.RealmMigration;
 import io.realm.RealmResults;
-import io.realm.RealmSchema;
 
 
 public class MainActivity extends AppCompatActivity {

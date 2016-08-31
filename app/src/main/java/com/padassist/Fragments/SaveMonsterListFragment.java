@@ -1,65 +1,27 @@
 package com.padassist.Fragments;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Adapters.SaveMonsterListRecycler;
-import com.padassist.Data.BaseMonster;
-import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.FastScroller;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.MonsterAlphabeticalComparator;
-import com.padassist.Util.MonsterAtkComparator;
-import com.padassist.Util.MonsterAwakeningComparator;
-import com.padassist.Util.MonsterElement1Comparator;
-import com.padassist.Util.MonsterElement2Comparator;
-import com.padassist.Util.MonsterFavoriteComparator;
-import com.padassist.Util.MonsterHpComparator;
-import com.padassist.Util.MonsterLevelComparator;
-import com.padassist.Util.MonsterNumberComparator;
-import com.padassist.Util.MonsterPlusAtkComparator;
-import com.padassist.Util.MonsterPlusComparator;
-import com.padassist.Util.MonsterPlusHpComparator;
-import com.padassist.Util.MonsterPlusRcvComparator;
-import com.padassist.Util.MonsterRarityComparator;
-import com.padassist.Util.MonsterRcvComparator;
-import com.padassist.Util.MonsterType1Comparator;
-import com.padassist.Util.MonsterType2Comparator;
-import com.padassist.Util.MonsterType3Comparator;
-import com.padassist.Util.SaveMonsterListUtil;
-import com.padassist.Util.Singleton;
+import com.padassist.Util.SaveMonsterListBase;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class SaveMonsterListFragment extends SaveMonsterListUtil {
+public class SaveMonsterListFragment extends SaveMonsterListBase {
     public static final String TAG = SaveMonsterListFragment.class.getSimpleName();
     private Toast toast;
     private boolean replaceAll;

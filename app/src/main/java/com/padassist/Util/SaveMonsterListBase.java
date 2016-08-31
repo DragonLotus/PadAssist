@@ -5,16 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,24 +21,17 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.fasterxml.jackson.databind.deser.Deserializers;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.padassist.Adapters.BaseMonsterListRecycler;
-import com.padassist.Data.BaseMonster;
+import com.padassist.Adapters.SaveMonsterListRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
 import com.padassist.Fragments.FilterDialogFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
+import com.padassist.Fragments.SortPlusDialogFragment;
 import com.padassist.Fragments.SortStatsDialogFragment;
 import com.padassist.Fragments.SortTypeDialogFragment;
 import com.padassist.Graphics.FastScroller;
 import com.padassist.R;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -52,45 +42,51 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public abstract class BaseMonsterListUtil extends Fragment {
-    public static final String TAG = BaseMonsterListUtil.class.getSimpleName();
+public abstract class SaveMonsterListBase extends Fragment {
+    public static final String TAG = SaveMonsterListBase.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
-    private boolean replaceAll;
-    private long replaceMonsterId;
     protected RecyclerView monsterListView;
-    protected ArrayList<BaseMonster> filteredMonsters = new ArrayList<>();
-    protected ArrayList<BaseMonster> monsterList;
-    protected ArrayList<BaseMonster> monsterListAll;
-    protected BaseMonsterListRecycler baseMonsterListRecycler;
-    private MenuItem searchMenuItem;
+    protected ArrayList<Monster> filteredMonsters = new ArrayList<>();
+    protected ArrayList<Monster> monsterList;
+    protected ArrayList<Monster> monsterListAll;
+    protected MenuItem searchMenuItem;
     protected SearchView searchView;
+    protected SaveMonsterListRecycler saveMonsterListRecycler;
     private Toast toast;
+    private TextView savedMonsters;
     private boolean firstRun = true;
     private SortElementDialogFragment sortElementDialogFragment;
     private SortTypeDialogFragment sortTypeDialogFragment;
     private SortStatsDialogFragment sortStatsDialogFragment;
-    private Comparator<BaseMonster> monsterNumberComparator = new BaseMonsterNumberComparator();
-    private Comparator<BaseMonster> monsterElement1Comparator = new BaseMonsterElement1Comparator();
-    private Comparator<BaseMonster> monsterElement2Comparator = new BaseMonsterElement2Comparator();
-    private Comparator<BaseMonster> monsterType1Comparator = new BaseMonsterType1Comparator();
-    private Comparator<BaseMonster> monsterType2Comparator = new BaseMonsterType2Comparator();
-    private Comparator<BaseMonster> monsterType3Comparator = new BaseMonsterType3Comparator();
-    private Comparator<BaseMonster> monsterAlphabeticalComparator = new BaseMonsterAlphabeticalComparator();
-    private Comparator<BaseMonster> monsterHpComparator = new BaseMonsterHpComparator();
-    private Comparator<BaseMonster> monsterAtkComparator = new BaseMonsterAtkComparator();
-    private Comparator<BaseMonster> monsterRcvComparator = new BaseMonsterRcvComparator();
-    private Comparator<BaseMonster> monsterRarityComparator = new BaseMonsterRarityComparator();
-    private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
-    protected Realm realm = Realm.getDefaultInstance();
+    private SortPlusDialogFragment sortPlusDialogFragment;
+    private Comparator<Monster> monsterNumberComparator = new MonsterNumberComparator();
+    private Comparator<Monster> monsterElement1Comparator = new MonsterElement1Comparator();
+    private Comparator<Monster> monsterElement2Comparator = new MonsterElement2Comparator();
+    private Comparator<Monster> monsterType1Comparator = new MonsterType1Comparator();
+    private Comparator<Monster> monsterType2Comparator = new MonsterType2Comparator();
+    private Comparator<Monster> monsterType3Comparator = new MonsterType3Comparator();
+    private Comparator<Monster> monsterAlphabeticalComparator = new MonsterAlphabeticalComparator();
+    private Comparator<Monster> monsterHpComparator = new MonsterHpComparator();
+    private Comparator<Monster> monsterAtkComparator = new MonsterAtkComparator();
+    private Comparator<Monster> monsterRcvComparator = new MonsterRcvComparator();
+    private Comparator<Monster> monsterRarityComparator = new MonsterRarityComparator();
+    private Comparator<Monster> monsterAwakeningComparator = new MonsterAwakeningComparator();
+    private Comparator<Monster> monsterPlusComparator = new MonsterPlusComparator();
+    private Comparator<Monster> monsterPlusHpComparator = new MonsterPlusHpComparator();
+    private Comparator<Monster> monsterPlusAtkComparator = new MonsterPlusAtkComparator();
+    private Comparator<Monster> monsterPlusRcvComparator = new MonsterPlusRcvComparator();
+    private Comparator<Monster> monsterLevelComparator = new MonsterLevelComparator();
+    private Comparator<Monster> monsterFavoriteComparator = new MonsterFavoriteComparator();
     private FilterDialogFragment filterDialogFragment;
-    private TextView noResults;
+    protected Realm realm = Realm.getDefaultInstance();
+    private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
 
     protected SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
     protected boolean isGrid = preferences.getBoolean("isGrid", true);
 
     private FastScroller fastScroller;
 
-    public BaseMonsterListUtil() {
+    public SaveMonsterListBase() {
     }
 
     @Override
@@ -110,19 +106,10 @@ public abstract class BaseMonsterListUtil extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_base_monster_list, container, false);
-        monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
-        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
-        noResults = (TextView) rootView.findViewById(R.id.noResults);
-        return rootView;
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.sortGroup, true);
+        menu.setGroupVisible(R.id.sortMoreGroup, true);
         menu.findItem(R.id.search).setVisible(true);
 
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
@@ -151,7 +138,7 @@ public abstract class BaseMonsterListUtil extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.toggleCoop:
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case R.id.reverseList:
                 reverseArrayList();
@@ -194,23 +181,23 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 break;
             case R.id.filterList:
                 if (filterDialogFragment == null) {
-                    filterDialogFragment = FilterDialogFragment.newInstance(saveTeam, false);
+                    filterDialogFragment = FilterDialogFragment.newInstance(saveTeam, true);
                 }
                 if (!filterDialogFragment.isAdded() && !firstRun) {
-                    filterDialogFragment.show(getChildFragmentManager(), false, "Filter");
+                    filterDialogFragment.show(getChildFragmentManager(), true, "Filter");
                 }
                 break;
             case R.id.toggleGrid:
                 preferences.edit().putBoolean("isGrid", !isGrid).apply();
                 isGrid = preferences.getBoolean("isGrid", true);
-                if (isGrid) {
+                if(isGrid){
                     monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
                 } else {
                     monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
                 }
-                baseMonsterListRecycler.notifyDataSetChanged(isGrid);
-                if (baseMonsterListRecycler.getExpandedPosition() > -1) {
-                    monsterListView.scrollToPosition(baseMonsterListRecycler.getExpandedPosition());
+                saveMonsterListRecycler.notifyDataSetChanged(isGrid);
+                if(saveMonsterListRecycler.getExpandedPosition() > -1){
+                    monsterListView.scrollToPosition(saveMonsterListRecycler.getExpandedPosition());
                 }
                 break;
         }
@@ -218,50 +205,66 @@ public abstract class BaseMonsterListUtil extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d("BaseMonsterListUtil", "Starting base monster copy pasta");
-        long start = SystemClock.currentThreadTimeMillis();
-        if (getArguments() != null) {
-            replaceAll = getArguments().getBoolean("replaceAll");
-            replaceMonsterId = getArguments().getLong("replaceMonsterId");
-        }
-        if (monsterListAll == null) {
-            monsterListAll = new ArrayList<>();
-        }
-
-        monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId"));
-
-//        Gson gson = new Gson();
-//        String baseMonsterList = preferences.getString("BaseMonsterList", "");
-//        if(baseMonsterList.isEmpty()){
-//            RealmResults<BaseMonster> results = realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId");
-//            for(BaseMonster monster : results){
-//                monsterListAll.add(realm.copyFromRealm(monster));
-//            }
-//            String jsonBaseMonsters = gson.toJson(monsterListAll);
-//            preferences.edit().putString("BaseMonsterList", jsonBaseMonsters).apply();
-//        } else {
-//            Type baseMonsterType = new TypeToken<ArrayList<BaseMonster>>(){}.getType();
-//            monsterListAll = gson.fromJson(baseMonsterList, baseMonsterType);
-//        }
-
-//        monsterListAll.clear();
-//        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAll();
-//        for(int i = 0; i < results.size(); i++) {
-//             monsterListAll.add(realm.copyFromRealm(results.get(i)));
-//        }
-        long end = SystemClock.currentThreadTimeMillis();
-        Log.d("BaseMonsterListUtil", "Time to copy pasta base monsters " + (end - start) + "ms");
-//        monsterListAll.addAll(results);
-        if (monsterList == null) {
-            monsterList = new ArrayList<>();
-            monsterList.addAll(monsterListAll);
-        }
-
-        fastScroller.setRecyclerView(monsterListView);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_save_monster_list, container, false);
+        monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
+        savedMonsters = (TextView) rootView.findViewById(R.id.savedMonsters);
+        fastScroller = (FastScroller) rootView.findViewById(R.id.fastScroller);
+        return rootView;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+//        if (getArguments() != null) {
+//            replaceAll = getArguments().getBoolean("replaceAll");
+//            replaceMonsterId = getArguments().getLong("replaceMonsterId");
+//        }
+        onActivityCreatedSpecific();
+        if (monsterList == null) {
+            monsterList = new ArrayList<>();
+        }
+//        filterMonsterName("");
+        emptyCheck();
+
+        fastScroller.setRecyclerView(monsterListView);
+
+
+    }
+
+    public abstract void onActivityCreatedSpecific();
+
+    protected void emptyCheck() {
+        if (monsterListAll.size() == 1) {
+            if (monsterListAll.get(0).getMonsterId() != 0) {
+                monsterListAll.add(0, monsterZero);
+                savedMonsters.setVisibility(View.GONE);
+                monsterListView.setVisibility(View.VISIBLE);
+            } else {
+                savedMonsters.setVisibility(View.VISIBLE);
+                monsterListView.setVisibility(View.GONE);
+            }
+        } else {
+            savedMonsters.setVisibility(View.GONE);
+            monsterListView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void disableStuff() {
+//        for (int i = 0; i < monsterList.size(); i++) {
+//            if (monsterList.get(i).getMonsterId() == Team.getTeamById(0).getLead().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub1().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub2().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub3().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getSub4().getMonsterId() || monsterList.get(i).getMonsterId() == Team.getTeamById(0).getHelper().getMonsterId()) {
+//                monsterList.remove(i);
+//            }
+//        }
+    }
+
+    // TODO: Rename method, updateAwakenings argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
     @Override
     public void onDetach() {
@@ -277,76 +280,106 @@ public abstract class BaseMonsterListUtil extends Fragment {
     private SortElementDialogFragment.SortBy sortByElement = new SortElementDialogFragment.SortBy() {
         @Override
         public void sortElement1() {
-            Singleton.getInstance().setBaseSortMethod(201);
+            Singleton.getInstance().setSaveSortMethod(201);
             Collections.sort(monsterList, monsterElement1Comparator);
-            baseMonsterListRecycler.notifyDataSetChanged();
+            saveMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortElement2() {
-            Singleton.getInstance().setBaseSortMethod(202);
+            Singleton.getInstance().setSaveSortMethod(202);
             Collections.sort(monsterList, monsterElement2Comparator);
-            baseMonsterListRecycler.notifyDataSetChanged();
+            saveMonsterListRecycler.notifyDataSetChanged();
         }
     };
 
     private SortTypeDialogFragment.SortBy sortByType = new SortTypeDialogFragment.SortBy() {
         @Override
         public void sortType1() {
-            Singleton.getInstance().setBaseSortMethod(301);
+            Singleton.getInstance().setSaveSortMethod(301);
             Collections.sort(monsterList, monsterType1Comparator);
-            baseMonsterListRecycler.notifyDataSetChanged();
+            saveMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortType2() {
-            Singleton.getInstance().setBaseSortMethod(302);
+            Singleton.getInstance().setSaveSortMethod(302);
             Collections.sort(monsterList, monsterType2Comparator);
-            baseMonsterListRecycler.notifyDataSetChanged();
+            saveMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortType3() {
-            Singleton.getInstance().setBaseSortMethod(303);
+            Singleton.getInstance().setSaveSortMethod(303);
             Collections.sort(monsterList, monsterType3Comparator);
-            baseMonsterListRecycler.notifyDataSetChanged();
+            saveMonsterListRecycler.notifyDataSetChanged();
         }
     };
 
     private SortStatsDialogFragment.SortBy sortByStats = new SortStatsDialogFragment.SortBy() {
         @Override
         public void sortHp() {
-            Singleton.getInstance().setBaseSortMethod(401);
+            Singleton.getInstance().setSaveSortMethod(401);
             Collections.sort(monsterList, monsterHpComparator);
-            baseMonsterListRecycler.notifyDataSetChanged();
+            saveMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortAtk() {
-            Singleton.getInstance().setBaseSortMethod(402);
+            Singleton.getInstance().setSaveSortMethod(402);
             Collections.sort(monsterList, monsterAtkComparator);
-            baseMonsterListRecycler.notifyDataSetChanged();
+            saveMonsterListRecycler.notifyDataSetChanged();
         }
 
         @Override
         public void sortRcv() {
-            Singleton.getInstance().setBaseSortMethod(403);
+            Singleton.getInstance().setSaveSortMethod(403);
             Collections.sort(monsterList, monsterRcvComparator);
-            baseMonsterListRecycler.notifyDataSetChanged();
+            saveMonsterListRecycler.notifyDataSetChanged();
+        }
+    };
+
+    private SortPlusDialogFragment.SortBy sortByPlus = new SortPlusDialogFragment.SortBy() {
+        @Override
+        public void sortTotal() {
+            Singleton.getInstance().setSaveSortMethod(701);
+            Collections.sort(monsterList, monsterPlusComparator);
+            saveMonsterListRecycler.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortHp() {
+            Singleton.getInstance().setSaveSortMethod(702);
+            Collections.sort(monsterList, monsterPlusHpComparator);
+            saveMonsterListRecycler.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortAtk() {
+            Singleton.getInstance().setSaveSortMethod(703);
+            Collections.sort(monsterList, monsterPlusAtkComparator);
+            saveMonsterListRecycler.notifyDataSetChanged();
+        }
+
+        @Override
+        public void sortRcv() {
+            Singleton.getInstance().setSaveSortMethod(704);
+            Collections.sort(monsterList, monsterPlusRcvComparator);
+            saveMonsterListRecycler.notifyDataSetChanged();
         }
     };
 
     public void sortArrayList(int sortMethod) {
         switch (sortMethod) {
             case 0:
-                Singleton.getInstance().setBaseSortMethod(sortMethod);
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterAlphabeticalComparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 1:
-                Singleton.getInstance().setBaseSortMethod(sortMethod);
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterNumberComparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 2:
                 if (sortElementDialogFragment == null) {
@@ -373,67 +406,107 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 }
                 break;
             case 5:
-                Singleton.getInstance().setBaseSortMethod(sortMethod);
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterRarityComparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 6:
-                Singleton.getInstance().setBaseSortMethod(sortMethod);
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
                 Collections.sort(monsterList, monsterAwakeningComparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
+                break;
+            case 7:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
+                if (sortPlusDialogFragment == null) {
+                    sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
+                }
+                if (!sortPlusDialogFragment.isAdded() && !firstRun) {
+                    sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
+                }
+                break;
+            case 8:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
+                Collections.sort(monsterList, monsterFavoriteComparator);
+                saveMonsterListRecycler.notifyDataSetChanged();
+                break;
+            case 9:
+                Singleton.getInstance().setSaveSortMethod(sortMethod);
+                Collections.sort(monsterList, monsterLevelComparator);
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 201:
                 Collections.sort(monsterList, monsterElement1Comparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 202:
                 Collections.sort(monsterList, monsterElement2Comparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 301:
                 Collections.sort(monsterList, monsterType1Comparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 302:
                 Collections.sort(monsterList, monsterType2Comparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 303:
                 Collections.sort(monsterList, monsterType3Comparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 401:
                 Collections.sort(monsterList, monsterHpComparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 402:
                 Collections.sort(monsterList, monsterAtkComparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 403:
                 Collections.sort(monsterList, monsterRcvComparator);
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
+            case 701:
+                Collections.sort(monsterList, monsterPlusComparator);
+                saveMonsterListRecycler.notifyDataSetChanged();
+                break;
+            case 702:
+                Collections.sort(monsterList, monsterPlusHpComparator);
+                saveMonsterListRecycler.notifyDataSetChanged();
+                break;
+            case 703:
+                Collections.sort(monsterList, monsterPlusAtkComparator);
+                saveMonsterListRecycler.notifyDataSetChanged();
+                break;
+            case 704:
+                Collections.sort(monsterList, monsterPlusRcvComparator);
+                saveMonsterListRecycler.notifyDataSetChanged();
+                break;
+
         }
     }
 
     public void reverseArrayList() {
-        switch (Singleton.getInstance().getBaseSortMethod()) {
+        switch (Singleton.getInstance().getSaveSortMethod()) {
             case 202:
                 element2Reverse();
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.setMonsterList(monsterList);
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 302:
                 type2Reverse();
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.setMonsterList(monsterList);
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             case 303:
                 type3Reverse();
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.setMonsterList(monsterList);
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
             default:
                 defaultReverse();
-                baseMonsterListRecycler.notifyDataSetChanged();
+                saveMonsterListRecycler.setMonsterList(monsterList);
+                saveMonsterListRecycler.notifyDataSetChanged();
                 break;
 
         }
@@ -441,14 +514,14 @@ public abstract class BaseMonsterListUtil extends Fragment {
 
     private void defaultReverse() {
         Collections.reverse(monsterList);
-        if (monsterList.contains(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst())) {
-            monsterList.remove(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
-            monsterList.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+        if (monsterList.contains(monsterZero)) {
+            monsterList.remove(monsterZero);
+            monsterList.add(0, monsterZero);
         }
     }
 
     private void element2Reverse() {
-        ArrayList<BaseMonster> sorting = new ArrayList<>();
+        ArrayList<Monster> sorting = new ArrayList<>();
         for (int i = 0; i < monsterList.size(); i++) {
             if (monsterList.get(i).getElement2Int() >= 0) {
                 sorting.add(monsterList.get(i));
@@ -460,14 +533,14 @@ public abstract class BaseMonsterListUtil extends Fragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst())) {
-            monsterList.remove(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
-            monsterList.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+        if (monsterList.contains(monsterZero)) {
+            monsterList.remove(monsterZero);
+            monsterList.add(0, monsterZero);
         }
     }
 
     private void type2Reverse() {
-        ArrayList<BaseMonster> sorting = new ArrayList<>();
+        ArrayList<Monster> sorting = new ArrayList<>();
         for (int i = 0; i < monsterList.size(); i++) {
             if (monsterList.get(i).getType2() >= 0) {
                 sorting.add(monsterList.get(i));
@@ -479,14 +552,14 @@ public abstract class BaseMonsterListUtil extends Fragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst())) {
-            monsterList.remove(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
-            monsterList.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+        if (monsterList.contains(monsterZero)) {
+            monsterList.remove(monsterZero);
+            monsterList.add(0, monsterZero);
         }
     }
 
     private void type3Reverse() {
-        ArrayList<BaseMonster> sorting = new ArrayList<>();
+        ArrayList<Monster> sorting = new ArrayList<>();
         for (int i = 0; i < monsterList.size(); i++) {
             if (monsterList.get(i).getType3() >= 0) {
                 sorting.add(monsterList.get(i));
@@ -498,19 +571,19 @@ public abstract class BaseMonsterListUtil extends Fragment {
         for (int i = 0; i < sorting.size(); i++) {
             monsterList.add(i, sorting.get(i));
         }
-        if (monsterList.contains(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst())) {
-            monsterList.remove(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
-            monsterList.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+        if (monsterList.contains(monsterZero)) {
+            monsterList.remove(monsterZero);
+            monsterList.add(0, monsterZero);
         }
     }
 
     public void searchFilter(String query) {
-        if (baseMonsterListRecycler != null) {
+        if (saveMonsterListRecycler != null) {
             if (query != null && query.length() > 0) {
                 if (!monsterList.isEmpty()) {
                     monsterList.clear();
                 }
-                RealmResults<BaseMonster> results = realm.where(BaseMonster.class)
+                RealmResults<Monster> results = realm.where(Monster.class)
                         .beginGroup()
                         .contains("name", query, Case.INSENSITIVE)
                         .or()
@@ -520,10 +593,13 @@ public abstract class BaseMonsterListUtil extends Fragment {
                         .or()
                         .contains("type3String", query, Case.INSENSITIVE)
                         .or()
-                        .contains("monsterIdString", query, Case.INSENSITIVE)
+                        .contains("baseMonsterIdString", query, Case.INSENSITIVE)
                         .endGroup()
                         .greaterThan("monsterId", 0).findAll();
                 monsterList.addAll(results);
+
+//                filterMonsters(query);
+
 //                filterMonsterName(query);
 //                filterMonsterType(query);
 //                filterMonsterNumber(query);
@@ -532,73 +608,34 @@ public abstract class BaseMonsterListUtil extends Fragment {
                 monsterList.clear();
                 monsterList.addAll(monsterListAll);
             }
-            sortArrayList(Singleton.getInstance().getBaseSortMethod());
+            sortArrayList(Singleton.getInstance().getSaveSortMethod());
+//            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
             firstRun = false;
-            baseMonsterListRecycler.setExpandedPosition(-1);
-            if (monsterList.size() == 0) {
-                noResults.setVisibility(View.VISIBLE);
+            saveMonsterListRecycler.setExpandedPosition(-1);
+            if(monsterList.size() == 0){
+                savedMonsters.setText("No results");
+                savedMonsters.setVisibility(View.VISIBLE);
             } else {
-                noResults.setVisibility(View.INVISIBLE);
-            }
-//            if(fastScroller != null){
-//                fastScroller.resizeScrollBar(baseMonsterListRecycler.expanded(), FastScroller.BASE_MONSTER_LIST);
-//            }
-        }
-    }
-
-    private void filterMonsterName(String query) {
-        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).contains("name", query, Case.INSENSITIVE).greaterThan("monsterId", 0).findAll();
-        monsterList.clear();
-        monsterList.addAll(results);
-//        for (BaseMonster monster : monsterListAll) {
-//            if (monster.getName().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
-//                monsterList.add(monster);
-//            }
-//        }
-    }
-
-    private void filterMonsterNumber(String query) {
-        for (BaseMonster monster : monsterListAll) {
-            if (String.valueOf(monster.getMonsterId()).toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
-                monsterList.add(monster);
+                savedMonsters.setText("No Saved Monsters");
+                savedMonsters.setVisibility(View.INVISIBLE);
             }
         }
+
+
     }
 
-    private void filterMonsterType(String query) {
-        for (BaseMonster monster : monsterListAll) {
-            if (monster.getType1String().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+    private void filterMonsters(String query) {
+        for (Monster monster : monsterListAll) {
+            if (monster.getName().toLowerCase().contains(query.toLowerCase())) {
                 monsterList.add(monster);
-            } else if (monster.getType2String().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+            } else if (String.valueOf(monster.getBaseMonsterId()).toLowerCase().contains(query.toLowerCase())) {
                 monsterList.add(monster);
-            } else if (monster.getType3String().toLowerCase().contains(query.toLowerCase()) && !monsterList.contains(monster)) {
+            } else if (monster.getType1String().toLowerCase().contains(query.toLowerCase())) {
                 monsterList.add(monster);
-            }
-        }
-    }
-
-    private void filterMonsterElement(String query) {
-        for (BaseMonster monster : monsterListAll) {
-            if (query.toLowerCase().equals("fire") || query.toLowerCase().equals("red")) {
-                if (monster.getElement1().equals(Element.RED) || monster.getElement2().equals(Element.RED) && !monsterList.contains(monster)) {
-                    monsterList.add(monster);
-                }
-            } else if (query.toLowerCase().equals("water") || query.toLowerCase().equals("blue")) {
-                if (monster.getElement1().equals(Element.BLUE) || monster.getElement2().equals(Element.BLUE) && !monsterList.contains(monster)) {
-                    monsterList.add(monster);
-                }
-            } else if (query.toLowerCase().equals("wood") || query.toLowerCase().equals("green")) {
-                if (monster.getElement1().equals(Element.GREEN) || monster.getElement2().equals(Element.GREEN) && !monsterList.contains(monster)) {
-                    monsterList.add(monster);
-                }
-            } else if (query.toLowerCase().equals("light") || query.toLowerCase().equals("yellow")) {
-                if (monster.getElement1().equals(Element.LIGHT) || monster.getElement2().equals(Element.LIGHT) && !monsterList.contains(monster)) {
-                    monsterList.add(monster);
-                }
-            } else if (query.toLowerCase().equals("dark") || query.toLowerCase().equals("purple")) {
-                if (monster.getElement1().equals(Element.DARK) || monster.getElement2().equals(Element.DARK) && !monsterList.contains(monster)) {
-                    monsterList.add(monster);
-                }
+            } else if (monster.getType2String().toLowerCase().contains(query.toLowerCase())) {
+                monsterList.add(monster);
+            } else if (monster.getType3String().toLowerCase().contains(query.toLowerCase())) {
+                monsterList.add(monster);
             }
         }
     }
@@ -607,16 +644,16 @@ public abstract class BaseMonsterListUtil extends Fragment {
         @Override
         public void filter() {
             boolean remove = true;
-            if (filteredMonsters.size() > 0) {
-                for (int i = 0; i < filteredMonsters.size(); i++) {
+            if(filteredMonsters.size() > 0){
+                for(int i = 0; i < filteredMonsters.size(); i++){
                     monsterList.add(filteredMonsters.get(i));
                 }
                 filteredMonsters.clear();
             }
-            Iterator<BaseMonster> iter = monsterList.iterator();
+            Iterator<Monster> iter = monsterList.iterator();
             if (Singleton.getInstance().getFilterElement1().size() != 0 || Singleton.getInstance().getFilterElement2().size() != 0 || Singleton.getInstance().getFilterTypes().size() != 0 || Singleton.getInstance().getFilterAwakenings().size() != 0 || Singleton.getInstance().getFilterLatents().size() != 0) {
                 while (iter.hasNext()) {
-                    BaseMonster monster = iter.next();
+                    Monster monster = iter.next();
                     if (Singleton.getInstance().getFilterElement1().size() != 0) {
                         if (Singleton.getInstance().getFilterElement1().contains(monster.getElement1())) {
                             remove = false;
@@ -636,7 +673,14 @@ public abstract class BaseMonsterListUtil extends Fragment {
                     }
                     if (Singleton.getInstance().getFilterAwakenings().size() != 0 && remove) {
                         for (int i = 0; i < monster.getAwokenSkills().size(); i++) {
-                            if (Singleton.getInstance().getFilterAwakenings().contains(monster.getAwokenSkills(i).getValue()) && remove) {
+                            if (Singleton.getInstance().getFilterAwakenings().contains(monster.getAwokenSkills(i)) && remove) {
+                                remove = false;
+                            }
+                        }
+                    }
+                    if (Singleton.getInstance().getFilterLatents().size() != 0 && remove) {
+                        for (int i = 0; i < monster.getLatents().size(); i++) {
+                            if (Singleton.getInstance().getFilterLatents().contains(monster.getLatents().get(i).getValue()) && remove) {
                                 remove = false;
                             }
                         }
@@ -648,13 +692,15 @@ public abstract class BaseMonsterListUtil extends Fragment {
                     remove = true;
                 }
             }
-            sortArrayList(Singleton.getInstance().getBaseSortMethod());
-            baseMonsterListRecycler.setExpandedPosition(-1);
-            baseMonsterListRecycler.notifyDataSetChanged();
-            if (monsterList.size() == 0) {
-                noResults.setVisibility(View.VISIBLE);
+            sortArrayList(Singleton.getInstance().getSaveSortMethod());
+            saveMonsterListRecycler.setExpandedPosition(-1);
+            saveMonsterListRecycler.notifyDataSetChanged();
+            if(monsterList.size() == 0){
+                savedMonsters.setText("No results");
+                savedMonsters.setVisibility(View.VISIBLE);
             } else {
-                noResults.setVisibility(View.INVISIBLE);
+                savedMonsters.setText("No Saved Monsters");
+                savedMonsters.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -662,16 +708,16 @@ public abstract class BaseMonsterListUtil extends Fragment {
         public void filterRequirements() {
             boolean match = true;
             int counter = 0;
-            if (filteredMonsters.size() > 0) {
-                for (int i = 0; i < filteredMonsters.size(); i++) {
+            if(filteredMonsters.size() > 0){
+                for(int i = 0; i < filteredMonsters.size(); i++){
                     monsterList.add(filteredMonsters.get(i));
                 }
                 filteredMonsters.clear();
             }
-            Iterator<BaseMonster> iter = monsterList.iterator();
+            Iterator<Monster> iter = monsterList.iterator();
             if (Singleton.getInstance().getFilterElement1().size() != 0 || Singleton.getInstance().getFilterElement2().size() != 0 || Singleton.getInstance().getFilterTypes().size() != 0 || Singleton.getInstance().getFilterAwakenings().size() != 0 || Singleton.getInstance().getFilterLatents().size() != 0) {
                 while (iter.hasNext()) {
-                    BaseMonster monster = iter.next();
+                    Monster monster = iter.next();
                     if (Singleton.getInstance().getFilterElement1().size() != 0) {
                         if (!Singleton.getInstance().getFilterElement1().contains(monster.getElement1())) {
                             match = false;
@@ -684,28 +730,45 @@ public abstract class BaseMonsterListUtil extends Fragment {
                     }
                     if (Singleton.getInstance().getFilterTypes().size() != 0 && match) {
                         for (int i = 0; i < monster.getTypes().size(); i++) {
-                            if (Singleton.getInstance().getFilterTypes().contains(monster.getTypes().get(i))) {
+                            if(Singleton.getInstance().getFilterTypes().contains(monster.getTypes().get(i))){
                                 counter++;
                             }
                         }
-                        if (counter != Singleton.getInstance().getFilterTypes().size()) {
+                        if(counter != Singleton.getInstance().getFilterTypes().size()){
                             match = false;
                         }
                         counter = 0;
                     }
                     if (Singleton.getInstance().getFilterAwakenings().size() != 0 && match) {
                         ArrayList<Integer> trimmedAwakenings = new ArrayList<>();
-                        for (int i = 0; i < monster.getAwokenSkills().size(); i++) {
-                            if (!trimmedAwakenings.contains(monster.getAwokenSkills(i).getValue())) {
-                                trimmedAwakenings.add(monster.getAwokenSkills(i).getValue());
+                        for(int i = 0; i < monster.getAwokenSkills().size(); i++){
+                            if(!trimmedAwakenings.contains(monster.getAwokenSkills(i))){
+                                trimmedAwakenings.add(monster.getAwokenSkills(i));
                             }
                         }
                         for (int i = 0; i < trimmedAwakenings.size(); i++) {
-                            if (Singleton.getInstance().getFilterAwakenings().contains(trimmedAwakenings.get(i))) {
+                            if(Singleton.getInstance().getFilterAwakenings().contains(trimmedAwakenings.get(i))){
                                 counter++;
                             }
                         }
-                        if (counter != Singleton.getInstance().getFilterAwakenings().size()) {
+                        if(counter != Singleton.getInstance().getFilterAwakenings().size()){
+                            match = false;
+                        }
+                        counter = 0;
+                    }
+                    if (Singleton.getInstance().getFilterLatents().size() != 0 && match) {
+                        ArrayList<Integer> trimmedAwakenings = new ArrayList<>();
+                        for (int i = 0; i < monster.getLatents().size(); i++){
+                            if(!trimmedAwakenings.contains(monster.getLatents().get(i).getValue())){
+                                trimmedAwakenings.add(monster.getLatents().get(i).getValue());
+                            }
+                        }
+                        for (int i = 0; i < trimmedAwakenings.size(); i++) {
+                            if(Singleton.getInstance().getFilterLatents().contains(trimmedAwakenings.get(i))){
+                                counter++;
+                            }
+                        }
+                        if(counter != Singleton.getInstance().getFilterLatents().size()){
                             match = false;
                         }
                         counter = 0;
@@ -717,13 +780,15 @@ public abstract class BaseMonsterListUtil extends Fragment {
                     match = true;
                 }
             }
-            sortArrayList(Singleton.getInstance().getBaseSortMethod());
-            baseMonsterListRecycler.setExpandedPosition(-1);
-            baseMonsterListRecycler.notifyDataSetChanged();
-            if (monsterList.size() == 0) {
-                noResults.setVisibility(View.VISIBLE);
+            sortArrayList(Singleton.getInstance().getSaveSortMethod());
+            saveMonsterListRecycler.setExpandedPosition(-1);
+            saveMonsterListRecycler.notifyDataSetChanged();
+            if(monsterList.size() == 0){
+                savedMonsters.setText("No results");
+                savedMonsters.setVisibility(View.VISIBLE);
             } else {
-                noResults.setVisibility(View.INVISIBLE);
+                savedMonsters.setText("No Saved Monsters");
+                savedMonsters.setVisibility(View.INVISIBLE);
             }
         }
     };

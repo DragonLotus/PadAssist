@@ -1,7 +1,6 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.BaseMonsterListUtil;
+import com.padassist.Util.BaseMonsterListBase;
 
 import java.util.ArrayList;
 
@@ -21,7 +20,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class BaseMonsterListFragment extends BaseMonsterListUtil {
+public class BaseMonsterListFragment extends BaseMonsterListBase {
     public static final String TAG = BaseMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
     private boolean replaceAll;
