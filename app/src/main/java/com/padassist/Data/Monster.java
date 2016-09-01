@@ -2,6 +2,7 @@ package com.padassist.Data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 
 import com.padassist.Util.DamageCalculationUtil;
@@ -244,7 +245,7 @@ public class Monster extends RealmObject implements Parcelable {
     }
 
     public double getTotalWeighted() {
-        return getTotalHp() / HP_PLUS_MULTIPLIER + getTotalAtk() / HP_PLUS_MULTIPLIER + getTotalRcv() / RCV_PLUS_MULTIPLIER;
+        return (double)getTotalHp() / HP_PLUS_MULTIPLIER + (double)getTotalAtk() / ATK_PLUS_MULTIPLIER + (double)getTotalRcv() / RCV_PLUS_MULTIPLIER;
     }
 
     public void setCurrentAtk(double currentAtk) {

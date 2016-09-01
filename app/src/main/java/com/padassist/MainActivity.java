@@ -213,6 +213,13 @@ public class MainActivity extends AppCompatActivity {
             realm.commitTransaction();
         }
 
+        if(realm.where(ActiveSkill.class).equalTo("name", "Blank").findFirst() == null){
+            ActiveSkill blankActiveSkill = new ActiveSkill();
+            realm.beginTransaction();
+            realm.copyToRealm(blankActiveSkill);
+            realm.commitTransaction();
+        }
+
         switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG, "good");
 
 

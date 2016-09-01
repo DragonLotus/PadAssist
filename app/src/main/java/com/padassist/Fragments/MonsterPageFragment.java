@@ -55,7 +55,7 @@ public class MonsterPageFragment extends MonsterPageBase {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.findItem(R.id.manageMonsters).setVisible(true);
+        menu.findItem(R.id.manageMonsters).setVisible(false);
     }
 
 
@@ -68,7 +68,6 @@ public class MonsterPageFragment extends MonsterPageBase {
             monsterId = getArguments().getLong("monsterId");
             position = getArguments().getInt("position");
         }
-        Log.d("MonsterPage", "monster is: " + monster);
         monsterRemove.setOnClickListener(maxButtons);
         switch (position) {
             case 0:
@@ -201,10 +200,15 @@ public class MonsterPageFragment extends MonsterPageBase {
         @Override
         public void evolveMonster(long baseMonsterId) {
             if(baseMonsterId != 0){
+                String previousActiveSkill = monster.getActiveSkillString();
                 monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
+                if(!previousActiveSkill.equals(monster.getActiveSkillString())){
+                    monster.setActiveSkillLevel(1);
+                }
+                setSkillTextViews();
                 showAwakenings();
                 grayAwakenings();
-                monsterStats();
+                updateMonster();
                 setImageViews();
                 rarity.setText("" + monster.getRarity());
                 monsterName.setText(monster.getName());

@@ -202,7 +202,6 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
                     realm.commitTransaction();
                 }
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
             }
             return true;
         }

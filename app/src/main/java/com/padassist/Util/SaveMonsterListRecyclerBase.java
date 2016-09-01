@@ -269,14 +269,18 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                     viewHolderLinear.activeSkillCooldown.setVisibility(View.GONE);
                 } else {
                     viewHolderLinear.activeSkillDesc.setText(monsterList.get(position).getActiveSkill().getDescription());
-                    viewHolderLinear.activeSkillCooldown.setText("(CD " + (monsterList.get(position).getActiveSkill().getMaximumCooldown() - (monsterList.get(position).getActiveSkillLevel() - 1)) + ")");
+                    if(monsterList.get(position).getActiveSkillLevel() == monsterList.get(position).getActiveSkill().getMaxLevel()){
+                        viewHolderLinear.activeSkillCooldown.setText("(CD " + monsterList.get(position).getActiveSkill().getMinimumCooldown() + " (Max))");
+                    } else {
+                        viewHolderLinear.activeSkillCooldown.setText("(CD " + (monsterList.get(position).getActiveSkill().getMaximumCooldown() - monsterList.get(position).getActiveSkillLevel() + 1) + ")");
+                    }
                     viewHolderLinear.activeSkillCooldown.setVisibility(View.VISIBLE);
                 }
                 viewHolderLinear.activeSkillName.setVisibility(View.VISIBLE);
                 viewHolderLinear.activeSkillDesc.setVisibility(View.VISIBLE);
                 viewHolderLinear.activeSkillName.setText("" + monsterList.get(position).getActiveSkillString() + "");
             }
-            if (monsterList.get(position).getLeaderSkill().equals("Blank")) {
+            if (monsterList.get(position).getLeaderSkillString().equals("Blank")) {
                 viewHolderLinear.leaderSkillName.setText("None");
                 viewHolderLinear.leaderSkillDesc.setVisibility(View.GONE);
             } else {

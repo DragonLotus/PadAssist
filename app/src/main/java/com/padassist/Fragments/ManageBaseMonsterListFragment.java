@@ -52,7 +52,7 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListBase {
             realm.beginTransaction();
             realm.copyToRealm(newMonster);
             realm.commitTransaction();
-            ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(newMonster), MonsterTabLayoutFragment.TAG, "good");
+            ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(newMonster.getMonsterId()), MonsterTabLayoutFragment.TAG, "good");
 //
         }
     };

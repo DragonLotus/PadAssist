@@ -72,7 +72,7 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListBase {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position)), MonsterTabLayoutFragment.TAG, "good");
+            ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId()), MonsterTabLayoutFragment.TAG, "good");
         }
     };
 

@@ -24,11 +24,11 @@ public class ManageMonsterPageFragment extends MonsterPageBase {
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
-    public static ManageMonsterPageFragment newInstance(Monster monster) {
+    public static ManageMonsterPageFragment newInstance(long monsterId) {
         ManageMonsterPageFragment fragment = new ManageMonsterPageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
-        args.putParcelable("monster", monster);
+        args.putLong("monsterId", monsterId);
         return fragment;
     }
 
@@ -40,7 +40,7 @@ public class ManageMonsterPageFragment extends MonsterPageBase {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            monster = getArguments().getParcelable("monster");
+            monsterId = getArguments().getLong("monsterId");
         }
         monsterRemove.setOnClickListener(maxButtons);
 
@@ -48,8 +48,15 @@ public class ManageMonsterPageFragment extends MonsterPageBase {
 
     public Monster getMonster(){
         if(getArguments() != null){
-            return getArguments().getParcelable("monster");
+//            return getArguments().getParcelable("monster");
+            monsterId = getArguments().getLong("monsterId");
+            Log.d("ManageMonsterPage", "monsterId is: " + monsterId);
+            Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst();
+            monster = realm.copyFromRealm(monster);
+            Log.d("ManageMonsterPage", "monster is: " + monster);
+            return monster;
         } else return null;
+
     }
 
     private View.OnClickListener maxButtons = new View.OnClickListener() {
@@ -95,10 +102,15 @@ public class ManageMonsterPageFragment extends MonsterPageBase {
         @Override
         public void evolveMonster(long baseMonsterId) {
             if(baseMonsterId != 0){
+                String previousActiveSkill = monster.getActiveSkillString();
                 monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
+                if(!previousActiveSkill.equals(monster.getActiveSkillString())){
+                    monster.setActiveSkillLevel(1);
+                }
+                setSkillTextViews();
                 showAwakenings();
                 grayAwakenings();
-                monsterStats();
+                updateMonster();
                 setImageViews();
                 rarity.setText("" + monster.getRarity());
                 monsterName.setText(monster.getName());

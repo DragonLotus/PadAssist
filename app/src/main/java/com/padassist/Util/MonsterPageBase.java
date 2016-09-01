@@ -53,11 +53,18 @@ public abstract class MonsterPageBase extends Fragment {
     // TODO: Rename and change types of parameters
     private View rootView;
     private OnFragmentInteractionListener mListener;
-    protected TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal, monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal, monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity, monsterAwakenings;
+    protected TextView monsterName, monsterStatsHPBase, monsterStatsHPTotal,
+            monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal,
+            monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity, monsterAwakenings,
+            skill1Level, activeSkill1Name, activeSkill1Cooldown, activeSkill1Desc, skill2Level, activeSkill2Name,
+            activeSkill2Cooldown, activeSkill2Desc, leaderSkillName, leaderSkillDesc;
     protected EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
-    protected Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax, monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus, awakeningHolderMax;
-    protected ImageView monsterPicture, rarityStar, type1, type2, type3, favorite, favoriteOutline;
+    protected Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax,
+            monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus, awakeningHolderMax,
+            skill1Plus, skill1Minus, skill1Max, skill2Plus, skill2Minus, skill2Max;
+    protected ImageView monsterPicture, rarityStar, type1, type2, type3, favorite, favoriteOutline, activeSkill1, activeSkill2, leaderSkill;
     private LinearLayout awakeningHolder, latentHolder;
+    private RelativeLayout skill1Holder, skill2Holder, leaderSkillHolder;
     protected TableLayout table1;
     protected Monster monster;
     protected long monsterId;
@@ -87,20 +94,20 @@ public abstract class MonsterPageBase extends Fragment {
                 monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
                 monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
                 monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
-//                monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
-//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.ATK_STAT) {
                 monster.setAtkPlus(statValue);
                 monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
-//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.RCV_STAT) {
                 monster.setRcvPlus(statValue);
                 monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
-//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.HP_STAT) {
                 monster.setHpPlus(statValue);
                 monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
-//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.AWAKENINGS) {
                 monster.setCurrentAwakenings(statValue);
                 grayAwakenings();
@@ -190,7 +197,28 @@ public abstract class MonsterPageBase extends Fragment {
         table1 = (TableLayout) rootView.findViewById(R.id.table1);
         latentHolder = (LinearLayout) rootView.findViewById(R.id.latentHolder);
         awakeningHolderMax = (Button) rootView.findViewById(R.id.awakeningHolderMax);
-
+        skill1Level = (TextView) rootView.findViewById(R.id.skill1Level);
+        activeSkill1Name = (TextView) rootView.findViewById(R.id.activeSkill1Name);
+        activeSkill1Cooldown = (TextView) rootView.findViewById(R.id.activeSkill1Cooldown);
+        activeSkill1Desc = (TextView) rootView.findViewById(R.id.activeSkill1Desc);
+        skill2Level = (TextView) rootView.findViewById(R.id.skill2Level);
+        activeSkill2Name = (TextView) rootView.findViewById(R.id.activeSkill2Name);
+        activeSkill2Cooldown = (TextView) rootView.findViewById(R.id.activeSkill2Cooldown);
+        activeSkill2Desc = (TextView) rootView.findViewById(R.id.activeSkill2Desc);
+        skill1Plus = (Button) rootView.findViewById(R.id.skill1Plus);
+        skill1Minus = (Button) rootView.findViewById(R.id.skill1Minus);
+        skill1Max = (Button) rootView.findViewById(R.id.skill1Max);
+        skill2Plus = (Button) rootView.findViewById(R.id.skill2Plus);
+        skill2Minus = (Button) rootView.findViewById(R.id.skill2Minus);
+        skill2Max = (Button) rootView.findViewById(R.id.skill2Max);
+        activeSkill1 = (ImageView) rootView.findViewById(R.id.activeSkill1);
+        activeSkill2 = (ImageView) rootView.findViewById(R.id.activeSkill2);
+        leaderSkill = (ImageView) rootView.findViewById(R.id.leaderSkill);
+        skill1Holder = (RelativeLayout) rootView.findViewById(R.id.skill1Holder);
+        skill2Holder = (RelativeLayout) rootView.findViewById(R.id.skill2Holder);
+        leaderSkillHolder = (RelativeLayout) rootView.findViewById(R.id.leaderSkillHolder);
+        leaderSkillName = (TextView) rootView.findViewById(R.id.leaderSkillName);
+        leaderSkillDesc = (TextView) rootView.findViewById(R.id.leaderSkillDesc);
         return rootView;
     }
 
@@ -203,7 +231,7 @@ public abstract class MonsterPageBase extends Fragment {
 //        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
 
         Monster checkMonster = realm.where(Monster.class).equalTo("monsterId", monster.getMonsterId()).findFirst();
-        if(checkMonster.isFavorite()){
+        if(monster.isFavorite() != checkMonster.isFavorite()){
             monster.setFavorite(checkMonster.isFavorite());
             setFavorite();
         }
@@ -222,10 +250,10 @@ public abstract class MonsterPageBase extends Fragment {
 //        initializeEditTexts();
 //        setImageViews();
 //        setLatents();
-//        monsterStats();
+//        updateMonster();
     }
 
-    private boolean deleteCheck(){
+    private boolean deleteCheck() {
         RealmResults<Monster> results = realm.where(Monster.class).findAll();
 //        ArrayList<Monster> checkList = new ArrayList<>();
 //        checkList.addAll(results);
@@ -236,7 +264,6 @@ public abstract class MonsterPageBase extends Fragment {
                 break;
             }
         }
-
         return bounce;
     }
 
@@ -252,7 +279,7 @@ public abstract class MonsterPageBase extends Fragment {
         switch (item.getItemId()) {
             case R.id.toggleCoop:
                 if (monster.setAwakenings().contains(30)) {
-                    monsterStats();
+                    updateMonster();
                 }
                 break;
             case R.id.monsterList:
@@ -277,6 +304,7 @@ public abstract class MonsterPageBase extends Fragment {
         setImageViews();
         setLatents();
         setFavorite();
+        setSkillTextViews();
         monsterLevelValue.addTextChangedListener(currentLevelWatcher);
         monsterStatsHPPlus.addTextChangedListener(hpPlusWatcher);
         monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
@@ -302,6 +330,7 @@ public abstract class MonsterPageBase extends Fragment {
         monsterStatsRCVMax.setOnClickListener(maxButtons);
         monsterAwakeningsMax.setOnClickListener(maxButtons);
         monsterStatsMaxAll.setOnClickListener(maxButtons);
+        skill1Max.setOnClickListener(maxButtons);
 
         rarity.setText("" + monster.getRarity());
         rarityStar.setColorFilter(0xFFD4D421);
@@ -311,6 +340,9 @@ public abstract class MonsterPageBase extends Fragment {
 
         monsterName.setHorizontallyScrolling(true);
         monsterName.setSelected(true);
+
+        skill1Minus.setOnClickListener(activeSkillPlusMinusOnClickListener);
+        skill1Plus.setOnClickListener(activeSkillPlusMinusOnClickListener);
 
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
@@ -332,16 +364,13 @@ public abstract class MonsterPageBase extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if(!deleteCheck()){
+    public void onPause() {
+        super.onPause();
+        if (!deleteCheck()) {
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(monster);
             realm.commitTransaction();
         }
-//        monster.save();
-//        Monster.getMonsterId(monster.getMonsterId());
-//        Log.d("MonsterPageBase", "monster load is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster level is: " + Monster.getMonsterId(monster.getMonsterId()) + " monster Id is: " + Monster.getMonsterId(monster.getMonsterId()));
     }
 
     @Override
@@ -364,8 +393,8 @@ public abstract class MonsterPageBase extends Fragment {
         monsterStatsATKTotal = (TextView) rootView.findViewById(R.id.monsterStatsATKTotal);
         monsterStatsRCVBase = (TextView) rootView.findViewById(R.id.monsterStatsRCVBase);
         monsterStatsRCVTotal = (TextView) rootView.findViewById(R.id.monsterStatsRCVTotal);
-        //       monsterStatsWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsWeightedValue);
-        //       monsterStatsTotalWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsTotalWeightedValue);
+        monsterStatsWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsWeightedValue);
+        monsterStatsTotalWeightedValue = (TextView) rootView.findViewById(R.id.monsterStatsTotalWeightedValue);
         rarity = (TextView) rootView.findViewById(R.id.rarity);
         rarityStar = (ImageView) rootView.findViewById(R.id.rarityStar);
 
@@ -393,13 +422,31 @@ public abstract class MonsterPageBase extends Fragment {
         }
     };
 
+    private View.OnClickListener activeSkillPlusMinusOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (v.equals(skill1Minus)) {
+                if (monster.getActiveSkillLevel() > 1) {
+                    monster.setActiveSkillLevel(monster.getActiveSkillLevel() - 1);
+                    setActive1Values();
+                }
+            } else if (v.equals(skill1Plus)) {
+                if (monster.getActiveSkillLevel() < monster.getActiveSkill().getMaxLevel()) {
+                    monster.setActiveSkillLevel(monster.getActiveSkillLevel() + 1);
+                    setActive1Values();
+                }
+            }
+        }
+    };
+
+
     private View.OnClickListener maxButtons = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             clearTextFocus();
             if (v.equals(monsterLevelMax)) {
                 monsterLevelValue.setText(Integer.toString(monster.getMaxLevel()));
-                monsterStats();
+                updateMonster();
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -409,7 +456,7 @@ public abstract class MonsterPageBase extends Fragment {
                 monsterStatsHPPlus.setText("99");
                 monsterStatsATKPlus.setText("99");
                 monsterStatsRCVPlus.setText("99");
-                monsterStats();
+                updateMonster();
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -417,7 +464,7 @@ public abstract class MonsterPageBase extends Fragment {
                 toast.show();
             } else if (v.equals(monsterStatsHPMax)) {
                 monsterStatsHPPlus.setText("99");
-                monsterStats();
+                updateMonster();
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -425,7 +472,7 @@ public abstract class MonsterPageBase extends Fragment {
                 toast.show();
             } else if (v.equals(monsterStatsATKMax)) {
                 monsterStatsATKPlus.setText("99");
-                monsterStats();
+                updateMonster();
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -433,7 +480,7 @@ public abstract class MonsterPageBase extends Fragment {
                 toast.show();
             } else if (v.equals(monsterStatsRCVMax)) {
                 monsterStatsRCVPlus.setText("99");
-                monsterStats();
+                updateMonster();
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -456,12 +503,31 @@ public abstract class MonsterPageBase extends Fragment {
                 monsterStatsRCVPlus.setText("99");
                 monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
                 monster.setCurrentAwakenings(monster.getMaxAwakenings());
+                monster.setActiveSkillLevel(monster.getActiveSkill().getMaxLevel());
+                monster.setActiveSkill2Level(monster.getActiveSkill().getMaxLevel());
                 grayAwakenings();
-                monsterStats();
+                updateMonster();
+                setSkillTextViews();
                 if (toast != null) {
                     toast.cancel();
                 }
                 toast = Toast.makeText(getActivity(), "All stats maxed", Toast.LENGTH_SHORT);
+                toast.show();
+            } else if (v.equals(skill1Max)) {
+                monster.setActiveSkillLevel(monster.getActiveSkill().getMaxLevel());
+                setActive1Values();
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Skill maxed", Toast.LENGTH_SHORT);
+                toast.show();
+            } else if (v.equals(skill2Max)) {
+                monster.setActiveSkill2Level(monster.getActiveSkill2().getMaxLevel());
+                setActive2Values();
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Skill 2 maxed", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
@@ -505,553 +571,22 @@ public abstract class MonsterPageBase extends Fragment {
     public void grayAwakenings() {
         if (monster.getCurrentAwakenings() < monster.getMaxAwakenings()) {
             for (int j = 0; j < monster.getCurrentAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j).getValue()) {
-                    case 1:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
-                        break;
-                    case 2:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2);
-                        break;
-                    case 3:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3);
-                        break;
-                    case 4:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4);
-                        break;
-                    case 5:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5);
-                        break;
-                    case 6:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6);
-                        break;
-                    case 7:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7);
-                        break;
-                    case 8:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8);
-                        break;
-                    case 9:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9);
-                        break;
-                    case 10:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10);
-                        break;
-                    case 11:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11);
-                        break;
-                    case 12:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12);
-                        break;
-                    case 13:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13);
-                        break;
-                    case 14:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14);
-                        break;
-                    case 15:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15);
-                        break;
-                    case 16:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16);
-                        break;
-                    case 17:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17);
-                        break;
-                    case 18:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18);
-                        break;
-                    case 19:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19);
-                        break;
-                    case 20:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20);
-                        break;
-                    case 21:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21);
-                        break;
-                    case 22:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22);
-                        break;
-                    case 23:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23);
-                        break;
-                    case 24:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24);
-                        break;
-                    case 25:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25);
-                        break;
-                    case 26:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26);
-                        break;
-                    case 27:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27);
-                        break;
-                    case 28:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28);
-                        break;
-                    case 29:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29);
-                        break;
-                    case 30:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30);
-                        break;
-                    case 31:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31);
-                        break;
-                    case 32:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32);
-                        break;
-                    case 33:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33);
-                        break;
-                    case 34:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34);
-                        break;
-                    case 35:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35);
-                        break;
-                    case 36:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36);
-                        break;
-                    case 37:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
-                        break;
-                    case 38:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
-                        break;
-                    case 39:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_39);
-                        break;
-                    case 40:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_40);
-                        break;
-                    case 41:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_41);
-                        break;
-                    case 42:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_42);
-                        break;
-                    default:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening);
-                        break;
-                }
+                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningImageResource(monster.getAwokenSkills().get(j).getValue()));
             }
-
             for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j).getValue()) {
-                    case 1:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1_disabled);
-                        break;
-                    case 2:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2_disabled);
-                        break;
-                    case 3:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3_disabled);
-                        break;
-                    case 4:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4_disabled);
-                        break;
-                    case 5:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5_disabled);
-                        break;
-                    case 6:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6_disabled);
-                        break;
-                    case 7:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7_disabled);
-                        break;
-                    case 8:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8_disabled);
-                        break;
-                    case 9:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9_disabled);
-                        break;
-                    case 10:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10_disabled);
-                        break;
-                    case 11:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11_disabled);
-                        break;
-                    case 12:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12_disabled);
-                        break;
-                    case 13:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13_disabled);
-                        break;
-                    case 14:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14_disabled);
-                        break;
-                    case 15:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15_disabled);
-                        break;
-                    case 16:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16_disabled);
-                        break;
-                    case 17:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17_disabled);
-                        break;
-                    case 18:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18_disabled);
-                        break;
-                    case 19:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19_disabled);
-                        break;
-                    case 20:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20_disabled);
-                        break;
-                    case 21:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21_disabled);
-                        break;
-                    case 22:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22_disabled);
-                        break;
-                    case 23:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23_disabled);
-                        break;
-                    case 24:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24_disabled);
-                        break;
-                    case 25:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25_disabled);
-                        break;
-                    case 26:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26_disabled);
-                        break;
-                    case 27:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27_disabled);
-                        break;
-                    case 28:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28_disabled);
-                        break;
-                    case 29:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29_disabled);
-                        break;
-                    case 30:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30_disabled);
-                        break;
-                    case 31:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31_disabled);
-                        break;
-                    case 32:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32_disabled);
-                        break;
-                    case 33:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33_disabled);
-                        break;
-                    case 34:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34_disabled);
-                        break;
-                    case 35:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35_disabled);
-                        break;
-                    case 36:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36_disabled);
-                        break;
-                    case 37:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37_disabled);
-                        break;
-                    case 38:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38_disabled);
-                        break;
-                    case 39:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_39_disabled);
-                        break;
-                    case 40:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_40_disabled);
-                        break;
-                    case 41:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_41_disabled);
-                        break;
-                    case 42:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_42_disabled);
-                        break;
-                    default:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_disabled);
-                        break;
-                }
+                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningDisabledImageResource(monster.getAwokenSkills().get(j).getValue()));
             }
         } else {
             for (int j = 0; j < monster.getMaxAwakenings(); j++) {
-                switch (monster.getAwokenSkills().get(j).getValue()) {
-                    case 1:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_1);
-                        break;
-                    case 2:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_2);
-                        break;
-                    case 3:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_3);
-                        break;
-                    case 4:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_4);
-                        break;
-                    case 5:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_5);
-                        break;
-                    case 6:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_6);
-                        break;
-                    case 7:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_7);
-                        break;
-                    case 8:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_8);
-                        break;
-                    case 9:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_9);
-                        break;
-                    case 10:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_10);
-                        break;
-                    case 11:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_11);
-                        break;
-                    case 12:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_12);
-                        break;
-                    case 13:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_13);
-                        break;
-                    case 14:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_14);
-                        break;
-                    case 15:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_15);
-                        break;
-                    case 16:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_16);
-                        break;
-                    case 17:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_17);
-                        break;
-                    case 18:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_18);
-                        break;
-                    case 19:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_19);
-                        break;
-                    case 20:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_20);
-                        break;
-                    case 21:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_21);
-                        break;
-                    case 22:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_22);
-                        break;
-                    case 23:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_23);
-                        break;
-                    case 24:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_24);
-                        break;
-                    case 25:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_25);
-                        break;
-                    case 26:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_26);
-                        break;
-                    case 27:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_27);
-                        break;
-                    case 28:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_28);
-                        break;
-                    case 29:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_29);
-                        break;
-                    case 30:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_30);
-                        break;
-                    case 31:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_31);
-                        break;
-                    case 32:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_32);
-                        break;
-                    case 33:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_33);
-                        break;
-                    case 34:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_34);
-                        break;
-                    case 35:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_35);
-                        break;
-                    case 36:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_36);
-                        break;
-                    case 37:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_37);
-                        break;
-                    case 38:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_38);
-                        break;
-                    case 39:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_39);
-                        break;
-                    case 40:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_40);
-                        break;
-                    case 41:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_41);
-                        break;
-                    case 42:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening_42);
-                        break;
-                    default:
-                        awakeningHolder.getChildAt(j).setBackgroundResource(R.drawable.awakening);
-                        break;
-                }
+                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningImageResource(monster.getAwokenSkills().get(j).getValue()));
             }
         }
-//        int i = 0;
-//        View view = null;
-//        for (i = 0; i < monster.getCurrentAwakenings(); i++) {
-//            view = awakeningHolder.getChildAt(i);
-//
-//            view.setAlpha(1);
-//        }
-//        for (i = monster.getCurrentAwakenings(); i < monster.getMaxAwakenings(); i++) {
-//            view = awakeningHolder.getChildAt(i);
-//
-//            view.setAlpha((float) .5);
-//        }
     }
 
     protected void setImageViews() {
-        switch (monster.getType1()) {
-            case 0:
-                type1.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                type1.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                type1.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                type1.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                type1.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                type1.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                type1.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                type1.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                type1.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                type1.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                type1.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                type1.setImageResource(R.drawable.type_enhance_material);
-                break;
-            case 15:
-                type1.setImageResource(R.drawable.type_vendor);
-                break;
-            default:
-                type1.setVisibility(View.GONE);
-                break;
-        }
-        switch (monster.getType2()) {
-            case 0:
-                type2.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                type2.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                type2.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                type2.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                type2.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                type2.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                type2.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                type2.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                type2.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                type2.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                type2.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                type2.setImageResource(R.drawable.type_enhance_material);
-                break;
-            case 15:
-                type2.setImageResource(R.drawable.type_vendor);
-                break;
-            default:
-                type2.setVisibility(View.GONE);
-                break;
-        }
-        switch (monster.getType3()) {
-            case 0:
-                type3.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                type3.setImageResource(R.drawable.type_balanced);
-            case 2:
-                type3.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                type3.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                type3.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                type3.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                type3.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                type3.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                type3.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                type3.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                type3.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                type3.setImageResource(R.drawable.type_enhance_material);
-                break;
-            case 15:
-                type3.setImageResource(R.drawable.type_vendor);
-                break;
-            default:
-                type3.setVisibility(View.GONE);
-                break;
-        }
+        type1.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType1()));
+        type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType2()));
+        type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType3()));
         favorite.setColorFilter(0xFFFFAADD);
         setFavorite();
     }
@@ -1066,11 +601,58 @@ public abstract class MonsterPageBase extends Fragment {
         }
     }
 
-    public void monsterStats() {
+    public void updateMonster() {
         //Update method because our TextWatcher no work
         setMonsterStats();
         setTextViewValues();
+    }
 
+    public void setSkillTextViews(){
+        if(monster.getActiveSkillString().equals("Blank")){
+            activeSkill1Cooldown.setVisibility(View.GONE);
+            activeSkill1Desc.setVisibility(View.GONE);
+            skill1Level.setVisibility(View.GONE);
+            skill1Plus.setVisibility(View.GONE);
+            skill1Minus.setVisibility(View.GONE);
+            skill1Max.setVisibility(View.GONE);
+            activeSkill1Name.setText("None");
+        } else {
+            activeSkill1Desc.setText(monster.getActiveSkill().getDescription());
+            setActive1Values();
+            activeSkill1Name.setText(monster.getActiveSkillString());
+        }
+        if(monster.getLeaderSkillString().equals("Blank")){
+            leaderSkillDesc.setVisibility(View.GONE);
+            leaderSkillName.setText("None");
+        } else {
+            leaderSkillDesc.setText(monster.getLeaderSkill().getDescription());
+            leaderSkillName.setText(monster.getLeaderSkillString());
+        }
+        if(skill2Holder.getVisibility() == View.VISIBLE){
+            activeSkill2Name.setText(monster.getActiveSkill2String());
+            activeSkill2Desc.setText(monster.getActiveSkill2().getDescription());
+            setActive2Values();
+        }
+    }
+
+    protected void setActive1Values() {
+        if (monster.getActiveSkillLevel() == monster.getActiveSkill().getMaxLevel()) {
+            skill1Level.setText("Skill Level: Max");
+            activeSkill1Cooldown.setText("(CD " + monster.getActiveSkill().getMinimumCooldown() + " (Max))");
+        } else {
+            skill1Level.setText("Skill Level: " + monster.getActiveSkillLevel());
+            activeSkill1Cooldown.setText("(CD " + (monster.getActiveSkill().getMaximumCooldown() - monster.getActiveSkillLevel() + 1) + ")");
+        }
+    }
+
+    protected void setActive2Values() {
+        if (monster.getActiveSkill2Level() == monster.getActiveSkill2().getMaxLevel()) {
+            skill2Level.setText("Skill 2 Level: Max");
+            activeSkill2Cooldown.setText("(CD " + monster.getActiveSkill2().getMinimumCooldown() + " (Max))");
+        } else {
+            skill2Level.setText("Skill 2 Level: " + monster.getActiveSkill2Level());
+            activeSkill2Cooldown.setText("(CD " + (monster.getActiveSkill2().getMaximumCooldown() - monster.getActiveSkill2Level() + 1) + ")");
+        }
     }
 
     protected void setTextViews() {
@@ -1095,8 +677,8 @@ public abstract class MonsterPageBase extends Fragment {
         monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
         monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
         monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
-//        monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
-//        monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+        monsterStatsWeightedValue.setText(String.valueOf(monster.getWeightedString()));
+        monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
     }
 
     protected void initializeEditTexts() {
@@ -1203,8 +785,8 @@ public abstract class MonsterPageBase extends Fragment {
 //        }
     }
 
-    protected void awakeningsCheck(){
-        if(monster.getMaxAwakenings() > 0 && awakeningHolder.getVisibility() == View.GONE){
+    protected void awakeningsCheck() {
+        if (monster.getMaxAwakenings() > 0 && awakeningHolder.getVisibility() == View.GONE) {
             monsterAwakenings.setVisibility(View.VISIBLE);
             awakeningHolder.setVisibility(View.VISIBLE);
             awakeningPlus.setVisibility(View.VISIBLE);

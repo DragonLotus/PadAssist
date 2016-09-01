@@ -56,4 +56,8 @@ public class ActiveSkill extends RealmObject {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getMaxLevel() {
+        return maximumCooldown - minimumCooldown + 1;
+    }
 }
