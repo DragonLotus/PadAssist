@@ -50,8 +50,6 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Log.d("SaveMonsterListFragment", "preferences for grid is: " + isGrid);
-
         if (isGrid) {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
         } else {
@@ -65,7 +63,6 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
 
     @Override
     public void onActivityCreatedSpecific() {
-        long start = SystemClock.currentThreadTimeMillis();
         if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }
@@ -82,8 +79,6 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
             monsterListAll.clear();
             monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", false).findAll());
         }
-        long end = SystemClock.currentThreadTimeMillis();
-        Log.d("SaveMonsterListFragment", "Time to copy pasta saved monsters " + (end - start) + "ms");
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

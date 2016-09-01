@@ -806,20 +806,28 @@ public class TeamDamageListFragment extends Fragment {
             } else if (buttonView.equals(hasAwakeningsCheck)) {
                 Singleton.getInstance().setHasAwakenings(!isChecked);
                 team.updateAwakenings();
+                team.setAtkMultiplierArrays(totalCombos);
+                updateTextView();
+                monsterListAdapter.notifyDataSetChanged();
             } else if (buttonView.equals(activeUsedCheck)) {
                 Singleton.getInstance().setActiveSkillUsed(isChecked);
                 team.updateAwakenings();
+                team.setAtkMultiplierArrays(totalCombos);
+                updateTextView();
+                monsterListAdapter.notifyDataSetChanged();
             } else if (buttonView.equals(hasLeaderSkillCheck1)){
                 Singleton.getInstance().setHasLeaderSkill(isChecked);
                 team.setTeamStats();
                 team.setAtkMultiplierArrays(totalCombos);
+                updateTextView();
+                monsterListAdapter.notifyDataSetChanged();
             } else if (buttonView.equals(hasLeaderSkillCheck2)){
                 Singleton.getInstance().setHasHelperSkill(isChecked);
                 team.setTeamStats();
                 team.setAtkMultiplierArrays(totalCombos);
+                updateTextView();
+                monsterListAdapter.notifyDataSetChanged();
             }
-//            updateTextView();
-//            monsterListAdapter.notifyDataSetChanged();
         }
     };
 
@@ -941,8 +949,10 @@ public class TeamDamageListFragment extends Fragment {
         }
 //        team.save();
         teamHp.setProgress(team.getTeamHp());
+        team.setAtkMultiplierArrays(totalCombos);
         updateTextView();
         teamHpValue.setText("" + teamHp.getProgress());
+        Log.d("TeamDamageList", "TeamHp is: " + team.getTeamHp());
     }
 
     private SeekBar.OnSeekBarChangeListener teamHpSeekBarListener = new SeekBar.OnSeekBarChangeListener() {
@@ -962,6 +972,7 @@ public class TeamDamageListFragment extends Fragment {
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
+            team.setAtkMultiplierArrays(totalCombos);
             updateTextView();
             monsterListAdapter.notifyDataSetChanged();
         }

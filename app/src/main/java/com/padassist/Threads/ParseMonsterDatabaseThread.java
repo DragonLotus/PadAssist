@@ -283,16 +283,6 @@ public class ParseMonsterDatabaseThread extends Thread {
     }
 
     private void updateSavedMonsters() {
-//        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId");
-//        ArrayList<BaseMonster> baseMonsterList = new ArrayList<>();
-//        for (BaseMonster monster : results){
-//            baseMonsterList.add(realm.copyFromRealm(monster));
-//        }
-//        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
-//        Gson gson = new Gson();
-//        String jsonBaseMonsters = gson.toJson(baseMonsterList);
-//        preferences.edit().putString("BaseMonsterList", jsonBaseMonsters).apply();
-
         RealmResults<Monster> savedMonstersResults = realm.where(Monster.class).findAll();
         Log.d("ParseMonsterDatabase", "realm schema is: " + realm.getConfiguration().getSchemaVersion());
         if (savedMonstersResults.size() != 0) {

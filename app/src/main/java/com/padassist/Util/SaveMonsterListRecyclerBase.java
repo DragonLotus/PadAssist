@@ -270,6 +270,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 } else {
                     viewHolderLinear.activeSkillDesc.setText(monsterList.get(position).getActiveSkill().getDescription());
                     viewHolderLinear.activeSkillCooldown.setText("(CD " + (monsterList.get(position).getActiveSkill().getMaximumCooldown() - (monsterList.get(position).getActiveSkillLevel() - 1)) + ")");
+                    viewHolderLinear.activeSkillCooldown.setVisibility(View.VISIBLE);
                 }
                 viewHolderLinear.activeSkillName.setVisibility(View.VISIBLE);
                 viewHolderLinear.activeSkillDesc.setVisibility(View.VISIBLE);

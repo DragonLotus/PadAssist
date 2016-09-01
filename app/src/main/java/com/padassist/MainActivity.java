@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         RealmConfiguration config = new RealmConfiguration.Builder(this)
-                .schemaVersion(3)
+                .schemaVersion(4)
                 .migration(new Migration())
                 .build();
         Realm.setDefaultConfiguration(config);
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
             disclaimerDialog = DisclaimerDialogFragment.newInstance(new DisclaimerDialogFragment.Preferences() {
                 @Override
                 public void setShowAgain(boolean showAgain) {
-                    if(showAgain == false){
+                    if(!showAgain){
                         preferences.edit().putBoolean("showDisclaimer", true).apply();
                     } else {
                         preferences.edit().putBoolean("showDisclaimer", false).apply();

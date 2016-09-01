@@ -212,8 +212,6 @@ public abstract class BaseMonsterListBase extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("BaseMonsterListBase", "Starting base monster copy pasta");
-        long start = SystemClock.currentThreadTimeMillis();
         if (getArguments() != null) {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
@@ -238,14 +236,6 @@ public abstract class BaseMonsterListBase extends Fragment {
 //            monsterListAll = gson.fromJson(baseMonsterList, baseMonsterType);
 //        }
 
-//        monsterListAll.clear();
-//        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAll();
-//        for(int i = 0; i < results.size(); i++) {
-//             monsterListAll.add(realm.copyFromRealm(results.get(i)));
-//        }
-        long end = SystemClock.currentThreadTimeMillis();
-        Log.d("BaseMonsterListBase", "Time to copy pasta base monsters " + (end - start) + "ms");
-//        monsterListAll.addAll(results);
         if (monsterList == null) {
             monsterList = new ArrayList<>();
             monsterList.addAll(monsterListAll);
@@ -502,9 +492,6 @@ public abstract class BaseMonsterListBase extends Fragment {
                 if (!monsterList.isEmpty()) {
                     monsterList.clear();
                 }
-
-                Log.d("BaseMonsterListBase", "Starting base monster search");
-                long start = SystemClock.currentThreadTimeMillis();
                 if(query.length() == 1){
                     filterMonsters(query);
                 } else {
@@ -524,15 +511,6 @@ public abstract class BaseMonsterListBase extends Fragment {
                     monsterList.addAll(results);
                 }
 
-
-//                filterMonsters(query);
-
-//                filterMonsterName(query);
-//                filterMonsterType(query);
-//                filterMonsterNumber(query);
-//                filterMonsterElement(query);
-                long end = SystemClock.currentThreadTimeMillis();
-                Log.d("BaseMonsterListBase", "Time to search base monsters " + (end - start) + "ms");
             } else {
                 monsterList.clear();
                 monsterList.addAll(monsterListAll);

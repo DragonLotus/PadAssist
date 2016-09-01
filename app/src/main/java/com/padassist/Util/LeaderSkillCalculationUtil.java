@@ -523,7 +523,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getHpElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getHpElement().size(); i++) {
-                        if (leaderSkill.getHpElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getHpElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getHpElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getHpElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             hpMultiplier *= leaderSkill.getHpData().get(0).getValue();
                             buffed = true;
                         }
@@ -542,7 +542,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed = true;
@@ -561,7 +561,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getRcvElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getRcvElement().size(); i++) {
-                        if (leaderSkill.getRcvElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getRcvElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getRcvElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getRcvElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             rcvMultiplier *= leaderSkill.getRcvData().get(0).getValue();
                             buffed = true;
                         }
@@ -576,7 +576,7 @@ public class LeaderSkillCalculationUtil {
         boolean buffed = false;
         if (leaderSkill.getAtkElement().size() != 0) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed = true;
@@ -587,7 +587,7 @@ public class LeaderSkillCalculationUtil {
             buffed = false;
             if (leaderSkill.getAtkElement2().size() != 0) {
                 for (int i = 0; i < leaderSkill.getAtkElement2().size(); i++) {
-                    if (leaderSkill.getAtkElement2().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement2().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement2().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement2().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                         buffed = true;
@@ -611,7 +611,7 @@ public class LeaderSkillCalculationUtil {
         buffed = false;
         if (leaderSkill.getAtkElement().size() != 0) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     buffed = true;
@@ -694,7 +694,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed = true;
@@ -748,7 +748,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed = true;
@@ -840,7 +840,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed = true;
@@ -912,7 +912,7 @@ public class LeaderSkillCalculationUtil {
             }
             if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         buffed = true;
@@ -952,7 +952,7 @@ public class LeaderSkillCalculationUtil {
             }
             if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                         buffed = true;
@@ -972,7 +972,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed = true;
@@ -999,7 +999,7 @@ public class LeaderSkillCalculationUtil {
             }
             if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         buffed = true;
@@ -1034,7 +1034,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed = true;
@@ -1060,7 +1060,7 @@ public class LeaderSkillCalculationUtil {
         if (counter >= comboDiff) {
             if (leaderSkill.getAtkElement().size() != 0) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff).getValue());
                         buffed = true;
@@ -1070,7 +1070,7 @@ public class LeaderSkillCalculationUtil {
         } else if (totalCombos >= leaderSkill.getComboMin()) {
             if (leaderSkill.getAtkElement().size() != 0) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(counter).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter).getValue());
                         buffed = true;
@@ -1132,7 +1132,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed = true;
@@ -1210,7 +1210,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed1) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed1) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     buffed1 = true;
@@ -1374,7 +1374,7 @@ public class LeaderSkillCalculationUtil {
                     }
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                         for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                            if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                                 buffed = true;
@@ -1384,7 +1384,7 @@ public class LeaderSkillCalculationUtil {
                 }
             } else {
                 for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                    if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                    if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                         if (leaderSkill.getAtkType().size() != 0) {
                             for (int j = 0; j < leaderSkill.getAtkType().size(); j++) {
                                 if (monster.getTypes().contains(leaderSkill.getAtkType().get(j).getValue()) && !buffed) {
@@ -1396,7 +1396,7 @@ public class LeaderSkillCalculationUtil {
                         }
                         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                             for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                                if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                                if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(i).getValue());
                                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(i).getValue());
                                     buffed = true;
@@ -1419,7 +1419,7 @@ public class LeaderSkillCalculationUtil {
                     }
                     if (leaderSkill.getRcvElement().size() != 0 && !buffed) {
                         for (int i = 0; i < leaderSkill.getRcvElement().size(); i++) {
-                            if (leaderSkill.getRcvElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getRcvElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getRcvElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getRcvElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                                 rcvMultiplier *= leaderSkill.getRcvData().get(0).getValue();
                                 buffed = true;
                             }
@@ -1428,7 +1428,7 @@ public class LeaderSkillCalculationUtil {
                 }
             } else {
                 for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                    if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                    if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                         if (leaderSkill.getRcvType().size() != 0) {
                             for (int j = 0; j < leaderSkill.getRcvType().size(); j++) {
                                 if (monster.getTypes().contains(leaderSkill.getRcvType().get(j).getValue()) && !buffed) {
@@ -1439,7 +1439,7 @@ public class LeaderSkillCalculationUtil {
                         }
                         if (leaderSkill.getRcvElement().size() != 0 && !buffed) {
                             for (int j = 0; j < leaderSkill.getRcvElement().size(); j++) {
-                                if (leaderSkill.getRcvElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getRcvElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                                if ((leaderSkill.getRcvElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getRcvElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                     rcvMultiplier *= leaderSkill.getRcvData().get(i).getValue();
                                     buffed = true;
                                 }
@@ -1467,7 +1467,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed = true;
@@ -1477,7 +1477,7 @@ public class LeaderSkillCalculationUtil {
             }
         } else {
             for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                     if (leaderSkill.getAtkType().size() != 0) {
                         for (int j = 0; j < leaderSkill.getAtkType().size(); j++) {
                             if (monster.getTypes().contains(leaderSkill.getAtkType().get(j).getValue()) && !buffed) {
@@ -1489,7 +1489,7 @@ public class LeaderSkillCalculationUtil {
                     }
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                         for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                            if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(i).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(i).getValue());
                                 buffed = true;
@@ -1511,7 +1511,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(leaderSkill.getHpPercent().size() / 2).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(leaderSkill.getHpPercent().size() / 2).getValue());
                     buffed = true;
@@ -1527,7 +1527,7 @@ public class LeaderSkillCalculationUtil {
             if (team.getTeamHp() == leaderSkill.getHpPercent().get(0).getValue()) {
                 if (leaderSkill.getAtkElement().size() != 0) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed = true;
@@ -1537,11 +1537,11 @@ public class LeaderSkillCalculationUtil {
             }
         } else {
             for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
 
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                         for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                            if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(i).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(i).getValue());
                                 buffed = true;
@@ -1578,7 +1578,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed = true;
@@ -1596,7 +1596,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getRcvElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getRcvElement().size(); i++) {
-                        if (leaderSkill.getRcvElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getRcvElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getRcvElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getRcvElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             rcvMultiplier *= leaderSkill.getRcvData().get(0).getValue();
                             buffed = true;
                         }
@@ -1611,7 +1611,7 @@ public class LeaderSkillCalculationUtil {
         if (Singleton.getInstance().isActiveSkillUsed()) {
             if (leaderSkill.getAtkElement().size() != 0) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                         buffed = true;
@@ -1786,7 +1786,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getAtkElement().size() != 0 && !buffed1) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed1) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed1) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed1 = true;
@@ -1796,7 +1796,7 @@ public class LeaderSkillCalculationUtil {
             }
         } else {
             for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                     if (leaderSkill.getAtkType().size() != 0) {
                         for (int j = 0; j < leaderSkill.getAtkType().size(); j++) {
                             if (monster.getTypes().contains(leaderSkill.getAtkType().get(j).getValue()) && !buffed1) {
@@ -1808,7 +1808,7 @@ public class LeaderSkillCalculationUtil {
                     }
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed1) {
                         for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                            if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed1) {
+                            if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed1) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(i).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(i).getValue());
                                 buffed1 = true;
@@ -1848,7 +1848,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed = true;
@@ -1858,7 +1858,7 @@ public class LeaderSkillCalculationUtil {
             }
         } else {
             for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                     if (leaderSkill.getAtkType().size() != 0) {
                         for (int j = 0; j < leaderSkill.getAtkType().size(); j++) {
                             if (monster.getTypes().contains(leaderSkill.getAtkType().get(j).getValue()) && !buffed) {
@@ -1870,7 +1870,7 @@ public class LeaderSkillCalculationUtil {
                     }
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                         for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                            if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(i).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(i).getValue());
                                 buffed = true;
@@ -1922,7 +1922,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed = true;
@@ -1932,7 +1932,7 @@ public class LeaderSkillCalculationUtil {
             }
         } else {
             for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                     if (leaderSkill.getAtkType().size() != 0) {
                         for (int j = 0; j < leaderSkill.getAtkType().size(); j++) {
                             if (monster.getTypes().contains(leaderSkill.getAtkType().get(j).getValue()) && !buffed) {
@@ -1944,7 +1944,7 @@ public class LeaderSkillCalculationUtil {
                     }
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                         for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                            if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(i).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(i).getValue());
                                 buffed = true;
@@ -1967,7 +1967,7 @@ public class LeaderSkillCalculationUtil {
             }
             if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
                         buffed = true;
@@ -2011,7 +2011,7 @@ public class LeaderSkillCalculationUtil {
             }
             if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
                         buffed = true;
@@ -2024,11 +2024,12 @@ public class LeaderSkillCalculationUtil {
     private static void hpFlatAttributeFlatAttribute(Monster monster, Team team, LeaderSkill leaderSkill) {
         //Dmeta
         boolean buffed = false;
+        Log.d("LeaderSkillCalc", "Team Hp is: " + team.getTeamHp());
         if (leaderSkill.getHpPercent().size() == 1) {
             if (team.getTeamHp() == leaderSkill.getHpPercent().get(0).getValue()) {
                 if (leaderSkill.getAtkElement().size() != 0) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed = true;
@@ -2038,12 +2039,13 @@ public class LeaderSkillCalculationUtil {
             }
         } else {
             for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                         for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                            if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(i).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(i).getValue());
+                                Log.d("LeaderSkillCalc", "atkMultiplier 0 and 1 are: " + atkMultiplier.get(0) + " " + atkMultiplier.get(1) + " atkData i is: " + leaderSkill.getAtkData().get(i).getValue() + " for monster: " + monster.getName());
                                 buffed = true;
                             }
                         }
@@ -2054,9 +2056,10 @@ public class LeaderSkillCalculationUtil {
         buffed = false;
         if (leaderSkill.getAtkElement2().size() != 0) {
             for (int i = 0; i < leaderSkill.getAtkElement2().size(); i++) {
-                if (leaderSkill.getAtkElement2().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement2().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement2().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement2().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
+                    Log.d("LeaderSkillCalc", "atkData flat is: " + leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue() + " for monster: " + monster.getName());
                     buffed = true;
                 }
             }
@@ -2079,7 +2082,7 @@ public class LeaderSkillCalculationUtil {
             }
             if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         buffed = true;
@@ -2188,7 +2191,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                             buffed = true;
@@ -2198,7 +2201,7 @@ public class LeaderSkillCalculationUtil {
             }
         } else {
             for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                     if (leaderSkill.getAtkType().size() != 0) {
                         for (int j = 0; j < leaderSkill.getAtkType().size(); j++) {
                             if (monster.getTypes().contains(leaderSkill.getAtkType().get(j).getValue()) && !buffed) {
@@ -2210,7 +2213,7 @@ public class LeaderSkillCalculationUtil {
                     }
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                         for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                            if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1 + i).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1 + i).getValue());
                                 buffed = true;
@@ -2337,7 +2340,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed = true;
@@ -2420,7 +2423,7 @@ public class LeaderSkillCalculationUtil {
             }
             if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                         buffed = true;
@@ -2517,9 +2520,9 @@ public class LeaderSkillCalculationUtil {
 
     private static void cross(Monster monster, Team team, LeaderSkill leaderSkill) {
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if(team.getOrbMatches().get(i).isCross()){
+            if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())){
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     }
@@ -2554,9 +2557,9 @@ public class LeaderSkillCalculationUtil {
         }
 
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if(team.getOrbMatches().get(i).isCross()){
+            if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getValue())){
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getValue())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     }
@@ -2579,7 +2582,7 @@ public class LeaderSkillCalculationUtil {
             }
             if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                 for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                    if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                    if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                         buffed = true;
@@ -2589,9 +2592,9 @@ public class LeaderSkillCalculationUtil {
         }
 
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if(team.getOrbMatches().get(i).isCross()){
+            if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())){
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }
@@ -2615,7 +2618,7 @@ public class LeaderSkillCalculationUtil {
                 }
                 if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                     for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                        if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                        if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                             buffed = true;
@@ -2625,7 +2628,7 @@ public class LeaderSkillCalculationUtil {
             }
         } else {
             for (int i = 0; i < leaderSkill.getHpPercent().size() / 2; i++) {
-                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() >= leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
+                if (team.getTeamHp() <= leaderSkill.getHpPercent().get(2 * i).getValue() && team.getTeamHp() > leaderSkill.getHpPercent().get(1 + 2 * i).getValue()) {
                     if (leaderSkill.getAtkType().size() != 0) {
                         for (int j = 0; j < leaderSkill.getAtkType().size(); j++) {
                             if (monster.getTypes().contains(leaderSkill.getAtkType().get(j).getValue()) && !buffed) {
@@ -2637,7 +2640,7 @@ public class LeaderSkillCalculationUtil {
                     }
                     if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
                         for (int j = 0; j < leaderSkill.getAtkElement().size(); j++) {
-                            if (leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int() && !buffed) {
+                            if ((leaderSkill.getAtkElement().get(j).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(j).getValue() == monster.getElement2Int()) && !buffed) {
                                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(i).getValue());
                                 atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(i).getValue());
                                 buffed = true;
@@ -2667,7 +2670,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed = true;
@@ -2694,9 +2697,9 @@ public class LeaderSkillCalculationUtil {
 
     private static void flatCross(Monster monster, Team team, LeaderSkill leaderSkill) {
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if(team.getOrbMatches().get(i).isCross()){
+            if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())){
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }
@@ -2716,7 +2719,7 @@ public class LeaderSkillCalculationUtil {
         }
         if (leaderSkill.getAtkElement().size() != 0 && !buffed) {
             for (int i = 0; i < leaderSkill.getAtkElement().size(); i++) {
-                if (leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int() && !buffed) {
+                if ((leaderSkill.getAtkElement().get(i).getValue() == monster.getElement1Int() || leaderSkill.getAtkElement().get(i).getValue() == monster.getElement2Int()) && !buffed) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed = true;
@@ -2727,9 +2730,9 @@ public class LeaderSkillCalculationUtil {
 
     private static void heartCrossCross(Monster monster, Team team, LeaderSkill leaderSkill) {
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if(team.getOrbMatches().get(i).isCross()){
+            if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())){
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }

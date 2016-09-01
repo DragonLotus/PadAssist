@@ -51,31 +51,31 @@ public class Migration implements RealmMigration {
         }
 
         if(oldVersion == 3){
-//            schema.get("BaseMonster")
-//                    .renameField("leaderSkill", "leaderSkillString")
-//                    .renameField("activeSkill", "activeSkillString")
-//                    .addRealmObjectField("leaderSkill", schema.get("LeaderSkill"))
-//                    .addRealmObjectField("activeSkill", schema.get("ActiveSkill"))
-//                    .addField("monsterIdString", String.class)
-//                    .addField("type1String", String.class)
-//                    .addField("type2String", String.class)
-//                    .addField("type3String", String.class)
-//                    .addIndex("monsterIdString")
-//                    .addIndex("type1String")
-//                    .addIndex("type2String")
-//                    .addIndex("type3String");
-//            schema.get("Monster")
-//                    .renameField("activeSkill2", "activeSkill2String")
-//                    .addRealmObjectField("activeSkill2", schema.get("ActiveSkill"));
-//                    .addField("baseMonsterIdString", String.class)
-//                    .addField("type1String", String.class)
-//                    .addField("type2String", String.class)
-//                    .addField("type3String", String.class)
-//                    .addIndex("baseMonsterIdString")
-//                    .addIndex("type1String")
-//                    .addIndex("type2String")
-//                    .addIndex("type3String")
-//                    .addField("name", String.class, FieldAttribute.INDEXED);
+            schema.get("BaseMonster")
+                    .renameField("leaderSkill", "leaderSkillString")
+                    .renameField("activeSkill", "activeSkillString")
+                    .addRealmObjectField("leaderSkill", schema.get("LeaderSkill"))
+                    .addRealmObjectField("activeSkill", schema.get("ActiveSkill"))
+                    .addField("monsterIdString", String.class)
+                    .addField("type1String", String.class)
+                    .addField("type2String", String.class)
+                    .addField("type3String", String.class)
+                    .addIndex("monsterIdString")
+                    .addIndex("type1String")
+                    .addIndex("type2String")
+                    .addIndex("type3String");
+            schema.get("Monster")
+                    .renameField("activeSkill2", "activeSkill2String")
+                    .addRealmObjectField("activeSkill2", schema.get("ActiveSkill"))
+                    .addField("baseMonsterIdString", String.class)
+                    .addField("type1String", String.class)
+                    .addField("type2String", String.class)
+                    .addField("type3String", String.class)
+                    .addIndex("baseMonsterIdString")
+                    .addIndex("type1String")
+                    .addIndex("type2String")
+                    .addIndex("type3String")
+                    .addField("name", String.class, FieldAttribute.INDEXED);
         }
     }
 }

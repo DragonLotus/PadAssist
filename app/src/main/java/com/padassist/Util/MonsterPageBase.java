@@ -102,7 +102,6 @@ public abstract class MonsterPageBase extends Fragment {
                 monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
 //                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.AWAKENINGS) {
-                Log.d("MonsterPageBase", "Is monster valid: " + monster.isValid());
                 monster.setCurrentAwakenings(statValue);
                 grayAwakenings();
             }
