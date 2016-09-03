@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,15 +33,6 @@ import com.padassist.TextWatcher.MyTextWatcher;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MonsterPageBase.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MonsterPageBase#newInstance} factory method to
- * create an instance of this fragment.
- */
 public abstract class MonsterPageBase extends Fragment {
     public static final String TAG = MonsterPageBase.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
@@ -145,15 +135,6 @@ public abstract class MonsterPageBase extends Fragment {
         }
     };
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MonsterPageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public MonsterPageBase() {
         // Required empty public constructor
     }
@@ -580,27 +561,27 @@ public abstract class MonsterPageBase extends Fragment {
     public void grayAwakenings() {
         if (monster.getCurrentAwakenings() < monster.getMaxAwakenings()) {
             for (int j = 0; j < monster.getCurrentAwakenings(); j++) {
-                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningImageResource(monster.getAwokenSkills().get(j).getValue()));
+                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
             }
             for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++) {
-                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningDisabledImageResource(monster.getAwokenSkills().get(j).getValue()));
+                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningDisabled(monster.getAwokenSkills().get(j).getValue()));
             }
         } else {
             for (int j = 0; j < monster.getMaxAwakenings(); j++) {
-                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningImageResource(monster.getAwokenSkills().get(j).getValue()));
+                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
             }
         }
     }
 
     protected void setImageViews() {
-        type1.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType1()));
+        type1.setImageResource(ImageResourceUtil.monsterType(monster.getType1()));
         if(monster.getType2() >= 0){
-            type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType2()));
+            type2.setImageResource(ImageResourceUtil.monsterType(monster.getType2()));
         } else {
             type2.setVisibility(View.INVISIBLE);
         }
         if(monster.getType3() >= 0){
-            type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType3()));
+            type3.setImageResource(ImageResourceUtil.monsterType(monster.getType3()));
         } else {
             type3.setVisibility(View.INVISIBLE);
         }

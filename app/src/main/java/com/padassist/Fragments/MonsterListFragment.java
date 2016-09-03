@@ -24,6 +24,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
+import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
 
@@ -323,38 +324,7 @@ public class MonsterListFragment extends Fragment {
     };
 
     private void setTeamBadge(){
-        switch (team.getTeamBadge()){
-            case 0:
-                teamBadge.setImageResource(R.drawable.team_badge_nothing);
-                break;
-            case 1:
-                teamBadge.setImageResource(R.drawable.team_badge_cost);
-                break;
-            case 2:
-                teamBadge.setImageResource(R.drawable.team_badge_time_extend);
-                break;
-            case 3:
-                teamBadge.setImageResource(R.drawable.team_badge_mass_attack);
-                break;
-            case 4:
-                teamBadge.setImageResource(R.drawable.team_badge_rcv);
-                break;
-            case 5:
-                teamBadge.setImageResource(R.drawable.team_badge_hp);
-                break;
-            case 6:
-                teamBadge.setImageResource(R.drawable.team_badge_attack);
-                break;
-            case 7:
-                teamBadge.setImageResource(R.drawable.team_badge_skill_boost);
-                break;
-            case 8:
-                teamBadge.setImageResource(R.drawable.team_badge_bind_resist);
-                break;
-            case 9:
-                teamBadge.setImageResource(R.drawable.team_badge_skill_bind_resist);
-                break;
-        }
+        teamBadge.setImageResource(ImageResourceUtil.teamBadge(team.getTeamBadge()));
     }
 
     public void updateTeam() {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.padassist.Data.Monster;
 import com.padassist.Graphics.TooltipAwakening;
 import com.padassist.R;
+import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
 
@@ -84,177 +85,10 @@ public class AwakeningGridAdapter extends BaseAdapter {
         }
 
         if (position >= awakeningList.size()) {
-            switch (latentList.get(position - awakeningList.size())) {
-                case 1:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_1);
-                    break;
-                case 2:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_2);
-                    break;
-                case 3:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_3);
-                    break;
-                case 4:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_4);
-                    break;
-                case 5:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_5);
-                    break;
-                case 6:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_6);
-                    break;
-                case 7:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_7);
-                    break;
-                case 8:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_8);
-                    break;
-                case 9:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_9);
-                    break;
-                case 10:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_10);
-                    break;
-                case 11:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_11);
-                    break;
-                default:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.latent_awakening_blank);
-                    break;
-            }
+            viewHolder.awakeningPicture.setImageResource(ImageResourceUtil.monsterLatent(latentList.get(position - awakeningList.size())));
             viewHolder.awakeningAmount.setText("x" + latentAmountList.get(position - awakeningList.size()));
         } else {
-            switch (awakeningList.get(position)) {
-                case 1:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_1);
-                    break;
-                case 2:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_2);
-                    break;
-                case 3:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_3);
-                    break;
-                case 4:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_4);
-                    break;
-                case 5:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_5);
-                    break;
-                case 6:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_6);
-                    break;
-                case 7:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_7);
-                    break;
-                case 8:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_8);
-                    break;
-                case 9:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_9);
-                    break;
-                case 10:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_10);
-                    break;
-                case 11:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_11);
-                    break;
-                case 12:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_12);
-                    break;
-                case 13:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_13);
-                    break;
-                case 14:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_14);
-                    break;
-                case 15:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_15);
-                    break;
-                case 16:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_16);
-                    break;
-                case 17:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_17);
-                    break;
-                case 18:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_18);
-                    break;
-                case 19:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_19);
-                    break;
-                case 20:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_20);
-                    break;
-                case 21:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_21);
-                    break;
-                case 22:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_22);
-                    break;
-                case 23:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_23);
-                    break;
-                case 24:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_24);
-                    break;
-                case 25:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_25);
-                    break;
-                case 26:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_26);
-                    break;
-                case 27:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_27);
-                    break;
-                case 28:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_28);
-                    break;
-                case 29:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_29);
-                    break;
-                case 30:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_30);
-                    break;
-                case 31:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_31);
-                    break;
-                case 32:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_32);
-                    break;
-                case 33:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_33);
-                    break;
-                case 34:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_34);
-                    break;
-                case 35:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_35);
-                    break;
-                case 36:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_36);
-                    break;
-                case 37:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_37);
-                    break;
-                case 38:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_38);
-                    break;
-                case 39:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_39);
-                    break;
-                case 40:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_40);
-                    break;
-                case 41:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_41);
-                    break;
-                case 42:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening_42);
-                    break;
-                default:
-                    viewHolder.awakeningPicture.setImageResource(R.drawable.awakening);
-                    break;
-            }
+            viewHolder.awakeningPicture.setImageResource(ImageResourceUtil.monsterAwakening(awakeningList.get(position)));
             viewHolder.awakeningAmount.setText("x" + awakeningAmountList.get(position));
         }
         viewHolder.relativeLayout.setTag(R.string.index, position);

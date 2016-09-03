@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.padassist.Data.BaseMonster;
 import com.padassist.R;
+import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
 
@@ -81,129 +82,22 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
             viewHolder.type3.setVisibility(View.VISIBLE);
         }
 
-        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType1()){
-            case 0:
-                viewHolder.type1.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type1.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type1.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type1.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type1.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type1.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type1.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type1.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type1.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type1.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type1.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type1.setImageResource(R.drawable.type_enhance_material);
-                break;
-            default:
-                viewHolder.type1.setVisibility(View.INVISIBLE);
-                break;
+        if(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType1() >= 0){
+            viewHolder.type1.setImageResource(ImageResourceUtil.monsterType(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType1()));
+        } else {
+            viewHolder.type1.setVisibility(View.INVISIBLE);
         }
-        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType2()){
-            case 0:
-                viewHolder.type2.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type2.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type2.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type2.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type2.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type2.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type2.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type2.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type2.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type2.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type2.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type2.setImageResource(R.drawable.type_enhance_material);
-                break;
-            default:
-                viewHolder.type2.setVisibility(View.INVISIBLE);
-                break;
+        if(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType2() >= 0){
+            viewHolder.type2.setImageResource(ImageResourceUtil.monsterType(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType2()));
+        } else {
+            viewHolder.type2.setVisibility(View.INVISIBLE);
         }
-        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType3()){
-            case 0:
-                viewHolder.type3.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type3.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type3.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type3.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type3.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type3.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type3.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type3.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type3.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type3.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type3.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type3.setImageResource(R.drawable.type_enhance_material);
-                break;
-            default:
-                viewHolder.type3.setVisibility(View.INVISIBLE);
-                break;
+        if(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType3() >= 0){
+            viewHolder.type3.setImageResource(ImageResourceUtil.monsterType(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType3()));
+        } else {
+            viewHolder.type3.setVisibility(View.INVISIBLE);
         }
+
         return convertView;
     }
 

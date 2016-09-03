@@ -16,7 +16,7 @@ public class ImageResourceUtil {
 
     private static Realm realm = Realm.getDefaultInstance();
     
-    public static int monsterAwakeningImageResource(int awakening){
+    public static int monsterAwakening(int awakening){
         switch (awakening) {
             case 1:
                 return R.drawable.awakening_1;
@@ -107,7 +107,7 @@ public class ImageResourceUtil {
         }
     }
     
-    public static int monsterAwakeningDisabledImageResource(int awakening){
+    public static int monsterAwakeningDisabled(int awakening){
         switch (awakening) {
             case 1:
                 return R.drawable.awakening_1_disabled;
@@ -198,7 +198,98 @@ public class ImageResourceUtil {
         }
     }
     
-    public static int monsterLatentImageResource(int latent){
+    public static int monsterAwakeningGray(int awakening){
+        switch (awakening) {
+            case 1:
+                return R.drawable.awakening_1_gray;
+            case 2:
+                return R.drawable.awakening_2_gray;
+            case 3:
+                return R.drawable.awakening_3_gray;
+            case 4:
+                return R.drawable.awakening_4_gray;
+            case 5:
+                return R.drawable.awakening_5_gray;
+            case 6:
+                return R.drawable.awakening_6_gray;
+            case 7:
+                return R.drawable.awakening_7_gray;
+            case 8:
+                return R.drawable.awakening_8_gray;
+            case 9:
+                return R.drawable.awakening_9_gray;
+            case 10:
+                return R.drawable.awakening_10_gray;
+            case 11:
+                return R.drawable.awakening_11_gray;
+            case 12:
+                return R.drawable.awakening_12_gray;
+            case 13:
+                return R.drawable.awakening_13_gray;
+            case 14:
+                return R.drawable.awakening_14_gray;
+            case 15:
+                return R.drawable.awakening_15_gray;
+            case 16:
+                return R.drawable.awakening_16_gray;
+            case 17:
+                return R.drawable.awakening_17_gray;
+            case 18:
+                return R.drawable.awakening_18_gray;
+            case 19:
+                return R.drawable.awakening_19_gray;
+            case 20:
+                return R.drawable.awakening_20_gray;
+            case 21:
+                return R.drawable.awakening_21_gray;
+            case 22:
+                return R.drawable.awakening_22_gray;
+            case 23:
+                return R.drawable.awakening_23_gray;
+            case 24:
+                return R.drawable.awakening_24_gray;
+            case 25:
+                return R.drawable.awakening_25_gray;
+            case 26:
+                return R.drawable.awakening_26_gray;
+            case 27:
+                return R.drawable.awakening_27_gray;
+            case 28:
+                return R.drawable.awakening_28_gray;
+            case 29:
+                return R.drawable.awakening_29_gray;
+            case 30:
+                return R.drawable.awakening_30_gray;
+            case 31:
+                return R.drawable.awakening_31_gray;
+            case 32:
+                return R.drawable.awakening_32_gray;
+            case 33:
+                return R.drawable.awakening_33_gray;
+            case 34:
+                return R.drawable.awakening_34_gray;
+            case 35:
+                return R.drawable.awakening_35_gray;
+            case 36:
+                return R.drawable.awakening_36_gray;
+            case 37:
+                return R.drawable.awakening_37_gray;
+            case 38:
+                return R.drawable.awakening_38_gray;
+            case 39:
+                return R.drawable.awakening_39_gray;
+            case 40:
+                return R.drawable.awakening_40_gray;
+            case 41:
+                return R.drawable.awakening_41_gray;
+            case 42:
+                return R.drawable.awakening_42_gray;
+            default:
+                return R.drawable.awakening;
+        }
+    }
+    
+    public static int monsterLatent(int latent){
         switch (latent) {
             case 1:
                 return R.drawable.latent_awakening_1;
@@ -227,8 +318,38 @@ public class ImageResourceUtil {
 
         }
     }
+
+    public static int monsterLatentGray(int latent){
+        switch (latent) {
+            case 1:
+                return R.drawable.latent_awakening_1_gray;
+            case 2:
+                return R.drawable.latent_awakening_2_gray;
+            case 3:
+                return R.drawable.latent_awakening_3_gray;
+            case 4:
+                return R.drawable.latent_awakening_4_gray;
+            case 5:
+                return R.drawable.latent_awakening_5_gray;
+            case 6:
+                return R.drawable.latent_awakening_6_gray;
+            case 7:
+                return R.drawable.latent_awakening_7_gray;
+            case 8:
+                return R.drawable.latent_awakening_8_gray;
+            case 9:
+                return R.drawable.latent_awakening_9_gray;
+            case 10:
+                return R.drawable.latent_awakening_10_gray;
+            case 11:
+                return R.drawable.latent_awakening_11_gray;
+            default:
+                return R.drawable.latent_awakening_blank;
+
+        }
+    }
     
-    public static int monsterTypeImageResource(int type){
+    public static int monsterType(int type){
         switch (type) {
             case 0:
                 return R.drawable.type_evo_material;
@@ -257,6 +378,95 @@ public class ImageResourceUtil {
             default:
                 return R.drawable.type_what_is_this;
 
+        }
+    }
+
+    public static int monsterTypeGray(int type){
+        switch (type) {
+            case 0:
+                return R.drawable.type_evo_material_gray;
+            case 1:
+                return R.drawable.type_balanced_gray;
+            case 2:
+                return R.drawable.type_physical_gray;
+            case 3:
+                return R.drawable.type_healer_gray;
+            case 4:
+                return R.drawable.type_dragon_gray;
+            case 5:
+                return R.drawable.type_god_gray;
+            case 6:
+                return R.drawable.type_attacker_gray;
+            case 7:
+                return R.drawable.type_devil_gray;
+            case 8:
+                return R.drawable.type_machine_gray;
+            case 12:
+                return R.drawable.type_awoken_gray;
+            case 14:
+                return R.drawable.type_enhance_material_gray;
+            case 15:
+                return R.drawable.type_vendor_gray;
+            default:
+                return R.drawable.type_what_is_this;
+
+        }
+    }
+
+    public static int monsterTypeDisabled(int type){
+        switch (type) {
+            case 0:
+                return R.drawable.type_evo_material_disabled;
+            case 1:
+                return R.drawable.type_balanced_disabled;
+            case 2:
+                return R.drawable.type_physical_disabled;
+            case 3:
+                return R.drawable.type_healer_disabled;
+            case 4:
+                return R.drawable.type_dragon_disabled;
+            case 5:
+                return R.drawable.type_god_disabled;
+            case 6:
+                return R.drawable.type_attacker_disabled;
+            case 7:
+                return R.drawable.type_devil_disabled;
+            case 8:
+                return R.drawable.type_machine_disabled;
+            case 12:
+                return R.drawable.type_awoken_disabled;
+            case 14:
+                return R.drawable.type_enhance_material_disabled;
+            case 15:
+                return R.drawable.type_vendor_disabled;
+            default:
+                return R.drawable.type_what_is_this;
+
+        }
+    }
+    
+    public static int teamBadge(int badge){
+        switch(badge){
+            default:
+                return R.drawable.team_badge_nothing;
+            case 1:
+                return R.drawable.team_badge_cost;
+            case 2:
+                return R.drawable.team_badge_time_extend;
+            case 3:
+                return R.drawable.team_badge_mass_attack;
+            case 4:
+                return R.drawable.team_badge_rcv;
+            case 5:
+                return R.drawable.team_badge_hp;
+            case 6:
+                return R.drawable.team_badge_attack;
+            case 7:
+                return R.drawable.team_badge_skill_boost;
+            case 8:
+                return R.drawable.team_badge_bind_resist;
+            case 9:
+                return R.drawable.team_badge_skill_bind_resist;
         }
     }
 }

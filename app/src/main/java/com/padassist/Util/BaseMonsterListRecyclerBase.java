@@ -21,8 +21,6 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 
-import static com.padassist.R.string.viewHolder;
-
 /**
  * Created by DragonLotus on 11/4/2015.
  */
@@ -110,19 +108,19 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
         }
 
         if (monsterList.get(position).getType1() >= 0) {
-            viewHolderLinear.type1.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType1()));
+            viewHolderLinear.type1.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType1()));
         } else {
             viewHolderLinear.type1.setVisibility(View.INVISIBLE);
         }
 
         if (monsterList.get(position).getType2() >= 0) {
-            viewHolderLinear.type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType2()));
+            viewHolderLinear.type2.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType2()));
         } else {
             viewHolderLinear.type2.setVisibility(View.INVISIBLE);
         }
 
         if (monsterList.get(position).getType3() >= 0) {
-            viewHolderLinear.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType3()));
+            viewHolderLinear.type3.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType3()));
         } else {
             viewHolderLinear.type3.setVisibility(View.INVISIBLE);
         }
@@ -169,7 +167,7 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 }
             }
             for (int j = 0; j < monsterList.get(position).getMaxAwakenings(); j++) {
-                viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningImageResource(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
             }
 
             viewHolderLinear.rarity.setText("" + monsterList.get(position).getRarity());

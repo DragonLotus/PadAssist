@@ -158,19 +158,19 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         }
 
         if (monsterList.get(position).getType1() >= 0) {
-            viewHolderLinear.type1.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType1()));
+            viewHolderLinear.type1.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType1()));
         } else {
             viewHolderLinear.type1.setVisibility(View.INVISIBLE);
         }
 
         if (monsterList.get(position).getType2() >= 0) {
-            viewHolderLinear.type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType2()));
+            viewHolderLinear.type2.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType2()));
         } else {
             viewHolderLinear.type2.setVisibility(View.INVISIBLE);
         }
 
         if (monsterList.get(position).getType3() >= 0) {
-            viewHolderLinear.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType3()));
+            viewHolderLinear.type3.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType3()));
         } else {
             viewHolderLinear.type3.setVisibility(View.INVISIBLE);
         }
@@ -228,15 +228,15 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             }
             if (monsterList.get(position).getCurrentAwakenings() < monsterList.get(position).getMaxAwakenings()) {
                 for (int j = 0; j < monsterList.get(position).getCurrentAwakenings(); j++) {
-                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningImageResource(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
 
                 for (int j = monsterList.get(position).getCurrentAwakenings(); j < monsterList.get(position).getMaxAwakenings(); j++) {
-                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningDisabledImageResource(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningDisabled(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
             } else {
                 for (int j = 0; j < monsterList.get(position).getMaxAwakenings(); j++) {
-                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningImageResource(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
             }
 
@@ -245,7 +245,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             } else {
                 viewHolderLinear.latentHolder.setVisibility(View.VISIBLE);
                 for (int j = 0; j < monsterList.get(position).getLatents().size(); j++) {
-                    viewHolderLinear.latentHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterLatentImageResource(monsterList.get(position).getLatents().get(j).getValue()));
+                    viewHolderLinear.latentHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterLatent(monsterList.get(position).getLatents().get(j).getValue()));
                 }
             }
             viewHolderLinear.rarity.setText("" + monsterList.get(position).getRarity());
