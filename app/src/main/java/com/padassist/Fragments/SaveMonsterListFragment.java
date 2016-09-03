@@ -27,9 +27,9 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
     private Toast toast;
     private boolean replaceAll;
     private long replaceMonsterId;
-    private int monsterPosition;
     private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
+    private int monsterPosition;
 
     private FastScroller fastScroller;
 
@@ -72,13 +72,12 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
             monsterPosition = getArguments().getInt("monsterPosition");
         }
         if (monsterPosition == 5) {
-            monsterListAll.clear();
-            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", true).findAll());
-            monsterListAll.add(0, monsterZero);
+            helper = true;
         } else {
-            monsterListAll.clear();
-            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", false).findAll());
+            helper = false;
         }
+        monsterListAll.clear();
+        monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).findAll());
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

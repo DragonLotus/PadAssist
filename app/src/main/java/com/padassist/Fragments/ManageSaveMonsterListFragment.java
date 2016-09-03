@@ -22,7 +22,6 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListBase {
     public static final String TAG = ManageSaveMonsterListFragment.class.getSimpleName();
     private Toast toast;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
-    private boolean helper;
 
 
     public static ManageSaveMonsterListFragment newInstance(boolean helper) {
@@ -60,12 +59,7 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListBase {
         if (getArguments() != null) {
             helper = getArguments().getBoolean("helper");
         }
-        if(!helper){
-            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", false).findAll());
-        } else {
-            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", true).findAll());
-        }
-
+            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).findAll());
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

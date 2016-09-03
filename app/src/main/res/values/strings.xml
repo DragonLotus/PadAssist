@@ -19,6 +19,7 @@
     <string name="viewHolder">viewHolder</string>
     <string name="index">index</string>
     <string name="position">position</string>
+    <string name="search_hint">Name | Type | #</string>
 
     <string name="title_activity_loading_screen">LoadingScreenActivity</string>
     <string name="dummy_button">Dummy Button</string>

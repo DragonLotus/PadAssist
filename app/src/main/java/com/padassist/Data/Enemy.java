@@ -24,7 +24,7 @@ public class Enemy implements Parcelable {
         reduction = new ArrayList<Element>();
         gravityList = new ArrayList<Integer>();
         types = new ArrayList<Integer>();
-        targetHp = 33012222;
+        targetHp = 37408889;
         targetDef = 0;
         currentHp = targetHp;
         beforeGravityHP = currentHp;

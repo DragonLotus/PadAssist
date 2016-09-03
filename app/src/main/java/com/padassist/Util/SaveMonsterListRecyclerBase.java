@@ -157,19 +157,19 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolderLinear.monsterAwakenings.setVisibility(View.VISIBLE);
         }
 
-        if(monsterList.get(position).getType1() > 0){
+        if (monsterList.get(position).getType1() >= 0) {
             viewHolderLinear.type1.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType1()));
         } else {
             viewHolderLinear.type1.setVisibility(View.INVISIBLE);
         }
 
-        if(monsterList.get(position).getType2() > 0){
+        if (monsterList.get(position).getType2() >= 0) {
             viewHolderLinear.type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType2()));
         } else {
             viewHolderLinear.type2.setVisibility(View.INVISIBLE);
         }
 
-        if(monsterList.get(position).getType3() > 0){
+        if (monsterList.get(position).getType3() >= 0) {
             viewHolderLinear.type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monsterList.get(position).getType3()));
         } else {
             viewHolderLinear.type3.setVisibility(View.INVISIBLE);

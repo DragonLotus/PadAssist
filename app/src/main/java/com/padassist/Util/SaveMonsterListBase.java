@@ -49,6 +49,7 @@ public abstract class SaveMonsterListBase extends Fragment {
     protected ArrayList<Monster> filteredMonsters = new ArrayList<>();
     protected ArrayList<Monster> monsterList;
     protected ArrayList<Monster> monsterListAll;
+    protected boolean helper;
     protected MenuItem searchMenuItem;
     protected SearchView searchView;
     protected SaveMonsterListRecycler saveMonsterListRecycler;
@@ -584,18 +585,21 @@ public abstract class SaveMonsterListBase extends Fragment {
                     monsterList.clear();
                 }
                 RealmResults<Monster> results = realm.where(Monster.class)
-                        .beginGroup()
-                        .contains("name", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("type1String", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("type2String", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("type3String", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("baseMonsterIdString", query, Case.INSENSITIVE)
-                        .endGroup()
-                        .greaterThan("monsterId", 0).findAll();
+                            .beginGroup()
+                            .contains("name", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type1String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type2String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type3String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("baseMonsterIdString", query, Case.INSENSITIVE)
+                            .endGroup()
+                            .greaterThan("monsterId", 0)
+                            .equalTo("helper", helper)
+                            .findAll();
+
                 monsterList.addAll(results);
 
 //                filterMonsters(query);

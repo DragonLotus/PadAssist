@@ -341,6 +341,15 @@ public abstract class MonsterPageBase extends Fragment {
         monsterName.setHorizontallyScrolling(true);
         monsterName.setSelected(true);
 
+        activeSkill1Name.setHorizontallyScrolling(true);
+        activeSkill1Name.setSelected(true);
+
+        activeSkill2Name.setHorizontallyScrolling(true);
+        activeSkill2Name.setSelected(true);
+
+        leaderSkillName.setHorizontallyScrolling(true);
+        leaderSkillName.setSelected(true);
+
         skill1Minus.setOnClickListener(activeSkillPlusMinusOnClickListener);
         skill1Plus.setOnClickListener(activeSkillPlusMinusOnClickListener);
 
@@ -585,8 +594,16 @@ public abstract class MonsterPageBase extends Fragment {
 
     protected void setImageViews() {
         type1.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType1()));
-        type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType2()));
-        type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType3()));
+        if(monster.getType2() >= 0){
+            type2.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType2()));
+        } else {
+            type2.setVisibility(View.INVISIBLE);
+        }
+        if(monster.getType3() >= 0){
+            type3.setImageResource(ImageResourceUtil.monsterTypeImageResource(monster.getType3()));
+        } else {
+            type3.setVisibility(View.INVISIBLE);
+        }
         favorite.setColorFilter(0xFFFFAADD);
         setFavorite();
     }

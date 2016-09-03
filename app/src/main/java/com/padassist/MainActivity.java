@@ -241,6 +241,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if(enemy == null){
+            enemy = new Enemy();
+        }
+        if(Realm.getDefaultInstance().getConfiguration() == null){
+            Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this)
+                    .schemaVersion(4)
+                    .migration(new Migration())
+                    .build());
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         realm.close();
