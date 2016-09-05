@@ -52,7 +52,7 @@ public class TeamOverviewFragment extends Fragment {
     private CheckBox hasLeaderSkillCheck1, hasLeaderSkillCheck2;
     private ImageView hasLeaderSkill, teamBadge;
     private TeamBadgeDialogFragment teamBadgeDialogFragment;
-    private Realm realm = Realm.getDefaultInstance();
+    private Realm realm;
 
     // TODO: Rename and change types and number of parameters
     public static TeamOverviewFragment newInstance(Team team) {
@@ -65,6 +65,17 @@ public class TeamOverviewFragment extends Fragment {
 
     public TeamOverviewFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -119,6 +130,7 @@ public class TeamOverviewFragment extends Fragment {
         if (getArguments() != null) {
             team = getArguments().getParcelable("team");
         }
+        realm = Realm.getDefaultInstance();
         awakeningListAll = team.getAwakenings();
         latentListAll = team.getLatents();
         utilityAwakeningList = new ArrayList<>();

@@ -65,7 +65,7 @@ public abstract class MonsterPageBase extends Fragment {
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
     private LatentAwakeningDialogFragment latentAwakeningDialogFragment;
     private int level, hp, atk, rcv, awakening;
-    protected Realm realm = Realm.getDefaultInstance();
+    protected Realm realm;
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
         @Override
@@ -115,7 +115,7 @@ public abstract class MonsterPageBase extends Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-                hideKeyboard(v);
+//                hideKeyboard(v);
                 if (monsterAwakeningsValue.getText().toString().equals("")) {
                     monsterAwakeningsValue.setText("0");
                     monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
@@ -145,6 +145,17 @@ public abstract class MonsterPageBase extends Fragment {
         if (getArguments() != null) {
         }
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -274,6 +285,7 @@ public abstract class MonsterPageBase extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
         }
+        realm = Realm.getDefaultInstance();
         if (monster == null) {
             monster = getMonster();
         }
@@ -340,11 +352,6 @@ public abstract class MonsterPageBase extends Fragment {
     }
 
     public abstract Monster getMonster();
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -870,10 +877,10 @@ public abstract class MonsterPageBase extends Fragment {
         }
     }
 
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-    }
+//    public void hideKeyboard(View view) {
+//        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+//        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//    }
 
 //   private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()
 //   {

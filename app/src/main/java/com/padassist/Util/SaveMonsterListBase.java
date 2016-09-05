@@ -79,8 +79,8 @@ public abstract class SaveMonsterListBase extends Fragment {
     private Comparator<Monster> monsterLevelComparator = new MonsterLevelComparator();
     private Comparator<Monster> monsterFavoriteComparator = new MonsterFavoriteComparator();
     private FilterDialogFragment filterDialogFragment;
-    protected Realm realm = Realm.getDefaultInstance();
-    private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+    protected Realm realm;
+    private Monster monsterZero;
 
     protected SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
     protected boolean isGrid = preferences.getBoolean("isGrid", true);
@@ -88,6 +88,17 @@ public abstract class SaveMonsterListBase extends Fragment {
     private FastScroller fastScroller;
 
     public SaveMonsterListBase() {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -222,6 +233,8 @@ public abstract class SaveMonsterListBase extends Fragment {
 //            replaceAll = getArguments().getBoolean("replaceAll");
 //            replaceMonsterId = getArguments().getLong("replaceMonsterId");
 //        }
+        realm = Realm.getDefaultInstance();
+        monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
         onActivityCreatedSpecific();
         if (monsterList == null) {
             monsterList = new ArrayList<>();

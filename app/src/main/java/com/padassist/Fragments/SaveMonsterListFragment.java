@@ -27,7 +27,6 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
     private Toast toast;
     private boolean replaceAll;
     private long replaceMonsterId;
-    private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
     private int monsterPosition;
 

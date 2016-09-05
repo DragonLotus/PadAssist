@@ -51,5 +51,23 @@
         android:textSize="12dp"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/favorite"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_below="@+id/monsterPlus"
+        android:layout_alignRight="@+id/monsterPicture"
+        android:src="@drawable/favorite" />
+
+    <ImageView
+        android:id="@+id/favoriteOutline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignBottom="@+id/favorite"
+        android:layout_alignTop="@+id/favorite"
+        android:layout_alignRight="@+id/favorite"
+        android:src="@drawable/not_favorite" />
+
+
 
 </RelativeLayout>

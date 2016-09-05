@@ -76,6 +76,11 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
     private void setLinearLayout(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolderLinear viewHolderLinear = (ViewHolderLinear) viewHolder;
 
+        if (position % 2 == 1) {
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
+        } else {
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+        }
         viewHolderLinear.monsterName.setText(monsterList.get(position).getName());
         viewHolderLinear.monsterId.setText("" + monsterList.get(position).getMonsterId());
         viewHolderLinear.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
@@ -216,6 +221,7 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.monsterPicture.getLayoutParams().height = fortyEightDp;
                 viewHolderLinear.monsterPicture.getLayoutParams().width = fortyEightDp;
                 viewHolderLinear.monsterPicture.requestLayout();
+                viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
             }
         } else {
             viewHolderLinear.expandLayout.setVisibility(View.GONE);
@@ -231,11 +237,6 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.monsterPicture.getLayoutParams().width = fiftyFourDp;
                 viewHolderLinear.monsterPicture.requestLayout();
             }
-        }
-        if (position % 2 == 1) {
-            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
-        } else {
-            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
     }
 

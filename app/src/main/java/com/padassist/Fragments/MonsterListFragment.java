@@ -65,8 +65,8 @@ public class MonsterListFragment extends Fragment {
     private TeamSaveDialogFragment teamSaveDialogFragment;
     private TeamBadgeDialogFragment teamBadgeDialogFragment;
     private ClearTeamConfirmationDialogFragment clearTeamConfirmationDialogFragment;
-    private Realm realm = Realm.getDefaultInstance();
-    private Monster monster0 = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+    private Realm realm;
+    private Monster monster0;
 
     /**
      * Use this factory method to create a new instance of
@@ -88,6 +88,17 @@ public class MonsterListFragment extends Fragment {
 
     public MonsterListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -208,8 +219,10 @@ public class MonsterListFragment extends Fragment {
         if (getArguments() != null) {
             enemy = getArguments().getParcelable("enemy");
         }
-        team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
 
+        realm = Realm.getDefaultInstance();
+        monster0 = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+        team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
         monsters = team.getMonsters();
 
 //        if (savedInstanceState != null) {

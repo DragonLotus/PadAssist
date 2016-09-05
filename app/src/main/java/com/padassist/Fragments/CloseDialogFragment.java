@@ -34,8 +34,8 @@ public class CloseDialogFragment extends DialogFragment {
 //        builder.setMessage("Durr");
         builder.setNegativeButton("Quit", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                closeApplication.quit();
                 dismiss();
+                closeApplication.quit();
             }
         });
         return builder.create();

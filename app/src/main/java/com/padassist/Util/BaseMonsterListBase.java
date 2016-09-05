@@ -73,7 +73,7 @@ public abstract class BaseMonsterListBase extends Fragment {
     private Comparator<BaseMonster> monsterRcvComparator = new BaseMonsterRcvComparator();
     private Comparator<BaseMonster> monsterRarityComparator = new BaseMonsterRarityComparator();
     private Comparator<BaseMonster> monsterAwakeningComparator = new BaseMonsterAwakeningComparator();
-    protected Realm realm = Realm.getDefaultInstance();
+    protected Realm realm;
     private FilterDialogFragment filterDialogFragment;
     private TextView noResults;
 
@@ -83,6 +83,17 @@ public abstract class BaseMonsterListBase extends Fragment {
     private FastScroller fastScroller;
 
     public BaseMonsterListBase() {
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -216,6 +227,7 @@ public abstract class BaseMonsterListBase extends Fragment {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
+        realm = Realm.getDefaultInstance();
         if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }

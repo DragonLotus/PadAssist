@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Adapters.TypeGridAdapter;
@@ -29,12 +30,14 @@ import java.util.ArrayList;
 
 public class OrbMatchOptionsDialogFragment extends DialogFragment {
     private CheckBox enableHeart;
+    private TextView leaderSkillName, leaderSkillDesc, helperSkillName, helperSkillDesc;
     private Toast toast;
     private Team team;
 
-    public static OrbMatchOptionsDialogFragment newInstance() {
+    public static OrbMatchOptionsDialogFragment newInstance(Team team) {
         OrbMatchOptionsDialogFragment dialogFragment = new OrbMatchOptionsDialogFragment();
         Bundle args = new Bundle();
+        args.putParcelable("team", team);
         dialogFragment.setArguments(args);
         return dialogFragment;
     }
@@ -45,6 +48,10 @@ public class OrbMatchOptionsDialogFragment extends DialogFragment {
         // Get the layout inflater
         View rootView = View.inflate(getActivity(), R.layout.fragment_orb_match_options_dialog, null);
         enableHeart = (CheckBox) rootView.findViewById(R.id.enableHeartCarry);
+        leaderSkillName = (TextView) rootView.findViewById(R.id.leaderSkillName);
+        leaderSkillDesc = (TextView) rootView.findViewById(R.id.leaderSkillDesc);
+        helperSkillName = (TextView) rootView.findViewById(R.id.helperSkillName);
+        helperSkillDesc = (TextView) rootView.findViewById(R.id.helperSkillDesc);
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         setEnable();
@@ -85,7 +92,28 @@ public class OrbMatchOptionsDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         if (getArguments() != null) {
+            team = getArguments().getParcelable("team");
         }
+        if(team.getLeadSkill().getName().equals("Blank")){
+            leaderSkillDesc.setVisibility(View.GONE);
+            leaderSkillName.setText("None");
+        } else {
+            leaderSkillDesc.setText(team.getLeadSkill().getDescription());
+            leaderSkillName.setText(team.getLeadSkill().getName());
+        }
+        if(team.getHelperSkill().getName().equals("Blank")){
+            helperSkillDesc.setVisibility(View.GONE);
+            helperSkillName.setText("None");
+        } else {
+            helperSkillDesc.setText(team.getHelperSkill().getDescription());
+            helperSkillName.setText(team.getHelperSkill().getName());
+        }
+
+        leaderSkillName.setHorizontallyScrolling(true);
+        leaderSkillName.setSelected(true);
+
+        helperSkillName.setHorizontallyScrolling(true);
+        helperSkillName.setSelected(true);
     }
 
     private void setEnable(){

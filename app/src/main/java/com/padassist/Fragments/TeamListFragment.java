@@ -127,7 +127,7 @@ public class TeamListFragment extends Fragment {
     private Comparator<Team> teamHelperPlusAtkComparator = new TeamHelperPlusAtkComparator();
     private Comparator<Team> teamHelperPlusRcvComparator = new TeamHelperPlusRcvComparator();
     private Comparator<Team> teamHelperRarityComparator = new TeamHelperRarityComparator();
-    private Realm realm = Realm.getDefaultInstance();
+    private Realm realm;
 
 //    private FastScroller fastScroller;
 
@@ -149,6 +149,17 @@ public class TeamListFragment extends Fragment {
 
     public TeamListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -267,6 +278,7 @@ public class TeamListFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+        realm = Realm.getDefaultInstance();
         teamListAll = new ArrayList<>();
         teamListAll.addAll(realm.where(Team.class).greaterThan("teamId", 0).findAll());
         teamList = new ArrayList<>();

@@ -89,7 +89,7 @@ public class TeamDamageListFragment extends Fragment {
     private DecimalFormatSymbols dfs = new DecimalFormatSymbols();
     private DecimalFormat dfSpace;
     private ExtraMultiplierDialogFragment extraMultiplierDialogFragment;
-    private Realm realm = Realm.getDefaultInstance();
+    private Realm realm;
 
     /**
      * Use this factory method to create a new instance of
@@ -129,6 +129,17 @@ public class TeamDamageListFragment extends Fragment {
         args.putParcelable("team", team);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     public TeamDamageListFragment() {
@@ -236,6 +247,7 @@ public class TeamDamageListFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        realm = Realm.getDefaultInstance();
         if (hasEnemy) {
             temp = enemy.getCurrentHp();
             setReductionOrbs();

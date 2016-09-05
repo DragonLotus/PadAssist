@@ -432,7 +432,7 @@ public class EnemyTargetFragment extends Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-                hideKeyboard(v);
+//                hideKeyboard(v);
                 if (targetHpValue.getText().toString().equals("")) {
                     targetHpValue.setText("0");
                     enemy.setTargetHp(0);
@@ -1019,10 +1019,10 @@ public class EnemyTargetFragment extends Fragment {
         }
     };
 
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-    }
+//    public void hideKeyboard(View view) {
+//        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+//        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//    }
 
     // http://stackoverflow.com/a/14577399 magic.
     private ListView.OnTouchListener listViewScroll = new ListView.OnTouchListener() {

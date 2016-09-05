@@ -68,7 +68,7 @@ public class OrbMatchFragment extends Fragment {
     private MyDialogFragment dialog;
     private ArrayList<OrbMatch> orbMatchList;
     private OrbMatchOptionsDialogFragment orbMatchOptionsDialogFragment;
-    private Realm realm = Realm.getDefaultInstance();
+    private Realm realm;
     private ArrayList<LeaderSkillType> minimumMatchLeaderSkills = new ArrayList<>();
     int minimumMatch = 3;
 
@@ -454,7 +454,7 @@ public class OrbMatchFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if (orbMatchOptionsDialogFragment == null) {
-                orbMatchOptionsDialogFragment = orbMatchOptionsDialogFragment.newInstance();
+                orbMatchOptionsDialogFragment = orbMatchOptionsDialogFragment.newInstance(team);
             }
             if (!orbMatchOptionsDialogFragment.isAdded()) {
                 orbMatchOptionsDialogFragment.show(getChildFragmentManager(), "Options");
@@ -477,7 +477,7 @@ public class OrbMatchFragment extends Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-                hideKeyboard(v);
+//                hideKeyboard(v);
                 if ((additionalComboValue.getText().toString().equals(""))) {
                     additionalComboValue.setText("0");
                 }
@@ -568,10 +568,10 @@ public class OrbMatchFragment extends Fragment {
         }
     };
 
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-    }
+//    public void hideKeyboard(View view) {
+//        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+//        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+//    }
 
     public static OrbMatchFragment newInstance(Team team, Enemy enemy) {
         OrbMatchFragment fragment = new OrbMatchFragment();
@@ -588,6 +588,17 @@ public class OrbMatchFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -619,6 +630,7 @@ public class OrbMatchFragment extends Fragment {
             team = getArguments().getParcelable("team");
             enemy = getArguments().getParcelable("enemy");
         }
+        realm = Realm.getDefaultInstance();
         rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         crossCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
