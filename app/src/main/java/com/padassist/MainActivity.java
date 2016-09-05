@@ -97,13 +97,13 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "isWiFi: " + isWiFi);
         }
 
-        RealmConfiguration config = new RealmConfiguration.Builder(this)
-                .schemaVersion(4)
-                .migration(new Migration())
-                .build();
-        Realm.setDefaultConfiguration(config);
+//        RealmConfiguration config = new RealmConfiguration.Builder(this)
+//                .schemaVersion(4)
+//                .migration(new Migration())
+//                .build();
+//        Realm.setDefaultConfiguration(config);
 
-        Log.d("MainActivity", "config schema is: " + config.getSchemaVersion());
+//        Log.d("MainActivity", "config schema is: " + config.getSchemaVersion());
 
         realm = Realm.getDefaultInstance();
 
