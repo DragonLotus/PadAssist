@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -38,6 +40,8 @@ import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
+
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -75,9 +79,9 @@ public class TeamDamageListFragment extends Fragment {
     private Toast toast;
     private boolean hasEnemy;
     //private ArrayList<Monster> monsterList;
-    private int additionalCombos, additionalCombosFragment, totalCombos = 0;
+    private int additionalCombos, totalCombos = 0;
     private long totalDamage = 0, temp = 0;
-    private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, totalComboValue, hpRecoveredValue, teamHpValue, reductionPercent;
+    private TextView enemyHP, enemyHPValue, enemyHPPercent, enemyHPPercentValue, totalDamageValue, hpRecoveredValue, teamHpValue, reductionPercent;
     private RadioGroup reductionRadioGroup;
     private Button monsterListToggle;
     private CheckBox redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, redOrbAbsorb, blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb;
@@ -157,15 +161,10 @@ public class TeamDamageListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.refresh:
                 clearTextFocus();
-                totalCombos += additionalCombosFragment;
-                if (totalCombos < realm.where(OrbMatch.class).findAll().size()) {
-                    totalCombos = realm.where(OrbMatch.class).findAll().size();
-                }
                 monsterListAdapter.setCombos(totalCombos);
                 team.setAtkMultiplierArrays(totalCombos);
                 updateTextView();
                 monsterListAdapter.notifyDataSetChanged();
-                additionalComboValue.setText("0");
                 break;
             case R.id.toggleCoop:
                 updateTextView();
@@ -199,7 +198,6 @@ public class TeamDamageListFragment extends Fragment {
         enemyHPPercent = (TextView) rootView.findViewById(R.id.enemyHPPercent);
         enemyHPPercentValue = (TextView) rootView.findViewById(R.id.enemyHPPercentValue);
         totalDamageValue = (TextView) rootView.findViewById(R.id.totalDamageValue);
-        totalComboValue = (TextView) rootView.findViewById(R.id.totalComboValue);
         hpRecoveredValue = (TextView) rootView.findViewById(R.id.hpRecoveredValue);
         targetReduction = (ImageView) rootView.findViewById(R.id.targetReduction);
         targetAbsorb = (ImageView) rootView.findViewById(R.id.elementAbsorb);
@@ -258,13 +256,14 @@ public class TeamDamageListFragment extends Fragment {
         dfSpace = new DecimalFormat("###,###", dfs);
         setCheckBoxes();
         totalCombos = additionalCombos + realm.where(OrbMatch.class).findAll().size();
+        additionalComboValue.setText("" + totalCombos);
         updateTextView();
         setupHpSeekBar();
         monsterListAdapter = new MonsterDamageListRecycler(getActivity(), hasEnemy, enemy, totalCombos, team, bindMonsterOnClickListener);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         monsterListToggle.setOnClickListener(monsterListToggleOnClickListener);
-        additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
+        additionalComboValue.addTextChangedListener(totalComboTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
 //        monsterListView.setOnItemClickListener(bindMonsterOnClickListener);
         optionButton.setOnClickListener(optionsButtonOnClickListener);
@@ -382,20 +381,20 @@ public class TeamDamageListFragment extends Fragment {
             int twentyFourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getContext().getResources().getDisplayMetrics());
             int thirtyNineDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 39, getContext().getResources().getDisplayMetrics());
             RelativeLayout.LayoutParams hasAwakeningsLayout = new RelativeLayout.LayoutParams(twentyFourDp, twentyFourDp);
-            hasAwakeningsLayout.addRule(RelativeLayout.BELOW, totalComboValue.getId());
+            hasAwakeningsLayout.addRule(RelativeLayout.BELOW, hpRecoveredValue.getId());
             hasAwakeningsLayout.rightMargin = fourDp;
             hasAwakenings.setLayoutParams(hasAwakeningsLayout);
 
             int fortySixDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 46, getContext().getResources().getDisplayMetrics());
             RelativeLayout.LayoutParams hasLeaderSkillLayout = new RelativeLayout.LayoutParams(fortySixDp, twentyFourDp);
-            hasLeaderSkillLayout.addRule(RelativeLayout.BELOW, totalComboValue.getId());
+            hasLeaderSkillLayout.addRule(RelativeLayout.BELOW, hpRecoveredValue.getId());
             hasLeaderSkillLayout.addRule(RelativeLayout.RIGHT_OF, hasAwakeningsCheck.getId());
             hasLeaderSkillLayout.rightMargin = fourDp;
             hasLeaderSkillLayout.leftMargin = fourDp * 3;
             hasLeaderSkill.setLayoutParams(hasLeaderSkillLayout);
 
             RelativeLayout.LayoutParams activeUsedLayout = new RelativeLayout.LayoutParams(thirtyNineDp, twentyFourDp);
-            activeUsedLayout.addRule(RelativeLayout.BELOW, totalComboValue.getId());
+            activeUsedLayout.addRule(RelativeLayout.BELOW, hpRecoveredValue.getId());
             activeUsedLayout.addRule(RelativeLayout.RIGHT_OF, hasLeaderSkillCheck2.getId());
             activeUsedLayout.rightMargin = fourDp;
             activeUsedLayout.leftMargin = fourDp * 3;
@@ -531,7 +530,7 @@ public class TeamDamageListFragment extends Fragment {
         team.setTotalDamage(totalDamage);
         totalDamageValue.setText(" " + dfSpace.format(totalDamage) + " ");
         hpRecoveredValue.setText(" " + dfSpace.format((int) DamageCalculationUtil.hpRecovered(team, totalCombos)) + " ");
-        totalComboValue.setText(String.valueOf(totalCombos));
+        additionalComboValue.setText(String.valueOf(totalCombos));
         if (totalDamage < 0) {
             totalDamageValue.setTextColor(Color.parseColor("#FFBBBB"));
         } else {
@@ -613,9 +612,7 @@ public class TeamDamageListFragment extends Fragment {
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
         @Override
         public void changeMonsterAttribute(int statToChange, int statValue) {
-            if (statToChange == MyTextWatcher.ADDITIONAL_COMBOS) {
-                additionalCombosFragment = statValue;
-            } else if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD) {
+            if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD) {
                 enemy.setDamageThreshold(statValue);
             } else if (statToChange == MyTextWatcher.DAMAGE_IMMUNITY) {
                 enemy.setDamageImmunity(statValue);
@@ -629,18 +626,39 @@ public class TeamDamageListFragment extends Fragment {
         }
     };
 
-    private MyTextWatcher additionalComboTextWatcher = new MyTextWatcher(MyTextWatcher.ADDITIONAL_COMBOS, changeStats);
     private MyTextWatcher damageThresholdWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_THRESHOLD, changeStats);
     private MyTextWatcher damageImmunityWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_IMMUNITY, changeStats);
     private MyTextWatcher reductionWatcher = new MyTextWatcher(MyTextWatcher.REDUCTION_VALUE, changeStats);
+
+    private TextWatcher totalComboTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!s.toString().equals("")) {
+                totalCombos = Integer.valueOf(s.toString());
+                Log.d("OrbMatchFragment", "Additional combos value is: " + totalCombos);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-                hideKeyboard(v);
+//                hideKeyboard();
                 if ((additionalComboValue.getText().toString().equals(""))) {
-                    additionalComboValue.setText("0");
+                    additionalComboValue.setText("" + team.getOrbMatches().size());
+                } else if (Integer.valueOf(additionalComboValue.getText().toString()) < team.getOrbMatches().size()) {
+                    additionalComboValue.setText("" + team.getOrbMatches().size());
                 } else if (damageThresholdValue.getText().toString().equals("")) {
                     damageThresholdValue.setText("0");
                     enemy.setDamageThreshold(0);
@@ -670,9 +688,14 @@ public class TeamDamageListFragment extends Fragment {
         }
     };
 
-    public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    public void hideKeyboard() {
+//        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+//        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
+        InputMethodManager imm = (InputMethodManager) Singleton.getInstance().getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (getActivity() != null && getActivity().getCurrentFocus() != null) {
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
     }
 
     private void setReductionOrbs() {
@@ -827,13 +850,13 @@ public class TeamDamageListFragment extends Fragment {
                 team.setAtkMultiplierArrays(totalCombos);
                 updateTextView();
                 monsterListAdapter.notifyDataSetChanged();
-            } else if (buttonView.equals(hasLeaderSkillCheck1)){
+            } else if (buttonView.equals(hasLeaderSkillCheck1)) {
                 Singleton.getInstance().setHasLeaderSkill(isChecked);
                 team.setTeamStats();
                 team.setAtkMultiplierArrays(totalCombos);
                 updateTextView();
                 monsterListAdapter.notifyDataSetChanged();
-            } else if (buttonView.equals(hasLeaderSkillCheck2)){
+            } else if (buttonView.equals(hasLeaderSkillCheck2)) {
                 Singleton.getInstance().setHasHelperSkill(isChecked);
                 team.setTeamStats();
                 team.setAtkMultiplierArrays(totalCombos);

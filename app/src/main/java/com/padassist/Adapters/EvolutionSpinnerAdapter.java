@@ -27,14 +27,17 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
     private LayoutInflater inflater;
     private ArrayList<Long> evolutions;
     private int resourceId;
-    private Realm realm = Realm.getDefaultInstance();
+    private Realm realm;
 
     public EvolutionSpinnerAdapter(Context context, int resource, int textViewResourceId, ArrayList<Long> evolutions) {
         super(context, resource, textViewResourceId, evolutions);
         mContext = context;
         this.evolutions = evolutions;
         this.resourceId = resource;
+        realm = Realm.getDefaultInstance();
     }
+
+
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;

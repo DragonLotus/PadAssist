@@ -141,6 +141,11 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
                 } else {
                     getActivity().getSupportFragmentManager().popBackStack();
                 }
+                if (toast != null) {
+                    toast.cancel();
+                }
+                toast = Toast.makeText(getActivity(), "Monster created", Toast.LENGTH_SHORT);
+                toast.show();
             }
         }
     };

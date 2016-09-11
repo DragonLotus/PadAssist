@@ -178,7 +178,7 @@
         android:layout_alignBottom="@+id/additionalComboValue"
         android:layout_alignTop="@+id/additionalComboValue"
         android:gravity="center_vertical"
-        android:text="Additional Combos: "
+        android:text="Total Combos: "
         android:textSize="16dp" />
 
     <EditText

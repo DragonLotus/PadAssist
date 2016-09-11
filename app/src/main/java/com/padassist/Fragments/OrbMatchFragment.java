@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -406,6 +408,7 @@ public class OrbMatchFragment extends Fragment {
             orbMatchRecycler.notifyItemInserted(orbMatchList.size() - 1);
             orbMatches.scrollToPosition(orbMatchList.size() - 1);
             emptyText.setVisibility(View.INVISIBLE);
+            additionalComboValue.setText("" + (orbMatchList.size() + additionalCombos));
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }
@@ -421,6 +424,8 @@ public class OrbMatchFragment extends Fragment {
             if (orbMatchList.size() == 0) {
                 emptyText.setVisibility(View.VISIBLE);
             }
+
+            additionalComboValue.setText("" + (orbMatchList.size() + additionalCombos));
 
             if (toast != null) {
                 toast.cancel();
@@ -471,7 +476,26 @@ public class OrbMatchFragment extends Fragment {
         }
     };
 
-    private MyTextWatcher additionalComboTextWatcher = new MyTextWatcher(MyTextWatcher.ADDITIONAL_COMBOS, changeStats);
+//    private MyTextWatcher additionalComboTextWatcher = new MyTextWatcher(MyTextWatcher.ADDITIONAL_COMBOS, changeStats);
+
+    private TextWatcher totalCombosTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!s.toString().equals("")) {
+                additionalCombos = Integer.valueOf(s.toString()) - orbMatchList.size();
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
         @Override
@@ -479,7 +503,9 @@ public class OrbMatchFragment extends Fragment {
             if (!hasFocus) {
 //                hideKeyboard(v);
                 if ((additionalComboValue.getText().toString().equals(""))) {
-                    additionalComboValue.setText("0");
+                    additionalComboValue.setText("" + orbMatchList.size());
+                } else if(Integer.valueOf(additionalComboValue.getText().toString()) < orbMatchList.size()) {
+                    additionalComboValue.setText("" + orbMatchList.size());
                 }
             }
         }
@@ -497,7 +523,7 @@ public class OrbMatchFragment extends Fragment {
             }
             if (orbMatchList.get(position).getNumOrbPlus() > orbsPlusItems.size() - 1) {
                 orbsPlusItems.clear();
-                for (int i = 0; i <= orbsLinkedItems.size() + minimumMatch; i++){
+                for (int i = 0; i <= orbsLinkedItems.size() + minimumMatch; i++) {
                     orbsPlusItems.add("" + i);
                 }
                 orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
@@ -665,7 +691,8 @@ public class OrbMatchFragment extends Fragment {
         orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchOnClickListener, removeMatchOnClickListener);
         orbMatches.setAdapter(orbMatchRecycler);
         orbMatches.setLayoutManager(new LinearLayoutManager(getActivity()));
-        additionalComboValue.addTextChangedListener(additionalComboTextWatcher);
+        additionalComboValue.setText("" + orbMatchList.size());
+        additionalComboValue.addTextChangedListener(totalCombosTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
         calculateButton.setOnClickListener(calculateOnClickListener);
 
@@ -677,7 +704,7 @@ public class OrbMatchFragment extends Fragment {
         orbsPlusItems = new ArrayList<>();
 
         int maxOrbs = 30;
-        switch (Singleton.getInstance().getBoardSize()){
+        switch (Singleton.getInstance().getBoardSize()) {
             case 0:
                 maxOrbs = 20;
                 break;

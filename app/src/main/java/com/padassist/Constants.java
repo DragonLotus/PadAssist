@@ -10,8 +10,8 @@ import io.realm.Realm;
 public class Constants {
     public static String VERSION = "VERSION";
     public static String KEY_INITIALIZED = "INITIALIZED";
-    public static int numOfMonsters = 3125;
-    public static int numOfLeaderSkills = 1855;
+    public static int numOfMonsters = 3156;
+    public static int numOfLeaderSkills = 1873;
     public static int numOfActiveSkills = 951;
     public static int numOfSavedMonsters = Realm.getDefaultInstance().where(Monster.class).findAll().size();
     public static int finalParseCount = numOfMonsters + numOfLeaderSkills + numOfActiveSkills + numOfSavedMonsters;

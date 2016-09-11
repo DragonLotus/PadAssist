@@ -37,25 +37,6 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/totalCombo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/totalComboValue"
-                android:layout_alignTop="@+id/totalComboValue"
-                android:gravity="center_vertical"
-                android:text="Total Combos: "
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/totalComboValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/hpRecovered"
-                android:text="69"
-                android:textSize="18dp" />
-
-            <TextView
                 android:id="@+id/hpRecovered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,7 +76,7 @@
                 android:id="@+id/enemyHP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/totalCombo"
+                android:layout_below="@+id/hpRecovered"
                 android:text="Enemy HP Remaining:"
                 android:textSize="18dp" />
 
@@ -104,7 +85,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/totalCombo"
+                android:layout_below="@+id/hpRecovered"
                 android:text="1333337"
                 android:textColor="#550055"
                 android:textSize="18dp" />
@@ -506,7 +487,7 @@
         android:layout_alignBottom="@+id/additionalComboValue"
         android:layout_alignTop="@+id/additionalComboValue"
         android:gravity="center_vertical"
-        android:text="Additional Combos: "
+        android:text="Total Combos: "
         android:textSize="18dp" />
 
     <EditText
@@ -515,7 +496,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_toRightOf="@+id/additionalCombo"
-        android:inputType="numberSigned"
+        android:inputType="number"
         android:maxLength="5"
         android:text="0"
         android:textSize="18dp" />

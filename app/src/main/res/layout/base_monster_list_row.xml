@@ -359,7 +359,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/leaderSkillDesc"
-            android:text="Choose Monster" />
+            android:text="Create Monster" />
     </RelativeLayout>
 
 </RelativeLayout>
