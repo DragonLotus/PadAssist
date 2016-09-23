@@ -104,6 +104,7 @@ public class Monster extends RealmObject implements Parcelable {
         latents.add(new RealmInt(0));
         latents.add(new RealmInt(0));
         latents.add(new RealmInt(0));
+        latents.add(new RealmInt(0));
         killerAwakenings = new RealmList<>();
         if (baseMonsterId != 0) {
             setCurrentHp(DamageCalculationUtil.monsterStatCalc(baseMonster.getHpMin(), baseMonster.getHpMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getHpScale()));

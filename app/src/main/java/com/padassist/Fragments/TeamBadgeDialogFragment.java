@@ -88,7 +88,7 @@ public class TeamBadgeDialogFragment extends DialogFragment {
         }
 
         teamBadgeList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
             teamBadgeList.add(i);
         }
         teamBadgeRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));

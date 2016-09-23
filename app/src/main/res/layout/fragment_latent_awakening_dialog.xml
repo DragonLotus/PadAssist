@@ -104,4 +104,24 @@
         android:spinnerMode="dropdown"
         android:dropDownVerticalOffset="-145dp"/>
 
+    <TextView
+        android:id="@+id/latent6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Latent 6: "
+        android:textSize="16dp"
+        android:layout_alignTop="@+id/latent6Spinner"
+        android:layout_alignBottom="@+id/latent6Spinner"
+        android:gravity="center_vertical"/>
+
+    <Spinner
+        android:id="@+id/latent6Spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/latent6"
+        android:layout_below="@+id/latent5Spinner"
+        android:dropDownWidth="300dp"
+        android:spinnerMode="dropdown"
+        android:dropDownVerticalOffset="-160dp"/>
+
 </RelativeLayout>

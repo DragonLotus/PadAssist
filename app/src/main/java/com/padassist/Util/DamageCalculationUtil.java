@@ -106,6 +106,8 @@ public class DamageCalculationUtil {
         }
         if(team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()){
             return (int)(returnDamage * 1.05);
+        } else if(team.getTeamBadge() == 14 && !Singleton.getInstance().isCoopEnable()){
+            return (int)(returnDamage * 1.15);
         } else {
             return returnDamage;
         }

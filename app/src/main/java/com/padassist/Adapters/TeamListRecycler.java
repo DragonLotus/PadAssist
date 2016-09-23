@@ -107,7 +107,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList1.add(1);
             }
         }
-        if (latentList1.size() == 5) {
+        if (latentList1.size() == 6) {
             viewHolder.monster1Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster1Latents.setText("");
             viewHolder.monster1Latents.setVisibility(View.VISIBLE);
@@ -129,7 +129,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList2.add(1);
             }
         }
-        if (latentList2.size() == 5) {
+        if (latentList2.size() == 6) {
             viewHolder.monster2Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster2Latents.setText("");
             viewHolder.monster2Latents.setVisibility(View.VISIBLE);
@@ -151,7 +151,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList3.add(1);
             }
         }
-        if (latentList3.size() == 5) {
+        if (latentList3.size() == 6) {
             viewHolder.monster3Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster3Latents.setText("");
             viewHolder.monster3Latents.setVisibility(View.VISIBLE);
@@ -173,7 +173,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList4.add(1);
             }
         }
-        if (latentList4.size() == 5) {
+        if (latentList4.size() == 6) {
             viewHolder.monster4Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster4Latents.setText("");
             viewHolder.monster4Latents.setVisibility(View.VISIBLE);
@@ -195,7 +195,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList5.add(1);
             }
         }
-        if (latentList5.size() == 5) {
+        if (latentList5.size() == 6) {
             viewHolder.monster5Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster5Latents.setText("");
             viewHolder.monster5Latents.setVisibility(View.VISIBLE);
@@ -217,7 +217,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList6.add(1);
             }
         }
-        if (latentList6.size() == 5) {
+        if (latentList6.size() == 6) {
             viewHolder.monster6Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster6Latents.setText("");
             viewHolder.monster6Latents.setVisibility(View.VISIBLE);

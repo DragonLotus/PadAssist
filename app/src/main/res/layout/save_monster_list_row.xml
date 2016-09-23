@@ -371,6 +371,11 @@
                 android:id="@+id/latent5"
                 android:layout_width="18dp"
                 android:layout_height="18dp" />
+
+            <ImageView
+                android:id="@+id/latent6"
+                android:layout_width="18dp"
+                android:layout_height="18dp" />
         </LinearLayout>
 
         <ImageView

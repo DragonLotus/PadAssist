@@ -16613,7 +16613,7 @@
 "atkSkillType":11,
 "rcvSkillType":1,
 "atkData":[5,1.5],
-"rcvData":[5],
+"rcvData":[1.5],
 "atkType":[7],
 "rcvType":[7],
 "comboMin":4,

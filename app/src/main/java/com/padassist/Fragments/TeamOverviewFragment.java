@@ -25,9 +25,11 @@ import com.padassist.Data.Team;
 import com.padassist.Graphics.ExpandableHeightGridView;
 import com.padassist.Graphics.TooltipText;
 import com.padassist.R;
+import com.padassist.Util.ImageResourceUtil;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.realm.Realm;
 
@@ -331,42 +333,17 @@ public class TeamOverviewFragment extends Fragment {
 //        }
         teamHpValue.setText(String.valueOf(team.getTeamHealth()));
         teamRcvValue.setText(String.valueOf(team.getTeamRcv()));
-        teamCostValue.setText(String.valueOf(team.getTeamCost()));
+        if(team.getTeamBadge() == 10 || team.getTeamBadge() == 12 || team.getTeamBadge() == 14){
+            teamCostValue.setText(String.valueOf(team.getTeamCost()) + "(+300)");
+        } else if(team.getTeamBadge() == 11){
+            teamCostValue.setText(String.valueOf(team.getTeamCost()) + "(+400)");
+        } else {
+            teamCostValue.setText(String.valueOf(team.getTeamCost()));
+        }
     }
 
     private void setTeamBadge(){
-        switch (team.getTeamBadge()){
-            case 0:
-                teamBadge.setImageResource(R.drawable.team_badge_nothing);
-                break;
-            case 1:
-                teamBadge.setImageResource(R.drawable.team_badge_cost);
-                break;
-            case 2:
-                teamBadge.setImageResource(R.drawable.team_badge_time_extend);
-                break;
-            case 3:
-                teamBadge.setImageResource(R.drawable.team_badge_mass_attack);
-                break;
-            case 4:
-                teamBadge.setImageResource(R.drawable.team_badge_rcv);
-                break;
-            case 5:
-                teamBadge.setImageResource(R.drawable.team_badge_hp);
-                break;
-            case 6:
-                teamBadge.setImageResource(R.drawable.team_badge_attack);
-                break;
-            case 7:
-                teamBadge.setImageResource(R.drawable.team_badge_skill_boost);
-                break;
-            case 8:
-                teamBadge.setImageResource(R.drawable.team_badge_bind_resist);
-                break;
-            case 9:
-                teamBadge.setImageResource(R.drawable.team_badge_skill_bind_resist);
-                break;
-        }
+        teamBadge.setImageResource(ImageResourceUtil.teamBadge(team.getTeamBadge()));
     }
 
     private void setCheckBoxes() {

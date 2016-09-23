@@ -16,6 +16,7 @@ import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by DragonLotus on 10/18/2015.
@@ -132,12 +133,16 @@ public class AwakeningGridAdapter extends BaseAdapter {
                             }
                             if (teamBadge == 2) {
                                 text = "Extra " + (counter * .05 + 1 + awakeningAmountList.get(awakeningPosition) * .5) + " seconds to match (1s from Team Badge and " + awakeningAmountList.get(awakeningPosition) * .5 + "s from awakenings)";
+                            } else if (teamBadge == 11) {
+                                text = "Extra " + (counter * .05 + 2 + awakeningAmountList.get(awakeningPosition) * .5) + " seconds to match (2s from Team Badge and " + awakeningAmountList.get(awakeningPosition) * .5 + "s from awakenings)";
                             } else {
                                 text = "Extra " + (counter * .05 + awakeningAmountList.get(awakeningPosition) * .5) + " seconds to match (" + awakeningAmountList.get(awakeningPosition) * .5 + "s from awakenings)";
                             }
                         } else {
                             if (teamBadge == 2) {
                                 text = "Extra " + (counter * .05 + 1) + " seconds to match (1s from Team Badge)";
+                            } else if (teamBadge == 11) {
+                                text = "Extra " + (counter * .05 + 2) + " seconds to match (2s from Team Badge)";
                             } else {
                                 if (counter == 20) {
                                     text = "Extra " + counter * .05 + " second to match";
@@ -160,7 +165,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of fire damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of fire damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + counter + "% of fire damage";
@@ -176,7 +181,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of water damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of water damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + counter + "% of water damage";
@@ -192,7 +197,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of wood damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of wood damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + counter + "% of wood damage";
@@ -208,7 +213,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of light damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of light damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + counter + "% of light damage";
@@ -224,7 +229,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter  + awakeningAmountList.get(awakeningPosition) * 5) + "% of dark damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of dark damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + counter + "% of dark damage";
@@ -378,12 +383,16 @@ public class AwakeningGridAdapter extends BaseAdapter {
                             }
                             if (teamBadge == 2) {
                                 text = "Extra " + (counter * .5 + 1 + latentAmountList.get(latentPosition) * .05) + " seconds to match (1s from Team Badge and " + latentAmountList.get(latentPosition) * .05 + "s from latents)";
+                            } else if (teamBadge == 11) {
+                                text = "Extra " + (counter * .5 + 2 + latentAmountList.get(latentPosition) * .05) + " seconds to match (2s from Team Badge and " + latentAmountList.get(latentPosition) * .05 + "s from latents)";
                             } else {
                                 text = "Extra " + (counter * .5 + latentAmountList.get(latentPosition) * .05) + " seconds to match (" + latentAmountList.get(latentPosition) * .05 + "s from latents)";
                             }
                         } else {
                             if (teamBadge == 2) {
                                 text = "Extra " + (counter * .5 + 1) + " seconds to match (1s from Team Badge)";
+                            } else if (teamBadge == 11) {
+                                text = "Extra " + (counter * .5 + 2) + " seconds to match (2s from Team Badge)";
                             } else {
                                 if (counter == 2) {
                                     text = "Extra " + counter * .5 + " second to match";
@@ -508,28 +517,22 @@ public class AwakeningGridAdapter extends BaseAdapter {
             awakeningAmountList = new ArrayList<>();
         }
         int amount = 0;
-        int awakening = 0;
+
         for (int i = 0; i < awakeningListAll.size(); i++) {
-            if (awakening == awakeningListAll.get(i)) {
-                amount++;
-                if (!awakeningList.contains(awakening)) {
-                    awakeningList.add(awakening);
-                } else {
-                    awakeningListAll.remove(i);
-                    i--;
-                }
-            } else {
-                if (amount > 0) {
-                    awakeningAmountList.add(amount);
-                }
-                amount = 1;
-                awakening = awakeningListAll.get(i);
-                if (!awakeningList.contains(awakening)) {
-                    awakeningList.add(awakening);
-                }
+            if (!awakeningList.contains(awakeningListAll.get(i))) {
+                awakeningList.add(awakeningListAll.get(i));
             }
         }
-        awakeningAmountList.add(amount);
+        Collections.sort(awakeningList);
+        for (int i = 0; i < awakeningList.size(); i++) {
+            for (int j = 0; j < awakeningListAll.size(); j++) {
+                if (awakeningList.get(i).equals(awakeningListAll.get(j))) {
+                    amount++;
+                }
+            }
+            awakeningAmountList.add(amount);
+            amount = 0;
+        }
 
         if (latentListAll.size() != 0) {
             if (latentList != null) {
@@ -542,29 +545,23 @@ public class AwakeningGridAdapter extends BaseAdapter {
             } else {
                 latentAmountList = new ArrayList<>();
             }
-            int amount2 = 0;
-            int latent = 0;
+
             for (int i = 0; i < latentListAll.size(); i++) {
-                if (latent == latentListAll.get(i)) {
-                    amount2++;
-                    if (!latentList.contains(latent)) {
-                        latentList.add(latent);
-                    } else {
-                        latentListAll.remove(i);
-                        i--;
-                    }
-                } else {
-                    if (amount2 > 0) {
-                        latentAmountList.add(amount2);
-                    }
-                    amount2 = 1;
-                    latent = latentListAll.get(i);
-                    if (!latentList.contains(latent)) {
-                        latentList.add(latent);
-                    }
+                if (!latentList.contains(latentListAll.get(i))) {
+                    latentList.add(latentListAll.get(i));
                 }
             }
-            latentAmountList.add(amount2);
+            Collections.sort(latentList);
+            for (int i = 0; i < latentList.size(); i++) {
+                for (int j = 0; j < latentListAll.size(); j++) {
+                    if (latentList.get(i).equals(latentListAll.get(j))) {
+                        amount++;
+                    }
+                }
+                latentAmountList.add(amount);
+                amount = 0;
+
+            }
         }
     }
 

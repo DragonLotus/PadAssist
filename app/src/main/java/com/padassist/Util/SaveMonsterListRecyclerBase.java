@@ -140,7 +140,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 latentList.add(1);
             }
         }
-        if (latentList.size() == 5) {
+        if (latentList.size() == 6) {
             viewHolderLinear.monsterLatents.setBackgroundResource(R.drawable.latent_max);
             viewHolderLinear.monsterLatents.setText("");
             viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
@@ -371,7 +371,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 latentList.add(1);
             }
         }
-        if (latentList.size() == 5) {
+        if (latentList.size() == 6) {
             viewHolderGrid.monsterLatents.setBackgroundResource(R.drawable.latent_max);
             viewHolderGrid.monsterLatents.setText("");
             viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);

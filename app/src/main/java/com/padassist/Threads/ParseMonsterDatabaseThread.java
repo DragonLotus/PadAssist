@@ -328,11 +328,16 @@ public class ParseMonsterDatabaseThread extends Thread {
                         monster.setName(monster.getBaseMonster().getName());
                     }
                 }
+
                 if(monster.getActiveSkillLevel() == 0){
                     monster.setActiveSkillLevel(1);
                 }
                 if(monster.getActiveSkill2Level() == 0){
                     monster.setActiveSkill2Level(1);
+                }
+
+                if(monster.getLatents().size() == 5){
+                    monster.getLatents().add(new RealmInt(0));
                 }
 
                 update.updateValues(counter);

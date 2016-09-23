@@ -24,7 +24,7 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         public void refreshLatents();
     }
 
-    private Spinner latent1Spinner, latent2Spinner, latent3Spinner, latent4Spinner, latent5Spinner;
+    private Spinner latent1Spinner, latent2Spinner, latent3Spinner, latent4Spinner, latent5Spinner, latent6Spinner;
     private ArrayList<Integer> latents = new ArrayList<>();
     private LatentSpinnerAdapter latentSpinnerAdapter;
     private Monster monster;
@@ -49,6 +49,7 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         latent3Spinner = (Spinner) rootView.findViewById(R.id.latent3Spinner);
         latent4Spinner = (Spinner) rootView.findViewById(R.id.latent4Spinner);
         latent5Spinner = (Spinner) rootView.findViewById(R.id.latent5Spinner);
+        latent6Spinner = (Spinner) rootView.findViewById(R.id.latent6Spinner);
         try {
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getContext().getResources().getDisplayMetrics());
             Field popup = Spinner.class.getDeclaredField("mPopup");
@@ -58,11 +59,13 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
             android.widget.ListPopupWindow popupWindow3 = (android.widget.ListPopupWindow) popup.get(latent3Spinner);
             android.widget.ListPopupWindow popupWindow4 = (android.widget.ListPopupWindow) popup.get(latent4Spinner);
             android.widget.ListPopupWindow popupWindow5 = (android.widget.ListPopupWindow) popup.get(latent5Spinner);
+            android.widget.ListPopupWindow popupWindow6 = (android.widget.ListPopupWindow) popup.get(latent6Spinner);
             popupWindow1.setHeight(px);
             popupWindow2.setHeight(px);
             popupWindow3.setHeight(px);
             popupWindow4.setHeight(px);
             popupWindow5.setHeight(px);
+            popupWindow6.setHeight(px);
         }
         catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
             // silently fail...
@@ -103,11 +106,13 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         latent3Spinner.setAdapter(latentSpinnerAdapter);
         latent4Spinner.setAdapter(latentSpinnerAdapter);
         latent5Spinner.setAdapter(latentSpinnerAdapter);
+        latent6Spinner.setAdapter(latentSpinnerAdapter);
         latent1Spinner.setSelection(monster.getLatents().get(0).getValue());
         latent2Spinner.setSelection(monster.getLatents().get(1).getValue());
         latent3Spinner.setSelection(monster.getLatents().get(2).getValue());
         latent4Spinner.setSelection(monster.getLatents().get(3).getValue());
         latent5Spinner.setSelection(monster.getLatents().get(4).getValue());
+        latent6Spinner.setSelection(monster.getLatents().get(5).getValue());
     }
 
     private void updateLatents(){
@@ -116,6 +121,7 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         monster.getLatents().set(2, new RealmInt(latent3Spinner.getSelectedItemPosition()));
         monster.getLatents().set(3, new RealmInt(latent4Spinner.getSelectedItemPosition()));
         monster.getLatents().set(4, new RealmInt(latent5Spinner.getSelectedItemPosition()));
+        monster.getLatents().set(5, new RealmInt(latent6Spinner.getSelectedItemPosition()));
 //        monster.save();
     }
 

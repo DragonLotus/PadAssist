@@ -467,6 +467,16 @@ public class ImageResourceUtil {
                 return R.drawable.team_badge_bind_resist;
             case 9:
                 return R.drawable.team_badge_skill_bind_resist;
+            case 10:
+                return R.drawable.team_badge_super_hp;
+            case 11:
+                return R.drawable.team_badge_super_time_extend;
+            case 12:
+                return R.drawable.team_badge_super_rcv;
+            case 13:
+                return R.drawable.team_badge_no_drop;
+            case 14:
+                return R.drawable.team_badge_super_attack;
         }
     }
 }

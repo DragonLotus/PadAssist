@@ -52,3 +52,7 @@ effect2Data (int)
 effect3Data (int)
 
 active skill 1 -> convertsTo -> active skill 2 -> convertsFrom -> activeSkillString 2 -> convertsTo -> endResult
+
+Weight awakenings = 1
+weight awakenings depending on how many there are
+switch case to get effects and shieeet

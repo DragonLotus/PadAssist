@@ -99,7 +99,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
                 latentList.add(1);
             }
         }
-        if (latentList.size() == 5) {
+        if (latentList.size() == 6) {
             viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monsterLatents.setText("");
             viewHolder.monsterLatents.setVisibility(View.VISIBLE);
