@@ -1,7 +1,9 @@
 package com.padassist.Fragments;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,6 +55,7 @@ public class OrbMatchFragment extends Fragment {
     public static final String TAG = OrbMatchFragment.class.getSimpleName();
     private static final String ARG_SECTION_NUMBER = "section_number";
     private int additionalCombos = 0;
+    private int maximumOrbs;
     private TextView editTeam, orbsLinkedValue, orbsPlusValue, emptyText;
     private EditText additionalComboValue;
     private Button addMatch, calculateButton, reset, options;
@@ -72,7 +75,11 @@ public class OrbMatchFragment extends Fragment {
     private OrbMatchOptionsDialogFragment orbMatchOptionsDialogFragment;
     private Realm realm;
     private ArrayList<LeaderSkillType> minimumMatchLeaderSkills = new ArrayList<>();
-    int minimumMatch = 3;
+    private int minimumMatch = 3;
+    private SharedPreferences preferences;
+    private NoDropDialogFragment disclaimerDialog;
+    private boolean noDrop = false;
+    private ArrayList<LeaderSkillType> noDropLeaderSkills = new ArrayList<>();
 
     private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout() {
         @Override
@@ -204,6 +211,7 @@ public class OrbMatchFragment extends Fragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             switch (position) {
                 case 0:
+                    maximumOrbs = 20;
                     if (orbsLinked.getSelectedItemPosition() > 17) {
                         orbsLinked.setSelection(17);
                     }
@@ -212,7 +220,7 @@ public class OrbMatchFragment extends Fragment {
                     }
                     orbsLinkedItems.clear();
                     orbsPlusItems.clear();
-                    for (int i = minimumMatch; i < 21; i++) {
+                    for (int i = minimumMatch; i <= maximumOrbs; i++) {
                         orbsLinkedItems.add("" + i);
                     }
                     for (int i = 0; i < orbsLinked.getSelectedItemPosition() + minimumMatch + 1; i++) {
@@ -230,6 +238,7 @@ public class OrbMatchFragment extends Fragment {
                     }
                     break;
                 case 1:
+                    maximumOrbs = 30;
                     if (orbsLinked.getSelectedItemPosition() > 27) {
                         orbsLinked.setSelection(27);
                     }
@@ -238,7 +247,7 @@ public class OrbMatchFragment extends Fragment {
                     }
                     orbsLinkedItems.clear();
                     orbsPlusItems.clear();
-                    for (int i = minimumMatch; i < 31; i++) {
+                    for (int i = minimumMatch; i <= maximumOrbs; i++) {
                         orbsLinkedItems.add("" + i);
                     }
                     for (int i = 0; i < orbsLinked.getSelectedItemPosition() + minimumMatch + 1; i++) {
@@ -256,9 +265,10 @@ public class OrbMatchFragment extends Fragment {
                     }
                     break;
                 case 2:
+                    maximumOrbs = 42;
                     orbsLinkedItems.clear();
                     orbsPlusItems.clear();
-                    for (int i = minimumMatch; i < 43; i++) {
+                    for (int i = minimumMatch; i <= maximumOrbs; i++) {
                         orbsLinkedItems.add("" + i);
                     }
                     for (int i = 0; i < orbsLinked.getSelectedItemPosition() + minimumMatch; i++) {
@@ -351,7 +361,7 @@ public class OrbMatchFragment extends Fragment {
                     rowCheckBox.setEnabled(false);
                     break;
                 default:
-                    if (!orbsPlus.isEnabled()) {
+                    if (!orbsPlus.isEnabled() && (maximumOrbs >= minimumMatch)) {
                         orbsPlus.setEnabled(true);
                     }
                     if (!rowCheckBox.isEnabled()) {
@@ -409,6 +419,10 @@ public class OrbMatchFragment extends Fragment {
             orbMatches.scrollToPosition(orbMatchList.size() - 1);
             emptyText.setVisibility(View.INVISIBLE);
             additionalComboValue.setText("" + (orbMatchList.size() + additionalCombos));
+            if (noDrop) {
+                maximumOrbs -= orbsLinked.getSelectedItemPosition() + minimumMatch;
+                updateSpinners();
+            }
 //         if(ignoreEnemyCheckBox.isChecked()){
 //            calculateButton.setEnabled(true);
 //         }
@@ -419,6 +433,15 @@ public class OrbMatchFragment extends Fragment {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
+            if (noDrop) {
+                maximumOrbs += orbMatchList.get(position).getOrbsLinked();
+                if (!addMatch.isEnabled()) {
+                    addMatch.setEnabled(true);
+                    orbsLinked.setEnabled(true);
+                    orbsPlus.setEnabled(true);
+                }
+                updateSpinners();
+            }
             orbMatchList.remove(position);
             orbMatchRecycler.notifyDataSetChanged();
             if (orbMatchList.size() == 0) {
@@ -504,7 +527,7 @@ public class OrbMatchFragment extends Fragment {
 //                hideKeyboard(v);
                 if ((additionalComboValue.getText().toString().equals(""))) {
                     additionalComboValue.setText("" + orbMatchList.size());
-                } else if(Integer.valueOf(additionalComboValue.getText().toString()) < orbMatchList.size()) {
+                } else if (Integer.valueOf(additionalComboValue.getText().toString()) < orbMatchList.size()) {
                     additionalComboValue.setText("" + orbMatchList.size());
                 }
             }
@@ -515,20 +538,26 @@ public class OrbMatchFragment extends Fragment {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            if ((orbMatchList.get(position).getOrbsLinked() - minimumMatch) > orbsLinkedItems.size()) {
-                boardSize.setSelection(boardSize.getSelectedItemPosition() + 1);
-                Singleton.getInstance().setBoardSize(boardSize.getSelectedItemPosition());
-            } else {
+            if(orbsLinked.isEnabled()){
+
                 orbsLinked.setSelection(orbMatchList.get(position).getOrbsLinked() - minimumMatch);
             }
-            if (orbMatchList.get(position).getNumOrbPlus() > orbsPlusItems.size() - 1) {
-                orbsPlusItems.clear();
-                for (int i = 0; i <= orbsLinkedItems.size() + minimumMatch; i++) {
-                    orbsPlusItems.add("" + i);
+//            if ((orbMatchList.get(position).getOrbsLinked() - minimumMatch) > orbsLinkedItems.size()) {
+//                boardSize.setSelection(boardSize.getSelectedItemPosition() + 1);
+//                Singleton.getInstance().setBoardSize(boardSize.getSelectedItemPosition());
+//            } else {
+//            orbsLinked.setSelection(orbMatchList.get(position).getOrbsLinked() - minimumMatch);
+//            }
+            if(orbsPlus.isEnabled()){
+                if (orbMatchList.get(position).getNumOrbPlus() > orbsPlusItems.size() - 1) {
+                    orbsPlusItems.clear();
+                    for (int i = 0; i <= orbsLinkedItems.size() + minimumMatch; i++) {
+                        orbsPlusItems.add("" + i);
+                    }
+                    orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
+                } else {
+                    orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
                 }
-                orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
-            } else {
-                orbsPlus.setSelection(orbMatchList.get(position).getNumOrbPlus());
             }
             rowCheckBox.setChecked(orbMatchList.get(position).isRow());
             crossCheckBox.setChecked(orbMatchList.get(position).isCross());
@@ -688,6 +717,48 @@ public class OrbMatchFragment extends Fragment {
         } else {
             emptyText.setVisibility(View.VISIBLE);
         }
+
+        switch (Singleton.getInstance().getBoardSize()) {
+            case 0:
+                maximumOrbs = 20;
+                break;
+            case 1:
+                maximumOrbs = 30;
+                break;
+            case 2:
+                maximumOrbs = 42;
+                break;
+        }
+
+        if (team.getTeamBadge() == 13 || noDropLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getValue()) || noDropLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getValue())) {
+            noDrop = true;
+        }
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
+        if (noDrop && preferences.getBoolean("showNoDropDisclaimer", true)) {
+            disclaimerDialog = NoDropDialogFragment.newInstance(new NoDropDialogFragment.Preferences() {
+                @Override
+                public void setShowAgain(boolean showAgain) {
+                    if (!showAgain) {
+                        preferences.edit().putBoolean("showNoDropDisclaimer", true).apply();
+                    } else {
+                        preferences.edit().putBoolean("showNoDropDisclaimer", false).apply();
+                    }
+                }
+            });
+            disclaimerDialog.show(getChildFragmentManager(), "Show Disclaimer");
+        }
+
+        if(noDrop){
+            for (int i = 0; i < orbMatchList.size(); i++) {
+                if (maximumOrbs - orbMatchList.get(i).getOrbsLinked() >= 0) {
+                    maximumOrbs -= orbMatchList.get(i).getOrbsLinked();
+                } else {
+                    orbMatchList.remove(i);
+                }
+            }
+        }
+
         orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchOnClickListener, removeMatchOnClickListener);
         orbMatches.setAdapter(orbMatchRecycler);
         orbMatches.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -700,29 +771,17 @@ public class OrbMatchFragment extends Fragment {
 
         orbRadioGroup.setOnCheckedChangeListener(orbRadioGroupOnCheckChangeListener);
 
-        orbsLinkedItems = new ArrayList<String>();
+        orbsLinkedItems = new ArrayList<>();
         orbsPlusItems = new ArrayList<>();
 
-        int maxOrbs = 30;
-        switch (Singleton.getInstance().getBoardSize()) {
-            case 0:
-                maxOrbs = 20;
-                break;
-            case 1:
-                maxOrbs = 30;
-                break;
-            case 2:
-                maxOrbs = 42;
-                break;
-        }
+        updateSpinners();
 
-        for (int i = minimumMatch; i <= maxOrbs; i++) {
-            orbsLinkedItems.add("" + i);
+        if (maximumOrbs < minimumMatch) {
+                orbsLinkedItems.add("" + minimumMatch);
+            for (int i = 0; i <= minimumMatch; i++) {
+                orbsPlusItems.add("" + i);
+            }
         }
-        for (int i = 0; i <= minimumMatch; i++) {
-            orbsPlusItems.add("" + i);
-        }
-
 
         boardSizeItems = new ArrayList<>();
         boardSizeItems.add("5x4");
@@ -799,6 +858,32 @@ public class OrbMatchFragment extends Fragment {
         if (orbMatchList.size() != 0) {
             team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
         }
+    }
+
+    private void updateSpinners() {
+        if (maximumOrbs < minimumMatch) {
+            orbsLinked.setEnabled(false);
+            orbsPlus.setEnabled(false);
+            addMatch.setEnabled(false);
+        } else {
+            if (orbsLinked.getSelectedItemPosition() > (maximumOrbs - minimumMatch)) {
+                orbsLinked.setSelection(maximumOrbs - minimumMatch);
+            }
+            if (orbsPlus.getSelectedItemPosition() > maximumOrbs) {
+                orbsPlus.setSelection(maximumOrbs);
+            }
+
+            orbsLinkedItems.clear();
+            orbsPlusItems.clear();
+
+            for (int i = minimumMatch; i <= maximumOrbs; i++) {
+                orbsLinkedItems.add("" + i);
+            }
+            for (int i = 0; i < orbsLinked.getSelectedItemPosition() + minimumMatch + 1; i++) {
+                orbsPlusItems.add("" + i);
+            }
+        }
+
     }
 
 }
