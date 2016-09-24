@@ -10,6 +10,7 @@
 "max_cooldown":18,
 "name":"\u304c\u3042\u3063!!!!!"
 },
+
 {
 "tags":["Board Change"],
 "convertsTo":[2,3,4,5],
@@ -18,6 +19,7 @@
 "max_cooldown":16,
 "name":"\u30b9\u30de\u30a4\u30eb"
 },
+
 {
 "tags":["Damage Reduction"],
 "effectTurns":1,
@@ -26,6 +28,7 @@
 "max_cooldown":25,
 "name":"\u30d0\u30ea\u30a2\u30fc"
 },
+
 {
 "tags":["Gravity"],
 "effectData":25,
@@ -34,6 +37,7 @@
 "max_cooldown":25,
 "name":"\u30c7\u30b9\u30dc\u30fc\u30eb"
 },
+
 {
 "tags":["Haste", "Bind Clear"],
 "effectData":1,
@@ -41,8 +45,9 @@
 "min_cooldown":8,
 "effect":"Full bind recovery. Reduces cooldown of other skills by 1 turn.",
 "max_cooldown":13,
-"name":"\u30b1\uff5e\uff5e\uff5e\u30f3\uff01"
+"name":"Keeeeeeen!"
 },
+
 {
 "tags":["Orb Change"],
 "convertsFrom":[6,7],
@@ -52,6 +57,7 @@
 "max_cooldown":9,
 "name":"\u30cd\u30ed\u30d5\u30a7\u30a4\u30b9"
 },
+
 {
 "tags":["Board Shuffle"],
 "min_cooldown":6,
@@ -59,6 +65,7 @@
 "max_cooldown":11,
 "name":"\u30de\u30c3\u30cf\u30ad\u30c3\u30af"
 },
+
 {
 "tags":["Bind Clear", "Damage Nuke", "Life Steal"],
 "effectData":5,
@@ -66,8 +73,9 @@
 "min_cooldown":9,
 "effect":"Inflict Light damage equal to ATK x50 to 1 enemy, and drain 15% of the damage you dealt. Affected by enemy element and defense. Bind recovery for 5 turns.",
 "max_cooldown":13,
-"name":"\u30b0\u30f3\u30b0\u30cb\u30fc\u30eb\uff38"
+"name":"Gungnir X"
 },
+
 {
 "tags":["Change the World"],
 "effectData":5,
@@ -76,6 +84,7 @@
 "max_cooldown":17,
 "name":"\u30b5\u30a4\u30b3\u30ad\u30cd\u30b7\u30b9"
 },
+
 {
 "tags":["Board Change"],
 "convertsTo":[1,2,3,5],
@@ -84,6 +93,7 @@
 "max_cooldown":16,
 "name":"\u30b5\u30f3\u30c0\u30fc\u30af\u30ed\u30a6"
 },
+
 {
 "tags":["Damage Nuke", "Board Change"],
 "effectData":30,
@@ -93,6 +103,7 @@
 "max_cooldown":15,
 "name":"\u30d1\u30ef\u30fc\u30d6\u30ea\u30c3\u30c4"
 },
+
 {
 "tags":["Gravity", "Flat Heal"],
 "effectData":30,
@@ -102,6 +113,7 @@
 "max_cooldown":24,
 "name":"\u30d2\u30ec\u30d5\u30bb\u30fc\u30c3\uff01"
 },
+
 {
 "tags":["Damage Nuke"],
 "effectData":50,
@@ -110,6 +122,7 @@
 "max_cooldown":20,
 "name":"\u30d6\u30ec\u30a4\u30ba\u30d6\u30ec\u30b9"
 },
+
 {
 "tags":["Damage Nuke", "Orb Enhance"],
 "effectData":30,
@@ -119,6 +132,7 @@
 "max_cooldown":11,
 "name":"\u30ed\u30b1\u30c3\u30c8\u30d1\u30f3\u30c1"
 },
+
 {
 "tags":["Damage Boost", "Damage Nuke"],
 "atkData":1.5,
@@ -130,6 +144,7 @@
 "max_cooldown":11,
 "name":"\u30a2\u30a4\u3001\u30a2\u30a4\u30b5\u30fc\uff01"
 },
+
 {
 "tags":["Damage Nuke"],
 "effectData":250,
@@ -138,6 +153,7 @@
 "max_cooldown":24,
 "name":"\u30a8\u30cd\u30eb\u30ae\u30fc\u30dc\u30fc\u30eb"
 },
+
 {
 "tags":["Damage Nuke"],
 "effectData":80,
@@ -146,6 +162,7 @@
 "max_cooldown":29,
 "name":"\u30b9\u30ca\u30a4\u30d7\u30b7\u30e7\u30c3\u30c8"
 },
+
 {
 "tags":["Damage Boost", "Multi-Target"],
 "atkData":1.2,
@@ -157,6 +174,7 @@
 "max_cooldown":15,
 "name":"\u30c7\u30fc\u30e2\u30f3\u30fb\u30c0\u30f3\u30b9"
 },
+
 {
 "tags":["Orb Change Random"],
 "convertsFrom":[0,1,2,3,4,5,6,7,8],
@@ -167,6 +185,7 @@
 "max_cooldown":15,
 "name":"\u30c9\u30e9\u30b4\u30f3\u30ec\u30fc\u30c0\u30fc"
 },
+
 {
 "tags":["Add Combo", "Extend Time"],
 "effectData":2,
@@ -178,6 +197,7 @@
 "max_cooldown":27,
 "name":"\u30de\u30b8\u30c3\u30af\u30c1\u30a7\u30a4\u30f3"
 },
+
 {
 "tags":["Orb Change", "Damage Nuke"],
 "convertsFrom":[6],
@@ -188,6 +208,7 @@
 "max_cooldown":17,
 "name":"\u30df\u30eb\u30ad\u30fc\u30ad\u30e3\u30ce\u30f3"
 },
+
 {
 "tags":["Defense Break", "Damage Nuke"],
 "effectData":25,
@@ -198,6 +219,7 @@
 "max_cooldown":15,
 "name":"\u30af\u30e9\u30c3\u30b7\u30e3\u30fc\u30dc\u30fc\u30eb"
 },
+
 {
 "tags":["Haste", "Board Change"],
 "effectData":2,
@@ -205,8 +227,9 @@
 "min_cooldown":13,
 "effect":"Change all orbs to Fire, Water & Dark & Heart orbs. Reduces cooldown of other skills by 2 turns.",
 "max_cooldown":17,
-"name":"\u30b5\u30f3\u30bb\u30c3\u30c8\u30be\u30fc\u30f3\uff38"
+"name":"Sunset Zone X"
 },
+
 {
 "tags":["Delay", "Damage Nuke"],
 "effectData":2,
@@ -216,6 +239,7 @@
 "max_cooldown":14,
 "name":"\u30c0\u30a4\u30ca\u30de\u30a4\u30c8\u30ad\u30c3\u30af"
 },
+
 {
 "tags":["Damage Boost", "Haste"],
 "atkType":[4],
@@ -227,16 +251,18 @@
 "max_cooldown":13,
 "name":"\u30c9\u30e9\u30b4\u30f3\u30fb\u30b5\u30dd\u30fc\u30c8"
 },
+
 {
 "tags":["Bind Clear", "Recovery Boost"],
 "effectData":2,
 "rcvData":2,
 "effect2Turns":2,
-"min_cooldown":7,
+"min_cooldown":6,
 "effect":"All attribute cards RCV x2 for 2 turns. Bind recovery for 2 turns.",
-"max_cooldown":7,
-"name":"\u30d0\u30fc\u30e2\u3001\u30a2\u30df\u30fc\u30b4\uff01"
+"max_cooldown":6,
+"name":"Vamos, Amigo!"
 },
+
 {
 "tags":["Damage Boost", "Extend Time"],
 "atkData":1.5,
@@ -249,6 +275,7 @@
 "max_cooldown":14,
 "name":"\u30d1\u30ba\u30eb\uff06\u30c7\u30fc\u30e2\u30f3\u30ba"
 },
+
 {
 "tags":["Damage Boost", "Haste"],
 "atkData":2,
@@ -260,6 +287,7 @@
 "max_cooldown":17,
 "name":"\u30b9\u30da\u30eb\u30fb\u30b7\u30e5\u30c8\u30ed\u30fc\u30e0"
 },
+
 {
 "tags":["Orb Convert", "Damage Nuke"],
 "convertsFrom":[0],
@@ -270,6 +298,7 @@
 "max_cooldown":14,
 "name":"\u30d5\u30a1\u30a4\u30ca\u30eb\u30d5\u30e9\u30c3\u30b7\u30e5"
 },
+
 {
 "tags":["Orb Change Random", "Haste"],
 "convertsFrom":[1,2,3,4,6,7,8],
@@ -278,8 +307,9 @@
 "min_cooldown":7,
 "effect":"Randomly spawn 3 Fire & Heart orbs from non Fire & Heart orbs. Reduces cooldown of other skills by 1 turn.",
 "max_cooldown":12,
-"name":"\u30e1\u30eb\u30c6\u30a3\u30f3\u30b0\u30de\u30b9\u30af\u30b9"
+"name":"Melting Masks"
 },
+
 {
 "tags":["Damage Boost", "Damage Nuke"],
 "atkType":[4],
@@ -291,6 +321,7 @@
 "max_cooldown":20,
 "name":"\u30ea\u30af\u30fc\u30e0\u2026\u30a6\u30eb\u30c8\u30e9\u2026"
 },
+
 {
 "tags":["Orb Change"],
 "convertsFrom":[0,2],
@@ -298,8 +329,9 @@
 "min_cooldown":8,
 "effect":"Change Fire & Wood orbs to Water orbs.",
 "max_cooldown":13,
-"name":"\u30a6\u30a9\u30fc\u30bf\u30ea\u30f3\u30b0\u30b8\u30a7\u30a4\u30eb"
+"name":"Water Ring Jail"
 },
+
 {
 "tags":["Orb Change Column", "Counter"],
 "convertsTo":[3,4],
@@ -311,6 +343,7 @@
 "max_cooldown":13,
 "name":"\u30aa\u30fc\u30d0\u30fc\u30ea\u30d5\u30ec\u30af\u30b7\u30e7\u30f3"
 },
+
 {
 "tags":["Orb Change Random", "Haste"],
 "convertsFrom":[0,1,2,4,5,6,7,8],
@@ -320,8 +353,9 @@
 "min_cooldown":7,
 "effect":"Randomly spawn 3 Light & Heart orbs from non Light & Heart orbs. Reduces cooldown of other skills by 1 turn.",
 "max_cooldown":12,
-"name":"\u30b9\u30d1\u30fc\u30af\u30ea\u30f3\u30b0\u30ea\u30c3\u30d7\u30b9"
+"name":"Sparkling Lips"
 },
+
 {
 "tags":["Orb Change Row", "Add Combo"],
 "convertsTo":[2],
@@ -333,6 +367,7 @@
 "max_cooldown":14,
 "name":"\u3053\u308c\u3067\u30b8\u30fb\u30a8\u30f3\u30c9\u3060\u30fc\u3063!!"
 },
+
 {
 "tags":["Skillfall", "Haste"],
 "effectData":15,
@@ -344,6 +379,7 @@
 "max_cooldown":12,
 "name":"\u3042\u304f\u306f\u3086\u308b\u3055\u306a\u3044\u305f\u307e\u3063\uff01"
 },
+
 {
 "tags":["Enhance Orbs","Haste"],
 "enhances":[2,3,5],
@@ -351,15 +387,17 @@
 "min_cooldown":7,
 "effect":"Enhance Wood, Light & Heart orbs. +6% per orb. Reduces cooldown of other skills by 1 turn.",
 "max_cooldown":22,
-"name":"\u30c1\u30e3\u30fc\u30b8\u30fb\u30aa\u30d6\u30fb\u30a2\u30a4\u30ae\u30b9"
+"name":"Charge of Aegis"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
 "effect":"35% damage reduction for 1 turn.",
 "max_cooldown":4,
-"name":"\u30da\u30c3\u30fb\u30da\u30c3\u30fb\u30da\u30c3\u30fb\u30d1\u30fc\uff01"
+"name":"Pe, pe, pe, pper!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -367,6 +405,7 @@
 "max_cooldown":12,
 "name":"\u30dc\u30eb\u30b7\u30e3\u30c3\u30af\u30fb\u30d5\u30a1\u30a4\u30a2\u30fc"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -374,6 +413,7 @@
 "max_cooldown":17,
 "name":"\u304a\u3068\u306a\u3057\u304f\u3068\u3069\u3081\u3092\u3055\u3055\u308c\u306a"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -381,6 +421,7 @@
 "max_cooldown":12,
 "name":"\u3078\u306e\u3064\u3063\u3071\u308a\u306f\u3044\u3089\u3093\u3067\u3059\u3088"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -388,6 +429,7 @@
 "max_cooldown":6,
 "name":"1,000 Day Anniversary TAMA!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -395,6 +437,7 @@
 "max_cooldown":12,
 "name":"100 Victories in 100 Battles"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -402,6 +445,7 @@
 "max_cooldown":14,
 "name":"A Break in the Clouds"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -409,6 +453,7 @@
 "max_cooldown":12,
 "name":"Abyssal Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -416,6 +461,7 @@
 "max_cooldown":16,
 "name":"Abyssal Stroke"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -423,6 +469,7 @@
 "max_cooldown":15,
 "name":"Abyss Dark Ring"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -430,6 +477,7 @@
 "max_cooldown":15,
 "name":"Aero Wake - Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -437,6 +485,7 @@
 "max_cooldown":17,
 "name":"Alchemical Forging"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -444,6 +493,7 @@
 "max_cooldown":19,
 "name":"Alexandrite of Calmness"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -451,6 +501,7 @@
 "max_cooldown":14,
 "name":"All Orbs Charge"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -458,6 +509,7 @@
 "max_cooldown":12,
 "name":"All right, understood!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -465,6 +517,7 @@
 "max_cooldown":18,
 "name":"Amanotamuzake"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -472,6 +525,7 @@
 "max_cooldown":9,
 "name":"Ancient Chain Vine"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -479,6 +533,7 @@
 "max_cooldown":11,
 "name":"Angel"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -486,6 +541,7 @@
 "max_cooldown":26,
 "name":"Another Dimension"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -493,6 +549,7 @@
 "max_cooldown":10,
 "name":"Apple Power!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -500,6 +557,7 @@
 "max_cooldown":15,
 "name":"APTX4869"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -507,6 +565,7 @@
 "max_cooldown":13,
 "name":"Aqua Charge"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -514,6 +573,7 @@
 "max_cooldown":11,
 "name":"Aqua Leaf Prism"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -521,6 +581,7 @@
 "max_cooldown":20,
 "name":"Aqua Seed Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -528,6 +589,7 @@
 "max_cooldown":9,
 "name":"Aqua Spell"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -535,6 +597,7 @@
 "max_cooldown":12,
 "name":"Arctic Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -542,6 +605,7 @@
 "max_cooldown":12,
 "name":"Are you ok!?"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -549,6 +613,7 @@
 "max_cooldown":16,
 "name":"Are you ready?"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -556,6 +621,7 @@
 "max_cooldown":17,
 "name":"Armor Break"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -563,6 +629,7 @@
 "max_cooldown":17,
 "name":"Armor Chink nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -570,6 +637,7 @@
 "max_cooldown":15,
 "name":"Armourer Queen"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -577,6 +645,7 @@
 "max_cooldown":18,
 "name":"As an Abomination"
 },
+
 {
 "tags":[],
 "min_cooldown":22,
@@ -584,6 +653,7 @@
 "max_cooldown":27,
 "name":"Astral Blast"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -591,6 +661,7 @@
 "max_cooldown":16,
 "name":"Astray Mist"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -598,6 +669,7 @@
 "max_cooldown":12,
 "name":"Astrocharge - Aqua"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -605,6 +677,7 @@
 "max_cooldown":12,
 "name":"Astrocharge - Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -612,6 +685,7 @@
 "max_cooldown":12,
 "name":"Astrocharge - Flare"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -619,6 +693,7 @@
 "max_cooldown":12,
 "name":"Astrocharge - Land"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -626,6 +701,7 @@
 "max_cooldown":12,
 "name":"Astrocharge - Light"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -633,6 +709,7 @@
 "max_cooldown":17,
 "name":"Attack Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -640,6 +717,7 @@
 "max_cooldown":11,
 "name":"Attack Stance - Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -647,6 +725,7 @@
 "max_cooldown":11,
 "name":"Attack Stance - Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -654,6 +733,7 @@
 "max_cooldown":11,
 "name":"Attack Stance - Light"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -661,6 +741,7 @@
 "max_cooldown":11,
 "name":"Attack Stance - Water"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -668,6 +749,7 @@
 "max_cooldown":11,
 "name":"Attack Stance - Wood"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -675,6 +757,7 @@
 "max_cooldown":19,
 "name":"Aubade Gaia"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -682,6 +765,7 @@
 "max_cooldown":18,
 "name":"Azure Sea Dragon Broadside"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -689,6 +773,7 @@
 "max_cooldown":20,
 "name":"Bad Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -696,6 +781,7 @@
 "max_cooldown":17,
 "name":"Balanced Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -703,6 +789,7 @@
 "max_cooldown":13,
 "name":"Batarang Blitz"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -710,6 +797,7 @@
 "max_cooldown":14,
 "name":"Batwing"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -717,6 +805,7 @@
 "max_cooldown":11,
 "name":"BEAMS Beam"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -724,6 +813,7 @@
 "max_cooldown":11,
 "name":"BEAMS DeviBeam"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -731,6 +821,7 @@
 "max_cooldown":12,
 "name":"Beast Spear"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -738,6 +829,7 @@
 "max_cooldown":9,
 "name":"Beautiful World"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -745,6 +837,7 @@
 "max_cooldown":11,
 "name":"Be my friend."
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -752,6 +845,7 @@
 "max_cooldown":12,
 "name":"Berserk"
 },
+
 {
 "tags":[],
 "min_cooldown":20,
@@ -759,6 +853,7 @@
 "max_cooldown":30,
 "name":"Big Bang"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -766,6 +861,7 @@
 "max_cooldown":6,
 "name":"Birdarangs"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -773,6 +869,7 @@
 "max_cooldown":21,
 "name":"Black Ruin"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -780,6 +877,7 @@
 "max_cooldown":20,
 "name":"Blast Cannon"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -787,6 +885,7 @@
 "max_cooldown":12,
 "name":"Blast Signal"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -794,6 +893,7 @@
 "max_cooldown":9,
 "name":"Blaze Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -801,6 +901,7 @@
 "max_cooldown":23,
 "name":"Blaze Charge"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -808,6 +909,7 @@
 "max_cooldown":20,
 "name":"Blazing Field"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -815,6 +917,7 @@
 "max_cooldown":15,
 "name":"Blazing Storm Barricade"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -822,6 +925,7 @@
 "max_cooldown":23,
 "name":"Blessed Blade of the Hero"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -829,6 +933,7 @@
 "max_cooldown":13,
 "name":"Blizzaga"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -836,6 +941,7 @@
 "max_cooldown":15,
 "name":"Blizzard Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -843,6 +949,7 @@
 "max_cooldown":29,
 "name":"Blizzard Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -850,6 +957,7 @@
 "max_cooldown":20,
 "name":"Blizzard Cannon"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -857,6 +965,7 @@
 "max_cooldown":12,
 "name":"Blizzard Signal"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -864,6 +973,7 @@
 "max_cooldown":15,
 "name":"Blood Howl"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -871,6 +981,7 @@
 "max_cooldown":14,
 "name":"Blowing Gravity"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -878,6 +989,7 @@
 "max_cooldown":13,
 "name":"Blueberry Shower"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -885,6 +997,7 @@
 "max_cooldown":15,
 "name":"Blue Crest"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -892,6 +1005,7 @@
 "max_cooldown":12,
 "name":"Blue Season"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -899,6 +1013,7 @@
 "max_cooldown":15,
 "name":"Boisterous Dance"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -906,6 +1021,7 @@
 "max_cooldown":30,
 "name":"Bomb"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -913,6 +1029,7 @@
 "max_cooldown":12,
 "name":"Boost"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -920,6 +1037,7 @@
 "max_cooldown":16,
 "name":"Break Time"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -927,6 +1045,7 @@
 "max_cooldown":11,
 "name":"Breath of Creation"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -934,6 +1053,7 @@
 "max_cooldown":15,
 "name":"Breath of the Demon God"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -941,6 +1061,7 @@
 "max_cooldown":20,
 "name":"Bring it On!!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -948,6 +1069,7 @@
 "max_cooldown":12,
 "name":"Broken Arrow"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -955,6 +1077,7 @@
 "max_cooldown":20,
 "name":"Browning Shift"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -962,6 +1085,7 @@
 "max_cooldown":13,
 "name":"Bumper Crop Prayer"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -969,6 +1093,7 @@
 "max_cooldown":16,
 "name":"Burning Shift"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -976,6 +1101,7 @@
 "max_cooldown":20,
 "name":"Burst Bomb"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -983,6 +1109,7 @@
 "max_cooldown":25,
 "name":"Butcher Knife"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -990,6 +1117,7 @@
 "max_cooldown":13,
 "name":"Byakko Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -997,6 +1125,7 @@
 "max_cooldown":11,
 "name":"By the honor of the Quincy..."
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1004,6 +1133,7 @@
 "max_cooldown":9,
 "name":"Calming Mountain Wind"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1011,6 +1141,7 @@
 "max_cooldown":14,
 "name":"Carving One's Own Path"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1018,6 +1149,7 @@
 "max_cooldown":12,
 "name":"Celestial Eye of Wadjet X"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -1025,6 +1157,7 @@
 "max_cooldown":9,
 "name":"Celestial Sign"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1032,6 +1165,7 @@
 "max_cooldown":21,
 "name":"Chameleon Blast"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -1039,6 +1173,7 @@
 "max_cooldown":20,
 "name":"Change the World"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1046,6 +1181,7 @@
 "max_cooldown":25,
 "name":"Chaos Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1053,6 +1189,7 @@
 "max_cooldown":20,
 "name":"Chaos Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1060,6 +1197,7 @@
 "max_cooldown":14,
 "name":"Chaotic Call"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1067,6 +1205,7 @@
 "max_cooldown":15,
 "name":"Charge!!"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -1074,6 +1213,7 @@
 "max_cooldown":31,
 "name":"Charge Gravity-G"
 },
+
 {
 "tags":[],
 "min_cooldown":21,
@@ -1081,6 +1221,7 @@
 "max_cooldown":36,
 "name":"Charge Gravity-H"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1088,6 +1229,7 @@
 "max_cooldown":11,
 "name":"Cheering nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1095,6 +1237,7 @@
 "max_cooldown":15,
 "name":"Choco Attack"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1102,6 +1245,7 @@
 "max_cooldown":15,
 "name":"Choco Cure"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1109,6 +1253,7 @@
 "max_cooldown":8,
 "name":"Choco Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1116,6 +1261,7 @@
 "max_cooldown":10,
 "name":"Choco Meteor"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -1123,6 +1269,7 @@
 "max_cooldown":16,
 "name":"Choose whatever you'll regret the least"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1130,6 +1277,7 @@
 "max_cooldown":15,
 "name":"Clear Water Star Astrology"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1137,6 +1285,7 @@
 "max_cooldown":10,
 "name":"Cold Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1144,6 +1293,7 @@
 "max_cooldown":10,
 "name":"Cold Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1151,6 +1301,7 @@
 "max_cooldown":15,
 "name":"Cold Wave"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1158,6 +1309,7 @@
 "max_cooldown":15,
 "name":"Conan Edogawa... Detective..."
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1165,6 +1317,7 @@
 "max_cooldown":13,
 "name":"Confusing Strategy"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -1172,6 +1325,7 @@
 "max_cooldown":17,
 "name":"Corona Blast"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -1179,6 +1333,7 @@
 "max_cooldown":28,
 "name":"Create Routine"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1186,6 +1341,7 @@
 "max_cooldown":30,
 "name":"Crimson Bomb"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1193,6 +1349,7 @@
 "max_cooldown":13,
 "name":"Crimson Cross Spear"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1200,6 +1357,7 @@
 "max_cooldown":18,
 "name":"Crimson Sea Dragon Broadside"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1207,6 +1365,7 @@
 "max_cooldown":12,
 "name":"Crimson Season"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1214,6 +1373,7 @@
 "max_cooldown":20,
 "name":"Critical Rejection"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1221,6 +1381,7 @@
 "max_cooldown":20,
 "name":"Cure"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -1228,6 +1389,7 @@
 "max_cooldown":9,
 "name":"Curse Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -1235,6 +1397,7 @@
 "max_cooldown":10,
 "name":"Curse Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1242,6 +1405,7 @@
 "max_cooldown":18,
 "name":"Curse of the Darkness"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1249,6 +1413,7 @@
 "max_cooldown":17,
 "name":"Curse of the Flame"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1256,6 +1421,7 @@
 "max_cooldown":17,
 "name":"Curse of the Ice"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1263,6 +1429,7 @@
 "max_cooldown":18,
 "name":"Curse of the Lightning"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1270,6 +1437,7 @@
 "max_cooldown":17,
 "name":"Curse of the Tree"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -1277,6 +1445,7 @@
 "max_cooldown":16,
 "name":"Dance of the Great Tengu"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1284,6 +1453,7 @@
 "max_cooldown":10,
 "name":"Dark Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -1291,6 +1461,7 @@
 "max_cooldown":22,
 "name":"Dark Blaster"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1298,6 +1469,7 @@
 "max_cooldown":10,
 "name":"Dark Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1305,6 +1477,7 @@
 "max_cooldown":17,
 "name":"Dark Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -1312,6 +1485,7 @@
 "max_cooldown":13,
 "name":"Dark Gift"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1319,6 +1493,7 @@
 "max_cooldown":13,
 "name":"Dark&Light Orbs Change"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1326,6 +1501,7 @@
 "max_cooldown":16,
 "name":"Darkness Mode"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1333,6 +1509,7 @@
 "max_cooldown":9,
 "name":"Dark Orb Change"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1340,6 +1517,7 @@
 "max_cooldown":20,
 "name":"Dark Seed Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1347,6 +1525,7 @@
 "max_cooldown":9,
 "name":"Dark Spell"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1354,6 +1533,7 @@
 "max_cooldown":15,
 "name":"Dark Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1361,6 +1541,7 @@
 "max_cooldown":17,
 "name":"Dark Terror Mist"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1368,6 +1549,7 @@
 "max_cooldown":14,
 "name":"Daydream Flame Attack"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1375,6 +1557,7 @@
 "max_cooldown":15,
 "name":"Deadly Drive"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1382,6 +1565,7 @@
 "max_cooldown":15,
 "name":"Deadrise"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1389,6 +1573,7 @@
 "max_cooldown":22,
 "name":"Deathgazer"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1396,6 +1581,7 @@
 "max_cooldown":15,
 "name":"Dedicate your heart!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1403,6 +1589,7 @@
 "max_cooldown":20,
 "name":"Deep Shadow Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1410,6 +1597,7 @@
 "max_cooldown":11,
 "name":"Deep Spiral"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1417,6 +1605,7 @@
 "max_cooldown":20,
 "name":"Defensive Stance"
 },
+
 {
 "tags":[],
 "min_cooldown":2,
@@ -1424,6 +1613,7 @@
 "max_cooldown":6,
 "name":"Demon Slash"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1431,6 +1621,7 @@
 "max_cooldown":15,
 "name":"Demon Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1438,6 +1629,7 @@
 "max_cooldown":14,
 "name":"Demon-Vanquishing Hymn"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1445,6 +1637,7 @@
 "max_cooldown":20,
 "name":"Destroying Lance, Gungnir"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1452,6 +1645,7 @@
 "max_cooldown":13,
 "name":"Devastating Third Eye"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1459,6 +1653,7 @@
 "max_cooldown":19,
 "name":"Devastating Wink!"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -1466,13 +1661,15 @@
 "max_cooldown":17,
 "name":"Devilish Enhancement"
 },
+
 {
 "tags":[],
-"min_cooldown":8,
+"min_cooldown":6,
 "effect":"Inflict Dark damage equal to ATK x50 to 1 enemy, and drain 15% of the damage you dealt. Affected by enemy element and defense. Enhance Water & Dark orbs. +6% per orb, up to +180% for full board.",
 "max_cooldown":17,
 "name":"Diabolic Lance, Gungnir"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1480,6 +1677,7 @@
 "max_cooldown":14,
 "name":"Diamond Dust"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -1487,6 +1685,7 @@
 "max_cooldown":19,
 "name":"Diamond of Fortitude"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1494,6 +1693,7 @@
 "max_cooldown":12,
 "name":"Dimension Dance - Purple Sky"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1501,6 +1701,7 @@
 "max_cooldown":12,
 "name":"Dimension Formation - Blue Life"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1508,6 +1709,7 @@
 "max_cooldown":12,
 "name":"Dimension Formation - Green Life"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1515,6 +1717,7 @@
 "max_cooldown":12,
 "name":"Dimension Formation - Scarlet Sun"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1522,6 +1725,7 @@
 "max_cooldown":15,
 "name":"Dimension Song - Holy Fang"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1529,6 +1733,7 @@
 "max_cooldown":10,
 "name":"Dispelling Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":2,
@@ -1536,6 +1741,7 @@
 "max_cooldown":6,
 "name":"Divine Flame of the Beauty"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1543,6 +1749,7 @@
 "max_cooldown":12,
 "name":"Divine Illumination"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1550,6 +1757,7 @@
 "max_cooldown":13,
 "name":"Divine Instrument Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1557,6 +1765,7 @@
 "max_cooldown":15,
 "name":"Divine Wind of Creation Flame"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1564,6 +1773,7 @@
 "max_cooldown":30,
 "name":"Don! Dokodon!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1571,6 +1781,7 @@
 "max_cooldown":12,
 "name":"Don't come any closer!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1578,6 +1789,7 @@
 "max_cooldown":14,
 "name":"Don't lay your hands on him!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1585,6 +1797,7 @@
 "max_cooldown":15,
 "name":"Don't talk down to me!!"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -1592,6 +1805,7 @@
 "max_cooldown":14,
 "name":"Don't underestimate me!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1599,6 +1813,7 @@
 "max_cooldown":16,
 "name":"Double Attack Stance-Dk"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1606,6 +1821,7 @@
 "max_cooldown":16,
 "name":"Double Attack Stance-Fr"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1613,6 +1829,7 @@
 "max_cooldown":16,
 "name":"Double Attack Stance-Lt"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1620,6 +1837,7 @@
 "max_cooldown":16,
 "name":"Double Attack Stance-Wd"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1627,6 +1845,7 @@
 "max_cooldown":16,
 "name":"Double Attack Stance-Wt"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1634,6 +1853,7 @@
 "max_cooldown":12,
 "name":"Double Dark Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1641,6 +1861,7 @@
 "max_cooldown":12,
 "name":"Double Fire Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1648,6 +1869,7 @@
 "max_cooldown":12,
 "name":"Double Light Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1655,6 +1877,7 @@
 "max_cooldown":12,
 "name":"Double Water Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1662,6 +1885,7 @@
 "max_cooldown":12,
 "name":"Double Wood Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -1669,6 +1893,7 @@
 "max_cooldown":19,
 "name":"Draco Summoning Circle-Fr & Dk"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -1676,6 +1901,7 @@
 "max_cooldown":19,
 "name":"Draco Summoning Circle-Wd & Dk"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -1683,6 +1909,7 @@
 "max_cooldown":19,
 "name":"Draco Summoning Circle-Wt & Dk"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -1690,6 +1917,7 @@
 "max_cooldown":17,
 "name":"Draggie Enhance"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -1697,6 +1925,7 @@
 "max_cooldown":21,
 "name":"Dragon Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1704,6 +1933,7 @@
 "max_cooldown":18,
 "name":"Dragon Heart Sutra"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1711,6 +1941,7 @@
 "max_cooldown":20,
 "name":"Dragon Strength Spellflame"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1718,6 +1949,7 @@
 "max_cooldown":11,
 "name":"Dragon Strike Stance - Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1725,6 +1957,7 @@
 "max_cooldown":11,
 "name":"Dragon Strike Stance - Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1732,6 +1965,7 @@
 "max_cooldown":11,
 "name":"Dragon Strike Stance - Light"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1739,6 +1973,7 @@
 "max_cooldown":11,
 "name":"Dragon Strike Stance - Water"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -1746,6 +1981,7 @@
 "max_cooldown":11,
 "name":"Dragon Strike Stance - Wood"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1753,6 +1989,7 @@
 "max_cooldown":15,
 "name":"Draupnir"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1760,6 +1997,7 @@
 "max_cooldown":12,
 "name":"Dream Dragon Dance - White Cloud"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1767,6 +2005,7 @@
 "max_cooldown":12,
 "name":"Dream Water"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1774,6 +2013,7 @@
 "max_cooldown":10,
 "name":"Droidance"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -1781,6 +2021,7 @@
 "max_cooldown":28,
 "name":"Earnest Mode"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1788,6 +2029,7 @@
 "max_cooldown":25,
 "name":"Earth Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1795,6 +2037,7 @@
 "max_cooldown":20,
 "name":"Earth Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1802,6 +2045,7 @@
 "max_cooldown":17,
 "name":"Earth Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -1809,6 +2053,7 @@
 "max_cooldown":20,
 "name":"Earth Field"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1816,6 +2061,7 @@
 "max_cooldown":18,
 "name":"Earth Light Impact"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1823,6 +2069,7 @@
 "max_cooldown":14,
 "name":"Eastern Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -1830,6 +2077,7 @@
 "max_cooldown":9,
 "name":"Eat this!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1837,6 +2085,7 @@
 "max_cooldown":18,
 "name":"Ebony Sea Dragon Broadside"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1844,6 +2093,7 @@
 "max_cooldown":15,
 "name":"Egg!"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1851,6 +2101,7 @@
 "max_cooldown":19,
 "name":"Eight-Headed Suppression"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1858,6 +2109,7 @@
 "max_cooldown":14,
 "name":"Electric Impact"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1865,6 +2117,7 @@
 "max_cooldown":13,
 "name":"Electric Shock Daccha"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -1872,6 +2125,7 @@
 "max_cooldown":18,
 "name":"Electric Shock Meow!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1879,6 +2133,7 @@
 "max_cooldown":14,
 "name":"Elegant Singing and Dancing"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1886,6 +2141,7 @@
 "max_cooldown":20,
 "name":"Elemental Jammer - Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1893,6 +2149,7 @@
 "max_cooldown":20,
 "name":"Elemental Jammer - Water"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -1900,6 +2157,7 @@
 "max_cooldown":20,
 "name":"Elemental Jammer - Wood"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -1907,6 +2165,7 @@
 "max_cooldown":12,
 "name":"Elezar's Scythe"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -1914,6 +2173,7 @@
 "max_cooldown":13,
 "name":"Ell-Heal"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -1921,6 +2181,7 @@
 "max_cooldown":22,
 "name":"Emerald Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -1928,6 +2189,7 @@
 "max_cooldown":19,
 "name":"Emerald of Clarity"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1935,6 +2197,7 @@
 "max_cooldown":16,
 "name":"Emergency Launch!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -1942,6 +2205,7 @@
 "max_cooldown":15,
 "name":"Energy Beams"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -1949,6 +2213,7 @@
 "max_cooldown":30,
 "name":"Energy Bomb"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1956,6 +2221,7 @@
 "max_cooldown":24,
 "name":"Energy Geyser"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -1963,6 +2229,7 @@
 "max_cooldown":15,
 "name":"Enhanced Dark Orbs"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -1970,6 +2237,7 @@
 "max_cooldown":15,
 "name":"Enhanced Fire Orbs"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -1977,6 +2245,7 @@
 "max_cooldown":15,
 "name":"Enhanced Light Orbs"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -1984,6 +2253,7 @@
 "max_cooldown":15,
 "name":"Enhanced Water Orbs"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -1991,6 +2261,7 @@
 "max_cooldown":15,
 "name":"Enhanced Wood Orbs"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -1998,6 +2269,7 @@
 "max_cooldown":14,
 "name":"Espers... Heed my call."
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -2005,6 +2277,7 @@
 "max_cooldown":20,
 "name":"Evasion"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -2012,6 +2285,7 @@
 "max_cooldown":13,
 "name":"Everlasting Stratagem"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2019,6 +2293,7 @@
 "max_cooldown":15,
 "name":"Evil Crest"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -2026,6 +2301,7 @@
 "max_cooldown":19,
 "name":"Evil Nova"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2033,6 +2309,7 @@
 "max_cooldown":19,
 "name":"Evil Wind"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2040,6 +2317,7 @@
 "max_cooldown":22,
 "name":"Exactly as planned"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2047,6 +2325,7 @@
 "max_cooldown":20,
 "name":"Exa-Freeze Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -2054,6 +2333,7 @@
 "max_cooldown":25,
 "name":"Execution"
 },
+
 {
 "tags":[],
 "min_cooldown":23,
@@ -2061,6 +2341,7 @@
 "max_cooldown":38,
 "name":"Eyes of Hera"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -2068,6 +2349,7 @@
 "max_cooldown":14,
 "name":"Family's Medicine"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2075,6 +2357,7 @@
 "max_cooldown":10,
 "name":"Famitsu App Awakens"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2082,6 +2365,7 @@
 "max_cooldown":18,
 "name":"Fear Gas"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2089,6 +2373,7 @@
 "max_cooldown":20,
 "name":"Feathers of Heaven"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2096,6 +2381,7 @@
 "max_cooldown":17,
 "name":"Fermata"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2103,6 +2389,7 @@
 "max_cooldown":16,
 "name":"Final Judgement"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2110,6 +2397,7 @@
 "max_cooldown":15,
 "name":"Fire Awakening"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2117,6 +2405,7 @@
 "max_cooldown":25,
 "name":"Fire Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2124,6 +2413,7 @@
 "max_cooldown":20,
 "name":"Fire Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2131,6 +2421,7 @@
 "max_cooldown":9,
 "name":"Fire Orb Change"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2138,6 +2429,7 @@
 "max_cooldown":9,
 "name":"Fire Spell"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2145,6 +2437,7 @@
 "max_cooldown":13,
 "name":"Fire&Water Orbs Change"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2152,6 +2445,7 @@
 "max_cooldown":13,
 "name":"Fire&Wood Orbs Change"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2159,6 +2453,7 @@
 "max_cooldown":11,
 "name":"Firing up nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2166,6 +2461,7 @@
 "max_cooldown":15,
 "name":"Five Chariots Wave Barrier"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2173,6 +2469,7 @@
 "max_cooldown":12,
 "name":"Five Colored Alchemy"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2180,6 +2477,7 @@
 "max_cooldown":10,
 "name":"Five Flower Scales"
 },
+
 {
 "tags":[],
 "min_cooldown":2,
@@ -2187,6 +2485,7 @@
 "max_cooldown":10,
 "name":"Flame Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2194,6 +2493,7 @@
 "max_cooldown":15,
 "name":"Flame Burst"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2201,6 +2501,7 @@
 "max_cooldown":13,
 "name":"Flame Charge"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -2208,6 +2509,7 @@
 "max_cooldown":17,
 "name":"Flame Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -2215,6 +2517,7 @@
 "max_cooldown":13,
 "name":"Flame Gift"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2222,6 +2525,7 @@
 "max_cooldown":18,
 "name":"Flame Hammer"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -2229,6 +2533,7 @@
 "max_cooldown":30,
 "name":"Flame Ocean of Destruction"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2236,6 +2541,7 @@
 "max_cooldown":20,
 "name":"Flame of Olympus"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2243,6 +2549,7 @@
 "max_cooldown":20,
 "name":"Flame Seed Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2250,6 +2557,7 @@
 "max_cooldown":15,
 "name":"Flame Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2257,6 +2565,7 @@
 "max_cooldown":19,
 "name":"Flame Wind"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2264,6 +2573,7 @@
 "max_cooldown":22,
 "name":"Flare Star"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2271,6 +2581,7 @@
 "max_cooldown":17,
 "name":"Flash Attack nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2278,6 +2589,7 @@
 "max_cooldown":10,
 "name":"Flash Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2285,6 +2597,7 @@
 "max_cooldown":10,
 "name":"Flash Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -2292,6 +2605,7 @@
 "max_cooldown":20,
 "name":"Flashing Field"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2299,6 +2613,7 @@
 "max_cooldown":12,
 "name":"Flawless Devotion"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -2306,6 +2621,7 @@
 "max_cooldown":13,
 "name":"Forbidden Box"
 },
+
 {
 "tags":[],
 "min_cooldown":20,
@@ -2313,6 +2629,7 @@
 "max_cooldown":25,
 "name":"Force"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2320,6 +2637,7 @@
 "max_cooldown":13,
 "name":"Force of All Orbs"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -2327,6 +2645,7 @@
 "max_cooldown":9,
 "name":"Forest Sign"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -2334,6 +2653,7 @@
 "max_cooldown":20,
 "name":"Forsake"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2341,6 +2661,7 @@
 "max_cooldown":18,
 "name":"Fortitudinous Rally"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2348,6 +2669,7 @@
 "max_cooldown":15,
 "name":"Freeze Burst"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2355,6 +2677,7 @@
 "max_cooldown":15,
 "name":"Freeze Lock"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2362,6 +2685,7 @@
 "max_cooldown":15,
 "name":"Freeze Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2369,6 +2693,7 @@
 "max_cooldown":14,
 "name":"Freezing Gravity"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -2376,6 +2701,7 @@
 "max_cooldown":16,
 "name":"Freezing Shift"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2383,6 +2709,7 @@
 "max_cooldown":20,
 "name":"Freezing Zone"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2390,6 +2717,7 @@
 "max_cooldown":13,
 "name":"Fresh!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2397,6 +2725,7 @@
 "max_cooldown":12,
 "name":"Futae no Kiwami"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2404,6 +2733,7 @@
 "max_cooldown":15,
 "name":"Gaia Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2411,6 +2741,7 @@
 "max_cooldown":29,
 "name":"Gaia Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2418,6 +2749,7 @@
 "max_cooldown":19,
 "name":"Gaia Wind"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -2425,6 +2757,7 @@
 "max_cooldown":17,
 "name":"Garyou Tensei Expertise"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2432,6 +2765,7 @@
 "max_cooldown":15,
 "name":"Gatotsu"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2439,6 +2773,7 @@
 "max_cooldown":15,
 "name":"Gekiheki Haisui Sho"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -2446,6 +2781,7 @@
 "max_cooldown":13,
 "name":"Genbu Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2453,6 +2789,7 @@
 "max_cooldown":15,
 "name":"Get out of here!! 8 Dragons!!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2460,6 +2797,7 @@
 "max_cooldown":18,
 "name":"Ghost Star's Gleam"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2467,6 +2805,7 @@
 "max_cooldown":20,
 "name":"Gigavolt Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2474,6 +2813,7 @@
 "max_cooldown":18,
 "name":"Gilded Sea Dragon Broadside"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2481,6 +2821,7 @@
 "max_cooldown":16,
 "name":"Gjallarhorn"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2488,6 +2829,7 @@
 "max_cooldown":13,
 "name":"Gleaming Amaterasu Ring"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2495,6 +2837,7 @@
 "max_cooldown":13,
 "name":"Gleaming Gravity"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2502,6 +2845,7 @@
 "max_cooldown":16,
 "name":"Gleam of Sirius"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2509,6 +2853,7 @@
 "max_cooldown":15,
 "name":"Glitter of Aegis"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -2516,6 +2861,7 @@
 "max_cooldown":23,
 "name":"God Blizzard Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -2523,6 +2869,7 @@
 "max_cooldown":23,
 "name":"God Gaia Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":23,
@@ -2530,6 +2877,7 @@
 "max_cooldown":38,
 "name":"God Gravity"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2537,6 +2885,7 @@
 "max_cooldown":23,
 "name":"God Hell Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2544,6 +2893,7 @@
 "max_cooldown":23,
 "name":"God Holy Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -2551,6 +2901,7 @@
 "max_cooldown":23,
 "name":"God Magma Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2558,6 +2909,7 @@
 "max_cooldown":12,
 "name":"Golden Staff"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2565,6 +2917,7 @@
 "max_cooldown":17,
 "name":"Got a surprise for you!"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2572,6 +2925,7 @@
 "max_cooldown":19,
 "name":"Grand Cross"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2579,6 +2933,7 @@
 "max_cooldown":16,
 "name":"Grand Howl"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2586,6 +2941,7 @@
 "max_cooldown":13,
 "name":"Grape Shower"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -2593,6 +2949,7 @@
 "max_cooldown":25,
 "name":"Gravity"
 },
+
 {
 "tags":[],
 "min_cooldown":20,
@@ -2600,6 +2957,7 @@
 "max_cooldown":35,
 "name":"Gravity Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2607,6 +2965,7 @@
 "max_cooldown":20,
 "name":"Gravity Cannon"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2614,6 +2973,7 @@
 "max_cooldown":12,
 "name":"Gravity Room"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2621,6 +2981,7 @@
 "max_cooldown":12,
 "name":"Gravity Signal"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2628,6 +2989,7 @@
 "max_cooldown":17,
 "name":"Gravity World"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2635,6 +2997,7 @@
 "max_cooldown":15,
 "name":"Green Crest"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2642,6 +3005,7 @@
 "max_cooldown":13,
 "name":"Green Star Blade"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2649,6 +3013,7 @@
 "max_cooldown":19,
 "name":"Grimoire Sphere"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2656,6 +3021,7 @@
 "max_cooldown":17,
 "name":"GROOVE COASTER"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2663,6 +3029,7 @@
 "max_cooldown":15,
 "name":"Grudge Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2670,6 +3037,7 @@
 "max_cooldown":15,
 "name":"Guard Break"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2677,6 +3045,7 @@
 "max_cooldown":11,
 "name":"Guard Stance - Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2684,6 +3053,7 @@
 "max_cooldown":11,
 "name":"Guard Stance - Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2691,6 +3061,7 @@
 "max_cooldown":11,
 "name":"Guard Stance - Light"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2698,6 +3069,7 @@
 "max_cooldown":11,
 "name":"Guard Stance - Water"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2705,6 +3077,7 @@
 "max_cooldown":11,
 "name":"Guard Stance - Wood"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -2712,6 +3085,7 @@
 "max_cooldown":9,
 "name":"Guiding Light Hymn"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -2719,6 +3093,7 @@
 "max_cooldown":17,
 "name":"Gungnir"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2726,6 +3101,7 @@
 "max_cooldown":12,
 "name":"gungnir nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2733,6 +3109,7 @@
 "max_cooldown":11,
 "name":"Gysahl Greens"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2740,6 +3117,7 @@
 "max_cooldown":20,
 "name":"Hard Mistral Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -2747,6 +3125,7 @@
 "max_cooldown":14,
 "name":"Harmonic Feather"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2754,6 +3133,7 @@
 "max_cooldown":13,
 "name":"Harpoon of Atlantis"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2761,6 +3141,7 @@
 "max_cooldown":10,
 "name":"Heal"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2768,6 +3149,7 @@
 "max_cooldown":13,
 "name":"Heal Barrier"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2775,6 +3157,7 @@
 "max_cooldown":11,
 "name":"Healing Cheer"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2782,6 +3165,7 @@
 "max_cooldown":10,
 "name":"Healing Dance"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2789,6 +3173,7 @@
 "max_cooldown":10,
 "name":"Healing Hymn"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2796,6 +3181,7 @@
 "max_cooldown":10,
 "name":"Healing Shout"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2803,6 +3189,7 @@
 "max_cooldown":10,
 "name":"Healing Spot"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2810,6 +3197,7 @@
 "max_cooldown":11,
 "name":"Hear the Cry of My Soul!!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2817,6 +3205,7 @@
 "max_cooldown":10,
 "name":"Heat Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2824,6 +3213,7 @@
 "max_cooldown":10,
 "name":"Heat Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2831,6 +3221,7 @@
 "max_cooldown":13,
 "name":"Heat Vision"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2838,6 +3229,7 @@
 "max_cooldown":12,
 "name":"Heaven and Earth Creation"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2845,6 +3237,7 @@
 "max_cooldown":12,
 "name":"Heavenly Destruction"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -2852,6 +3245,7 @@
 "max_cooldown":18,
 "name":"Heavenly Splash"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -2859,6 +3253,7 @@
 "max_cooldown":17,
 "name":"Heaven-Shaking Lightning Wall"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -2866,6 +3261,7 @@
 "max_cooldown":17,
 "name":"Heavenstrom"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2873,6 +3269,7 @@
 "max_cooldown":15,
 "name":"Hell Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":2,
@@ -2880,6 +3277,7 @@
 "max_cooldown":7,
 "name":"Hell Fang"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -2887,6 +3285,7 @@
 "max_cooldown":20,
 "name":"Hellfire Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2894,6 +3293,7 @@
 "max_cooldown":7,
 "name":"Hellish Inferno"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2901,6 +3301,7 @@
 "max_cooldown":10,
 "name":"Hell's Charge"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2908,6 +3309,7 @@
 "max_cooldown":16,
 "name":"Hell's Garden"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -2915,6 +3317,7 @@
 "max_cooldown":15,
 "name":"Hell's Judgment"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2922,6 +3325,7 @@
 "max_cooldown":13,
 "name":"Here...take half..."
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2929,6 +3333,7 @@
 "max_cooldown":18,
 "name":"Heritage Sword \"Hyakka Ryoran\""
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -2936,6 +3341,7 @@
 "max_cooldown":18,
 "name":"Heroic Blade"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -2943,6 +3349,7 @@
 "max_cooldown":20,
 "name":"Heroic Dragon Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2950,6 +3357,7 @@
 "max_cooldown":12,
 "name":"Hey, again."
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -2957,6 +3365,7 @@
 "max_cooldown":20,
 "name":"Hieroglyphic Carvings"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2964,6 +3373,7 @@
 "max_cooldown":11,
 "name":"High Heels"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -2971,6 +3381,7 @@
 "max_cooldown":12,
 "name":"High King of the Seven Seas"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2978,6 +3389,7 @@
 "max_cooldown":11,
 "name":"Hiten Mitsurugi-ryu: Ryushosen"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -2985,6 +3397,7 @@
 "max_cooldown":19,
 "name":"Holiday Summoning Circle-Wt & Dk"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -2992,6 +3405,7 @@
 "max_cooldown":15,
 "name":"Holy Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -2999,6 +3413,7 @@
 "max_cooldown":29,
 "name":"Holy Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3006,6 +3421,7 @@
 "max_cooldown":15,
 "name":"Holy Crest"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -3013,6 +3429,7 @@
 "max_cooldown":19,
 "name":"Holy Draco Summoning Circle-Fr & Wd"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3020,6 +3437,7 @@
 "max_cooldown":13,
 "name":"Holy Gift"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3027,6 +3445,7 @@
 "max_cooldown":14,
 "name":"Holy Grail"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3034,6 +3453,7 @@
 "max_cooldown":22,
 "name":"Holy Star"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3041,6 +3461,7 @@
 "max_cooldown":14,
 "name":"Holy Water Hymn"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3048,6 +3469,7 @@
 "max_cooldown":18,
 "name":"Honest Insight"
 },
+
 {
 "tags":[],
 "min_cooldown":25,
@@ -3055,6 +3477,7 @@
 "max_cooldown":40,
 "name":"Hope of Noah"
 },
+
 {
 "tags":[],
 "min_cooldown":1,
@@ -3062,6 +3485,7 @@
 "max_cooldown":6,
 "name":"Hot Spring of Kusatsu"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -3069,6 +3493,7 @@
 "max_cooldown":13,
 "name":"Houyoku Tenshou"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3076,6 +3501,7 @@
 "max_cooldown":17,
 "name":"How nice..."
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -3083,6 +3509,7 @@
 "max_cooldown":8,
 "name":"Hurricane Shout"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -3090,6 +3517,7 @@
 "max_cooldown":21,
 "name":"Hydra Horn"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -3097,6 +3525,7 @@
 "max_cooldown":20,
 "name":"Hydra's Poison"
 },
+
 {
 "tags":[],
 "min_cooldown":20,
@@ -3104,6 +3533,7 @@
 "max_cooldown":30,
 "name":"Hyperdrive"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3111,6 +3541,7 @@
 "max_cooldown":18,
 "name":"I am the chosen one."
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3118,6 +3549,7 @@
 "max_cooldown":12,
 "name":"I can do it by myself"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3125,6 +3557,7 @@
 "max_cooldown":12,
 "name":"I can do it too!!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3132,6 +3565,7 @@
 "max_cooldown":25,
 "name":"Ice Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3139,6 +3573,7 @@
 "max_cooldown":20,
 "name":"Ice Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3146,6 +3581,7 @@
 "max_cooldown":13,
 "name":"Ice Gift"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3153,6 +3589,7 @@
 "max_cooldown":19,
 "name":"Ice Wind"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -3160,6 +3597,7 @@
 "max_cooldown":14,
 "name":"I have become a summoner!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3167,6 +3605,7 @@
 "max_cooldown":15,
 "name":"I knew you could do it."
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -3174,6 +3613,7 @@
 "max_cooldown":8,
 "name":"I'll become a delinquent from today on!!"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -3181,6 +3621,7 @@
 "max_cooldown":9,
 "name":"I'll be the one to do it!"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -3188,6 +3629,7 @@
 "max_cooldown":22,
 "name":"I'll crush that power!!"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3195,6 +3637,7 @@
 "max_cooldown":11,
 "name":"I'll fulfill my goal."
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3202,6 +3645,7 @@
 "max_cooldown":12,
 "name":"I'll hold out nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3209,6 +3653,7 @@
 "max_cooldown":12,
 "name":"I'll kill them all!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3216,6 +3661,7 @@
 "max_cooldown":13,
 "name":"I'll navigate!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -3223,6 +3669,7 @@
 "max_cooldown":14,
 "name":"I'll protect you with my life"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3230,6 +3677,7 @@
 "max_cooldown":13,
 "name":"I'll put holes all over you!"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3237,6 +3685,7 @@
 "max_cooldown":18,
 "name":"I'll send you to Hell!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3244,6 +3693,7 @@
 "max_cooldown":15,
 "name":"I'll Send You to Hell!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3251,6 +3701,7 @@
 "max_cooldown":12,
 "name":"I'll support you nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3258,6 +3709,7 @@
 "max_cooldown":12,
 "name":"I'll survive no matter what!"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -3265,6 +3717,7 @@
 "max_cooldown":14,
 "name":"I'll take you one on one!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3272,6 +3725,7 @@
 "max_cooldown":17,
 "name":"Illusory Spectral Sword"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3279,6 +3733,7 @@
 "max_cooldown":15,
 "name":"I'll win for sure!!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3286,6 +3741,7 @@
 "max_cooldown":13,
 "name":"I'm fine with being a crow!!"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3293,6 +3749,7 @@
 "max_cooldown":11,
 "name":"I'm gonna crush you!!"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3300,6 +3757,7 @@
 "max_cooldown":17,
 "name":"I'm gonna eat you!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3307,6 +3765,7 @@
 "max_cooldown":12,
 "name":"I'm gonna put you out of your misery"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3314,6 +3773,7 @@
 "max_cooldown":16,
 "name":"I'm gonna smash you into pieces"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3321,6 +3781,7 @@
 "max_cooldown":11,
 "name":"Immortal Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -3328,6 +3789,7 @@
 "max_cooldown":25,
 "name":"Implosion"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -3335,6 +3797,7 @@
 "max_cooldown":20,
 "name":"Improved Sweet Shoot"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3342,6 +3805,7 @@
 "max_cooldown":23,
 "name":"I'm seeing through your game!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3349,6 +3813,7 @@
 "max_cooldown":12,
 "name":"I'm serious now nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3356,6 +3821,7 @@
 "max_cooldown":12,
 "name":"I mustn't run away"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3363,6 +3829,7 @@
 "max_cooldown":24,
 "name":"Incisive Brilliance"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -3370,6 +3837,7 @@
 "max_cooldown":31,
 "name":"Inferno Blast"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3377,6 +3845,7 @@
 "max_cooldown":29,
 "name":"Inferno Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3384,6 +3853,7 @@
 "max_cooldown":13,
 "name":"Infinite Mass Punch"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -3391,6 +3861,7 @@
 "max_cooldown":20,
 "name":"Intimidating Shout"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3398,6 +3869,7 @@
 "max_cooldown":11,
 "name":"Intimidation"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -3405,6 +3877,7 @@
 "max_cooldown":15,
 "name":"Inversion - Boisterous Dance"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3412,6 +3885,7 @@
 "max_cooldown":17,
 "name":"Inversion-Draco Summoning Circle-Fr & Dk"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3419,6 +3893,7 @@
 "max_cooldown":12,
 "name":"Inversion - Glitter of Aegis"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3426,6 +3901,7 @@
 "max_cooldown":10,
 "name":"I reject."
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -3433,6 +3909,7 @@
 "max_cooldown":20,
 "name":"Iron Wall Stance"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3440,6 +3917,7 @@
 "max_cooldown":12,
 "name":"IT'S A SHOW TIME!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3447,6 +3925,7 @@
 "max_cooldown":15,
 "name":"It's just a trick I learned from my dad"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -3454,6 +3933,7 @@
 "max_cooldown":9,
 "name":"It's my turn now!!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3461,6 +3941,7 @@
 "max_cooldown":12,
 "name":"It's not my problem."
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -3468,6 +3949,7 @@
 "max_cooldown":17,
 "name":"I want to change that future, too."
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3475,6 +3957,7 @@
 "max_cooldown":11,
 "name":"I want to fight too"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3482,6 +3965,7 @@
 "max_cooldown":15,
 "name":"I will protect you"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3489,6 +3973,7 @@
 "max_cooldown":15,
 "name":"I will show you no mercy!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3496,6 +3981,7 @@
 "max_cooldown":12,
 "name":"Jack-o'-Lantern"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -3503,6 +3989,7 @@
 "max_cooldown":10,
 "name":"Japan's Top Four Udon"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3510,6 +3997,7 @@
 "max_cooldown":17,
 "name":"Jingle Bells"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -3517,6 +4005,7 @@
 "max_cooldown":20,
 "name":"Judgement in Holy Night"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3524,6 +4013,7 @@
 "max_cooldown":13,
 "name":"Jump"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -3531,6 +4021,7 @@
 "max_cooldown":30,
 "name":"Jupiter Genesis"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3538,6 +4029,7 @@
 "max_cooldown":23,
 "name":"Justice Mode"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3545,6 +4037,7 @@
 "max_cooldown":12,
 "name":"Just stay close to me."
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -3552,6 +4045,7 @@
 "max_cooldown":14,
 "name":"Kaiten-Kenbu Rokuren"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3559,6 +4053,7 @@
 "max_cooldown":11,
 "name":"Kansatsu Tobikunai"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -3566,6 +4061,7 @@
 "max_cooldown":7,
 "name":"Kerokero Attack!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3573,6 +4069,7 @@
 "max_cooldown":15,
 "name":"Killing Joke"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3580,6 +4077,7 @@
 "max_cooldown":16,
 "name":"Killing Sword of Shakku's"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3587,6 +4085,7 @@
 "max_cooldown":14,
 "name":"Kirin's Boisterous Dance"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3594,6 +4093,7 @@
 "max_cooldown":15,
 "name":"Kiss of Demonic Fire Queen"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3601,6 +4101,7 @@
 "max_cooldown":12,
 "name":"Know divine wrath!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3608,6 +4109,7 @@
 "max_cooldown":15,
 "name":"Kryptonite Spear"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3615,6 +4117,7 @@
 "max_cooldown":13,
 "name":"Landscape-Patterned Cup"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3622,6 +4125,7 @@
 "max_cooldown":13,
 "name":"Lasso of Truth"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3629,6 +4133,7 @@
 "max_cooldown":11,
 "name":"Lazy Smile"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3636,6 +4141,7 @@
 "max_cooldown":15,
 "name":"Leading a Comeback"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3643,6 +4149,7 @@
 "max_cooldown":13,
 "name":"Lemon Shower"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3650,6 +4157,7 @@
 "max_cooldown":12,
 "name":"Let me win!!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -3657,6 +4165,7 @@
 "max_cooldown":14,
 "name":"Let's go. Focus!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3664,6 +4173,7 @@
 "max_cooldown":15,
 "name":"Let's walk together for all eternity...Kurei..."
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -3671,6 +4181,7 @@
 "max_cooldown":20,
 "name":"Libra"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3678,6 +4189,7 @@
 "max_cooldown":19,
 "name":"Lifestream"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3685,6 +4197,7 @@
 "max_cooldown":12,
 "name":"Life Water Lotus Blossom"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3692,6 +4205,7 @@
 "max_cooldown":13,
 "name":"Light&Dark Orbs Change"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -3699,6 +4213,7 @@
 "max_cooldown":17,
 "name":"Light Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3706,6 +4221,7 @@
 "max_cooldown":13,
 "name":"Lightning Charge"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3713,6 +4229,7 @@
 "max_cooldown":16,
 "name":"Lightning Howl"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3720,6 +4237,7 @@
 "max_cooldown":19,
 "name":"Lightning Wind"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3727,6 +4245,7 @@
 "max_cooldown":10,
 "name":"Light of Healing"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -3734,6 +4253,7 @@
 "max_cooldown":10,
 "name":"Light of Mighty Healing"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3741,6 +4261,7 @@
 "max_cooldown":9,
 "name":"Light Orb Change"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3748,6 +4269,7 @@
 "max_cooldown":9,
 "name":"Light Spell"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -3755,6 +4277,7 @@
 "max_cooldown":9,
 "name":"Looks like you're in a bind."
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3762,6 +4285,7 @@
 "max_cooldown":20,
 "name":"Lucky(?) Ribbon"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3769,6 +4293,7 @@
 "max_cooldown":12,
 "name":"Lunatic Storm"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3776,6 +4301,7 @@
 "max_cooldown":15,
 "name":"Magical Song"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3783,6 +4309,7 @@
 "max_cooldown":23,
 "name":"Magic-Draining Light"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3790,6 +4317,7 @@
 "max_cooldown":12,
 "name":"Magic Spear, gungnir nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -3797,6 +4325,7 @@
 "max_cooldown":9,
 "name":"Magic Stone Teleportation"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3804,6 +4333,7 @@
 "max_cooldown":15,
 "name":"Magma Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -3811,6 +4341,7 @@
 "max_cooldown":29,
 "name":"Magma Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3818,6 +4349,7 @@
 "max_cooldown":10,
 "name":"Malice"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -3825,6 +4357,7 @@
 "max_cooldown":22,
 "name":"Mars Daylight"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3832,6 +4365,7 @@
 "max_cooldown":20,
 "name":"Maya Kick!"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3839,6 +4373,7 @@
 "max_cooldown":16,
 "name":"Meditative Five Color Dragon"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3846,6 +4381,7 @@
 "max_cooldown":20,
 "name":"Mega Flare"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -3853,6 +4389,7 @@
 "max_cooldown":15,
 "name":"Melody Wink"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3860,6 +4397,7 @@
 "max_cooldown":13,
 "name":"Melon Shower"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3867,6 +4405,7 @@
 "max_cooldown":15,
 "name":"Menace"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3874,6 +4413,7 @@
 "max_cooldown":11,
 "name":"Merciful Mother Star"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -3881,6 +4421,7 @@
 "max_cooldown":11,
 "name":"Merciful Protection"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -3888,6 +4429,7 @@
 "max_cooldown":20,
 "name":"Merciful Radiance"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -3895,6 +4437,7 @@
 "max_cooldown":30,
 "name":"Mercury Genesis"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -3902,6 +4445,7 @@
 "max_cooldown":14,
 "name":"Meteor Charge - Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -3909,6 +4453,7 @@
 "max_cooldown":14,
 "name":"Meteor Charge - Light"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3916,6 +4461,7 @@
 "max_cooldown":13,
 "name":"Midare Benten"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -3923,6 +4469,7 @@
 "max_cooldown":11,
 "name":"Midnight Spell"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3930,6 +4477,7 @@
 "max_cooldown":13,
 "name":"Mind if I try an experiment?"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3937,6 +4485,7 @@
 "max_cooldown":13,
 "name":"Miracle of Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -3944,6 +4493,7 @@
 "max_cooldown":23,
 "name":"Miracle of Healing"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3951,6 +4501,7 @@
 "max_cooldown":13,
 "name":"Miracle of Ice"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -3958,6 +4509,7 @@
 "max_cooldown":13,
 "name":"Miracle of Wood"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -3965,6 +4517,7 @@
 "max_cooldown":31,
 "name":"Mirage Blade"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -3972,6 +4525,7 @@
 "max_cooldown":18,
 "name":"Mirage Flare"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -3979,6 +4533,7 @@
 "max_cooldown":22,
 "name":"Mission of Salvation"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -3986,6 +4541,7 @@
 "max_cooldown":10,
 "name":"Miyomimane Ryutsuisen"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -3993,6 +4549,7 @@
 "max_cooldown":14,
 "name":"Moon Blossom"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4000,6 +4557,7 @@
 "max_cooldown":14,
 "name":"Moon God's Arm"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4007,6 +4565,7 @@
 "max_cooldown":22,
 "name":"Moon Phase"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4014,6 +4573,7 @@
 "max_cooldown":17,
 "name":"Muscle Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4021,6 +4581,7 @@
 "max_cooldown":14,
 "name":"My Collection"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4028,6 +4589,7 @@
 "max_cooldown":14,
 "name":"My duel is not finished!"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4035,6 +4597,7 @@
 "max_cooldown":11,
 "name":"Mysterious Words"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4042,6 +4605,7 @@
 "max_cooldown":16,
 "name":"Mystic Lazer"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4049,6 +4613,7 @@
 "max_cooldown":16,
 "name":"N/A"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4056,6 +4621,7 @@
 "max_cooldown":11,
 "name":"N/A"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4063,6 +4629,7 @@
 "max_cooldown":11,
 "name":"N/A"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -4070,6 +4637,7 @@
 "max_cooldown":23,
 "name":"N/A"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4077,6 +4645,7 @@
 "max_cooldown":16,
 "name":"N/A"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -4084,6 +4653,7 @@
 "max_cooldown":23,
 "name":"N/A"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4091,6 +4661,7 @@
 "max_cooldown":16,
 "name":"N/A"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4098,6 +4669,7 @@
 "max_cooldown":16,
 "name":"N/A"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4105,6 +4677,7 @@
 "max_cooldown":17,
 "name":"Natural Blossom"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4112,6 +4685,7 @@
 "max_cooldown":14,
 "name":"Nebula Chain"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4119,6 +4693,7 @@
 "max_cooldown":12,
 "name":"Necro Bite"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4126,6 +4701,7 @@
 "max_cooldown":12,
 "name":"Netherworld Star"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4133,6 +4709,7 @@
 "max_cooldown":20,
 "name":"Nightmare Sword"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4140,6 +4717,7 @@
 "max_cooldown":15,
 "name":"Nine Lives"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4147,6 +4725,7 @@
 "max_cooldown":9,
 "name":"Ninja Art Dk to Wt"
 },
+
 {
 "tags":[],
 "min_cooldown":16,
@@ -4154,6 +4733,7 @@
 "max_cooldown":30,
 "name":"Ninja Art Fireworks"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4161,6 +4741,7 @@
 "max_cooldown":9,
 "name":"Ninja Art Fr to Dk"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4168,6 +4749,7 @@
 "max_cooldown":9,
 "name":"Ninja Art Lt to Fr"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4175,6 +4757,7 @@
 "max_cooldown":25,
 "name":"Ninja Art Shadow Tag"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4182,6 +4765,7 @@
 "max_cooldown":10,
 "name":"Ninja Art Thousand Lanterns"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4189,6 +4773,7 @@
 "max_cooldown":9,
 "name":"Ninja Art Wd to Lt"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4196,6 +4781,7 @@
 "max_cooldown":9,
 "name":"Ninja Art Wt to Wd"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4203,6 +4789,7 @@
 "max_cooldown":14,
 "name":"Ninpo - Dead Leaf Blizzard"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4210,6 +4797,7 @@
 "max_cooldown":16,
 "name":"No room for doubt."
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4217,6 +4805,7 @@
 "max_cooldown":14,
 "name":"Northern Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4224,6 +4813,7 @@
 "max_cooldown":16,
 "name":"Now...what are we supposed to do?"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4231,6 +4821,7 @@
 "max_cooldown":12,
 "name":"nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4238,6 +4829,7 @@
 "max_cooldown":12,
 "name":"Oblivion Nova"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4245,6 +4837,7 @@
 "max_cooldown":17,
 "name":"O-hohohohoho!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4252,6 +4845,7 @@
 "max_cooldown":11,
 "name":"Oink Oink!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4259,6 +4853,7 @@
 "max_cooldown":19,
 "name":"Omega Sanction"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4266,6 +4861,7 @@
 "max_cooldown":18,
 "name":"Oraa! Come and fight!"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4273,6 +4869,7 @@
 "max_cooldown":12,
 "name":"Orb Refresh"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4280,6 +4877,7 @@
 "max_cooldown":12,
 "name":"Orb Transformation"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -4287,6 +4885,7 @@
 "max_cooldown":18,
 "name":"Oriental Stomp"
 },
+
 {
 "tags":[],
 "min_cooldown":2,
@@ -4294,6 +4893,7 @@
 "max_cooldown":22,
 "name":"Oriental Wind"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4301,6 +4901,7 @@
 "max_cooldown":25,
 "name":"Overcoming Hardship"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4308,6 +4909,7 @@
 "max_cooldown":25,
 "name":"Overwhelming Fear"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4315,6 +4917,7 @@
 "max_cooldown":18,
 "name":"Pandemonium's Best Sake"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -4322,6 +4925,7 @@
 "max_cooldown":19,
 "name":"Parable of the Three Arrows"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4329,6 +4933,7 @@
 "max_cooldown":25,
 "name":"Particle Beam"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4336,6 +4941,7 @@
 "max_cooldown":11,
 "name":"Pegasus Ryuuseiken"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4343,6 +4949,7 @@
 "max_cooldown":12,
 "name":"Pegasus Suiseiken"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4350,13 +4957,15 @@
 "max_cooldown":14,
 "name":"Penetrating Arrow"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"for every Enhanced Light Orbs on the team.",
+"effect":"Recover HP for every Enhanced Light Orbs on the team.",
 "max_cooldown":8,
-"name":"\u306f\u30fc\u3044\u3001Pepper\u3067\u3059"
+"name":"Hello, I'm Pepper"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -4364,6 +4973,7 @@
 "max_cooldown":25,
 "name":"Performance of Judgement"
 },
+
 {
 "tags":[],
 "min_cooldown":1,
@@ -4371,6 +4981,7 @@
 "max_cooldown":2,
 "name":"Petit Cold Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":1,
@@ -4378,6 +4989,7 @@
 "max_cooldown":2,
 "name":"Petit Heat Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":1,
@@ -4385,6 +4997,7 @@
 "max_cooldown":2,
 "name":"Petit Wind Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4392,6 +5005,7 @@
 "max_cooldown":13,
 "name":"Phantom Charge"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -4399,6 +5013,7 @@
 "max_cooldown":22,
 "name":"Pirate Dragon's Might"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -4406,6 +5021,7 @@
 "max_cooldown":9,
 "name":"Plant Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -4413,6 +5029,7 @@
 "max_cooldown":13,
 "name":"Plant Gift"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -4420,6 +5037,7 @@
 "max_cooldown":9,
 "name":"Plasma Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -4427,6 +5045,7 @@
 "max_cooldown":10,
 "name":"Plasma Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4434,6 +5053,7 @@
 "max_cooldown":20,
 "name":"Plasma Cannon"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4441,6 +5061,7 @@
 "max_cooldown":12,
 "name":"Plasma Signal"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -4448,6 +5069,7 @@
 "max_cooldown":18,
 "name":"Please. Give me the power."
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4455,6 +5077,7 @@
 "max_cooldown":20,
 "name":"Poison Death Mist"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4462,6 +5085,7 @@
 "max_cooldown":25,
 "name":"Poison Fang of Temptation"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4469,6 +5093,7 @@
 "max_cooldown":15,
 "name":"Poison Mist"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4476,6 +5101,7 @@
 "max_cooldown":21,
 "name":"Poisonous Fang of Transformation"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4483,6 +5109,7 @@
 "max_cooldown":15,
 "name":"Pompurin Dance"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4490,6 +5117,7 @@
 "max_cooldown":20,
 "name":"Powerful High Kick"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -4497,6 +5125,7 @@
 "max_cooldown":6,
 "name":"Prehistoric Wisdom"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4504,6 +5133,7 @@
 "max_cooldown":11,
 "name":"Preparation Rush nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4511,6 +5141,7 @@
 "max_cooldown":11,
 "name":"Princess Smile"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4518,6 +5149,7 @@
 "max_cooldown":18,
 "name":"Prism Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4525,6 +5157,7 @@
 "max_cooldown":15,
 "name":"Promise Bouquet - Light"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4532,6 +5165,7 @@
 "max_cooldown":11,
 "name":"Protection Magic - Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4539,6 +5173,7 @@
 "max_cooldown":11,
 "name":"Protection Magic - Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4546,6 +5181,7 @@
 "max_cooldown":11,
 "name":"Protection Magic - Light"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4553,6 +5189,7 @@
 "max_cooldown":11,
 "name":"Protection Magic - Water"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4560,6 +5197,7 @@
 "max_cooldown":11,
 "name":"Protection Magic - Wood"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4567,6 +5205,7 @@
 "max_cooldown":11,
 "name":"Protection of Divine Wisdom"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4574,6 +5213,7 @@
 "max_cooldown":14,
 "name":"Pureblood Pillar"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4581,6 +5221,7 @@
 "max_cooldown":12,
 "name":"Purple Season"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4588,6 +5229,7 @@
 "max_cooldown":21,
 "name":"Puzzle & Dragons"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4595,6 +5237,7 @@
 "max_cooldown":25,
 "name":"Puzzle & Dragons W"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -4602,6 +5245,7 @@
 "max_cooldown":10,
 "name":"Quick Bomb"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4609,6 +5253,7 @@
 "max_cooldown":11,
 "name":"Quick Cure"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -4616,6 +5261,7 @@
 "max_cooldown":7,
 "name":"Quick Guard"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -4623,6 +5269,7 @@
 "max_cooldown":8,
 "name":"Quick Heal"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4630,6 +5277,7 @@
 "max_cooldown":12,
 "name":"Raging Blaze"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4637,6 +5285,7 @@
 "max_cooldown":8,
 "name":"Raging Fireball"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4644,6 +5293,7 @@
 "max_cooldown":12,
 "name":"Rainbow Magnet"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4651,6 +5301,7 @@
 "max_cooldown":10,
 "name":"Ray of Healing"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4658,6 +5309,7 @@
 "max_cooldown":14,
 "name":"Recovering Chance"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4665,6 +5317,7 @@
 "max_cooldown":17,
 "name":"Recovery Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4672,6 +5325,7 @@
 "max_cooldown":15,
 "name":"Red Crest"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -4679,6 +5333,7 @@
 "max_cooldown":8,
 "name":"Reversal Flame"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -4686,6 +5341,7 @@
 "max_cooldown":9,
 "name":"Rice Cake Warding Prayer"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4693,6 +5349,7 @@
 "max_cooldown":17,
 "name":"Rising Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4700,6 +5357,7 @@
 "max_cooldown":12,
 "name":"Rising Sun Sparkle"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -4707,6 +5365,7 @@
 "max_cooldown":8,
 "name":"Rising Sun's Roar"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4714,6 +5373,7 @@
 "max_cooldown":11,
 "name":"Ritual of the Mountain and Sea"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -4721,6 +5381,7 @@
 "max_cooldown":23,
 "name":"Roar of the Time-Sea"
 },
+
 {
 "tags":[],
 "min_cooldown":2,
@@ -4728,6 +5389,7 @@
 "max_cooldown":10,
 "name":"Rock Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4735,6 +5397,7 @@
 "max_cooldown":12,
 "name":"Rock Shield"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4742,6 +5405,7 @@
 "max_cooldown":15,
 "name":"Rock Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4749,6 +5413,7 @@
 "max_cooldown":17,
 "name":"Rose Flare"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4756,6 +5421,7 @@
 "max_cooldown":13,
 "name":"Rouzan Shoryuha"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4763,6 +5429,7 @@
 "max_cooldown":10,
 "name":"Royal Gale"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4770,6 +5437,7 @@
 "max_cooldown":25,
 "name":"Royal Gravity"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -4777,6 +5445,7 @@
 "max_cooldown":19,
 "name":"Ruby of Charity"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4784,6 +5453,7 @@
 "max_cooldown":17,
 "name":"Rudraksha"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4791,6 +5461,7 @@
 "max_cooldown":16,
 "name":"Rune Enhance, Dark & Light"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4798,6 +5469,7 @@
 "max_cooldown":16,
 "name":"Rune Enhance, Fire & Water"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4805,6 +5477,7 @@
 "max_cooldown":16,
 "name":"Rune Enhance, Light & Water"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4812,6 +5485,7 @@
 "max_cooldown":16,
 "name":"Rune Enhance, Water & Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -4819,6 +5493,7 @@
 "max_cooldown":16,
 "name":"Rune Enhance, Wood & Dark"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -4826,6 +5501,7 @@
 "max_cooldown":25,
 "name":"Ruthless Tackle"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4833,6 +5509,7 @@
 "max_cooldown":10,
 "name":"S\u30ec\u30dc\u30ea\u30e5\u30fc\u30b7\u30e7\u30f3"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4840,6 +5517,7 @@
 "max_cooldown":11,
 "name":"S\u30a8\u30af\u30b9\u30c6\u30a3\u30f3\u30af\u30b7\u30e7\u30f3"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4847,6 +5525,7 @@
 "max_cooldown":15,
 "name":"Sacred Fire Oath"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -4854,6 +5533,7 @@
 "max_cooldown":11,
 "name":"Sacred Horn"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4861,6 +5541,7 @@
 "max_cooldown":13,
 "name":"Saimyosho Summoning"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4868,6 +5549,7 @@
 "max_cooldown":20,
 "name":"Saintly Maiden's Command"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4875,6 +5557,7 @@
 "max_cooldown":18,
 "name":"Samurai Dragon's Bravery"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -4882,6 +5565,7 @@
 "max_cooldown":19,
 "name":"Sapphire of Nobility"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -4889,6 +5573,7 @@
 "max_cooldown":19,
 "name":"Sea Draco Summoning Circle-Wt & Wd"
 },
+
 {
 "tags":[],
 "min_cooldown":22,
@@ -4896,6 +5581,7 @@
 "max_cooldown":22,
 "name":"Search"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4903,6 +5589,7 @@
 "max_cooldown":18,
 "name":"Secret Blow"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4910,6 +5597,7 @@
 "max_cooldown":15,
 "name":"Secret Bonus"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4917,6 +5605,7 @@
 "max_cooldown":13,
 "name":"Secret Box"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -4924,6 +5613,7 @@
 "max_cooldown":17,
 "name":"Secret Special Training!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -4931,6 +5621,7 @@
 "max_cooldown":10,
 "name":"Secret Technique Kessho Shi"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4938,6 +5629,7 @@
 "max_cooldown":16,
 "name":"Secret Technique Tensho Juji Ho"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4945,6 +5637,7 @@
 "max_cooldown":13,
 "name":"Seiryuu Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4952,6 +5645,7 @@
 "max_cooldown":13,
 "name":"Selfless Devotion"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -4959,6 +5653,7 @@
 "max_cooldown":14,
 "name":"SG\u30ab\u30df\u30ab\u30bc\u30a2\u30bf\u30c3\u30af"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -4966,6 +5661,7 @@
 "max_cooldown":20,
 "name":"Shadow Field"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4973,6 +5669,7 @@
 "max_cooldown":15,
 "name":"Shield Break"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4980,6 +5677,7 @@
 "max_cooldown":15,
 "name":"Shine Flare Ring"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -4987,6 +5685,7 @@
 "max_cooldown":20,
 "name":"Shine Seed Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -4994,6 +5693,7 @@
 "max_cooldown":12,
 "name":"Shining Abyssal Gate"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5001,6 +5701,7 @@
 "max_cooldown":20,
 "name":"Shining Death Queen's Whisper"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5008,6 +5709,7 @@
 "max_cooldown":16,
 "name":"Shining Stroke"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5015,6 +5717,7 @@
 "max_cooldown":12,
 "name":"Shinrabansho"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5022,6 +5725,7 @@
 "max_cooldown":20,
 "name":"Shower of Healing"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5029,6 +5733,7 @@
 "max_cooldown":18,
 "name":"Show them your burning soul!!"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -5036,6 +5741,7 @@
 "max_cooldown":10,
 "name":"Shuffle Shot"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5043,6 +5749,7 @@
 "max_cooldown":8,
 "name":"Shukuchi"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5050,6 +5757,7 @@
 "max_cooldown":12,
 "name":"Sidewinder"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5057,6 +5765,7 @@
 "max_cooldown":12,
 "name":"Sit boy!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5064,6 +5773,7 @@
 "max_cooldown":14,
 "name":"Slow"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5071,6 +5781,7 @@
 "max_cooldown":13,
 "name":"Smiling Palm"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5078,6 +5789,7 @@
 "max_cooldown":15,
 "name":"Smite of Rage"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5085,6 +5797,7 @@
 "max_cooldown":11,
 "name":"Snack Time!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5092,6 +5805,7 @@
 "max_cooldown":14,
 "name":"Solar Lazer"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5099,6 +5813,7 @@
 "max_cooldown":12,
 "name":"Solid Fortitude"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5106,6 +5821,7 @@
 "max_cooldown":9,
 "name":"Soul Cure"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5113,6 +5829,7 @@
 "max_cooldown":18,
 "name":"Soul Drain"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5120,6 +5837,7 @@
 "max_cooldown":25,
 "name":"Soul of Oblivion"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5127,6 +5845,7 @@
 "max_cooldown":17,
 "name":"Soul's Oracle"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5134,6 +5853,7 @@
 "max_cooldown":14,
 "name":"Southern Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5141,6 +5861,7 @@
 "max_cooldown":14,
 "name":"Space-Time Tuning Circle - Fr / Wt"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5148,6 +5869,7 @@
 "max_cooldown":14,
 "name":"Space-Time Tuning Circle - Wd / Fr"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5155,6 +5877,7 @@
 "max_cooldown":14,
 "name":"Space-Time Tuning Circle - Wt / Wd"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5162,6 +5885,7 @@
 "max_cooldown":10,
 "name":"Spanking!"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5169,6 +5893,7 @@
 "max_cooldown":9,
 "name":"Splash Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":2,
@@ -5176,6 +5901,7 @@
 "max_cooldown":10,
 "name":"Splash Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5183,6 +5909,7 @@
 "max_cooldown":13,
 "name":"Spread Cats"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -5190,6 +5917,7 @@
 "max_cooldown":27,
 "name":"Staff of the Four Waters"
 },
+
 {
 "tags":[],
 "min_cooldown":17,
@@ -5197,6 +5925,7 @@
 "max_cooldown":22,
 "name":"Stand back. I'll handle this!"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5204,6 +5933,7 @@
 "max_cooldown":8,
 "name":"Star Dust - Aqua"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5211,6 +5941,7 @@
 "max_cooldown":8,
 "name":"Star Dust - Flare"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5218,6 +5949,7 @@
 "max_cooldown":8,
 "name":"Star Dust - Land"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5225,6 +5957,7 @@
 "max_cooldown":25,
 "name":"Starfall"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5232,6 +5965,7 @@
 "max_cooldown":17,
 "name":"Starlight Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5239,6 +5973,7 @@
 "max_cooldown":15,
 "name":"Star Wake - Aqua"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5246,6 +5981,7 @@
 "max_cooldown":15,
 "name":"Star Wake - Land"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5253,6 +5989,7 @@
 "max_cooldown":11,
 "name":"Steel Spikes"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5260,6 +5997,7 @@
 "max_cooldown":21,
 "name":"Stir-Fry Rake"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5267,6 +6005,7 @@
 "max_cooldown":11,
 "name":"Storing Power nya!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5274,6 +6013,7 @@
 "max_cooldown":15,
 "name":"Storm Light Ring"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5281,6 +6021,7 @@
 "max_cooldown":13,
 "name":"Strawberry Shower"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5288,6 +6029,7 @@
 "max_cooldown":10,
 "name":"Style Change - Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5295,6 +6037,7 @@
 "max_cooldown":10,
 "name":"Style Change - Water"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5302,6 +6045,7 @@
 "max_cooldown":10,
 "name":"Style Change - Wood"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5309,6 +6053,7 @@
 "max_cooldown":15,
 "name":"Summer Paradise - Aqua"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5316,6 +6061,7 @@
 "max_cooldown":13,
 "name":"Summer Sea Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5323,6 +6069,7 @@
 "max_cooldown":11,
 "name":"Summon Darkness"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -5330,6 +6077,7 @@
 "max_cooldown":10,
 "name":"Summon Fire"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5337,6 +6085,7 @@
 "max_cooldown":11,
 "name":"Summon Light"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -5344,6 +6093,7 @@
 "max_cooldown":10,
 "name":"Summon Water"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -5351,6 +6101,7 @@
 "max_cooldown":10,
 "name":"Summon Wood"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5358,6 +6109,7 @@
 "max_cooldown":11,
 "name":"Sunburst Knuckle"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5365,6 +6117,7 @@
 "max_cooldown":12,
 "name":"Sundial"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -5372,6 +6125,7 @@
 "max_cooldown":18,
 "name":"Sunlight Crown"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5379,6 +6133,7 @@
 "max_cooldown":12,
 "name":"Sunlight Harmony"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5386,6 +6141,7 @@
 "max_cooldown":16,
 "name":"Sunrise Zone"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5393,6 +6149,7 @@
 "max_cooldown":16,
 "name":"Sunset Zone"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5400,6 +6157,7 @@
 "max_cooldown":10,
 "name":"Super Power Hymn"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5407,6 +6165,7 @@
 "max_cooldown":20,
 "name":"Super Shinra - A. Lord Shin"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -5414,6 +6173,7 @@
 "max_cooldown":20,
 "name":"Super Shinra - Blazing God Devastation"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -5421,6 +6181,7 @@
 "max_cooldown":20,
 "name":"Super Shinra - Gathering Cloud Devastation"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5428,6 +6189,7 @@
 "max_cooldown":14,
 "name":"Super Shinra - Light Dragon God Devastation"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -5435,6 +6197,7 @@
 "max_cooldown":20,
 "name":"Super Shinra - Oni Howl Devastation"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -5442,6 +6205,7 @@
 "max_cooldown":20,
 "name":"Super Shinra - Sacred Dragon Devastation"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -5449,6 +6213,7 @@
 "max_cooldown":20,
 "name":"Super Shinra - Sacred Dragon God Devastation"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -5456,6 +6221,7 @@
 "max_cooldown":20,
 "name":"Super Shinra - Ultimate God Devastation"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5463,6 +6229,7 @@
 "max_cooldown":13,
 "name":"Suzaku Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5470,6 +6237,7 @@
 "max_cooldown":11,
 "name":"Suzuran Harumichi's Gang is here"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5477,6 +6245,7 @@
 "max_cooldown":18,
 "name":"Sweet Perfume"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5484,6 +6253,7 @@
 "max_cooldown":20,
 "name":"Sweet Shoot"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -5491,6 +6261,7 @@
 "max_cooldown":17,
 "name":"Swords that give life"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5498,6 +6269,7 @@
 "max_cooldown":12,
 "name":"Tactical Flame"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5505,6 +6277,7 @@
 "max_cooldown":15,
 "name":"Tail Lightning"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -5512,6 +6285,7 @@
 "max_cooldown":18,
 "name":"Tail Strike Meow!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5519,6 +6293,7 @@
 "max_cooldown":12,
 "name":"Tears of a Clown"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5526,6 +6301,7 @@
 "max_cooldown":13,
 "name":"Terror Wave"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5533,6 +6309,7 @@
 "max_cooldown":17,
 "name":"The 6 Wings Legend"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5540,6 +6317,7 @@
 "max_cooldown":13,
 "name":"The Compliant Rod"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5547,6 +6325,7 @@
 "max_cooldown":13,
 "name":"The Feathered Garment of Yomi"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5554,6 +6333,7 @@
 "max_cooldown":22,
 "name":"The Morning Star"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5561,6 +6341,7 @@
 "max_cooldown":12,
 "name":"Then get stronger."
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -5568,6 +6349,7 @@
 "max_cooldown":17,
 "name":"The promised time has come"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5575,6 +6357,7 @@
 "max_cooldown":13,
 "name":"The Sacred Blue Chains"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5582,6 +6365,7 @@
 "max_cooldown":16,
 "name":"The Switch"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5589,6 +6373,7 @@
 "max_cooldown":13,
 "name":"The Sword Kusanagi"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -5596,6 +6381,7 @@
 "max_cooldown":22,
 "name":"The Third Eye"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5603,6 +6389,7 @@
 "max_cooldown":18,
 "name":"The Way of Yielding Firmness"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5610,6 +6397,7 @@
 "max_cooldown":13,
 "name":"This fight... is all mine!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5617,6 +6405,7 @@
 "max_cooldown":14,
 "name":"This is a fight for me and me alone"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5624,6 +6413,7 @@
 "max_cooldown":15,
 "name":"This is my duty as a knight!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5631,6 +6421,7 @@
 "max_cooldown":13,
 "name":"This is my story!"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5638,6 +6429,7 @@
 "max_cooldown":20,
 "name":"This will end it"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5645,6 +6437,7 @@
 "max_cooldown":25,
 "name":"Thunder Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5652,6 +6445,7 @@
 "max_cooldown":20,
 "name":"Thunder Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5659,6 +6453,7 @@
 "max_cooldown":15,
 "name":"Thunder Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5666,6 +6461,7 @@
 "max_cooldown":4,
 "name":"Time for some moogle magic. Kupo!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5673,6 +6469,7 @@
 "max_cooldown":20,
 "name":"Time has come..."
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5680,6 +6477,7 @@
 "max_cooldown":15,
 "name":"Time's Coiled Spring"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -5687,6 +6485,7 @@
 "max_cooldown":20,
 "name":"Tokei Koho"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5694,6 +6493,7 @@
 "max_cooldown":20,
 "name":"Tornado Cannon"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5701,6 +6501,7 @@
 "max_cooldown":12,
 "name":"Tornado Signal"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5708,6 +6509,7 @@
 "max_cooldown":9,
 "name":"Tree Spell"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5715,6 +6517,7 @@
 "max_cooldown":10,
 "name":"Trembling Sky Roar"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5722,6 +6525,7 @@
 "max_cooldown":20,
 "name":"Triface"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -5729,6 +6533,7 @@
 "max_cooldown":13,
 "name":"Truce Negotiations"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5736,6 +6541,7 @@
 "max_cooldown":20,
 "name":"True Ninja Art Fireworks"
 },
+
 {
 "tags":[],
 "min_cooldown":18,
@@ -5743,6 +6549,7 @@
 "max_cooldown":28,
 "name":"Twin Pole Oni Flame Slash"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5750,6 +6557,7 @@
 "max_cooldown":25,
 "name":"Ultimate Jecht Shot"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5757,6 +6565,7 @@
 "max_cooldown":30,
 "name":"Ultra Gravity"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5764,6 +6573,7 @@
 "max_cooldown":16,
 "name":"Ultra Heat Up"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5771,6 +6581,7 @@
 "max_cooldown":12,
 "name":"Unifying Magic Bullets"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -5778,6 +6589,7 @@
 "max_cooldown":16,
 "name":"Unparalleled Destructive Strike"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5785,6 +6597,7 @@
 "max_cooldown":12,
 "name":"Unwavering Faith"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5792,6 +6605,7 @@
 "max_cooldown":14,
 "name":"Ur Fever!!"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5799,6 +6613,7 @@
 "max_cooldown":30,
 "name":"Vast Dawn"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5806,6 +6621,7 @@
 "max_cooldown":18,
 "name":"Verdant Sea Dragon Broadside"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5813,6 +6629,7 @@
 "max_cooldown":16,
 "name":"Vik Enhance"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5820,6 +6637,7 @@
 "max_cooldown":11,
 "name":"Virtuous Foundation"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5827,6 +6645,7 @@
 "max_cooldown":11,
 "name":"Vortex Counter"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5834,6 +6653,7 @@
 "max_cooldown":13,
 "name":"\u30dc\u30eb\u30e1\u30c6\u30a6\u30b9\u30fbW\u30fb\u30d5\u30ec\u30a2"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5841,6 +6661,7 @@
 "max_cooldown":20,
 "name":"Waaaaaaaah!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5848,6 +6669,7 @@
 "max_cooldown":13,
 "name":"Wakizashi's Vow"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5855,6 +6677,7 @@
 "max_cooldown":15,
 "name":"Water Awakening"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5862,6 +6685,7 @@
 "max_cooldown":17,
 "name":"Water Enhancement"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5869,6 +6693,7 @@
 "max_cooldown":9,
 "name":"Water Orb Change"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -5876,6 +6701,7 @@
 "max_cooldown":20,
 "name":"Water Rapids Field"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5883,6 +6709,7 @@
 "max_cooldown":13,
 "name":"Water&Wood Orbs Change"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -5890,6 +6717,7 @@
 "max_cooldown":20,
 "name":"We have arrived!"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -5897,6 +6725,7 @@
 "max_cooldown":12,
 "name":"We'll destroy you and prove you wrong!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -5904,6 +6733,7 @@
 "max_cooldown":14,
 "name":"Well, let's start"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5911,6 +6741,7 @@
 "max_cooldown":11,
 "name":"We must take measures now."
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -5918,6 +6749,7 @@
 "max_cooldown":14,
 "name":"We're friends, aren't we?"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5925,6 +6757,7 @@
 "max_cooldown":10,
 "name":"We're gonna settle this!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -5932,6 +6765,7 @@
 "max_cooldown":14,
 "name":"Western Seven-Star Formation"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5939,6 +6773,7 @@
 "max_cooldown":15,
 "name":"What are you, stupid?"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5946,6 +6781,7 @@
 "max_cooldown":11,
 "name":"What Color is Your Blood?!"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -5953,6 +6789,7 @@
 "max_cooldown":14,
 "name":"What say we be friends!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5960,6 +6797,7 @@
 "max_cooldown":10,
 "name":"Whirlwind Scoop's Technique"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -5967,6 +6805,7 @@
 "max_cooldown":17,
 "name":"Who wanna die come here!!"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5974,6 +6813,7 @@
 "max_cooldown":9,
 "name":"Wild Cats"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -5981,6 +6821,7 @@
 "max_cooldown":10,
 "name":"Wild Cats X"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5988,6 +6829,7 @@
 "max_cooldown":10,
 "name":"Wind Ball"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -5995,6 +6837,7 @@
 "max_cooldown":10,
 "name":"Wind Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -6002,6 +6845,7 @@
 "max_cooldown":10,
 "name":"Wind Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6009,6 +6853,7 @@
 "max_cooldown":13,
 "name":"Wind Charge"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6016,13 +6861,15 @@
 "max_cooldown":20,
 "name":"Wind Seed Breath"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
 "effect":"Change top-most row into Wood orbs. Deal 1000 damage to all enemies. Ignore enemy element and defense.",
 "max_cooldown":31,
-"name":"Wind Spirale"
+"name":"Wind Spiral"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6030,6 +6877,7 @@
 "max_cooldown":23,
 "name":"Wisdom of the Ancients"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -6037,6 +6885,7 @@
 "max_cooldown":10,
 "name":"With the Yang & Ying of Heaven and Earth I command you!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6044,6 +6893,7 @@
 "max_cooldown":20,
 "name":"Won't you accept defeat!?"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6051,6 +6901,7 @@
 "max_cooldown":15,
 "name":"Wood Awakening"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -6058,6 +6909,7 @@
 "max_cooldown":9,
 "name":"Wood Orb Change"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -6065,6 +6917,7 @@
 "max_cooldown":15,
 "name":"World"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6072,6 +6925,7 @@
 "max_cooldown":12,
 "name":"World of the Gleaming Moon"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -6079,6 +6933,7 @@
 "max_cooldown":35,
 "name":"World's End"
 },
+
 {
 "tags":[],
 "min_cooldown":20,
@@ -6086,6 +6941,7 @@
 "max_cooldown":35,
 "name":"Wrath of God"
 },
+
 {
 "tags":[],
 "min_cooldown":27,
@@ -6093,6 +6949,7 @@
 "max_cooldown":31,
 "name":"Wrath of God X"
 },
+
 {
 "tags":[],
 "min_cooldown":22,
@@ -6100,6 +6957,7 @@
 "max_cooldown":37,
 "name":"Wrath of Zeus"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6107,6 +6965,7 @@
 "max_cooldown":15,
 "name":"Yellow Season"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -6114,6 +6973,7 @@
 "max_cooldown":12,
 "name":"Yomi Wave"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -6121,6 +6981,7 @@
 "max_cooldown":16,
 "name":"...You are a fool."
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -6128,6 +6989,7 @@
 "max_cooldown":20,
 "name":"You Are Already Dead"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6135,6 +6997,7 @@
 "max_cooldown":10,
 "name":"You're a brave one"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6142,6 +7005,7 @@
 "max_cooldown":20,
 "name":"You stubborn fool..."
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -6149,6 +7013,7 @@
 "max_cooldown":9,
 "name":"Youth Light"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6156,6 +7021,7 @@
 "max_cooldown":11,
 "name":"Zone of Darkness"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -6163,13 +7029,15 @@
 "max_cooldown":8,
 "name":"\u4e00\u63e1\u308a\u306e\u706b\u85ac"
 },
+
 {
 "tags":[],
-"min_cooldown":999,
-"effect":"Unknown - needs data update",
-"max_cooldown":999,
-"name":"\u4eca \u6d88\u6ec5\u3059\u308b\u6642\u304c\u304d\u305f\u306e\u3060"
+"min_cooldown":5,
+"effect":"Change right-most column into Wood orbs. Enhance Wood orbs. +6% per orb.",
+"max_cooldown":10,
+"name":"The time to annihilate you has come"
 },
+
 {
 "tags":[],
 "min_cooldown":20,
@@ -6177,6 +7045,7 @@
 "max_cooldown":20,
 "name":"\u4ed9\u8c46"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -6184,6 +7053,7 @@
 "max_cooldown":12,
 "name":"\u30aa\u30ec\u304c\u4f1a\u9577\u306e\u907a\u5fd7\u3092\u7d99\u3050"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -6191,6 +7061,7 @@
 "max_cooldown":18,
 "name":"\u50d5\u3001\u3061\u3087\u3063\u3068\u5f37\u3044\u304b\u3082"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6198,13 +7069,15 @@
 "max_cooldown":22,
 "name":"\u5149\u5438\u53ce"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
 "effect":"Reduce 5% of all enemies' HP. Ignore enemy element and defense.",
 "max_cooldown":20,
-"name":"\u51a5\u754c\u306e\u72c2\u98a8"
+"name":"Hell's Raging Wind"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6212,6 +7085,7 @@
 "max_cooldown":13,
 "name":"\u30bf\u30aa\u30d1\u30d6\u306e\u529b"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
@@ -6219,6 +7093,7 @@
 "max_cooldown":15,
 "name":"\u5317\u6597\u525b\u638c\u6ce2\u30c7\u30d3\uff5e\uff01"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -6226,6 +7101,7 @@
 "max_cooldown":9,
 "name":"\u53cb\u3068\u306e\u7d04\u675f"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6233,6 +7109,7 @@
 "max_cooldown":15,
 "name":"\u53e3\u5148\u3060\u3051\u306e\u53cb\u60c5\u3058\u3083\u306a\u3044"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6240,6 +7117,7 @@
 "max_cooldown":17,
 "name":"\u308f\u305f\u3057\u306e\u547d\u306b\u304b\u3048\u3066\u3082\uff01"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -6247,6 +7125,7 @@
 "max_cooldown":15,
 "name":"\u56fd\u5efa\u306e\u5de7\u6280"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -6254,6 +7133,7 @@
 "max_cooldown":12,
 "name":"\u307f\u3093\u306a\u5730\u7344\u3067\u3042\u304a\u3046\u305c"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -6261,6 +7141,7 @@
 "max_cooldown":11,
 "name":"\u58f1\u4e43\u638c"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -6268,13 +7149,15 @@
 "max_cooldown":18,
 "name":"\u5909\u8eab"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
 "effect":"Increase skyfall chance of Water orbs by 15% for 4 turns.",
 "max_cooldown":21,
-"name":"\u5927\u9be8\u306e\u6ce2\u98db\u6cab"
+"name":"Big Whale's Sea Spray"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6282,13 +7165,15 @@
 "max_cooldown":10,
 "name":"\u5929\u6d77\u306e\u66d9\u5149"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
 "effect":"Full HP recovery. Full bind recovery. Reduces cooldown of other skills by 1 turn.",
 "max_cooldown":16,
-"name":"\u5b8c\u6cbb\u306e\u5149\uff38"
+"name":"Shower of Healing X"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6296,6 +7181,7 @@
 "max_cooldown":16,
 "name":"\u5c16\u8056\u5263"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6303,6 +7189,7 @@
 "max_cooldown":12,
 "name":"\u5eec\u5c71\u767e\u9f8d\u8987"
 },
+
 {
 "tags":[],
 "min_cooldown":19,
@@ -6310,6 +7197,7 @@
 "max_cooldown":23,
 "name":"\u5f8b\u3059\u308b\u5c0f\u6307\u306e\u9396"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6317,6 +7205,7 @@
 "max_cooldown":14,
 "name":"\u5fc5\u6bba\u5263"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6324,6 +7213,7 @@
 "max_cooldown":12,
 "name":"\u5feb\u7652\u306e\u9f13\u821e"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6331,6 +7221,7 @@
 "max_cooldown":16,
 "name":"\u304a\u6012\u308a\u30cb\u30e3\uff01"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -6338,6 +7229,7 @@
 "max_cooldown":11,
 "name":"\u201c\u6028\u201d"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6345,6 +7237,7 @@
 "max_cooldown":22,
 "name":"\u602a\u529b\u3067\u7834\u58ca\u3057\u3066\u3084\u308c\u30fc\u3063"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -6352,6 +7245,7 @@
 "max_cooldown":13,
 "name":"\u60aa\u9b54\u9f8d\u306e\u6ec5\u89d2"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6359,6 +7253,7 @@
 "max_cooldown":20,
 "name":"\u6211\u30ac\u529b\u30f2\u3001\u884c\u4f7f\u30b9\u30eb"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6366,6 +7261,7 @@
 "max_cooldown":16,
 "name":"\u30d6\u30e9\u30c3\u30af\u6212\u5f8b\u767a\u52d5"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6373,6 +7269,7 @@
 "max_cooldown":17,
 "name":"\u6226\u3044\u306e\u7d50\u672b\u306f\u751f\u304b\u6b7b\u3060\u3051\u3060!!"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -6380,6 +7277,7 @@
 "max_cooldown":13,
 "name":"\u30b8\u30e3\u30b8\u30e3\u30f3\u62f3\u30fb\u30b0\u30fc"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6387,6 +7285,7 @@
 "max_cooldown":16,
 "name":"\u30b8\u30ef\u30b8\u30ef\u653b\u3081\u308b\u30cb\u30e3\uff01"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6394,6 +7293,7 @@
 "max_cooldown":10,
 "name":"\u653b\u6483\u614b\u52e2\u30fb\u5149\uff38"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6401,6 +7301,7 @@
 "max_cooldown":20,
 "name":"\u6697\u9ed2\u9b54\u754c\u306e\u708e"
 },
+
 {
 "tags":[],
 "min_cooldown":18,
@@ -6408,6 +7309,7 @@
 "max_cooldown":23,
 "name":"\u6700\u9ad8\u306e\u6280"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6415,6 +7317,7 @@
 "max_cooldown":10,
 "name":"\u6728\u661f\u5275\u4e16"
 },
+
 {
 "tags":[],
 "min_cooldown":14,
@@ -6422,6 +7325,7 @@
 "max_cooldown":28,
 "name":"\u3069\u304a\u308c\u3001\u672c\u6c17\u3067\u3044\u304f\u304b"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6429,6 +7333,7 @@
 "max_cooldown":11,
 "name":"\u6843\u8272\u5410\u606f"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -6436,6 +7341,7 @@
 "max_cooldown":15,
 "name":"\u6b7b\u795e\u306e\u5186\u821e\u66f2"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -6443,13 +7349,7 @@
 "max_cooldown":15,
 "name":"\u6c17\u5186\u65ac"
 },
-{
-"tags":[],
-"min_cooldown":999,
-"effect":"Unknown - needs data update",
-"max_cooldown":999,
-"name":"\u306a\u3093\u3068\u3059\u304c\u3059\u304c\u3057\u3044\u6c17\u5206\u3060"
-},
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -6457,6 +7357,7 @@
 "max_cooldown":16,
 "name":"\u30c0\u30d6\u30eb\u6c17\u529f\u6ce2"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -6464,6 +7365,7 @@
 "max_cooldown":13,
 "name":"\u6c17\u529f\u7832"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6471,6 +7373,7 @@
 "max_cooldown":18,
 "name":"\u3078\u3078\u3078\u2026\u6cb9\u65ad\u5927\u6575\u3060\u305c"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6478,6 +7381,7 @@
 "max_cooldown":16,
 "name":"\u6cbb\u7652\u80fd\u529b"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6485,6 +7389,7 @@
 "max_cooldown":16,
 "name":"\u304b\u3081\u306f\u3081\u6ce2"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -6492,6 +7397,7 @@
 "max_cooldown":13,
 "name":"\u3069\u3069\u3093\u6ce2"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6499,13 +7405,15 @@
 "max_cooldown":12,
 "name":"\u6d77\u795e\u306e\u970a\u7389"
 },
+
 {
 "tags":[],
 "min_cooldown":15,
 "effect":"Inflict Dark damage equal to ATK x50 to all enemies. Affected by enemy element and defense. Inflict Poison damage equal to ATK x10 to all enemies every turn. Ignore enemy element and defense.",
 "max_cooldown":19,
-"name":"\u6ec5\u69cd\u30b0\u30f3\u30b0\u30cb\u30fc\u30eb\uff38"
+"name":"Destroying Lance, Gungnir X"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -6513,6 +7421,7 @@
 "max_cooldown":13,
 "name":"\u727d\u5236\u3059\u308b\u30cb\u30e3\uff01"
 },
+
 {
 "tags":[],
 "min_cooldown":13,
@@ -6520,6 +7429,7 @@
 "max_cooldown":22,
 "name":"\u738b\u306e\u4e00\u624b"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -6527,6 +7437,7 @@
 "max_cooldown":8,
 "name":"\u7406\u529b\u30d1\u30ef\u30fc\u5897\u5927"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6534,13 +7445,15 @@
 "max_cooldown":10,
 "name":"\u76d7\u8cca\u306e\u6975\u610f"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
 "effect":"Change top-most row into Fire orbs and bottom-most row into Wood orbs.",
 "max_cooldown":26,
-"name":"\u79d8\u5929\u30fb\u6d41\u661f\u5263"
+"name":"Secret Heaven - Meteor Blade"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6548,6 +7461,7 @@
 "max_cooldown":17,
 "name":"\u3053\u306e\u308f\u305f\u3057\u304c\u7b11\u308f\u305b\u308b\u3082\u306e\u304b"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
@@ -6555,6 +7469,7 @@
 "max_cooldown":13,
 "name":"\u7cbe\u970a\u9f8d\u306e\u714c\u7259"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6562,6 +7477,7 @@
 "max_cooldown":20,
 "name":"\u7d20\u65e9\u3044\u653b\u6483\u30cb\u30e3\uff01"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -6569,6 +7485,7 @@
 "max_cooldown":13,
 "name":"\u7e70\u6c17\u5f3e"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -6576,6 +7493,7 @@
 "max_cooldown":12,
 "name":"\u8056\u970a\u5149"
 },
+
 {
 "tags":[],
 "min_cooldown":20,
@@ -6583,6 +7501,7 @@
 "max_cooldown":35,
 "name":"\u81ea\u7206"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6590,6 +7509,7 @@
 "max_cooldown":11,
 "name":"\u821e\u7a7a\u8853"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6597,6 +7517,7 @@
 "max_cooldown":11,
 "name":"\u30e2\u30eb\u30dc\u30eb\u83cc"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -6604,6 +7525,7 @@
 "max_cooldown":15,
 "name":"\u304a\u83d3\u5b50\u5149\u7dda"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -6611,6 +7533,7 @@
 "max_cooldown":13,
 "name":"\u843d\u96f7"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -6618,6 +7541,7 @@
 "max_cooldown":15,
 "name":"\u84bc\u8987\u738b\u306e\u63f4\u8b77"
 },
+
 {
 "tags":[],
 "min_cooldown":4,
@@ -6625,6 +7549,7 @@
 "max_cooldown":8,
 "name":"\u8584\u3063\u307a\u3089\u306a\u5618"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -6632,6 +7557,7 @@
 "max_cooldown":14,
 "name":"\u8d85\u30d9\u30b8\u30c3\u30c8\u30bd\u30fc\u30c9"
 },
+
 {
 "tags":[],
 "min_cooldown":18,
@@ -6639,6 +7565,7 @@
 "max_cooldown":22,
 "name":"\u8d85\u60aa\u9b54\u306e\u9b54\u708e"
 },
+
 {
 "tags":[],
 "min_cooldown":7,
@@ -6646,6 +7573,7 @@
 "max_cooldown":14,
 "name":"\u8d85\u304b\u3081\u306f\u3081\u6ce2"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6653,6 +7581,7 @@
 "max_cooldown":14,
 "name":"\u8d85\u7206\u88c2\u9b54\u7834"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
@@ -6660,6 +7589,7 @@
 "max_cooldown":15,
 "name":"\u8d85\u7d1a\u304b\u3081\u306f\u3081\u6ce2"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6667,13 +7597,15 @@
 "max_cooldown":16,
 "name":"\u8d85\u9060\u8ddd\u96e2\u6483\u7834\u30d1\u30ef\u30fc\u7832"
 },
+
 {
 "tags":[],
 "min_cooldown":9,
 "effect":"Machine type cards ATK x1.2 for 8 turns.",
 "max_cooldown":9,
-"name":"\u307f\u3093\u306a\u3067\u8e0a\u308a\u307e\u3057\u3087\u3046"
+"name":"Everybody Dance!"
 },
+
 {
 "tags":[],
 "min_cooldown":6,
@@ -6681,6 +7613,7 @@
 "max_cooldown":11,
 "name":"\u3082\u3046\u9003\u3052\u3089\u308c\u306a\u3044\u305c\u30fc\u3063!!"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6688,6 +7621,7 @@
 "max_cooldown":10,
 "name":"\u30d5\u30a1\u30df\u901aApp\u306e\u58f0\u63f4"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
@@ -6695,6 +7629,7 @@
 "max_cooldown":12,
 "name":"\u30d5\u30a1\u30df\u901a App \u306e\u5927\u6fc0\u6012"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
@@ -6702,13 +7637,15 @@
 "max_cooldown":3,
 "name":"\u30d5\u30a1\u30df\u901a App \u306e\u6012\u308a"
 },
+
 {
 "tags":[],
 "min_cooldown":12,
 "effect":"Machine type cards ATK x3 for 1 turn.",
 "max_cooldown":17,
-"name":"\u30d5\u30a1\u30df\u901aApp\u306e\u71b1\u6c17"
+"name":"Famitsu App Enthusiasm"
 },
+
 {
 "tags":[],
 "min_cooldown":10,
@@ -6716,13 +7653,15 @@
 "max_cooldown":10,
 "name":"\u30d5\u30a1\u30df\u901aApp\u306e\u795d\u798f"
 },
+
 {
 "tags":[],
 "min_cooldown":5,
 "effect":"Change right-most column into Fire orbs. Enhance Fire orbs. +6% per orb.",
 "max_cooldown":10,
-"name":"\u91ce\u671b\u3068\u3068\u3082\u306b\u7070\u3068\u306a\u308c"
+"name":"You and your ambition burn to ashes!"
 },
+
 {
 "tags":[],
 "min_cooldown":11,
@@ -6730,13 +7669,15 @@
 "max_cooldown":15,
 "name":"\u97f3\u306a\u304d\u4e0d\u610f\u6253\u3061\u30cb\u30e3\uff01"
 },
+
 {
 "tags":[],
 "min_cooldown":3,
 "effect":"Randomly spawn 3 Light orbs from non Light orbs.",
 "max_cooldown":18,
-"name":"\u30a2\u30c4\u3044\u9b42\u3092\u898b\u305b\u3066!!"
+"name":"Show me your burning soul!!"
 },
+
 {
 "tags":[],
 "min_cooldown":8,
@@ -6744,11 +7685,197 @@
 "max_cooldown":13,
 "name":"\u9b54\u5f3e\u30ed\u30de\u30ce\u30d5\u30fb\u30b9\u30c8\u30e9\u30a4\u30af"
 },
+
 {
 "tags":[],
 "min_cooldown":18,
 "effect":"Inflict Dark damage equal to ATK x200 to 1 enemy. Affected by enemy element and defense.",
 "max_cooldown":22,
 "name":"\u9b54\u8cab\u5149\u6bba\u7832"
+},
+
+{
+"tags":[],
+"min_cooldown":10,
+"effect":"75% damage reduction for 1 turn. +1 combo count for 1 turn.",
+"max_cooldown":14,
+"name":"\u6075\u611b\u306a\u308b\u8b77\u5ff5"
+},
+
+{
+"tags":[],
+"min_cooldown":6,
+"effect":"God & Balanced type cards ATK x2 for 1 turn. Deal 100000 Light damage to 1 enemy in exchange for reducing HP by 50%. Affected by enemy element and defense.",
+"max_cooldown":10,
+"name":"Dawn of the Celestial Ocean"
+},
+
+{
+"tags":[],
+"min_cooldown":6,
+"effect":"All attribute cards RCV x1.5 for 4 turns. Change Jammer, Poison & Mortal Poison orbs to Heart orbs.",
+"max_cooldown":21,
+"name":"\u30d4\u30e5\u30ea\u30d5\u30a1\u30a4\u30e2\u30fc\u30c9"
+},
+
+{
+"tags":[],
+"min_cooldown":6,
+"effect":"Inflict Dark damage equal to ATK x50 to 1 enemy, and drain 15% of the damage you dealt. Affected by enemy element and defense. Enhance Water & Dark orbs. +6% per orb, up to +180% for full board.",
+"max_cooldown":11,
+"name":"\u9b54\u69cd\u30b0\u30f3\u30b0\u30cb\u30fc\u30eb\uff38"
+},
+
+{
+"tags":[],
+"min_cooldown":12,
+"effect":"+1 combo count for 1 turn. Change Light, Heart, Jammer, Poison & Mortal Poison orbs to Fire orbs.",
+"max_cooldown":17,
+"name":"\u30c9\u30ae\u30e9\u30b4\u30f3\u30fb\u30a8\u30f3\u30c8\u30ea\u30fc"
+},
+
+{
+"tags":[],
+"min_cooldown":10,
+"effect":"Change all orbs to Fire, Wood & Heart orbs. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":15,
+"name":"\u9769\u547d\u30c1\u30a7\u30f3\u30b8"
+},
+
+{
+"tags":[],
+"min_cooldown":10,
+"effect":"+1 combo count for 1 turn. Change Dark orbs to Fire orbs, Heart orbs to Wood orbs.",
+"max_cooldown":15,
+"name":"\u4ffa\u306e\u5207\u308a\u672d\uff01\u52dd\u3063\u305f\u30fc\uff01"
+},
+
+{
+"tags":[],
+"min_cooldown":8,
+"effect":"Change Water orbs to Light orbs, Dark orbs to Heart orbs. Enhance Light orbs. +6% per orb.",
+"max_cooldown":11,
+"name":"\u30c9\u30ed\u30c3\u30d7\u5909\u5316\u30fb\u547d\u9583\uff38"
+},
+
+{
+"tags":[],
+"min_cooldown":8,
+"effect":"Change Fire orbs to Water orbs, Light orbs to Heart orbs. Enhance Water orbs. +6% per orb.",
+"max_cooldown":11,
+"name":"\u30c9\u30ed\u30c3\u30d7\u5909\u5316\u30fb\u547d\u84bc\uff38"
+},
+
+{
+"tags":[],
+"min_cooldown":8,
+"effect":"Change Water orbs to Wood orbs, Fire orbs to Heart orbs. Enhance Wood orbs. +6% per orb.",
+"max_cooldown":11,
+"name":"\u30c9\u30ed\u30c3\u30d7\u5909\u5316\u30fb\u547d\u6a39\uff38"
+},
+
+{
+"tags":[],
+"min_cooldown":8,
+"effect":"Change Wood orbs to Fire orbs, Dark orbs to Heart orbs. Enhance Fire orbs. +6% per orb.",
+"max_cooldown":11,
+"name":"\u30c9\u30ed\u30c3\u30d7\u5909\u5316\u30fb\u547d\u708e\uff38"
+},
+
+{
+"tags":[],
+"min_cooldown":8,
+"effect":"Change Light orbs to Wood orbs, Dark orbs to Heart orbs. Enhance Wood orbs. +6% per orb.",
+"max_cooldown":11,
+"name":"\u30c9\u30ed\u30c3\u30d7\u5909\u5316\u30fb\u547d\u68ee\uff38"
+},
+
+{
+"tags":[],
+"min_cooldown":8,
+"effect":"Change Wood orbs to Dark orbs, Light orbs to Heart orbs. Enhance Dark orbs. +6% per orb.",
+"max_cooldown":11,
+"name":"\u30c9\u30ed\u30c3\u30d7\u5909\u5316\u30fb\u547d\u7344\uff38"
+},
+
+{
+"tags":[],
+"min_cooldown":15,
+"effect":"Fire attribute ATK x2 for 3 turns. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":18,
+"name":"\u30a4\u30b0\u30cb\u30fc\u30c8\u30a8\u30f3\u30cf\u30f3\u30b9"
+},
+
+{
+"tags":[],
+"min_cooldown":15,
+"effect":"Water attribute ATK x2 for 3 turns. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":18,
+"name":"\u30d5\u30ed\u30b9\u30c8\u30a8\u30f3\u30cf\u30f3\u30b9"
+},
+
+{
+"tags":[],
+"min_cooldown":15,
+"effect":"Wood attribute ATK x2 for 3 turns. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":18,
+"name":"\u30b0\u30e9\u30a6\u30f3\u30c9\u30a8\u30f3\u30cf\u30f3\u30b9"
+},
+
+{
+"tags":[],
+"min_cooldown":5,
+"effect":"Increase skyfall chance of Dark orbs by 15% for 1 turns. Randomly spawn 2 Dark orbs from non Dark orbs.",
+"max_cooldown":15,
+"name":"\u306a\u3093\u3068\u3059\u304c\u3059\u304c\u3057\u3044\u6c17\u5206\u3060"
+},
+
+{
+"tags":[],
+"min_cooldown":18,
+"effect":"Deals damage equal to 20% of enemies' max HP.",
+"max_cooldown":23,
+"name":"\u7169\u60a9\u9664\u53bb\u306e\u795e\u529b"
+},
+
+{
+"tags":[],
+"min_cooldown":10,
+"effect":"Change Fire & Heart orbs to Water orbs. +1 combo count for 1 turn.",
+"max_cooldown":15,
+"name":"\u969c\u5bb3\u9664\u6ec5\u306e\u795e\u529b"
+},
+
+{
+"tags":[],
+"min_cooldown":7,
+"effect":"+1 combo count for 1 turn. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":12,
+"name":"\u9664\u707d\u62db\u798f\u306e\u795e\u529b"
+},
+
+{
+"tags":[],
+"min_cooldown":15,
+"effect":"Light attribute ATK x2 for 3 turns. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":20,
+"name":"\u6028\u6575\u9000\u6563\u306e\u795e\u529b"
+},
+
+{
+"tags":[],
+"min_cooldown":15,
+"effect":"Dark attribute ATK x2 for 3 turns. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":20,
+"name":"\u6226\u52dd\u7948\u9858\u306e\u795e\u529b"
+},
+
+{
+"tags":[],
+"min_cooldown":8,
+"effect":"+1 combo count for 2 turns.",
+"max_cooldown":13,
+"name":"\u30a8\u30fc\u30c6\u30eb\u30d6\u30fc\u30b9\u30c8"
 }
+
 ]

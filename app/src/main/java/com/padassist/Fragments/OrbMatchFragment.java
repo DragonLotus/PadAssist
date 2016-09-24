@@ -38,6 +38,7 @@ import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
+import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Util.Singleton;
 
 import java.lang.reflect.Array;
@@ -692,10 +693,16 @@ public class OrbMatchFragment extends Fragment {
         addMatch.setOnClickListener(addMatchOnClickListener);
         reset.setOnClickListener(resetOnClickListener);
 
+        noDropLeaderSkills.add(LeaderSkillType.COMBO_NO_DROP);
+        noDropLeaderSkills.add(LeaderSkillType.MATCH_ELEMENTS_FLAT_NO_DROP);
+        noDropLeaderSkills.add(LeaderSkillType.FLAT_CROSS_NO_DROP);
+        noDropLeaderSkills.add(LeaderSkillType.COMBO_FLAT_NO_DROP);
+
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_COMBO_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_INDIAN_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_MATCH_ELEMENT_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_ORB_LINK_FLAT);
+
         if (minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getValue()) || minimumMatchLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getValue())) {
             if (team.getLeadSkill().getMinimumMatch() > minimumMatch) {
                 minimumMatch = team.getLeadSkill().getMinimumMatch();
@@ -757,6 +764,7 @@ public class OrbMatchFragment extends Fragment {
                     orbMatchList.remove(i);
                 }
             }
+            additionalComboValue.setEnabled(false);
         }
 
         orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchOnClickListener, removeMatchOnClickListener);
@@ -858,6 +866,20 @@ public class OrbMatchFragment extends Fragment {
         if (orbMatchList.size() != 0) {
             team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
         }
+
+        if(team.getLeadSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+            Log.d("OrbMatchFragment", "ima set rcv");
+            for (int i = 0; i < team.getRcvMultiplier().size(); i++){
+                team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), orbMatchList.size() + additionalCombos));
+            }
+        }
+
+        if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+            for (int i = 0; i < team.getRcvMultiplier().size(); i++){
+                team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), orbMatchList.size() + additionalCombos));
+            }
+        }
+        Log.d("OrbMatchFragment", "rcvMultiplier is: " + team.getRcvMultiplier());
     }
 
     private void updateSpinners() {

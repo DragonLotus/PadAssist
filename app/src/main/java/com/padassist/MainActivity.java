@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.saveTeam) {
 
         } else if (id == R.id.loadTeam) {
-            switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+
         } else if (id == R.id.monsterList) {
 //            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, Singleton.getInstance().getMonsterOverwrite()), MonsterTabLayoutFragment.TAG, "good");
         } else if (id == R.id.manageMonsters) {

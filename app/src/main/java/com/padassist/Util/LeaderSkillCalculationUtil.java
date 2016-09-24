@@ -260,6 +260,21 @@ public class LeaderSkillCalculationUtil {
                 case MINIMUM_MATCH_COMBO_FLAT:
                     comboFlat(monster, team, team.getLeadSkill(), totalCombos);
                     break;
+                case COMBO_NO_DROP:
+                    combo(monster, team, team.getLeadSkill(), totalCombos);
+                    break;
+                case MATCH_ELEMENTS_FLAT_NO_DROP:
+                    matchElementFlat(monster, team, team.getLeadSkill());
+                    break;
+                case ORB_LINK_ORB_LINK:
+                    orbLinkOrbLink(monster, team, team.getLeadSkill());
+                    break;
+                case COMBO_FLAT_NO_DROP:
+                    comboFlat(monster, team, team.getLeadSkill(), totalCombos);
+                    break;
+                case FLAT_CROSS_NO_DROP:
+                    flatCross(monster, team, team.getLeadSkill());
+                    break;
             }
         }
 
@@ -460,6 +475,21 @@ public class LeaderSkillCalculationUtil {
                 case MINIMUM_MATCH_COMBO_FLAT:
                     comboFlat(monster, team, team.getHelperSkill(), totalCombos);
                     break;
+                case COMBO_NO_DROP:
+                    combo(monster, team, team.getHelperSkill(), totalCombos);
+                    break;
+                case MATCH_ELEMENTS_FLAT_NO_DROP:
+                    matchElementFlat(monster, team, team.getHelperSkill());
+                    break;
+                case ORB_LINK_ORB_LINK:
+                    orbLinkOrbLink(monster, team, team.getHelperSkill());
+                    break;
+                case COMBO_FLAT_NO_DROP:
+                    comboFlat(monster, team, team.getHelperSkill(), totalCombos);
+                    break;
+                case FLAT_CROSS_NO_DROP:
+                    flatCross(monster, team, team.getHelperSkill());
+                    break;
             }
         }
         return atkMultiplier;
@@ -507,6 +537,18 @@ public class LeaderSkillCalculationUtil {
             }
         }
         return rcvMultiplier;
+    }
+
+    public static double comboRcv(LeaderSkill leaderSkill, int totalCombos) {
+        //3198
+        int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
+        int counter = totalCombos - leaderSkill.getComboMin();
+        if (counter >= comboDiff) {
+            return leaderSkill.getAtkData().get(comboDiff).getValue();
+        } else if (totalCombos >= leaderSkill.getComboMin()) {
+            return leaderSkill.getAtkData().get(counter).getValue();
+        }
+        return 1;
     }
 
     private static void flat(Monster monster, LeaderSkill leaderSkill, int stat) {
@@ -2804,6 +2846,46 @@ public class LeaderSkillCalculationUtil {
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter2 - leaderSkill.getComboMin2() + comboDiff + 1).getValue());
         }
 
+    }private static void orbLinkOrbLink(Monster monster, Team team, LeaderSkill leaderSkill) {
+        int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
+        int counter = 0;
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
+                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                    }
+                }
+            }
+
+        }
+        if (counter >= leaderSkill.getComboMax()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff).getValue());
+        } else if (counter >= leaderSkill.getComboMin()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(counter - leaderSkill.getComboMin()).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter - leaderSkill.getComboMin()).getValue());
+        }
+
+        int comboDiff2 = leaderSkill.getComboMax2() - leaderSkill.getComboMin2();
+        int counter2 = 0;
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getValue())) {
+                    if (counter2 < team.getOrbMatches().get(i).getOrbsLinked()) {
+                        counter2 = team.getOrbMatches().get(i).getOrbsLinked();
+                    }
+                }
+            }
+
+        }
+        if (counter2 >= leaderSkill.getComboMax2()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff2 + comboDiff + 1).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff2 + comboDiff + 1).getValue());
+        } else if (counter2 >= leaderSkill.getComboMin2()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(counter2 - leaderSkill.getComboMin2() + comboDiff + 1).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter2 - leaderSkill.getComboMin2() + comboDiff + 1).getValue());
+        }
     }
 
 //    private double atkDataMax() {

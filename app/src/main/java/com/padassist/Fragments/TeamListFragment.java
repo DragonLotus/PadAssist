@@ -336,55 +336,55 @@ public class TeamListFragment extends Fragment {
     private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam() {
         @Override
         public void loadTeam() {
-            Team teamZero = realm.where(Team.class).equalTo("teamId", 0).findFirst();
-            Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+//            Team teamZero = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+//            Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
             Team loadTeam = teamList.get(selectedTeam);
             loadTeam = realm.copyFromRealm(loadTeam);
-
-            if (teamZero.getTeamIdOverwrite() == 0) {
-                ArrayList<Monster> zeroMonsterList = new ArrayList<>();
-                for (int i = 0; i < 6; i++) {
-                    zeroMonsterList.add(monsterZero);
-                }
-                if (teamZero.getMonsters().equals(zeroMonsterList)) {
-                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-                    loadTeam.setTeamId(0);
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(loadTeam);
-                    realm.commitTransaction();
-                    getActivity().getSupportFragmentManager().popBackStack();
-                } else {
-                    if (loadTeamConfirmationDialogFragment == null) {
-                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
-                    }
-                    if(!loadTeamConfirmationDialogFragment.isAdded()){
-                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
-                    }
-                }
-            } else if (realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst() != null) {
-                if (!teamZero.getMonsters().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getMonsters()) || !teamZero.getTeamName().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getTeamName())) {
-                    if (loadTeamConfirmationDialogFragment == null) {
-                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
-                    }
-                    if(!loadTeamConfirmationDialogFragment.isAdded()){
-                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
-                    }
-                } else {
-                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-                    loadTeam.setTeamId(0);
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(loadTeam);
-                    realm.commitTransaction();
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }
-            } else {
+//
+//            if (teamZero.getTeamIdOverwrite() == 0) {
+//                ArrayList<Monster> zeroMonsterList = new ArrayList<>();
+//                for (int i = 0; i < 6; i++) {
+//                    zeroMonsterList.add(monsterZero);
+//                }
+//                if (teamZero.getMonsters().equals(zeroMonsterList)) {
+//                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+//                    loadTeam.setTeamId(0);
+//                    realm.beginTransaction();
+//                    realm.copyToRealmOrUpdate(loadTeam);
+//                    realm.commitTransaction();
+//                    getActivity().getSupportFragmentManager().popBackStack();
+//                } else {
+//                    if (loadTeamConfirmationDialogFragment == null) {
+//                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+//                    }
+//                    if(!loadTeamConfirmationDialogFragment.isAdded()){
+//                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+//                    }
+//                }
+//            } else if (realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst() != null) {
+//                if (!teamZero.getMonsters().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getMonsters()) || !teamZero.getTeamName().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getTeamName())) {
+//                    if (loadTeamConfirmationDialogFragment == null) {
+//                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+//                    }
+//                    if(!loadTeamConfirmationDialogFragment.isAdded()){
+//                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+//                    }
+//                } else {
+//                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+//                    loadTeam.setTeamId(0);
+//                    realm.beginTransaction();
+//                    realm.copyToRealmOrUpdate(loadTeam);
+//                    realm.commitTransaction();
+//                    getActivity().getSupportFragmentManager().popBackStack();
+//                }
+//            } else {
                 loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
                 loadTeam.setTeamId(0);
                 realm.beginTransaction();
                 realm.copyToRealmOrUpdate(loadTeam);
                 realm.commitTransaction();
                 getActivity().getSupportFragmentManager().popBackStack();
-            }
+//            }
 
         }
 

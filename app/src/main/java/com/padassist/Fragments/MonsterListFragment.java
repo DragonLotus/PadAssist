@@ -67,6 +67,7 @@ public class MonsterListFragment extends Fragment {
     private ClearTeamConfirmationDialogFragment clearTeamConfirmationDialogFragment;
     private Realm realm;
     private Monster monster0;
+    private LoadTeamConfirmationDialogFragment loadTeamConfirmationDialogFragment;
 
     /**
      * Use this factory method to create a new instance of
@@ -192,9 +193,50 @@ public class MonsterListFragment extends Fragment {
                 team.setTeamStats();
                 monsterListRecycler.notifyDataSetChanged();
                 break;
+            case R.id.loadTeam:
+                Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+                if(team.getTeamIdOverwrite() == 0){
+                    boolean notEqual = false;
+                    for (int i = 0; i < monsters.size(); i++){
+                        if(!monsters.get(i).equals(monsterZero)){
+                            notEqual = true;
+                        }
+                    }
+                    if(notEqual){
+                        if (loadTeamConfirmationDialogFragment == null) {
+                            loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+                        }
+                        if (!loadTeamConfirmationDialogFragment.isAdded()) {
+                            loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                        }
+                    } else {
+                        ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+                    }
+                } else {
+                    Team teamOverwrite = realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst();
+                    if(!team.getMonsters().equals(teamOverwrite.getMonsters()) || !team.getTeamName().equals(teamOverwrite.getTeamName()) || team.getTeamBadge() != teamOverwrite.getTeamBadge()){
+                        if (loadTeamConfirmationDialogFragment == null) {
+                            loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+                        }
+                        if (!loadTeamConfirmationDialogFragment.isAdded()) {
+                            loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                        }
+                    } else {
+                        ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+                    }
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private LoadTeamConfirmationDialogFragment.ResetLayout loadTeamConfirmation = new LoadTeamConfirmationDialogFragment.ResetLayout() {
+        @Override
+        public void resetLayout() {
+            loadTeamConfirmationDialogFragment.dismiss();
+            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+        }
+    };
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -379,6 +421,7 @@ public class MonsterListFragment extends Fragment {
 
         @Override
         public void clearTeam() {
+            Team teamOverwrite = realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst();
             if (team.getTeamIdOverwrite() == 0) {
                 for (int i = 0; i < monsters.size(); i++) {
                     if (!monsters.get(i).equals(monster0)) {
@@ -391,7 +434,7 @@ public class MonsterListFragment extends Fragment {
                         teamSaveDialogFragment.dismiss();
                     }
                 }
-            } else if (!team.getMonsters().equals(realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst().getMonsters()) || !team.getTeamName().equals(realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst().getTeamName())) {
+            } else if (!team.getMonsters().equals(teamOverwrite.getMonsters()) || !team.getTeamName().equals(teamOverwrite.getTeamName()) || team.getTeamBadge() != teamOverwrite.getTeamBadge()) {
                 if (clearTeamConfirmationDialogFragment == null) {
                     clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                 }
