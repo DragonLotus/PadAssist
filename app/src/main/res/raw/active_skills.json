@@ -489,7 +489,7 @@
 {
 "tags":[],
 "min_cooldown":14,
-"effect":"ATK x1.3 for 1 turn for every Extend Time on the team.",
+"effect":"ATK x1.3 for 2 turns for every Extend Time on the team.",
 "max_cooldown":19,
 "name":"Alexandrite of Calmness"
 },
@@ -921,7 +921,7 @@
 {
 "tags":[],
 "min_cooldown":13,
-"effect":"Inflict Wood damage equal to ATK x20 to 1 enemy, and drain 30% of the damage you dealt. Affected by enemy element and defense.",
+"effect":"Reduce enemies' defense to 0 for 1 turn. Effects carry forward on sweep. Inflict Wood damage equal to ATK x20 to 1 enemy, and drain 100% of the damage you dealt. Affected by enemy element and defense.",
 "max_cooldown":23,
 "name":"Blessed Blade of the Hero"
 },
@@ -993,7 +993,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"God type cards ATK x2.5 for 1 turn. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
+"effect":"God type cards ATK x2.5 for 2 turns. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
 "max_cooldown":15,
 "name":"Blue Crest"
 },
@@ -1273,7 +1273,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Enhance Water & Light orbs. +6% per orb, up to +180% for full board. Recover RCV x10 HP.",
+"effect":"Enhance Water & Light orbs. +6% per orb, up to +180% for full board. Recover RCV x20 HP. Awoken skill bind recovery for 2 turns.",
 "max_cooldown":15,
 "name":"Clear Water Star Astrology"
 },
@@ -1617,7 +1617,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Inflict Wood damage equal to ATK x30 to 1 enemy. Affected by enemy element and defense. Wood attribute ATK x1.5 for 3 turns.",
+"effect":"Inflict Wood damage equal to ATK x30 to 1 enemy. Affected by enemy element and defense. Wood attribute ATK x1.5 for 4 turns.",
 "max_cooldown":15,
 "name":"Demon Strike"
 },
@@ -1625,7 +1625,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Change all orbs to Fire, Water & Wood & Dark orbs. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
+"effect":"Change all orbs to Fire, Water & Wood & Dark orbs. Deal 100000 damage to all enemies. Ignore enemy element and defense.",
 "max_cooldown":14,
 "name":"Demon-Vanquishing Hymn"
 },
@@ -1681,7 +1681,7 @@
 {
 "tags":[],
 "min_cooldown":14,
-"effect":"ATK x1.3 for 1 turn for every Two-Pronged Attack on the team.",
+"effect":"ATK x1.3 for 2 turns for every Two-Pronged Attack on the team.",
 "max_cooldown":19,
 "name":"Diamond of Fortitude"
 },
@@ -2128,7 +2128,7 @@
 
 {
 "tags":[],
-"min_cooldown":9,
+"min_cooldown":7,
 "effect":"Change all orbs to Fire, Water & Wood & Light orbs. Deal 99 damage to all enemies. Ignore enemy element and defense.",
 "max_cooldown":14,
 "name":"Elegant Singing and Dancing"
@@ -2185,7 +2185,7 @@
 {
 "tags":[],
 "min_cooldown":14,
-"effect":"ATK x1.3 for 1 turn for every Enhanced Wood Attribute, Enhanced Dark Attribute on the team.",
+"effect":"ATK x1.3 for 2 turns for every Enhanced Wood Attribute, Enhanced Dark Attribute on the team.",
 "max_cooldown":19,
 "name":"Emerald of Clarity"
 },
@@ -2289,7 +2289,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Physical type cards ATK x2.5 for 1 turn. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
+"effect":"Physical type cards ATK x2.5 for 2 turns. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
 "max_cooldown":15,
 "name":"Evil Crest"
 },
@@ -2457,7 +2457,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Inflict Water nuke damage equal to team Water ATK x10 to 1 enemy. Water attribute ATK x1.5 for 3 turns.",
+"effect":"Inflict Water nuke damage equal to team Water ATK x10 to 1 enemy. Water attribute ATK x1.5 for 4 turns.",
 "max_cooldown":15,
 "name":"Five Chariots Wave Barrier"
 },
@@ -2769,7 +2769,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Deal Light damage to 1 enemy based on player's HP %. ATK x20 at 100% HP up to ATK x200 at 1 HP. Affected by enemy element and defense. Light attribute ATK x1.5 for 3 turns.",
+"effect":"Deal Light damage to 1 enemy based on player's HP %. ATK x20 at 100% HP up to ATK x200 at 1 HP. Affected by enemy element and defense. Light attribute ATK x1.5 for 4 turns.",
 "max_cooldown":15,
 "name":"Gekiheki Haisui Sho"
 },
@@ -2985,7 +2985,7 @@
 {
 "tags":[],
 "min_cooldown":12,
-"effect":"Reduce 25% of all enemies' HP. Ignore enemy element and defense. Increases time limit of orb movement by 5 seconds for 1 turn.",
+"effect":"Reduce 25% of all enemies' HP. Ignore enemy element and defense. Increases time limit of orb movement by 5 seconds for 5 turns.",
 "max_cooldown":17,
 "name":"Gravity World"
 },
@@ -2993,7 +2993,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Balanced type cards ATK x2.5 for 1 turn. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
+"effect":"Balanced type cards ATK x2.5 for 2 turns. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
 "max_cooldown":15,
 "name":"Green Crest"
 },
@@ -3417,7 +3417,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Healer type cards ATK x2.5 for 1 turn. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
+"effect":"Healer type cards ATK x2.5 for 2 turns. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
 "max_cooldown":15,
 "name":"Holy Crest"
 },
@@ -3457,7 +3457,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Change all orbs to Water, Wood & Light & Dark orbs. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
+"effect":"Change all orbs to Water, Wood & Light & Dark orbs. Deal 100000 damage to all enemies. Ignore enemy element and defense.",
 "max_cooldown":14,
 "name":"Holy Water Hymn"
 },
@@ -3689,7 +3689,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Inflict damage equal to ATK x30 to 1 enemy. Affected by enemy element and defense. Randomly spawn 7 Light orbs from non Light orbs.",
+"effect":"Deal 77 damage to 1 enemy. Ignore enemy element and defense. Randomly spawn 7 Light orbs from non Light orbs.",
 "max_cooldown":15,
 "name":"I'll Send You to Hell!"
 },
@@ -4952,8 +4952,8 @@
 
 {
 "tags":[],
-"min_cooldown":9,
-"effect":"Randomly spawn 3 Wood orbs from non Wood orbs. Wood attribute ATK x1.5 for 3 turns.",
+"min_cooldown":8,
+"effect":"Randomly spawn 6 Wood orbs from non Wood orbs. Wood attribute ATK x1.5 for 3 turns.",
 "max_cooldown":14,
 "name":"Penetrating Arrow"
 },
@@ -5225,7 +5225,7 @@
 {
 "tags":[],
 "min_cooldown":11,
-"effect":"Increases time limit of orb movement by 5 seconds for 1 turn. Dragon type cards ATK x1.5 for 1 turn.",
+"effect":"Increases time limit of orb movement by 5 seconds for 3 turns. Dragon type cards ATK x1.5 for 1 turn.",
 "max_cooldown":21,
 "name":"Puzzle & Dragons"
 },
@@ -5233,7 +5233,7 @@
 {
 "tags":[],
 "min_cooldown":15,
-"effect":"Increases time limit of orb movement by 2x for 1 turn. Dragon type cards ATK x2 for 1 turn.",
+"effect":"Increases time limit of orb movement by 2x for 2 turns. Dragon type cards ATK x2 for 2 turns.",
 "max_cooldown":25,
 "name":"Puzzle & Dragons W"
 },
@@ -5321,7 +5321,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Attacker type cards ATK x2.5 for 1 turn. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
+"effect":"Attacker type cards ATK x2.5 for 2 turns. Deal 100000 damage to 1 enemy. Ignore enemy element and defense.",
 "max_cooldown":15,
 "name":"Red Crest"
 },
@@ -5441,7 +5441,7 @@
 {
 "tags":[],
 "min_cooldown":14,
-"effect":"ATK x1.15 for 1 turn for every Enhanced Fire Orbs, Enhanced Light Orbs, Enhanced Heart Orbs on the team.",
+"effect":"ATK x1.15 for 2 turns for every Enhanced Fire Orbs, Enhanced Light Orbs, Enhanced Heart Orbs on the team.",
 "max_cooldown":19,
 "name":"Ruby of Charity"
 },
@@ -5561,7 +5561,7 @@
 {
 "tags":[],
 "min_cooldown":14,
-"effect":"ATK x1.3 for 1 turn for every Skill Boost on the team.",
+"effect":"ATK x1.3 for 2 turns for every Skill Boost on the team.",
 "max_cooldown":19,
 "name":"Sapphire of Nobility"
 },
@@ -5617,7 +5617,7 @@
 {
 "tags":[],
 "min_cooldown":5,
-"effect":"Inflict damage equal to ATK x50 to 1 enemy. Affected by enemy element and defense. Randomly spawn 2 Wood & Dark orbs from non Wood & Dark orbs.",
+"effect":"Deal 49 damage to 1 enemy. Ignore enemy element and defense. Randomly spawn 2 Wood & Dark orbs from non Wood & Dark orbs.",
 "max_cooldown":10,
 "name":"Secret Technique Kessho Shi"
 },
@@ -5985,7 +5985,7 @@
 {
 "tags":[],
 "min_cooldown":6,
-"effect":"Change Jammer & Water orbs to Fire orbs.",
+"effect":"Change Jammer & Water orbs to Fire orbs. Recover 30% of max HP.",
 "max_cooldown":11,
 "name":"Steel Spikes"
 },
@@ -6265,7 +6265,7 @@
 {
 "tags":[],
 "min_cooldown":7,
-"effect":"Randomly spawn 3 Fire orbs from non Fire orbs. 35% damage reduction for 3 turns.",
+"effect":"Randomly spawn 5 Fire orbs from non Fire orbs. 35% damage reduction for 3 turns.",
 "max_cooldown":12,
 "name":"Tactical Flame"
 },
@@ -6297,7 +6297,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Randomly spawn 4 Water orbs from non Water orbs. Delay 1 turn to all enemies.",
+"effect":"Randomly spawn 6 Water orbs from non Water orbs. Delay 1 turn to all enemies.",
 "max_cooldown":13,
 "name":"Terror Wave"
 },
@@ -6480,8 +6480,8 @@
 
 {
 "tags":[],
-"min_cooldown":13,
-"effect":"100% damage reduction for 1 turn. Bind recovery for 3 turns.",
+"min_cooldown":10,
+"effect":"100% damage reduction for 1 turn. Full bind recovery.",
 "max_cooldown":20,
 "name":"Tokei Koho"
 },
@@ -6577,7 +6577,7 @@
 {
 "tags":[],
 "min_cooldown":7,
-"effect":"Randomly spawn 6 Dark orbs from non Dark orbs. Bind recovery for 2 turns.",
+"effect":"Randomly spawn 6 Dark orbs from non Dark orbs. Bind recovery for 3 turns.",
 "max_cooldown":12,
 "name":"Unifying Magic Bullets"
 },
@@ -6921,7 +6921,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Enhance Fire, Water, Wood, Light, Dark & Heart orbs. +6% per orb. Increases time limit of orb movement by 5 seconds for 1 turn.",
+"effect":"Enhance Fire, Water, Wood, Light, Dark & Heart orbs. +6% per orb. Increases time limit of orb movement by 5 seconds for 3 turns.",
 "max_cooldown":12,
 "name":"World of the Gleaming Moon"
 },
@@ -6984,7 +6984,7 @@
 
 {
 "tags":[],
-"min_cooldown":15,
+"min_cooldown":12,
 "effect":"Reduce enemies' defense to 0 for 1 turn. Effects carry forward on sweep. Increases time limit of orb movement by 7 seconds for 1 turn.",
 "max_cooldown":20,
 "name":"You Are Already Dead"
@@ -7876,6 +7876,14 @@
 "effect":"+1 combo count for 2 turns.",
 "max_cooldown":13,
 "name":"\u30a8\u30fc\u30c6\u30eb\u30d6\u30fc\u30b9\u30c8"
+},
+
+{
+"tags":[],
+"min_cooldown":11,
+"effect":"Inflict Poison damage equal to ATK x8 to all enemies every turn. Ignore enemy element and defense. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":26,
+"name":"龍曲「海王神」"
 }
 
 ]

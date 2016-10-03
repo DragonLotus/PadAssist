@@ -20,6 +20,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Fragments.DeleteMonsterConfirmationDialogFragment;
 import com.padassist.Fragments.LatentAwakeningDialogFragment;
@@ -223,7 +224,7 @@ public abstract class MonsterPageBase extends Fragment {
 //        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
 
         Monster checkMonster = realm.where(Monster.class).equalTo("monsterId", monster.getMonsterId()).findFirst();
-        if(monster.isFavorite() != checkMonster.isFavorite()){
+        if (monster.isFavorite() != checkMonster.isFavorite()) {
             monster.setFavorite(checkMonster.isFavorite());
             setFavorite();
         }
@@ -582,13 +583,15 @@ public abstract class MonsterPageBase extends Fragment {
 
     protected void setImageViews() {
         type1.setImageResource(ImageResourceUtil.monsterType(monster.getType1()));
-        if(monster.getType2() >= 0){
+        if (monster.getType2() >= 0) {
             type2.setImageResource(ImageResourceUtil.monsterType(monster.getType2()));
+            type2.setVisibility(View.VISIBLE);
         } else {
             type2.setVisibility(View.INVISIBLE);
         }
-        if(monster.getType3() >= 0){
+        if (monster.getType3() >= 0) {
             type3.setImageResource(ImageResourceUtil.monsterType(monster.getType3()));
+            type3.setVisibility(View.VISIBLE);
         } else {
             type3.setVisibility(View.INVISIBLE);
         }
@@ -612,8 +615,8 @@ public abstract class MonsterPageBase extends Fragment {
         setTextViewValues();
     }
 
-    public void setSkillTextViews(){
-        if(monster.getActiveSkillString().equals("Blank")){
+    public void setSkillTextViews() {
+        if (monster.getActiveSkillString().equals("Blank")) {
             activeSkill1Cooldown.setVisibility(View.GONE);
             activeSkill1Desc.setVisibility(View.GONE);
             skill1Level.setVisibility(View.GONE);
@@ -626,14 +629,14 @@ public abstract class MonsterPageBase extends Fragment {
             setActive1Values();
             activeSkill1Name.setText(monster.getActiveSkillString());
         }
-        if(monster.getLeaderSkillString().equals("Blank")){
+        if (monster.getLeaderSkillString().equals("Blank")) {
             leaderSkillDesc.setVisibility(View.GONE);
             leaderSkillName.setText("None");
         } else {
             leaderSkillDesc.setText(monster.getLeaderSkill().getDescription());
             leaderSkillName.setText(monster.getLeaderSkillString());
         }
-        if(skill2Holder.getVisibility() == View.VISIBLE){
+        if (skill2Holder.getVisibility() == View.VISIBLE) {
             activeSkill2Name.setText(monster.getActiveSkill2String());
             activeSkill2Desc.setText(monster.getActiveSkill2().getDescription());
             setActive2Values();
@@ -836,44 +839,27 @@ public abstract class MonsterPageBase extends Fragment {
 
     private void setLatents() {
         for (int i = 0; i < monster.getLatents().size(); i++) {
-            switch (monster.getLatents().get(i).getValue()) {
-                case 0:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_blank);
-                    break;
-                case 1:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_1);
-                    break;
-                case 2:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_2);
-                    break;
-                case 3:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_3);
-                    break;
-                case 4:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_4);
-                    break;
-                case 5:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_5);
-                    break;
-                case 6:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_6);
-                    break;
-                case 7:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_7);
-                    break;
-                case 8:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_8);
-                    break;
-                case 9:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_9);
-                    break;
-                case 10:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_10);
-                    break;
-                case 11:
-                    latentHolder.getChildAt(i).setBackgroundResource(R.drawable.latent_awakening_11);
-                    break;
+            latentHolder.getChildAt(i).setBackgroundResource(ImageResourceUtil.monsterLatent(monster.getLatents().get(i).getValue()));
+        }
+    }
+
+    protected void evolveMonsterBase(long baseMonsterId) {
+        if (baseMonsterId != 0) {
+            String previousActiveSkill = monster.getActiveSkillString();
+            monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
+            if (!previousActiveSkill.equals(monster.getActiveSkillString())) {
+                monster.setActiveSkillLevel(1);
             }
+            monster.setIndices();
+            setSkillTextViews();
+            showAwakenings();
+            grayAwakenings();
+            updateMonster();
+            setImageViews();
+            rarity.setText("" + monster.getRarity());
+            monsterName.setText(monster.getName());
+            monsterPicture.setImageResource(monster.getMonsterPicture());
+            awakeningsCheck();
         }
     }
 

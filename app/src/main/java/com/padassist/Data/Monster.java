@@ -85,8 +85,8 @@ public class Monster extends RealmObject implements Parcelable {
 
     public Monster(long baseMonsterId) {
         currentLevel = 1;
-        monsterId = 0;
         this.baseMonsterId = baseMonsterId;
+        monsterId = 0;
         baseMonster = realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst();
         hpPlus = 0;
         atkPlus = 0;
@@ -115,12 +115,17 @@ public class Monster extends RealmObject implements Parcelable {
         activeSkillLevel = 1;
         activeSkill2Level = 1;
 
+        setIndices();
+    }
+
+    public void setIndices(){
         name = baseMonster.getName();
         baseMonsterIdString = baseMonster.getMonsterIdString();
         type1String = baseMonster.getType1String();
         type2String = baseMonster.getType2String();
         type3String = baseMonster.getType3String();
     }
+
 
     public int getCurrentLevel() {
         return currentLevel;

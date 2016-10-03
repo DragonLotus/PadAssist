@@ -866,17 +866,19 @@ public class OrbMatchFragment extends Fragment {
         if (orbMatchList.size() != 0) {
             team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
         }
-
-        if(team.getLeadSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
-            Log.d("OrbMatchFragment", "ima set rcv");
-            for (int i = 0; i < team.getRcvMultiplier().size(); i++){
-                team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), orbMatchList.size() + additionalCombos));
+        if(team.getLeadSkill().getRcvSkillType() != null){
+            if(team.getLeadSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
+                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), orbMatchList.size() + additionalCombos));
+                }
             }
         }
 
-        if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
-            for (int i = 0; i < team.getRcvMultiplier().size(); i++){
-                team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), orbMatchList.size() + additionalCombos));
+        if(team.getHelperSkill().getRcvSkillType() != null){
+            if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
+                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), orbMatchList.size() + additionalCombos));
+                }
             }
         }
         Log.d("OrbMatchFragment", "rcvMultiplier is: " + team.getRcvMultiplier());

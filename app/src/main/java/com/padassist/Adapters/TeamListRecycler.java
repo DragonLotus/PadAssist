@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.TeamLoadDialogFragment;
 import com.padassist.R;
+import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
 
@@ -45,38 +46,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.teamName.setText(teamList.get(position).getTeamName());
-        switch(teamList.get(position).getTeamBadge()){
-            case 0:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_nothing);
-                break;
-            case 1:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_cost);
-                break;
-            case 2:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_time_extend);
-                break;
-            case 3:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_mass_attack);
-                break;
-            case 4:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_rcv);
-                break;
-            case 5:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_hp);
-                break;
-            case 6:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_attack);
-                break;
-            case 7:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_skill_boost);
-                break;
-            case 8:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_bind_resist);
-                break;
-            case 9:
-                viewHolder.teamBadge.setImageResource(R.drawable.team_badge_skill_bind_resist);
-                break;
-        }
+        viewHolder.teamBadge.setImageResource(ImageResourceUtil.teamBadge(teamList.get(position).getTeamBadge()));
         viewHolder.monster1Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(0).getTotalPlus()) + " ");
         viewHolder.monster1Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(0).getCurrentAwakenings()));
         viewHolder.monster1Picture.setImageResource(teamList.get(position).getMonsters(0).getMonsterPicture());

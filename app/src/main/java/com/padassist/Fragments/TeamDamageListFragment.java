@@ -33,12 +33,14 @@ import android.widget.Toast;
 import com.padassist.Adapters.MonsterDamageListRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
+import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.TooltipText;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.DamageCalculationUtil;
+import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Util.Singleton;
 
 import org.w3c.dom.Text;
@@ -161,6 +163,21 @@ public class TeamDamageListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.refresh:
                 clearTextFocus();
+                if (team.getLeadSkill().getRcvSkillType() != null) {
+                    if (team.getLeadSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)) {
+                        for (int i = 0; i < team.getRcvMultiplier().size(); i++) {
+                            team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), totalCombos));
+                        }
+                    }
+                }
+
+                if (team.getHelperSkill().getRcvSkillType() != null) {
+                    if (team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)) {
+                        for (int i = 0; i < team.getRcvMultiplier().size(); i++) {
+                            team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), totalCombos));
+                        }
+                    }
+                }
                 monsterListAdapter.setCombos(totalCombos);
                 team.setAtkMultiplierArrays(totalCombos);
                 updateTextView();

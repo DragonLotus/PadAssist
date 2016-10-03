@@ -199,22 +199,7 @@ public class MonsterPageFragment extends MonsterPageBase {
 
         @Override
         public void evolveMonster(long baseMonsterId) {
-            if(baseMonsterId != 0){
-                String previousActiveSkill = monster.getActiveSkillString();
-                monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
-                if(!previousActiveSkill.equals(monster.getActiveSkillString())){
-                    monster.setActiveSkillLevel(1);
-                }
-                setSkillTextViews();
-                showAwakenings();
-                grayAwakenings();
-                updateMonster();
-                setImageViews();
-                rarity.setText("" + monster.getRarity());
-                monsterName.setText(monster.getName());
-                monsterPicture.setImageResource(monster.getMonsterPicture());
-                awakeningsCheck();
-            }
+            evolveMonsterBase(baseMonsterId);
         }
     };
 

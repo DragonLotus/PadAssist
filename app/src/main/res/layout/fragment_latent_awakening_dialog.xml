@@ -82,7 +82,7 @@
         android:layout_below="@+id/latent3Spinner"
         android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"
-        android:dropDownVerticalOffset="-130dp"/>
+        android:dropDownVerticalOffset="-120dp"/>
 
     <TextView
         android:id="@+id/latent5"
@@ -102,7 +102,7 @@
         android:layout_below="@+id/latent4Spinner"
         android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"
-        android:dropDownVerticalOffset="-145dp"/>
+        android:dropDownVerticalOffset="-135dp"/>
 
     <TextView
         android:id="@+id/latent6"
@@ -122,6 +122,6 @@
         android:layout_below="@+id/latent5Spinner"
         android:dropDownWidth="300dp"
         android:spinnerMode="dropdown"
-        android:dropDownVerticalOffset="-160dp"/>
+        android:dropDownVerticalOffset="-150dp"/>
 
 </RelativeLayout>
