@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -224,13 +225,14 @@ public abstract class MonsterPageBase extends Fragment {
 //        Log.d("Monster Page Log", "Monster level2: " + monster.getCurrentLevel());
 
         Monster checkMonster = realm.where(Monster.class).equalTo("monsterId", monster.getMonsterId()).findFirst();
-        if (monster.isFavorite() != checkMonster.isFavorite()) {
-            monster.setFavorite(checkMonster.isFavorite());
-            setFavorite();
-        }
 
         if (deleteCheck()) {
             getActivity().getSupportFragmentManager().popBackStack();
+        } else {
+            if (monster.isFavorite() != checkMonster.isFavorite()) {
+                monster.setFavorite(checkMonster.isFavorite());
+                setFavorite();
+            }
         }
 
 //        if(monster.isValid()){

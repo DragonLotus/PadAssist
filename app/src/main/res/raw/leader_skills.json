@@ -19187,7 +19187,7 @@
 "comboMax":5,
 "matchElements":[1],
 "effect":"Water attribute cards ATK x2. 50% Water & Wood damage reduction. ATK x2.5 when simultaneously clearing 5 connected Water orbs.",
-"name":"蒼鍵龍の伴奏"
+"name":"\u84bc\u9375\u9f8d\u306e\u4f34\u594f"
 },
 
 {
@@ -19202,7 +19202,7 @@
 "comboMin":5,
 "comboMax":5,
 "effect":"Dragon & God type cards HP x1.5, ATK x3.5. All attribute cards ATK x1.5, RCV x1.5 when reaching 5 or more combos.",
-"name":"星光の聖護符"
+"name":"\u661f\u5149\u306e\u8056\u8b77\u7b26"
 },
 
 {
@@ -19216,7 +19216,7 @@
 "comboMax2":3,
 "matchElements":[0,0,3,3],
 "effect":"All attribute cards ATK x4 when reaching Light, Light & Fire or Light & Fire & Fire combos. All attribute cards ATK x2.5, RCV x2.5 when reaching 4 or more combos.",
-"name":"魔力の集成"
+"name":"\u9b54\u529b\u306e\u96c6\u6210"
 },
 
 {
@@ -19228,7 +19228,7 @@
 "atkType":[2,4],
 "hpPercent":[100,50],
 "effect":"Physical & Dragon type cards HP x2, ATK x2. All attribute cards ATK x2 when HP is greater than 50%.",
-"name":"天風龍の呼応"
+"name":"\u5929\u98a8\u9f8d\u306e\u547c\u5fdc"
 },
 
 {
@@ -19239,7 +19239,7 @@
 "comboMax":2,
 "matchElements":[0,3],
 "effect":"Fire attribute cards ATK x3. 50% Fire, Light & Dark damage reduction. All attribute cards ATK x2 when reaching Fire & Light combos.",
-"name":"戦女神の魂"
+"name":"\u6226\u5973\u795e\u306e\u9b42"
 },
 
 {
@@ -19250,7 +19250,7 @@
 "comboMax":2,
 "matchElements":[1,4],
 "effect":"Water attribute cards ATK x3. 50% Water, Light & Dark damage reduction. All attribute cards ATK x2 when reaching Water & Dark combos.",
-"name":"海王神の魂"
+"name":"\u6d77\u738b\u795e\u306e\u9b42"
 },
 
 {
@@ -19261,7 +19261,7 @@
 "comboMax":2,
 "matchElements":[2,4],
 "effect":"Wood attribute cards ATK x3. 50% Wood, Light & Dark damage reduction. All attribute cards ATK x2 when reaching Wood & Dark combos.",
-"name":"豊穣神の魂"
+"name":"\u8c4a\u7a63\u795e\u306e\u9b42"
 },
 
 {
@@ -19274,7 +19274,7 @@
 "comboMin":4,
 "comboMax":7,
 "effect":"Fire attribute cards ATK x2, RCV x2. ATK x2 at 4 combos. ATK x0.5 for each additional combo, up to ATK x3.5 at 7 combos.",
-"name":"破壊神の魂"
+"name":"\u7834\u58ca\u795e\u306e\u9b42"
 },
 
 {
@@ -19288,7 +19288,7 @@
 "comboMax":8,
 "matchElements":[5],
 "effect":"Water attribute cards ATK x2.5, RCV x2. ATK x2 when simultaneously clearing 4 connected Heart orbs. ATK x0.5 for each additional orb, up to ATK x4 at 8 connected orb.",
-"name":"幸運神の魂"
+"name":"\u5e78\u904b\u795e\u306e\u9b42"
 },
 
 {
@@ -19302,7 +19302,7 @@
 "comboMax":8,
 "matchElements":[5],
 "effect":"Wood attribute cards ATK x2.5, RCV x2. ATK x2 when simultaneously clearing 4 connected Heart orbs. ATK x0.5 for each additional orb, up to ATK x4 at 8 connected orb.",
-"name":"金色神の魂"
+"name":"\u91d1\u8272\u795e\u306e\u9b42"
 },
 
 {
@@ -19314,7 +19314,35 @@
 "comboMax2":4,
 "matchElements":[0,1,2,4],
 "effect":"ATK x5 when attacking with Fire, Water, Wood & Dark orb types at the same time. All attribute cards ATK x1.5 when reaching 6 combos or above.",
-"name":"四源六泉掌"
+"name":"\u56db\u6e90\u516d\u6cc9\u638c"
+},
+
+{
+"atkSkillType":1,
+"rcvSkillType":1,
+"atkData":[1.5],
+"rcvData":[1.5],
+"atkElement":[3],
+"rcvElement":[3],
+"effect":"Light attribute cards ATK x1.5, RCV x1.5. Reduce damage taken by 35% after matching Heal orbs in a cross formation.",
+"name":"\u5149\u306e\u51a5\u8b77\u5370"
+},
+
+{
+"hpSkillType":1,
+"atkSkillType":9,
+"rcvSkillType":1,
+"hpData":[1.35],
+"atkData":[3,1.35],
+"rcvData":[1.35],
+"hpType":[5,7],
+"atkType":[5,7],
+"rcvType":[5,7],
+"comboMin":6,
+"comboMax":6,
+"matchElements":[4],
+"effect":"God & Devil type cards HP x1.35, ATK x1.35, RCV x1.35. ATK x3 when simultaneously clearing 6 connected Dark orbs.",
+"name":"\u307f\u3087\u3046\u3058\u3087\u3046\u306e\u3082\u304f\u3057\u308d\u304f"
 }
 
 ]

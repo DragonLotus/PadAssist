@@ -214,16 +214,36 @@ public class MonsterListFragment extends Fragment {
                     }
                 } else {
                     Team teamOverwrite = realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst();
-                    if(!team.getMonsters().equals(teamOverwrite.getMonsters()) || !team.getTeamName().equals(teamOverwrite.getTeamName()) || team.getTeamBadge() != teamOverwrite.getTeamBadge()){
-                        if (loadTeamConfirmationDialogFragment == null) {
-                            loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
-                        }
-                        if (!loadTeamConfirmationDialogFragment.isAdded()) {
-                            loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                    if(teamOverwrite != null){
+                        if(!team.getMonsters().equals(teamOverwrite.getMonsters()) || !team.getTeamName().equals(teamOverwrite.getTeamName()) || team.getTeamBadge() != teamOverwrite.getTeamBadge()){
+                            if (loadTeamConfirmationDialogFragment == null) {
+                                loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+                            }
+                            if (!loadTeamConfirmationDialogFragment.isAdded()) {
+                                loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                            }
+                        } else {
+                            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
                         }
                     } else {
-                        ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+                        boolean notEqual = false;
+                        for (int i = 0; i < monsters.size(); i++){
+                            if(!monsters.get(i).equals(monsterZero)){
+                                notEqual = true;
+                            }
+                        }
+                        if(notEqual){
+                            if (loadTeamConfirmationDialogFragment == null) {
+                                loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+                            }
+                            if (!loadTeamConfirmationDialogFragment.isAdded()) {
+                                loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+                            }
+                        } else {
+                            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+                        }
                     }
+
                 }
                 break;
         }
@@ -434,14 +454,16 @@ public class MonsterListFragment extends Fragment {
                         teamSaveDialogFragment.dismiss();
                     }
                 }
-            } else if (!team.getMonsters().equals(teamOverwrite.getMonsters()) || !team.getTeamName().equals(teamOverwrite.getTeamName()) || team.getTeamBadge() != teamOverwrite.getTeamBadge()) {
-                if (clearTeamConfirmationDialogFragment == null) {
-                    clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
+            } else if(teamOverwrite != null){
+                if (!team.getMonsters().equals(teamOverwrite.getMonsters()) || !team.getTeamName().equals(teamOverwrite.getTeamName()) || team.getTeamBadge() != teamOverwrite.getTeamBadge()) {
+                    if (clearTeamConfirmationDialogFragment == null) {
+                        clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
+                    }
+                    if (!clearTeamConfirmationDialogFragment.isAdded()) {
+                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+                    }
+                    teamSaveDialogFragment.dismiss();
                 }
-                if (!clearTeamConfirmationDialogFragment.isAdded()) {
-                    clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
-                }
-                teamSaveDialogFragment.dismiss();
             } else {
                 realm.beginTransaction();
                 for (int i = 0; i < 6; i++) {
