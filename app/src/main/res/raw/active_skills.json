@@ -1984,9 +1984,9 @@
 
 {
 "tags":[],
-"min_cooldown":10,
-"effect":"Recover 50% of max HP. Full bind recovery. Reduces cooldown of other skills by 1 turn.",
-"max_cooldown":15,
+"min_cooldown":9,
+"effect":"Recover 50% of max HP. Full bind and awoken bind recovery. Reduces cooldown of other skills by 1 turn.",
+"max_cooldown":14,
 "name":"Draupnir"
 },
 
@@ -3089,7 +3089,7 @@
 {
 "tags":[],
 "min_cooldown":9,
-"effect":"Inflict Light damage equal to ATK x50 to 1 enemy, and drain 15% of the damage you dealt. Affected by enemy element and defense. Bind recovery for 5 turns.",
+"effect":"Inflict Light damage equal to ATK x50 to 1 enemy, and drain 15% of the damage you dealt. Affected by enemy element and defense. Bind and awoken skill bind recovery for 5 turns.",
 "max_cooldown":17,
 "name":"Gungnir"
 },

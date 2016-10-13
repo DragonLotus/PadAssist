@@ -17174,14 +17174,14 @@
 {
 "atkSkillType":43,
 "atkData":[7],
-"effect":"ATK x7, reduce damage taken by 50% after matching Heal orbs in a cross formation. Increases time limit of orb movement by 1 seconds.",
+"effect":"ATK x7, reduce damage taken by 50% after matching Heal orbs in a cross formation. Increases time limit of orb movement by 2 seconds.",
 "name":"Eternal Dragon Pact - Torvio"
 },
 
 {
 "atkSkillType":43,
-"atkData":[7],
-"effect":"ATK x7, reduce damage taken by 50% after matching Heal orbs in a cross formation. Increases time limit of orb movement by 2 seconds.",
+"atkData":[7.7],
+"effect":"ATK x7.7, reduce damage taken by 50% after matching Heal orbs in a cross formation. Increases time limit of orb movement by 2 seconds.",
 "name":"Eternal Dragon Unity - Torvio"
 },
 
@@ -18185,8 +18185,8 @@
 
 {
 "atkSkillType":43,
-"atkData":[7],
-"effect":"ATK x7, reduce damage taken by 50% after matching Heal orbs in a cross formation. Increases time limit of orb movement by 1 seconds.",
+"atkData":[7.7],
+"effect":"ATK x7.7, reduce damage taken by 50% after matching Heal orbs in a cross formation. Increases time limit of orb movement by 2 seconds.",
 "name":"You can't escape from me!"
 },
 
