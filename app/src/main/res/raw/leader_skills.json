@@ -5722,12 +5722,16 @@
 },
 
 {
-"atkSkillType":5,
-"atkData":[3.0,3.5],
+"atkSkillType":11,
+"rcvSkillType"1,
+"atkData":[4,1.5],
+"rcvData":[1.5],
+"atkType":[2,6],
+"rcvType":[2,6],
 "comboMin":2,
-"comboMax":3,
+"comboMax":2,
 "matchElements":[0,1,3],
-"effect":"ATK x3 when attacking with 2 of following orb types:  Fire, Water & Light. ATK x0.5 for each additional orb type, up to ATK x3.5 for all 3 matches.",
+"effect":"Physical & Healer type cards ATK x1.5, RCV x1.5. ATK x4 when attacking with 2 of following orb types: Fire, Water & Light.",
 "name":"Maid of Might"
 },
 
@@ -8702,11 +8706,14 @@
 },
 
 {
-"atkSkillType":27,
-"atkData":[3.5],
+"hpSkillType":1,
+"atkSkillType":3,
+"hpData":[1.5],
+"atkData":[1.5,3.5],
+"hpType":[2,6],
+"atkType":[2,6],
 "atkElement":[3],
-"hpPercent":[100,50],
-"effect":"Light attribute cards ATK x3.5 when HP is greater than 50%.",
+"effect":"Physical & Attacker type cards HP x1.5, ATK x1.5. Light attribute cards ATK x3.5.",
 "name":"Super Strength"
 },
 
@@ -16266,12 +16273,12 @@
 },
 
 {
-"atkSkillType":8,
-"atkData":[4],
+"atkSkillType":71,
+"atkData":[4,2],
 "comboMin":6,
 "comboMax":6,
 "matchElements":[4],
-"effect":"ATK x4 when simultaneously clearing 6 connected Dark orbs. Reduce damage taken by 50% after matching Heal orbs in a cross formation.",
+"effect":"ATK x4 when simultaneously clearing 6 connected Dark orbs. ATK x2, reduce damage taken by 50% after matching Heal orbs in a cross formation.",
 "name":"Bat Vigilante"
 },
 

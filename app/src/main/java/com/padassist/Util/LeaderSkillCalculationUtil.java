@@ -275,6 +275,9 @@ public class LeaderSkillCalculationUtil {
                 case FLAT_CROSS_NO_DROP:
                     flatCross(monster, team, team.getLeadSkill());
                     break;
+                case ORB_LINK_HEART_CROSS:
+                    orbLinkHeartCross(monster, team, team.getLeadSkill());
+                    break;
             }
         }
 
@@ -489,6 +492,9 @@ public class LeaderSkillCalculationUtil {
                     break;
                 case FLAT_CROSS_NO_DROP:
                     flatCross(monster, team, team.getHelperSkill());
+                    break;
+                case ORB_LINK_HEART_CROSS:
+                    orbLinkHeartCross(monster, team, team.getHelperSkill());
                     break;
             }
         }
@@ -2885,6 +2891,50 @@ public class LeaderSkillCalculationUtil {
         } else if (counter2 >= leaderSkill.getComboMin2()) {
             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(counter2 - leaderSkill.getComboMin2() + comboDiff + 1).getValue());
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter2 - leaderSkill.getComboMin2() + comboDiff + 1).getValue());
+        }
+    }
+
+    private static void orbLinkHeartCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+        int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
+        int counter = 0;
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
+                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                    }
+                }
+            }
+
+        }
+
+        if (counter >= leaderSkill.getComboMax()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff).getValue());
+        } else if (counter >= leaderSkill.getComboMin()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(counter - leaderSkill.getComboMin()).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter - leaderSkill.getComboMin()).getValue());
+        }
+
+        if (Singleton.getInstance().isHeartCarryOver()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
+        } else {
+            Boolean matched = false;
+            int i = 0;
+            while (!matched) {
+                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
+                    if (team.getOrbMatches().get(i).isCross()) {
+                        atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
+                        atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
+                        matched = true;
+                    }
+                }
+                i++;
+                if (i == team.getOrbMatches().size()) {
+                    break;
+                }
+            }
         }
     }
 

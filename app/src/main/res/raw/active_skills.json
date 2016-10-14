@@ -785,7 +785,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Inflict damage equal to ATK x30 to 1 enemy. Affected by enemy element and defense. Balanced type cards ATK x2 for 1 turn.",
+"effect":"Balanced type cards ATK x2 for 1 turn. Reduces cooldown of other skills by 1 turn.",
 "max_cooldown":13,
 "name":"Batarang Blitz"
 },
@@ -793,7 +793,7 @@
 {
 "tags":[],
 "min_cooldown":11,
-"effect":"Inflict damage equal to ATK x30 to 1 enemy. Affected by enemy element and defense. Dark attribute ATK x2 for 1 turn.",
+"effect":"	Deal 999 damage to 1 enemy. Ignore enemy element and defense. Dark attribute ATK x2.5 for 1 turn.",
 "max_cooldown":14,
 "name":"Batwing"
 },
@@ -857,7 +857,7 @@
 {
 "tags":[],
 "min_cooldown":3,
-"effect":"Inflict damage equal to ATK x30 to 1 enemy. Affected by enemy element and defense. Balanced type cards ATK x1.2 for 6 turns.",
+"effect":"Deal 99 damage to 1 enemy. Ignore enemy element and defense. Balanced type cards ATK x1.2 for 6 turns.",
 "max_cooldown":6,
 "name":"Birdarangs"
 },
@@ -2105,7 +2105,7 @@
 {
 "tags":[],
 "min_cooldown":9,
-"effect":"Delay 2 turns to all enemies.",
+"effect":"Delay 2 turns to all enemies. Bind recovery for 2 turns.",
 "max_cooldown":14,
 "name":"Electric Impact"
 },
@@ -3129,7 +3129,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Inflict damage equal to ATK x30 to 1 enemy. Affected by enemy element and defense. Physical type cards ATK x2 for 1 turn.",
+"effect":"Physical type cards ATK x2 for 1 turn. Reduces cooldown of other skills by 1 turn.",
 "max_cooldown":13,
 "name":"Harpoon of Atlantis"
 },
@@ -3217,7 +3217,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Change all orbs to Fire, Water & Light orbs.",
+"effect":"Deal 1000 damage to 1 enemy. Ignore enemy element and defense. Change all orbs to Fire, Water & Light orbs.",
 "max_cooldown":13,
 "name":"Heat Vision"
 },
@@ -3849,7 +3849,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Inflict damage equal to ATK x30 to 1 enemy. Affected by enemy element and defense. Attacker type cards ATK x2 for 1 turn.",
+"effect":"Attacker type cards ATK x2 for 1 turn. Reduces cooldown of other skills by 1 turn.",
 "max_cooldown":13,
 "name":"Infinite Mass Punch"
 },
@@ -3865,7 +3865,7 @@
 {
 "tags":[],
 "min_cooldown":8,
-"effect":"Delay 1 turn to all enemies.",
+"effect":"Delay 1 turn to all enemies. Change Jammer orbs to Dark orbs.",
 "max_cooldown":11,
 "name":"Intimidation"
 },
@@ -4713,7 +4713,7 @@
 {
 "tags":[],
 "min_cooldown":10,
-"effect":"Inflict Fire damage equal to ATK x20-100 to all enemies. Affected by enemy element and defense. Randomly spawn 5 Fire orbs from non Fire orbs.",
+"effect":"Inflict Fire damage equal to ATK x20-100 to all enemies. Affected by enemy element and defense. Randomly spawn 8 Fire orbs from non Fire orbs.",
 "max_cooldown":15,
 "name":"Nine Lives"
 },
