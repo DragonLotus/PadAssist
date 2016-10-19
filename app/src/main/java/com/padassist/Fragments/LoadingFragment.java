@@ -1,4 +1,4 @@
-package com.padassist.Util;
+package com.padassist.Fragments;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.padassist.Constants;
-import com.padassist.Fragments.DisclaimerDialogFragment;
 import com.padassist.R;
 import com.padassist.Threads.ParseMonsterDatabaseThread;
 

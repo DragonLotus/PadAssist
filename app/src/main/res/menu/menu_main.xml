@@ -28,6 +28,12 @@
         android:title="Manage Monsters"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/updateCheck"
+        android:orderInCategory="99"
+        android:title="Check for updates"
+        app:showAsAction="never" />
+
     <group android:id="@+id/saveTeamGroup">
         <item
             android:id="@+id/saveTeam"

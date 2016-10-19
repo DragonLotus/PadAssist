@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
@@ -24,6 +27,19 @@ import android.widget.FrameLayout;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
 import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
@@ -35,10 +51,12 @@ import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
 import com.padassist.Fragments.CloseDialogFragment;
 import com.padassist.Fragments.DisclaimerDialogFragment;
+import com.padassist.Fragments.DownloadFragment;
 import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
 import com.padassist.Fragments.MonsterListFragment;
-import com.padassist.Fragments.TeamListFragment;
-import com.padassist.Util.LoadingFragment;
+import com.padassist.Fragments.NotWiFiDialogFragment;
+import com.padassist.Fragments.UnableToConnectDialogFragment;
+import com.padassist.Fragments.LoadingFragment;
 import com.padassist.Util.Migration;
 import com.padassist.Util.Singleton;
 
@@ -72,10 +90,12 @@ public class MainActivity extends AppCompatActivity {
     private MenuItem searchMenuItem;
     private SearchView searchView;
     private AboutDialogFragment aboutDialogFragment;
-    private ProgressDialog progressDialog;
+    private UnableToConnectDialogFragment unableToConnectDialogFragment;
+    private NotWiFiDialogFragment notWiFiDialogFragment;
     private SharedPreferences preferences;
     private DisclaimerDialogFragment disclaimerDialog;
     private CloseDialogFragment closeDialogFragment;
+    private ProgressDialog progressDialog;
     private Toast toast;
     private Realm realm;
 
@@ -83,19 +103,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Singleton.getInstance().setContext(getApplicationContext());
-
-        ConnectivityManager cm =
-                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        boolean isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
-        Log.d("MainActivity", "isConnected: " + isConnected);
-        if(isConnected){
-            boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
-            Log.d("MainActivity", "isWiFi: " + isWiFi);
-        }
 
 //        RealmConfiguration config = new RealmConfiguration.Builder(this)
 //                .schemaVersion(4)
@@ -114,6 +121,11 @@ public class MainActivity extends AppCompatActivity {
 //        preferences.edit().putInt("version", 1).apply();
         Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
         if (preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1) {
+            if (preferences.getBoolean("firstRun", true)) {
+                preferences.edit().putInt("monsterVersion", 0).apply();
+                preferences.edit().putInt("leaderSkillVersion", 0).apply();
+                preferences.edit().putInt("activeSkillVersion", 0).apply();
+            }
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.pager, new LoadingFragment())
@@ -126,11 +138,11 @@ public class MainActivity extends AppCompatActivity {
 
 //        preferences.edit().putBoolean("showDisclaimer", true).apply();
         Log.d("MainActivity", "Version is: " + preferences.getBoolean("showDisclaimer", true));
-        if(preferences.getBoolean("showDisclaimer", true)){
+        if (preferences.getBoolean("showDisclaimer", true)) {
             disclaimerDialog = DisclaimerDialogFragment.newInstance(new DisclaimerDialogFragment.Preferences() {
                 @Override
                 public void setShowAgain(boolean showAgain) {
-                    if(!showAgain){
+                    if (!showAgain) {
                         preferences.edit().putBoolean("showDisclaimer", true).apply();
                     } else {
                         preferences.edit().putBoolean("showDisclaimer", false).apply();
@@ -213,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
             realm.commitTransaction();
         }
 
-        if(realm.where(ActiveSkill.class).equalTo("name", "Blank").findFirst() == null){
+        if (realm.where(ActiveSkill.class).equalTo("name", "Blank").findFirst() == null) {
             ActiveSkill blankActiveSkill = new ActiveSkill();
             realm.beginTransaction();
             realm.copyToRealm(blankActiveSkill);
@@ -243,10 +255,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(enemy == null){
+        if (enemy == null) {
             enemy = new Enemy();
         }
-        if(Realm.getDefaultInstance().getConfiguration() == null){
+        if (Realm.getDefaultInstance().getConfiguration() == null) {
             Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this)
                     .schemaVersion(4)
                     .migration(new Migration())
@@ -311,36 +323,93 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            if (aboutDialogFragment == null) {
-                aboutDialogFragment = new AboutDialogFragment();
-                aboutDialogFragment.show(getSupportFragmentManager(), "yes");
-            }
-        } else if (id == R.id.toggleCoop) {
-            Boolean isEnable = !Singleton.getInstance().isCoopEnable();
-            Singleton.getInstance().setCoopEnable(isEnable);
-            if (isEnable) {
-                if (toast != null) {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(this, "Co-op on", Toast.LENGTH_SHORT);
-                toast.show();
-            } else {
-                if (toast != null) {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(this, "Co-op off", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            item.setTitle(isEnable ? "Toggle Co-op off" : "Toggle Co-op on");
-        } else if (id == R.id.saveTeam) {
+//        if (id == R.id.action_settings) {
+//            if (aboutDialogFragment == null) {
+//                aboutDialogFragment = new AboutDialogFragment();
+//                aboutDialogFragment.show(getSupportFragmentManager(), "yes");
+//            }
+//        } else if (id == R.id.toggleCoop) {
+//            Boolean isEnable = !Singleton.getInstance().isCoopEnable();
+//            Singleton.getInstance().setCoopEnable(isEnable);
+//            if (isEnable) {
+//                if (toast != null) {
+//                    toast.cancel();
+//                }
+//                toast = Toast.makeText(this, "Co-op on", Toast.LENGTH_SHORT);
+//                toast.show();
+//            } else {
+//                if (toast != null) {
+//                    toast.cancel();
+//                }
+//                toast = Toast.makeText(this, "Co-op off", Toast.LENGTH_SHORT);
+//                toast.show();
+//            }
+//            item.setTitle(isEnable ? "Toggle Co-op off" : "Toggle Co-op on");
+//        } else if (id == R.id.saveTeam) {
+//
+//        } else if (id == R.id.loadTeam) {
+//
+//        } else if (id == R.id.monsterList) {
+////            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, Singleton.getInstance().getMonsterOverwrite()), MonsterTabLayoutFragment.TAG, "good");
+//        } else if (id == R.id.manageMonsters) {
+//            switchFragment(ManageMonsterTabLayoutFragment.newInstance(), ManageMonsterTabLayoutFragment.TAG, "good");
+//        }
 
-        } else if (id == R.id.loadTeam) {
+        switch (id) {
+            case R.id.action_settings:
+                if (aboutDialogFragment == null) {
+                    aboutDialogFragment = new AboutDialogFragment();
+                    aboutDialogFragment.show(getSupportFragmentManager(), "yes");
+                }
+                break;
+            case R.id.toggleCoop:
+                Boolean isEnable = !Singleton.getInstance().isCoopEnable();
+                Singleton.getInstance().setCoopEnable(isEnable);
+                if (isEnable) {
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(this, "Co-op on", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(this, "Co-op off", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                item.setTitle(isEnable ? "Toggle Co-op off" : "Toggle Co-op on");
+                break;
+            case R.id.manageMonsters:
+                switchFragment(ManageMonsterTabLayoutFragment.newInstance(), ManageMonsterTabLayoutFragment.TAG, "good");
+                break;
+            case R.id.updateCheck:
+                ConnectivityManager cm =
+                        (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        } else if (id == R.id.monsterList) {
-//            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, Singleton.getInstance().getMonsterOverwrite()), MonsterTabLayoutFragment.TAG, "good");
-        } else if (id == R.id.manageMonsters) {
-            switchFragment(ManageMonsterTabLayoutFragment.newInstance(), ManageMonsterTabLayoutFragment.TAG, "good");
+                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+                boolean isConnected = activeNetwork != null &&
+                        activeNetwork.isConnectedOrConnecting();
+                Log.d("MainActivity", "isConnected: " + isConnected);
+                if (isConnected) {
+                    boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+                    if (isWiFi) {
+                        syncDatabase();
+                    } else {
+                        if (notWiFiDialogFragment == null) {
+                            notWiFiDialogFragment = new NotWiFiDialogFragment();
+                            notWiFiDialogFragment.show(getSupportFragmentManager(), "yes");
+                        }
+                    }
+                } else {
+                    if (unableToConnectDialogFragment == null) {
+                        unableToConnectDialogFragment = new UnableToConnectDialogFragment();
+                        unableToConnectDialogFragment.show(getSupportFragmentManager(), "yes");
+                    }
+                }
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -460,6 +529,177 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    private void syncDatabase() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseStorage storage = FirebaseStorage.getInstance();
+
+        DatabaseReference monsterVersionReference = database.getReference("monster_version");
+        monsterVersionReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(int.class) > preferences.getInt("monsterVersion", 1)) {
+                    showProgressDialog("Downloading monsters...");
+                    StorageReference storageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/data/monsters.json");
+
+                    File monstersFile = new File(getApplicationContext().getFilesDir(), "monsters.json");
+                    storageReference.getFile(monstersFile)
+                            .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                    progressDialog.setProgress((int)progress);
+                                    Log.d("MainActivity", "Monster Progress is: " + progress);
+                                }
+                            })
+                            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    hideProgressDialog();
+                                }
+                            });
+                }
+                Log.d("MainActivity", "Monster Version Preferences before: " + preferences.getInt("monsterVersion", 1));
+//                preferences.edit().putInt("monsterVersion", dataSnapshot.getValue(Integer.class)).apply();
+                Log.d("MainActivity", "Monster Version Preferences after: " + preferences.getInt("monsterVersion", 1));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference leaderSkillVersionReference = database.getReference("leader_skill_version");
+        leaderSkillVersionReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(int.class) > preferences.getInt("leaderSkillVersion", 1)) {
+                showProgressDialog("Downloading Leader Skills...");
+                StorageReference storageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/data/leader_skills.json");
+
+                File leaderSkillsFile = new File(getApplicationContext().getFilesDir(), "leader_skills.json");
+                storageReference.getFile(leaderSkillsFile)
+                        .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                progressDialog.setProgress((int)progress);
+                                Log.d("MainActivity", "Leader Skill Progress is: " + progress);
+                            }
+                        })
+                        .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                hideProgressDialog();
+                            }
+                        });
+            }
+                Log.d("MainActivity", "Leader Skill Version Preferences before: " + preferences.getInt("leaderSkillVersion", 1));
+//                preferences.edit().putInt("leaderSkillVersion", dataSnapshot.getValue(Integer.class)).apply();
+                Log.d("MainActivity", "Leader Skill Version Preferences after: " + preferences.getInt("leaderSkillVersion", 1));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference activeSkillVersionReference = database.getReference("active_skill_version");
+        activeSkillVersionReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(int.class) > preferences.getInt("activeSkillVersion", 1)) {
+                    showProgressDialog("Downloading Active Skills...");
+                    StorageReference storageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/data/active_skills.json");
+
+                    File leaderSkillsFile = new File(getApplicationContext().getFilesDir(), "active_skills.json");
+                    storageReference.getFile(leaderSkillsFile)
+                            .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                    progressDialog.setProgress((int)progress);
+                                    Log.d("MainActivity", "Active Skill Progress is: " + progress);
+                                }
+                            })
+                            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    hideProgressDialog();
+                                }
+                            });
+                }
+                Log.d("MainActivity", "Active Skill Version Preferences before: " + preferences.getInt("activeSkillVersion", 1));
+//                preferences.edit().putInt("activeSkillVersion", dataSnapshot.getValue(Integer.class)).apply();
+                Log.d("MainActivity", "Active Skill Version Preferences after: " + preferences.getInt("activeSkillVersion", 1));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference numberOfMonstersReference = database.getReference("num_of_monsters");
+        numberOfMonstersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Constants.numOfMonsters = dataSnapshot.getValue(int.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference numberOfLeaderSkillsReference = database.getReference("num_of_leader_skills");
+        numberOfLeaderSkillsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Constants.numOfLeaderSkills = dataSnapshot.getValue(int.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference numberOfActiveSkillsReference = database.getReference("num_of_active_skills");
+        numberOfActiveSkillsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Constants.numOfActiveSkills = dataSnapshot.getValue(int.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void showProgressDialog(String title){
+        if(progressDialog == null){
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setCancelable(true);
+            progressDialog.setIndeterminate(false);
+            progressDialog.setMax(100);
+            progressDialog.setProgress(0);
+        }
+        progressDialog.setTitle(title);
+        progressDialog.show();
+    }
+
+    private void hideProgressDialog(){
+        if(progressDialog != null && progressDialog.isShowing()){
+            progressDialog.dismiss();
         }
     }
 

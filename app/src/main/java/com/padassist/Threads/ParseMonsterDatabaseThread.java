@@ -1,7 +1,7 @@
 package com.padassist.Threads;
 
-//import com.activeandroid.ActiveAndroid;
-
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.padassist.Data.ActiveSkill;
@@ -48,11 +48,28 @@ public class ParseMonsterDatabaseThread extends Thread {
     public void run() {
         super.run();
 
+//        updateVersion();
         parseLeaderSkillDatabase();
         parseActiveSkillDatabase();
         parseMonsterDatabase();
         updateSavedMonsters();
 
+    }
+
+    private void updateVersion() {
+        try {
+            ObjectMapper m = new ObjectMapper();
+            JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.version));
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
+            for (JsonNode versionNode : rootNode) {
+                preferences.edit().putInt("monsterVersion", versionNode.get("monsterVersion").asInt()).apply();
+                preferences.edit().putInt("leaderSkillVersion", versionNode.get("leaderSkillVersion").asInt()).apply();
+                preferences.edit().putInt("activeSkillVersion", versionNode.get("activeSkillVersion").asInt()).apply();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+        }
     }
 
     private void parseLeaderSkillDatabase() {
@@ -288,7 +305,7 @@ public class ParseMonsterDatabaseThread extends Thread {
         if (savedMonstersResults.size() != 0) {
             for (Monster monster : savedMonstersResults) {
                 counter++;
-                if(monster.getActiveSkill2String() == null){
+                if (monster.getActiveSkill2String() == null) {
                     monster.setActiveSkill2String("Blank");
                 } else if (!monster.getActiveSkill2String().equals("Blank")) {
                     monster.setActiveSkill2(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkill2String()).findFirst());
@@ -329,14 +346,14 @@ public class ParseMonsterDatabaseThread extends Thread {
                     }
                 }
 
-                if(monster.getActiveSkillLevel() == 0){
+                if (monster.getActiveSkillLevel() == 0) {
                     monster.setActiveSkillLevel(1);
                 }
-                if(monster.getActiveSkill2Level() == 0){
+                if (monster.getActiveSkill2Level() == 0) {
                     monster.setActiveSkill2Level(1);
                 }
 
-                if(monster.getLatents().size() == 5){
+                if (monster.getLatents().size() == 5) {
                     monster.getLatents().add(new RealmInt(0));
                 }
 
