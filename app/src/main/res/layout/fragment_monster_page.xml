@@ -21,7 +21,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/monster_1218" />
+            android:src="@drawable/monster_0" />
 
         <TextView
             android:id="@+id/monsterName"

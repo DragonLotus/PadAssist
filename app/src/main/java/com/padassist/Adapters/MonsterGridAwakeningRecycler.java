@@ -38,7 +38,8 @@ public class MonsterGridAwakeningRecycler extends RecyclerView.Adapter<MonsterGr
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+//        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolder.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
         int counter = 0;
         if(isLatent){
             viewHolder.awakening.setImageResource(ImageResourceUtil.monsterLatent(awakening));

@@ -10,7 +10,7 @@
         android:id="@+id/monsterPicture"
         android:layout_width="54dp"
         android:layout_height="54dp"
-        android:src="@drawable/monster_1218" />
+        android:src="@drawable/monster_0" />
 
     <com.padassist.Graphics.TextStroke
         android:id="@+id/monsterPlus"

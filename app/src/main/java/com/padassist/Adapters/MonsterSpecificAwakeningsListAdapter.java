@@ -64,7 +64,8 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+//        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolder.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
 //        for(int i = 0; i < monsterList.get(position).getCurrentAwakenings(); i++){
 //            awakeningListAll.add(monsterList.get(position).getAwokenSkills(i));
 //        }

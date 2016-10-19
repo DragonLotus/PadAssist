@@ -697,6 +697,7 @@ public class OrbMatchFragment extends Fragment {
         noDropLeaderSkills.add(LeaderSkillType.MATCH_ELEMENTS_FLAT_NO_DROP);
         noDropLeaderSkills.add(LeaderSkillType.FLAT_CROSS_NO_DROP);
         noDropLeaderSkills.add(LeaderSkillType.COMBO_FLAT_NO_DROP);
+        noDropLeaderSkills.add(LeaderSkillType.COMBO_EXACT_NO_DROP);
 
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_COMBO_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_INDIAN_FLAT);

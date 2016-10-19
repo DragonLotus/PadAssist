@@ -294,7 +294,8 @@ public abstract class MonsterPageBase extends Fragment {
         }
         disableStuff();
         initBackup();
-        monsterPicture.setImageResource(monster.getMonsterPicture());
+//        monsterPicture.setImageResource(monster.getMonsterPicture());
+        monsterPicture.setImageBitmap(monster.getMonsterPicture());
         monsterName.setText(monster.getName());
         setTextViews();
         setImageViews();
@@ -860,7 +861,8 @@ public abstract class MonsterPageBase extends Fragment {
             setImageViews();
             rarity.setText("" + monster.getRarity());
             monsterName.setText(monster.getName());
-            monsterPicture.setImageResource(monster.getMonsterPicture());
+//            monsterPicture.setImageResource(monster.getMonsterPicture());
+            monsterPicture.setImageBitmap(monster.getMonsterPicture());
             awakeningsCheck();
         }
     }

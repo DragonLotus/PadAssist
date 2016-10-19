@@ -57,21 +57,21 @@ public class ParseMonsterDatabaseThread extends Thread {
 
     }
 
-    private void updateVersion() {
-        try {
-            ObjectMapper m = new ObjectMapper();
-            JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.version));
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
-            for (JsonNode versionNode : rootNode) {
-                preferences.edit().putInt("monsterVersion", versionNode.get("monsterVersion").asInt()).apply();
-                preferences.edit().putInt("leaderSkillVersion", versionNode.get("leaderSkillVersion").asInt()).apply();
-                preferences.edit().putInt("activeSkillVersion", versionNode.get("activeSkillVersion").asInt()).apply();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-        }
-    }
+//    private void updateVersion() {
+//        try {
+//            ObjectMapper m = new ObjectMapper();
+//            JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.version));
+//            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
+//            for (JsonNode versionNode : rootNode) {
+//                preferences.edit().putInt("monsterVersion", versionNode.get("monsterVersion").asInt()).apply();
+//                preferences.edit().putInt("leaderSkillVersion", versionNode.get("leaderSkillVersion").asInt()).apply();
+//                preferences.edit().putInt("activeSkillVersion", versionNode.get("activeSkillVersion").asInt()).apply();
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//        }
+//    }
 
     private void parseLeaderSkillDatabase() {
         try {
@@ -367,6 +367,8 @@ public class ParseMonsterDatabaseThread extends Thread {
                 if (monster.getLatents().size() == 5) {
                     monster.getLatents().add(new RealmInt(0));
                 }
+
+                monster.setCurrentLevel(monster.getCurrentLevel());
 
                 update.updateValues(counter);
             }

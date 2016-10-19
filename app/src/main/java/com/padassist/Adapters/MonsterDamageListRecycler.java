@@ -83,7 +83,8 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
         } else {
             viewHolder.monsterOverlay.setVisibility(View.GONE);
         }
-        viewHolder.monsterPicture.setImageResource(team.getMonsters(position).getMonsterPicture());
+//        viewHolder.monsterPicture.setImageResource(team.getMonsters(position).getMonsterPicture());
+        viewHolder.monsterPicture.setImageBitmap(team.getMonsters(position).getMonsterPicture());
         //Needs to get # of orb awakenings from team object maybe
         element1Damage = (long)DamageCalculationUtil.monsterElement1Damage(team, team.getMonsters(position), position, combos);
         element2Damage = (long)DamageCalculationUtil.monsterElement2Damage(team, team.getMonsters(position), position, combos);

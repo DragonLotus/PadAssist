@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class LoadingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_loading, container, false);
+        Log.d("LoadingFragment", "Constants are: " + Constants.numOfMonsters + " " + Constants.numOfActiveSkills + " " + Constants.numOfLeaderSkills);
         asyncTask = new ImportAsyncTask();
         asyncTask.execute();
         return rootView;
@@ -50,7 +52,7 @@ public class LoadingFragment extends Fragment {
             progressDialog.setMessage("Loading Leader Skills...");
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
-            progressDialog.setMax(Constants.finalParseCount);
+            progressDialog.setMax(Constants.numOfActiveSkills + Constants.numOfLeaderSkills + Constants.numOfMonsters + Constants.numOfSavedMonsters);
             progressDialog.setProgress(0);
             progressDialog.show();
         }
@@ -83,6 +85,7 @@ public class LoadingFragment extends Fragment {
         @Override
         protected void onPostExecute(Integer integer) {
             progressDialog.dismiss();
+            getActivity().getSupportFragmentManager().popBackStack();
         }
 
         @Override

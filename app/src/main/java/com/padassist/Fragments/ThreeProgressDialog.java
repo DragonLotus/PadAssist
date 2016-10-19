@@ -65,7 +65,6 @@ public class ThreeProgressDialog extends DialogFragment {
     }
 
     public void setProgressBar3(int progress) {
-        Log.d("ThreeProgress", "progressBar3 is: " + progressBar3);
         progressBar3.setProgress(progress);
         if (progress < 100) {
             minMax3.setText(progress + "%");

@@ -1,11 +1,15 @@
 package com.padassist.Data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 import com.padassist.R;
+import com.padassist.Singleton;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -292,19 +296,25 @@ public class BaseMonster extends RealmObject implements Parcelable {
         this.monsterId = monsterId;
     }
 
-    public int getMonsterPicture() {
-        try {
-            String picture = "monster_" + monsterId;
-            Class res = R.drawable.class;
-            Field field = res.getField(picture);
-            int drawableId = field.getInt(null);
-            return drawableId;
-        } catch (NoSuchFieldException e) {
-            Log.e("drawableId", "Unable to get drawable id " + monsterId);
-        } catch (IllegalAccessException e) {
-            Log.e("IllegalTag", "Illegal Access Exception");
-        }
-        return R.drawable.monster_0;
+    public Bitmap getMonsterPicture() {
+
+        File imgFile = new File(com.padassist.Util.Singleton.getInstance().getContext().getFilesDir(), "monster_images/monster_" + monsterId + ".png");
+        if(imgFile.exists()){
+            return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        } else
+
+//        try {
+//            String picture = "monster_" + monsterId;
+//            Class res = R.drawable.class;
+//            Field field = res.getField(picture);
+//            int drawableId = field.getInt(null);
+//            return drawableId;
+//        } catch (NoSuchFieldException e) {
+//            Log.e("drawableId", "Unable to get drawable id " + monsterId);
+//        } catch (IllegalAccessException e) {
+//            Log.e("IllegalTag", "Illegal Access Exception");
+//        }
+        return BitmapFactory.decodeResource(com.padassist.Util.Singleton.getInstance().getContext().getResources(), R.drawable.monster_0);
     }
 
 //    public void setMonsterPicture(int monsterPicture) {

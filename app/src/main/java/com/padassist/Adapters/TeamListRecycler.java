@@ -49,22 +49,23 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         viewHolder.teamBadge.setImageResource(ImageResourceUtil.teamBadge(teamList.get(position).getTeamBadge()));
         viewHolder.monster1Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(0).getTotalPlus()) + " ");
         viewHolder.monster1Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(0).getCurrentAwakenings()));
-        viewHolder.monster1Picture.setImageResource(teamList.get(position).getMonsters(0).getMonsterPicture());
+//        viewHolder.monster1Picture.setImageResource(teamList.get(position).getMonsters(0).getMonsterPicture());
+        viewHolder.monster1Picture.setImageBitmap(teamList.get(position).getMonsters(0).getMonsterPicture());
         viewHolder.monster2Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(1).getTotalPlus()) + " ");
         viewHolder.monster2Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(1).getCurrentAwakenings()));
-        viewHolder.monster2Picture.setImageResource(teamList.get(position).getMonsters(1).getMonsterPicture());
+        viewHolder.monster2Picture.setImageBitmap(teamList.get(position).getMonsters(1).getMonsterPicture());
         viewHolder.monster3Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(2).getTotalPlus()) + " ");
         viewHolder.monster3Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(2).getCurrentAwakenings()));
-        viewHolder.monster3Picture.setImageResource(teamList.get(position).getMonsters(2).getMonsterPicture());
+        viewHolder.monster3Picture.setImageBitmap(teamList.get(position).getMonsters(2).getMonsterPicture());
         viewHolder.monster4Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(3).getTotalPlus()) + " ");
         viewHolder.monster4Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(3).getCurrentAwakenings()));
-        viewHolder.monster4Picture.setImageResource(teamList.get(position).getMonsters(3).getMonsterPicture());
+        viewHolder.monster4Picture.setImageBitmap(teamList.get(position).getMonsters(3).getMonsterPicture());
         viewHolder.monster5Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(4).getTotalPlus()) + " ");
         viewHolder.monster5Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(4).getCurrentAwakenings()));
-        viewHolder.monster5Picture.setImageResource(teamList.get(position).getMonsters(4).getMonsterPicture());
+        viewHolder.monster5Picture.setImageBitmap(teamList.get(position).getMonsters(4).getMonsterPicture());
         viewHolder.monster6Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(5).getTotalPlus()) + " ");
         viewHolder.monster6Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(5).getCurrentAwakenings()));
-        viewHolder.monster6Picture.setImageResource(teamList.get(position).getMonsters(5).getMonsterPicture());
+        viewHolder.monster6Picture.setImageBitmap(teamList.get(position).getMonsters(5).getMonsterPicture());
 
         if (latentList1 == null) {
             latentList1 = new ArrayList<>();

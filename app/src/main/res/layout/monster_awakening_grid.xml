@@ -12,7 +12,7 @@
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="4dp"
-        android:src="@drawable/monster_1218" />
+        android:src="@drawable/monster_0" />
 
     <ImageView
         android:id="@+id/awakening"

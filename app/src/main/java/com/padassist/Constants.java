@@ -14,5 +14,4 @@ public class Constants {
     public static int numOfLeaderSkills = 1873;
     public static int numOfActiveSkills = 951;
     public static int numOfSavedMonsters = Realm.getDefaultInstance().where(Monster.class).findAll().size();
-    public static int finalParseCount = numOfMonsters + numOfLeaderSkills + numOfActiveSkills + numOfSavedMonsters;
 }

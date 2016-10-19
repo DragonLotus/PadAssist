@@ -1,5 +1,6 @@
 package com.padassist.Data;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -578,7 +579,7 @@ public class Monster extends RealmObject implements Parcelable {
         return baseMonster.getMonsterId();
     }
 
-    public int getMonsterPicture() {
+    public Bitmap getMonsterPicture() {
         return baseMonster.getMonsterPicture();
     }
 

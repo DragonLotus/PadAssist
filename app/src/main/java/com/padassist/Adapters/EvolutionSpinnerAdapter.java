@@ -58,7 +58,8 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
         viewHolder.monsterName.setText(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getName());
-        viewHolder.monsterPicture.setImageResource(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getMonsterPicture());
+//        viewHolder.monsterPicture.setImageResource(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getMonsterPicture());
+        viewHolder.monsterPicture.setImageBitmap(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getMonsterPicture());
         viewHolder.rarity.setText("" + realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getRarity());
         viewHolder.rarityStar.setColorFilter(0xFFD4D421);
 

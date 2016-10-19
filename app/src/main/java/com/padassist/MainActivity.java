@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioTrack;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
+import android.support.v4.*;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
@@ -34,6 +36,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StreamDownloadTask;
 import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
@@ -52,11 +55,21 @@ import com.padassist.Fragments.ThreeProgressDialog;
 import com.padassist.Fragments.UnableToConnectDialogFragment;
 import com.padassist.Fragments.LoadingFragment;
 import com.padassist.Fragments.UpToDateDialogFragment;
+import com.padassist.Fragments.UpdateAvailableDialogFragment;
 import com.padassist.Util.Migration;
 import com.padassist.Util.Singleton;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -93,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ThreeProgressDialog threeProgressDialog;
     private UpToDateDialogFragment upToDateDialogFragment;
+    private UpdateAvailableDialogFragment updateAvailableDialogFragment;
     private Toast toast;
     private Realm realm;
 
@@ -113,24 +127,37 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-//        preferences.edit().putString("BaseMonsterList", "").apply();
-//        Log.d("MainActivity", "BaseMonsterlist is empty: " + preferences.getString("BaseMonsterList", "").isEmpty());
-//        preferences.edit().putInt("version", 1).apply();
-        Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
-        if (preferences.getBoolean("firstRun", true) || BuildConfig.VERSION_CODE > preferences.getInt("version", 1) || realm.where(BaseMonster.class).findAll().size() <= 1) {
-            if (preferences.getBoolean("firstRun", true)) {
-                preferences.edit().putInt("monsterVersion", 0).apply();
-                preferences.edit().putInt("leaderSkillVersion", 0).apply();
-                preferences.edit().putInt("activeSkillVersion", 0).apply();
+//        preferences.edit().putInt("monsterVersion", 2).apply();
+
+        if (preferences.getInt("monsterVersion", 1) <= 1) {
+            syncDatabase();
+        }
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference appVersion = database.getReference("current_app_version");
+        appVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue(int.class) > BuildConfig.VERSION_CODE) {
+                    if (updateAvailableDialogFragment == null) {
+                        updateAvailableDialogFragment = new UpdateAvailableDialogFragment();
+                    }
+                    if (!updateAvailableDialogFragment.isAdded()) {
+                        updateAvailableDialogFragment.show(getSupportFragmentManager(), "yes");
+                    }
+                }
             }
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.pager, new LoadingFragment())
-                    .commit();
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+
+        Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
+        if (preferences.getBoolean("firstRun", true)) {
+            syncDatabase();
             preferences.edit().putBoolean("firstRun", false).apply();
-            preferences.edit().putInt("version", BuildConfig.VERSION_CODE).apply();
-            Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
         }
 
 //        preferences.edit().putBoolean("showDisclaimer", true).apply();
@@ -357,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 if (aboutDialogFragment == null) {
                     aboutDialogFragment = new AboutDialogFragment();
                 }
-                if(!aboutDialogFragment.isAdded()){
+                if (!aboutDialogFragment.isAdded()) {
                     aboutDialogFragment.show(getSupportFragmentManager(), "yes");
                 }
                 break;
@@ -397,9 +424,9 @@ public class MainActivity extends AppCompatActivity {
                         syncDatabase();
                     } else {
                         if (notWiFiDialogFragment == null) {
-                            notWiFiDialogFragment = new NotWiFiDialogFragment();
+                            notWiFiDialogFragment = NotWiFiDialogFragment.newInstance(syncDatabase);
                         }
-                        if(!notWiFiDialogFragment.isAdded()){
+                        if (!notWiFiDialogFragment.isAdded()) {
                             notWiFiDialogFragment.show(getSupportFragmentManager(), "yes");
                         }
                     }
@@ -407,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
                     if (unableToConnectDialogFragment == null) {
                         unableToConnectDialogFragment = new UnableToConnectDialogFragment();
                     }
-                    if(!unableToConnectDialogFragment.isAdded()){
+                    if (!unableToConnectDialogFragment.isAdded()) {
                         unableToConnectDialogFragment.show(getSupportFragmentManager(), "yes");
                     }
                 }
@@ -417,6 +444,13 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private NotWiFiDialogFragment.SyncDatabase syncDatabase = new NotWiFiDialogFragment.SyncDatabase() {
+        @Override
+        public void accept() {
+            syncDatabase();
+        }
+    };
 
     /**
      * A {@link android.support.v4.app.FragmentPagerAdapter} that returns a fragment corresponding to
@@ -554,18 +588,114 @@ public class MainActivity extends AppCompatActivity {
                                 public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                                     threeProgressDialog.setProgressBar1((int) progress);
-//                                    progressDialog.setProgress((int)progress);
-                                    Log.d("MainActivity", "Monster Progress is: " + progress);
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    Log.d("MainActivity", "Monster Version Preferences before: " + preferences.getInt("monsterVersion", 1));
                                     preferences.edit().putInt("monsterVersion", dataSnapshot.getValue(Integer.class)).apply();
-                                    if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
-                                        hideProgressDialog(true);
-                                    }
+                                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class).findAll();
+
+                                    StorageReference monsterImageReference;
+                                    final File monsterImage;
+
+//                                    ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
+//                                    int i = 0;
+//                                    while(i < results.size()){
+//                                        monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
+//                                        monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
+//                                        taskExecutor.execute(monsterImageReference.getFile(monsterImage)
+//                                                .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+//                                                    @Override
+//                                                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                                                    }
+//                                                })
+//                                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                                                    @Override
+//                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                                                    }
+//                                                }));
+//                                    }
+
+                                    monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_images.zip");
+                                    monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_images.zip");
+                                    monsterImageReference.getFile(monsterImage)
+                                            .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                                    threeProgressDialog.setProgressBar1((int) progress);
+                                                }
+                                            })
+                                            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                    byte[] buffer = new byte[1024];
+
+                                                    try {
+                                                        File folder = new File(getApplicationContext().getFilesDir(), "monster_images");
+                                                        if (!folder.exists()) {
+                                                            folder.mkdir();
+                                                        }
+                                                        ZipInputStream zis = new ZipInputStream(new FileInputStream(monsterImage.getAbsolutePath()));
+                                                        ZipEntry ze = zis.getNextEntry();
+
+                                                        while (ze != null) {
+                                                            String fileName = ze.getName();
+                                                            File newFile = new File(folder + File.separator + fileName);
+
+                                                            Log.d("MainActivity", "File unzip: " + newFile.getAbsolutePath());
+
+                                                            new File(newFile.getParent()).mkdirs();
+
+                                                            FileOutputStream fos = new FileOutputStream(newFile);
+
+                                                            int len;
+                                                            while ((len = zis.read(buffer)) > 0) {
+                                                                fos.write(buffer, 0, len);
+                                                            }
+
+                                                            fos.close();
+                                                            ze = zis.getNextEntry();
+                                                        }
+                                                        zis.closeEntry();
+                                                        zis.close();
+                                                        Log.d("MainActivity", "Files unzipped.");
+                                                        if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
+                                                        hideProgressDialog(true);
+                                                    }
+
+                                                    } catch (FileNotFoundException e) {
+                                                        e.printStackTrace();
+                                                    } catch (IOException ex) {
+                                                        ex.printStackTrace();
+                                                    }
+
+
+
+                                                }
+                                            });
+
+//                                    for (int i = 0; i < results.size(); i++) {
+//                                        monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
+//                                        monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
+//
+//                                        monsterImageReference.getFile(monsterImage)
+//                                                .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+//                                                    @Override
+//                                                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                                                    }
+//                                                })
+//                                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                                                    @Override
+//                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                                                    }
+//                                                });
+//                                    }
+
+//                                    if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
+//                                        hideProgressDialog(true);
+//                                    }
                                 }
                             });
                 } else {
@@ -574,7 +704,6 @@ public class MainActivity extends AppCompatActivity {
                         hideProgressDialog(false);
                     }
                 }
-                Log.d("MainActivity", "Monster Version Preferences after: " + preferences.getInt("monsterVersion", 1));
             }
 
             @Override
@@ -597,14 +726,11 @@ public class MainActivity extends AppCompatActivity {
                                 public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                                     threeProgressDialog.setProgressBar2((int) progress);
-//                                progressDialog.setProgress((int)progress);
-                                    Log.d("MainActivity", "Leader Skill Progress is: " + progress);
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    Log.d("MainActivity", "Leader Skill Version Preferences before: " + preferences.getInt("leaderSkillVersion", 1));
                                     preferences.edit().putInt("leaderSkillVersion", dataSnapshot.getValue(Integer.class)).apply();
                                     if (threeProgressDialog.getProgress1() == 100 && threeProgressDialog.getProgress3() == 100) {
                                         hideProgressDialog(true);
@@ -617,7 +743,6 @@ public class MainActivity extends AppCompatActivity {
                         hideProgressDialog(false);
                     }
                 }
-                Log.d("MainActivity", "Leader Skill Version Preferences after: " + preferences.getInt("leaderSkillVersion", 1));
             }
 
             @Override
@@ -640,14 +765,11 @@ public class MainActivity extends AppCompatActivity {
                                 public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
                                     threeProgressDialog.setProgressBar3((int) progress);
-//                                    progressDialog.setProgress((int)progress);
-                                    Log.d("MainActivity", "Active Skill Progress is: " + progress);
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    Log.d("MainActivity", "Active Skill Version Preferences before: " + preferences.getInt("activeSkillVersion", 1));
                                     preferences.edit().putInt("activeSkillVersion", dataSnapshot.getValue(Integer.class)).apply();
                                     if (threeProgressDialog.getProgress1() == 100 && threeProgressDialog.getProgress2() == 100) {
                                         hideProgressDialog(true);
@@ -660,7 +782,6 @@ public class MainActivity extends AppCompatActivity {
                         hideProgressDialog(false);
                     }
                 }
-                Log.d("MainActivity", "Active Skill Version Preferences after: " + preferences.getInt("activeSkillVersion", 1));
             }
 
             @Override
@@ -734,15 +855,17 @@ public class MainActivity extends AppCompatActivity {
         if (threeProgressDialog != null && threeProgressDialog.isAdded()) {
             threeProgressDialog.dismiss();
         }
-        if(parse){
+        if (parse) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.pager, new LoadingFragment())
+                    .replace(R.id.pager, new LoadingFragment(), LoadingFragment.TAG)
+                    .addToBackStack(LoadingFragment.TAG)
                     .commit();
+
         } else {
             if (upToDateDialogFragment == null) {
                 upToDateDialogFragment = new UpToDateDialogFragment();
             }
-            if(!upToDateDialogFragment.isAdded()){
+            if (!upToDateDialogFragment.isAdded()) {
                 upToDateDialogFragment.show(getSupportFragmentManager(), "yes");
             }
         }

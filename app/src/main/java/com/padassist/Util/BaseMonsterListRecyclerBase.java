@@ -83,7 +83,8 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
         }
         viewHolderLinear.monsterName.setText(monsterList.get(position).getName());
         viewHolderLinear.monsterId.setText("" + monsterList.get(position).getMonsterId());
-        viewHolderLinear.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+//        viewHolderLinear.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolderLinear.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
         viewHolderLinear.rarity.setText("" + monsterList.get(position).getRarity());
         viewHolderLinear.monsterHP.setText(Integer.toString(monsterList.get(position).getHpMax()) + " / ");
         viewHolderLinear.monsterATK.setText(Integer.toString(monsterList.get(position).getAtkMax()) + " / ");
@@ -244,7 +245,8 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
         ViewHolderGrid viewHolderGrid = (ViewHolderGrid) viewHolder;
         viewHolderGrid.monsterIdStroke.setText("" + monsterList.get(position).getMonsterId());
         viewHolderGrid.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
-        viewHolderGrid.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+//        viewHolderGrid.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolderGrid.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
     }
 
 

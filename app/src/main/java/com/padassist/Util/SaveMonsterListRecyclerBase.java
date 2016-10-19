@@ -88,7 +88,8 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
 
-        viewHolderLinear.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+//        viewHolderLinear.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolderLinear.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
         viewHolderLinear.monsterPlus.setText(" +" + monsterList.get(position).getTotalPlus() + " ");
         viewHolderLinear.monsterName.setText(monsterList.get(position).getName());
         viewHolderLinear.monsterLevel.setText("Lv. " + monsterList.get(position).getCurrentLevel() + " - ");
@@ -347,7 +348,8 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolderGrid.monsterAwakenings.setVisibility(View.VISIBLE);
         }
 
-        viewHolderGrid.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+//        viewHolderGrid.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolderGrid.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
         if(monsterList.get(position).getTotalPlus() != 0){
             viewHolderGrid.monsterPlus.setText(" +" + monsterList.get(position).getTotalPlus() + " ");
         } else {

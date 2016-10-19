@@ -59,7 +59,7 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginRight="6dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster1Plus"
@@ -109,7 +109,7 @@
                 android:id="@+id/monster2Picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster2Plus"
@@ -159,7 +159,7 @@
                 android:id="@+id/monster3Picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster3Plus"
@@ -209,7 +209,7 @@
                 android:id="@+id/monster4Picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster4Plus"
@@ -259,7 +259,7 @@
                 android:id="@+id/monster5Picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster5Plus"
@@ -310,7 +310,7 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginLeft="6dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster6Plus"

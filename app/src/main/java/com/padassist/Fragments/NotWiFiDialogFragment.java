@@ -9,6 +9,18 @@ import android.support.v4.app.DialogFragment;
 
 public class NotWiFiDialogFragment extends DialogFragment {
 
+    private SyncDatabase syncDatabase;
+
+    public interface SyncDatabase {
+        public void accept();
+    }
+
+    public static NotWiFiDialogFragment newInstance(SyncDatabase syncDatabase){
+        NotWiFiDialogFragment dialogFragment = new NotWiFiDialogFragment();
+        dialogFragment.setSyncDatabase(syncDatabase);
+        return dialogFragment;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -16,6 +28,7 @@ public class NotWiFiDialogFragment extends DialogFragment {
         builder.setMessage("Continue download without Wi-Fi?");
         builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                syncDatabase.accept();
                 dismiss();
             }
         });
@@ -26,5 +39,9 @@ public class NotWiFiDialogFragment extends DialogFragment {
             }
         });
         return builder.create();
+    }
+
+    public void setSyncDatabase(SyncDatabase syncDatabase) {
+        this.syncDatabase = syncDatabase;
     }
 }
