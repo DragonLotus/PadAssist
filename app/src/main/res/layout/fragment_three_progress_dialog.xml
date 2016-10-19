@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    tools:context="com.padassist.Fragments.ThreeProgressDialog">
+
+    <TextView
+        android:id="@+id/progressTitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Monsters"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressTitle1"
+        android:indeterminate="false"
+        android:progress="0"
+        android:max="100"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+
+    <TextView
+        android:id="@+id/progressMinMax1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Checking versions..."
+        android:layout_above="@+id/progressBar1"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/progressTitle2"
+        android:layout_below="@+id/progressBar1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Leader Skills"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressTitle2"
+        android:indeterminate="false"
+        android:progress="0"
+        android:max="100"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+
+    <TextView
+        android:id="@+id/progressMinMax2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Checking versions..."
+        android:layout_above="@+id/progressBar2"
+        android:textSize="16dp"/>
+
+    <TextView
+        android:id="@+id/progressTitle3"
+        android:layout_below="@id/progressBar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Active Skills"
+        android:textStyle="bold"
+        android:textSize="16dp"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressTitle3"
+        android:indeterminate="false"
+        android:progress="0"
+        android:max="100"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
+
+    <TextView
+        android:id="@+id/progressMinMax3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="Checking versions..."
+        android:layout_above="@+id/progressBar3"
+        android:textSize="16dp"/>
+
+</RelativeLayout>

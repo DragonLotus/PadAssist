@@ -18,6 +18,7 @@ import com.padassist.Util.Singleton;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -75,88 +76,91 @@ public class ParseMonsterDatabaseThread extends Thread {
     private void parseLeaderSkillDatabase() {
         try {
             ObjectMapper m = new ObjectMapper();
-            JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.leader_skills));
-            LeaderSkill leaderSkill;
-            for (JsonNode leaderSkillNode : rootNode) {
-                counter++;
-                leaderSkill = new LeaderSkill();
-                if (leaderSkillNode.hasNonNull("hpSkillType")) {
-                    leaderSkill.setHpSkillType(parseLeadSkillType(leaderSkillNode.get("hpSkillType").asInt()));
+            File leaderSkillsFile = new File(Singleton.getInstance().getContext().getFilesDir(), "leader_skills.json");
+            if (leaderSkillsFile.exists()) {
+                JsonNode rootNode = m.readTree(leaderSkillsFile);
+                LeaderSkill leaderSkill;
+                for (JsonNode leaderSkillNode : rootNode) {
+                    counter++;
+                    leaderSkill = new LeaderSkill();
+                    if (leaderSkillNode.hasNonNull("hpSkillType")) {
+                        leaderSkill.setHpSkillType(parseLeadSkillType(leaderSkillNode.get("hpSkillType").asInt()));
+                    }
+                    if (leaderSkillNode.hasNonNull("atkSkillType")) {
+                        leaderSkill.setAtkSkillType(parseLeadSkillType(leaderSkillNode.get("atkSkillType").asInt()));
+                    }
+                    if (leaderSkillNode.hasNonNull("rcvSkillType")) {
+                        leaderSkill.setRcvSkillType(parseLeadSkillType(leaderSkillNode.get("rcvSkillType").asInt()));
+                    }
+                    if (leaderSkillNode.hasNonNull("hpData")) {
+                        leaderSkill.setHpData(parseDoubleArrayList(leaderSkillNode.get("hpData")));
+                    }
+                    if (leaderSkillNode.hasNonNull("atkData")) {
+                        leaderSkill.setAtkData(parseDoubleArrayList(leaderSkillNode.get("atkData")));
+                    }
+                    if (leaderSkillNode.hasNonNull("rcvData")) {
+                        leaderSkill.setRcvData(parseDoubleArrayList(leaderSkillNode.get("rcvData")));
+                    }
+                    if (leaderSkillNode.hasNonNull("hpType")) {
+                        leaderSkill.setHpType(parseIntArrayList(leaderSkillNode.get("hpType")));
+                    }
+                    if (leaderSkillNode.hasNonNull("hpElement")) {
+                        leaderSkill.setHpElement(parseIntArrayList(leaderSkillNode.get("hpElement")));
+                    }
+                    if (leaderSkillNode.hasNonNull("atkType")) {
+                        leaderSkill.setAtkType(parseIntArrayList(leaderSkillNode.get("atkType")));
+                    }
+                    if (leaderSkillNode.hasNonNull("atkElement")) {
+                        leaderSkill.setAtkElement(parseIntArrayList(leaderSkillNode.get("atkElement")));
+                    }
+                    if (leaderSkillNode.hasNonNull("atkType2")) {
+                        leaderSkill.setAtkType2(parseIntArrayList(leaderSkillNode.get("atkType2")));
+                    }
+                    if (leaderSkillNode.hasNonNull("atkElement2")) {
+                        leaderSkill.setAtkElement2(parseIntArrayList(leaderSkillNode.get("atkElement2")));
+                    }
+                    if (leaderSkillNode.hasNonNull("rcvType")) {
+                        leaderSkill.setRcvType(parseIntArrayList(leaderSkillNode.get("rcvType")));
+                    }
+                    if (leaderSkillNode.hasNonNull("rcvElement")) {
+                        leaderSkill.setRcvElement(parseIntArrayList(leaderSkillNode.get("rcvElement")));
+                    }
+                    if (leaderSkillNode.hasNonNull("comboMin")) {
+                        leaderSkill.setComboMin(leaderSkillNode.get("comboMin").asInt());
+                    }
+                    if (leaderSkillNode.hasNonNull("comboMax")) {
+                        leaderSkill.setComboMax(leaderSkillNode.get("comboMax").asInt());
+                    }
+                    if (leaderSkillNode.hasNonNull("comboMin2")) {
+                        leaderSkill.setComboMin2(leaderSkillNode.get("comboMin2").asInt());
+                    }
+                    if (leaderSkillNode.hasNonNull("comboMax2")) {
+                        leaderSkill.setComboMax2(leaderSkillNode.get("comboMax2").asInt());
+                    }
+                    if (leaderSkillNode.hasNonNull("matchElements")) {
+                        leaderSkill.setMatchElements(parseElementArrayList(leaderSkillNode.get("matchElements")));
+                    }
+                    if (leaderSkillNode.hasNonNull("matchElements2")) {
+                        leaderSkill.setMatchElements2(parseElementArrayList(leaderSkillNode.get("matchElements2")));
+                    }
+                    if (leaderSkillNode.hasNonNull("matchMonsters")) {
+                        leaderSkill.setMatchMonsters(parseLongArrayList(leaderSkillNode.get("matchMonsters")));
+                    }
+                    if (leaderSkillNode.hasNonNull("hpPercent")) {
+                        leaderSkill.setHpPercent(parseIntArrayList(leaderSkillNode.get("hpPercent")));
+                    }
+                    if (leaderSkillNode.hasNonNull("effect")) {
+                        leaderSkill.setDescription(leaderSkillNode.get("effect").asText());
+                    }
+                    if (leaderSkillNode.hasNonNull("name")) {
+                        leaderSkill.setName(leaderSkillNode.get("name").asText());
+                    }
+                    if (leaderSkillNode.hasNonNull("minimumMatch")) {
+                        leaderSkill.setMinimumMatch(leaderSkillNode.get("minimumMatch").asInt());
+                    }
+                    realm.copyToRealmOrUpdate(leaderSkill);
+                    update.updateValues(counter);
                 }
-                if (leaderSkillNode.hasNonNull("atkSkillType")) {
-                    leaderSkill.setAtkSkillType(parseLeadSkillType(leaderSkillNode.get("atkSkillType").asInt()));
-                }
-                if (leaderSkillNode.hasNonNull("rcvSkillType")) {
-                    leaderSkill.setRcvSkillType(parseLeadSkillType(leaderSkillNode.get("rcvSkillType").asInt()));
-                }
-                if (leaderSkillNode.hasNonNull("hpData")) {
-                    leaderSkill.setHpData(parseDoubleArrayList(leaderSkillNode.get("hpData")));
-                }
-                if (leaderSkillNode.hasNonNull("atkData")) {
-                    leaderSkill.setAtkData(parseDoubleArrayList(leaderSkillNode.get("atkData")));
-                }
-                if (leaderSkillNode.hasNonNull("rcvData")) {
-                    leaderSkill.setRcvData(parseDoubleArrayList(leaderSkillNode.get("rcvData")));
-                }
-                if (leaderSkillNode.hasNonNull("hpType")) {
-                    leaderSkill.setHpType(parseIntArrayList(leaderSkillNode.get("hpType")));
-                }
-                if (leaderSkillNode.hasNonNull("hpElement")) {
-                    leaderSkill.setHpElement(parseIntArrayList(leaderSkillNode.get("hpElement")));
-                }
-                if (leaderSkillNode.hasNonNull("atkType")) {
-                    leaderSkill.setAtkType(parseIntArrayList(leaderSkillNode.get("atkType")));
-                }
-                if (leaderSkillNode.hasNonNull("atkElement")) {
-                    leaderSkill.setAtkElement(parseIntArrayList(leaderSkillNode.get("atkElement")));
-                }
-                if (leaderSkillNode.hasNonNull("atkType2")) {
-                    leaderSkill.setAtkType2(parseIntArrayList(leaderSkillNode.get("atkType2")));
-                }
-                if (leaderSkillNode.hasNonNull("atkElement2")) {
-                    leaderSkill.setAtkElement2(parseIntArrayList(leaderSkillNode.get("atkElement2")));
-                }
-                if (leaderSkillNode.hasNonNull("rcvType")) {
-                    leaderSkill.setRcvType(parseIntArrayList(leaderSkillNode.get("rcvType")));
-                }
-                if (leaderSkillNode.hasNonNull("rcvElement")) {
-                    leaderSkill.setRcvElement(parseIntArrayList(leaderSkillNode.get("rcvElement")));
-                }
-                if (leaderSkillNode.hasNonNull("comboMin")) {
-                    leaderSkill.setComboMin(leaderSkillNode.get("comboMin").asInt());
-                }
-                if (leaderSkillNode.hasNonNull("comboMax")) {
-                    leaderSkill.setComboMax(leaderSkillNode.get("comboMax").asInt());
-                }
-                if (leaderSkillNode.hasNonNull("comboMin2")) {
-                    leaderSkill.setComboMin2(leaderSkillNode.get("comboMin2").asInt());
-                }
-                if (leaderSkillNode.hasNonNull("comboMax2")) {
-                    leaderSkill.setComboMax2(leaderSkillNode.get("comboMax2").asInt());
-                }
-                if (leaderSkillNode.hasNonNull("matchElements")) {
-                    leaderSkill.setMatchElements(parseElementArrayList(leaderSkillNode.get("matchElements")));
-                }
-                if (leaderSkillNode.hasNonNull("matchElements2")) {
-                    leaderSkill.setMatchElements2(parseElementArrayList(leaderSkillNode.get("matchElements2")));
-                }
-                if (leaderSkillNode.hasNonNull("matchMonsters")) {
-                    leaderSkill.setMatchMonsters(parseLongArrayList(leaderSkillNode.get("matchMonsters")));
-                }
-                if (leaderSkillNode.hasNonNull("hpPercent")) {
-                    leaderSkill.setHpPercent(parseIntArrayList(leaderSkillNode.get("hpPercent")));
-                }
-                if (leaderSkillNode.hasNonNull("effect")) {
-                    leaderSkill.setDescription(leaderSkillNode.get("effect").asText());
-                }
-                if (leaderSkillNode.hasNonNull("name")) {
-                    leaderSkill.setName(leaderSkillNode.get("name").asText());
-                }
-                if (leaderSkillNode.hasNonNull("minimumMatch")) {
-                    leaderSkill.setMinimumMatch(leaderSkillNode.get("minimumMatch").asInt());
-                }
-                realm.copyToRealmOrUpdate(leaderSkill);
-                update.updateValues(counter);
             }
             Log.d("ParseMonsterDatabase", "leaderSkill counter is: " + counter);
         } catch (Exception e) {
@@ -168,25 +172,28 @@ public class ParseMonsterDatabaseThread extends Thread {
     private void parseActiveSkillDatabase() {
         try {
             ObjectMapper m = new ObjectMapper();
-            JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.active_skills));
-            ActiveSkill activeSkill;
-            for (JsonNode activeSkillNode : rootNode) {
-                counter++;
-                activeSkill = new ActiveSkill();
-                if (activeSkillNode.hasNonNull("name")) {
-                    activeSkill.setName(activeSkillNode.get("name").asText());
+            File activeSkillsFile = new File(Singleton.getInstance().getContext().getFilesDir(), "active_skills.json");
+            if (activeSkillsFile.exists()) {
+                JsonNode rootNode = m.readTree(activeSkillsFile);
+                ActiveSkill activeSkill;
+                for (JsonNode activeSkillNode : rootNode) {
+                    counter++;
+                    activeSkill = new ActiveSkill();
+                    if (activeSkillNode.hasNonNull("name")) {
+                        activeSkill.setName(activeSkillNode.get("name").asText());
+                    }
+                    if (activeSkillNode.hasNonNull("effect")) {
+                        activeSkill.setDescription(activeSkillNode.get("effect").asText());
+                    }
+                    if (activeSkillNode.hasNonNull("min_cooldown")) {
+                        activeSkill.setMinimumCooldown(activeSkillNode.get("min_cooldown").asInt());
+                    }
+                    if (activeSkillNode.hasNonNull("max_cooldown")) {
+                        activeSkill.setMaximumCooldown(activeSkillNode.get("max_cooldown").asInt());
+                    }
+                    realm.copyToRealmOrUpdate(activeSkill);
+                    update.updateValues(counter);
                 }
-                if (activeSkillNode.hasNonNull("effect")) {
-                    activeSkill.setDescription(activeSkillNode.get("effect").asText());
-                }
-                if (activeSkillNode.hasNonNull("min_cooldown")) {
-                    activeSkill.setMinimumCooldown(activeSkillNode.get("min_cooldown").asInt());
-                }
-                if (activeSkillNode.hasNonNull("max_cooldown")) {
-                    activeSkill.setMaximumCooldown(activeSkillNode.get("max_cooldown").asInt());
-                }
-                realm.copyToRealmOrUpdate(activeSkill);
-                update.updateValues(counter);
             }
             Log.d("ParseMonsterDatabase", "activeSkill counter is: " + counter);
         } catch (Exception e) {
@@ -198,98 +205,102 @@ public class ParseMonsterDatabaseThread extends Thread {
     private void parseMonsterDatabase() {
         try {
             ObjectMapper m = new ObjectMapper();
-            JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.monsters));
-            BaseMonster monster;
+            File monstersFile = new File(Singleton.getInstance().getContext().getFilesDir(), "monsters.json");
+            if (monstersFile.exists()) {
+                JsonNode rootNode = m.readTree(monstersFile);
+                BaseMonster monster;
 //            realm.beginTransaction();
-            for (JsonNode monsterNode : rootNode) {
-                counter++;
-                monster = new BaseMonster();
-                if (monsterNode.hasNonNull("us_id")) {
-                    monster.setMonsterId(monsterNode.get("us_id").asLong());
-                } else if (monsterNode.hasNonNull("id")) {
-                    monster.setMonsterId(monsterNode.get("id").asLong());
-                }
+                for (JsonNode monsterNode : rootNode) {
+                    counter++;
+                    monster = new BaseMonster();
+                    if (monsterNode.hasNonNull("us_id")) {
+                        monster.setMonsterId(monsterNode.get("us_id").asLong());
+                    } else if (monsterNode.hasNonNull("id")) {
+                        monster.setMonsterId(monsterNode.get("id").asLong());
+                    }
 //                if (monsterNode.hasNonNull("id")) {
 //                    monster.setMonsterId(monsterNode.get("id").asLong());
 //                }
-                if (monsterNode.hasNonNull("element")) {
-                    monster.setElement1(monsterNode.get("element").asInt());
-                }
-                if (monsterNode.hasNonNull("element2")) {
-                    monster.setElement2(monsterNode.get("element2").asInt());
-                }
-                if (monsterNode.hasNonNull("name")) {
-                    monster.setName(monsterNode.get("name").asText());
-                }
-                if (monsterNode.hasNonNull("max_level")) {
-                    monster.setMaxLevel(monsterNode.get("max_level").asInt());
-                }
-                if (monsterNode.hasNonNull("awoken_skills")) {
-                    monster.setAwokenSkills(parseIntArrayList(monsterNode.get("awoken_skills")));
-                }
-                if (monsterNode.hasNonNull("rarity")) {
-                    monster.setRarity(monsterNode.get("rarity").asInt());
-                }
-                if (monsterNode.hasNonNull("hp_max")) {
-                    monster.setHpMax(monsterNode.get("hp_max").asInt());
-                }
-                if (monsterNode.hasNonNull("rcv_min")) {
-                    monster.setRcvMin(monsterNode.get("rcv_min").asInt());
-                }
-                if (monsterNode.hasNonNull("rcv_max")) {
-                    monster.setRcvMax(monsterNode.get("rcv_max").asInt());
-                }
-                if (monsterNode.hasNonNull("rcv_scale")) {
-                    monster.setRcvScale(monsterNode.get("rcv_scale").asDouble());
-                }
-                if (monsterNode.hasNonNull("atk_scale")) {
-                    monster.setAtkScale(monsterNode.get("atk_scale").asDouble());
-                }
-                if (monsterNode.hasNonNull("hp_scale")) {
-                    monster.setHpScale(monsterNode.get("hp_scale").asDouble());
-                }
-                if (monsterNode.hasNonNull("xp_curve")) {
-                    monster.setXpCurve(monsterNode.get("xp_curve").asInt());
-                }
-                if (monsterNode.hasNonNull("leader_skill")) {
-                    monster.setLeaderSkillString(monsterNode.get("leader_skill").asText());
-                }
-                if (monsterNode.hasNonNull("team_cost")) {
-                    monster.setTeamCost(monsterNode.get("team_cost").asInt());
-                }
-                if (monsterNode.hasNonNull("type")) {
-                    monster.setType1(monsterNode.get("type").asInt());
-                }
-                if (monsterNode.hasNonNull("type2")) {
-                    monster.setType2(monsterNode.get("type2").asInt());
-                }
-                if (monsterNode.hasNonNull("type3")) {
-                    monster.setType3(monsterNode.get("type3").asInt());
-                }
-                if (monsterNode.hasNonNull("hp_min")) {
-                    monster.setHpMin(monsterNode.get("hp_min").asInt());
-                }
-                if (monsterNode.hasNonNull("active_skill")) {
-                    monster.setActiveSkillString(monsterNode.get("active_skill").asText());
-                }
-                if (monsterNode.hasNonNull("atk_min")) {
-                    monster.setAtkMin(monsterNode.get("atk_min").asInt());
-                }
-                if (monsterNode.hasNonNull("atk_max")) {
-                    monster.setAtkMax(monsterNode.get("atk_max").asInt());
-                }
-                if (monsterNode.hasNonNull("evolutions")) {
-                    monster.setEvolutions(parseLongArrayList(monsterNode.get("evolutions")));
+                    if (monsterNode.hasNonNull("element")) {
+                        monster.setElement1(monsterNode.get("element").asInt());
+                    }
+                    if (monsterNode.hasNonNull("element2")) {
+                        monster.setElement2(monsterNode.get("element2").asInt());
+                    }
+                    if (monsterNode.hasNonNull("name")) {
+                        monster.setName(monsterNode.get("name").asText());
+                    }
+                    if (monsterNode.hasNonNull("max_level")) {
+                        monster.setMaxLevel(monsterNode.get("max_level").asInt());
+                    }
+                    if (monsterNode.hasNonNull("awoken_skills")) {
+                        monster.setAwokenSkills(parseIntArrayList(monsterNode.get("awoken_skills")));
+                    }
+                    if (monsterNode.hasNonNull("rarity")) {
+                        monster.setRarity(monsterNode.get("rarity").asInt());
+                    }
+                    if (monsterNode.hasNonNull("hp_max")) {
+                        monster.setHpMax(monsterNode.get("hp_max").asInt());
+                    }
+                    if (monsterNode.hasNonNull("rcv_min")) {
+                        monster.setRcvMin(monsterNode.get("rcv_min").asInt());
+                    }
+                    if (monsterNode.hasNonNull("rcv_max")) {
+                        monster.setRcvMax(monsterNode.get("rcv_max").asInt());
+                    }
+                    if (monsterNode.hasNonNull("rcv_scale")) {
+                        monster.setRcvScale(monsterNode.get("rcv_scale").asDouble());
+                    }
+                    if (monsterNode.hasNonNull("atk_scale")) {
+                        monster.setAtkScale(monsterNode.get("atk_scale").asDouble());
+                    }
+                    if (monsterNode.hasNonNull("hp_scale")) {
+                        monster.setHpScale(monsterNode.get("hp_scale").asDouble());
+                    }
+                    if (monsterNode.hasNonNull("xp_curve")) {
+                        monster.setXpCurve(monsterNode.get("xp_curve").asInt());
+                    }
+                    if (monsterNode.hasNonNull("leader_skill")) {
+                        monster.setLeaderSkillString(monsterNode.get("leader_skill").asText());
+                    }
+                    if (monsterNode.hasNonNull("team_cost")) {
+                        monster.setTeamCost(monsterNode.get("team_cost").asInt());
+                    }
+                    if (monsterNode.hasNonNull("type")) {
+                        monster.setType1(monsterNode.get("type").asInt());
+                    }
+                    if (monsterNode.hasNonNull("type2")) {
+                        monster.setType2(monsterNode.get("type2").asInt());
+                    }
+                    if (monsterNode.hasNonNull("type3")) {
+                        monster.setType3(monsterNode.get("type3").asInt());
+                    }
+                    if (monsterNode.hasNonNull("hp_min")) {
+                        monster.setHpMin(monsterNode.get("hp_min").asInt());
+                    }
+                    if (monsterNode.hasNonNull("active_skill")) {
+                        monster.setActiveSkillString(monsterNode.get("active_skill").asText());
+                    }
+                    if (monsterNode.hasNonNull("atk_min")) {
+                        monster.setAtkMin(monsterNode.get("atk_min").asInt());
+                    }
+                    if (monsterNode.hasNonNull("atk_max")) {
+                        monster.setAtkMax(monsterNode.get("atk_max").asInt());
+                    }
+                    if (monsterNode.hasNonNull("evolutions")) {
+                        monster.setEvolutions(parseLongArrayList(monsterNode.get("evolutions")));
+                    }
+
+                    monster.setLeaderSkill(realm.where(LeaderSkill.class).equalTo("name", monster.getLeaderSkillString()).findFirst());
+                    monster.setActiveSkill(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkillString()).findFirst());
+                    monster.setType1String(getTypeString(monster.getType1()));
+                    monster.setType2String(getTypeString(monster.getType2()));
+                    monster.setType3String(getTypeString(monster.getType3()));
+                    monster.setMonsterIdString(String.valueOf(monster.getMonsterId()));
+                    realm.copyToRealmOrUpdate(monster);
+                    update.updateValues(counter);
                 }
 
-                monster.setLeaderSkill(realm.where(LeaderSkill.class).equalTo("name", monster.getLeaderSkillString()).findFirst());
-                monster.setActiveSkill(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkillString()).findFirst());
-                monster.setType1String(getTypeString(monster.getType1()));
-                monster.setType2String(getTypeString(monster.getType2()));
-                monster.setType3String(getTypeString(monster.getType3()));
-                monster.setMonsterIdString(String.valueOf(monster.getMonsterId()));
-                realm.copyToRealmOrUpdate(monster);
-                update.updateValues(counter);
             }
 
             Log.d("ParseMonsterDatabase", "Monster counter is: " + counter);

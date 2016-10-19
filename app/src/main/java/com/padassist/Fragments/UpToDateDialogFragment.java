@@ -7,21 +7,15 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
 
-public class NotWiFiDialogFragment extends DialogFragment {
+public class UpToDateDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Proceed?");
-        builder.setMessage("Continue download without Wi-Fi?");
-        builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+        builder.setTitle("Version Check Complete");
+        builder.setMessage("Files are up to date.");
+        builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dismiss();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
                 dismiss();
             }
         });

@@ -6,11 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.Handler;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
@@ -27,14 +24,11 @@ import android.widget.FrameLayout;
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -51,12 +45,13 @@ import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
 import com.padassist.Fragments.CloseDialogFragment;
 import com.padassist.Fragments.DisclaimerDialogFragment;
-import com.padassist.Fragments.DownloadFragment;
 import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
 import com.padassist.Fragments.MonsterListFragment;
 import com.padassist.Fragments.NotWiFiDialogFragment;
+import com.padassist.Fragments.ThreeProgressDialog;
 import com.padassist.Fragments.UnableToConnectDialogFragment;
 import com.padassist.Fragments.LoadingFragment;
+import com.padassist.Fragments.UpToDateDialogFragment;
 import com.padassist.Util.Migration;
 import com.padassist.Util.Singleton;
 
@@ -96,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
     private DisclaimerDialogFragment disclaimerDialog;
     private CloseDialogFragment closeDialogFragment;
     private ProgressDialog progressDialog;
+    private ThreeProgressDialog threeProgressDialog;
+    private UpToDateDialogFragment upToDateDialogFragment;
     private Toast toast;
     private Realm realm;
 
@@ -359,6 +356,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 if (aboutDialogFragment == null) {
                     aboutDialogFragment = new AboutDialogFragment();
+                }
+                if(!aboutDialogFragment.isAdded()){
                     aboutDialogFragment.show(getSupportFragmentManager(), "yes");
                 }
                 break;
@@ -399,12 +398,16 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         if (notWiFiDialogFragment == null) {
                             notWiFiDialogFragment = new NotWiFiDialogFragment();
+                        }
+                        if(!notWiFiDialogFragment.isAdded()){
                             notWiFiDialogFragment.show(getSupportFragmentManager(), "yes");
                         }
                     }
                 } else {
                     if (unableToConnectDialogFragment == null) {
                         unableToConnectDialogFragment = new UnableToConnectDialogFragment();
+                    }
+                    if(!unableToConnectDialogFragment.isAdded()){
                         unableToConnectDialogFragment.show(getSupportFragmentManager(), "yes");
                     }
                 }
@@ -533,15 +536,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void syncDatabase() {
+        showProgressDialog();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final FirebaseStorage storage = FirebaseStorage.getInstance();
 
         DatabaseReference monsterVersionReference = database.getReference("monster_version");
         monsterVersionReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(int.class) > preferences.getInt("monsterVersion", 1)) {
-                    showProgressDialog("Downloading monsters...");
                     StorageReference storageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/data/monsters.json");
 
                     File monstersFile = new File(getApplicationContext().getFilesDir(), "monsters.json");
@@ -550,19 +553,27 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                                    progressDialog.setProgress((int)progress);
+                                    threeProgressDialog.setProgressBar1((int) progress);
+//                                    progressDialog.setProgress((int)progress);
                                     Log.d("MainActivity", "Monster Progress is: " + progress);
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    hideProgressDialog();
+                                    Log.d("MainActivity", "Monster Version Preferences before: " + preferences.getInt("monsterVersion", 1));
+                                    preferences.edit().putInt("monsterVersion", dataSnapshot.getValue(Integer.class)).apply();
+                                    if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
+                                        hideProgressDialog(true);
+                                    }
                                 }
                             });
+                } else {
+                    threeProgressDialog.setProgressBar1(100);
+                    if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
+                        hideProgressDialog(false);
+                    }
                 }
-                Log.d("MainActivity", "Monster Version Preferences before: " + preferences.getInt("monsterVersion", 1));
-//                preferences.edit().putInt("monsterVersion", dataSnapshot.getValue(Integer.class)).apply();
                 Log.d("MainActivity", "Monster Version Preferences after: " + preferences.getInt("monsterVersion", 1));
             }
 
@@ -575,30 +586,37 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference leaderSkillVersionReference = database.getReference("leader_skill_version");
         leaderSkillVersionReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(int.class) > preferences.getInt("leaderSkillVersion", 1)) {
-                showProgressDialog("Downloading Leader Skills...");
-                StorageReference storageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/data/leader_skills.json");
+                    StorageReference storageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/data/leader_skills.json");
 
-                File leaderSkillsFile = new File(getApplicationContext().getFilesDir(), "leader_skills.json");
-                storageReference.getFile(leaderSkillsFile)
-                        .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                                progressDialog.setProgress((int)progress);
-                                Log.d("MainActivity", "Leader Skill Progress is: " + progress);
-                            }
-                        })
-                        .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                hideProgressDialog();
-                            }
-                        });
-            }
-                Log.d("MainActivity", "Leader Skill Version Preferences before: " + preferences.getInt("leaderSkillVersion", 1));
-//                preferences.edit().putInt("leaderSkillVersion", dataSnapshot.getValue(Integer.class)).apply();
+                    File leaderSkillsFile = new File(getApplicationContext().getFilesDir(), "leader_skills.json");
+                    storageReference.getFile(leaderSkillsFile)
+                            .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                    threeProgressDialog.setProgressBar2((int) progress);
+//                                progressDialog.setProgress((int)progress);
+                                    Log.d("MainActivity", "Leader Skill Progress is: " + progress);
+                                }
+                            })
+                            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Log.d("MainActivity", "Leader Skill Version Preferences before: " + preferences.getInt("leaderSkillVersion", 1));
+                                    preferences.edit().putInt("leaderSkillVersion", dataSnapshot.getValue(Integer.class)).apply();
+                                    if (threeProgressDialog.getProgress1() == 100 && threeProgressDialog.getProgress3() == 100) {
+                                        hideProgressDialog(true);
+                                    }
+                                }
+                            });
+                } else {
+                    threeProgressDialog.setProgressBar2(100);
+                    if (threeProgressDialog.getProgress1() == 100 && threeProgressDialog.getProgress3() == 100) {
+                        hideProgressDialog(false);
+                    }
+                }
                 Log.d("MainActivity", "Leader Skill Version Preferences after: " + preferences.getInt("leaderSkillVersion", 1));
             }
 
@@ -611,9 +629,8 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference activeSkillVersionReference = database.getReference("active_skill_version");
         activeSkillVersionReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(final DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue(int.class) > preferences.getInt("activeSkillVersion", 1)) {
-                    showProgressDialog("Downloading Active Skills...");
                     StorageReference storageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/data/active_skills.json");
 
                     File leaderSkillsFile = new File(getApplicationContext().getFilesDir(), "active_skills.json");
@@ -622,19 +639,27 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                     double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                                    progressDialog.setProgress((int)progress);
+                                    threeProgressDialog.setProgressBar3((int) progress);
+//                                    progressDialog.setProgress((int)progress);
                                     Log.d("MainActivity", "Active Skill Progress is: " + progress);
                                 }
                             })
                             .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                    hideProgressDialog();
+                                    Log.d("MainActivity", "Active Skill Version Preferences before: " + preferences.getInt("activeSkillVersion", 1));
+                                    preferences.edit().putInt("activeSkillVersion", dataSnapshot.getValue(Integer.class)).apply();
+                                    if (threeProgressDialog.getProgress1() == 100 && threeProgressDialog.getProgress2() == 100) {
+                                        hideProgressDialog(true);
+                                    }
                                 }
                             });
+                } else {
+                    threeProgressDialog.setProgressBar3(100);
+                    if (threeProgressDialog.getProgress1() == 100 && threeProgressDialog.getProgress2() == 100) {
+                        hideProgressDialog(false);
+                    }
                 }
-                Log.d("MainActivity", "Active Skill Version Preferences before: " + preferences.getInt("activeSkillVersion", 1));
-//                preferences.edit().putInt("activeSkillVersion", dataSnapshot.getValue(Integer.class)).apply();
                 Log.d("MainActivity", "Active Skill Version Preferences after: " + preferences.getInt("activeSkillVersion", 1));
             }
 
@@ -684,22 +709,42 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void showProgressDialog(String title){
-        if(progressDialog == null){
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressDialog.setCancelable(true);
-            progressDialog.setIndeterminate(false);
-            progressDialog.setMax(100);
-            progressDialog.setProgress(0);
+    private void showProgressDialog() {
+//        if(progressDialog == null){
+//            progressDialog = new ProgressDialog(this);
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//            progressDialog.setCancelable(true);
+//            progressDialog.setIndeterminate(false);
+//            progressDialog.setMax(100);
+//            progressDialog.setProgress(0);
+//        }
+//        progressDialog.setTitle(title);
+//        progressDialog.show();
+
+        if (threeProgressDialog == null) {
+            threeProgressDialog = ThreeProgressDialog.newInstance();
         }
-        progressDialog.setTitle(title);
-        progressDialog.show();
+        threeProgressDialog.show(getFragmentManager(), "ThreeProgressDialog");
     }
 
-    private void hideProgressDialog(){
-        if(progressDialog != null && progressDialog.isShowing()){
-            progressDialog.dismiss();
+    private void hideProgressDialog(boolean parse) {
+//        if(progressDialog != null && progressDialog.isShowing()){
+//            progressDialog.dismiss();
+//        }
+        if (threeProgressDialog != null && threeProgressDialog.isAdded()) {
+            threeProgressDialog.dismiss();
+        }
+        if(parse){
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.pager, new LoadingFragment())
+                    .commit();
+        } else {
+            if (upToDateDialogFragment == null) {
+                upToDateDialogFragment = new UpToDateDialogFragment();
+            }
+            if(!upToDateDialogFragment.isAdded()){
+                upToDateDialogFragment.show(getSupportFragmentManager(), "yes");
+            }
         }
     }
 
