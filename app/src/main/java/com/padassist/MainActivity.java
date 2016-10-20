@@ -130,10 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        preferences.edit().putInt("monsterVersion", 2).apply();
 
-        if (preferences.getInt("monsterVersion", 1) <= 1) {
-            syncDatabase();
-        }
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference appVersion = database.getReference("current_app_version");
         appVersion.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -159,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
         if (preferences.getBoolean("firstRun", true)) {
             syncDatabase();
             preferences.edit().putBoolean("firstRun", false).apply();
+        }
+
+        if (preferences.getInt("monsterVersion", 1) <= 1 && preferences.getBoolean("firstRun", false)) {
+            syncDatabase();
         }
 
 //        preferences.edit().putBoolean("showDisclaimer", true).apply();
@@ -599,57 +599,60 @@ public class MainActivity extends AppCompatActivity {
 
                                     StorageReference monsterImageReference;
                                     final File monsterImage;
-
-                                    ArrayList<Long> missingImages = new ArrayList();
-                                    File imageCheck;
-                                    for (BaseMonster monster : results) {
-                                        imageCheck = new File(getFilesDir(), "monster_" + monster.getMonsterId() + ".png");
-                                        if (!imageCheck.exists()) {
-                                            missingImages.add(monster.getMonsterId());
-                                        }
+                                    File folder = new File(getFilesDir(), "monster_images");
+                                    if (!folder.exists()) {
+                                        folder.mkdir();
                                     }
 
-//                                    ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
-//                                    int i = 0;
-//                                    while(i < results.size()){
-//                                        monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
-//                                        monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
-//                                        taskExecutor.execute(monsterImageReference.getFile(monsterImage)
-//                                                .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-//                                                    @Override
-//                                                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                                    }
-//                                                })
-//                                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                                                    @Override
-//                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                                    }
-//                                                }));
+//                                    ArrayList<Long> missingImages = new ArrayList();
+//                                    File imageCheck;
+//                                    for (BaseMonster monster : results) {
+//                                        imageCheck = new File(getFilesDir(), "monster_" + monster.getMonsterId() + ".png");
+//                                        if (!imageCheck.exists()) {
+//                                            missingImages.add(monster.getMonsterId());
+//                                        }
 //                                    }
-                                    if (missingImages.size() < 100) {
-                                        for (int i = 0; i < results.size(); i++) {
-                                            monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
-                                            imageCheck = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
-
-                                            monsterImageReference.getFile(imageCheck)
-                                                    .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-                                                        @Override
-                                                        public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                        }
-                                                    })
-                                                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                                        @Override
-                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                        }
-                                                    });
-                                        }
-
-                                        if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
-                                            hideProgressDialog(true);
-                                        }
-                                    } else {
+//
+////                                    ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
+////                                    int i = 0;
+////                                    while(i < results.size()){
+////                                        monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
+////                                        monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
+////                                        taskExecutor.execute(monsterImageReference.getFile(monsterImage)
+////                                                .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+////                                                    @Override
+////                                                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+////                                                    }
+////                                                })
+////                                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+////                                                    @Override
+////                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+////                                                    }
+////                                                }));
+////                                    }
+//                                    if (missingImages.size() < 30) {
+//                                        for (int i = 0; i < results.size(); i++) {
+//                                            monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
+//                                            imageCheck = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
+//
+//                                            monsterImageReference.getFile(imageCheck)
+//                                                    .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+//                                                        @Override
+//                                                        public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                                                        }
+//                                                    })
+//                                                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//                                                        @Override
+//                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                                                        }
+//                                                    });
+//                                        }
+//                                        if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
+//                                            hideProgressDialog(true);
+//                                        }
+//                                    } else {
                                         monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_images.zip");
-                                        monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_images.zip");
+                                        monsterImage = new File(getFilesDir(), "monster_images/monster_images.zip");
                                         monsterImageReference.getFile(monsterImage)
                                                 .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
                                                     @Override
@@ -664,7 +667,7 @@ public class MainActivity extends AppCompatActivity {
                                                         byte[] buffer = new byte[1024];
 
                                                         try {
-                                                            File folder = new File(getApplicationContext().getFilesDir(), "monster_images");
+                                                            File folder = new File(getFilesDir(), "monster_images");
                                                             if (!folder.exists()) {
                                                                 folder.mkdir();
                                                             }
@@ -703,9 +706,8 @@ public class MainActivity extends AppCompatActivity {
 
                                                     }
                                                 });
-                                    }
+//                                    }
 
-//
                                 }
                             });
                 } else {
@@ -855,7 +857,9 @@ public class MainActivity extends AppCompatActivity {
         if (threeProgressDialog == null) {
             threeProgressDialog = ThreeProgressDialog.newInstance();
         }
-        threeProgressDialog.show(getFragmentManager(), "ThreeProgressDialog");
+        if (!threeProgressDialog.isAdded()) {
+            threeProgressDialog.show(getFragmentManager(), "ThreeProgressDialog");
+        }
     }
 
     private void hideProgressDialog(boolean parse) {
@@ -884,7 +888,7 @@ public class MainActivity extends AppCompatActivity {
     private UpToDateDialogFragment.Preferences forceSync = new UpToDateDialogFragment.Preferences() {
         @Override
         public void setShowAgain(boolean showAgain) {
-            if(showAgain){
+            if (showAgain) {
                 preferences.edit().putInt("monsterVersion", 1).apply();
                 preferences.edit().putInt("leaderSkillVersion", 1).apply();
                 preferences.edit().putInt("activeSkillVersion", 1).apply();

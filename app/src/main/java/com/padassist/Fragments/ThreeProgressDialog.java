@@ -41,7 +41,7 @@ public class ThreeProgressDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setView(rootView)
-                .setTitle("Downloading files...");
+                .setTitle("Downloading assets...");
 
         return builder.create();
     }
