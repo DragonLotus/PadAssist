@@ -65,6 +65,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -599,6 +600,15 @@ public class MainActivity extends AppCompatActivity {
                                     StorageReference monsterImageReference;
                                     final File monsterImage;
 
+                                    ArrayList<Long> missingImages = new ArrayList();
+                                    File imageCheck;
+                                    for (BaseMonster monster : results) {
+                                        imageCheck = new File(getFilesDir(), "monster_" + monster.getMonsterId() + ".png");
+                                        if (!imageCheck.exists()) {
+                                            missingImages.add(monster.getMonsterId());
+                                        }
+                                    }
+
 //                                    ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
 //                                    int i = 0;
 //                                    while(i < results.size()){
@@ -616,86 +626,86 @@ public class MainActivity extends AppCompatActivity {
 //                                                    }
 //                                                }));
 //                                    }
+                                    if (missingImages.size() < 100) {
+                                        for (int i = 0; i < results.size(); i++) {
+                                            monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
+                                            imageCheck = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
 
-                                    monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_images.zip");
-                                    monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_images.zip");
-                                    monsterImageReference.getFile(monsterImage)
-                                            .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                    double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                                                    threeProgressDialog.setProgressBar1((int) progress);
-                                                }
-                                            })
-                                            .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                                @Override
-                                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                    byte[] buffer = new byte[1024];
-
-                                                    try {
-                                                        File folder = new File(getApplicationContext().getFilesDir(), "monster_images");
-                                                        if (!folder.exists()) {
-                                                            folder.mkdir();
+                                            monsterImageReference.getFile(imageCheck)
+                                                    .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                                         }
-                                                        ZipInputStream zis = new ZipInputStream(new FileInputStream(monsterImage.getAbsolutePath()));
-                                                        ZipEntry ze = zis.getNextEntry();
+                                                    })
+                                                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                        }
+                                                    });
+                                        }
 
-                                                        while (ze != null) {
-                                                            String fileName = ze.getName();
-                                                            File newFile = new File(folder + File.separator + fileName);
+                                        if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
+                                            hideProgressDialog(true);
+                                        }
+                                    } else {
+                                        monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_images.zip");
+                                        monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_images.zip");
+                                        monsterImageReference.getFile(monsterImage)
+                                                .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                        double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                                                        threeProgressDialog.setProgressBar1((int) progress);
+                                                    }
+                                                })
+                                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                        byte[] buffer = new byte[1024];
 
-                                                            Log.d("MainActivity", "File unzip: " + newFile.getAbsolutePath());
+                                                        try {
+                                                            File folder = new File(getApplicationContext().getFilesDir(), "monster_images");
+                                                            if (!folder.exists()) {
+                                                                folder.mkdir();
+                                                            }
+                                                            ZipInputStream zis = new ZipInputStream(new FileInputStream(monsterImage.getAbsolutePath()));
+                                                            ZipEntry ze = zis.getNextEntry();
 
-                                                            new File(newFile.getParent()).mkdirs();
+                                                            while (ze != null) {
+                                                                String fileName = ze.getName();
+                                                                File newFile = new File(folder + File.separator + fileName);
 
-                                                            FileOutputStream fos = new FileOutputStream(newFile);
+                                                                new File(newFile.getParent()).mkdirs();
 
-                                                            int len;
-                                                            while ((len = zis.read(buffer)) > 0) {
-                                                                fos.write(buffer, 0, len);
+                                                                FileOutputStream fos = new FileOutputStream(newFile);
+
+                                                                int len;
+                                                                while ((len = zis.read(buffer)) > 0) {
+                                                                    fos.write(buffer, 0, len);
+                                                                }
+
+                                                                fos.close();
+                                                                ze = zis.getNextEntry();
+                                                            }
+                                                            zis.closeEntry();
+                                                            zis.close();
+                                                            monsterImage.delete();
+                                                            if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
+                                                                hideProgressDialog(true);
                                                             }
 
-                                                            fos.close();
-                                                            ze = zis.getNextEntry();
+                                                        } catch (FileNotFoundException e) {
+                                                            e.printStackTrace();
+                                                        } catch (IOException ex) {
+                                                            ex.printStackTrace();
                                                         }
-                                                        zis.closeEntry();
-                                                        zis.close();
-                                                        Log.d("MainActivity", "Files unzipped.");
-                                                        if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
-                                                        hideProgressDialog(true);
+
+
                                                     }
+                                                });
+                                    }
 
-                                                    } catch (FileNotFoundException e) {
-                                                        e.printStackTrace();
-                                                    } catch (IOException ex) {
-                                                        ex.printStackTrace();
-                                                    }
-
-
-
-                                                }
-                                            });
-
-//                                    for (int i = 0; i < results.size(); i++) {
-//                                        monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
-//                                        monsterImage = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
 //
-//                                        monsterImageReference.getFile(monsterImage)
-//                                                .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-//                                                    @Override
-//                                                    public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                                    }
-//                                                })
-//                                                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                                                    @Override
-//                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                                    }
-//                                                });
-//                                    }
-
-//                                    if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
-//                                        hideProgressDialog(true);
-//                                    }
                                 }
                             });
                 } else {
@@ -863,13 +873,25 @@ public class MainActivity extends AppCompatActivity {
 
         } else {
             if (upToDateDialogFragment == null) {
-                upToDateDialogFragment = new UpToDateDialogFragment();
+                upToDateDialogFragment = UpToDateDialogFragment.newInstance(forceSync);
             }
             if (!upToDateDialogFragment.isAdded()) {
                 upToDateDialogFragment.show(getSupportFragmentManager(), "yes");
             }
         }
     }
+
+    private UpToDateDialogFragment.Preferences forceSync = new UpToDateDialogFragment.Preferences() {
+        @Override
+        public void setShowAgain(boolean showAgain) {
+            if(showAgain){
+                preferences.edit().putInt("monsterVersion", 1).apply();
+                preferences.edit().putInt("leaderSkillVersion", 1).apply();
+                preferences.edit().putInt("activeSkillVersion", 1).apply();
+                syncDatabase();
+            }
+        }
+    };
 
     private CloseDialogFragment.CloseApplication closeApplication = new CloseDialogFragment.CloseApplication() {
         @Override
