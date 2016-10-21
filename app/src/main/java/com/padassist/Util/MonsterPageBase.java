@@ -1,6 +1,7 @@
 package com.padassist.Util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -117,7 +118,7 @@ public abstract class MonsterPageBase extends Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-//                hideKeyboard(v);
+                hideKeyboard(v);
                 if (monsterAwakeningsValue.getText().toString().equals("")) {
                     monsterAwakeningsValue.setText("0");
                     monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
@@ -404,7 +405,7 @@ public abstract class MonsterPageBase extends Fragment {
     private View.OnClickListener awakeningButtons = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            monsterAwakeningsValue.clearFocus();
+            clearTextFocus();
             if (v.equals(awakeningMinus)) {
                 if (monster.getCurrentAwakenings() > 0 && monster.getCurrentAwakenings() <= 9) {
                     //monster.setCurrentAwakenings(monster.getCurrentAwakenings() - 1);
@@ -867,10 +868,14 @@ public abstract class MonsterPageBase extends Fragment {
         }
     }
 
-//    public void hideKeyboard(View view) {
+    public void hideKeyboard(View view) {
 //        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
 //        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-//    }
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 //   private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()
 //   {

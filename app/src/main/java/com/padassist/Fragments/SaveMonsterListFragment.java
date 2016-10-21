@@ -55,7 +55,8 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
 
-        saveMonsterListRecycler = new SaveMonsterListRecycler(getContext(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, deleteOnClickListener, isGrid);
+        saveMonsterListRecycler = new SaveMonsterListRecycler(getContext(), monsterList, monsterListView, monsterListOnClickListener,
+                monsterListOnLongClickListener, deleteOnClickListener, isGrid, clearTextFocus);
         monsterListView.setAdapter(saveMonsterListRecycler);
 
     }

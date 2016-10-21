@@ -44,10 +44,16 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected int fiftyFourDp;
     protected int eightDp;
     private RelativeLayout.LayoutParams favoriteNoPlusLayoutParams;
+    protected ClearTextFocus clearTextFocus;
+
+    public interface ClearTextFocus {
+        void doThis();
+    }
 
     private View.OnClickListener expandOnItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            clearTextFocus.doThis();
             int previous;
             RecyclerView.ViewHolder holder = (RecyclerView.ViewHolder) v.getTag();
             if (holder.getAdapterPosition() != expandedPosition) {
@@ -79,7 +85,6 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
 
     private void setLinearLayout(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolderLinear viewHolderLinear = (ViewHolderLinear) viewHolder;
-
 
 
         if (position % 2 == 1) {
@@ -350,7 +355,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
 
 //        viewHolderGrid.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
         viewHolderGrid.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
-        if(monsterList.get(position).getTotalPlus() != 0){
+        if (monsterList.get(position).getTotalPlus() != 0) {
             viewHolderGrid.monsterPlus.setText(" +" + monsterList.get(position).getTotalPlus() + " ");
         } else {
             viewHolderGrid.monsterPlus.setVisibility(View.GONE);
@@ -400,7 +405,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolderGrid.monsterAwakenings.setVisibility(View.VISIBLE);
         }
 
-        if(monsterList.get(position).isFavorite()){
+        if (monsterList.get(position).isFavorite()) {
             viewHolderGrid.favorite.setVisibility(View.VISIBLE);
             viewHolderGrid.favoriteOutline.setVisibility(View.VISIBLE);
         } else {

@@ -144,6 +144,7 @@ public abstract class SaveMonsterListBase extends Fragment {
                 return true;
             }
         });
+        searchView.setOnFocusChangeListener(searchViewOnFocusChangeListener);
     }
 
     @Override
@@ -241,10 +242,28 @@ public abstract class SaveMonsterListBase extends Fragment {
         }
 //        filterMonsterName("");
         emptyCheck();
-
         fastScroller.setRecyclerView(monsterListView);
+    }
 
+    protected SaveMonsterListRecycler.ClearTextFocus clearTextFocus = new SaveMonsterListRecycler.ClearTextFocus() {
+        @Override
+        public void doThis() {
+            searchView.clearFocus();
+        }
+    };
 
+    private View.OnFocusChangeListener searchViewOnFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            hideKeyboard(v);
+        }
+    };
+
+    public void hideKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     public abstract void onActivityCreatedSpecific();
@@ -637,8 +656,6 @@ public abstract class SaveMonsterListBase extends Fragment {
                 savedMonsters.setVisibility(View.INVISIBLE);
             }
         }
-
-
     }
 
     private void filterMonsters(String query) {

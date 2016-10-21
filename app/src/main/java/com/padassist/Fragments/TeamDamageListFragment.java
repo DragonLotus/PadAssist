@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
@@ -292,6 +293,7 @@ public class TeamDamageListFragment extends Fragment {
         damageImmunityCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         damageImmunityValue.addTextChangedListener(damageImmunityWatcher);
         damageImmunityValue.setOnFocusChangeListener(editTextOnFocusChange);
+        reductionValue.setOnFocusChangeListener(editTextOnFocusChange);
         reductionValue.addTextChangedListener(reductionWatcher);
 
         redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
@@ -671,7 +673,7 @@ public class TeamDamageListFragment extends Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-//                hideKeyboard();
+                hideKeyboard(v);
                 if ((additionalComboValue.getText().toString().equals(""))) {
                     additionalComboValue.setText("" + team.getOrbMatches().size());
                 } else if (Integer.valueOf(additionalComboValue.getText().toString()) < team.getOrbMatches().size()) {
@@ -705,13 +707,10 @@ public class TeamDamageListFragment extends Fragment {
         }
     };
 
-    public void hideKeyboard() {
-//        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-//        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-
-        InputMethodManager imm = (InputMethodManager) Singleton.getInstance().getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        if (getActivity() != null && getActivity().getCurrentFocus() != null) {
-            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+    public void hideKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
@@ -801,22 +800,18 @@ public class TeamDamageListFragment extends Fragment {
                 enemy.setHasDamageThreshold(isChecked);
                 if (isChecked) {
                     damageThresholdValue.setEnabled(true);
-                    damageImmunityValue.clearFocus();
                     damageImmunityValue.setEnabled(false);
                     damageImmunityCheck.setChecked(false);
                 } else {
-                    damageThresholdValue.clearFocus();
                     damageThresholdValue.setEnabled(false);
                 }
             } else if (buttonView.equals(damageImmunityCheck)) {
                 enemy.setHasDamageImmunity(isChecked);
                 if (isChecked) {
                     damageImmunityValue.setEnabled(true);
-                    damageThresholdValue.clearFocus();
                     damageThresholdValue.setEnabled(false);
                     damageThresholdCheck.setChecked(false);
                 } else {
-                    damageImmunityValue.clearFocus();
                     damageImmunityValue.setEnabled(false);
                 }
 
@@ -1033,6 +1028,8 @@ public class TeamDamageListFragment extends Fragment {
     private void clearTextFocus() {
         additionalComboValue.clearFocus();
         damageThresholdValue.clearFocus();
+        damageImmunityValue.clearFocus();
+        reductionValue.clearFocus();
     }
 
     private View.OnClickListener tooltipOnClickListener = new View.OnClickListener() {

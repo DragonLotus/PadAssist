@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class SaveMonsterListRecycler extends SaveMonsterListRecyclerBase {
 
-    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener, View.OnClickListener deleteOnClickListener, boolean isGrid){
+    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener, View.OnClickListener deleteOnClickListener, boolean isGrid, ClearTextFocus clearTextFocus){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
@@ -24,6 +24,7 @@ public class SaveMonsterListRecycler extends SaveMonsterListRecyclerBase {
         this.monsterListView = monsterListView;
         this.deleteOnClickListener = deleteOnClickListener;
         this.isGrid = isGrid;
+        this.clearTextFocus = clearTextFocus;
 
         sixteenDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics());
         fortyEightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, mContext.getResources().getDisplayMetrics());

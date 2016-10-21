@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseReference monsterVersion = database.getReference("monster_version");
-        monsterVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+        monsterVersion.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue(int.class) > preferences.getInt("monsterVersion", 1)){
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseReference leaderSkillVersion = database.getReference("leader_skill_version");
-        leaderSkillVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+        leaderSkillVersion.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue(int.class) > preferences.getInt("leaderSkillVersion", 1)){
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseReference activeSkillVersion = database.getReference("active_skill_version");
-        activeSkillVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+        activeSkillVersion.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue(int.class) > preferences.getInt("activeSkillVersion", 1)){

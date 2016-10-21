@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -410,7 +411,7 @@ public class EnemyTargetFragment extends Fragment {
                 toast = Toast.makeText(getActivity(), "Additional gravities will have no effect", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                currentHpValue.clearFocus();
+                clearTextFocus();
                 gravityListAdapter.add(gravityButtonAdapter.getItem(position));
                 gravityListAdapter.notifyDataSetChanged();
                 gravityList.smoothScrollToPosition(gravityListAdapter.getCount()-1);
@@ -432,7 +433,7 @@ public class EnemyTargetFragment extends Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-//                hideKeyboard(v);
+                hideKeyboard(v);
                 if (targetHpValue.getText().toString().equals("")) {
                     targetHpValue.setText("0");
                     enemy.setTargetHp(0);
@@ -491,7 +492,7 @@ public class EnemyTargetFragment extends Fragment {
     private ListView.OnItemClickListener gravityRemoveOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            currentHpValue.clearFocus();
+            clearTextFocus();
             gravityListAdapter.remove(gravityListAdapter.getItem(position));
             enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
@@ -503,7 +504,7 @@ public class EnemyTargetFragment extends Fragment {
         public void onClick(View v) {
             if (enemy.getCurrentHp() == 0) {
             } else {
-                currentHpValue.clearFocus();
+                clearTextFocus();
                 gravityListAdapter.clear();
                 enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
                 currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
@@ -611,22 +612,18 @@ public class EnemyTargetFragment extends Fragment {
                 enemy.setHasDamageThreshold(isChecked);
                 if (isChecked) {
                     damageThresholdValue.setEnabled(true);
-                    damageImmunityValue.clearFocus();
                     damageImmunityValue.setEnabled(false);
                     damageImmunityCheck.setChecked(false);
                 } else {
-                    damageThresholdValue.clearFocus();
                     damageThresholdValue.setEnabled(false);
                 }
             } else if (buttonView.equals(damageImmunityCheck)){
                 enemy.setHasDamageImmunity(isChecked);
                 if (isChecked) {
                     damageImmunityValue.setEnabled(true);
-                    damageThresholdValue.clearFocus();
                     damageThresholdValue.setEnabled(false);
                     damageThresholdCheck.setChecked(false);
                 } else {
-                    damageImmunityValue.clearFocus();
                     damageImmunityValue.setEnabled(false);
                 }
             }
@@ -1019,10 +1016,12 @@ public class EnemyTargetFragment extends Fragment {
         }
     };
 
-//    public void hideKeyboard(View view) {
-//        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-//        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-//    }
+    public void hideKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
     // http://stackoverflow.com/a/14577399 magic.
     private ListView.OnTouchListener listViewScroll = new ListView.OnTouchListener() {
@@ -1076,21 +1075,5 @@ public class EnemyTargetFragment extends Fragment {
             tooltipText.show(v);
         }
     };
-
-    //   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()
-//   {
-//      @Override
-//      public boolean onKey(View v, int keyCode, KeyEvent event)
-//      {
-//         Log.d("hello", String.valueOf(keyCode));
-//         if(keyCode == KeyEvent.KEYCODE_ENTER)
-//         {
-//            v.clearFocus();
-//            return true;
-//         }
-//         return false;
-//      }
-//   };
-
 
 }

@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -342,6 +343,7 @@ public class OrbMatchFragment extends Fragment {
     private RadioGroup.OnCheckedChangeListener orbRadioGroupOnCheckChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
+            additionalComboValue.clearFocus();
             switch (checkedId) {
                 case R.id.jammerOrb:
                     orbsPlus.setSelection(0);
@@ -433,6 +435,7 @@ public class OrbMatchFragment extends Fragment {
     private View.OnClickListener removeMatchOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            additionalComboValue.clearFocus();
             int position = (int) v.getTag(R.string.index);
             if (noDrop) {
                 maximumOrbs += orbMatchList.get(position).getOrbsLinked();
@@ -461,6 +464,7 @@ public class OrbMatchFragment extends Fragment {
 
     private Button.OnClickListener resetOnClickListener = new Button.OnClickListener() {
         public void onClick(View v) {
+            additionalComboValue.clearFocus();
             if (orbMatchRecycler.getItemCount() == 0) {
                 if (toast != null) {
                     toast.cancel();
@@ -482,6 +486,7 @@ public class OrbMatchFragment extends Fragment {
     private Button.OnClickListener optionsOnClickListener = new Button.OnClickListener() {
         @Override
         public void onClick(View v) {
+            additionalComboValue.clearFocus();
             if (orbMatchOptionsDialogFragment == null) {
                 orbMatchOptionsDialogFragment = orbMatchOptionsDialogFragment.newInstance(team);
             }
@@ -525,7 +530,7 @@ public class OrbMatchFragment extends Fragment {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
-//                hideKeyboard(v);
+                hideKeyboard(v);
                 if ((additionalComboValue.getText().toString().equals(""))) {
                     additionalComboValue.setText("" + orbMatchList.size());
                 } else if (Integer.valueOf(additionalComboValue.getText().toString()) < orbMatchList.size()) {
@@ -624,10 +629,14 @@ public class OrbMatchFragment extends Fragment {
         }
     };
 
-//    public void hideKeyboard(View view) {
+    public void hideKeyboard(View view) {
 //        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
 //        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-//    }
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
     public static OrbMatchFragment newInstance(Team team, Enemy enemy) {
         OrbMatchFragment fragment = new OrbMatchFragment();

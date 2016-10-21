@@ -14,6 +14,7 @@ import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.BaseMonsterListBase;
+import com.padassist.Util.BaseMonsterListRecyclerBase;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
 
-        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid);
+        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid, clearTextFocus);
         monsterListView.setAdapter(baseMonsterListRecycler);
 
     }
@@ -68,7 +69,6 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
             Team newTeam = realm.where(Team.class).equalTo("teamId", 0).findFirst();
-            Log.d("BaseMonsterList", "newTeam is: " + newTeam);
             Monster newMonster;
             if (monsterList.get(position).getMonsterId() == 0 && monsterPosition == 0) {
                 if (toast != null) {
@@ -84,8 +84,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
 //                    Log.d("BaseMonsterList", "results is: " + results);
 //                    long lastMonsterId = results.get(results.size() - 1).getMonsterId();
                     long lastMonsterId = realm.where(Monster.class).findAllSorted("monsterId").last().getMonsterId();
-                    Log.d("BaseMonsterList", "monsterListAll is: " + realm.where(Monster.class).findAll());
-                    Log.d("BaseMonsterList", "lastMonsterId is: " + lastMonsterId);
+
                     newMonster = new Monster(monsterList.get(position).getMonsterId());
                     if (monsterPosition == 5) {
                         newMonster.setHelper(true);
@@ -94,9 +93,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
                     realm.beginTransaction();
                     newMonster = realm.copyToRealm(newMonster);
                     realm.commitTransaction();
-                    Log.d("BaseMonsterList", "newMonster Id: " + newMonster.getMonsterId());
                 }
-                Log.d("BaseMonsterList", "newMonster valid: " + newMonster.isValid());
                 if (replaceAll) {
                     ArrayList<Team> teamList = new ArrayList<>();
                     RealmResults results = realm.where(Team.class).findAll();

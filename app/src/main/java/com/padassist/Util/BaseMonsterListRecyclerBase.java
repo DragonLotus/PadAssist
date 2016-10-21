@@ -2,6 +2,7 @@ package com.padassist.Util;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,10 +41,16 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected int fortyEightDp;
     protected int eightDp;
     protected int fiftyFourDp;
+    protected ClearTextFocus clearTextFocus;
+
+    public interface ClearTextFocus{
+        public void doThis();
+    }
 
     private View.OnClickListener expandOnItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            clearTextFocus.doThis();
             int previous;
             RecyclerView.ViewHolder holder = (RecyclerView.ViewHolder) v.getTag();
             if (holder.getAdapterPosition() != expandedPosition) {
