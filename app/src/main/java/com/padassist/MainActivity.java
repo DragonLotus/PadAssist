@@ -96,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
     private Fragment mContent;
     private Enemy enemy;
     private Team team;
-    private MenuItem searchMenuItem;
-    private SearchView searchView;
     private AboutDialogFragment aboutDialogFragment;
     private UnableToConnectDialogFragment unableToConnectDialogFragment;
     private NotWiFiDialogFragment notWiFiDialogFragment;
@@ -110,27 +108,20 @@ public class MainActivity extends AppCompatActivity {
     private UpdateAvailableDialogFragment updateAvailableDialogFragment;
     private Toast toast;
     private Realm realm;
+    private FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Singleton.getInstance().setContext(getApplicationContext());
 
-//        RealmConfiguration config = new RealmConfiguration.Builder(this)
-//                .schemaVersion(4)
-//                .migration(new Migration())
-//                .build();
-//        Realm.setDefaultConfiguration(config);
-
-//        Log.d("MainActivity", "config schema is: " + config.getSchemaVersion());
-
         realm = Realm.getDefaultInstance();
+        database = FirebaseDatabase.getInstance();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 //        preferences.edit().putInt("monsterVersion", 2).apply();
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference appVersion = database.getReference("current_app_version");
         appVersion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -151,14 +142,66 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        DatabaseReference monsterVersion = database.getReference("monster_version");
+        monsterVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(int.class) > preferences.getInt("monsterVersion", 1)){
+                    if(toast == null){
+                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference leaderSkillVersion = database.getReference("leader_skill_version");
+        leaderSkillVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(int.class) > preferences.getInt("leaderSkillVersion", 1)){
+                    if(toast == null){
+                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference activeSkillVersion = database.getReference("active_skill_version");
+        activeSkillVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(int.class) > preferences.getInt("activeSkillVersion", 1)){
+                    if(toast == null){
+                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         Log.d("MainActivity", "Version is: " + preferences.getInt("version", 1));
         if (preferences.getBoolean("firstRun", true)) {
-            syncDatabase();
+            syncDatabase(true);
             preferences.edit().putBoolean("firstRun", false).apply();
-        }
-
-        if (preferences.getInt("monsterVersion", 1) <= 1 && preferences.getBoolean("firstRun", false)) {
-            syncDatabase();
+        } else if (preferences.getInt("monsterVersion", 1) <= 1) {
+            syncDatabase(true);
         }
 
 //        preferences.edit().putBoolean("showDisclaimer", true).apply();
@@ -347,39 +390,6 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            if (aboutDialogFragment == null) {
-//                aboutDialogFragment = new AboutDialogFragment();
-//                aboutDialogFragment.show(getSupportFragmentManager(), "yes");
-//            }
-//        } else if (id == R.id.toggleCoop) {
-//            Boolean isEnable = !Singleton.getInstance().isCoopEnable();
-//            Singleton.getInstance().setCoopEnable(isEnable);
-//            if (isEnable) {
-//                if (toast != null) {
-//                    toast.cancel();
-//                }
-//                toast = Toast.makeText(this, "Co-op on", Toast.LENGTH_SHORT);
-//                toast.show();
-//            } else {
-//                if (toast != null) {
-//                    toast.cancel();
-//                }
-//                toast = Toast.makeText(this, "Co-op off", Toast.LENGTH_SHORT);
-//                toast.show();
-//            }
-//            item.setTitle(isEnable ? "Toggle Co-op off" : "Toggle Co-op on");
-//        } else if (id == R.id.saveTeam) {
-//
-//        } else if (id == R.id.loadTeam) {
-//
-//        } else if (id == R.id.monsterList) {
-////            switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, Singleton.getInstance().getMonsterOverwrite()), MonsterTabLayoutFragment.TAG, "good");
-//        } else if (id == R.id.manageMonsters) {
-//            switchFragment(ManageMonsterTabLayoutFragment.newInstance(), ManageMonsterTabLayoutFragment.TAG, "good");
-//        }
-
         switch (id) {
             case R.id.action_settings:
                 if (aboutDialogFragment == null) {
@@ -422,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isConnected) {
                     boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
                     if (isWiFi) {
-                        syncDatabase();
+                        syncDatabase(false);
                     } else {
                         if (notWiFiDialogFragment == null) {
                             notWiFiDialogFragment = NotWiFiDialogFragment.newInstance(syncDatabase);
@@ -449,7 +459,7 @@ public class MainActivity extends AppCompatActivity {
     private NotWiFiDialogFragment.SyncDatabase syncDatabase = new NotWiFiDialogFragment.SyncDatabase() {
         @Override
         public void accept() {
-            syncDatabase();
+            syncDatabase(false);
         }
     };
 
@@ -570,9 +580,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void syncDatabase() {
+    private void syncDatabase(final boolean downloadEverything) {
         showProgressDialog();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
         final FirebaseStorage storage = FirebaseStorage.getInstance();
 
         DatabaseReference monsterVersionReference = database.getReference("monster_version");
@@ -604,14 +613,14 @@ public class MainActivity extends AppCompatActivity {
                                         folder.mkdir();
                                     }
 
-//                                    ArrayList<Long> missingImages = new ArrayList();
-//                                    File imageCheck;
-//                                    for (BaseMonster monster : results) {
-//                                        imageCheck = new File(getFilesDir(), "monster_" + monster.getMonsterId() + ".png");
-//                                        if (!imageCheck.exists()) {
-//                                            missingImages.add(monster.getMonsterId());
-//                                        }
-//                                    }
+                                    ArrayList<Long> missingImages = new ArrayList();
+                                    File imageCheck;
+                                    for (BaseMonster monster : results) {
+                                        imageCheck = new File(getFilesDir(), "monster_images/monster_" + monster.getMonsterId() + ".png");
+                                        if (!imageCheck.exists() && monster.getMonsterId() != 0) {
+                                            missingImages.add(monster.getMonsterId());
+                                        }
+                                    }
 //
 ////                                    ExecutorService taskExecutor = Executors.newFixedThreadPool(2);
 ////                                    int i = 0;
@@ -651,6 +660,8 @@ public class MainActivity extends AppCompatActivity {
 //                                            hideProgressDialog(true);
 //                                        }
 //                                    } else {
+                                    Log.d("MainActivity", "missingImages.size: " + missingImages.size() + " downloadEverything is: " + downloadEverything);
+                                    if(missingImages.size() != 0 || downloadEverything){
                                         monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_images.zip");
                                         monsterImage = new File(getFilesDir(), "monster_images/monster_images.zip");
                                         monsterImageReference.getFile(monsterImage)
@@ -706,6 +717,12 @@ public class MainActivity extends AppCompatActivity {
 
                                                     }
                                                 });
+                                    } else {
+                                        if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
+                                            hideProgressDialog(true);
+                                        }
+                                    }
+
 //                                    }
 
                                 }
@@ -892,7 +909,7 @@ public class MainActivity extends AppCompatActivity {
                 preferences.edit().putInt("monsterVersion", 1).apply();
                 preferences.edit().putInt("leaderSkillVersion", 1).apply();
                 preferences.edit().putInt("activeSkillVersion", 1).apply();
-                syncDatabase();
+                syncDatabase(true);
             }
         }
     };

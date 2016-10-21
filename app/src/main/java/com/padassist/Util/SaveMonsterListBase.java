@@ -102,8 +102,8 @@ public abstract class SaveMonsterListBase extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         if (searchMenuItem != null) {
             if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
                 MenuItemCompat.collapseActionView(searchMenuItem);

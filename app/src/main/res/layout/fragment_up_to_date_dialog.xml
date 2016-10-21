@@ -14,7 +14,7 @@
         android:layout_alignTop="@+id/showAgainCheck"
         android:layout_alignBottom="@+id/showAgainCheck"
         android:gravity="center"
-        android:text="Force re-sync "
+        android:text="Force re-download "
         android:textSize="14dp"
         android:textColor="#000000"/>
 

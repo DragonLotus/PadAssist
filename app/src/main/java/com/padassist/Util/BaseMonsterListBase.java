@@ -97,8 +97,8 @@ public abstract class BaseMonsterListBase extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         if (searchMenuItem != null) {
             if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
                 MenuItemCompat.collapseActionView(searchMenuItem);
@@ -231,7 +231,7 @@ public abstract class BaseMonsterListBase extends Fragment {
         if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }
-
+        monsterListAll.clear();
         monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId"));
 
 //        Gson gson = new Gson();
@@ -250,9 +250,9 @@ public abstract class BaseMonsterListBase extends Fragment {
 
         if (monsterList == null) {
             monsterList = new ArrayList<>();
-            monsterList.addAll(monsterListAll);
         }
-
+//        monsterList.clear();
+//        monsterList.addAll(monsterListAll);
         fastScroller.setRecyclerView(monsterListView);
     }
 
