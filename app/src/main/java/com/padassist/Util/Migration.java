@@ -89,7 +89,6 @@ public class Migration implements RealmMigration {
                     .addIndex("activeSkill2String")
                     .addField("activeSkillString", String.class, FieldAttribute.INDEXED)
                     .addField("leaderSkillString", String.class, FieldAttribute.INDEXED);
-            oldVersion++;
         }
 
     }

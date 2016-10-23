@@ -863,7 +863,7 @@ public class OrbMatchFragment extends Fragment {
                 lastMatchId = results.get(results.size() - 1).getMatchId();
             }
             for (int i = 0; i < orbMatchList.size(); i++) {
-                if ((orbMatchList.get(i).getMatchId() == 0)) {
+                if ((orbMatchList.get(i).getMatchId() == 0) && !orbMatchList.get(i).isManaged()) {
                     orbMatchList.get(i).setMatchId(lastMatchId + 1);
                     lastMatchId++;
                     realm.copyToRealm(orbMatchList.get(i));

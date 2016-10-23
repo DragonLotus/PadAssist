@@ -286,12 +286,13 @@ public class MainActivity extends AppCompatActivity {
         if (enemy == null) {
             enemy = new Enemy();
         }
-        if (Realm.getDefaultInstance().getConfiguration() == null) {
-            Realm.setDefaultConfiguration(new RealmConfiguration.Builder(this)
-                    .schemaVersion(4)
-                    .migration(new Migration())
-                    .build());
-        }
+//        if (Realm.getDefaultInstance().getConfiguration() == null) {
+//            Realm.init(this);
+//            Realm.setDefaultConfiguration(new RealmConfiguration.Builder()
+//                    .schemaVersion(5)
+//                    .migration(new Migration())
+//                    .build());
+//        }
     }
 
     @Override

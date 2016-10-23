@@ -16,7 +16,8 @@ public class PadAssistApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        RealmConfiguration config = new RealmConfiguration.Builder(this)
+        Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration.Builder()
                 .schemaVersion(5)
                 .migration(new Migration())
                 .build();
