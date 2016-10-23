@@ -122,6 +122,20 @@ public class MainActivity extends AppCompatActivity {
 
 //        preferences.edit().putInt("monsterVersion", 2).apply();
 
+//        preferences.edit().putLong("schemaVersion", 4).apply();
+
+        Log.d("MainActivity", "Schema version preferences is: " + preferences.getLong("schemaVersion", 4) + " schema version is: " + realm.getConfiguration().getSchemaVersion());
+        if(preferences.getLong("schemaVersion", 4) < realm.getConfiguration().getSchemaVersion()){
+
+            updateConstants();
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.pager, new LoadingFragment())
+                    .commit();
+
+            preferences.edit().putLong("schemaVersion", realm.getConfiguration().getSchemaVersion()).apply();
+        }
+
         DatabaseReference appVersion = database.getReference("current_app_version");
         appVersion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -132,60 +146,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     if (!updateAvailableDialogFragment.isAdded()) {
                         updateAvailableDialogFragment.show(getSupportFragmentManager(), "yes");
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        DatabaseReference monsterVersion = database.getReference("monster_version");
-        monsterVersion.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(int.class) > preferences.getInt("monsterVersion", 1)){
-                    if(toast == null){
-                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        DatabaseReference leaderSkillVersion = database.getReference("leader_skill_version");
-        leaderSkillVersion.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(int.class) > preferences.getInt("leaderSkillVersion", 1)){
-                    if(toast == null){
-                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        DatabaseReference activeSkillVersion = database.getReference("active_skill_version");
-        activeSkillVersion.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(int.class) > preferences.getInt("activeSkillVersion", 1)){
-                    if(toast == null){
-                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
-                        toast.show();
                     }
                 }
             }
@@ -332,6 +292,65 @@ public class MainActivity extends AppCompatActivity {
                     .migration(new Migration())
                     .build());
         }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+
+        DatabaseReference monsterVersion = database.getReference("monster_version");
+        monsterVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(int.class) > preferences.getInt("monsterVersion", 1)){
+                    if(toast == null){
+                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference leaderSkillVersion = database.getReference("leader_skill_version");
+        leaderSkillVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(int.class) > preferences.getInt("leaderSkillVersion", 1)){
+                    if(toast == null){
+                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference activeSkillVersion = database.getReference("active_skill_version");
+        activeSkillVersion.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(int.class) > preferences.getInt("activeSkillVersion", 1)){
+                    if(toast == null){
+                        toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -584,6 +603,8 @@ public class MainActivity extends AppCompatActivity {
         showProgressDialog();
         final FirebaseStorage storage = FirebaseStorage.getInstance();
 
+        updateConstants();
+
         DatabaseReference monsterVersionReference = database.getReference("monster_version");
         monsterVersionReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -818,45 +839,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        DatabaseReference numberOfMonstersReference = database.getReference("num_of_monsters");
-        numberOfMonstersReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Constants.numOfMonsters = dataSnapshot.getValue(int.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        DatabaseReference numberOfLeaderSkillsReference = database.getReference("num_of_leader_skills");
-        numberOfLeaderSkillsReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Constants.numOfLeaderSkills = dataSnapshot.getValue(int.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        DatabaseReference numberOfActiveSkillsReference = database.getReference("num_of_active_skills");
-        numberOfActiveSkillsReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Constants.numOfActiveSkills = dataSnapshot.getValue(int.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void showProgressDialog() {
@@ -913,6 +895,47 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    private void updateConstants(){
+        DatabaseReference numberOfMonstersReference = database.getReference("num_of_monsters");
+        numberOfMonstersReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                preferences.edit().putInt("numOfMonsters", dataSnapshot.getValue(int.class)).apply();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference numberOfLeaderSkillsReference = database.getReference("num_of_leader_skills");
+        numberOfLeaderSkillsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                preferences.edit().putInt("numOfLeaderSkills", dataSnapshot.getValue(int.class)).apply();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference numberOfActiveSkillsReference = database.getReference("num_of_active_skills");
+        numberOfActiveSkillsReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                preferences.edit().putInt("numOfActiveSkills", dataSnapshot.getValue(int.class)).apply();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     private CloseDialogFragment.CloseApplication closeApplication = new CloseDialogFragment.CloseApplication() {
         @Override

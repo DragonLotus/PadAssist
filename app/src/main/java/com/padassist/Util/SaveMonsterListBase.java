@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.padassist.Adapters.SaveMonsterListRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
@@ -203,13 +204,13 @@ public abstract class SaveMonsterListBase extends Fragment {
             case R.id.toggleGrid:
                 preferences.edit().putBoolean("isGrid", !isGrid).apply();
                 isGrid = preferences.getBoolean("isGrid", true);
-                if(isGrid){
+                if (isGrid) {
                     monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
                 } else {
                     monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
                 }
                 saveMonsterListRecycler.notifyDataSetChanged(isGrid);
-                if(saveMonsterListRecycler.getExpandedPosition() > -1){
+                if (saveMonsterListRecycler.getExpandedPosition() > -1) {
                     monsterListView.scrollToPosition(saveMonsterListRecycler.getExpandedPosition());
                 }
                 break;
@@ -617,20 +618,24 @@ public abstract class SaveMonsterListBase extends Fragment {
                     monsterList.clear();
                 }
                 RealmResults<Monster> results = realm.where(Monster.class)
-                            .beginGroup()
-                            .contains("name", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type1String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type2String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type3String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("baseMonsterIdString", query, Case.INSENSITIVE)
-                            .endGroup()
-                            .greaterThan("monsterId", 0)
-                            .equalTo("helper", helper)
-                            .findAll();
+                        .beginGroup()
+                        .contains("name", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type1String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type2String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("type3String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("baseMonsterIdString", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("activeSkillString", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("leaderSkillString", query, Case.INSENSITIVE)
+                        .endGroup()
+                        .greaterThan("monsterId", 0)
+                        .equalTo("helper", helper)
+                        .findAll();
 
                 monsterList.addAll(results);
 
@@ -648,7 +653,7 @@ public abstract class SaveMonsterListBase extends Fragment {
 //            saveMonsterListRecycler.notifyDataSetChanged(monsterList);
             firstRun = false;
             saveMonsterListRecycler.setExpandedPosition(-1);
-            if(monsterList.size() == 0){
+            if (monsterList.size() == 0) {
                 savedMonsters.setText("No results");
                 savedMonsters.setVisibility(View.VISIBLE);
             } else {
@@ -678,8 +683,8 @@ public abstract class SaveMonsterListBase extends Fragment {
         @Override
         public void filter() {
             boolean remove = true;
-            if(filteredMonsters.size() > 0){
-                for(int i = 0; i < filteredMonsters.size(); i++){
+            if (filteredMonsters.size() > 0) {
+                for (int i = 0; i < filteredMonsters.size(); i++) {
                     monsterList.add(filteredMonsters.get(i));
                 }
                 filteredMonsters.clear();
@@ -729,7 +734,7 @@ public abstract class SaveMonsterListBase extends Fragment {
             sortArrayList(Singleton.getInstance().getSaveSortMethod());
             saveMonsterListRecycler.setExpandedPosition(-1);
             saveMonsterListRecycler.notifyDataSetChanged();
-            if(monsterList.size() == 0){
+            if (monsterList.size() == 0) {
                 savedMonsters.setText("No results");
                 savedMonsters.setVisibility(View.VISIBLE);
             } else {
@@ -742,8 +747,8 @@ public abstract class SaveMonsterListBase extends Fragment {
         public void filterRequirements() {
             boolean match = true;
             int counter = 0;
-            if(filteredMonsters.size() > 0){
-                for(int i = 0; i < filteredMonsters.size(); i++){
+            if (filteredMonsters.size() > 0) {
+                for (int i = 0; i < filteredMonsters.size(); i++) {
                     monsterList.add(filteredMonsters.get(i));
                 }
                 filteredMonsters.clear();
@@ -764,45 +769,45 @@ public abstract class SaveMonsterListBase extends Fragment {
                     }
                     if (Singleton.getInstance().getFilterTypes().size() != 0 && match) {
                         for (int i = 0; i < monster.getTypes().size(); i++) {
-                            if(Singleton.getInstance().getFilterTypes().contains(monster.getTypes().get(i))){
+                            if (Singleton.getInstance().getFilterTypes().contains(monster.getTypes().get(i))) {
                                 counter++;
                             }
                         }
-                        if(counter != Singleton.getInstance().getFilterTypes().size()){
+                        if (counter != Singleton.getInstance().getFilterTypes().size()) {
                             match = false;
                         }
                         counter = 0;
                     }
                     if (Singleton.getInstance().getFilterAwakenings().size() != 0 && match) {
                         ArrayList<Integer> trimmedAwakenings = new ArrayList<>();
-                        for(int i = 0; i < monster.getAwokenSkills().size(); i++){
-                            if(!trimmedAwakenings.contains(monster.getAwokenSkills(i))){
+                        for (int i = 0; i < monster.getAwokenSkills().size(); i++) {
+                            if (!trimmedAwakenings.contains(monster.getAwokenSkills(i))) {
                                 trimmedAwakenings.add(monster.getAwokenSkills(i));
                             }
                         }
                         for (int i = 0; i < trimmedAwakenings.size(); i++) {
-                            if(Singleton.getInstance().getFilterAwakenings().contains(trimmedAwakenings.get(i))){
+                            if (Singleton.getInstance().getFilterAwakenings().contains(trimmedAwakenings.get(i))) {
                                 counter++;
                             }
                         }
-                        if(counter != Singleton.getInstance().getFilterAwakenings().size()){
+                        if (counter != Singleton.getInstance().getFilterAwakenings().size()) {
                             match = false;
                         }
                         counter = 0;
                     }
                     if (Singleton.getInstance().getFilterLatents().size() != 0 && match) {
                         ArrayList<Integer> trimmedAwakenings = new ArrayList<>();
-                        for (int i = 0; i < monster.getLatents().size(); i++){
-                            if(!trimmedAwakenings.contains(monster.getLatents().get(i).getValue())){
+                        for (int i = 0; i < monster.getLatents().size(); i++) {
+                            if (!trimmedAwakenings.contains(monster.getLatents().get(i).getValue())) {
                                 trimmedAwakenings.add(monster.getLatents().get(i).getValue());
                             }
                         }
                         for (int i = 0; i < trimmedAwakenings.size(); i++) {
-                            if(Singleton.getInstance().getFilterLatents().contains(trimmedAwakenings.get(i))){
+                            if (Singleton.getInstance().getFilterLatents().contains(trimmedAwakenings.get(i))) {
                                 counter++;
                             }
                         }
-                        if(counter != Singleton.getInstance().getFilterLatents().size()){
+                        if (counter != Singleton.getInstance().getFilterLatents().size()) {
                             match = false;
                         }
                         counter = 0;
@@ -817,7 +822,7 @@ public abstract class SaveMonsterListBase extends Fragment {
             sortArrayList(Singleton.getInstance().getSaveSortMethod());
             saveMonsterListRecycler.setExpandedPosition(-1);
             saveMonsterListRecycler.notifyDataSetChanged();
-            if(monsterList.size() == 0){
+            if (monsterList.size() == 0) {
                 savedMonsters.setText("No results");
                 savedMonsters.setVisibility(View.VISIBLE);
             } else {

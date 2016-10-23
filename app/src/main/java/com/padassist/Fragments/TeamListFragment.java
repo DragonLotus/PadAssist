@@ -198,7 +198,7 @@ public class TeamListFragment extends Fragment {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-        searchView.setQueryHint("Team Name | Monster");
+        searchView.setQueryHint(getResources().getString(R.string.search_hint_team));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {

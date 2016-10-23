@@ -541,6 +541,10 @@ public abstract class BaseMonsterListBase extends Fragment {
                             .contains("type3String", query, Case.INSENSITIVE)
                             .or()
                             .contains("monsterIdString", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("activeSkillString", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("leaderSkillString", query, Case.INSENSITIVE)
                             .endGroup()
                             .greaterThan("monsterId", 0).findAll();
                     monsterList.addAll(results);

@@ -1,8 +1,10 @@
 package com.padassist.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import com.padassist.Constants;
 import com.padassist.R;
 import com.padassist.Threads.ParseMonsterDatabaseThread;
+import com.padassist.Util.Singleton;
 
 import io.realm.Realm;
 
@@ -24,6 +27,7 @@ public class LoadingFragment extends Fragment {
     private ProgressDialog progressDialog;
     private DisclaimerDialogFragment disclaimerDialog;
     private ImportAsyncTask asyncTask;
+    private SharedPreferences preferences;
 
     public LoadingFragment() {
 
@@ -37,7 +41,7 @@ public class LoadingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_loading, container, false);
-        Log.d("LoadingFragment", "Constants are: " + Constants.numOfMonsters + " " + Constants.numOfActiveSkills + " " + Constants.numOfLeaderSkills);
+        preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
         asyncTask = new ImportAsyncTask();
         asyncTask.execute();
         return rootView;
@@ -52,7 +56,7 @@ public class LoadingFragment extends Fragment {
             progressDialog.setMessage("Loading Leader Skills...");
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
-            progressDialog.setMax(Constants.numOfActiveSkills + Constants.numOfLeaderSkills + Constants.numOfMonsters + Constants.numOfSavedMonsters);
+            progressDialog.setMax(preferences.getInt("numOfActiveSkills", 1) + preferences.getInt("numOfLeaderSkills", 1) + preferences.getInt("numOfMonsters", 1) + Constants.numOfSavedMonsters);
             progressDialog.setProgress(0);
             progressDialog.show();
         }
@@ -85,16 +89,16 @@ public class LoadingFragment extends Fragment {
         @Override
         protected void onPostExecute(Integer integer) {
             progressDialog.dismiss();
-            getActivity().getSupportFragmentManager().popBackStack();
+            getActivity().getSupportFragmentManager().popBackStack(LoadingFragment.TAG, 1);
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-            if(values[0] == Constants.numOfLeaderSkills){
+            if(values[0] == preferences.getInt("numOfLeaderSkills", 1)){
                 progressDialog.setMessage("Loading Active Skills...");
-            } else if (values[0] == Constants.numOfLeaderSkills + Constants.numOfActiveSkills){
+            } else if (values[0] == preferences.getInt("numOfLeaderSkills", 1) + preferences.getInt("numOfActiveSkills", 1)){
                 progressDialog.setMessage("Loading Monsters...");
-            } else if (values[0] == Constants.numOfLeaderSkills + Constants.numOfActiveSkills + Constants.numOfMonsters) {
+            } else if (values[0] == preferences.getInt("numOfLeaderSkills", 1) + preferences.getInt("numOfActiveSkills", 1) + preferences.getInt("numOfMonsters", 1)) {
                 progressDialog.setMessage("Updating Saved Monsters...");
             }
         }

@@ -17,6 +17,7 @@ public class AboutDialogFragment extends DialogFragment {
         builder.setTitle("PadAssist (Version " + BuildConfig.VERSION_NAME + ")");
         builder.setMessage("What a creative name.\n\n" +
                 "Questions? Please no spam :(\n" +
+                "PadHerder: NJoyYourAids\n" +
                 "YouTube: DragonLotus\n" +
                 "Twitch: DragonLotus\n" +
                 "Twitter: @LoliverPhi\n");

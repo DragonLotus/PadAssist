@@ -1,5 +1,7 @@
 package com.padassist.Util;
 
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.StringBuilderPrinter;
 
@@ -76,6 +78,19 @@ public class Migration implements RealmMigration {
                     .addIndex("type2String")
                     .addIndex("type3String")
                     .addField("name", String.class, FieldAttribute.INDEXED);
+            oldVersion++;
         }
+
+        if(oldVersion == 4){
+            schema.get("BaseMonster")
+                    .addIndex("leaderSkillString")
+                    .addIndex("activeSkillString");
+            schema.get("Monster")
+                    .addIndex("activeSkill2String")
+                    .addField("activeSkillString", String.class, FieldAttribute.INDEXED)
+                    .addField("leaderSkillString", String.class, FieldAttribute.INDEXED);
+            oldVersion++;
+        }
+
     }
 }

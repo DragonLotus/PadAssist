@@ -54,7 +54,11 @@ public class Monster extends RealmObject implements Parcelable {
     private double currentHp;
 
     private boolean helper;
-
+    @Index
+    private String leaderSkillString;
+    @Index
+    private String activeSkillString;
+    @Index
     private String activeSkill2String;
 
     private ActiveSkill activeSkill2;
@@ -112,6 +116,8 @@ public class Monster extends RealmObject implements Parcelable {
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
             setCurrentRcv(DamageCalculationUtil.monsterStatCalc(baseMonster.getRcvMin(), baseMonster.getRcvMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getRcvScale()));
         }
+        leaderSkillString = baseMonster.getLeaderSkillString();
+        activeSkillString = baseMonster.getActiveSkillString();
         activeSkill2String = "Blank";
         activeSkillLevel = 1;
         activeSkill2Level = 1;
@@ -363,6 +369,18 @@ public class Monster extends RealmObject implements Parcelable {
         return baseMonster.getAwokenSkills(position).getValue();
     }
 
+    public void setActiveSkillString(String activeSkillString) {
+        this.activeSkillString = activeSkillString;
+    }
+
+    public String getActiveSkillStringMonster(){
+        return activeSkillString;
+    }
+
+    public void setLeaderSkillString(String leaderSkillString) {
+        this.leaderSkillString = leaderSkillString;
+    }
+
     public ActiveSkill getActiveSkill() {
         return baseMonster.getActiveSkill();
     }
@@ -409,6 +427,10 @@ public class Monster extends RealmObject implements Parcelable {
 
     public String getLeaderSkillString() {
         return baseMonster.getLeaderSkillString();
+    }
+
+    public String getLeaderSkillStringMonster(){
+        return leaderSkillString;
     }
 
     public String getName() {

@@ -69,9 +69,9 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //    private RealmElement element2;
 
     private RealmList<RealmInt> awokenSkills;
-
+    @Index
     private String activeSkillString;
-
+    @Index
     private String leaderSkillString;
 
     private ActiveSkill activeSkill;
