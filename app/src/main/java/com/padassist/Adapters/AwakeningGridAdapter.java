@@ -15,6 +15,7 @@ import com.padassist.Graphics.TooltipAwakening;
 import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -34,6 +35,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
     private ArrayList<Integer> latentAmountList;
     private boolean isMonsterSpecificAdapter;
     private int teamBadge;
+    DecimalFormat format = new DecimalFormat("0");
 
     public AwakeningGridAdapter(Context context, ArrayList<Monster> monsterList, ArrayList<Integer> awakenings, ArrayList<Integer> latents, boolean isMonsterSpecificAdapter, int teamBadge) {
         mContext = context;
@@ -113,13 +115,17 @@ public class AwakeningGridAdapter extends BaseAdapter {
                 counter = latentAmountList.get(position - awakeningList.size());
                 switch (awakening) {
                     case 1:
-                        text = "Bonus " + counter * 1.5 + "% of base HP";
+                        if ((counter * 1.5) == (long) (counter * 1.5)) {
+                            text = "Bonus " + String.format("%d", (long) (counter * 1.5)) + "% of base HP";
+                        } else {
+                            text = "Bonus " + counter * 1.5 + "% of base HP";
+                        }
                         break;
                     case 2:
-                        text = "Bonus " + counter + "% of base ATK";
+                        text = "Bonus " + String.format("%d", (long) counter) + "% of base ATK";
                         break;
                     case 3:
-                        text = "Bonus " + counter * 5 + "% of base RCV";
+                        text = "Bonus " + String.format("%d", (long) (counter * 5)) + "% of base RCV";
                         break;
                     case 4:
                         if (awakeningList.contains(19)) {
@@ -153,7 +159,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         }
                         break;
                     case 5:
-                        text = "Auto-heal " + counter * 15 + "% of total RCV";
+                        text = "Auto-heal " + String.format("%d", (long) (counter * 15)) + "% of total RCV";
                         break;
                     case 6:
                         if (awakeningList.contains(4)) {
@@ -165,10 +171,10 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of fire damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of fire damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
-                            text = "Resist " + counter + "% of fire damage";
+                            text = "Resist " + String.format("%d", (long) counter) + "% of fire damage";
                         }
                         break;
                     case 7:
@@ -181,10 +187,10 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of water damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of water damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
-                            text = "Resist " + counter + "% of water damage";
+                            text = "Resist " + String.format("%d", (long) counter) + "% of water damage";
                         }
                         break;
                     case 8:
@@ -197,10 +203,10 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of wood damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of wood damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
-                            text = "Resist " + counter + "% of wood damage";
+                            text = "Resist " + String.format("%d", (long) counter) + "% of wood damage";
                         }
                         break;
                     case 9:
@@ -213,10 +219,10 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of light damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of light damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
-                            text = "Resist " + counter + "% of light damage";
+                            text = "Resist " + String.format("%d", (long) counter) + "% of light damage";
                         }
                         break;
                     case 10:
@@ -229,17 +235,17 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter + awakeningAmountList.get(awakeningPosition) * 5) + "% of dark damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of dark damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
 
                         } else {
-                            text = "Resist " + counter + "% of dark damage";
+                            text = "Resist " + String.format("%d", (long) counter) + "% of dark damage";
                         }
                         break;
                     case 11:
                         if (counter == 1) {
-                            text = "Resist " + counter + " turn of skill delay";
+                            text = "Resist " + String.format("%d", (long) counter) + " turn of skill delay";
                         } else {
-                            text = "Resist " + counter + " turns of skill delay";
+                            text = "Resist " + String.format("%d", (long) counter) + " turns of skill delay";
                         }
                         break;
                 }
@@ -258,13 +264,13 @@ public class AwakeningGridAdapter extends BaseAdapter {
                 counter = awakeningAmountList.get(position);
                 switch (awakening) {
                     case 1:
-                        text = "Bonus " + counter * 200 + " HP";
+                        text = "Bonus " + String.format("%d", (long) (counter * 200)) + " HP";
                         break;
                     case 2:
-                        text = "Bonus " + counter * 100 + " ATK";
+                        text = "Bonus " + String.format("%d", (long) (counter * 100)) + " ATK";
                         break;
                     case 3:
-                        text = "Bonus " + counter * 50 + " RCV";
+                        text = "Bonus " + String.format("%d", (long) (counter * 50)) + " RCV";
                         break;
                     case 4:
                         if (latentList.contains(6)) {
@@ -276,9 +282,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of fire damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + (String.format("%d", (long) (counter * 5) + latentAmountList.get(latentPosition))) + "% of fire damage (" + latentAmountList.get(latentPosition) + "% from latents)";
                         } else {
-                            text = "Resist " + counter * 5 + "% of fire damage";
+                            text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of fire damage";
                         }
                         break;
                     case 5:
@@ -291,9 +297,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of water damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + (String.format("%d", (long) (counter * 5 + latentAmountList.get(latentPosition)))) + "% of water damage (" + latentAmountList.get(latentPosition) + "% from latents)";
                         } else {
-                            text = "Resist " + counter * 5 + "% of water damage";
+                            text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of water damage";
                         }
                         break;
                     case 6:
@@ -306,9 +312,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of wood damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentPosition))) + "% of wood damage (" + latentAmountList.get(latentPosition) + "% from latents)";
                         } else {
-                            text = "Resist " + counter * 5 + "% of wood damage";
+                            text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of wood damage";
                         }
                         break;
                     case 7:
@@ -321,9 +327,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of light damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentPosition))) + "% of light damage (" + latentAmountList.get(latentPosition) + "% from latents)";
                         } else {
-                            text = "Resist " + counter * 5 + "% of light damage";
+                            text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of light damage";
                         }
                         break;
                     case 8:
@@ -336,40 +342,40 @@ public class AwakeningGridAdapter extends BaseAdapter {
                                     break;
                                 }
                             }
-                            text = "Resist " + (counter * 5 + latentAmountList.get(latentPosition)) + "% of dark damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentPosition))) + "% of dark damage (" + latentAmountList.get(latentPosition) + "% from latents)";
                         } else {
-                            text = "Resist " + counter * 5 + "% of dark damage";
+                            text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of dark damage";
                         }
                         break;
                     case 9:
-                        text = "Auto-Heal " + counter * 500 + " HP";
+                        text = "Auto-Heal " + String.format("%d", (long) (counter * 500)) + " HP";
                         break;
                     case 10:
-                        text = counter * 50 + "% chance to resist binds";
+                        text = String.format("%d", (long) (counter * 50)) + "% chance to resist binds";
                         break;
                     case 11:
-                        text = counter * 20 + "% chance to resist blinds";
+                        text = String.format("%d", (long) (counter * 20)) + "% chance to resist blinds";
                         break;
                     case 12:
-                        text = counter * 20 + "% chance to resist jammer orbs";
+                        text = String.format("%d", (long) (counter * 20)) + "% chance to resist jammer orbs";
                         break;
                     case 13:
-                        text = counter * 20 + "% chance to resist poison orbs";
+                        text = String.format("%d", (long) (counter * 20)) + "% chance to resist poison orbs";
                         break;
                     case 14:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced fire orbs";
+                        text = String.format("%d", (long) (counter * 20)) + "% drop chance and " + String.format("%d", (long) (counter * 5)) + "% bonus damage for enhanced fire orbs";
                         break;
                     case 15:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced water orbs";
+                        text = String.format("%d", (long) (counter * 20)) + "% drop chance and " + String.format("%d", (long) (counter * 5)) + "% bonus damage for enhanced water orbs";
                         break;
                     case 16:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced wood orbs";
+                        text = String.format("%d", (long) (counter * 20)) + "% drop chance and " + String.format("%d", (long) (counter * 5)) + "% bonus damage for enhanced wood orbs";
                         break;
                     case 17:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced light orbs";
+                        text = String.format("%d", (long) (counter * 20)) + "% drop chance and " + String.format("%d", (long) (counter * 5)) + "% bonus damage for enhanced light orbs";
                         break;
                     case 18:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus damage for enhanced dark orbs";
+                        text = String.format("%d", (long) (counter * 20)) + "% drop chance and " + String.format("%d", (long) (counter * 5)) + "% bonus damage for enhanced dark orbs";
                         break;
                     case 19:
                         if (latentList.contains(4)) {
@@ -403,29 +409,29 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         }
                         break;
                     case 20:
-                        text = counter * 3 + " turns of bind recovery when matching a row of heart orbs";
+                        text = String.format("%d", (long) (counter * 3)) + " turns of bind recovery when matching a row of heart orbs";
                         break;
                     case 21:
                         if (teamBadge == 7) {
-                            text = (counter + 1) + " turns charged for active skills (1 from Team Badge)";
+                            text = String.format("%d", (long) (counter + 1)) + " turns charged for active skills (1 from Team Badge)";
                         } else {
-                            text = counter + " turns charged for active skills";
+                            text = String.format("%d", (long) counter) + " turns charged for active skills";
                         }
                         break;
                     case 22:
-                        text = counter * 10 + "% bonus damage for matching a row of fire orbs";
+                        text = String.format("%d", (long) (counter * 10)) + "% bonus damage for matching a row of fire orbs";
                         break;
                     case 23:
-                        text = counter * 10 + "% bonus damage for matching a row of water orbs";
+                        text = String.format("%d", (long) (counter * 10)) + "% bonus damage for matching a row of water orbs";
                         break;
                     case 24:
-                        text = counter * 10 + "% bonus damage for matching a row of wood orbs";
+                        text = String.format("%d", (long) (counter * 10)) + "% bonus damage for matching a row of wood orbs";
                         break;
                     case 25:
-                        text = counter * 10 + "% bonus damage for matching a row of light orbs";
+                        text = String.format("%d", (long) (counter * 10)) + "% bonus damage for matching a row of light orbs";
                         break;
                     case 26:
-                        text = counter * 10 + "% bonus damage for matching a row of dark orbs";
+                        text = String.format("%d", (long) (counter * 10)) + "% bonus damage for matching a row of dark orbs";
                         break;
                     case 27:
                         text = "Attack two targets and deal " + Math.pow(1.5, counter) + "x bonus damage when matching 4 orbs";
@@ -433,55 +439,55 @@ public class AwakeningGridAdapter extends BaseAdapter {
                     case 28:
                         if (teamBadge == 9) {
                             if (counter >= 5) {
-                                text = counter * 20 + "% chance to resist skill bind (Team Badge has no effect)";
+                                text = String.format("%d", (long) (counter * 20)) + "% chance to resist skill bind (Team Badge has no effect)";
                             } else {
-                                text = (((100 - (counter * 20)) * .5) + counter * 20) + "% chance to resist skill bind (Stacks multiplicatively with Team Badge)";
+                                text = String.format("%d", (long) (((100 - (counter * 20)) * .5) + counter * 20)) + "% chance to resist skill bind (Stacks multiplicatively with Team Badge)";
                             }
                         } else {
-                            text = counter * 20 + "% chance to resist skill bind";
+                            text = String.format("%d", (long) (counter * 20)) + "% chance to resist skill bind";
                         }
                         break;
                     case 29:
-                        text = counter * 20 + "% drop chance and " + counter * 5 + "% bonus healing for enhanced heart orbs";
+                        text = String.format("%d", (long) (counter * 20)) + "% drop chance and " + String.format("%d", (long) (counter * 5)) + "% bonus healing for enhanced heart orbs";
                         break;
                     case 30:
                         text = "Boost stats by " + Math.pow(1.5, counter) + "x during cooperation mode";
                         break;
                     case 31:
-                        text = counter * 3 + "x bonus damage versus Dragon types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Dragon types";
                         break;
                     case 32:
-                        text = counter * 3 + "x bonus damage versus God types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus God types";
                         break;
                     case 33:
-                        text = counter * 3 + "x bonus damage versus Devil types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Devil types";
                         break;
                     case 34:
-                        text = counter * 3 + "x bonus damage versus Machine types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Machine types";
                         break;
                     case 35:
-                        text = counter * 3 + "x bonus damage versus Attacker types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Attacker types";
                         break;
                     case 36:
-                        text = counter * 3 + "x bonus damage versus Physical types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Physical types";
                         break;
                     case 37:
-                        text = counter * 3 + "x bonus damage versus Healer types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Healer types";
                         break;
                     case 38:
-                        text = counter * 3 + "x bonus damage versus Balanced types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Balanced types";
                         break;
                     case 39:
-                        text = counter * 3 + "x bonus damage versus Awoken Material types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Awoken Material types";
                         break;
                     case 40:
-                        text = counter * 3 + "x bonus damage versus Enhance Material types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Enhance Material types";
                         break;
                     case 41:
-                        text = counter * 3 + "x bonus damage versus Vendor types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Vendor types";
                         break;
                     case 42:
-                        text = counter * 3 + "x bonus damage versus Evo Material types";
+                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Evo Material types";
                         break;
                 }
                 for (int i = 0; i < monsterList.size(); i++) {
