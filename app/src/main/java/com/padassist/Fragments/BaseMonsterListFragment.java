@@ -13,8 +13,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.BaseMonsterListBase;
-import com.padassist.Util.BaseMonsterListRecyclerBase;
+import com.padassist.BaseFragments.BaseMonsterListBase;
 
 import java.util.ArrayList;
 

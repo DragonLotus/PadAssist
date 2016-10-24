@@ -10,7 +10,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.SaveMonsterListBase;
+import com.padassist.BaseFragments.SaveMonsterListBase;
 
 import java.util.ArrayList;
 

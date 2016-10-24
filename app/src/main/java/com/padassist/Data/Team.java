@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.LeaderSkillCalculationUtil;
-import com.padassist.Util.NumberComparator;
+import com.padassist.Comparators.NumberComparator;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;

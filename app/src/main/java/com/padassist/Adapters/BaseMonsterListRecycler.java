@@ -2,15 +2,13 @@ package com.padassist.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import com.padassist.Data.BaseMonster;
-import com.padassist.Util.BaseMonsterListRecyclerBase;
+import com.padassist.BaseFragments.BaseMonsterListRecyclerBase;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**

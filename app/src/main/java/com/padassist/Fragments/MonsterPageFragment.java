@@ -8,12 +8,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.MonsterPageBase;
+import com.padassist.BaseFragments.MonsterPageBase;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;

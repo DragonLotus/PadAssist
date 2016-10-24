@@ -1,10 +1,8 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,7 +12,7 @@ import com.padassist.Data.Team;
 import com.padassist.Graphics.FastScroller;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.SaveMonsterListBase;
+import com.padassist.BaseFragments.SaveMonsterListBase;
 
 import java.util.ArrayList;
 

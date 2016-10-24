@@ -5,11 +5,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
-import com.padassist.Util.MonsterPageBase;
+import com.padassist.BaseFragments.MonsterPageBase;
 
 import java.util.ArrayList;
 

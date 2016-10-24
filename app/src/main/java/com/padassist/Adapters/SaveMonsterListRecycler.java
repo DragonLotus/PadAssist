@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.padassist.Data.Monster;
-import com.padassist.Util.SaveMonsterListRecyclerBase;
+import com.padassist.BaseFragments.SaveMonsterListRecyclerBase;
 
 import java.util.ArrayList;
 
