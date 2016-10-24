@@ -7,7 +7,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.padassist.R;
-import com.padassist.Singleton;
+import com.padassist.Util.Singleton;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -123,6 +123,30 @@ public class BaseMonster extends RealmObject implements Parcelable {
         awokenSkills = new RealmList<>();
         evolutions = new RealmList<>();
         teamCost = 0;
+    }
+
+    public double getWeightedBase(){
+        if(Singleton.getInstance().isCoopEnable()){
+            return (double)getHpMin() * 1.5 / 10 + (double)getAtkMin() * 1.5 / 5 + (double)getRcvMin() * 1.5 / 3;
+        } else {
+            return (double)getHpMin() / 10 + (double)getAtkMin() / 5 + (double)getRcvMin() / 3;
+        }
+    }
+
+    public String getWeightedBaseString(){
+        return format.format(getWeightedBase());
+    }
+
+    public double getWeightedTotal(){
+        if(Singleton.getInstance().isCoopEnable()){
+            return (double)getHpMax() * 1.5 / 10 + (double)getAtkMax() * 1.5 / 5 + (double)getRcvMax() * 1.5 / 3;
+        } else {
+            return (double)getHpMax() / 10 + (double)getAtkMax() / 5 + (double)getRcvMax() / 3;
+        }
+    }
+
+    public String getWeightedTotalString(){
+        return format.format(getWeightedTotal());
     }
 
     public String getActiveSkillString() {

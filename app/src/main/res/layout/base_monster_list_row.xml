@@ -212,6 +212,24 @@
                     android:text="1337"
                     android:textSize="16dp"/>
             </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/weighted"
+                    android:text="WEIGHTED: "
+                    android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/weightedBase"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp" />
+                <TextView
+                    android:id="@+id/weightedTotal"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp"/>
+            </TableRow>
         </TableLayout>
         <LinearLayout
             android:id="@+id/awakeningHolder"

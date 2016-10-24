@@ -191,6 +191,8 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolderLinear.hpTotal.setText("" + monsterList.get(position).getHpMax());
             viewHolderLinear.atkTotal.setText("" + monsterList.get(position).getAtkMax());
             viewHolderLinear.rcvTotal.setText("" + monsterList.get(position).getRcvMax());
+            viewHolderLinear.weightedBase.setText(monsterList.get(position).getWeightedBaseString());
+            viewHolderLinear.weightedTotal.setText(monsterList.get(position).getWeightedTotalString());
 
             if (monsterList.get(position).getActiveSkillString().equals("Blank")) {
                 viewHolderLinear.activeSkillName.setText("None");
@@ -304,8 +306,11 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
     }
 
     static class ViewHolderLinear extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV, hpBase, hpTotal, atkBase, atkTotal, rcvBase, rcvTotal, leaderSkillName, leaderSkillDesc, levelMax, activeSkillDesc, activeSkillName, activeSkillCooldown;
-        ImageView monsterPicture, type1, type2, type3, rarityStar, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9, leaderSkill, activeSkill;
+        TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV, hpBase, hpTotal, atkBase, atkTotal, rcvBase, rcvTotal,
+                leaderSkillName, leaderSkillDesc, levelMax, activeSkillDesc, activeSkillName, activeSkillCooldown,
+                weightedBase, weightedTotal;
+        ImageView monsterPicture, type1, type2, type3, rarityStar, awakening1, awakening2, awakening3, awakening4, awakening5,
+                awakening6, awakening7, awakening8, awakening9, leaderSkill, activeSkill;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose;
@@ -354,6 +359,8 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
             activeSkillDesc = (TextView) convertView.findViewById(R.id.activeSkillDesc);
             activeSkillName = (TextView) convertView.findViewById(R.id.activeSkillName);
             activeSkillCooldown = (TextView) convertView.findViewById(R.id.activeSkillCooldown);
+            weightedBase = (TextView) convertView.findViewById(R.id.weightedBase);
+            weightedTotal = (TextView) convertView.findViewById(R.id.weightedTotal);
         }
     }
 
