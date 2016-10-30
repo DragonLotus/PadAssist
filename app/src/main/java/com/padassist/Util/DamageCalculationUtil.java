@@ -416,7 +416,7 @@ public class DamageCalculationUtil {
     public static double monsterElement1DamageThreshold(Team team, Monster monster, int position, int combos, Enemy enemy) {
         double damage = monsterElement1DamageAbsorb(team, monster, position, combos, enemy);
         if (damage >= enemy.getDamageThreshold()) {
-            return ((damage - enemy.getDamageThreshold()) * -1);
+            return (damage * -1);
         }
         return damage;
     }
@@ -424,7 +424,7 @@ public class DamageCalculationUtil {
     public static double monsterElement2DamageThreshold(Team team, Monster monster, int position, int combos, Enemy enemy) {
         double damage = monsterElement2DamageAbsorb(team, monster, position, combos, enemy);
         if (damage >= enemy.getDamageThreshold()) {
-            return ((damage - enemy.getDamageThreshold()) * -1);
+            return (damage * -1);
         }
         return damage;
     }

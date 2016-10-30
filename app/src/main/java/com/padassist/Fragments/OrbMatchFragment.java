@@ -735,6 +735,21 @@ public class OrbMatchFragment extends Fragment {
             emptyText.setVisibility(View.VISIBLE);
         }
 
+        if(team.getLeadSkill().getAtkSkillType().getValue().equals(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT) || team.getHelperSkill().getAtkSkillType().getValue().equals(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT)){
+            Singleton.getInstance().setBoardSize(2);
+            boardSize.setEnabled(false);
+            for(int i = 0; i < orbMatchList.size(); i++){
+                if(orbMatchList.get(i).getOrbsLinked() == 6 || orbMatchList.get(i).getOrbsLinked() == 5 || orbMatchList.get(i).getOrbsLinked() == 8){
+                    if (orbMatchList.get(i).isRow()){
+                        orbMatchList.remove(i);
+                        i--;
+                    }
+                }
+            }
+        } else {
+            boardSize.setEnabled(true);
+        }
+
         switch (Singleton.getInstance().getBoardSize()) {
             case 0:
                 maximumOrbs = 20;
@@ -813,6 +828,7 @@ public class OrbMatchFragment extends Fragment {
         boardSize.setAdapter(boardSizeAdapter);
 
         boardSize.setSelection(Singleton.getInstance().getBoardSize(), false);
+
         orbsLinked.setOnItemSelectedListener(orbsLinkedSpinnerSelectedListener);
         boardSize.setOnItemSelectedListener(boardSizeSpinnerSelectedListener);
 

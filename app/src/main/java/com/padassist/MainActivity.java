@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private Toast toast;
     private Realm realm;
     private FirebaseDatabase database;
+    boolean monsterDifference = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -606,6 +607,8 @@ public class MainActivity extends AppCompatActivity {
 
         updateConstants();
 
+        Log.d("MainActivity", "downloadEverything is: " + downloadEverything + ", monsterDifference is: " + monsterDifference);
+
         DatabaseReference monsterVersionReference = database.getReference("monster_version");
         monsterVersionReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -683,7 +686,7 @@ public class MainActivity extends AppCompatActivity {
 //                                        }
 //                                    } else {
                                     Log.d("MainActivity", "missingImages.size: " + missingImages.size() + " downloadEverything is: " + downloadEverything);
-                                    if(missingImages.size() != 0 || downloadEverything){
+                                    if(missingImages.size() != 0 || downloadEverything || monsterDifference){
                                         monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_images.zip");
                                         monsterImage = new File(getFilesDir(), "monster_images/monster_images.zip");
                                         monsterImageReference.getFile(monsterImage)
@@ -739,6 +742,7 @@ public class MainActivity extends AppCompatActivity {
 
                                                     }
                                                 });
+                                        monsterDifference = false;
                                     } else {
                                         if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
                                             hideProgressDialog(true);
@@ -888,12 +892,10 @@ public class MainActivity extends AppCompatActivity {
     private UpToDateDialogFragment.Preferences forceSync = new UpToDateDialogFragment.Preferences() {
         @Override
         public void setShowAgain(boolean showAgain) {
-            if (showAgain) {
                 preferences.edit().putInt("monsterVersion", 1).apply();
                 preferences.edit().putInt("leaderSkillVersion", 1).apply();
                 preferences.edit().putInt("activeSkillVersion", 1).apply();
-                syncDatabase(true);
-            }
+            syncDatabase(showAgain);
         }
     };
 
@@ -902,6 +904,9 @@ public class MainActivity extends AppCompatActivity {
         numberOfMonstersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if(preferences.getInt("numOfMonsters", 1) != dataSnapshot.getValue(int.class)){
+                    monsterDifference = true;
+                }
                 preferences.edit().putInt("numOfMonsters", dataSnapshot.getValue(int.class)).apply();
             }
 

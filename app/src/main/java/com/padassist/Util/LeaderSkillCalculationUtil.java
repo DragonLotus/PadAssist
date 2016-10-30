@@ -284,6 +284,12 @@ public class LeaderSkillCalculationUtil {
                 case COMBO_ORB_LINK:
                     comboOrbLink(monster, team, team.getLeadSkill(), totalCombos);
                     break;
+                case MATCH_ELEMENT_MONSTER_CONDITIONAL:
+                    matchElementMonsterConditional(monster, team, team.getLeadSkill());
+                    break;
+                case BIG_BOARD_SIZE_MATCH_ELEMENT:
+                    matchElement(monster, team, team.getLeadSkill());
+                    break;
             }
         }
 
@@ -507,6 +513,12 @@ public class LeaderSkillCalculationUtil {
                     break;
                 case COMBO_ORB_LINK:
                     comboOrbLink(monster, team, team.getHelperSkill(), totalCombos);
+                    break;
+                case MATCH_ELEMENT_MONSTER_CONDITIONAL:
+                    matchElementMonsterConditional(monster, team, team.getHelperSkill());
+                    break;
+                case BIG_BOARD_SIZE_MATCH_ELEMENT:
+                    matchElement(monster, team, team.getHelperSkill());
                     break;
             }
         }
@@ -2979,6 +2991,35 @@ public class LeaderSkillCalculationUtil {
         } else if (counter2 >= leaderSkill.getComboMin2()) {
             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(counter2 - leaderSkill.getComboMin2() + comboDiff + 1).getValue());
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter2 - leaderSkill.getComboMin2() + comboDiff + 1).getValue());
+        }
+    }
+
+    private static void matchElementMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill) {
+        int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
+        int counter = 0;
+        for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+                counter++;
+            }
+        }
+
+        if (counter >= leaderSkill.getComboMax()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff).getValue());
+        } else if (counter >= leaderSkill.getComboMin()) {
+            atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(counter - leaderSkill.getComboMin()).getValue());
+            atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter - leaderSkill.getComboMin()).getValue());
+        }
+
+        int counter2 = 0;
+        for (int i = 0; i < leaderSkill.getMatchMonsters().size(); i++) {
+            if (team.getBaseMonsterId().contains(leaderSkill.getMatchMonsters().get(i).getValue())) {
+                counter2++;
+            }
+        }
+        if (counter2 == leaderSkill.getMatchMonsters().size()) {
+                atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
+                atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
         }
     }
 

@@ -25,4 +25,24 @@
         android:layout_toRightOf="@id/showAgain"
         android:gravity="center" />
 
+    <TextView
+        android:id="@+id/downloadNoImages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/downloadNoImagesCheck"
+        android:layout_alignBottom="@+id/downloadNoImagesCheck"
+        android:gravity="center"
+        android:text="Force re-download without images "
+        android:textSize="14dp"
+        android:textColor="#000000"/>
+
+    <CheckBox
+        android:id="@+id/downloadNoImagesCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/downloadNoImages"
+        android:layout_below="@+id/showAgainCheck"
+        android:gravity="center" />
+
 </RelativeLayout>

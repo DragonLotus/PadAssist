@@ -166,6 +166,10 @@ public class RealmLeaderSkillType extends RealmObject {
                 return LeaderSkillType.COMBO_EXACT_NO_DROP;
             case 73:
                 return LeaderSkillType.COMBO_ORB_LINK;
+            case 74:
+                return LeaderSkillType.MATCH_ELEMENT_MONSTER_CONDITIONAL;
+            case 75:
+                return LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT;
             default:
                 return LeaderSkillType.BLANK;
         }
