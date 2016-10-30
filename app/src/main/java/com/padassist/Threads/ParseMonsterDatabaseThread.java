@@ -317,10 +317,14 @@ public class ParseMonsterDatabaseThread extends Thread {
             for (Monster monster : savedMonstersResults) {
                 counter++;
 
-                if(!monster.getActiveSkillStringMonster().equals(monster.getActiveSkillString())){
+                if(monster.getActiveSkillStringMonster() == null){
+                    monster.setActiveSkillString(monster.getBaseMonster().getActiveSkillString());
+                } else if(!monster.getActiveSkillStringMonster().equals(monster.getActiveSkillString())){
                     monster.setActiveSkillString(monster.getBaseMonster().getActiveSkillString());
                 }
-                if(!monster.getLeaderSkillStringMonster().equals(monster.getLeaderSkillString())){
+                if(monster.getLeaderSkillStringMonster() == null){
+                    monster.setLeaderSkillString(monster.getBaseMonster().getLeaderSkillString());
+                } else if(!monster.getLeaderSkillStringMonster().equals(monster.getLeaderSkillString())){
                     monster.setLeaderSkillString(monster.getBaseMonster().getLeaderSkillString());
                 }
 
