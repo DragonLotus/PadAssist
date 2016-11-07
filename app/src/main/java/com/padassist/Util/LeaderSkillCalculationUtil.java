@@ -290,6 +290,12 @@ public class LeaderSkillCalculationUtil {
                 case BIG_BOARD_SIZE_MATCH_ELEMENT:
                     matchElement(monster, team, team.getLeadSkill());
                     break;
+                case ORB_LINK_FLAT_NO_DROP:
+                    orbLinkFlat(monster, team, team.getLeadSkill());
+                    break;
+                case BIG_BOARD_SIZE_INDIAN:
+                    indian(monster, team, team.getLeadSkill());
+                    break;
             }
         }
 
@@ -520,6 +526,12 @@ public class LeaderSkillCalculationUtil {
                 case BIG_BOARD_SIZE_MATCH_ELEMENT:
                     matchElement(monster, team, team.getHelperSkill());
                     break;
+                case ORB_LINK_FLAT_NO_DROP:
+                    orbLinkFlat(monster, team, team.getHelperSkill());
+                    break;
+                case BIG_BOARD_SIZE_INDIAN:
+                    indian(monster, team, team.getHelperSkill());
+                    break;
             }
         }
         return atkMultiplier;
@@ -579,6 +591,30 @@ public class LeaderSkillCalculationUtil {
             return leaderSkill.getAtkData().get(counter).getValue();
         }
         return 1;
+    }
+
+    public static double indianRcv(Team team, LeaderSkill leaderSkill) {
+        int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
+        int counter = 0;
+        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
+            if (i == orbMatchElements.size()) {
+                j++;
+                i = -1;
+            } else {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                    orbMatchElements.remove(i);
+                    j++;
+                    counter++;
+                    i = -1;
+                }
+            }
+        }
+        if (counter >= leaderSkill.getComboMax()) {
+            return leaderSkill.getRcvData().get(comboDiff).getValue();
+        } else if (counter >= leaderSkill.getComboMin()) {
+            return leaderSkill.getRcvData().get(counter - leaderSkill.getComboMin()).getValue();
+        } else return 1;
     }
 
     private static void flat(Monster monster, LeaderSkill leaderSkill, int stat) {

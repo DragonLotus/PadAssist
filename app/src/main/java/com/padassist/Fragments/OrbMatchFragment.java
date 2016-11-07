@@ -707,6 +707,7 @@ public class OrbMatchFragment extends Fragment {
         noDropLeaderSkills.add(LeaderSkillType.FLAT_CROSS_NO_DROP);
         noDropLeaderSkills.add(LeaderSkillType.COMBO_FLAT_NO_DROP);
         noDropLeaderSkills.add(LeaderSkillType.COMBO_EXACT_NO_DROP);
+        noDropLeaderSkills.add(LeaderSkillType.ORB_LINK_FLAT_NO_DROP);
 
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_COMBO_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_INDIAN_FLAT);
@@ -892,21 +893,30 @@ public class OrbMatchFragment extends Fragment {
         if (orbMatchList.size() != 0) {
             team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
         }
-        if(team.getLeadSkill().getRcvSkillType() != null){
-            if(team.getLeadSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
-                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
-                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), orbMatchList.size() + additionalCombos));
-                }
-            }
-        }
-
-        if(team.getHelperSkill().getRcvSkillType() != null){
-            if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
-                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
-                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), orbMatchList.size() + additionalCombos));
-                }
-            }
-        }
+        team.setHpRcvMultiplierArrays(orbMatchList.size() + additionalCombos);
+//        if(team.getLeadSkill().getRcvSkillType() != null){
+//            if(team.getLeadSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+//                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
+//                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), orbMatchList.size() + additionalCombos));
+//                }
+//            } else if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+//                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
+//                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.indianRcv(team, team.getLeadSkill()));
+//                }
+//            }
+//        }
+//
+//        if(team.getHelperSkill().getRcvSkillType() != null){
+//            if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+//                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
+//                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), orbMatchList.size() + additionalCombos));
+//                }
+//            } else if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+//                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
+//                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.indianRcv(team, team.getHelperSkill()));
+//                }
+//            }
+//        }
         Log.d("OrbMatchFragment", "rcvMultiplier is: " + team.getRcvMultiplier());
     }
 

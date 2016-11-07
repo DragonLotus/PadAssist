@@ -747,7 +747,7 @@ public class Team extends RealmObject implements Parcelable {
 
     public void setTeamStats() {
         realm.beginTransaction();
-        setHpRcvMultiplierArrays();
+        setHpRcvMultiplierArrays(0);
         Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
         int hp = 0;
         double rcv = 0;
@@ -772,10 +772,34 @@ public class Team extends RealmObject implements Parcelable {
         realm.commitTransaction();
     }
 
-    public void setHpRcvMultiplierArrays() {
+    public void setHpRcvMultiplierArrays(int totalCombos) {
         for (int i = 0; i < getMonsters().size(); i++) {
             hpMultiplier.set(i, LeaderSkillCalculationUtil.hpMultiplier(getMonsters().get(i), this));
             rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
+        }
+        if(lead.getLeaderSkill().getRcvSkillType() != null){
+            if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                for (int i = 0; i < rcvMultiplier.size(); i++){
+                    rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.comboRcv(lead.getLeaderSkill(), totalCombos));
+                }
+            } else if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+                for (int i = 0; i < rcvMultiplier.size(); i++){
+                    rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, lead.getLeaderSkill()));
+                }
+            }
+        }
+        if(helper.getLeaderSkill() != null){
+            if(helper.getLeaderSkill().getRcvSkillType() != null){
+                if(helper.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.comboRcv(helper.getLeaderSkill(), totalCombos));
+                    }
+                } else if(helper.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, helper.getLeaderSkill()));
+                    }
+                }
+            }
         }
     }
 

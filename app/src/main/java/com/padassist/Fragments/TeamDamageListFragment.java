@@ -164,21 +164,7 @@ public class TeamDamageListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.refresh:
                 clearTextFocus();
-                if (team.getLeadSkill().getRcvSkillType() != null) {
-                    if (team.getLeadSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)) {
-                        for (int i = 0; i < team.getRcvMultiplier().size(); i++) {
-                            team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), totalCombos));
-                        }
-                    }
-                }
-
-                if (team.getHelperSkill().getRcvSkillType() != null) {
-                    if (team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)) {
-                        for (int i = 0; i < team.getRcvMultiplier().size(); i++) {
-                            team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), totalCombos));
-                        }
-                    }
-                }
+                team.setHpRcvMultiplierArrays(totalCombos);
                 monsterListAdapter.setCombos(totalCombos);
                 team.setAtkMultiplierArrays(totalCombos);
                 updateTextView();

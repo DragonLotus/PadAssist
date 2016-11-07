@@ -170,6 +170,10 @@ public class RealmLeaderSkillType extends RealmObject {
                 return LeaderSkillType.MATCH_ELEMENT_MONSTER_CONDITIONAL;
             case 75:
                 return LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT;
+            case 76:
+                return LeaderSkillType.ORB_LINK_FLAT_NO_DROP;
+            case 77:
+                return LeaderSkillType.BIG_BOARD_SIZE_INDIAN;
             default:
                 return LeaderSkillType.BLANK;
         }
