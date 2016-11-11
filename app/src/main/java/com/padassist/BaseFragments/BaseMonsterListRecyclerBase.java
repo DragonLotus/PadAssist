@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected ArrayList<BaseMonster> evolutions = new ArrayList<>();
     protected EvolutionListRecycler evolutionListRecycler;
 
-    public interface ClearTextFocus{
+    public interface ClearTextFocus {
         public void doThis();
     }
 
@@ -85,15 +86,35 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
         public void onClick(View v) {
             RelativeLayout holder = (RelativeLayout) v.getTag();
 
-            if(evolutionExpanded){
-                ((TextView)holder.getChildAt(0)).setText("Show Evolutions");
+            if (evolutionExpanded) {
+                ((TextView) holder.getChildAt(0)).setText("Show Evolutions");
                 holder.getChildAt(1).setVisibility(View.GONE);
             } else {
-                ((TextView)holder.getChildAt(0)).setText("Hide Evolutions");
+                ((TextView) holder.getChildAt(0)).setText("Hide Evolutions");
                 holder.getChildAt(1).setVisibility(View.VISIBLE);
             }
 
             evolutionExpanded = !evolutionExpanded;
+        }
+    };
+
+    private View.OnClickListener scrollToEvolutionOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            long monsterId = (long) v.getTag(R.string.index);
+            int position = -1;
+            Log.d("BaseMonsterRecyclerBase", "monsterId is: " + monsterId);
+            for (int i = 0; i < monsterList.size(); i++) {
+                if (monsterList.get(i).getMonsterId() == monsterId) {
+                    position = i;
+                    break;
+                }
+            }
+            if (position > 0) {
+                evolutionExpanded = false;
+                expandedPosition = position;
+                monsterListView.scrollToPosition(position);
+            }
         }
     };
 
@@ -103,7 +124,7 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
         public void onClick(View v) {
             RelativeLayout layout = (RelativeLayout) v.getTag();
             BaseMonster monster = monsterList.get(expandedPosition);
-            if(!monster.getActiveSkillString().equals("Blank")){
+            if (!monster.getActiveSkillString().equals("Blank")) {
                 RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getActiveSkillString()).findAllSorted("monsterId");
                 tooltipSameSkill = new TooltipSameSkill(mContext, "Monsters with the same skill:", results);
                 tooltipSameSkill.show(layout.getChildAt(1));
@@ -126,11 +147,13 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
         ViewHolderLinear viewHolderLinear = (ViewHolderLinear) viewHolder;
 
         evolutions.clear();
-        for(int i = 0; i < monsterList.get(position).getEvolutions().size(); i++){
+        for (int i = 0; i < monsterList.get(position).getEvolutions().size(); i++) {
             evolutions.add(realm.where(BaseMonster.class).equalTo("monsterId", monsterList.get(position).getEvolutions().get(i).getValue()).findFirst());
         }
-        if(evolutions.size() == 0){
+        if (evolutions.size() == 0) {
             viewHolderLinear.evolutionText.setVisibility(View.GONE);
+        } else {
+            viewHolderLinear.evolutionText.setVisibility(View.VISIBLE);
         }
 
         if (position % 2 == 1) {
@@ -276,12 +299,14 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
             }
             viewHolderLinear.levelMax.setText("Level " + monsterList.get(position).getMaxLevel());
 
-            if(evolutionExpanded){
+            if (evolutionExpanded) {
+                viewHolderLinear.evolutionText.setText("Hide Evolutions");
                 viewHolderLinear.evolutionRecyclerView.setVisibility(View.VISIBLE);
             } else {
+                viewHolderLinear.evolutionText.setText("Show Evolutions");
                 viewHolderLinear.evolutionRecyclerView.setVisibility(View.GONE);
             }
-            evolutionListRecycler = new EvolutionListRecycler(mContext, evolutions, realm);
+            evolutionListRecycler = new EvolutionListRecycler(mContext, monsterList.get(position).getMonsterId(), evolutions, scrollToEvolutionOnClickListener, realm);
             viewHolderLinear.evolutionRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
             viewHolderLinear.evolutionRecyclerView.setAdapter(evolutionListRecycler);
             if (isGrid) {
@@ -320,7 +345,7 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType){
+        switch (viewType) {
             case GRID:
                 ViewHolderGrid viewHolderGrid = new ViewHolderGrid(inflater.inflate(R.layout.base_monster_list_grid, parent, false));
                 viewHolderGrid.itemView.setOnClickListener(expandOnItemClickListener);

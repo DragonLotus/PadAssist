@@ -116,7 +116,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/monsterATK"
-        android:layout_toRightOf="@+id/monsterHP"
+        android:layout_toRightOf="@+id/monsterHPDiff"
         android:text="1337"
         android:textSize="16dp" />
 
@@ -125,7 +125,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/monsterRCV"
-        android:layout_toRightOf="@+id/monsterATK"
+        android:layout_toRightOf="@+id/monsterATKDiff"
         android:text="1337"
         android:textSize="16dp" />
 

@@ -380,9 +380,8 @@ public abstract class MonsterPageBase extends Fragment {
         if(evolutions.size() == 0){
             evolutionHolder.setVisibility(View.GONE);
         } else {
-
             evolutionHolder.setOnClickListener(expandEvolutionClickListener);
-            evolutionListRecycler = new EvolutionListRecycler(getActivity(), evolutions, realm);
+            evolutionListRecycler = new EvolutionListRecycler(getActivity(), monster.getBaseMonsterId(), evolutions, null, realm);
             evolutionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             evolutionRecyclerView.setAdapter(evolutionListRecycler);
         }
