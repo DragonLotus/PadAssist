@@ -383,12 +383,33 @@
                 android:text="Description goes here."
                 android:textSize="16dp" />
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/evolutionHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/leaderSkillHolder">
+            <TextView
+                android:id="@+id/evolutionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Show Evolutions"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/evolutionRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/evolutionText"></android.support.v7.widget.RecyclerView></RelativeLayout>
+
 
         <Button
             android:id="@+id/choose"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/leaderSkillHolder"
+            android:layout_below="@+id/evolutionHolder"
             android:text="Create Monster" />
     </RelativeLayout>
 

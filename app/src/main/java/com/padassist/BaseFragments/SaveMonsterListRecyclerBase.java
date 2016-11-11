@@ -47,7 +47,6 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected int fortyEightDp;
     protected int fiftyFourDp;
     protected int eightDp;
-    private RelativeLayout.LayoutParams favoriteNoPlusLayoutParams;
     protected ClearTextFocus clearTextFocus;
     protected TooltipSameSkill tooltipSameSkill;
 
@@ -381,7 +380,6 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolderGrid.monsterPlus.setText(" +" + monsterList.get(position).getTotalPlus() + " ");
         } else {
             viewHolderGrid.monsterPlus.setVisibility(View.GONE);
-            viewHolderGrid.favorite.setLayoutParams(favoriteNoPlusLayoutParams);
         }
         viewHolderGrid.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
         if (monsterList.get(position).getCurrentAwakenings() >= monsterList.get(position).getMaxAwakenings()) {
@@ -474,9 +472,6 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderGrid.itemView.setTag(viewHolderGrid);
                 viewHolderGrid.itemView.setOnLongClickListener(monsterListOnLongClickListener);
                 viewHolderGrid.favorite.setColorFilter(0xFFFFAADD);
-                favoriteNoPlusLayoutParams = new RelativeLayout.LayoutParams(sixteenDp, sixteenDp);
-                favoriteNoPlusLayoutParams.addRule(RelativeLayout.ALIGN_TOP, viewHolderGrid.monsterPicture.getId());
-                favoriteNoPlusLayoutParams.addRule(RelativeLayout.ALIGN_RIGHT, viewHolderGrid.monsterPicture.getId());
                 return viewHolderGrid;
             default:
                 ViewHolderLinear viewHolderLinear = new ViewHolderLinear(inflater.inflate(R.layout.save_monster_list_row, parent, false));

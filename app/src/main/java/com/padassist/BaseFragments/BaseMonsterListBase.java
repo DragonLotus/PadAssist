@@ -87,8 +87,8 @@ public abstract class BaseMonsterListBase extends Fragment {
     private FilterDialogFragment filterDialogFragment;
     private TextView noResults;
 
-    protected SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
-    protected boolean isGrid = preferences.getBoolean("isGrid", true);
+    protected SharedPreferences preferences;
+    protected boolean isGrid;
 
     private FastScroller fastScroller;
 
@@ -238,6 +238,10 @@ public abstract class BaseMonsterListBase extends Fragment {
             replaceAll = getArguments().getBoolean("replaceAll");
             replaceMonsterId = getArguments().getLong("replaceMonsterId");
         }
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
+        isGrid = preferences.getBoolean("isGrid", true);
+
         realm = Realm.getDefaultInstance();
         if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();

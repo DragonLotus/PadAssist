@@ -39,7 +39,7 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListBase {
         } else {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
-        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid, clearTextFocus);
+        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid, clearTextFocus, realm);
         monsterListView.setAdapter(baseMonsterListRecycler);
     }
 

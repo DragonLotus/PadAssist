@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="4dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/baseMonsterLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="16dp">
+
+            <ImageView
+                android:id="@+id/monsterPicture"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/monster_0" />
+
+            <com.padassist.Graphics.TextStroke
+                android:id="@+id/monsterIdStroke"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/monsterPicture"
+                android:layout_alignLeft="@+id/monsterPicture"
+                android:layout_alignRight="@+id/monsterPicture"
+                android:gravity="center_horizontal"
+                android:text="1337"
+                android:textColor="#BBBBBB"
+                android:textSize="16dp" />
+        </RelativeLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/evolutionRecyclerView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+</RelativeLayout>

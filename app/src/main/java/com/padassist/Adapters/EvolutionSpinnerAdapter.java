@@ -161,18 +161,18 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<BaseMonster> {
             viewHolder.monsterATKDiff.setVisibility(View.VISIBLE);
             viewHolder.monsterRCVDiff.setVisibility(View.VISIBLE);
             if ((tempMonster.getTotalHp() - monster.getTotalHp()) > 0) {
-                viewHolder.monsterHPDiff.setText("(+" + (tempMonster.getTotalHp() - monster.getTotalHp()) + ")");
+                viewHolder.monsterHPDiff.setText("(+" + (tempMonster.getTotalHp() - monster.getTotalHp()) + ") / ");
             } else if ((tempMonster.getTotalHp() - monster.getTotalHp()) == 0) {
-                viewHolder.monsterHPDiff.setText("(~)");
+                viewHolder.monsterHPDiff.setText("(~) / ");
             } else {
-                viewHolder.monsterHPDiff.setText("(" + (tempMonster.getTotalHp() - monster.getTotalHp()) + ")");
+                viewHolder.monsterHPDiff.setText("(" + (tempMonster.getTotalHp() - monster.getTotalHp()) + ") / ");
             }
             if ((tempMonster.getTotalAtk() - monster.getTotalAtk()) > 0) {
-                viewHolder.monsterATKDiff.setText("(+" + (tempMonster.getTotalAtk() - monster.getTotalAtk()) + ")");
+                viewHolder.monsterATKDiff.setText("(+" + (tempMonster.getTotalAtk() - monster.getTotalAtk()) + ") / ");
             } else if ((tempMonster.getTotalAtk() - monster.getTotalAtk()) == 0) {
-                viewHolder.monsterATKDiff.setText("(~)");
+                viewHolder.monsterATKDiff.setText("(~) / ");
             } else {
-                viewHolder.monsterATKDiff.setText("(" + (tempMonster.getTotalAtk() - monster.getTotalAtk()) + ")");
+                viewHolder.monsterATKDiff.setText("(" + (tempMonster.getTotalAtk() - monster.getTotalAtk()) + ") / ");
             }
             if ((tempMonster.getTotalRcv() - monster.getTotalRcv()) > 0) {
                 viewHolder.monsterRCVDiff.setText("(" + (tempMonster.getTotalRcv() - monster.getTotalRcv()) + ")");

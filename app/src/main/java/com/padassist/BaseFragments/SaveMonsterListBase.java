@@ -101,8 +101,8 @@ public abstract class SaveMonsterListBase extends Fragment {
     protected Realm realm;
     private Monster monsterZero;
 
-    protected SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
-    protected boolean isGrid = preferences.getBoolean("isGrid", true);
+    protected SharedPreferences preferences;
+    protected boolean isGrid;
 
     private FastScroller fastScroller;
 
@@ -253,6 +253,8 @@ public abstract class SaveMonsterListBase extends Fragment {
 //            replaceAll = getArguments().getBoolean("replaceAll");
 //            replaceMonsterId = getArguments().getLong("replaceMonsterId");
 //        }
+        preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
+        isGrid = preferences.getBoolean("isGrid", true);
         realm = Realm.getDefaultInstance();
         monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
         onActivityCreatedSpecific();

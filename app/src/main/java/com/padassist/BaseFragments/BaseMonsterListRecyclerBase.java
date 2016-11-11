@@ -1,6 +1,7 @@
 package com.padassist.BaseFragments;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padassist.Adapters.EvolutionListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Graphics.TextStroke;
@@ -39,14 +41,17 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected LayoutInflater inflater;
     private Toast toast;
     private int expandedPosition = -1;
+    private boolean evolutionExpanded = false;
     protected RecyclerView monsterListView;
-    protected Realm realm = Realm.getDefaultInstance();
+    protected Realm realm;
     protected boolean isGrid;
     protected int fortyEightDp;
     protected int eightDp;
     protected int fiftyFourDp;
     protected ClearTextFocus clearTextFocus;
     protected TooltipSameSkill tooltipSameSkill;
+    protected ArrayList<BaseMonster> evolutions = new ArrayList<>();
+    protected EvolutionListRecycler evolutionListRecycler;
 
     public interface ClearTextFocus{
         public void doThis();
@@ -71,7 +76,24 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 expandedPosition = -1;
                 notifyItemChanged(previous);
             }
+            evolutionExpanded = false;
+        }
+    };
 
+    private View.OnClickListener expandEvolutionClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RelativeLayout holder = (RelativeLayout) v.getTag();
+
+            if(evolutionExpanded){
+                ((TextView)holder.getChildAt(0)).setText("Show Evolutions");
+                holder.getChildAt(1).setVisibility(View.GONE);
+            } else {
+                ((TextView)holder.getChildAt(0)).setText("Hide Evolutions");
+                holder.getChildAt(1).setVisibility(View.VISIBLE);
+            }
+
+            evolutionExpanded = !evolutionExpanded;
         }
     };
 
@@ -102,6 +124,14 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
 
     private void setLinearLayout(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolderLinear viewHolderLinear = (ViewHolderLinear) viewHolder;
+
+        evolutions.clear();
+        for(int i = 0; i < monsterList.get(position).getEvolutions().size(); i++){
+            evolutions.add(realm.where(BaseMonster.class).equalTo("monsterId", monsterList.get(position).getEvolutions().get(i).getValue()).findFirst());
+        }
+        if(evolutions.size() == 0){
+            viewHolderLinear.evolutionText.setVisibility(View.GONE);
+        }
 
         if (position % 2 == 1) {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
@@ -245,6 +275,15 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.leaderSkillName.setText("" + monsterList.get(position).getLeaderSkillString() + "");
             }
             viewHolderLinear.levelMax.setText("Level " + monsterList.get(position).getMaxLevel());
+
+            if(evolutionExpanded){
+                viewHolderLinear.evolutionRecyclerView.setVisibility(View.VISIBLE);
+            } else {
+                viewHolderLinear.evolutionRecyclerView.setVisibility(View.GONE);
+            }
+            evolutionListRecycler = new EvolutionListRecycler(mContext, evolutions, realm);
+            viewHolderLinear.evolutionRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+            viewHolderLinear.evolutionRecyclerView.setAdapter(evolutionListRecycler);
             if (isGrid) {
                 viewHolderLinear.monsterIdStroke.setVisibility(View.GONE);
                 ((StaggeredGridLayoutManager.LayoutParams) viewHolderLinear.itemView.getLayoutParams()).setFullSpan(true);
@@ -308,6 +347,9 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
 
                 viewHolderLinear.skillHolder.setOnClickListener(sameSkillToolTipOnClickListener);
                 viewHolderLinear.skillHolder.setTag(viewHolderLinear.skillHolder);
+
+                viewHolderLinear.evolutionHolder.setOnClickListener(expandEvolutionClickListener);
+                viewHolderLinear.evolutionHolder.setTag(viewHolderLinear.evolutionHolder);
                 return viewHolderLinear;
         }
 
@@ -330,14 +372,15 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
     static class ViewHolderLinear extends RecyclerView.ViewHolder {
         TextView monsterName, monsterId, rarity, monsterHP, monsterATK, monsterRCV, hpBase, hpTotal, atkBase, atkTotal, rcvBase, rcvTotal,
                 leaderSkillName, leaderSkillDesc, levelMax, activeSkillDesc, activeSkillName, activeSkillCooldown,
-                weightedBase, weightedTotal;
+                weightedBase, weightedTotal, evolutionText;
         ImageView monsterPicture, type1, type2, type3, rarityStar, awakening1, awakening2, awakening3, awakening4, awakening5,
                 awakening6, awakening7, awakening8, awakening9, leaderSkill, activeSkill;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose;
-        RelativeLayout relativeLayout, skillHolder, leaderSkillHolder;
+        RelativeLayout relativeLayout, skillHolder, leaderSkillHolder, evolutionHolder;
         TextStroke monsterIdStroke;
+        RecyclerView evolutionRecyclerView;
 
         public ViewHolderLinear(View convertView) {
             super(convertView);
@@ -385,6 +428,9 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
             weightedTotal = (TextView) convertView.findViewById(R.id.weightedTotal);
             skillHolder = (RelativeLayout) convertView.findViewById(R.id.skillHolder);
             leaderSkillHolder = (RelativeLayout) convertView.findViewById(R.id.leaderSkillHolder);
+            evolutionRecyclerView = (RecyclerView) convertView.findViewById(R.id.evolutionRecyclerView);
+            evolutionText = (TextView) convertView.findViewById(R.id.evolutionText);
+            evolutionHolder = (RelativeLayout) convertView.findViewById(R.id.evolutionHolder);
         }
     }
 

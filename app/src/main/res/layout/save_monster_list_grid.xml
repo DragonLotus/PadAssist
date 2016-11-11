@@ -12,16 +12,46 @@
         android:layout_height="54dp"
         android:src="@drawable/monster_0" />
 
-    <com.padassist.Graphics.TextStroke
-        android:id="@+id/monsterPlus"
+    <LinearLayout
+        android:id="@+id/favoritePlusLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/monsterPicture"
         android:layout_alignTop="@+id/monsterPicture"
-        android:text="+297"
-        android:textColor="#f0ff00"
-        android:textSize="16dp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:gravity="right">
+
+        <com.padassist.Graphics.TextStroke
+            android:id="@+id/monsterPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+297"
+            android:textColor="#f0ff00"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/favoriteLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/favorite"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/favorite" />
+
+            <ImageView
+                android:id="@+id/favoriteOutline"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignBottom="@+id/favorite"
+                android:layout_alignRight="@+id/favorite"
+                android:layout_alignTop="@+id/favorite"
+                android:src="@drawable/not_favorite" />
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <com.padassist.Graphics.TextStroke
         android:id="@+id/monsterAwakenings"
@@ -50,24 +80,6 @@
         android:textColor="#f0ff00"
         android:textSize="12dp"
         android:textStyle="bold" />
-
-    <ImageView
-        android:id="@+id/favorite"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_below="@+id/monsterPlus"
-        android:layout_alignRight="@+id/monsterPicture"
-        android:src="@drawable/favorite" />
-
-    <ImageView
-        android:id="@+id/favoriteOutline"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:layout_alignBottom="@+id/favorite"
-        android:layout_alignTop="@+id/favorite"
-        android:layout_alignRight="@+id/favorite"
-        android:src="@drawable/not_favorite" />
-
 
 
 </RelativeLayout>

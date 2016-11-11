@@ -16,6 +16,14 @@
         android:layout_marginRight="6dp"
         android:src="@drawable/favorite" />
 
+    <ImageView
+        android:id="@+id/favoriteOutline"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_alignBottom="@+id/monsterPicture"
+        android:layout_alignTop="@+id/monsterPicture"
+        android:src="@drawable/not_favorite" />
+
     <TextView
         android:id="@+id/rarity"
         android:layout_width="wrap_content"
@@ -38,14 +46,6 @@
         android:layout_toRightOf="@+id/rarity"
         android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"
         android:visibility="gone" />
-
-    <ImageView
-        android:id="@+id/favoriteOutline"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignBottom="@+id/monsterPicture"
-        android:layout_alignTop="@+id/monsterPicture"
-        android:src="@drawable/not_favorite" />
 
     <ImageView
         android:id="@+id/monsterPicture"

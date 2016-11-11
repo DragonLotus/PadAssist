@@ -1,9 +1,12 @@
 package com.padassist.BaseFragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,10 +19,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padassist.Adapters.EvolutionListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Fragments.DeleteMonsterConfirmationDialogFragment;
@@ -33,6 +38,8 @@ import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.ImageResourceUtil;
+
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -51,14 +58,15 @@ public abstract class MonsterPageBase extends Fragment {
             monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal,
             monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity, monsterAwakenings,
             skill1Level, activeSkill1Name, activeSkill1Cooldown, activeSkill1Desc, skill2Level, activeSkill2Name,
-            activeSkill2Cooldown, activeSkill2Desc, leaderSkillName, leaderSkillDesc;
+            activeSkill2Cooldown, activeSkill2Desc, leaderSkillName, leaderSkillDesc, evolutionText;
     protected EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
     protected Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax,
-            monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus, awakeningHolderMax,
+            monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus,
             skill1Plus, skill1Minus, skill1Max, skill2Plus, skill2Minus, skill2Max;
     protected ImageView monsterPicture, rarityStar, type1, type2, type3, favorite, favoriteOutline, activeSkill1, activeSkill2, leaderSkill;
     private LinearLayout awakeningHolder, latentHolder;
-    private RelativeLayout skill1Holder, skill2Holder, leaderSkillHolder;
+    private RelativeLayout skill1Holder, skill2Holder, leaderSkillHolder, evolutionHolder;
+    private ScrollView monsterScrollView;
     protected TableLayout table1;
     protected Monster monster;
     protected long monsterId;
@@ -71,6 +79,10 @@ public abstract class MonsterPageBase extends Fragment {
     private int level, hp, atk, rcv, awakening;
     private TooltipSameSkill tooltipSameSkill;
     protected Realm realm;
+    protected RecyclerView evolutionRecyclerView;
+    protected EvolutionListRecycler evolutionListRecycler;
+    protected ArrayList<BaseMonster> evolutions;
+    protected boolean evolutionExpanded = false;
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
         @Override
@@ -216,6 +228,10 @@ public abstract class MonsterPageBase extends Fragment {
         leaderSkillHolder = (RelativeLayout) rootView.findViewById(R.id.leaderSkillHolder);
         leaderSkillName = (TextView) rootView.findViewById(R.id.leaderSkillName);
         leaderSkillDesc = (TextView) rootView.findViewById(R.id.leaderSkillDesc);
+        evolutionHolder = (RelativeLayout) rootView.findViewById(R.id.evolutionHolder);
+        evolutionRecyclerView = (RecyclerView) rootView.findViewById(R.id.evolutionRecyclerView);
+        evolutionText = (TextView) rootView.findViewById(R.id.evolutionText);
+        monsterScrollView = (ScrollView) rootView.findViewById(R.id.monsterScrollView);
         return rootView;
     }
 
@@ -356,6 +372,20 @@ public abstract class MonsterPageBase extends Fragment {
         skill1Holder.setOnClickListener(sameSkillToolTipOnClickListener);
 
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
+
+        evolutions = new ArrayList<>();
+        for(int i = 0; i < monster.getEvolutions().size(); i++){
+            evolutions.add(realm.where(BaseMonster.class).equalTo("monsterId", monster.getEvolutions().get(i).getValue()).findFirst());
+        }
+        if(evolutions.size() == 0){
+            evolutionHolder.setVisibility(View.GONE);
+        } else {
+
+            evolutionHolder.setOnClickListener(expandEvolutionClickListener);
+            evolutionListRecycler = new EvolutionListRecycler(getActivity(), evolutions, realm);
+            evolutionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            evolutionRecyclerView.setAdapter(evolutionListRecycler);
+        }
 
         getActivity().setTitle("Modify Monster");
     }
@@ -893,6 +923,27 @@ public abstract class MonsterPageBase extends Fragment {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    private View.OnClickListener expandEvolutionClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(evolutionExpanded){
+                evolutionText.setText("Show Evolutions");
+                evolutionRecyclerView.setVisibility(View.GONE);
+            } else {
+                evolutionText.setText("Hide Evolutions");
+                evolutionRecyclerView.setVisibility(View.VISIBLE);
+                monsterScrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        monsterScrollView.fullScroll(View.FOCUS_DOWN);
+                    }
+                });
+            }
+
+            evolutionExpanded = !evolutionExpanded;
+        }
+    };
 
 //   private ViewTreeObserver.OnGlobalLayoutListener rootListener = new ViewTreeObserver.OnGlobalLayoutListener()
 //   {

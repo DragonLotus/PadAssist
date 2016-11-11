@@ -131,7 +131,9 @@
 
     </RelativeLayout>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
+        android:id="@+id/monsterScrollView"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/monsterStatsMaxAll"
@@ -761,6 +763,28 @@
                     android:text="Does not exist in database."
                     android:textSize="16dp" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/evolutionHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/leaderSkillHolder">
+                <TextView
+                    android:id="@+id/evolutionText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Show Evolutions"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/evolutionRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/evolutionText"
+                    android:visibility="gone"></android.support.v7.widget.RecyclerView></RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 

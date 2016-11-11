@@ -28,7 +28,6 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
     private long replaceMonsterId;
     private int monsterPosition;
     private Toast toast;
-    private Realm realm = Realm.getDefaultInstance();
 
     public static BaseMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId, int monsterPosition) {
         BaseMonsterListFragment fragment = new BaseMonsterListFragment();
@@ -58,7 +57,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
 
-        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid, clearTextFocus);
+        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid, clearTextFocus, realm);
         monsterListView.setAdapter(baseMonsterListRecycler);
 
     }

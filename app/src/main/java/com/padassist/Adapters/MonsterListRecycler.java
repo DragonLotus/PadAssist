@@ -29,7 +29,6 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> latentList;
-    private Realm realm = Realm.getDefaultInstance();
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
