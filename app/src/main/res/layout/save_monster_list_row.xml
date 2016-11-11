@@ -37,8 +37,7 @@
         android:layout_alignTop="@+id/rarity"
         android:layout_toRightOf="@+id/rarity"
         android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/favoriteOutline"
@@ -65,8 +64,8 @@
         android:ellipsize="marquee"
         android:gravity="center_vertical"
         android:marqueeRepeatLimit="marquee_forever"
-        android:scrollHorizontally="true"
         android:maxLines="1"
+        android:scrollHorizontally="true"
         android:text="Monster name"
         android:textSize="16dp" />
 
@@ -265,6 +264,29 @@
                     android:text="1337"
                     android:textSize="16dp" />
             </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/weighted"
+                    android:text="WEIGHTED: "
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/weightedBase"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:text=""/>
+
+                <TextView
+                    android:id="@+id/weightedTotal"
+                    android:gravity="center"
+                    android:text="1337"
+                    android:textSize="16dp" />
+            </TableRow>
         </TableLayout>
 
         <LinearLayout
@@ -378,104 +400,117 @@
                 android:layout_height="18dp" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/activeSkill"
-            android:layout_width="51dp"
-            android:layout_height="20dp"
-            android:layout_below="@+id/awakeningHolder"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:src="@drawable/active_skill"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="8dp"/>
-
-        <TextView
-            android:id="@+id/activeSkillName"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/skill1Holder"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/activeSkill"
-            android:layout_toLeftOf="@+id/activeSkillCooldown"
-            android:layout_alignTop="@+id/activeSkill"
-            android:layout_alignBottom="@+id/activeSkill"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:maxLines="1"
-            android:text="Active Skill Name"
-            android:textSize="16dp"
-            android:layout_marginBottom="-4dp"/>
+            android:layout_below="@+id/latentHolder">
 
-        <TextView
-            android:id="@+id/activeSkillCooldown"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/activeSkill"
+                android:layout_width="51dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/active_skill" />
+
+            <TextView
+                android:id="@+id/activeSkillName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/activeSkill"
+                android:layout_alignTop="@+id/activeSkill"
+                android:layout_marginBottom="-4dp"
+                android:layout_toLeftOf="@+id/activeSkillCooldown"
+                android:layout_toRightOf="@id/activeSkill"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:text="Active Skill Name"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/activeSkillCooldown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/activeSkill"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/activeSkill"
+                android:text="CD 99"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/activeSkillDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/activeSkill"
+                android:text="Does not exist in database."
+                android:textSize="16dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/leaderSkillHolder"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/activeSkill"
-            android:layout_alignBottom="@+id/activeSkill"
-            android:layout_alignParentRight="true"
-            android:text="CD 99"
-            android:textSize="16dp"/>
+            android:layout_below="@+id/skill1Holder">
 
-        <TextView
-            android:id="@+id/activeSkillDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Does not exist in database."
-            android:textSize="16dp"
-            android:layout_below="@+id/activeSkill"/>
+            <ImageView
+                android:id="@+id/leaderSkill"
+                android:layout_width="111dp"
+                android:layout_height="20dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="4dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/leader_skill" />
 
-        <ImageView
-            android:id="@+id/leaderSkill"
-            android:layout_width="111dp"
-            android:layout_height="20dp"
-            android:layout_below="@+id/activeSkillDesc"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:src="@drawable/leader_skill"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="8dp"/>
+            <TextView
+                android:id="@+id/leaderSkillName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/leaderSkill"
+                android:layout_alignTop="@+id/leaderSkill"
+                android:layout_marginBottom="-4dp"
+                android:layout_toRightOf="@id/leaderSkill"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:text="Leader Skill Name"
+                android:textSize="16dp" />
 
-        <TextView
-            android:id="@+id/leaderSkillName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/leaderSkill"
-            android:layout_alignTop="@+id/leaderSkill"
-            android:layout_alignBottom="@+id/leaderSkill"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:maxLines="1"
-            android:text="Leader Skill Name"
-            android:textSize="16dp"
-            android:layout_marginBottom="-4dp"/>
-
-        <TextView
-            android:id="@+id/leaderSkillDesc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/leaderSkill"
-            android:text="Does not exist in database."
-            android:textSize="16dp" />
+            <TextView
+                android:id="@+id/leaderSkillDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/leaderSkill"
+                android:text="Does not exist in database."
+                android:textSize="16dp" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/buttonLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/leaderSkillDesc"
+            android:layout_below="@+id/leaderSkillHolder"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/delete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Delete Monster"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:text="Delete Monster" />
+
             <Button
                 android:id="@+id/choose"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Choose Monster"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:text="Choose Monster" />
         </LinearLayout>
 
     </RelativeLayout>

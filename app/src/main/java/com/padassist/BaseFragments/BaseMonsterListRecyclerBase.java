@@ -15,13 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Data.BaseMonster;
+import com.padassist.Data.Monster;
 import com.padassist.Graphics.TextStroke;
+import com.padassist.Graphics.TooltipSameSkill;
 import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by DragonLotus on 11/4/2015.
@@ -43,6 +46,7 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected int eightDp;
     protected int fiftyFourDp;
     protected ClearTextFocus clearTextFocus;
+    protected TooltipSameSkill tooltipSameSkill;
 
     public interface ClearTextFocus{
         public void doThis();
@@ -66,6 +70,21 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 previous = expandedPosition;
                 expandedPosition = -1;
                 notifyItemChanged(previous);
+            }
+
+        }
+    };
+
+
+    private View.OnClickListener sameSkillToolTipOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RelativeLayout layout = (RelativeLayout) v.getTag();
+            BaseMonster monster = monsterList.get(expandedPosition);
+            if(!monster.getActiveSkillString().equals("Blank")){
+                RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getActiveSkillString()).findAllSorted("monsterId");
+                tooltipSameSkill = new TooltipSameSkill(mContext, "Monsters with the same skill:", results);
+                tooltipSameSkill.show(layout.getChildAt(1));
             }
 
         }
@@ -286,6 +305,9 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
 
                 viewHolderLinear.activeSkillName.setHorizontallyScrolling(true);
                 viewHolderLinear.activeSkillName.setSelected(true);
+
+                viewHolderLinear.skillHolder.setOnClickListener(sameSkillToolTipOnClickListener);
+                viewHolderLinear.skillHolder.setTag(viewHolderLinear.skillHolder);
                 return viewHolderLinear;
         }
 
@@ -314,7 +336,7 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose;
-        RelativeLayout relativeLayout;
+        RelativeLayout relativeLayout, skillHolder, leaderSkillHolder;
         TextStroke monsterIdStroke;
 
         public ViewHolderLinear(View convertView) {
@@ -361,6 +383,8 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
             activeSkillCooldown = (TextView) convertView.findViewById(R.id.activeSkillCooldown);
             weightedBase = (TextView) convertView.findViewById(R.id.weightedBase);
             weightedTotal = (TextView) convertView.findViewById(R.id.weightedTotal);
+            skillHolder = (RelativeLayout) convertView.findViewById(R.id.skillHolder);
+            leaderSkillHolder = (RelativeLayout) convertView.findViewById(R.id.leaderSkillHolder);
         }
     }
 

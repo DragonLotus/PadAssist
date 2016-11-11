@@ -13,14 +13,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Graphics.TextStroke;
+import com.padassist.Graphics.TooltipSameSkill;
 import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by DragonLotus on 11/4/2015.
@@ -46,6 +49,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected int eightDp;
     private RelativeLayout.LayoutParams favoriteNoPlusLayoutParams;
     protected ClearTextFocus clearTextFocus;
+    protected TooltipSameSkill tooltipSameSkill;
 
     public interface ClearTextFocus {
         void doThis();
@@ -70,6 +74,21 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 expandedPosition = -1;
                 notifyItemChanged(previous);
             }
+
+        }
+    };
+
+
+    private View.OnClickListener sameSkillToolTipOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            RelativeLayout layout = (RelativeLayout) v.getTag();
+            Monster monster = monsterList.get(expandedPosition);
+                if(!monster.getActiveSkillString().equals("Blank")){
+                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getActiveSkillString()).findAllSorted("monsterId");
+                    tooltipSameSkill = new TooltipSameSkill(mContext, "Monsters with the same skill:", results);
+                    tooltipSameSkill.show(layout.getChildAt(1));
+                }
 
         }
     };
@@ -102,6 +121,8 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         viewHolderLinear.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()) + " / ");
         viewHolderLinear.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));
         viewHolderLinear.monsterHP.setText(Integer.toString(monsterList.get(position).getTotalHp()) + " / ");
+        viewHolderLinear.weightedBase.setText(String.valueOf(monsterList.get(position).getWeightedString()));
+        viewHolderLinear.weightedTotal.setText(String.valueOf(monsterList.get(position).getTotalWeightedString()));
         viewHolderLinear.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
 
         if (monsterList.get(position).getMonsterId() == 0) {
@@ -230,12 +251,12 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             if (monsterList.get(position).getType3() > -1) {
                 viewHolderLinear.type3.setVisibility(View.VISIBLE);
             }
-            if (monsterList.get(position).getMaxAwakenings() == 0 && monsterList.get(position).getMonsterId() != 14) {
-                RelativeLayout.LayoutParams z = (RelativeLayout.LayoutParams) viewHolderLinear.activeSkill.getLayoutParams();
-                z.addRule(RelativeLayout.BELOW, R.id.latentHolder);
-                RelativeLayout.LayoutParams x = (RelativeLayout.LayoutParams) viewHolderLinear.activeSkillName.getLayoutParams();
-                x.addRule(RelativeLayout.BELOW, R.id.latentHolder);
-            }
+//            if (monsterList.get(position).getMaxAwakenings() == 0 && monsterList.get(position).getMonsterId() != 14) {
+//                RelativeLayout.LayoutParams z = (RelativeLayout.LayoutParams) viewHolderLinear.activeSkill.getLayoutParams();
+//                z.addRule(RelativeLayout.BELOW, R.id.latentHolder);
+//                RelativeLayout.LayoutParams x = (RelativeLayout.LayoutParams) viewHolderLinear.activeSkillName.getLayoutParams();
+//                x.addRule(RelativeLayout.BELOW, R.id.latentHolder);
+//            }
             for (int i = 0; i < 9; i++) {
                 if (i >= monsterList.get(position).getMaxAwakenings()) {
                     viewHolderLinear.awakeningHolder.getChildAt(i).setVisibility(View.GONE);
@@ -477,6 +498,8 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.choose.setOnClickListener(monsterListOnClickListener);
                 viewHolderLinear.delete.setOnClickListener(deleteOnClickListener);
                 viewHolderLinear.itemView.setOnLongClickListener(monsterListOnLongClickListener);
+                viewHolderLinear.skill1Holder.setOnClickListener(sameSkillToolTipOnClickListener);
+                viewHolderLinear.skill1Holder.setTag(viewHolderLinear.skill1Holder);
 
                 return viewHolderLinear;
 
@@ -500,12 +523,18 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
     }
 
     static class ViewHolderLinear extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV, monsterLevel, monsterLatents, hpBase, hpPlus, hpTotal, atkBase, atkPlus, atkTotal, rcvBase, rcvPlus, rcvTotal, rarity, leaderSkillName, leaderSkillDesc, activeSkillName, activeSkillDesc, activeSkillCooldown;
-        ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline, awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7, awakening8, awakening9, latent1, latent2, latent3, latent4, latent5, rarityStar, leaderSkill, activeSkill;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV,
+                monsterLevel, monsterLatents, hpBase, hpPlus, hpTotal, atkBase, atkPlus, atkTotal,
+                rcvBase, rcvPlus, rcvTotal, rarity, leaderSkillName, leaderSkillDesc,
+                activeSkillName, activeSkillDesc, activeSkillCooldown, weightedBase, weightedTotal;
+        ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline,
+                awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7,
+                awakening8, awakening9, latent1, latent2, latent3, latent4, latent5, rarityStar,
+                leaderSkill, activeSkill;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose, delete;
-        RelativeLayout relativeLayout;
+        RelativeLayout relativeLayout, skill1Holder, leaderSkillHolder;
 
         public ViewHolderLinear(View convertView) {
             super(convertView);
@@ -561,6 +590,10 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             activeSkillDesc = (TextView) convertView.findViewById(R.id.activeSkillDesc);
             activeSkillName = (TextView) convertView.findViewById(R.id.activeSkillName);
             activeSkillCooldown = (TextView) convertView.findViewById(R.id.activeSkillCooldown);
+            skill1Holder = (RelativeLayout) convertView.findViewById(R.id.skill1Holder);
+            leaderSkillHolder = (RelativeLayout) convertView.findViewById(R.id.leaderSkillHolder);
+            weightedBase = (TextView) convertView.findViewById(R.id.weightedBase);
+            weightedTotal = (TextView) convertView.findViewById(R.id.weightedTotal);
         }
     }
 

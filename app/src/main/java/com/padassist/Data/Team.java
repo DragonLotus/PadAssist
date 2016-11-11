@@ -777,14 +777,16 @@ public class Team extends RealmObject implements Parcelable {
             hpMultiplier.set(i, LeaderSkillCalculationUtil.hpMultiplier(getMonsters().get(i), this));
             rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
         }
-        if(lead.getLeaderSkill().getRcvSkillType() != null){
-            if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
-                for (int i = 0; i < rcvMultiplier.size(); i++){
-                    rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.comboRcv(lead.getLeaderSkill(), totalCombos));
-                }
-            } else if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
-                for (int i = 0; i < rcvMultiplier.size(); i++){
-                    rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, lead.getLeaderSkill()));
+        if(lead.getLeaderSkill() != null){
+            if(lead.getLeaderSkill().getRcvSkillType() != null){
+                if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.comboRcv(lead.getLeaderSkill(), totalCombos));
+                    }
+                } else if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, lead.getLeaderSkill()));
+                    }
                 }
             }
         }
