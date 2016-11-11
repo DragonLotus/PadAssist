@@ -125,6 +125,22 @@ public class Monster extends RealmObject implements Parcelable {
         setIndices();
     }
 
+    public Monster(Monster monster){
+        baseMonster = monster.getBaseMonster();
+        currentLevel = monster.getCurrentLevel();
+        hpPlus = monster.getHpPlus();
+        atkPlus = monster.getAtkPlus();
+        rcvPlus = monster.getRcvPlus();
+        currentAwakenings = monster.getCurrentAwakenings();
+        latents = monster.getLatents();
+        leaderSkillString = monster.getLeaderSkillString();
+        activeSkillString = monster.getActiveSkillString();
+        activeSkill2String = monster.getActiveSkill2String();
+        activeSkillLevel = monster.getActiveSkillLevel();
+        activeSkill2Level = monster.getActiveSkill2Level();
+        setIndices();
+    }
+
     public void setIndices() {
         name = baseMonster.getName();
         baseMonsterIdString = baseMonster.getMonsterIdString();

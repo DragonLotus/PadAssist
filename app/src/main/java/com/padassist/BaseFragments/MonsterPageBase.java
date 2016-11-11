@@ -193,7 +193,7 @@ public abstract class MonsterPageBase extends Fragment {
         monsterAwakenings = (TextView) rootView.findViewById(R.id.monsterAwakenings);
         table1 = (TableLayout) rootView.findViewById(R.id.table1);
         latentHolder = (LinearLayout) rootView.findViewById(R.id.latentHolder);
-        awakeningHolderMax = (Button) rootView.findViewById(R.id.awakeningHolderMax);
+//        awakeningHolderMax = (Button) rootView.findViewById(R.id.awakeningHolderMax);
         skill1Level = (TextView) rootView.findViewById(R.id.skill1Level);
         activeSkill1Name = (TextView) rootView.findViewById(R.id.activeSkill1Name);
         activeSkill1Cooldown = (TextView) rootView.findViewById(R.id.activeSkill1Cooldown);
@@ -782,13 +782,13 @@ public abstract class MonsterPageBase extends Fragment {
             awakeningMinus.setVisibility(View.GONE);
             monsterAwakeningsMax.setVisibility(View.GONE);
             monsterAwakeningsValue.setVisibility(View.GONE);
-            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            z.addRule(RelativeLayout.BELOW, table1.getId());
-            z.addRule(RelativeLayout.ALIGN_TOP, awakeningHolderMax.getId());
-            z.addRule(RelativeLayout.ALIGN_BOTTOM, awakeningHolderMax.getId());
-            z.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            z.addRule(RelativeLayout.CENTER_VERTICAL);
-            latentHolder.setLayoutParams(z);
+//            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            z.addRule(RelativeLayout.BELOW, table1.getId());
+//            z.addRule(RelativeLayout.ALIGN_TOP, awakeningHolderMax.getId());
+//            z.addRule(RelativeLayout.ALIGN_BOTTOM, awakeningHolderMax.getId());
+//            z.addRule(RelativeLayout.CENTER_HORIZONTAL);
+//            z.addRule(RelativeLayout.CENTER_VERTICAL);
+//            latentHolder.setLayoutParams(z);
         } else {
             monsterAwakenings.setVisibility(View.VISIBLE);
             awakeningHolder.setVisibility(View.VISIBLE);

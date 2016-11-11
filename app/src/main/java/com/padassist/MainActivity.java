@@ -863,6 +863,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (!threeProgressDialog.isAdded()) {
             threeProgressDialog.show(getFragmentManager(), "ThreeProgressDialog");
+            threeProgressDialog.setCancelable(false);
         }
     }
 

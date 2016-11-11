@@ -7,6 +7,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.padassist.R;
+import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
 
 import java.io.File;

@@ -19,9 +19,11 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/monsterPicture"
         android:layout_toRightOf="@+id/monsterPicture"
+        android:layout_toLeftOf="@+id/typeLinearLayout"
         android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="Monster name"
         android:textSize="16dp" />
 
@@ -44,61 +46,87 @@
         android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"
         android:layout_marginRight="4dp"/>
 
-    <!--<TextView-->
-        <!--android:id="@+id/monsterHP"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/monsterName"-->
-        <!--android:layout_toRightOf="@+id/rarityStar"-->
-        <!--android:text="1337"-->
-        <!--android:textSize="16dp" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/monsterATK"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/monsterName"-->
-        <!--android:layout_toRightOf="@+id/monsterHP"-->
-        <!--android:text="1337"-->
-        <!--android:textSize="16dp" />-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/monsterRCV"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@+id/monsterName"-->
-        <!--android:layout_toRightOf="@+id/monsterATK"-->
-        <!--android:text="1337"-->
-        <!--android:textSize="16dp" />-->
-
-    <ImageView
+    <LinearLayout
+        android:id="@+id/typeLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal">
+        <ImageView
         android:id="@+id/type1"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:layout_alignBottom="@+id/rarityStar"
-        android:layout_alignTop="@+id/rarityStar"
+        android:gravity="center_vertical"
+        android:src="@drawable/type_balanced"/>
+
+        <ImageView
+            android:id="@+id/type2"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:gravity="center_vertical"
+            android:src="@drawable/type_balanced"/>
+
+        <ImageView
+            android:id="@+id/type3"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:gravity="center_vertical"
+            android:src="@drawable/type_balanced" /></LinearLayout>
+
+
+
+    <TextView
+    android:id="@+id/monsterHP"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/monsterName"
+    android:layout_toRightOf="@+id/rarityStar"
+    android:text="1337"
+    android:textSize="16dp" />
+
+    <TextView
+    android:id="@+id/monsterATK"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/monsterName"
+    android:layout_toRightOf="@+id/monsterHP"
+    android:text="1337"
+    android:textSize="16dp" />
+
+    <TextView
+    android:id="@+id/monsterRCV"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/monsterName"
+    android:layout_toRightOf="@+id/monsterATK"
+    android:text="1337"
+    android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/monsterHPDiff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterHP"
         android:layout_toRightOf="@+id/rarityStar"
-        android:gravity="center_vertical"
-        android:src="@drawable/type_balanced"/>
+        android:text="1337"
+        android:textSize="16dp" />
 
-    <ImageView
-        android:id="@+id/type2"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_alignBottom="@+id/rarityStar"
-        android:layout_alignTop="@+id/rarityStar"
-        android:layout_toRightOf="@+id/type1"
-        android:gravity="center_vertical"
-        android:src="@drawable/type_balanced"/>
+    <TextView
+        android:id="@+id/monsterATKDiff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterATK"
+        android:layout_toRightOf="@+id/monsterHP"
+        android:text="1337"
+        android:textSize="16dp" />
 
-    <ImageView
-        android:id="@+id/type3"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_alignBottom="@+id/rarityStar"
-        android:layout_alignTop="@+id/rarityStar"
-        android:layout_toRightOf="@+id/type2"
-        android:gravity="center_vertical"
-        android:src="@drawable/type_balanced" />
+    <TextView
+        android:id="@+id/monsterRCVDiff"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/monsterRCV"
+        android:layout_toRightOf="@+id/monsterATK"
+        android:text="1337"
+        android:textSize="16dp" />
 
 </RelativeLayout>
