@@ -22,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Adapters.BaseMonsterListRecycler;
 import com.padassist.Comparators.BaseMonsterAlphabeticalComparator;
 import com.padassist.Comparators.BaseMonsterAtkComparator;
@@ -36,6 +37,7 @@ import com.padassist.Comparators.BaseMonsterType1Comparator;
 import com.padassist.Comparators.BaseMonsterType2Comparator;
 import com.padassist.Comparators.BaseMonsterType3Comparator;
 import com.padassist.Data.BaseMonster;
+import com.padassist.Data.Team;
 import com.padassist.Fragments.FilterDialogFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
 import com.padassist.Fragments.SortStatsDialogFragment;
@@ -248,6 +250,13 @@ public abstract class BaseMonsterListBase extends Fragment {
         }
         monsterListAll.clear();
         monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId"));
+
+        if(realm.where(Team.class).equalTo("teamName", "Marvel Fan Boy").findFirst() != null){
+            RealmResults<BaseMonster> easterEggResults = realm.where(BaseMonster.class).lessThan("monsterId", 0).findAllSorted("monsterId");
+            for(int i = 0; i < easterEggResults.size(); i++){
+                monsterListAll.add(0, easterEggResults.get(i));
+            }
+        }
 
 //        Gson gson = new Gson();
 //        String baseMonsterList = preferences.getString("BaseMonsterList", "");

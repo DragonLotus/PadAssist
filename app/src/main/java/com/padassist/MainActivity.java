@@ -109,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
     private Toast toast;
     private Realm realm;
     private FirebaseDatabase database;
-    boolean monsterDifference = false;
+    private int monsterDifference = 0;
+    ArrayList<Long> missingImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 //        preferences.edit().putLong("schemaVersion", 4).apply();
 
         Log.d("MainActivity", "Schema version preferences is: " + preferences.getLong("schemaVersion", 4) + " schema version is: " + realm.getConfiguration().getSchemaVersion());
-        if(preferences.getLong("schemaVersion", 4) < realm.getConfiguration().getSchemaVersion()){
+        if (preferences.getLong("schemaVersion", 4) < realm.getConfiguration().getSchemaVersion()) {
 
             updateConstants();
 
@@ -136,6 +137,19 @@ public class MainActivity extends AppCompatActivity {
 
             preferences.edit().putLong("schemaVersion", realm.getConfiguration().getSchemaVersion()).apply();
         }
+
+//        if(realm.where(BaseMonster.class).equalTo("monsterId", -3).findFirst() != null){
+//            realm.beginTransaction();
+//            realm.where(BaseMonster.class).equalTo("monsterId", -3).findFirst().deleteFromRealm();
+//            realm.commitTransaction();
+//        }
+//        File image = new File(getFilesDir(), "monster_images/monster_-3.png");
+//        Log.d("MainActivity", "Does image exist: " + image.exists());
+//        if(image.exists()){
+//            image.delete();
+//        }
+//        Log.d("MainActivity", "Does image exist: " + image.exists());
+//        Log.d("MainActivity", "image results size is: " + realm.where(BaseMonster.class).findAll().size());
 
         DatabaseReference appVersion = database.getReference("current_app_version");
         appVersion.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -304,8 +318,8 @@ public class MainActivity extends AppCompatActivity {
         monsterVersion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(int.class) > preferences.getInt("monsterVersion", 1)){
-                    if(toast == null){
+                if (dataSnapshot.getValue(int.class) > preferences.getInt("monsterVersion", 1)) {
+                    if (toast == null) {
                         toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
                         toast.show();
                     }
@@ -322,8 +336,8 @@ public class MainActivity extends AppCompatActivity {
         leaderSkillVersion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(int.class) > preferences.getInt("leaderSkillVersion", 1)){
-                    if(toast == null){
+                if (dataSnapshot.getValue(int.class) > preferences.getInt("leaderSkillVersion", 1)) {
+                    if (toast == null) {
                         toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
                         toast.show();
                     }
@@ -340,8 +354,8 @@ public class MainActivity extends AppCompatActivity {
         activeSkillVersion.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(int.class) > preferences.getInt("activeSkillVersion", 1)){
-                    if(toast == null){
+                if (dataSnapshot.getValue(int.class) > preferences.getInt("activeSkillVersion", 1)) {
+                    if (toast == null) {
                         toast = Toast.makeText(getApplicationContext(), "Database Update Available", Toast.LENGTH_SHORT);
                         toast.show();
                     }
@@ -629,7 +643,6 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                     preferences.edit().putInt("monsterVersion", dataSnapshot.getValue(Integer.class)).apply();
-                                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class).findAll();
 
                                     StorageReference monsterImageReference;
                                     final File monsterImage;
@@ -638,8 +651,10 @@ public class MainActivity extends AppCompatActivity {
                                         folder.mkdir();
                                     }
 
-                                    ArrayList<Long> missingImages = new ArrayList();
+                                    missingImages = new ArrayList<>();
                                     File imageCheck;
+
+                                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class).findAll();
                                     for (BaseMonster monster : results) {
                                         imageCheck = new File(getFilesDir(), "monster_images/monster_" + monster.getMonsterId() + ".png");
                                         if (!imageCheck.exists() && monster.getMonsterId() != 0) {
@@ -664,29 +679,9 @@ public class MainActivity extends AppCompatActivity {
 ////                                                    }
 ////                                                }));
 ////                                    }
-//                                    if (missingImages.size() < 30) {
-//                                        for (int i = 0; i < results.size(); i++) {
-//                                            monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_" + i + ".png");
-//                                            imageCheck = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + i + ".png");
-//
-//                                            monsterImageReference.getFile(imageCheck)
-//                                                    .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
-//                                                        @Override
-//                                                        public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                                        }
-//                                                    })
-//                                                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-//                                                        @Override
-//                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-//                                                        }
-//                                                    });
-//                                        }
-//                                        if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
-//                                            hideProgressDialog(true);
-//                                        }
-//                                    } else {
+
                                     Log.d("MainActivity", "missingImages.size: " + missingImages.size() + " downloadEverything is: " + downloadEverything);
-                                    if(missingImages.size() != 0 || downloadEverything || monsterDifference){
+                                    if (downloadEverything || missingImages.size() > 25 || monsterDifference > 25) {
                                         monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/monster_images.zip");
                                         monsterImage = new File(getFilesDir(), "monster_images/monster_images.zip");
                                         monsterImageReference.getFile(monsterImage)
@@ -742,14 +737,28 @@ public class MainActivity extends AppCompatActivity {
 
                                                     }
                                                 });
-                                        monsterDifference = false;
+                                        monsterDifference = 0;
                                     } else {
+                                        for (int i = 0; i < missingImages.size(); i++) {
+                                            monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/all/monster_" + missingImages.get(i) + ".png");
+                                            imageCheck = new File(getApplicationContext().getFilesDir(), "monster_images/monster_" + missingImages.get(i) + ".png");
+
+                                            monsterImageReference.getFile(imageCheck)
+                                                    .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                        }
+                                                    })
+                                                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                        }
+                                                    });
+                                        }
                                         if (threeProgressDialog.getProgress2() == 100 && threeProgressDialog.getProgress3() == 100) {
                                             hideProgressDialog(true);
                                         }
                                     }
-
-//                                    }
 
                                 }
                             });
@@ -893,20 +902,20 @@ public class MainActivity extends AppCompatActivity {
     private UpToDateDialogFragment.Preferences forceSync = new UpToDateDialogFragment.Preferences() {
         @Override
         public void setShowAgain(boolean showAgain) {
-                preferences.edit().putInt("monsterVersion", 1).apply();
-                preferences.edit().putInt("leaderSkillVersion", 1).apply();
-                preferences.edit().putInt("activeSkillVersion", 1).apply();
+            preferences.edit().putInt("monsterVersion", 1).apply();
+            preferences.edit().putInt("leaderSkillVersion", 1).apply();
+            preferences.edit().putInt("activeSkillVersion", 1).apply();
             syncDatabase(showAgain);
         }
     };
 
-    private void updateConstants(){
+    private void updateConstants() {
         DatabaseReference numberOfMonstersReference = database.getReference("num_of_monsters");
         numberOfMonstersReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(preferences.getInt("numOfMonsters", 1) != dataSnapshot.getValue(int.class)){
-                    monsterDifference = true;
+                if (preferences.getInt("numOfMonsters", 1) != dataSnapshot.getValue(int.class)) {
+                    monsterDifference = dataSnapshot.getValue(int.class) - preferences.getInt("numOfMonsters", 1);
                 }
                 preferences.edit().putInt("numOfMonsters", dataSnapshot.getValue(int.class)).apply();
             }

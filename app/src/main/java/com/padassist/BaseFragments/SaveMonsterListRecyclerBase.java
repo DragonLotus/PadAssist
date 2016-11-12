@@ -234,8 +234,10 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolderLinear.monsterLevel.setVisibility(View.VISIBLE);
             if (monsterList.get(position).isFavorite()) {
                 viewHolderLinear.favorite.setVisibility(View.VISIBLE);
+                viewHolderLinear.delete.setEnabled(false);
             } else {
                 viewHolderLinear.favorite.setVisibility(View.INVISIBLE);
+                viewHolderLinear.delete.setEnabled(true);
             }
             viewHolderLinear.favoriteOutline.setVisibility(View.VISIBLE);
             if (monsterList.get(position).getType1() > -1) {

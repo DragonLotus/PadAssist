@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.LeaderSkill;
@@ -32,7 +33,7 @@ public class ParseMonsterDatabaseThread extends Thread {
 
     private UpdateProgress update;
     int counter = 0;
-    private Realm realm = Realm.getDefaultInstance();
+    private Realm realm;
 
     public interface UpdateProgress {
         public void updateValues(int counter);
@@ -48,30 +49,14 @@ public class ParseMonsterDatabaseThread extends Thread {
 
     public void run() {
         super.run();
-
-//        updateVersion();
+        realm = Realm.getDefaultInstance();
         parseLeaderSkillDatabase();
         parseActiveSkillDatabase();
         parseMonsterDatabase();
         updateSavedMonsters();
-
+        Log.d("ParseMonster", "image results size is: " + realm.where(BaseMonster.class).findAll().size());
+        realm.close();
     }
-
-//    private void updateVersion() {
-//        try {
-//            ObjectMapper m = new ObjectMapper();
-//            JsonNode rootNode = m.readTree(Singleton.getInstance().getContext().getResources().openRawResource(R.raw.version));
-//            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
-//            for (JsonNode versionNode : rootNode) {
-//                preferences.edit().putInt("monsterVersion", versionNode.get("monsterVersion").asInt()).apply();
-//                preferences.edit().putInt("leaderSkillVersion", versionNode.get("leaderSkillVersion").asInt()).apply();
-//                preferences.edit().putInt("activeSkillVersion", versionNode.get("activeSkillVersion").asInt()).apply();
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        } finally {
-//        }
-//    }
 
     private void parseLeaderSkillDatabase() {
         try {
@@ -317,14 +302,14 @@ public class ParseMonsterDatabaseThread extends Thread {
             for (Monster monster : savedMonstersResults) {
                 counter++;
 
-                if(monster.getActiveSkillStringMonster() == null){
+                if (monster.getActiveSkillStringMonster() == null) {
                     monster.setActiveSkillString(monster.getBaseMonster().getActiveSkillString());
-                } else if(!monster.getActiveSkillStringMonster().equals(monster.getActiveSkillString())){
+                } else if (!monster.getActiveSkillStringMonster().equals(monster.getActiveSkillString())) {
                     monster.setActiveSkillString(monster.getBaseMonster().getActiveSkillString());
                 }
-                if(monster.getLeaderSkillStringMonster() == null){
+                if (monster.getLeaderSkillStringMonster() == null) {
                     monster.setLeaderSkillString(monster.getBaseMonster().getLeaderSkillString());
-                } else if(!monster.getLeaderSkillStringMonster().equals(monster.getLeaderSkillString())){
+                } else if (!monster.getLeaderSkillStringMonster().equals(monster.getLeaderSkillString())) {
                     monster.setLeaderSkillString(monster.getBaseMonster().getLeaderSkillString());
                 }
 
