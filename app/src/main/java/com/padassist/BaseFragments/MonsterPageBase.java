@@ -95,9 +95,9 @@ public abstract class MonsterPageBase extends Fragment {
                 monster.setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getAtkMin(), monster.getAtkMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getAtkScale()));
                 monster.setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getHpMin(), monster.getHpMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getHpScale()));
                 monster.setCurrentRcv(DamageCalculationUtil.monsterStatCalc(monster.getRcvMin(), monster.getRcvMax(), monster.getCurrentLevel(), monster.getMaxLevel(), monster.getRcvScale()));
-                monsterStatsHPBase.setText(String.valueOf(monster.getCurrentHp()));
-                monsterStatsATKBase.setText(String.valueOf(monster.getCurrentAtk()));
-                monsterStatsRCVBase.setText(String.valueOf(monster.getCurrentRcv()));
+                monsterStatsHPBase.setText(String.valueOf(monster.getCurrentHpInt()));
+                monsterStatsATKBase.setText(String.valueOf(monster.getCurrentAtkInt()));
+                monsterStatsRCVBase.setText(String.valueOf(monster.getCurrentRcvInt()));
                 monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
                 monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
                 monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
@@ -729,9 +729,9 @@ public abstract class MonsterPageBase extends Fragment {
     }
 
     protected void setTextViewValues() {
-        monsterStatsHPBase.setText(String.valueOf(monster.getCurrentHp()));
-        monsterStatsATKBase.setText(String.valueOf(monster.getCurrentAtk()));
-        monsterStatsRCVBase.setText(String.valueOf(monster.getCurrentRcv()));
+        monsterStatsHPBase.setText(String.valueOf(monster.getCurrentHpInt()));
+        monsterStatsATKBase.setText(String.valueOf(monster.getCurrentAtkInt()));
+        monsterStatsRCVBase.setText(String.valueOf(monster.getCurrentRcvInt()));
         monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
         monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
         monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
@@ -871,7 +871,7 @@ public abstract class MonsterPageBase extends Fragment {
         @Override
         public void onClick(View v) {
             if (latentAwakeningDialogFragment == null) {
-                latentAwakeningDialogFragment = LatentAwakeningDialogFragment.newInstance(setLatents, monster);
+                latentAwakeningDialogFragment = LatentAwakeningDialogFragment.newInstance(setLatents);
             }
             if (!latentAwakeningDialogFragment.isAdded()) {
                 latentAwakeningDialogFragment.show(getChildFragmentManager(), "LAATENTSNTSNTS", monster);

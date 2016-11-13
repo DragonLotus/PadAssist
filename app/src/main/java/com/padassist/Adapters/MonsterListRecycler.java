@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
 import com.padassist.Util.Singleton;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -40,7 +43,8 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             if (monsterList.get(holder.getAdapterPosition()).getMonsterId() == 0) {
                 ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
             } else {
-                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
+                Parcelable monsterParcel = Parcels.wrap(monsterList.get(holder.getAdapterPosition()));
+                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition(), monsterParcel), MonsterPageFragment.TAG, "good");
 
 //                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(realm.copyFromRealm(monsterList.get(holder.getAdapterPosition())), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
             }

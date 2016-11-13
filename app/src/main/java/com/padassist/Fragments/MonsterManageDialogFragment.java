@@ -43,11 +43,11 @@ public class MonsterManageDialogFragment extends DialogFragment {
     private Monster monster;
     private Realm realm;
 
-    public static MonsterManageDialogFragment newInstance(RemoveMonster removeMonster, Monster monster) {
+    public static MonsterManageDialogFragment newInstance(RemoveMonster removeMonster) {
         MonsterManageDialogFragment dialogFragment = new MonsterManageDialogFragment();
         dialogFragment.setRemove(removeMonster);
         Bundle args = new Bundle();
-        args.putParcelable("monster", monster);
+//        args.putParcelable("monster", monster);
         return dialogFragment;
     }
 

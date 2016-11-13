@@ -30,10 +30,10 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
     private Monster monster;
     private ResetLatents setLatents;
 
-    public static LatentAwakeningDialogFragment newInstance(ResetLatents setLatents, Monster monster) {
+    public static LatentAwakeningDialogFragment newInstance(ResetLatents setLatents) {
         LatentAwakeningDialogFragment dialogFragment = new LatentAwakeningDialogFragment();
         Bundle args = new Bundle();
-        args.putParcelable("monster", monster);
+//        args.putParcelable("monster", monster);
         dialogFragment.setLatents(setLatents);
 //        favoriteBoolean = favorite;
 //        monsterEvolve = monster;

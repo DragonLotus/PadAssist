@@ -6,12 +6,17 @@ import android.os.Parcelable;
 import android.util.Log;
 
 
+import com.padassist.ParcelConverters.ActiveSkillParcelConverter;
+import com.padassist.ParcelConverters.RealmIntParcelConverter;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
+
+import org.parceler.ParcelPropertyConverter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import io.realm.MonsterRealmProxy;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -19,7 +24,10 @@ import io.realm.annotations.Ignore;
 import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 
-public class Monster extends RealmObject implements Parcelable {
+@org.parceler.Parcel(implementations = {MonsterRealmProxy.class},
+        value = org.parceler.Parcel.Serialization.BEAN,
+        analyze = {Monster.class})
+public class Monster extends RealmObject {
     public static final int HP_PLUS_MULTIPLIER = 10;
     public static final int ATK_PLUS_MULTIPLIER = 5;
     public static final int RCV_PLUS_MULTIPLIER = 3;
@@ -82,8 +90,6 @@ public class Monster extends RealmObject implements Parcelable {
     DecimalFormat format = new DecimalFormat("0.00");
     @Ignore
     private ArrayList<Integer> awakenings = new ArrayList<>();
-    @Ignore
-    private Realm realm = Realm.getDefaultInstance();
 
     public Monster() {
     }
@@ -92,7 +98,6 @@ public class Monster extends RealmObject implements Parcelable {
         currentLevel = 1;
         this.baseMonsterId = baseMonsterId;
         monsterId = 0;
-        baseMonster = realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst();
         hpPlus = 0;
         atkPlus = 0;
         rcvPlus = 0;
@@ -125,7 +130,7 @@ public class Monster extends RealmObject implements Parcelable {
         setIndices();
     }
 
-    public Monster(Monster monster){
+    public Monster(Monster monster) {
         baseMonster = monster.getBaseMonster();
         currentLevel = monster.getCurrentLevel();
         hpPlus = monster.getHpPlus();
@@ -161,11 +166,18 @@ public class Monster extends RealmObject implements Parcelable {
         setCurrentRcv(DamageCalculationUtil.monsterStatCalc(baseMonster.getRcvMin(), baseMonster.getRcvMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getRcvScale()));
     }
 
-    public int getCurrentAtk() {
+    public double getCurrentAtk() {
+        return currentAtk;
+    }
+
+    public int getCurrentAtkInt() {
         return (int) currentAtk;
     }
 
-    public int getCurrentHp() {
+    public double getCurrentHp() {
+        return currentHp;
+    }
+    public int getCurrentHpInt() {
         return (int) currentHp;
     }
 
@@ -281,7 +293,11 @@ public class Monster extends RealmObject implements Parcelable {
         this.currentAtk = currentAtk;
     }
 
-    public int getCurrentRcv() {
+    public double getCurrentRcv() {
+        return currentRcv;
+    }
+
+    public int getCurrentRcvInt() {
         return (int) currentRcv;
     }
 
@@ -417,6 +433,7 @@ public class Monster extends RealmObject implements Parcelable {
         this.activeSkill2String = activeSkill2String;
     }
 
+    @ParcelPropertyConverter(ActiveSkillParcelConverter.class)
     public void setActiveSkill2(ActiveSkill activeSkill2) {
         this.activeSkill2 = activeSkill2;
     }
@@ -641,8 +658,14 @@ public class Monster extends RealmObject implements Parcelable {
         return latents;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setLatents(RealmList<RealmInt> latents) {
         this.latents = latents;
+    }
+
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
+    public void setKillerAwakenings(RealmList<RealmInt> killerAwakenings) {
+        this.killerAwakenings = killerAwakenings;
     }
 
     public RealmList<RealmInt> getKillerAwakenings() {
@@ -676,59 +699,59 @@ public class Monster extends RealmObject implements Parcelable {
         return numOfDoubleProngs;
     }
 
-    public Monster(Parcel source) {
-        monsterId = source.readLong();
-        baseMonster = source.readParcelable(BaseMonster.class.getClassLoader());
-        favorite = source.readByte() == 1;
-        priority = source.readInt();
-        currentLevel = source.readInt();
-        atkPlus = source.readInt();
-        hpPlus = source.readInt();
-        rcvPlus = source.readInt();
-        currentAwakenings = source.readInt();
-        currentAtk = source.readDouble();
-        currentHp = source.readDouble();
-        helper = source.readByte() == 1;
-//        latents = source.readArrayList(Integer.class.getClassLoader());
-//        killerAwakenings = source.readArrayList(Integer.class.getClassLoader());
-//        awakenings = source.readArrayList(Integer.class.getClassLoader());
-        //isBound = source.readByte() == 1;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(monsterId);
-        dest.writeParcelable(baseMonster, flags);
-        dest.writeByte((byte) (favorite ? 1 : 0));
-        dest.writeInt(priority);
-        dest.writeInt(currentLevel);
-        dest.writeInt(atkPlus);
-        dest.writeInt(hpPlus);
-        dest.writeInt(rcvPlus);
-        dest.writeInt(currentAwakenings);
-        dest.writeDouble(currentAtk);
-        dest.writeDouble(currentHp);
-        dest.writeByte((byte) (helper ? 1 : 0));
-//        dest.writeList(latents);
-//        dest.writeList(killerAwakenings);
-//        dest.writeList(awakenings);
-        //dest.writeByte((byte) (isBound ? 1 : 0));
-    }
-
-    public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {
-        public Monster createFromParcel(Parcel source) {
-            return new Monster(source);
-        }
-
-        public Monster[] newArray(int size) {
-            return new Monster[size];
-        }
-    };
+//    public Monster(Parcel source) {
+//        monsterId = source.readLong();
+//        baseMonster = source.readParcelable(BaseMonster.class.getClassLoader());
+//        favorite = source.readByte() == 1;
+//        priority = source.readInt();
+//        currentLevel = source.readInt();
+//        atkPlus = source.readInt();
+//        hpPlus = source.readInt();
+//        rcvPlus = source.readInt();
+//        currentAwakenings = source.readInt();
+//        currentAtk = source.readDouble();
+//        currentHp = source.readDouble();
+//        helper = source.readByte() == 1;
+////        latents = source.readArrayList(Integer.class.getClassLoader());
+////        killerAwakenings = source.readArrayList(Integer.class.getClassLoader());
+////        awakenings = source.readArrayList(Integer.class.getClassLoader());
+//        //isBound = source.readByte() == 1;
+//    }
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeLong(monsterId);
+//        dest.writeParcelable(baseMonster, flags);
+//        dest.writeByte((byte) (favorite ? 1 : 0));
+//        dest.writeInt(priority);
+//        dest.writeInt(currentLevel);
+//        dest.writeInt(atkPlus);
+//        dest.writeInt(hpPlus);
+//        dest.writeInt(rcvPlus);
+//        dest.writeInt(currentAwakenings);
+//        dest.writeDouble(currentAtk);
+//        dest.writeDouble(currentHp);
+//        dest.writeByte((byte) (helper ? 1 : 0));
+////        dest.writeList(latents);
+////        dest.writeList(killerAwakenings);
+////        dest.writeList(awakenings);
+//        //dest.writeByte((byte) (isBound ? 1 : 0));
+//    }
+//
+//    public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {
+//        public Monster createFromParcel(Parcel source) {
+//            return new Monster(source);
+//        }
+//
+//        public Monster[] newArray(int size) {
+//            return new Monster[size];
+//        }
+//    };
 }
 
 

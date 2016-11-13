@@ -1,18 +1,12 @@
 package com.padassist.Util;
 
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.padassist.Data.Element;
-import com.padassist.Data.Enemy;
 import com.padassist.Data.LeaderSkill;
-import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.Monster;
-import com.padassist.Data.OrbMatch;
-import com.padassist.Data.RealmInt;
 import com.padassist.Data.Team;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -27,7 +21,7 @@ public class LeaderSkillCalculationUtil {
     public static double hpMultiplier(Monster monster, Team team) {
         hpMultiplier = 1;
         if (team.getLeadSkill().getHpSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
-            switch (team.getLeadSkill().getHpSkillType().getValue()) {
+            switch (team.getLeadSkill().getHpSkillType().getLeaderSkillType()) {
                 case FLAT:
                     flat(monster, team.getLeadSkill(), 1);
                     break;
@@ -38,7 +32,7 @@ public class LeaderSkillCalculationUtil {
         }
 
         if (team.getHelperSkill().getHpSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
-            switch (team.getHelperSkill().getHpSkillType().getValue()) {
+            switch (team.getHelperSkill().getHpSkillType().getLeaderSkillType()) {
                 case FLAT:
                     flat(monster, team.getHelperSkill(), 1);
                     break;
@@ -64,7 +58,7 @@ public class LeaderSkillCalculationUtil {
             atkMultiplier.set(1, 1.);
         }
         if (team.getLeadSkill().getAtkSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
-            switch (team.getLeadSkill().getAtkSkillType().getValue()) {
+            switch (team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) {
                 case FLAT:
                     flat(monster, team.getLeadSkill(), 2);
                     break;
@@ -300,7 +294,7 @@ public class LeaderSkillCalculationUtil {
         }
 
         if (team.getHelperSkill().getAtkSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
-            switch (team.getHelperSkill().getAtkSkillType().getValue()) {
+            switch (team.getHelperSkill().getAtkSkillType().getLeaderSkillType()) {
                 case FLAT:
                     flat(monster, team.getHelperSkill(), 2);
                     break;
@@ -541,7 +535,7 @@ public class LeaderSkillCalculationUtil {
         rcvMultiplier = 1;
 
         if (team.getLeadSkill().getRcvSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
-            switch (team.getLeadSkill().getRcvSkillType().getValue()) {
+            switch (team.getLeadSkill().getRcvSkillType().getLeaderSkillType()) {
                 case FLAT:
                     flat(monster, team.getLeadSkill(), 3);
                     break;
@@ -560,7 +554,7 @@ public class LeaderSkillCalculationUtil {
             }
         }
         if (team.getHelperSkill().getRcvSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
-            switch (team.getHelperSkill().getRcvSkillType().getValue()) {
+            switch (team.getHelperSkill().getRcvSkillType().getLeaderSkillType()) {
                 case FLAT:
                     flat(monster, team.getHelperSkill(), 3);
                     break;
@@ -602,7 +596,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -746,7 +740,7 @@ public class LeaderSkillCalculationUtil {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }
@@ -823,7 +817,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -867,7 +861,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -889,7 +883,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -914,7 +908,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements2().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements2().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter2++;
@@ -957,7 +951,7 @@ public class LeaderSkillCalculationUtil {
         }
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }
@@ -987,7 +981,7 @@ public class LeaderSkillCalculationUtil {
         int comboDiff2 = leaderSkill.getComboMax2() - leaderSkill.getComboMin2();
         int counter2 = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter2++;
             }
         }
@@ -1031,7 +1025,7 @@ public class LeaderSkillCalculationUtil {
 
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }
@@ -1206,7 +1200,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -1255,7 +1249,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -1351,7 +1345,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -1388,7 +1382,7 @@ public class LeaderSkillCalculationUtil {
 
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }
@@ -1787,7 +1781,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -1822,7 +1816,7 @@ public class LeaderSkillCalculationUtil {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }
@@ -1839,7 +1833,7 @@ public class LeaderSkillCalculationUtil {
         int counter2 = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
                     if (counter2 < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter2 = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -1991,7 +1985,7 @@ public class LeaderSkillCalculationUtil {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }
@@ -2090,7 +2084,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -2206,7 +2200,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -2265,7 +2259,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements2().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements2().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter2++;
@@ -2334,7 +2328,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -2397,7 +2391,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -2482,7 +2476,7 @@ public class LeaderSkillCalculationUtil {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }
@@ -2571,7 +2565,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -2630,7 +2624,7 @@ public class LeaderSkillCalculationUtil {
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     }
@@ -2648,7 +2642,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter++;
@@ -2667,7 +2661,7 @@ public class LeaderSkillCalculationUtil {
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getValue())) {
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     }
@@ -2702,7 +2696,7 @@ public class LeaderSkillCalculationUtil {
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }
@@ -2807,7 +2801,7 @@ public class LeaderSkillCalculationUtil {
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }
@@ -2840,7 +2834,7 @@ public class LeaderSkillCalculationUtil {
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             if (team.getOrbMatches().get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }
@@ -2874,7 +2868,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }
@@ -2895,7 +2889,7 @@ public class LeaderSkillCalculationUtil {
                 j++;
                 i = -1;
             } else {
-                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements2().get(j).getValue())) {
+                if (orbMatchElements.get(i).equals(leaderSkill.getMatchElements2().get(j).getElement())) {
                     orbMatchElements.remove(i);
                     j++;
                     counter2++;
@@ -2917,7 +2911,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -2937,7 +2931,7 @@ public class LeaderSkillCalculationUtil {
         int counter2 = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
                     if (counter2 < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter2 = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -2959,7 +2953,7 @@ public class LeaderSkillCalculationUtil {
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                     if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -3013,7 +3007,7 @@ public class LeaderSkillCalculationUtil {
         int counter2 = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getValue())) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
                     if (counter2 < team.getOrbMatches().get(i).getOrbsLinked()) {
                         counter2 = team.getOrbMatches().get(i).getOrbsLinked();
                     }
@@ -3034,7 +3028,7 @@ public class LeaderSkillCalculationUtil {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
-            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getValue())) {
+            if (team.getOrbMatchElements().contains(leaderSkill.getMatchElements().get(i).getElement())) {
                 counter++;
             }
         }

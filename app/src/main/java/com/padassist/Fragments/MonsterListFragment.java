@@ -261,7 +261,7 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("monsters", monsters);
+//        outState.putParcelableArrayList("monsters", monsters);
     }
 
     @Override

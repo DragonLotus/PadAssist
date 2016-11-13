@@ -289,9 +289,9 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             }
             viewHolderLinear.rarity.setText("" + monsterList.get(position).getRarity());
             viewHolderLinear.rarityStar.setColorFilter(0xFFD4D421);
-            viewHolderLinear.hpBase.setText("" + monsterList.get(position).getCurrentHp());
-            viewHolderLinear.atkBase.setText("" + monsterList.get(position).getCurrentAtk());
-            viewHolderLinear.rcvBase.setText("" + monsterList.get(position).getCurrentRcv());
+            viewHolderLinear.hpBase.setText("" + monsterList.get(position).getCurrentHpInt());
+            viewHolderLinear.atkBase.setText("" + monsterList.get(position).getCurrentAtkInt());
+            viewHolderLinear.rcvBase.setText("" + monsterList.get(position).getCurrentRcvInt());
             viewHolderLinear.hpPlus.setText("+" + monsterList.get(position).getHpPlus());
             viewHolderLinear.atkPlus.setText("+" + monsterList.get(position).getAtkPlus());
             viewHolderLinear.rcvPlus.setText("+" + monsterList.get(position).getRcvPlus());

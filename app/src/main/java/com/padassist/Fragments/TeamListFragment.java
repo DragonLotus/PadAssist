@@ -879,8 +879,9 @@ public class TeamListFragment extends Fragment {
                 if (!teamList.isEmpty()) {
                     teamList.clear();
                 }
-                filterTeamName(query);
-                filterContainsMonster(query);
+                filterTeam(query);
+//                filterTeamName(query);
+//                filterContainsMonster(query);
             } else {
                 teamList.clear();
                 teamList.addAll(teamListAll);
@@ -890,6 +891,21 @@ public class TeamListFragment extends Fragment {
 //            if(fastScroller!=null){
 //                fastScroller.resizeScrollBar(teamListAdapter.expanded(), FastScroller.TEAM_LIST);
 //            }
+        }
+    }
+
+    private void filterTeam(String query){
+        for (Team team : teamListAll) {
+            if (team.getTeamName().toLowerCase().contains(query.toLowerCase())) {
+                teamList.add(team);
+            } else {
+                for (Monster monster : team.getMonsters()) {
+                    if (monster.getName().toLowerCase().contains(query.toLowerCase())) {
+                        teamList.add(team);
+                        break;
+                    }
+                }
+            }
         }
     }
 

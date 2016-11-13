@@ -779,11 +779,11 @@ public class Team extends RealmObject implements Parcelable {
         }
         if(lead.getLeaderSkill() != null){
             if(lead.getLeaderSkill().getRcvSkillType() != null){
-                if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                if(lead.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.COMBO)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
                         rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.comboRcv(lead.getLeaderSkill(), totalCombos));
                     }
-                } else if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+                } else if(lead.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
                         rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, lead.getLeaderSkill()));
                     }
@@ -792,11 +792,11 @@ public class Team extends RealmObject implements Parcelable {
         }
         if(helper.getLeaderSkill() != null){
             if(helper.getLeaderSkill().getRcvSkillType() != null){
-                if(helper.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                if(helper.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.COMBO)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
                         rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.comboRcv(helper.getLeaderSkill(), totalCombos));
                     }
-                } else if(helper.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+                } else if(helper.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
                         rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, helper.getLeaderSkill()));
                     }

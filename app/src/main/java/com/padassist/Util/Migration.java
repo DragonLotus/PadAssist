@@ -11,7 +11,6 @@ import com.padassist.Data.LeaderSkill;
 
 import io.realm.DynamicRealm;
 import io.realm.FieldAttribute;
-import io.realm.LeaderSkillRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmMigration;
 import io.realm.RealmObject;

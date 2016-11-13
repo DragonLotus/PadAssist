@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +15,8 @@ import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.BaseFragments.MonsterPageBase;
 import com.padassist.Util.Singleton;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -37,11 +40,12 @@ public class MonsterPageFragment extends MonsterPageBase {
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
-    public static MonsterPageFragment newInstance(long monsterId, int position) {
+    public static MonsterPageFragment newInstance(long monsterId, int position, Parcelable monsterParcel) {
         MonsterPageFragment fragment = new MonsterPageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
-        args.putLong("monsterId", monsterId);
+        args.putParcelable("monsterParcel", monsterParcel);
+//        args.putLong("monsterId", monsterId);
 //        args.putParcelable("monster", monster);
         args.putInt("position", position);
         return fragment;
@@ -99,11 +103,12 @@ public class MonsterPageFragment extends MonsterPageBase {
 //            Monster monster = getArguments().getParcelable("monster");
 //            monster = realm.copyFromRealm(monster);
 
-            monsterId = getArguments().getLong("monsterId");
-            Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst();
-            monster = realm.copyFromRealm(monster);
+//            monsterId = getArguments().getLong("monsterId");
+//            Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst();
+//            monster = realm.copyFromRealm(monster);
 
-//            return realm.where(Monster.class).equalTo("monsterId", getArguments().getLong("monsterId")).findFirst();
+            monster = Parcels.unwrap(getArguments().getParcelable("monsterParcel"));
+            monster = realm.copyFromRealm(monster);
             return monster;
         } else return null;
     }
@@ -112,7 +117,7 @@ public class MonsterPageFragment extends MonsterPageBase {
         @Override
         public void onClick(View v) {
             if (monsterRemoveDialogFragment == null) {
-                monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster, monster);
+                monsterRemoveDialogFragment = MonsterRemoveDialogFragment.newInstance(removeMonster);
             }
             if(!monsterRemoveDialogFragment.isAdded()){
                 monsterRemoveDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);

@@ -1,5 +1,8 @@
 package com.padassist.Data;
 
+import org.parceler.Parcel;
+
+import io.realm.ActiveSkillRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -7,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by DragonLotus on 9/18/2015.
  */
-
+@Parcel(implementations = {ActiveSkillRealmProxy.class}, value = Parcel.Serialization.BEAN, analyze = {ActiveSkill.class})
 public class ActiveSkill extends RealmObject {
     @PrimaryKey
     private String name;

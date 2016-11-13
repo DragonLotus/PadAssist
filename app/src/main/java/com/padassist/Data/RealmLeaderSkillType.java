@@ -1,11 +1,14 @@
 package com.padassist.Data;
 
+import org.parceler.Parcel;
+
+import io.realm.RealmLeaderSkillTypeRealmProxy;
 import io.realm.RealmObject;
 
 /**
  * Created by DragonLotus on 8/4/2016.
  */
-
+@Parcel(implementations = {RealmLeaderSkillTypeRealmProxy.class}, value = Parcel.Serialization.BEAN, analyze = {RealmLeaderSkillType.class})
 public class RealmLeaderSkillType extends RealmObject {
     private int value;
 
@@ -16,7 +19,7 @@ public class RealmLeaderSkillType extends RealmObject {
         this.value = value;
     }
 
-    public LeaderSkillType getValue() {
+    public LeaderSkillType getLeaderSkillType() {
         switch (value) {
             case 0:
                 return LeaderSkillType.BLANK;
@@ -181,5 +184,9 @@ public class RealmLeaderSkillType extends RealmObject {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int getValue() {
+        return value;
     }
 }
