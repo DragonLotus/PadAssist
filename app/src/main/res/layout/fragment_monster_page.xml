@@ -127,7 +127,7 @@
             android:layout_alignTop="@+id/rarity"
             android:layout_marginRight="8dp"
             android:layout_toRightOf="@+id/rarity"
-            android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha" />
+            android:src="@drawable/rarity_star" />
 
     </RelativeLayout>
 

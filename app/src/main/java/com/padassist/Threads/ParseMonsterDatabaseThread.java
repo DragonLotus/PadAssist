@@ -208,9 +208,13 @@ public class ParseMonsterDatabaseThread extends Thread {
 //                }
                     if (monsterNode.hasNonNull("element")) {
                         monster.setElement1(monsterNode.get("element").asInt());
+                    } else {
+                        monster.setElement1(-1);
                     }
                     if (monsterNode.hasNonNull("element2")) {
                         monster.setElement2(monsterNode.get("element2").asInt());
+                    } else {
+                        monster.setElement2(-1);
                     }
                     if (monsterNode.hasNonNull("name")) {
                         monster.setName(monsterNode.get("name").asText());
@@ -253,12 +257,18 @@ public class ParseMonsterDatabaseThread extends Thread {
                     }
                     if (monsterNode.hasNonNull("type")) {
                         monster.setType1(monsterNode.get("type").asInt());
+                    } else {
+                        monster.setType1(-1);
                     }
                     if (monsterNode.hasNonNull("type2")) {
                         monster.setType2(monsterNode.get("type2").asInt());
+                    } else {
+                        monster.setType2(-1);
                     }
                     if (monsterNode.hasNonNull("type3")) {
                         monster.setType3(monsterNode.get("type3").asInt());
+                    } else {
+                        monster.setType3(-1);
                     }
                     if (monsterNode.hasNonNull("hp_min")) {
                         monster.setHpMin(monsterNode.get("hp_min").asInt());
@@ -274,6 +284,8 @@ public class ParseMonsterDatabaseThread extends Thread {
                     }
                     if (monsterNode.hasNonNull("evolutions")) {
                         monster.setEvolutions(parseLongArrayList(monsterNode.get("evolutions")));
+                    } else {
+                        monster.getEvolutions().clear();
                     }
 
                     monster.setLeaderSkill(realm.where(LeaderSkill.class).equalTo("name", monster.getLeaderSkillString()).findFirst());
