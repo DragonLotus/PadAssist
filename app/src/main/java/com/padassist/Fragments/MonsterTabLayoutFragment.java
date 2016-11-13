@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Data.Monster;
-import com.padassist.Util.MonsterTabLayoutUtil;
+import com.padassist.BaseFragments.MonsterTabLayoutBase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +16,7 @@ import com.padassist.Util.MonsterTabLayoutUtil;
  * Use the {@link MonsterTabLayoutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterTabLayoutFragment extends MonsterTabLayoutUtil {
+public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
     private boolean replaceAll;
     private long replaceMonsterId;
     private int monsterPosition;

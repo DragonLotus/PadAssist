@@ -16,3 +16,4 @@ DamageCalculator.iml
 app/app.iml
 *.iml
 keystore.properties
+app/google-services.json

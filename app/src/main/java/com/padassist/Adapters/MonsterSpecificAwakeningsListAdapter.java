@@ -23,8 +23,9 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
     private ArrayList<Integer> awakeningList, awakeningListAll, monsterSpecificFilter, latentList, latentListAll, latentMonsterSpecificFilter;
     private AwakeningGridAdapter monsterAwakeningsGridAdapter;
     private int resourceId;
+    private int teamBadge;
 
-    public MonsterSpecificAwakeningsListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList) {
+    public MonsterSpecificAwakeningsListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, int teamBadge) {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
@@ -35,6 +36,7 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         latentList = new ArrayList<>();
         latentListAll = new ArrayList<>();
         latentMonsterSpecificFilter = new ArrayList<>();
+        this.teamBadge = teamBadge;
 
         setupAwakeningFilters();
     }
@@ -50,24 +52,19 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             viewHolder.monsterAwakenings = (ExpandableHeightGridView) convertView.findViewById(R.id.monsterAwakenings);
             viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             trimAwakenings(position);
-            monsterAwakeningsGridAdapter = new AwakeningGridAdapter(mContext, awakeningList, latentList);
+            monsterAwakeningsGridAdapter = new AwakeningGridAdapter(mContext, monsterList, awakeningList, latentList, true, teamBadge);
             viewHolder.monsterAwakenings.setAdapter(monsterAwakeningsGridAdapter);
             viewHolder.monsterAwakenings.setExpanded(true);
             if (position % 2 == 1) {
-                viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+                viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
             } else {
-                viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+                viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background));
             }
             convertView.setTag(R.string.viewHolder, viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
-//        for(int i = 0; i < monsterList.get(position).getCurrentAwakenings(); i++){
-//            awakeningListAll.add(monsterList.get(position).getAwokenSkills(i));
-//        }
-//        trimAwakenings(position);
-//        monsterAwakeningsGridAdapter.notifyDataSetChanged();
+        viewHolder.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
         return convertView;
     }
 

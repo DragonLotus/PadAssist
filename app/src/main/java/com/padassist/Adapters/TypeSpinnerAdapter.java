@@ -111,10 +111,11 @@ public class TypeSpinnerAdapter extends ArrayAdapter<Integer> {
                 viewHolder.typeName.setText("None");
                 break;
         }
+
         if (position % 2 == 1) {
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
+            viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
         } else {
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
         return convertView;
     }

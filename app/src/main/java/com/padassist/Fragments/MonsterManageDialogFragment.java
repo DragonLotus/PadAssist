@@ -13,10 +13,13 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.padassist.Adapters.EvolutionSpinnerAdapter;
+import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.R;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
 
 public class MonsterManageDialogFragment extends DialogFragment {
 
@@ -35,9 +38,10 @@ public class MonsterManageDialogFragment extends DialogFragment {
     private CheckBox favorite;
     private RemoveMonster remove;
     private Spinner evolutionSpinner;
-    private ArrayList<Long> evolutions = new ArrayList<>();
+    private ArrayList<BaseMonster> evolutions = new ArrayList<>();
     private EvolutionSpinnerAdapter evolutionSpinnerAdapter;
     private Monster monster;
+    private Realm realm;
 
     public static MonsterManageDialogFragment newInstance(RemoveMonster removeMonster, Monster monster) {
         MonsterManageDialogFragment dialogFragment = new MonsterManageDialogFragment();
@@ -65,7 +69,7 @@ public class MonsterManageDialogFragment extends DialogFragment {
 //                        } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.replaceAllTeams) {
 //                            remove.replaceAllTeam();
                         } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.evolveMonster) {
-                            remove.evolveMonster(evolutions.get(evolutionSpinner.getSelectedItemPosition()));
+                            remove.evolveMonster(evolutions.get(evolutionSpinner.getSelectedItemPosition()).getMonsterId());
                         } else {
                             dialog.dismiss();
                         }
@@ -86,6 +90,7 @@ public class MonsterManageDialogFragment extends DialogFragment {
         if (getArguments() != null) {
             monster = getArguments().getParcelable("monster");
         }
+        realm = Realm.getDefaultInstance();
         favorite.setChecked(monster.isFavorite());
         if (monster.isFavorite()) {
             choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 1).setEnabled(false);
@@ -94,7 +99,7 @@ public class MonsterManageDialogFragment extends DialogFragment {
         }
         favorite.setOnCheckedChangeListener(favoriteCheckListener);
         setupEvolutions();
-        evolutionSpinnerAdapter = new EvolutionSpinnerAdapter(getActivity(), R.layout.evolution_spinner_row, R.id.monsterName, evolutions);
+        evolutionSpinnerAdapter = new EvolutionSpinnerAdapter(getActivity(), R.layout.evolution_spinner_row, monster, evolutions);
         evolutionSpinner.setAdapter(evolutionSpinnerAdapter);
         choiceRadioGroup.setOnCheckedChangeListener(radioGroupCheckChangeListener);
 
@@ -133,9 +138,9 @@ public class MonsterManageDialogFragment extends DialogFragment {
     private void setupEvolutions() {
         evolutions.clear();
         for(int i = 0; i < monster.getEvolutions().size(); i++){
-            evolutions.add(monster.getEvolutions().get(i).getValue());
+            evolutions.add(realm.where(BaseMonster.class).equalTo("monsterId", monster.getEvolutions().get(i).getValue()).findFirst());
         }
-        evolutions.add(0, Long.valueOf(0));
+        evolutions.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
         if(evolutions.size() == 1){
             choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 2).setEnabled(false);
         }else {
@@ -147,5 +152,11 @@ public class MonsterManageDialogFragment extends DialogFragment {
     public void show(FragmentManager manager, String tag, Monster monster) {
         super.show(manager, tag);
         this.monster = monster;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        realm.close();
     }
 }

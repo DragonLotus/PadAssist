@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
 
     <ImageView
         android:id="@+id/favorite"
@@ -22,11 +24,23 @@
         android:src="@drawable/not_favorite"
         android:layout_marginRight="4dp"/>
 
+    <ImageView
+        android:id="@+id/teamBadge"
+        android:layout_width="26dp"
+        android:layout_height="20dp"
+        android:src="@drawable/team_badge_nothing"
+        android:background="@drawable/team_badge_background"
+        android:layout_toRightOf="@+id/favorite"
+        android:layout_marginRight="6dp"/>
+
     <TextView
         android:id="@+id/teamName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/favorite"
+        android:layout_toRightOf="@+id/teamBadge"
+        android:maxLines="1"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:text="Team Name"
         android:textSize="18dp" />
 
@@ -45,7 +59,7 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginRight="6dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster1Plus"
@@ -95,7 +109,7 @@
                 android:id="@+id/monster2Picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster2Plus"
@@ -145,7 +159,7 @@
                 android:id="@+id/monster3Picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster3Plus"
@@ -195,7 +209,7 @@
                 android:id="@+id/monster4Picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster4Plus"
@@ -245,7 +259,7 @@
                 android:id="@+id/monster5Picture"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster5Plus"
@@ -296,7 +310,7 @@
                 android:layout_width="52dp"
                 android:layout_height="52dp"
                 android:layout_marginLeft="6dp"
-                android:src="@drawable/monster_1218" />
+                android:src="@drawable/monster_0" />
 
             <com.padassist.Graphics.TextStroke
                 android:id="@+id/monster6Plus"

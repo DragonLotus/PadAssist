@@ -8,13 +8,14 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="8dp"
-    tools:context="com.padassist.Fragments.TeamOverviewFragment">
+    tools:context="com.padassist.Fragments.TeamOverviewFragment"
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/teamHp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Team HP: "
+        android:text="HP: "
         android:textSize="18dp" />
 
     <com.padassist.Graphics.ThinStroke
@@ -24,30 +25,84 @@
         android:layout_toRightOf="@+id/teamHp"
         android:text="99999"
         android:textColor="#00FF00"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        android:layout_marginRight="16dp"/>
 
     <TextView
         android:id="@+id/teamRcv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/teamRcvValue"
-        android:text="Team RCV: "
+        android:layout_toRightOf="@+id/teamHpValue"
+        android:text="RCV: "
         android:textSize="18dp" />
 
     <com.padassist.Graphics.ThinStroke
         android:id="@+id/teamRcvValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/teamRcv"
         android:text="99999"
         android:textColor="#FF9999"
+        android:textSize="18dp"
+        android:layout_marginRight="16dp"/>
+
+    <TextView
+        android:id="@+id/teamCost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/teamCostValue"
+        android:text="Cost: "
         android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/teamCostValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="9999"
+        android:textSize="18dp" />
+
+    <ImageView
+        android:id="@+id/teamBadge"
+        android:layout_width="34dp"
+        android:layout_height="26dp"
+        android:src="@drawable/team_badge_nothing"
+        android:background="@drawable/team_badge_background"
+        android:layout_below="@id/teamRcvValue"
+        android:layout_marginRight="16dp"/>
+
+    <ImageView
+        android:id="@+id/hasLeaderSkill"
+        android:layout_width="46dp"
+        android:layout_height="24dp"
+        android:layout_toRightOf="@+id/teamBadge"
+        android:layout_alignTop="@+id/teamBadge"
+        android:layout_alignBottom="@+id/teamBadge"
+        android:layout_centerVertical="true"
+        android:src="@drawable/leader_skill_enable"
+        android:layout_marginRight="4dp"/>
+
+    <CheckBox
+        android:id="@+id/hasLeaderSkillCheck1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/hasLeaderSkill"
+        android:layout_alignTop="@+id/hasLeaderSkill"
+        android:layout_alignBottom="@+id/hasLeaderSkill"/>
+
+    <CheckBox
+        android:id="@+id/hasLeaderSkillCheck2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/hasLeaderSkillCheck1"
+        android:layout_alignTop="@+id/hasLeaderSkill"
+        android:layout_alignBottom="@+id/hasLeaderSkill"/>
 
     <ScrollView
         android:id="@+id/awakeningScrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/teamRcvValue">
+        android:layout_below="@+id/teamBadge">
 
         <LinearLayout
             android:layout_width="fill_parent"

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/monsterPicture"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:src="@drawable/monster_0"/>
+
+    <com.padassist.Graphics.TextStroke
+        android:id="@+id/monsterIdStroke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1337"
+        android:textSize="16dp"
+        android:textColor="#BBBBBB"
+        android:layout_alignLeft="@+id/monsterPicture"
+        android:layout_alignRight="@+id/monsterPicture"
+        android:gravity="center_horizontal"
+        android:layout_alignBottom="@+id/monsterPicture"/>
+
+</RelativeLayout>

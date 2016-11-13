@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -32,6 +34,7 @@ import com.padassist.Adapters.TypeSpinnerAdapter;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.Team;
+import com.padassist.Graphics.TooltipText;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
@@ -61,6 +64,7 @@ public class EnemyTargetFragment extends Fragment {
     private String mParam2;
     private Team team;
     private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, damageImmunityValue, reductionValue;
+    private ImageView targetAbsorb, targetReduction, damageThreshold, damageImmunity, defenseBreakIcon;
     private TextView percentHpValue, totalGravityValue;
     private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
     private RadioButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb;
@@ -215,6 +219,11 @@ public class EnemyTargetFragment extends Fragment {
         damageImmunityValue = (EditText) rootView.findViewById(R.id.damageImmunityValue);
         damageImmunityCheck = (CheckBox) rootView.findViewById(R.id.damageImmunityCheck);
         reductionValue = (EditText) rootView.findViewById(R.id.reductionValue);
+        targetAbsorb = (ImageView) rootView.findViewById(R.id.elementAbsorb);
+        targetReduction = (ImageView) rootView.findViewById(R.id.elementReduction);
+        damageThreshold = (ImageView) rootView.findViewById(R.id.damageThreshold);
+        damageImmunity = (ImageView) rootView.findViewById(R.id.damageImmunity);
+        defenseBreakIcon = (ImageView) rootView.findViewById(R.id.spinnerIcon);
         return rootView;
     }
 
@@ -333,6 +342,12 @@ public class EnemyTargetFragment extends Fragment {
         lightOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
 
         calculate.setOnClickListener(calculateOnClickListener);
+
+        targetAbsorb.setOnClickListener(tooltipOnClickListener);
+        targetReduction.setOnClickListener(tooltipOnClickListener);
+        damageThreshold.setOnClickListener(tooltipOnClickListener);
+        damageImmunity.setOnClickListener(tooltipOnClickListener);
+        defenseBreakIcon.setOnClickListener(tooltipOnClickListener);
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
         getActivity().setTitle("Set Enemy");
     }
@@ -396,7 +411,7 @@ public class EnemyTargetFragment extends Fragment {
                 toast = Toast.makeText(getActivity(), "Additional gravities will have no effect", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                currentHpValue.clearFocus();
+                clearTextFocus();
                 gravityListAdapter.add(gravityButtonAdapter.getItem(position));
                 gravityListAdapter.notifyDataSetChanged();
                 gravityList.smoothScrollToPosition(gravityListAdapter.getCount()-1);
@@ -477,7 +492,7 @@ public class EnemyTargetFragment extends Fragment {
     private ListView.OnItemClickListener gravityRemoveOnClickListener = new ListView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            currentHpValue.clearFocus();
+            clearTextFocus();
             gravityListAdapter.remove(gravityListAdapter.getItem(position));
             enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
             currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
@@ -489,7 +504,7 @@ public class EnemyTargetFragment extends Fragment {
         public void onClick(View v) {
             if (enemy.getCurrentHp() == 0) {
             } else {
-                currentHpValue.clearFocus();
+                clearTextFocus();
                 gravityListAdapter.clear();
                 enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
                 currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
@@ -597,22 +612,18 @@ public class EnemyTargetFragment extends Fragment {
                 enemy.setHasDamageThreshold(isChecked);
                 if (isChecked) {
                     damageThresholdValue.setEnabled(true);
-                    damageImmunityValue.clearFocus();
                     damageImmunityValue.setEnabled(false);
                     damageImmunityCheck.setChecked(false);
                 } else {
-                    damageThresholdValue.clearFocus();
                     damageThresholdValue.setEnabled(false);
                 }
             } else if (buttonView.equals(damageImmunityCheck)){
                 enemy.setHasDamageImmunity(isChecked);
                 if (isChecked) {
                     damageImmunityValue.setEnabled(true);
-                    damageThresholdValue.clearFocus();
                     damageThresholdValue.setEnabled(false);
                     damageThresholdCheck.setChecked(false);
                 } else {
-                    damageImmunityValue.clearFocus();
                     damageImmunityValue.setEnabled(false);
                 }
             }
@@ -1006,8 +1017,10 @@ public class EnemyTargetFragment extends Fragment {
     };
 
     public void hideKeyboard(View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     // http://stackoverflow.com/a/14577399 magic.
@@ -1035,20 +1048,32 @@ public class EnemyTargetFragment extends Fragment {
         }
     };
 
-    //   private EditText.OnKeyListener  downKeyboard = new EditText.OnKeyListener()
-//   {
-//      @Override
-//      public boolean onKey(View v, int keyCode, KeyEvent event)
-//      {
-//         Log.d("hello", String.valueOf(keyCode));
-//         if(keyCode == KeyEvent.KEYCODE_ENTER)
-//         {
-//            v.clearFocus();
-//            return true;
-//         }
-//         return false;
-//      }
-//   };
-
+    private View.OnClickListener tooltipOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int id = v.getId();
+            TooltipText tooltipText;
+            switch (id) {
+                case R.id.elementAbsorb:
+                    tooltipText = new TooltipText(getContext(), "Enemy will absorb all selected elements");
+                    break;
+                case R.id.elementReduction:
+                    tooltipText = new TooltipText(getContext(), "Enemy will reduce a percentage amount of damage from all selected elements");
+                    break;
+                case R.id.damageThreshold:
+                    tooltipText = new TooltipText(getContext(), "Enemy will absorb any hit over the specified value");
+                    break;
+                case R.id.damageImmunity:
+                    tooltipText = new TooltipText(getContext(), "Enemy will take 0 damage for any hit over the specified value");
+                    break;
+                case R.id.spinnerIcon:
+                    tooltipText = new TooltipText(getContext(), "Enemy defense will be reduced by this value");
+                    break;
+                default:
+                    tooltipText = new TooltipText(getContext(), "How did you get this tooltip?");
+            }
+            tooltipText.show(v);
+        }
+    };
 
 }

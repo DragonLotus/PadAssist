@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.LeaderSkillCalculationUtil;
-import com.padassist.Util.NumberComparator;
+import com.padassist.Comparators.NumberComparator;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
@@ -93,6 +93,7 @@ public class Team extends RealmObject implements Parcelable {
     private Comparator<Integer> numberComparator = new NumberComparator();
     @Ignore
     private Realm realm = Realm.getDefaultInstance();
+    private int teamBadge = 0;
 
     public Team() {
         for (int i = 0; i < 5; i++) {
@@ -359,8 +360,7 @@ public class Team extends RealmObject implements Parcelable {
             leaderSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
             return realm.copyFromRealm(leaderSkill);
         } else {
-            leaderSkill = realm.where(LeaderSkill.class).equalTo("name", lead.getLeaderSkill()).findFirst();
-            return realm.copyFromRealm(leaderSkill);
+            return lead.getLeaderSkill();
         }
     }
 
@@ -370,8 +370,7 @@ public class Team extends RealmObject implements Parcelable {
             helperSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
             return realm.copyFromRealm(helperSkill);
         } else {
-            helperSkill = realm.where(LeaderSkill.class).equalTo("name", helper.getLeaderSkill()).findFirst();
-            return realm.copyFromRealm(helperSkill);
+            return helper.getLeaderSkill();
         }
     }
 
@@ -427,6 +426,14 @@ public class Team extends RealmObject implements Parcelable {
             compareAllElements.add(orbMatches.get(i).getElement());
         }
         return compareAllElements;
+    }
+
+    public int getTeamBadge() {
+        return teamBadge;
+    }
+
+    public void setTeamBadge(int teamBadge) {
+        this.teamBadge = teamBadge;
     }
 
     public int getOrbPlusAwakenings(Element element) {
@@ -740,7 +747,7 @@ public class Team extends RealmObject implements Parcelable {
 
     public void setTeamStats() {
         realm.beginTransaction();
-        setHpRcvMultiplierArrays();
+        setHpRcvMultiplierArrays(0);
         Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
         int hp = 0;
         double rcv = 0;
@@ -748,19 +755,58 @@ public class Team extends RealmObject implements Parcelable {
             hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this, i);
             rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this, i);
         }
-        this.teamHealth = hp;
-        this.teamRcv = (int) Math.floor(rcv + 0.5d);
+        if(teamBadge == 5 && !Singleton.getInstance().isCoopEnable()){
+            this.teamHealth = (int) (hp * 1.05);
+        } else if(teamBadge == 10 && !Singleton.getInstance().isCoopEnable()){
+            this.teamHealth = (int) (hp * 1.15);
+        } else {
+            this.teamHealth = hp;
+        }
+        if(teamBadge == 4 && !Singleton.getInstance().isCoopEnable()){
+            this.teamRcv = (int) Math.floor(rcv * 1.25 + 0.5d);
+        } else if(teamBadge == 12 && !Singleton.getInstance().isCoopEnable()) {
+            this.teamRcv = (int) Math.floor(rcv * 1.35 + 0.5d);
+        } else {
+            this.teamRcv = (int) Math.floor(rcv + 0.5d);
+        }
         realm.commitTransaction();
     }
 
-    public void setHpRcvMultiplierArrays() {
+    public void setHpRcvMultiplierArrays(int totalCombos) {
         for (int i = 0; i < getMonsters().size(); i++) {
             hpMultiplier.set(i, LeaderSkillCalculationUtil.hpMultiplier(getMonsters().get(i), this));
             rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
         }
+        if(lead.getLeaderSkill() != null){
+            if(lead.getLeaderSkill().getRcvSkillType() != null){
+                if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.comboRcv(lead.getLeaderSkill(), totalCombos));
+                    }
+                } else if(lead.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, lead.getLeaderSkill()));
+                    }
+                }
+            }
+        }
+        if(helper.getLeaderSkill() != null){
+            if(helper.getLeaderSkill().getRcvSkillType() != null){
+                if(helper.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.comboRcv(helper.getLeaderSkill(), totalCombos));
+                    }
+                } else if(helper.getLeaderSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, helper.getLeaderSkill()));
+                    }
+                }
+            }
+        }
     }
 
     public void setAtkMultiplierArrays(int combos) {
+        Log.d("Team", "Leader skill is: " + getLeadSkill().getName() + " Helper skill is: " + getHelperSkill().getName());
         for (int i = 0; i < getMonsters().size(); i++){
             ArrayList<Double> atkMultiplier = new ArrayList<>();
             atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
@@ -770,16 +816,24 @@ public class Team extends RealmObject implements Parcelable {
         Log.d("Team","atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier);
     }
 
+    public int getTeamCost(){
+        int cost = 0;
+        for (int i = 0; i < monsters.size(); i++){
+            cost += monsters.get(i).getTeamCost();
+        }
+        return cost;
+    }
+
 //    public void updateLeaderSkills() {
-//        if(LeaderSkill.getLeaderSkill(lead.getLeaderSkill()) == null){
-//            leadSkill = LeaderSkill.getLeaderSkill("Blank");
+//        if(LeaderSkill.getLeaderSkillString(lead.getLeaderSkillString()) == null){
+//            leadSkill = LeaderSkill.getLeaderSkillString("Blank");
 //        } else {
-//            leadSkill = LeaderSkill.getLeaderSkill(lead.getLeaderSkill());
+//            leadSkill = LeaderSkill.getLeaderSkillString(lead.getLeaderSkillString());
 //        }
-//        if(LeaderSkill.getLeaderSkill(helper.getLeaderSkill()) == null){
-//            helperSkill = LeaderSkill.getLeaderSkill("Blank");
+//        if(LeaderSkill.getLeaderSkillString(helper.getLeaderSkillString()) == null){
+//            helperSkill = LeaderSkill.getLeaderSkillString("Blank");
 //        } else {
-//            helperSkill = LeaderSkill.getLeaderSkill(helper.getLeaderSkill());
+//            helperSkill = LeaderSkill.getLeaderSkillString(helper.getLeaderSkillString());
 //        }
 //    }
 

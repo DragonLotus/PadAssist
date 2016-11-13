@@ -5,7 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 
 import com.padassist.Adapters.ManageMonsterPagerAdapter;
-import com.padassist.Util.MonsterTabLayoutUtil;
+import com.padassist.BaseFragments.MonsterTabLayoutBase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,7 +15,7 @@ import com.padassist.Util.MonsterTabLayoutUtil;
  * Use the {@link ManageMonsterTabLayoutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutUtil {
+public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
 
     private ManageMonsterPagerAdapter monsterPagerAdapter;
 
@@ -43,6 +43,8 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutUtil {
         if(tabLayout.getSelectedTabPosition() == 0){
             getActivity().setTitle("Saved Monsters");
         } else if(tabLayout.getSelectedTabPosition() == 1) {
+            getActivity().setTitle("Saved Helpers");
+        }else if(tabLayout.getSelectedTabPosition() == 2) {
             getActivity().setTitle("Create Monster");
         }
         viewPager.addOnPageChangeListener(tabLayoutOnPageChangeListener);
@@ -65,9 +67,10 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutUtil {
             if(position == 0){
                 getActivity().setTitle("Saved Monsters");
             } else if(position == 1) {
+                getActivity().setTitle("Saved Helpers");
+            }else if(position == 2) {
                 getActivity().setTitle("Create Monster");
             }
         }
     };
-
 }

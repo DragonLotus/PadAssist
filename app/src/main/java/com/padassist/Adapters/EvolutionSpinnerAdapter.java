@@ -11,7 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.Data.BaseMonster;
+import com.padassist.Data.Monster;
 import com.padassist.R;
+import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
 
@@ -20,24 +22,27 @@ import io.realm.Realm;
 /**
  * Created by DragonLotus on 10/11/2015.
  */
-public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
+public class EvolutionSpinnerAdapter extends ArrayAdapter<BaseMonster> {
 
     private Context mContext;
     private LayoutInflater inflater;
-    private ArrayList<Long> evolutions;
+    private ArrayList<BaseMonster> evolutions;
     private int resourceId;
-    private Realm realm = Realm.getDefaultInstance();
+    private Monster monster, tempMonster;
 
-    public EvolutionSpinnerAdapter(Context context, int resource, int textViewResourceId, ArrayList<Long> evolutions) {
-        super(context, resource, textViewResourceId, evolutions);
+    public EvolutionSpinnerAdapter(Context context, int resource, Monster monster, ArrayList<BaseMonster> evolutions) {
+        super(context, resource, evolutions);
         mContext = context;
         this.evolutions = evolutions;
         this.resourceId = resource;
+        this.monster = monster;
+        tempMonster = new Monster(monster);
     }
+
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (convertView == null){
+        if (convertView == null) {
             inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
@@ -49,19 +54,30 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             viewHolder.rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
             viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
+            viewHolder.monsterHP = (TextView) convertView.findViewById(R.id.monsterHP);
+            viewHolder.monsterATK = (TextView) convertView.findViewById(R.id.monsterATK);
+            viewHolder.monsterRCV = (TextView) convertView.findViewById(R.id.monsterRCV);
+            viewHolder.monsterHPDiff = (TextView) convertView.findViewById(R.id.monsterHPDiff);
+            viewHolder.monsterATKDiff = (TextView) convertView.findViewById(R.id.monsterATKDiff);
+            viewHolder.monsterRCVDiff = (TextView) convertView.findViewById(R.id.monsterRCVDiff);
             convertView.setTag(R.string.viewHolder, viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        viewHolder.monsterName.setText(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getName());
-        viewHolder.monsterPicture.setImageResource(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getMonsterPicture());
-        viewHolder.rarity.setText("" + realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getRarity());
+        viewHolder.monsterName.setText(evolutions.get(position).getName());
+//        viewHolder.monsterPicture.setImageResource(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getMonsterPicture());
+        viewHolder.monsterPicture.setImageBitmap(evolutions.get(position).getMonsterPicture());
+        viewHolder.rarity.setText("" + evolutions.get(position).getRarity());
         viewHolder.rarityStar.setColorFilter(0xFFD4D421);
 
-        if(evolutions.get(position) == 0){
-            if(evolutions.size() == 1){
+        viewHolder.monsterHPDiff.setVisibility(View.GONE);
+        viewHolder.monsterATKDiff.setVisibility(View.GONE);
+        viewHolder.monsterRCVDiff.setVisibility(View.GONE);
+
+        if (evolutions.get(position).getMonsterId() == 0) {
+            if (evolutions.size() == 1) {
                 viewHolder.monsterName.setText("No evolutions available.");
-            }else {
+            } else {
                 viewHolder.monsterName.setText("No evolution selected.");
             }
             viewHolder.monsterName.setPadding(0, 16, 0, 16);
@@ -71,6 +87,9 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
             viewHolder.type1.setVisibility(View.GONE);
             viewHolder.type2.setVisibility(View.GONE);
             viewHolder.type3.setVisibility(View.GONE);
+            viewHolder.monsterHP.setVisibility(View.GONE);
+            viewHolder.monsterATK.setVisibility(View.GONE);
+            viewHolder.monsterRCV.setVisibility(View.GONE);
         } else {
             viewHolder.monsterName.setPadding(0, 0, 0, 0);
             viewHolder.monsterPicture.setVisibility(View.VISIBLE);
@@ -79,137 +98,42 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
             viewHolder.type1.setVisibility(View.VISIBLE);
             viewHolder.type2.setVisibility(View.VISIBLE);
             viewHolder.type3.setVisibility(View.VISIBLE);
+            viewHolder.monsterHP.setVisibility(View.VISIBLE);
+            viewHolder.monsterATK.setVisibility(View.VISIBLE);
+            viewHolder.monsterRCV.setVisibility(View.VISIBLE);
+            tempMonster.setBaseMonster(evolutions.get(position));
+            tempMonster.setCurrentLevel(monster.getCurrentLevel());
+            viewHolder.monsterHP.setText(tempMonster.getTotalHp() + " / ");
+            viewHolder.monsterATK.setText(tempMonster.getTotalAtk() + " / ");
+            viewHolder.monsterRCV.setText("" + tempMonster.getTotalRcv());
         }
 
-        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType1()){
-            case 0:
-                viewHolder.type1.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type1.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type1.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type1.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type1.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type1.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type1.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type1.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type1.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type1.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type1.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type1.setImageResource(R.drawable.type_enhance_material);
-                break;
-            default:
-                viewHolder.type1.setVisibility(View.INVISIBLE);
-                break;
+        if (evolutions.get(position).getType1() >= 0) {
+            viewHolder.type1.setImageResource(ImageResourceUtil.monsterType(evolutions.get(position).getType1()));
+            viewHolder.type1.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.type1.setVisibility(View.GONE);
         }
-        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType2()){
-            case 0:
-                viewHolder.type2.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type2.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type2.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type2.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type2.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type2.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type2.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type2.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type2.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type2.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type2.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type2.setImageResource(R.drawable.type_enhance_material);
-                break;
-            default:
-                viewHolder.type2.setVisibility(View.INVISIBLE);
-                break;
+        if (evolutions.get(position).getType2() >= 0) {
+            viewHolder.type2.setImageResource(ImageResourceUtil.monsterType(evolutions.get(position).getType2()));
+            viewHolder.type2.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.type2.setVisibility(View.GONE);
         }
-        switch(realm.where(BaseMonster.class).equalTo("monsterId",evolutions.get(position)).findFirst().getType3()){
-            case 0:
-                viewHolder.type3.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type3.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type3.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type3.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type3.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type3.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type3.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type3.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type3.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type3.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type3.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type3.setImageResource(R.drawable.type_enhance_material);
-                break;
-            default:
-                viewHolder.type3.setVisibility(View.INVISIBLE);
-                break;
+        if (evolutions.get(position).getType3() >= 0) {
+            viewHolder.type3.setImageResource(ImageResourceUtil.monsterType(evolutions.get(position).getType3()));
+            viewHolder.type3.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.type3.setVisibility(View.GONE);
         }
+        viewHolder.monsterName.setHorizontallyScrolling(true);
+        viewHolder.monsterName.setSelected(true);
         return convertView;
     }
 
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        if (convertView == null){
+        if (convertView == null) {
             inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
@@ -221,20 +145,54 @@ public class EvolutionSpinnerAdapter extends ArrayAdapter<Long> {
             viewHolder.monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             viewHolder.rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
             viewHolder.relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
+            viewHolder.monsterHP = (TextView) convertView.findViewById(R.id.monsterHP);
+            viewHolder.monsterATK = (TextView) convertView.findViewById(R.id.monsterATK);
+            viewHolder.monsterRCV = (TextView) convertView.findViewById(R.id.monsterRCV);
+            viewHolder.monsterHPDiff = (TextView) convertView.findViewById(R.id.monsterHPDiff);
+            viewHolder.monsterATKDiff = (TextView) convertView.findViewById(R.id.monsterATKDiff);
+            viewHolder.monsterRCVDiff = (TextView) convertView.findViewById(R.id.monsterRCVDiff);
             convertView.setTag(R.string.viewHolder, viewHolder);
-        }else {
+        } else {
             viewHolder = (ViewHolder) convertView.getTag(R.string.viewHolder);
         }
-        if (position % 2 == 1) {
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#e8e8e8"));
-        } else {
-            viewHolder.relativeLayout.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        getView(position, convertView, parent);
+        if (evolutions.get(position).getMonsterId() != 0) {
+            viewHolder.monsterHPDiff.setVisibility(View.VISIBLE);
+            viewHolder.monsterATKDiff.setVisibility(View.VISIBLE);
+            viewHolder.monsterRCVDiff.setVisibility(View.VISIBLE);
+            if ((tempMonster.getTotalHp() - monster.getTotalHp()) > 0) {
+                viewHolder.monsterHPDiff.setText("(+" + (tempMonster.getTotalHp() - monster.getTotalHp()) + ") / ");
+            } else if ((tempMonster.getTotalHp() - monster.getTotalHp()) == 0) {
+                viewHolder.monsterHPDiff.setText("(~) / ");
+            } else {
+                viewHolder.monsterHPDiff.setText("(" + (tempMonster.getTotalHp() - monster.getTotalHp()) + ") / ");
+            }
+            if ((tempMonster.getTotalAtk() - monster.getTotalAtk()) > 0) {
+                viewHolder.monsterATKDiff.setText("(+" + (tempMonster.getTotalAtk() - monster.getTotalAtk()) + ") / ");
+            } else if ((tempMonster.getTotalAtk() - monster.getTotalAtk()) == 0) {
+                viewHolder.monsterATKDiff.setText("(~) / ");
+            } else {
+                viewHolder.monsterATKDiff.setText("(" + (tempMonster.getTotalAtk() - monster.getTotalAtk()) + ") / ");
+            }
+            if ((tempMonster.getTotalRcv() - monster.getTotalRcv()) > 0) {
+                viewHolder.monsterRCVDiff.setText("(" + (tempMonster.getTotalRcv() - monster.getTotalRcv()) + ")");
+            } else if ((tempMonster.getTotalRcv() - monster.getTotalRcv()) == 0) {
+                viewHolder.monsterRCVDiff.setText("(~)");
+            } else {
+                viewHolder.monsterRCVDiff.setText("(" + (tempMonster.getTotalRcv() - monster.getTotalRcv()) + ")");
+            }
         }
-        return getView(position, convertView, parent);
+
+        if (position % 2 == 1) {
+            viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
+        } else {
+            viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+        }
+        return convertView;
     }
 
     static class ViewHolder {
-        TextView monsterName, rarity;
+        TextView monsterName, rarity, monsterHP, monsterATK, monsterRCV, monsterHPDiff, monsterATKDiff, monsterRCVDiff;
         ImageView monsterPicture, type1, type2, type3, rarityStar;
         RelativeLayout relativeLayout;
     }

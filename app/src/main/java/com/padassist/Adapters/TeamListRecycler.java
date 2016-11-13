@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.TeamLoadDialogFragment;
 import com.padassist.R;
+import com.padassist.Util.ImageResourceUtil;
 
 import java.util.ArrayList;
 
@@ -45,24 +46,26 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.teamName.setText(teamList.get(position).getTeamName());
+        viewHolder.teamBadge.setImageResource(ImageResourceUtil.teamBadge(teamList.get(position).getTeamBadge()));
         viewHolder.monster1Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(0).getTotalPlus()) + " ");
         viewHolder.monster1Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(0).getCurrentAwakenings()));
-        viewHolder.monster1Picture.setImageResource(teamList.get(position).getMonsters(0).getMonsterPicture());
+//        viewHolder.monster1Picture.setImageResource(teamList.get(position).getMonsters(0).getMonsterPicture());
+        viewHolder.monster1Picture.setImageBitmap(teamList.get(position).getMonsters(0).getMonsterPicture());
         viewHolder.monster2Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(1).getTotalPlus()) + " ");
         viewHolder.monster2Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(1).getCurrentAwakenings()));
-        viewHolder.monster2Picture.setImageResource(teamList.get(position).getMonsters(1).getMonsterPicture());
+        viewHolder.monster2Picture.setImageBitmap(teamList.get(position).getMonsters(1).getMonsterPicture());
         viewHolder.monster3Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(2).getTotalPlus()) + " ");
         viewHolder.monster3Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(2).getCurrentAwakenings()));
-        viewHolder.monster3Picture.setImageResource(teamList.get(position).getMonsters(2).getMonsterPicture());
+        viewHolder.monster3Picture.setImageBitmap(teamList.get(position).getMonsters(2).getMonsterPicture());
         viewHolder.monster4Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(3).getTotalPlus()) + " ");
         viewHolder.monster4Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(3).getCurrentAwakenings()));
-        viewHolder.monster4Picture.setImageResource(teamList.get(position).getMonsters(3).getMonsterPicture());
+        viewHolder.monster4Picture.setImageBitmap(teamList.get(position).getMonsters(3).getMonsterPicture());
         viewHolder.monster5Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(4).getTotalPlus()) + " ");
         viewHolder.monster5Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(4).getCurrentAwakenings()));
-        viewHolder.monster5Picture.setImageResource(teamList.get(position).getMonsters(4).getMonsterPicture());
+        viewHolder.monster5Picture.setImageBitmap(teamList.get(position).getMonsters(4).getMonsterPicture());
         viewHolder.monster6Plus.setText(" +" + Integer.toString(teamList.get(position).getMonsters(5).getTotalPlus()) + " ");
         viewHolder.monster6Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(5).getCurrentAwakenings()));
-        viewHolder.monster6Picture.setImageResource(teamList.get(position).getMonsters(5).getMonsterPicture());
+        viewHolder.monster6Picture.setImageBitmap(teamList.get(position).getMonsters(5).getMonsterPicture());
 
         if (latentList1 == null) {
             latentList1 = new ArrayList<>();
@@ -75,7 +78,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList1.add(1);
             }
         }
-        if (latentList1.size() == 5) {
+        if (latentList1.size() == 6) {
             viewHolder.monster1Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster1Latents.setText("");
             viewHolder.monster1Latents.setVisibility(View.VISIBLE);
@@ -97,7 +100,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList2.add(1);
             }
         }
-        if (latentList2.size() == 5) {
+        if (latentList2.size() == 6) {
             viewHolder.monster2Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster2Latents.setText("");
             viewHolder.monster2Latents.setVisibility(View.VISIBLE);
@@ -119,7 +122,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList3.add(1);
             }
         }
-        if (latentList3.size() == 5) {
+        if (latentList3.size() == 6) {
             viewHolder.monster3Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster3Latents.setText("");
             viewHolder.monster3Latents.setVisibility(View.VISIBLE);
@@ -141,7 +144,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList4.add(1);
             }
         }
-        if (latentList4.size() == 5) {
+        if (latentList4.size() == 6) {
             viewHolder.monster4Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster4Latents.setText("");
             viewHolder.monster4Latents.setVisibility(View.VISIBLE);
@@ -163,7 +166,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList5.add(1);
             }
         }
-        if (latentList5.size() == 5) {
+        if (latentList5.size() == 6) {
             viewHolder.monster5Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster5Latents.setText("");
             viewHolder.monster5Latents.setVisibility(View.VISIBLE);
@@ -185,7 +188,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
                 latentList6.add(1);
             }
         }
-        if (latentList6.size() == 5) {
+        if (latentList6.size() == 6) {
             viewHolder.monster6Latents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monster6Latents.setText("");
             viewHolder.monster6Latents.setVisibility(View.VISIBLE);
@@ -318,12 +321,15 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             viewHolder.monster6Awakenings.setVisibility(View.VISIBLE);
         }
 
+        viewHolder.teamName.setHorizontallyScrolling(true);
+        viewHolder.teamName.setSelected(true);
+
         viewHolder.itemView.setOnClickListener(teamListOnClickListener);
         viewHolder.itemView.setTag(R.string.index, position);
         if (position % 2 == 1) {
-            viewHolder.itemView.setBackgroundColor(Color.parseColor("#e8e8e8"));
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
         } else {
-            viewHolder.itemView.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
     }
 
@@ -339,7 +345,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView teamName, monster1Plus, monster1Awakenings, monster2Plus, monster2Awakenings, monster3Plus, monster3Awakenings, monster4Plus, monster4Awakenings, monster5Plus, monster5Awakenings, monster6Plus, monster6Awakenings, monster1Latents, monster2Latents, monster3Latents, monster4Latents, monster5Latents, monster6Latents;
-        ImageView monster1Picture, monster2Picture, monster3Picture, monster4Picture, monster5Picture, monster6Picture, favorite, favoriteOutline;
+        ImageView monster1Picture, monster2Picture, monster3Picture, monster4Picture, monster5Picture, monster6Picture, favorite, favoriteOutline, teamBadge;
         RelativeLayout relativeLayout;
 
         public ViewHolder(View convertView) {
@@ -372,6 +378,7 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             favorite = (ImageView) convertView.findViewById(R.id.favorite);
             favoriteOutline = (ImageView) convertView.findViewById(R.id.favoriteOutline);
             relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
+            teamBadge = (ImageView) convertView.findViewById(R.id.teamBadge);
         }
     }
 

@@ -69,6 +69,7 @@ public class LeaderSkill extends RealmObject {
     private RealmLeaderSkillType rcvSkillType;
 
     private RealmList<RealmInt> hpPercent;
+    private int minimumMatch;
 //    private double hpMultiplier;
 //    private double atkElement1Multiplier;
 //    private double atkElement2Multiplier;
@@ -391,6 +392,11 @@ public class LeaderSkill extends RealmObject {
         this.rcvSkillTypeInt = rcvSkillTypeInt;
     }
 
+    public int getMinimumMatch() {
+        return minimumMatch;
+    }
 
-
+    public void setMinimumMatch(int minimumMatch) {
+        this.minimumMatch = minimumMatch;
+    }
 }

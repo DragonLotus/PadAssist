@@ -20,7 +20,7 @@ public class LoadTeamConfirmationDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-        alertDialogBuilder.setTitle("Load Team?");
+        alertDialogBuilder.setTitle("Load another Team?");
         alertDialogBuilder.setMessage("Current changes will not be saved.");
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

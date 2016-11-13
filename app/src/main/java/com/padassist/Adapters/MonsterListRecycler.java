@@ -1,12 +1,7 @@
 package com.padassist.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +13,8 @@ import com.padassist.Data.Monster;
 import com.padassist.Fragments.MonsterPageFragment;
 import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.MainActivity;
-import com.padassist.MonsterTabLayoutActivity;
 import com.padassist.R;
+import com.padassist.Util.ImageResourceUtil;
 import com.padassist.Util.Singleton;
 
 import java.util.ArrayList;
@@ -34,7 +29,6 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> latentList;
-    private Realm realm = Realm.getDefaultInstance();
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -78,7 +72,8 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+//        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolder.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
         viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()) + " / ");
         viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));
         viewHolder.monsterHP.setText(Integer.toString(monsterList.get(position).getTotalHp()) + " / ");
@@ -104,7 +99,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
                 latentList.add(1);
             }
         }
-        if (latentList.size() == 5) {
+        if (latentList.size() == 6) {
             viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
             viewHolder.monsterLatents.setText("");
             viewHolder.monsterLatents.setVisibility(View.VISIBLE);
@@ -166,184 +161,35 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             viewHolder.type2.setLayoutParams(params);
             viewHolder.type2.setVisibility(View.VISIBLE);
         }
-
-        switch (monsterList.get(position).getType1()) {
-            case 0:
-                viewHolder.type1.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_enhance_material);
-                break;
-            case 15:
-                viewHolder.type1.setVisibility(View.VISIBLE);
-                viewHolder.type1.setImageResource(R.drawable.type_vendor);
-                break;
-            default:
-                viewHolder.type1.setVisibility(View.GONE);
-                break;
+        if(monsterList.get(position).getType1() >= 0){
+            viewHolder.type1.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType1()));
+            viewHolder.type1.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.type1.setVisibility(View.GONE);
         }
-        switch (monsterList.get(position).getType2()) {
-            case 0:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type2.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_enhance_material);
-                break;
-            case 15:
-                viewHolder.type2.setVisibility(View.VISIBLE);
-                viewHolder.type2.setImageResource(R.drawable.type_vendor);
-                break;
-            default:
-                viewHolder.type2.setVisibility(View.GONE);
-                break;
+        if(monsterList.get(position).getType2() >= 0){
+            viewHolder.type2.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType2()));
+            viewHolder.type2.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.type2.setVisibility(View.GONE);
         }
-        switch (monsterList.get(position).getType3()) {
-            case 0:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_evo_material);
-                break;
-            case 1:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_balanced);
-                break;
-            case 2:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_physical);
-                break;
-            case 3:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_healer);
-                break;
-            case 4:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_dragon);
-                break;
-            case 5:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_god);
-                break;
-            case 6:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_attacker);
-                break;
-            case 7:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_devil);
-                break;
-            case 8:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_machine);
-                break;
-            case 12:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_awoken);
-                break;
-            case 13:
-                viewHolder.type3.setVisibility(View.INVISIBLE);
-                break;
-            case 14:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_enhance_material);
-                break;
-            case 15:
-                viewHolder.type3.setVisibility(View.VISIBLE);
-                viewHolder.type3.setImageResource(R.drawable.type_vendor);
-                break;
-            default:
-                viewHolder.type3.setVisibility(View.GONE);
-                break;
+        if(monsterList.get(position).getType3() >= 0){
+            viewHolder.type3.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType3()));
+            viewHolder.type3.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.type3.setVisibility(View.GONE);
         }
+        viewHolder.monsterName.setHorizontallyScrolling(true);
         viewHolder.monsterName.setSelected(true);
 
         viewHolder.itemView.setOnClickListener(onItemClickListener);
         viewHolder.itemView.setOnLongClickListener(onItemLongClickListener);
         viewHolder.itemView.setTag(viewHolder);
+
         if (position % 2 == 1) {
-            viewHolder.itemView.setBackgroundColor(Color.parseColor("#e8e8e8"));
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
         } else {
-            viewHolder.itemView.setBackgroundColor(Color.parseColor("#FAFAFA"));
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
     }
 

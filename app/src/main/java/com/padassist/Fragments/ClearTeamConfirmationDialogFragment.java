@@ -25,6 +25,7 @@ public class ClearTeamConfirmationDialogFragment extends DialogFragment {
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 reset.resetLayout();
+                dialog.dismiss();
             }
         });
         alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {

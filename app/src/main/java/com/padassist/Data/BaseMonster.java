@@ -1,15 +1,19 @@
 package com.padassist.Data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
 import com.padassist.R;
+import com.padassist.Util.DamageCalculationUtil;
+import com.padassist.Util.Singleton;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -24,6 +28,8 @@ import io.realm.annotations.PrimaryKey;
 public class BaseMonster extends RealmObject implements Parcelable {
     @PrimaryKey
     private long monsterId;
+    @Index
+    private String monsterIdString;
 
     private long monsterNumber;
 
@@ -46,6 +52,12 @@ public class BaseMonster extends RealmObject implements Parcelable {
     private int type2;
 
     private int type3;
+    @Index
+    private String type1String;
+    @Index
+    private String type2String;
+    @Index
+    private String type3String;
 
     private int maxAwakenings;
 
@@ -58,10 +70,14 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //    private RealmElement element2;
 
     private RealmList<RealmInt> awokenSkills;
+    @Index
+    private String activeSkillString;
+    @Index
+    private String leaderSkillString;
 
-    private String activeSkill;
+    private ActiveSkill activeSkill;
 
-    private String leaderSkill;
+    private LeaderSkill leaderSkill;
 
     private String name;
 
@@ -100,20 +116,46 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //        element1 = new RealmElement(0);
 //        element2 = new RealmElement(0);
         name = "Empty";
-        leaderSkill = "Blank";
+        leaderSkillString = "Blank";
+        activeSkillString = "Blank";
         type1 = -1;
         type2 = -1;
         type3 = -1;
         awokenSkills = new RealmList<>();
         evolutions = new RealmList<>();
+        teamCost = 0;
     }
 
-    public String getActiveSkill() {
-        return activeSkill;
+    public double getWeightedBase(){
+        if(Singleton.getInstance().isCoopEnable()){
+            return (double)getHpMin() * 1.5 / 10 + (double)getAtkMin() * 1.5 / 5 + (double)getRcvMin() * 1.5 / 3;
+        } else {
+            return (double)getHpMin() / 10 + (double)getAtkMin() / 5 + (double)getRcvMin() / 3;
+        }
     }
 
-    public void setActiveSkill(String activeSkill) {
-        this.activeSkill = activeSkill;
+    public String getWeightedBaseString(){
+        return format.format(getWeightedBase());
+    }
+
+    public double getWeightedTotal(){
+        if(Singleton.getInstance().isCoopEnable()){
+            return (double)getHpMax() * 1.5 / 10 + (double)getAtkMax() * 1.5 / 5 + (double)getRcvMax() * 1.5 / 3;
+        } else {
+            return (double)getHpMax() / 10 + (double)getAtkMax() / 5 + (double)getRcvMax() / 3;
+        }
+    }
+
+    public String getWeightedTotalString(){
+        return format.format(getWeightedTotal());
+    }
+
+    public String getActiveSkillString() {
+        return activeSkillString;
+    }
+
+    public void setActiveSkillString(String activeSkillString) {
+        this.activeSkillString = activeSkillString;
     }
 
     public int getAtkMax() {
@@ -231,11 +273,27 @@ public class BaseMonster extends RealmObject implements Parcelable {
         this.hpScale = hpScale;
     }
 
-    public String getLeaderSkill() {
+    public String getLeaderSkillString() {
+        return leaderSkillString;
+    }
+
+    public void setLeaderSkillString(String leaderSkillString) {
+        this.leaderSkillString = leaderSkillString;
+    }
+
+    public ActiveSkill getActiveSkill() {
+        return activeSkill;
+    }
+
+    public void setActiveSkill(ActiveSkill activeSkill) {
+        this.activeSkill = activeSkill;
+    }
+
+    public LeaderSkill getLeaderSkill() {
         return leaderSkill;
     }
 
-    public void setLeaderSkill(String leaderSkill) {
+    public void setLeaderSkill(LeaderSkill leaderSkill) {
         this.leaderSkill = leaderSkill;
     }
 
@@ -263,19 +321,25 @@ public class BaseMonster extends RealmObject implements Parcelable {
         this.monsterId = monsterId;
     }
 
-    public int getMonsterPicture() {
-        try {
-            String picture = "monster_" + monsterId;
-            Class res = R.drawable.class;
-            Field field = res.getField(picture);
-            int drawableId = field.getInt(null);
-            return drawableId;
-        } catch (NoSuchFieldException e) {
-            Log.e("drawableId", "Unable to get drawable id " + monsterId);
-        } catch (IllegalAccessException e) {
-            Log.e("IllegalTag", "Illegal Access Exception");
-        }
-        return R.drawable.monster_0;
+    public Bitmap getMonsterPicture() {
+
+        File imgFile = new File(com.padassist.Util.Singleton.getInstance().getContext().getFilesDir(), "monster_images/monster_" + monsterId + ".png");
+        if(imgFile.exists()){
+            return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        } else
+
+//        try {
+//            String picture = "monster_" + monsterId;
+//            Class res = R.drawable.class;
+//            Field field = res.getField(picture);
+//            int drawableId = field.getInt(null);
+//            return drawableId;
+//        } catch (NoSuchFieldException e) {
+//            Log.e("drawableId", "Unable to get drawable id " + monsterId);
+//        } catch (IllegalAccessException e) {
+//            Log.e("IllegalTag", "Illegal Access Exception");
+//        }
+        return BitmapFactory.decodeResource(com.padassist.Util.Singleton.getInstance().getContext().getResources(), R.drawable.monster_0);
     }
 
 //    public void setMonsterPicture(int monsterPicture) {
@@ -339,87 +403,35 @@ public class BaseMonster extends RealmObject implements Parcelable {
     }
 
     public String getType1String() {
-        if (type1 == 0) {
-            return "Evo Material";
-        } else if (type1 == 1) {
-            return "Balanced";
-        } else if (type1 == 2) {
-            return "Physical";
-        } else if (type1 == 3) {
-            return "Healer";
-        } else if (type1 == 4) {
-            return "Dragon";
-        } else if (type1 == 5) {
-            return "God";
-        } else if (type1 == 6) {
-            return "Attacker";
-        } else if (type1 == 7) {
-            return "Devil";
-        } else if (type1 == 8) {
-            return "Machine";
-        } else if (type1 == 12) {
-            return "Awoken Skill Material";
-        } else if (type1 == 13) {
-            return "Protected";
-        } else if (type1 == 14) {
-            return "Enhance Material";
-        } else return "";
+        return type1String;
     }
 
-    public String getType2String() {
-        if (type2 == 0) {
-            return "/Evo Material";
-        } else if (type2 == 1) {
-            return "/Balanced";
-        } else if (type2 == 2) {
-            return "/Physical";
-        } else if (type2 == 3) {
-            return "/Healer";
-        } else if (type2 == 4) {
-            return "/Dragon";
-        } else if (type2 == 5) {
-            return "/God";
-        } else if (type2 == 6) {
-            return "/Attacker";
-        } else if (type2 == 7) {
-            return "/Devil";
-        } else if (type2 == 8) {
-            return "/Machine";
-        } else if (type2 == 12) {
-            return "/Awoken Skill Material";
-        } else if (type2 == 13) {
-            return "/Protected";
-        } else if (type2 == 14) {
-            return "/Enhance Material";
-        } else return "";
+    public void setType1String(String type1String) {
+        this.type1String = type1String;
     }
 
     public String getType3String() {
-        if (type3 == 0) {
-            return "/Evo Material";
-        } else if (type3 == 1) {
-            return "/Balanced";
-        } else if (type3 == 2) {
-            return "/Physical";
-        } else if (type3 == 3) {
-            return "/Healer";
-        } else if (type3 == 4) {
-            return "/Dragon";
-        } else if (type3 == 5) {
-            return "/God";
-        } else if (type3 == 6) {
-            return "/Attacker";
-        } else if (type3 == 7) {
-            return "/Devil";
-        } else if (type3 == 8) {
-            return "/Machine";
-        } else if (type3 == 12) {
-            return "/Awoken Skill Material";
-        } else if (type3 == 13) {
-            return "/Protected";
-        } else if (type3 == 14) {
-            return "/Enhance Material";
-        } else return "";
+        return type3String;
+    }
+
+    public void setType3String(String type3String) {
+        this.type3String = type3String;
+    }
+
+    public String getType2String() {
+        return type2String;
+    }
+
+    public void setType2String(String type2String) {
+        this.type2String = type2String;
+    }
+
+    public String getMonsterIdString() {
+        return monsterIdString;
+    }
+
+    public void setMonsterIdString(String monsterIdString) {
+        this.monsterIdString = monsterIdString;
     }
 
     public int getXpCurve() {
@@ -456,13 +468,13 @@ public class BaseMonster extends RealmObject implements Parcelable {
 
     public ArrayList<Integer> getTypes() {
         ArrayList<Integer> types = new ArrayList<>();
-        if(type1 >= 0){
+        if (type1 >= 0) {
             types.add(type1);
         }
-        if(type2 >= 0){
+        if (type2 >= 0) {
             types.add(type2);
         }
-        if(type3 >= 0){
+        if (type3 >= 0) {
             types.add(type3);
         }
         return types;
@@ -492,8 +504,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //        element1 = (Element) source.readSerializable();
 //        element2 = (Element) source.readSerializable();
 //        awokenSkills = source.readArrayList(Integer.class.getClassLoader());
-        activeSkill = source.readString();
-        leaderSkill = source.readString();
+        activeSkillString = source.readString();
+        leaderSkillString = source.readString();
         name = source.readString();
         atkScale = source.readDouble();
         rcvScale = source.readDouble();
@@ -527,8 +539,8 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //        dest.writeSerializable(element1);
 //        dest.writeSerializable(element2);
 //        dest.writeList(awokenSkills);
-        dest.writeString(activeSkill);
-        dest.writeString(leaderSkill);
+        dest.writeString(activeSkillString);
+        dest.writeString(leaderSkillString);
         dest.writeString(name);
         dest.writeDouble(atkScale);
         dest.writeDouble(rcvScale);

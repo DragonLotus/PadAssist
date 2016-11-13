@@ -7,7 +7,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/background">
 
     <LinearLayout
         android:id="@+id/orbsLinearLayout"
@@ -177,7 +178,7 @@
         android:layout_alignBottom="@+id/additionalComboValue"
         android:layout_alignTop="@+id/additionalComboValue"
         android:gravity="center_vertical"
-        android:text="Additional Combos: "
+        android:text="Total Combos: "
         android:textSize="16dp" />
 
     <EditText
@@ -195,7 +196,7 @@
         android:id="@+id/ignoreEnemy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/calculateButton"
+        android:layout_above="@+id/buttonHolder2"
         android:layout_alignBottom="@+id/additionalComboValue"
         android:layout_alignTop="@+id/additionalComboValue"
         android:layout_toLeftOf="@+id/ignoreEnemyCheckBox"

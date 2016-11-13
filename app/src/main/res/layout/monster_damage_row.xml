@@ -8,7 +8,15 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/monster_1218" />
+        android:src="@drawable/monster_0" />
+
+    <ImageView
+        android:id="@+id/monsterOverlay"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/monster_overlay"
+        android:visibility="gone"/>
 
     <com.padassist.Graphics.TextStroke
         android:id="@+id/monsterPlus"

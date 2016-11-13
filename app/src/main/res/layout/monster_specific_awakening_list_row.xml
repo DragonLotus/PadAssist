@@ -7,7 +7,7 @@
         android:id="@+id/monsterPicture"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/monster_1218"
+        android:src="@drawable/monster_0"
         android:layout_marginRight="4dp"/>
 
     <com.padassist.Graphics.ExpandableHeightGridView
@@ -15,7 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/monsterPicture"
-        android:layout_alignBottom="@+id/monsterPicture"
         android:layout_toRightOf="@+id/monsterPicture"
         android:layout_alignParentRight="true"
         android:numColumns="6"

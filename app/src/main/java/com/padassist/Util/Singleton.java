@@ -19,14 +19,23 @@ public class Singleton {
     private int boardSize = 1;
     private ArrayList<Element> extraElementMultiplier = new ArrayList<>();
     private ArrayList<Integer> extraTypeMultiplier = new ArrayList<>();
+    private ArrayList<Element> filterElement1 = new ArrayList<>();
+    private ArrayList<Element> filterElement2 = new ArrayList<>();
+    private ArrayList<Integer> filterTypes = new ArrayList<>();
+    private ArrayList<Integer> filterAwakenings = new ArrayList<>();
+    private ArrayList<Integer> filterLatents = new ArrayList<>();
     private double extraDamageMultiplier = 2;
     private boolean enableMultiplier = false;
     private boolean coopEnable = false;
     private boolean hasAwakenings = true;
     private boolean activeSkillUsed = false;
     private boolean heartCarryOver = false;
+    private boolean meetsFilterRequirements = false;
+    private boolean hasLeaderSkill = true;
+    private boolean hasHelperSkill = true;
 
-    private Context _context;
+    private Context context;
+
     public static Singleton getInstance() {
         if(instance == null){
             instance = new Singleton();
@@ -87,12 +96,12 @@ public class Singleton {
 
     public Context getContext()
     {
-        return _context;
+        return context;
     }
 
     public void setContext(Context context)
     {
-        this._context = context;
+        this.context = context;
     }
 
     public ArrayList<Element> getExtraElementMultiplier() {
@@ -157,5 +166,69 @@ public class Singleton {
 
     public void setHeartCarryOver(boolean heartCarryOver) {
         this.heartCarryOver = heartCarryOver;
+    }
+
+    public ArrayList<Integer> getFilterAwakenings() {
+        return filterAwakenings;
+    }
+
+    public void setFilterAwakenings(ArrayList<Integer> filterAwakenings) {
+        this.filterAwakenings = filterAwakenings;
+    }
+
+    public ArrayList<Element> getFilterElement1() {
+        return filterElement1;
+    }
+
+    public void setFilterElement1(ArrayList<Element> filterElement1) {
+        this.filterElement1 = filterElement1;
+    }
+
+    public ArrayList<Element> getFilterElement2() {
+        return filterElement2;
+    }
+
+    public void setFilterElement2(ArrayList<Element> filterElement2) {
+        this.filterElement2 = filterElement2;
+    }
+
+    public ArrayList<Integer> getFilterTypes() {
+        return filterTypes;
+    }
+
+    public void setFilterTypes(ArrayList<Integer> filterTypes) {
+        this.filterTypes = filterTypes;
+    }
+
+    public boolean isMeetsFilterRequirements() {
+        return meetsFilterRequirements;
+    }
+
+    public void setMeetsFilterRequirements(boolean meetsFilterRequirements) {
+        this.meetsFilterRequirements = meetsFilterRequirements;
+    }
+
+    public ArrayList<Integer> getFilterLatents() {
+        return filterLatents;
+    }
+
+    public void setFilterLatents(ArrayList<Integer> filterLatents) {
+        this.filterLatents = filterLatents;
+    }
+
+    public boolean hasHelperSkill() {
+        return hasHelperSkill;
+    }
+
+    public void setHasHelperSkill(boolean hasHelperSkill) {
+        this.hasHelperSkill = hasHelperSkill;
+    }
+
+    public boolean hasLeaderSkill() {
+        return hasLeaderSkill;
+    }
+
+    public void setHasLeaderSkill(boolean hasLeaderSkill) {
+        this.hasLeaderSkill = hasLeaderSkill;
     }
 }

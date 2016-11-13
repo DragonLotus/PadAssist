@@ -1,19 +1,16 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
 import com.padassist.Adapters.SaveMonsterListRecycler;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
-import com.padassist.Graphics.FastScroller;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.SaveMonsterListUtil;
-import com.padassist.Util.Singleton;
+import com.padassist.BaseFragments.SaveMonsterListBase;
 
 import java.util.ArrayList;
 
@@ -21,15 +18,16 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
+public class ManageSaveMonsterListFragment extends SaveMonsterListBase {
     public static final String TAG = ManageSaveMonsterListFragment.class.getSimpleName();
     private Toast toast;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
 
-    public static ManageSaveMonsterListFragment newInstance() {
+    public static ManageSaveMonsterListFragment newInstance(boolean helper) {
         ManageSaveMonsterListFragment fragment = new ManageSaveMonsterListFragment();
         Bundle args = new Bundle();
+        args.putBoolean("helper", helper);
         fragment.setArguments(args);
         return fragment;
     }
@@ -42,10 +40,14 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
         }
-
-        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, deleteOnClickListener);
+        if (isGrid) {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
+        } else {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        }
+        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener,
+                monsterListOnLongClickListener, deleteOnClickListener, isGrid, clearTextFocus);
         monsterListView.setAdapter(saveMonsterListRecycler);
-        monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
     @Override
@@ -55,19 +57,17 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListUtil {
         } else {
             monsterListAll.clear();
         }
-        RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
-        for(int i = 0; i < results.size(); i++){
-            if(results.get(i).getMonsterId() != 0){
-                monsterListAll.add(realm.copyFromRealm(results.get(i)));
-            }
+        if (getArguments() != null) {
+            helper = getArguments().getBoolean("helper");
         }
+            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).findAll());
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position)), MonsterTabLayoutFragment.TAG, "good");
+            ((MainActivity) getActivity()).switchFragment(ManageMonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId()), MonsterTabLayoutFragment.TAG, "good");
         }
     };
 

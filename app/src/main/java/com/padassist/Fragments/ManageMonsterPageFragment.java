@@ -1,28 +1,21 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.deser.Deserializers;
-import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
-import com.padassist.R;
-import com.padassist.Util.MonsterPageUtil;
-import com.padassist.Util.Singleton;
+import com.padassist.BaseFragments.MonsterPageBase;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ManageMonsterPageFragment extends MonsterPageUtil {
+public class ManageMonsterPageFragment extends MonsterPageBase {
     public static final String TAG = ManageMonsterPageFragment.class.getSimpleName();
 
     private Toast toast;
@@ -30,11 +23,11 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
-    public static ManageMonsterPageFragment newInstance(Monster monster) {
+    public static ManageMonsterPageFragment newInstance(long monsterId) {
         ManageMonsterPageFragment fragment = new ManageMonsterPageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
-        args.putParcelable("monster", monster);
+        args.putLong("monsterId", monsterId);
         return fragment;
     }
 
@@ -46,7 +39,7 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            monster = getArguments().getParcelable("monster");
+            monsterId = getArguments().getLong("monsterId");
         }
         monsterRemove.setOnClickListener(maxButtons);
 
@@ -54,8 +47,15 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
 
     public Monster getMonster(){
         if(getArguments() != null){
-            return getArguments().getParcelable("monster");
+//            return getArguments().getParcelable("monster");
+            monsterId = getArguments().getLong("monsterId");
+            Log.d("ManageMonsterPage", "monsterId is: " + monsterId);
+            Monster monster = realm.where(Monster.class).equalTo("monsterId", monsterId).findFirst();
+            monster = realm.copyFromRealm(monster);
+            Log.d("ManageMonsterPage", "monster is: " + monster);
+            return monster;
         } else return null;
+
     }
 
     private View.OnClickListener maxButtons = new View.OnClickListener() {
@@ -100,17 +100,7 @@ public class ManageMonsterPageFragment extends MonsterPageUtil {
 
         @Override
         public void evolveMonster(long baseMonsterId) {
-            if(baseMonsterId != 0){
-                monster.setBaseMonster(realm.where(BaseMonster.class).equalTo("monsterId", baseMonsterId).findFirst());
-                showAwakenings();
-                grayAwakenings();
-                monsterStats();
-                setImageViews();
-                rarity.setText("" + monster.getRarity());
-                monsterName.setText(monster.getName());
-                monsterPicture.setImageResource(monster.getMonsterPicture());
-                awakeningsCheck();
-            }
+            evolveMonsterBase(baseMonsterId);
         }
     };
 

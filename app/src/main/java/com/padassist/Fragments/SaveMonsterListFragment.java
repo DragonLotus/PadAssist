@@ -1,69 +1,32 @@
 package com.padassist.Fragments;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Adapters.SaveMonsterListRecycler;
-import com.padassist.Data.BaseMonster;
-import com.padassist.Data.Element;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.FastScroller;
 import com.padassist.MainActivity;
 import com.padassist.R;
-import com.padassist.Util.MonsterAlphabeticalComparator;
-import com.padassist.Util.MonsterAtkComparator;
-import com.padassist.Util.MonsterAwakeningComparator;
-import com.padassist.Util.MonsterElement1Comparator;
-import com.padassist.Util.MonsterElement2Comparator;
-import com.padassist.Util.MonsterFavoriteComparator;
-import com.padassist.Util.MonsterHpComparator;
-import com.padassist.Util.MonsterLevelComparator;
-import com.padassist.Util.MonsterNumberComparator;
-import com.padassist.Util.MonsterPlusAtkComparator;
-import com.padassist.Util.MonsterPlusComparator;
-import com.padassist.Util.MonsterPlusHpComparator;
-import com.padassist.Util.MonsterPlusRcvComparator;
-import com.padassist.Util.MonsterRarityComparator;
-import com.padassist.Util.MonsterRcvComparator;
-import com.padassist.Util.MonsterType1Comparator;
-import com.padassist.Util.MonsterType2Comparator;
-import com.padassist.Util.MonsterType3Comparator;
-import com.padassist.Util.SaveMonsterListUtil;
-import com.padassist.Util.Singleton;
+import com.padassist.BaseFragments.SaveMonsterListBase;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class SaveMonsterListFragment extends SaveMonsterListUtil {
+public class SaveMonsterListFragment extends SaveMonsterListBase {
     public static final String TAG = SaveMonsterListFragment.class.getSimpleName();
     private Toast toast;
     private boolean replaceAll;
     private long replaceMonsterId;
-    private int monsterPosition;
-    private Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
+    private int monsterPosition;
 
     private FastScroller fastScroller;
 
@@ -84,14 +47,21 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, deleteOnClickListener);
+        if (isGrid) {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
+        } else {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        }
+
+        saveMonsterListRecycler = new SaveMonsterListRecycler(getContext(), monsterList, monsterListView, monsterListOnClickListener,
+                monsterListOnLongClickListener, deleteOnClickListener, isGrid, clearTextFocus);
         monsterListView.setAdapter(saveMonsterListRecycler);
-        monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
     @Override
     public void onActivityCreatedSpecific() {
-        if(monsterListAll == null){
+        if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }
         if (getArguments() != null) {
@@ -100,19 +70,12 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
             monsterPosition = getArguments().getInt("monsterPosition");
         }
         if (monsterPosition == 5) {
-            monsterListAll.clear();
-            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", true).findAll();
-            for(int i = 0; i < results.size(); i++) {
-                monsterListAll.add(realm.copyFromRealm(results.get(i)));
-            }
-            monsterListAll.add(monsterZero);
+            helper = true;
         } else {
-            monsterListAll.clear();
-            RealmResults<Monster> results = realm.where(Monster.class).equalTo("helper", false).findAll();
-            for(int i = 0; i < results.size(); i++) {
-                monsterListAll.add(realm.copyFromRealm(results.get(i)));
-            }
+            helper = false;
         }
+        monsterListAll.clear();
+        monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).findAll());
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
@@ -131,9 +94,9 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     ArrayList<Team> teamList = new ArrayList<>();
                     RealmResults results = realm.where(Team.class).findAll();
                     teamList.addAll(results);
-                    for(int i = 0; i < teamList.size(); i++){
-                        for(int j = 0; j < teamList.get(i).getMonsters().size(); j++){
-                            if(teamList.get(i).getMonsters().get(j).getMonsterId() == replaceMonsterId){
+                    for (int i = 0; i < teamList.size(); i++) {
+                        for (int j = 0; j < teamList.get(i).getMonsters().size(); j++) {
+                            if (teamList.get(i).getMonsters().get(j).getMonsterId() == replaceMonsterId) {
                                 realm.beginTransaction();
                                 teamList.get(i).setMonsters(j, saveMonsterListRecycler.getItem(position));
                                 realm.commitTransaction();
@@ -142,8 +105,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     }
                 } else {
                     realm.beginTransaction();
-                    Log.d("SaveMonsterList", "Is team valid: " + newTeam.isValid());
-                    Log.d("SaveMonsterList", "Is monster valid: " + saveMonsterListRecycler.getItem(position).isValid());
                     Monster monster = realm.copyToRealmOrUpdate(saveMonsterListRecycler.getItem(position));
                     switch (monsterPosition) {
                         case 0:
@@ -182,7 +143,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
 //                getActivity().finish();
 
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
+                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
             }
         }
     };
@@ -190,7 +151,7 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
     private View.OnLongClickListener monsterListOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            int position = (int) v.getTag(R.string.index);
+            int position =  ((RecyclerView.ViewHolder)v.getTag()).getAdapterPosition();
             Team newTeam = realm.where(Team.class).equalTo("teamId", 0).findFirst();
             if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && monsterPosition == 0) {
                 if (toast != null) {
@@ -203,9 +164,9 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     ArrayList<Team> teamList = new ArrayList<>();
                     RealmResults results = realm.where(Team.class).findAll();
                     teamList.addAll(results);
-                    for(int i = 0; i < teamList.size(); i++){
-                        for(int j = 0; j < teamList.get(i).getMonsters().size(); j++){
-                            if(teamList.get(i).getMonsters().get(j).getMonsterId() == replaceMonsterId){
+                    for (int i = 0; i < teamList.size(); i++) {
+                        for (int j = 0; j < teamList.get(i).getMonsters().size(); j++) {
+                            if (teamList.get(i).getMonsters().get(j).getMonsterId() == replaceMonsterId) {
                                 realm.beginTransaction();
                                 teamList.get(i).setMonsters(j, saveMonsterListRecycler.getItem(position));
                                 realm.commitTransaction();
@@ -214,8 +175,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     }
                 } else {
                     realm.beginTransaction();
-                    Log.d("SaveMonsterList", "Is team valid: " + newTeam.isValid());
-                    Log.d("SaveMonsterList", "Is monster valid: " + saveMonsterListRecycler.getItem(position).isValid());
                     Monster monster = realm.copyToRealmOrUpdate(saveMonsterListRecycler.getItem(position));
                     switch (monsterPosition) {
                         case 0:
@@ -240,7 +199,6 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
                     realm.commitTransaction();
                 }
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
             }
             return true;
         }
@@ -267,14 +225,12 @@ public class SaveMonsterListFragment extends SaveMonsterListUtil {
             RealmResults results = realm.where(Team.class).findAll();
             teamList.addAll(results);
             final long monsterId = saveMonsterListRecycler.getItem(position).getMonsterId();
-            Log.d("SaveMonsterList", "teamlist is: " + teamList);
             for (int i = 0; i < teamList.size(); i++) {
                 for (int j = 0; j < teamList.get(i).getMonsters().size(); j++) {
                     if (teamList.get(i).getMonsters().get(j).getMonsterId() == monsterId) {
                         realm.beginTransaction();
                         teamList.get(i).setMonsters(j, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
                         realm.commitTransaction();
-                        Log.d("SaveMonsterList", "team " + i + " monsters is: " + teamList.get(i).getMonsters());
                     }
                 }
             }

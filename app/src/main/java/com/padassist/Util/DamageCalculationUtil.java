@@ -8,6 +8,7 @@ import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
+import com.padassist.Fragments.DisclaimerDialogFragment;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -103,7 +104,13 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        return returnDamage;
+        if(team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()){
+            return (int)(returnDamage * 1.05);
+        } else if(team.getTeamBadge() == 14 && !Singleton.getInstance().isCoopEnable()){
+            return (int)(returnDamage * 1.15);
+        } else {
+            return returnDamage;
+        }
     }
 
     public static double leadOtherMultiplier2(double damage, Monster monster, Team team, int position) {
@@ -132,7 +139,11 @@ public class DamageCalculationUtil {
                 }
             }
         }
-        return returnDamage;
+        if(team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()){
+            return (int)(returnDamage * 1.05);
+        } else {
+            return returnDamage;
+        }
     }
 
     public static double monsterElement1DamageEnemy(Team team, Monster monster, int position, int combos, Enemy enemy) {
@@ -186,72 +197,7 @@ public class DamageCalculationUtil {
                 damage = damage * 2;
             }
         }
-        if(monster.getKillerAwakenings().size() != 0){
-            for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
-                switch(monster.getKillerAwakenings().get(i).getValue()){
-                    case 31:
-                        if(enemy.getTypes().contains(4)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 32:
-                        if(enemy.getTypes().contains(5)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 33:
-                        if(enemy.getTypes().contains(7)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 34:
-                        if(enemy.getTypes().contains(8)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 35:
-                        if(enemy.getTypes().contains(6)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 36:
-                        if(enemy.getTypes().contains(2)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 37:
-                        if(enemy.getTypes().contains(3)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 38:
-                        if(enemy.getTypes().contains(1)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 39:
-                        if(enemy.getTypes().contains(12)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 40:
-                        if(enemy.getTypes().contains(14)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 41:
-                        if(enemy.getTypes().contains(15)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 42:
-                        if(enemy.getTypes().contains(0)){
-                            damage *= 3;
-                        }
-                        break;
-                }
-            }
-        }
+        damage = killerCalculation(damage, monster, enemy);
         return damage;
     }
 
@@ -287,72 +233,7 @@ public class DamageCalculationUtil {
                 damage = damage * 2;
             }
         }
-        if(monster.getKillerAwakenings().size() != 0){
-            for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
-                switch(monster.getKillerAwakenings().get(i).getValue()){
-                    case 31:
-                        if(enemy.getTypes().contains(4)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 32:
-                        if(enemy.getTypes().contains(5)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 33:
-                        if(enemy.getTypes().contains(7)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 34:
-                        if(enemy.getTypes().contains(8)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 35:
-                        if(enemy.getTypes().contains(6)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 36:
-                        if(enemy.getTypes().contains(2)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 37:
-                        if(enemy.getTypes().contains(3)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 38:
-                        if(enemy.getTypes().contains(1)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 39:
-                        if(enemy.getTypes().contains(12)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 40:
-                        if(enemy.getTypes().contains(14)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 41:
-                        if(enemy.getTypes().contains(15)){
-                            damage *= 3;
-                        }
-                        break;
-                    case 42:
-                        if(enemy.getTypes().contains(0)){
-                            damage *= 3;
-                        }
-                        break;
-                }
-            }
-        }
+        damage = killerCalculation(damage, monster, enemy);
         return damage;
     }
 
@@ -405,7 +286,7 @@ public class DamageCalculationUtil {
     public static double monsterElement1DamageThreshold(Team team, Monster monster, int position, int combos, Enemy enemy) {
         double damage = monsterElement1DamageAbsorb(team, monster, position, combos, enemy);
         if (damage >= enemy.getDamageThreshold()) {
-            return ((damage - enemy.getDamageThreshold()) * -1);
+            return (damage * -1);
         }
         return damage;
     }
@@ -413,7 +294,7 @@ public class DamageCalculationUtil {
     public static double monsterElement2DamageThreshold(Team team, Monster monster, int position, int combos, Enemy enemy) {
         double damage = monsterElement2DamageAbsorb(team, monster, position, combos, enemy);
         if (damage >= enemy.getDamageThreshold()) {
-            return ((damage - enemy.getDamageThreshold()) * -1);
+            return (damage * -1);
         }
         return damage;
     }
@@ -488,7 +369,7 @@ public class DamageCalculationUtil {
             return 0;
         }
         double damage = 0;
-        double teamHealth = team.getTeamHealth() * team.getTeamHp()/100;
+        double teamHealth = team.getTeamHealth();
         for(int i = 0; i < poisonOrbMatches.size(); i++){
             if(poisonOrbMatches.get(i).getElement().equals(Element.POISON)){
                 damage += ((poisonOrbMatches.get(i).getOrbsLinked() - 3)*.05 + .20)*teamHealth;
@@ -542,5 +423,144 @@ public class DamageCalculationUtil {
 //        }
 //        Log.d("Damage Calc Util", "Leadskill is: " + team.getLeadSkill() + " RcvData is: " + team.getLeadSkill().getRcvData() + " multiplier is: " + team.getLeadSkill().rcvMultiplier(monster, team));
         return monsterRcv;
+    }
+
+    private static double killerCalculation(double damage, Monster monster, Enemy enemy){
+        double killerDamage = damage;
+        int counter;
+        ArrayList<Integer> trimmedKillerAwakenings = new ArrayList<>();
+        if(monster.getKillerAwakenings().size() != 0){
+            for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
+                if(!trimmedKillerAwakenings.contains(monster.getKillerAwakenings().get(i).getValue())){
+                    trimmedKillerAwakenings.add(monster.getKillerAwakenings().get(i).getValue());
+                }
+            }
+            for(int i = 0; i < trimmedKillerAwakenings.size(); i++){
+                counter = 0;
+                switch(trimmedKillerAwakenings.get(i)){
+                    case 31:
+                        if(enemy.getTypes().contains(4)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 32:
+                        if(enemy.getTypes().contains(5)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 33:
+                        if(enemy.getTypes().contains(7)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 34:
+                        if(enemy.getTypes().contains(8)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 35:
+                        if(enemy.getTypes().contains(6)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 36:
+                        if(enemy.getTypes().contains(2)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 37:
+                        if(enemy.getTypes().contains(3)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 38:
+                        if(enemy.getTypes().contains(1)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 39:
+                        if(enemy.getTypes().contains(12)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 40:
+                        if(enemy.getTypes().contains(14)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 41:
+                        if(enemy.getTypes().contains(15)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                    case 42:
+                        if(enemy.getTypes().contains(0)){
+                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
+                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(i).getValue()){
+                                    counter++;
+                                }
+                            }
+                            killerDamage *= Math.pow(3,counter);
+                        }
+                        break;
+                }
+            }
+        }
+        return killerDamage;
     }
 }

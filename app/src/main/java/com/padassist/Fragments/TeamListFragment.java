@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,34 +25,34 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.R;
 import com.padassist.Util.Singleton;
-import com.padassist.Util.TeamAlphabeticalComparator;
-import com.padassist.Util.TeamFavoriteComparator;
-import com.padassist.Util.TeamHelperAtkComparator;
-import com.padassist.Util.TeamHelperElement1Comparator;
-import com.padassist.Util.TeamHelperElement2Comparator;
-import com.padassist.Util.TeamHelperHpComparator;
-import com.padassist.Util.TeamHelperPlusAtkComparator;
-import com.padassist.Util.TeamHelperPlusComparator;
-import com.padassist.Util.TeamHelperPlusHpComparator;
-import com.padassist.Util.TeamHelperPlusRcvComparator;
-import com.padassist.Util.TeamHelperRarityComparator;
-import com.padassist.Util.TeamHelperRcvComparator;
-import com.padassist.Util.TeamHelperType1Comparator;
-import com.padassist.Util.TeamHelperType2Comparator;
-import com.padassist.Util.TeamHelperType3Comparator;
-import com.padassist.Util.TeamLeaderAtkComparator;
-import com.padassist.Util.TeamLeaderElement1Comparator;
-import com.padassist.Util.TeamLeaderElement2Comparator;
-import com.padassist.Util.TeamLeaderHpComparator;
-import com.padassist.Util.TeamLeaderPlusAtkComparator;
-import com.padassist.Util.TeamLeaderPlusComparator;
-import com.padassist.Util.TeamLeaderPlusHpComparator;
-import com.padassist.Util.TeamLeaderPlusRcvComparator;
-import com.padassist.Util.TeamLeaderRarityComparator;
-import com.padassist.Util.TeamLeaderRcvComparator;
-import com.padassist.Util.TeamLeaderType1Comparator;
-import com.padassist.Util.TeamLeaderType2Comparator;
-import com.padassist.Util.TeamLeaderType3Comparator;
+import com.padassist.Comparators.TeamAlphabeticalComparator;
+import com.padassist.Comparators.TeamFavoriteComparator;
+import com.padassist.Comparators.TeamHelperAtkComparator;
+import com.padassist.Comparators.TeamHelperElement1Comparator;
+import com.padassist.Comparators.TeamHelperElement2Comparator;
+import com.padassist.Comparators.TeamHelperHpComparator;
+import com.padassist.Comparators.TeamHelperPlusAtkComparator;
+import com.padassist.Comparators.TeamHelperPlusComparator;
+import com.padassist.Comparators.TeamHelperPlusHpComparator;
+import com.padassist.Comparators.TeamHelperPlusRcvComparator;
+import com.padassist.Comparators.TeamHelperRarityComparator;
+import com.padassist.Comparators.TeamHelperRcvComparator;
+import com.padassist.Comparators.TeamHelperType1Comparator;
+import com.padassist.Comparators.TeamHelperType2Comparator;
+import com.padassist.Comparators.TeamHelperType3Comparator;
+import com.padassist.Comparators.TeamLeaderAtkComparator;
+import com.padassist.Comparators.TeamLeaderElement1Comparator;
+import com.padassist.Comparators.TeamLeaderElement2Comparator;
+import com.padassist.Comparators.TeamLeaderHpComparator;
+import com.padassist.Comparators.TeamLeaderPlusAtkComparator;
+import com.padassist.Comparators.TeamLeaderPlusComparator;
+import com.padassist.Comparators.TeamLeaderPlusHpComparator;
+import com.padassist.Comparators.TeamLeaderPlusRcvComparator;
+import com.padassist.Comparators.TeamLeaderRarityComparator;
+import com.padassist.Comparators.TeamLeaderRcvComparator;
+import com.padassist.Comparators.TeamLeaderType1Comparator;
+import com.padassist.Comparators.TeamLeaderType2Comparator;
+import com.padassist.Comparators.TeamLeaderType3Comparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -127,7 +126,7 @@ public class TeamListFragment extends Fragment {
     private Comparator<Team> teamHelperPlusAtkComparator = new TeamHelperPlusAtkComparator();
     private Comparator<Team> teamHelperPlusRcvComparator = new TeamHelperPlusRcvComparator();
     private Comparator<Team> teamHelperRarityComparator = new TeamHelperRarityComparator();
-    private Realm realm = Realm.getDefaultInstance();
+    private Realm realm;
 
 //    private FastScroller fastScroller;
 
@@ -149,6 +148,17 @@ public class TeamListFragment extends Fragment {
 
     public TeamListFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        realm.close();
     }
 
     @Override
@@ -187,6 +197,7 @@ public class TeamListFragment extends Fragment {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        searchView.setQueryHint(getResources().getString(R.string.search_hint_team));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -267,6 +278,7 @@ public class TeamListFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+        realm = Realm.getDefaultInstance();
         teamListAll = new ArrayList<>();
         teamListAll.addAll(realm.where(Team.class).greaterThan("teamId", 0).findAll());
         teamList = new ArrayList<>();
@@ -324,55 +336,55 @@ public class TeamListFragment extends Fragment {
     private TeamLoadDialogFragment.LoadTeam loadTeam = new TeamLoadDialogFragment.LoadTeam() {
         @Override
         public void loadTeam() {
-            Team teamZero = realm.where(Team.class).equalTo("teamId", 0).findFirst();
-            Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+//            Team teamZero = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+//            Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
             Team loadTeam = teamList.get(selectedTeam);
             loadTeam = realm.copyFromRealm(loadTeam);
-
-            if (teamZero.getTeamIdOverwrite() == 0) {
-                ArrayList<Monster> zeroMonsterList = new ArrayList<>();
-                for (int i = 0; i < 6; i++) {
-                    zeroMonsterList.add(monsterZero);
-                }
-                if (teamZero.getMonsters().equals(zeroMonsterList)) {
-                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-                    loadTeam.setTeamId(0);
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(loadTeam);
-                    realm.commitTransaction();
-                    getActivity().getSupportFragmentManager().popBackStack();
-                } else {
-                    if (loadTeamConfirmationDialogFragment == null) {
-                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
-                    }
-                    if(!loadTeamConfirmationDialogFragment.isAdded()){
-                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
-                    }
-                }
-            } else if (realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst() != null) {
-                if (!teamZero.getMonsters().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getMonsters()) || !teamZero.getTeamName().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getTeamName())) {
-                    if (loadTeamConfirmationDialogFragment == null) {
-                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
-                    }
-                    if(!loadTeamConfirmationDialogFragment.isAdded()){
-                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
-                    }
-                } else {
-                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
-                    loadTeam.setTeamId(0);
-                    realm.beginTransaction();
-                    realm.copyToRealmOrUpdate(loadTeam);
-                    realm.commitTransaction();
-                    getActivity().getSupportFragmentManager().popBackStack();
-                }
-            } else {
+//
+//            if (teamZero.getTeamIdOverwrite() == 0) {
+//                ArrayList<Monster> zeroMonsterList = new ArrayList<>();
+//                for (int i = 0; i < 6; i++) {
+//                    zeroMonsterList.add(monsterZero);
+//                }
+//                if (teamZero.getMonsters().equals(zeroMonsterList)) {
+//                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+//                    loadTeam.setTeamId(0);
+//                    realm.beginTransaction();
+//                    realm.copyToRealmOrUpdate(loadTeam);
+//                    realm.commitTransaction();
+//                    getActivity().getSupportFragmentManager().popBackStack();
+//                } else {
+//                    if (loadTeamConfirmationDialogFragment == null) {
+//                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+//                    }
+//                    if(!loadTeamConfirmationDialogFragment.isAdded()){
+//                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+//                    }
+//                }
+//            } else if (realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst() != null) {
+//                if (!teamZero.getMonsters().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getMonsters()) || !teamZero.getTeamName().equals(realm.where(Team.class).equalTo("teamId", teamZero.getTeamIdOverwrite()).findFirst().getTeamName())) {
+//                    if (loadTeamConfirmationDialogFragment == null) {
+//                        loadTeamConfirmationDialogFragment = LoadTeamConfirmationDialogFragment.newInstance(loadTeamConfirmation);
+//                    }
+//                    if(!loadTeamConfirmationDialogFragment.isAdded()){
+//                        loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
+//                    }
+//                } else {
+//                    loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
+//                    loadTeam.setTeamId(0);
+//                    realm.beginTransaction();
+//                    realm.copyToRealmOrUpdate(loadTeam);
+//                    realm.commitTransaction();
+//                    getActivity().getSupportFragmentManager().popBackStack();
+//                }
+//            } else {
                 loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
                 loadTeam.setTeamId(0);
                 realm.beginTransaction();
                 realm.copyToRealmOrUpdate(loadTeam);
                 realm.commitTransaction();
                 getActivity().getSupportFragmentManager().popBackStack();
-            }
+//            }
 
         }
 
@@ -423,6 +435,7 @@ public class TeamListFragment extends Fragment {
         @Override
         public void resetLayout() {
             Team loadTeam = teamList.get(selectedTeam);
+            loadTeam = realm.copyFromRealm(loadTeam);
             loadTeam.setTeamIdOverwrite(loadTeam.getTeamId());
             loadTeam.setTeamId(0);
             realm.beginTransaction();
@@ -434,13 +447,14 @@ public class TeamListFragment extends Fragment {
 
 
     public void sortArrayList(int sortMethod) {
-        Singleton.getInstance().setTeamSortMethod(sortMethod);
         switch (sortMethod) {
             case 0:
+                Singleton.getInstance().setTeamSortMethod(sortMethod);
                 Collections.sort(teamList, teamAlphabeticalComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;
             case 8:
+                Singleton.getInstance().setTeamSortMethod(sortMethod);
                 Collections.sort(teamList, teamFavoriteComparator);
                 teamListAdapter.notifyDataSetChanged();
                 break;

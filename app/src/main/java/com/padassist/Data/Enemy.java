@@ -9,22 +9,34 @@ import java.util.ArrayList;
  * Created by Anthony on 7/16/2015.
  */
 public class Enemy implements Parcelable {
-    private int targetDef, beforeDefenseBreak, damageThreshold, damageImmunity, reductionValue;
-    private long targetHp, currentHp, beforeGravityHP;
+    private int targetDef;
+    private int beforeDefenseBreak;
+    private int damageThreshold;
+    private int damageImmunity;
+    private int reductionValue;
+    private long targetHp;
+    private long currentHp;
+    private long beforeGravityHP;
     private double gravityPercent;
     private Element targetElement;
-    private ArrayList<Element> reduction, absorb;
-    private ArrayList<Integer> gravityList, types;
-    private Boolean hasAbsorb = false, hasReduction, hasDamageThreshold = false, isDamaged, hasDamageImmunity = false;
+    private ArrayList<Element> reduction;
+    private ArrayList<Element> absorb;
+    private ArrayList<Integer> gravityList;
+    private ArrayList<Integer> types;
+    private Boolean hasAbsorb = false;
+    private Boolean hasReduction;
+    private Boolean hasDamageThreshold;
+    private Boolean isDamaged;
+    private Boolean hasDamageImmunity;
 
 
-    //default is DKali from Arena 2
+    //default is DKali from Arena 3
     public Enemy() {
         absorb = new ArrayList<>();
         reduction = new ArrayList<Element>();
         gravityList = new ArrayList<Integer>();
         types = new ArrayList<Integer>();
-        targetHp = 33012222;
+        targetHp = 37408889;
         targetDef = 0;
         currentHp = targetHp;
         beforeGravityHP = currentHp;
@@ -35,6 +47,8 @@ public class Enemy implements Parcelable {
         damageImmunity = 1000000;
         isDamaged = false;
         hasReduction = true;
+        hasDamageThreshold = false;
+        hasDamageImmunity = false;
         reduction.add(Element.RED);
         reduction.add(Element.BLUE);
         reduction.add(Element.GREEN);
@@ -61,7 +75,7 @@ public class Enemy implements Parcelable {
 
     public void setCurrentHp(long currentHp) {
         this.currentHp = currentHp;
-        if(this.currentHp < 0){
+        if (this.currentHp < 0) {
             this.currentHp = 0;
         }
     }
@@ -189,11 +203,11 @@ public class Enemy implements Parcelable {
         this.gravityList = gravityList;
     }
 
-    public int getGravityList(int position){
+    public int getGravityList(int position) {
         return gravityList.get(position);
     }
 
-    public void clearGravityList(){
+    public void clearGravityList() {
         gravityList.clear();
     }
 
@@ -262,7 +276,7 @@ public class Enemy implements Parcelable {
         dest.writeByte((byte) (hasAbsorb ? 1 : 0));
         dest.writeByte((byte) (hasReduction ? 1 : 0));
         dest.writeByte((byte) (hasDamageThreshold ? 1 : 0));
-        dest.writeByte((byte) (isDamaged ? 1: 0));
+        dest.writeByte((byte) (isDamaged ? 1 : 0));
         dest.writeList(gravityList);
     }
 

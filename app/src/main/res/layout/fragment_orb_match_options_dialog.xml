@@ -24,4 +24,88 @@
         android:layout_toRightOf="@+id/heartText"
         android:gravity="center" />
 
+
+
+    <RelativeLayout
+        android:id="@+id/leaderSkillHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/enableHeartCarry">
+
+        <ImageView
+            android:id="@+id/leaderSkill"
+            android:layout_width="111dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/leader_skill" />
+
+        <TextView
+            android:id="@+id/leaderSkillName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/leaderSkill"
+            android:layout_alignTop="@+id/leaderSkill"
+            android:layout_marginBottom="-4dp"
+            android:layout_toRightOf="@id/leaderSkill"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="Leader Skill Name"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/leaderSkillDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/leaderSkill"
+            android:text="Does not exist in database."
+            android:textSize="16dp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/helperSkillHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/leaderSkillHolder">
+
+        <ImageView
+            android:id="@+id/helperSkill"
+            android:layout_width="111dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/leader_skill" />
+
+        <TextView
+            android:id="@+id/helperSkillName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/helperSkill"
+            android:layout_alignTop="@+id/helperSkill"
+            android:layout_marginBottom="-4dp"
+            android:layout_toRightOf="@id/helperSkill"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:text="Helper Skill Name"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/helperSkillDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/helperSkill"
+            android:text="Does not exist in database."
+            android:textSize="16dp" />
+    </RelativeLayout>
+
 </RelativeLayout>
