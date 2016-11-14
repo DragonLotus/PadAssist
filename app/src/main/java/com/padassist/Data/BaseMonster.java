@@ -6,15 +6,22 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.padassist.ParcelConverters.ActiveSkillParcelConverter;
+import com.padassist.ParcelConverters.LeaderSkillParcelConverter;
+import com.padassist.ParcelConverters.RealmIntParcelConverter;
+import com.padassist.ParcelConverters.RealmLongParcelConverter;
 import com.padassist.R;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
+
+import org.parceler.ParcelPropertyConverter;
 
 import java.io.File;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import io.realm.BaseMonsterRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -24,8 +31,10 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by DragonLotus on 9/15/2015.
  */
-
-public class BaseMonster extends RealmObject implements Parcelable {
+@org.parceler.Parcel(implementations = {BaseMonsterRealmProxy.class},
+        value = org.parceler.Parcel.Serialization.BEAN,
+        analyze = {BaseMonster.class})
+public class BaseMonster extends RealmObject {
     @PrimaryKey
     private long monsterId;
     @Index
@@ -193,7 +202,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
     public void addAwokenSkills(RealmInt awakening) {
         awokenSkills.add(awakening);
     }
-
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setAwokenSkills(RealmList<RealmInt> awokenSkills) {
         this.awokenSkills = awokenSkills;
     }
@@ -216,7 +225,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
 
     }
 
-    public void setElement1(int element1) {
+    public void setElement1Int(int element1) {
         this.element1int = element1;
     }
 
@@ -237,7 +246,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
         }
     }
 
-    public void setElement2(int element2) {
+    public void setElement2Int(int element2) {
         this.element2int = element2;
     }
 
@@ -280,7 +289,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
     public void setLeaderSkillString(String leaderSkillString) {
         this.leaderSkillString = leaderSkillString;
     }
-
+    @ParcelPropertyConverter(ActiveSkillParcelConverter.class)
     public ActiveSkill getActiveSkill() {
         return activeSkill;
     }
@@ -292,7 +301,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
     public LeaderSkill getLeaderSkill() {
         return leaderSkill;
     }
-
+    @ParcelPropertyConverter(LeaderSkillParcelConverter.class)
     public void setLeaderSkill(LeaderSkill leaderSkill) {
         this.leaderSkill = leaderSkill;
     }
@@ -461,7 +470,7 @@ public class BaseMonster extends RealmObject implements Parcelable {
     public RealmList<RealmLong> getEvolutions() {
         return evolutions;
     }
-
+    @ParcelPropertyConverter(RealmLongParcelConverter.class)
     public void setEvolutions(RealmList<RealmLong> evolutions) {
         this.evolutions = evolutions;
     }
@@ -487,79 +496,79 @@ public class BaseMonster extends RealmObject implements Parcelable {
 //    public static BaseMonster getMonsterId(long id) {
 //        return new Select().from(BaseMonster.class).where("monsterId = ?", id).executeSingle();
 //    }
-
-    public BaseMonster(Parcel source) {
-        monsterId = source.readLong();
-        atkMax = source.readInt();
-        atkMin = source.readInt();
-        hpMax = source.readInt();
-        hpMin = source.readInt();
-        maxLevel = source.readInt();
-        rcvMax = source.readInt();
-        rcvMin = source.readInt();
-        type1 = source.readInt();
-        type2 = source.readInt();
-        type3 = source.readInt();
-        maxAwakenings = source.readInt();
-//        element1 = (Element) source.readSerializable();
-//        element2 = (Element) source.readSerializable();
-//        awokenSkills = source.readArrayList(Integer.class.getClassLoader());
-        activeSkillString = source.readString();
-        leaderSkillString = source.readString();
-        name = source.readString();
-        atkScale = source.readDouble();
-        rcvScale = source.readDouble();
-        hpScale = source.readDouble();
-        rarity = source.readInt();
-        teamCost = source.readInt();
-        xpCurve = source.readInt();
-//        evolutions = source.readArrayList(Long.class.getClassLoader());
-//        types = source.readArrayList(Integer.class.getClassLoader());
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(monsterId);
-        dest.writeInt(atkMax);
-        dest.writeInt(atkMin);
-        dest.writeInt(hpMax);
-        dest.writeInt(hpMin);
-        dest.writeInt(maxLevel);
-        dest.writeInt(rcvMax);
-        dest.writeInt(rcvMin);
-        dest.writeInt(type1);
-        dest.writeInt(type2);
-        dest.writeInt(type3);
-        dest.writeInt(maxAwakenings);
-//        dest.writeSerializable(element1);
-//        dest.writeSerializable(element2);
-//        dest.writeList(awokenSkills);
-        dest.writeString(activeSkillString);
-        dest.writeString(leaderSkillString);
-        dest.writeString(name);
-        dest.writeDouble(atkScale);
-        dest.writeDouble(rcvScale);
-        dest.writeDouble(hpScale);
-        dest.writeInt(rarity);
-        dest.writeInt(teamCost);
-        dest.writeInt(xpCurve);
-//        dest.writeList(evolutions);
-//        dest.writeList(types);
-    }
-
-    public static final Parcelable.Creator<BaseMonster> CREATOR = new Creator<BaseMonster>() {
-        public BaseMonster createFromParcel(Parcel source) {
-            return new BaseMonster(source);
-        }
-
-        public BaseMonster[] newArray(int size) {
-            return new BaseMonster[size];
-        }
-    };
+//
+//    public BaseMonster(Parcel source) {
+//        monsterId = source.readLong();
+//        atkMax = source.readInt();
+//        atkMin = source.readInt();
+//        hpMax = source.readInt();
+//        hpMin = source.readInt();
+//        maxLevel = source.readInt();
+//        rcvMax = source.readInt();
+//        rcvMin = source.readInt();
+//        type1 = source.readInt();
+//        type2 = source.readInt();
+//        type3 = source.readInt();
+//        maxAwakenings = source.readInt();
+////        element1 = (Element) source.readSerializable();
+////        element2 = (Element) source.readSerializable();
+////        awokenSkills = source.readArrayList(Integer.class.getClassLoader());
+//        activeSkillString = source.readString();
+//        leaderSkillString = source.readString();
+//        name = source.readString();
+//        atkScale = source.readDouble();
+//        rcvScale = source.readDouble();
+//        hpScale = source.readDouble();
+//        rarity = source.readInt();
+//        teamCost = source.readInt();
+//        xpCurve = source.readInt();
+////        evolutions = source.readArrayList(Long.class.getClassLoader());
+////        types = source.readArrayList(Integer.class.getClassLoader());
+//    }
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeLong(monsterId);
+//        dest.writeInt(atkMax);
+//        dest.writeInt(atkMin);
+//        dest.writeInt(hpMax);
+//        dest.writeInt(hpMin);
+//        dest.writeInt(maxLevel);
+//        dest.writeInt(rcvMax);
+//        dest.writeInt(rcvMin);
+//        dest.writeInt(type1);
+//        dest.writeInt(type2);
+//        dest.writeInt(type3);
+//        dest.writeInt(maxAwakenings);
+////        dest.writeSerializable(element1);
+////        dest.writeSerializable(element2);
+////        dest.writeList(awokenSkills);
+//        dest.writeString(activeSkillString);
+//        dest.writeString(leaderSkillString);
+//        dest.writeString(name);
+//        dest.writeDouble(atkScale);
+//        dest.writeDouble(rcvScale);
+//        dest.writeDouble(hpScale);
+//        dest.writeInt(rarity);
+//        dest.writeInt(teamCost);
+//        dest.writeInt(xpCurve);
+////        dest.writeList(evolutions);
+////        dest.writeList(types);
+//    }
+//
+//    public static final Parcelable.Creator<BaseMonster> CREATOR = new Creator<BaseMonster>() {
+//        public BaseMonster createFromParcel(Parcel source) {
+//            return new BaseMonster(source);
+//        }
+//
+//        public BaseMonster[] newArray(int size) {
+//            return new BaseMonster[size];
+//        }
+//    };
 
 }

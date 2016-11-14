@@ -62,7 +62,7 @@ public class ManageMonsterPageFragment extends MonsterPageBase {
         @Override
         public void onClick(View v) {
             if (monsterManageDialogFragment == null) {
-                monsterManageDialogFragment = MonsterManageDialogFragment.newInstance(removeMonster, monster);
+                monsterManageDialogFragment = MonsterManageDialogFragment.newInstance(removeMonster);
             }
             if(!monsterManageDialogFragment.isAdded()){
                 monsterManageDialogFragment.show(getChildFragmentManager(), "Show Remove Monster", monster);

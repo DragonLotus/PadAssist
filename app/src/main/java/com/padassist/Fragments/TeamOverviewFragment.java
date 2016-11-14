@@ -2,6 +2,7 @@ package com.padassist.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,8 @@ import com.padassist.Graphics.TooltipText;
 import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
 import com.padassist.Util.Singleton;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,7 +60,7 @@ public class TeamOverviewFragment extends Fragment {
     private Realm realm;
 
     // TODO: Rename and change types and number of parameters
-    public static TeamOverviewFragment newInstance(Team team) {
+    public static TeamOverviewFragment newInstance(Parcelable team) {
         TeamOverviewFragment fragment = new TeamOverviewFragment();
         Bundle args = new Bundle();
         args.putParcelable("team", team);
@@ -98,7 +101,7 @@ public class TeamOverviewFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.toggleCoop:
-                team.setTeamStats();
+                team.setTeamStats(realm);
                 setTeamStats();
                 break;
         }
@@ -130,7 +133,7 @@ public class TeamOverviewFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            team = getArguments().getParcelable("team");
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
         }
         realm = Realm.getDefaultInstance();
         awakeningListAll = team.getAwakenings();
@@ -355,10 +358,10 @@ public class TeamOverviewFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if (teamBadgeDialogFragment == null) {
-                teamBadgeDialogFragment = TeamBadgeDialogFragment.newInstance(setTeamBadge, team);
+                teamBadgeDialogFragment = TeamBadgeDialogFragment.newInstance(setTeamBadge);
             }
             if (!teamBadgeDialogFragment.isAdded()) {
-                teamBadgeDialogFragment.show(getActivity().getSupportFragmentManager(), "Team Badge Dialog");
+                teamBadgeDialogFragment.show(getActivity().getSupportFragmentManager(), team, "Team Badge Dialog");
             }
         }
     };
@@ -373,7 +376,7 @@ public class TeamOverviewFragment extends Fragment {
             }
             realm.commitTransaction();
             setTeamBadge();
-            team.setTeamStats();
+            team.setTeamStats(realm);
             setTeamStats();
             utilityAwakeningGridAdapter.updateTeamBadge(team.getTeamBadge());
         }
@@ -387,7 +390,7 @@ public class TeamOverviewFragment extends Fragment {
             } else if (buttonView.equals(hasLeaderSkillCheck2)){
                 Singleton.getInstance().setHasHelperSkill(isChecked);
             }
-            team.setTeamStats();
+            team.setTeamStats(realm);
             setTeamStats();
         }
     };

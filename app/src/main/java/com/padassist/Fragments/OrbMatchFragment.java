@@ -1,9 +1,9 @@
 package com.padassist.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputBinding;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Adapters.OrbMatchRecycler;
-import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.OrbMatch;
@@ -39,16 +37,15 @@ import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
-import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Util.Singleton;
 
-import java.lang.reflect.Array;
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Thomas on 7/11/2015.
@@ -402,10 +399,11 @@ public class OrbMatchFragment extends Fragment {
                 toast = Toast.makeText(getActivity(), "No orb matches", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
+                Parcelable teamParcel = Parcels.wrap(team);
                 if (Singleton.getInstance().isIgnoreEnemy()) {
-                    ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, team), TeamDamageListFragment.TAG, "good");
+                    ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, teamParcel), TeamDamageListFragment.TAG, "good");
                 } else {
-                    ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, team, enemy), EnemyTargetFragment.TAG, "good");
+                    ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, teamParcel, enemy), EnemyTargetFragment.TAG, "good");
                 }
             }
         }
@@ -488,10 +486,10 @@ public class OrbMatchFragment extends Fragment {
         public void onClick(View v) {
             additionalComboValue.clearFocus();
             if (orbMatchOptionsDialogFragment == null) {
-                orbMatchOptionsDialogFragment = orbMatchOptionsDialogFragment.newInstance(team);
+                orbMatchOptionsDialogFragment = OrbMatchOptionsDialogFragment.newInstance();
             }
             if (!orbMatchOptionsDialogFragment.isAdded()) {
-                orbMatchOptionsDialogFragment.show(getChildFragmentManager(), "Options");
+                orbMatchOptionsDialogFragment.show(getChildFragmentManager(), team, "Options");
             }
         }
     };
@@ -638,7 +636,7 @@ public class OrbMatchFragment extends Fragment {
         }
     }
 
-    public static OrbMatchFragment newInstance(Team team, Enemy enemy) {
+    public static OrbMatchFragment newInstance(Parcelable team, Enemy enemy) {
         OrbMatchFragment fragment = new OrbMatchFragment();
         Bundle args = new Bundle();
         args.putParcelable("team", team);
@@ -692,7 +690,7 @@ public class OrbMatchFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         //Write your code here
         if (getArguments() != null) {
-            team = getArguments().getParcelable("team");
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
             enemy = getArguments().getParcelable("enemy");
         }
         realm = Realm.getDefaultInstance();
@@ -714,7 +712,7 @@ public class OrbMatchFragment extends Fragment {
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_MATCH_ELEMENT_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_ORB_LINK_FLAT);
 
-        if (minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getValue()) || minimumMatchLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getValue())) {
+        if (minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) || minimumMatchLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())) {
             if (team.getLeadSkill().getMinimumMatch() > minimumMatch) {
                 minimumMatch = team.getLeadSkill().getMinimumMatch();
             }
@@ -736,7 +734,7 @@ public class OrbMatchFragment extends Fragment {
             emptyText.setVisibility(View.VISIBLE);
         }
 
-        if(team.getLeadSkill().getAtkSkillType().getValue().equals(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT) || team.getHelperSkill().getAtkSkillType().getValue().equals(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT)){
+        if(team.getLeadSkill().getAtkSkillType().getLeaderSkillType().equals(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT) || team.getHelperSkill().getAtkSkillType().getLeaderSkillType().equals(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT)){
             Singleton.getInstance().setBoardSize(2);
             boardSize.setEnabled(false);
             for(int i = 0; i < orbMatchList.size(); i++){
@@ -763,7 +761,7 @@ public class OrbMatchFragment extends Fragment {
                 break;
         }
 
-        if (team.getTeamBadge() == 13 || noDropLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getValue()) || noDropLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getValue())) {
+        if (team.getTeamBadge() == 13 || noDropLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) || noDropLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())) {
             noDrop = true;
         }
 
@@ -888,18 +886,18 @@ public class OrbMatchFragment extends Fragment {
             }
         }
         realm.commitTransaction();
-        team.setOrbMatches();
+        team.setOrbMatches(orbMatchList);
         team.updateOrbs();
         if (orbMatchList.size() != 0) {
             team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
         }
         team.setHpRcvMultiplierArrays(orbMatchList.size() + additionalCombos);
 //        if(team.getLeadSkill().getRcvSkillType() != null){
-//            if(team.getLeadSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+//            if(team.getLeadSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.COMBO)){
 //                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
 //                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), orbMatchList.size() + additionalCombos));
 //                }
-//            } else if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+//            } else if(team.getHelperSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
 //                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
 //                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.indianRcv(team, team.getLeadSkill()));
 //                }
@@ -907,11 +905,11 @@ public class OrbMatchFragment extends Fragment {
 //        }
 //
 //        if(team.getHelperSkill().getRcvSkillType() != null){
-//            if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.COMBO)){
+//            if(team.getHelperSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.COMBO)){
 //                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
 //                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), orbMatchList.size() + additionalCombos));
 //                }
-//            } else if(team.getHelperSkill().getRcvSkillType().getValue().equals(LeaderSkillType.INDIAN)){
+//            } else if(team.getHelperSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
 //                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
 //                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.indianRcv(team, team.getHelperSkill()));
 //                }

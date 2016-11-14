@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.padassist.Graphics.FastScroller;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.BaseFragments.SaveMonsterListBase;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -143,7 +146,8 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
 //                getActivity().finish();
 
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
-                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
+                Parcelable monsterParcel = Parcels.wrap(saveMonsterListRecycler.getItem(position));
+                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");
             }
         }
     };

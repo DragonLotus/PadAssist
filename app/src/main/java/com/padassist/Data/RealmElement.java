@@ -1,11 +1,14 @@
 package com.padassist.Data;
 
+import org.parceler.Parcel;
+
+import io.realm.RealmElementRealmProxy;
 import io.realm.RealmObject;
 
 /**
  * Created by DragonLotus on 8/4/2016.
  */
-
+@Parcel(implementations = {RealmElementRealmProxy.class}, value = Parcel.Serialization.BEAN, analyze = {RealmElement.class})
 public class RealmElement extends RealmObject {
     private int value;
 
@@ -16,7 +19,7 @@ public class RealmElement extends RealmObject {
         this.value = value;
     }
 
-    public Element getValue() {
+    public Element getElement() {
         switch (value) {
             case 0:
                 return Element.RED;
@@ -43,5 +46,9 @@ public class RealmElement extends RealmObject {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int getValue() {
+        return value;
     }
 }

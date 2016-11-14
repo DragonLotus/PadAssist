@@ -1,6 +1,7 @@
 package com.padassist.Fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -14,6 +15,8 @@ import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.BaseFragments.BaseMonsterListBase;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -83,7 +86,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
 //                    long lastMonsterId = results.get(results.size() - 1).getMonsterId();
                     long lastMonsterId = realm.where(Monster.class).findAllSorted("monsterId").last().getMonsterId();
 
-                    newMonster = new Monster(monsterList.get(position).getMonsterId());
+                    newMonster = new Monster(monsterList.get(position));
                     if (monsterPosition == 5) {
                         newMonster.setHelper(true);
                     }
@@ -132,7 +135,8 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
                 Log.d("BaseMonsterList", "newTeam monsters is: " + newTeam.getMonsters());
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
                 if (newMonster.getMonsterId() != 0) {
-                    ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster.getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
+                    Parcelable monsterParcel = Parcels.wrap(newMonster);
+                    ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster.getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");
                 } else {
                     getActivity().getSupportFragmentManager().popBackStack();
                 }
@@ -163,7 +167,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
                 } else {
                     RealmResults<Monster> results = realm.where(Monster.class).findAllSorted("monsterId");
                     long lastMonsterId = results.get(results.size() - 1).getMonsterId();
-                    newMonster = new Monster(monsterList.get(position).getMonsterId());
+                    newMonster = new Monster(monsterList.get(position));
                     if (monsterPosition == 5) {
                         newMonster.setHelper(true);
                     }
@@ -211,7 +215,8 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
                 }
                 getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
                 if (newMonster.getMonsterId() != 0) {
-                    ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster.getMonsterId(), monsterPosition), MonsterPageFragment.TAG, "good");
+                    Parcelable monsterParcel = Parcels.wrap(newMonster);
+                    ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster.getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");
                 } else {
                     getActivity().getSupportFragmentManager().popBackStack();
                 }

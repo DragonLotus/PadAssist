@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -38,6 +39,8 @@ import com.padassist.Graphics.TooltipText;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
+
+import org.parceler.Parcels;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -151,7 +154,7 @@ public class EnemyTargetFragment extends Fragment {
      * @return A new instance of fragment EnemyTargetFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EnemyTargetFragment newInstance(int additionalCombos, Team team, Enemy enemy) {
+    public static EnemyTargetFragment newInstance(int additionalCombos, Parcelable team, Enemy enemy) {
         EnemyTargetFragment fragment = new EnemyTargetFragment();
         Bundle args = new Bundle();
         args.putInt("additionalCombos", additionalCombos);
@@ -231,7 +234,7 @@ public class EnemyTargetFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
             additionalCombos = getArguments().getInt("additionalCombos");
-            team = getArguments().getParcelable("team");
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
             enemy = getArguments().getParcelable("enemy");
         }
         tempAbsorbList = new ArrayList<>();
@@ -1044,7 +1047,8 @@ public class EnemyTargetFragment extends Fragment {
     private View.OnClickListener calculateOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, additionalCombos, team, enemy), TeamDamageListFragment.TAG, "good");
+            Parcelable teamParcel = Parcels.wrap(team);
+            ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, additionalCombos, teamParcel, enemy), TeamDamageListFragment.TAG, "good");
         }
     };
 

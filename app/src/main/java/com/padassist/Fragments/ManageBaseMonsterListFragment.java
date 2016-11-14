@@ -47,7 +47,7 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListBase {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag(R.string.index);
-            Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
+            Monster newMonster = new Monster(monsterList.get(position));
             long lastMonsterId = realm.where(Monster.class).findAllSorted("monsterId").last().getMonsterId();
             newMonster.setMonsterId(lastMonsterId + 1);
             realm.beginTransaction();
@@ -62,7 +62,7 @@ public class ManageBaseMonsterListFragment extends BaseMonsterListBase {
         @Override
         public boolean onLongClick(View v) {
             int position =  ((RecyclerView.ViewHolder)v.getTag()).getAdapterPosition();
-            Monster newMonster = new Monster(monsterList.get(position).getMonsterId());
+            Monster newMonster = new Monster(monsterList.get(position));
             long lastMonsterId = realm.where(Monster.class).findAllSorted("monsterId").last().getMonsterId();
             newMonster.setMonsterId(lastMonsterId + 1);
             realm.beginTransaction();
