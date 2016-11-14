@@ -3,6 +3,7 @@ package com.padassist.Fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,8 @@ import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.Singleton;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -396,10 +399,11 @@ public class OrbMatchFragment extends Fragment {
                 toast = Toast.makeText(getActivity(), "No orb matches", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
+                Parcelable teamParcel = Parcels.wrap(team);
                 if (Singleton.getInstance().isIgnoreEnemy()) {
-                    ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, team), TeamDamageListFragment.TAG, "good");
+                    ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, teamParcel), TeamDamageListFragment.TAG, "good");
                 } else {
-                    ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, team, enemy), EnemyTargetFragment.TAG, "good");
+                    ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, teamParcel, enemy), EnemyTargetFragment.TAG, "good");
                 }
             }
         }
@@ -482,10 +486,10 @@ public class OrbMatchFragment extends Fragment {
         public void onClick(View v) {
             additionalComboValue.clearFocus();
             if (orbMatchOptionsDialogFragment == null) {
-                orbMatchOptionsDialogFragment = orbMatchOptionsDialogFragment.newInstance(team);
+                orbMatchOptionsDialogFragment = OrbMatchOptionsDialogFragment.newInstance();
             }
             if (!orbMatchOptionsDialogFragment.isAdded()) {
-                orbMatchOptionsDialogFragment.show(getChildFragmentManager(), "Options");
+                orbMatchOptionsDialogFragment.show(getChildFragmentManager(), team, "Options");
             }
         }
     };
@@ -632,10 +636,10 @@ public class OrbMatchFragment extends Fragment {
         }
     }
 
-    public static OrbMatchFragment newInstance(Team team, Enemy enemy) {
+    public static OrbMatchFragment newInstance(Parcelable team, Enemy enemy) {
         OrbMatchFragment fragment = new OrbMatchFragment();
         Bundle args = new Bundle();
-//        args.putParcelable("team", team);
+        args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
@@ -686,7 +690,7 @@ public class OrbMatchFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         //Write your code here
         if (getArguments() != null) {
-            team = getArguments().getParcelable("team");
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
             enemy = getArguments().getParcelable("enemy");
         }
         realm = Realm.getDefaultInstance();

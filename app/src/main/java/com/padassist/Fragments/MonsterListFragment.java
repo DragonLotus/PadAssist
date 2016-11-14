@@ -2,6 +2,7 @@ package com.padassist.Fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,8 @@ import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -78,10 +81,9 @@ public class MonsterListFragment extends Fragment {
      * @return A new instance of fragment MonsterListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MonsterListFragment newInstance(Team team, Enemy enemy) {
+    public static MonsterListFragment newInstance(Enemy enemy) {
         MonsterListFragment fragment = new MonsterListFragment();
         Bundle args = new Bundle();
-//        args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
@@ -331,7 +333,9 @@ public class MonsterListFragment extends Fragment {
 //            ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
 //            team.updateLeaderSkills();
 //            team.save();
-            ((MainActivity) getActivity()).switchFragment(TeamOverviewFragment.newInstance(team), TeamOverviewFragment.TAG, "good");
+
+            Parcelable teamParcel = Parcels.wrap(team);
+            ((MainActivity) getActivity()).switchFragment(TeamOverviewFragment.newInstance(teamParcel), TeamOverviewFragment.TAG, "good");
         }
     };
 
@@ -347,7 +351,8 @@ public class MonsterListFragment extends Fragment {
             } else {
 //                team.updateLeaderSkills();
 //                team.save();
-                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(team, enemy), OrbMatchFragment.TAG, "good");
+                Parcelable teamParcel = Parcels.wrap(team);
+                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(teamParcel, enemy), OrbMatchFragment.TAG, "good");
             }
         }
     };
@@ -377,10 +382,10 @@ public class MonsterListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if (teamBadgeDialogFragment == null) {
-                teamBadgeDialogFragment = TeamBadgeDialogFragment.newInstance(setTeamBadge, team);
+                teamBadgeDialogFragment = TeamBadgeDialogFragment.newInstance(setTeamBadge);
             }
             if (!teamBadgeDialogFragment.isAdded()) {
-                teamBadgeDialogFragment.show(getActivity().getSupportFragmentManager(), "Team Badge Dialog");
+                teamBadgeDialogFragment.show(getActivity().getSupportFragmentManager(), team, "Team Badge Dialog");
             }
         }
     };

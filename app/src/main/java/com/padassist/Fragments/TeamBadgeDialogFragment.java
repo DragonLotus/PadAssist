@@ -38,11 +38,10 @@ public class TeamBadgeDialogFragment extends DialogFragment {
         void setBadge(int badge);
     }
 
-    public static TeamBadgeDialogFragment newInstance(SetTeamBadge setTeamBadge, Team team) {
+    public static TeamBadgeDialogFragment newInstance(SetTeamBadge setTeamBadge) {
         TeamBadgeDialogFragment dialogFragment = new TeamBadgeDialogFragment();
         dialogFragment.setSetTeamBadge(setTeamBadge);
         Bundle args = new Bundle();
-//        args.putParcelable("team", team);
         dialogFragment.setArguments(args);
         return dialogFragment;
     }
@@ -113,7 +112,8 @@ public class TeamBadgeDialogFragment extends DialogFragment {
         super.onDestroyView();
     }
 
-    public void show(FragmentManager manager, String tag) {
+    public void show(FragmentManager manager, Team team, String tag) {
         super.show(manager, tag);
+        this.team = team;
     }
 }

@@ -39,7 +39,6 @@ public class TeamSaveDialogFragment extends DialogFragment {
         dialogFragment.setSaveTeam(saveTeam);
         dialogFragment.setTeamIdOverwrite(teamIdOverwrite);
 //        Bundle args = new Bundle();
-//        args.putParcelable("team", team);
         return dialogFragment;
     }
 

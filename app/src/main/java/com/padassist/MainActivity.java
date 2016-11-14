@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
             realm.commitTransaction();
         }
 
-        switchFragment(MonsterListFragment.newInstance(team, enemy), MonsterListFragment.TAG, "good");
+        switchFragment(MonsterListFragment.newInstance(enemy), MonsterListFragment.TAG, "good");
 
 
         // Get the Default External Cache Directory

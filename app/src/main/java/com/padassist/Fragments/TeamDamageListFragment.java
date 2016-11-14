@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +45,7 @@ import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Util.Singleton;
 
+import org.parceler.Parcels;
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
@@ -117,23 +119,23 @@ public class TeamDamageListFragment extends Fragment {
     }
 
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, int additionalCombos, Team team, Enemy enemy) {
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, int additionalCombos, Parcelable team, Enemy enemy) {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
         args.putInt("additionalCombos", additionalCombos);
-//        args.putParcelable("team", team);
+        args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, int additionalCombos, Team team) {
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, int additionalCombos, Parcelable team) {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
         args.putInt("additionalCombos", additionalCombos);
-//        args.putParcelable("team", team);
+        args.putParcelable("team", team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -246,7 +248,7 @@ public class TeamDamageListFragment extends Fragment {
         if (getArguments() != null) {
             hasEnemy = getArguments().getBoolean("hasEnemy");
             additionalCombos = getArguments().getInt("additionalCombos");
-            team = getArguments().getParcelable("team");
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
             enemy = getArguments().getParcelable("enemy");
         }
         realm = Realm.getDefaultInstance();
@@ -677,7 +679,7 @@ public class TeamDamageListFragment extends Fragment {
         public void onClick(View v) {
             clearTextFocus();
             if (extraMultiplierDialogFragment == null) {
-                extraMultiplierDialogFragment = extraMultiplierDialogFragment.newInstance(saveTeam, team);
+                extraMultiplierDialogFragment = extraMultiplierDialogFragment.newInstance(saveTeam);
             }
             if (!extraMultiplierDialogFragment.isAdded()) {
                 extraMultiplierDialogFragment.show(getChildFragmentManager(), team, "Show extra multiplier Dialog");

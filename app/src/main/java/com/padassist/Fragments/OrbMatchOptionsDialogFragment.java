@@ -34,10 +34,9 @@ public class OrbMatchOptionsDialogFragment extends DialogFragment {
     private Toast toast;
     private Team team;
 
-    public static OrbMatchOptionsDialogFragment newInstance(Team team) {
+    public static OrbMatchOptionsDialogFragment newInstance() {
         OrbMatchOptionsDialogFragment dialogFragment = new OrbMatchOptionsDialogFragment();
         Bundle args = new Bundle();
-//        args.putParcelable("team", team);
         dialogFragment.setArguments(args);
         return dialogFragment;
     }

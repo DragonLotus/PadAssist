@@ -44,11 +44,10 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         public void update();
     }
 
-    public static ExtraMultiplierDialogFragment newInstance(SaveTeam saveTeam, Team team) {
+    public static ExtraMultiplierDialogFragment newInstance(SaveTeam saveTeam) {
         ExtraMultiplierDialogFragment dialogFragment = new ExtraMultiplierDialogFragment();
         dialogFragment.setSaveTeam(saveTeam);
         Bundle args = new Bundle();
-//        args.putParcelable("team", team);
         dialogFragment.setArguments(args);
         return dialogFragment;
     }
