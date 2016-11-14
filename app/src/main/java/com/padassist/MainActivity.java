@@ -56,6 +56,7 @@ import com.padassist.Fragments.UnableToConnectDialogFragment;
 import com.padassist.Fragments.LoadingFragment;
 import com.padassist.Fragments.UpToDateDialogFragment;
 import com.padassist.Fragments.UpdateAvailableDialogFragment;
+import com.padassist.Threads.ParseMonsterDatabaseThread;
 import com.padassist.Util.Migration;
 import com.padassist.Util.Singleton;
 
@@ -208,19 +209,6 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         enemy = new Enemy();
 
-        if (realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst() == null) {
-            BaseMonster monster = new BaseMonster();
-            realm.beginTransaction();
-            realm.copyToRealm(monster);
-            realm.commitTransaction();
-        }
-
-        if (realm.where(Monster.class).equalTo("monsterId", 0).findFirst() == null) {
-            Monster monster = new Monster(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
-            realm.beginTransaction();
-            realm.copyToRealm(monster);
-            realm.commitTransaction();
-        }
         if (realm.where(Team.class).equalTo("teamId", 0).findFirst() == null) {
             team = new Team();
             team.setLead(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
@@ -272,6 +260,38 @@ public class MainActivity extends AppCompatActivity {
             ActiveSkill blankActiveSkill = new ActiveSkill();
             realm.beginTransaction();
             realm.copyToRealm(blankActiveSkill);
+            realm.commitTransaction();
+        }
+
+        if (realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst() == null) {
+            BaseMonster monster = new BaseMonster();
+            monster.setLeaderSkill(realm.where(LeaderSkill.class).equalTo("name", monster.getLeaderSkillString()).findFirst());
+            monster.setActiveSkill(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkillString()).findFirst());
+            monster.setType1String(ParseMonsterDatabaseThread.getTypeString(monster.getType1()));
+            monster.setType2String(ParseMonsterDatabaseThread.getTypeString(monster.getType2()));
+            monster.setType3String(ParseMonsterDatabaseThread.getTypeString(monster.getType3()));
+            monster.setMonsterIdString(String.valueOf(monster.getMonsterId()));
+            realm.beginTransaction();
+            realm.copyToRealm(monster);
+            realm.commitTransaction();
+        } else {
+            BaseMonster monster = realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst();
+            if(monster.getLeaderSkill() == null){
+                realm.beginTransaction();
+                monster.setLeaderSkill(realm.where(LeaderSkill.class).equalTo("name", monster.getLeaderSkillString()).findFirst());
+                monster.setActiveSkill(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkillString()).findFirst());
+                monster.setType1String(ParseMonsterDatabaseThread.getTypeString(monster.getType1()));
+                monster.setType2String(ParseMonsterDatabaseThread.getTypeString(monster.getType2()));
+                monster.setType3String(ParseMonsterDatabaseThread.getTypeString(monster.getType3()));
+                monster.setMonsterIdString(String.valueOf(monster.getMonsterId()));
+                realm.commitTransaction();
+            }
+        }
+
+        if (realm.where(Monster.class).equalTo("monsterId", 0).findFirst() == null) {
+            Monster monster = new Monster(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+            realm.beginTransaction();
+            realm.copyToRealm(monster);
             realm.commitTransaction();
         }
 

@@ -83,7 +83,7 @@ public class TeamBadgeDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         if (getArguments() != null) {
-            team = getArguments().getParcelable("team");
+//            team = getArguments().getParcelable("team");
         }
 
         teamBadgeList = new ArrayList<>();

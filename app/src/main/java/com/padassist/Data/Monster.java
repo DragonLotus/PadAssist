@@ -7,7 +7,6 @@ import android.util.Log;
 
 
 import com.padassist.ParcelConverters.ActiveSkillParcelConverter;
-import com.padassist.ParcelConverters.BaseMonsterParcelConverter;
 import com.padassist.ParcelConverters.RealmIntParcelConverter;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
@@ -644,7 +643,7 @@ public class Monster extends RealmObject {
     public BaseMonster getBaseMonster() {
         return baseMonster;
     }
-    @ParcelPropertyConverter(BaseMonsterParcelConverter.class)
+
     public void setBaseMonster(BaseMonster baseMonster) {
         this.baseMonster = baseMonster;
     }

@@ -450,24 +450,25 @@ public class MonsterListFragment extends Fragment {
             if (team.getTeamIdOverwrite() == 0) {
                 for (int i = 0; i < monsters.size(); i++) {
                     if (!monsters.get(i).equals(monster0)) {
+                        teamSaveDialogFragment.dismiss();
                         if (clearTeamConfirmationDialogFragment == null) {
                             clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
                         }
                         if (!clearTeamConfirmationDialogFragment.isAdded()) {
                             clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
                         }
-                        teamSaveDialogFragment.dismiss();
+                        break;
                     }
                 }
             } else if(teamOverwrite != null){
                 if (!team.getMonsters().equals(teamOverwrite.getMonsters()) || !team.getTeamName().equals(teamOverwrite.getTeamName()) || team.getTeamBadge() != teamOverwrite.getTeamBadge()) {
-                    if (clearTeamConfirmationDialogFragment == null) {
-                        clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
-                    }
-                    if (!clearTeamConfirmationDialogFragment.isAdded()) {
-                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
-                    }
                     teamSaveDialogFragment.dismiss();
+//                    if (clearTeamConfirmationDialogFragment == null) {
+//                        clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
+//                    }
+//                    if (!clearTeamConfirmationDialogFragment.isAdded()) {
+//                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+//                    }
                 } else {
                     clearTeamMethod();
                 }
@@ -481,6 +482,7 @@ public class MonsterListFragment extends Fragment {
         @Override
         public void resetLayout() {
             clearTeamMethod();
+            clearTeamConfirmationDialogFragment.dismiss();
         }
     };
 

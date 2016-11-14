@@ -429,7 +429,6 @@ public class DamageCalculationUtil {
         double killerDamage = damage;
         int counter;
         ArrayList<Integer> trimmedKillerAwakenings = new ArrayList<>();
-        Log.d("DamageCalc", "enemy types is: " + enemy.getTypes());
         if(monster.getKillerAwakenings().size() != 0){
             for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
                 if(!trimmedKillerAwakenings.contains(monster.getKillerAwakenings().get(i).getValue())){
@@ -560,7 +559,6 @@ public class DamageCalculationUtil {
                         }
                         break;
                 }
-                Log.d("DamageCalc", "counter is: " + counter);
             }
         }
         return killerDamage;

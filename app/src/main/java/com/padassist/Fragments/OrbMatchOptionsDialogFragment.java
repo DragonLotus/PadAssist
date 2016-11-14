@@ -91,7 +91,7 @@ public class OrbMatchOptionsDialogFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
 
         if (getArguments() != null) {
-            team = getArguments().getParcelable("team");
+//            team = getArguments().getParcelable("team");
         }
         if(team.getLeadSkill().getName().equals("Blank")){
             leaderSkillDesc.setVisibility(View.GONE);
