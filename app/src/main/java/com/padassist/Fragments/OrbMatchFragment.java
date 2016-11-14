@@ -635,7 +635,7 @@ public class OrbMatchFragment extends Fragment {
     public static OrbMatchFragment newInstance(Team team, Enemy enemy) {
         OrbMatchFragment fragment = new OrbMatchFragment();
         Bundle args = new Bundle();
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
@@ -882,7 +882,7 @@ public class OrbMatchFragment extends Fragment {
             }
         }
         realm.commitTransaction();
-        team.setOrbMatches();
+        team.setOrbMatches(orbMatchList);
         team.updateOrbs();
         if (orbMatchList.size() != 0) {
             team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);

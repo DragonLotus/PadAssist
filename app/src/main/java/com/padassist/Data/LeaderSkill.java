@@ -1,10 +1,17 @@
 package com.padassist.Data;
 
+import com.padassist.ParcelConverters.RealmDoubleParcelConverter;
+import com.padassist.ParcelConverters.RealmElementParcelConverter;
+import com.padassist.ParcelConverters.RealmIntParcelConverter;
+import com.padassist.ParcelConverters.RealmLongParcelConverter;
 import com.padassist.Util.Singleton;
+
+import org.parceler.ParcelPropertyConverter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.LeaderSkillRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -13,7 +20,9 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by DragonLotus on 9/18/2015.
  */
-
+@org.parceler.Parcel(implementations = {LeaderSkillRealmProxy.class},
+        value = org.parceler.Parcel.Serialization.BEAN,
+        analyze = {LeaderSkill.class})
 public class LeaderSkill extends RealmObject {
 
     private RealmList<RealmDouble> hpData;
@@ -99,7 +108,7 @@ public class LeaderSkill extends RealmObject {
     public RealmList<RealmDouble> getAtkData() {
         return atkData;
     }
-
+    @ParcelPropertyConverter(RealmDoubleParcelConverter.class)
     public void setAtkData(RealmList<RealmDouble> atkData) {
         this.atkData = atkData;
     }
@@ -112,6 +121,7 @@ public class LeaderSkill extends RealmObject {
         return atkElement;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setAtkElement(RealmList<RealmInt> atkElement) {
         this.atkElement = atkElement;
     }
@@ -132,6 +142,7 @@ public class LeaderSkill extends RealmObject {
         return atkType;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setAtkType(RealmList<RealmInt> atkType) {
         this.atkType = atkType;
     }
@@ -184,6 +195,7 @@ public class LeaderSkill extends RealmObject {
         return hpData;
     }
 
+    @ParcelPropertyConverter(RealmDoubleParcelConverter.class)
     public void setHpData(RealmList<RealmDouble> hpData) {
         this.hpData = hpData;
     }
@@ -196,6 +208,7 @@ public class LeaderSkill extends RealmObject {
         return hpElement;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setHpElement(RealmList<RealmInt> hpElement) {
         this.hpElement = hpElement;
     }
@@ -216,6 +229,7 @@ public class LeaderSkill extends RealmObject {
         return hpType;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setHpType(RealmList<RealmInt> hpType) {
         this.hpType = hpType;
     }
@@ -228,6 +242,7 @@ public class LeaderSkill extends RealmObject {
         return matchElements;
     }
 
+    @ParcelPropertyConverter(RealmElementParcelConverter.class)
     public void setMatchElements(RealmList<RealmElement> matchElements) {
         this.matchElements = matchElements;
     }
@@ -240,6 +255,7 @@ public class LeaderSkill extends RealmObject {
         return matchElements2;
     }
 
+    @ParcelPropertyConverter(RealmElementParcelConverter.class)
     public void setMatchElements2(RealmList<RealmElement> matchElements2) {
         this.matchElements2 = matchElements2;
     }
@@ -252,6 +268,7 @@ public class LeaderSkill extends RealmObject {
         return matchMonsters;
     }
 
+    @ParcelPropertyConverter(RealmLongParcelConverter.class)
     public void setMatchMonsters(RealmList<RealmLong> matchMonsters) {
         this.matchMonsters = matchMonsters;
     }
@@ -272,6 +289,7 @@ public class LeaderSkill extends RealmObject {
         return rcvData;
     }
 
+    @ParcelPropertyConverter(RealmDoubleParcelConverter.class)
     public void setRcvData(RealmList<RealmDouble> rcvData) {
         this.rcvData = rcvData;
     }
@@ -284,6 +302,7 @@ public class LeaderSkill extends RealmObject {
         return rcvElement;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setRcvElement(RealmList<RealmInt> rcvElement) {
         this.rcvElement = rcvElement;
     }
@@ -304,6 +323,7 @@ public class LeaderSkill extends RealmObject {
         return rcvType;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setRcvType(RealmList<RealmInt> rcvType) {
         this.rcvType = rcvType;
     }
@@ -340,6 +360,7 @@ public class LeaderSkill extends RealmObject {
         return hpPercent;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setHpPercent(RealmList<RealmInt> hpPercent) {
         this.hpPercent = hpPercent;
     }
@@ -356,6 +377,7 @@ public class LeaderSkill extends RealmObject {
         return atkElement2;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setAtkElement2(RealmList<RealmInt> atkElement2) {
         this.atkElement2 = atkElement2;
     }
@@ -364,6 +386,7 @@ public class LeaderSkill extends RealmObject {
         return atkType2;
     }
 
+    @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setAtkType2(RealmList<RealmInt> atkType2) {
         this.atkType2 = atkType2;
     }

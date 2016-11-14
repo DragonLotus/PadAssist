@@ -48,7 +48,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         ExtraMultiplierDialogFragment dialogFragment = new ExtraMultiplierDialogFragment();
         dialogFragment.setSaveTeam(saveTeam);
         Bundle args = new Bundle();
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         dialogFragment.setArguments(args);
         return dialogFragment;
     }

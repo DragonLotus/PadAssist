@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (realm.where(Monster.class).equalTo("monsterId", 0).findFirst() == null) {
-            Monster monster = new Monster(0);
+            Monster monster = new Monster(realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
             realm.beginTransaction();
             realm.copyToRealm(monster);
             realm.commitTransaction();

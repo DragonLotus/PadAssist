@@ -81,7 +81,7 @@ public class MonsterListFragment extends Fragment {
     public static MonsterListFragment newInstance(Team team, Enemy enemy) {
         MonsterListFragment fragment = new MonsterListFragment();
         Bundle args = new Bundle();
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
@@ -143,7 +143,7 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        team.setTeamStats();
+        team.setTeamStats(realm);
         team.setAwakenings();
     }
 
@@ -190,7 +190,7 @@ public class MonsterListFragment extends Fragment {
                 }
                 break;
             case R.id.toggleCoop:
-                team.setTeamStats();
+                team.setTeamStats(realm);
                 monsterListRecycler.notifyDataSetChanged();
                 break;
             case R.id.loadTeam:

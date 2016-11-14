@@ -122,7 +122,7 @@ public class TeamDamageListFragment extends Fragment {
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
         args.putInt("additionalCombos", additionalCombos);
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;
@@ -133,7 +133,7 @@ public class TeamDamageListFragment extends Fragment {
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
         args.putInt("additionalCombos", additionalCombos);
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -850,13 +850,13 @@ public class TeamDamageListFragment extends Fragment {
                 monsterListAdapter.notifyDataSetChanged();
             } else if (buttonView.equals(hasLeaderSkillCheck1)) {
                 Singleton.getInstance().setHasLeaderSkill(isChecked);
-                team.setTeamStats();
+                team.setTeamStats(realm);
                 team.setAtkMultiplierArrays(totalCombos);
                 updateTextView();
                 monsterListAdapter.notifyDataSetChanged();
             } else if (buttonView.equals(hasLeaderSkillCheck2)) {
                 Singleton.getInstance().setHasHelperSkill(isChecked);
-                team.setTeamStats();
+                team.setTeamStats(realm);
                 team.setAtkMultiplierArrays(totalCombos);
                 updateTextView();
                 monsterListAdapter.notifyDataSetChanged();

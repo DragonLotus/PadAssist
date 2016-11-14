@@ -155,7 +155,7 @@ public class EnemyTargetFragment extends Fragment {
         EnemyTargetFragment fragment = new EnemyTargetFragment();
         Bundle args = new Bundle();
         args.putInt("additionalCombos", additionalCombos);
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
         fragment.setArguments(args);
         return fragment;

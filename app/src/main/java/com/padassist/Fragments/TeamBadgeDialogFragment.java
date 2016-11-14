@@ -42,7 +42,7 @@ public class TeamBadgeDialogFragment extends DialogFragment {
         TeamBadgeDialogFragment dialogFragment = new TeamBadgeDialogFragment();
         dialogFragment.setSetTeamBadge(setTeamBadge);
         Bundle args = new Bundle();
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         dialogFragment.setArguments(args);
         return dialogFragment;
     }

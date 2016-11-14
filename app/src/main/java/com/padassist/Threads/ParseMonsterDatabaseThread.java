@@ -1,10 +1,7 @@
 package com.padassist.Threads;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.LeaderSkill;
@@ -14,7 +11,6 @@ import com.padassist.Data.RealmElement;
 import com.padassist.Data.RealmInt;
 import com.padassist.Data.RealmLeaderSkillType;
 import com.padassist.Data.RealmLong;
-import com.padassist.R;
 import com.padassist.Util.Singleton;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -207,14 +203,14 @@ public class ParseMonsterDatabaseThread extends Thread {
 //                    monster.setMonsterId(monsterNode.get("id").asLong());
 //                }
                     if (monsterNode.hasNonNull("element")) {
-                        monster.setElement1(monsterNode.get("element").asInt());
+                        monster.setElement1Int(monsterNode.get("element").asInt());
                     } else {
-                        monster.setElement1(-1);
+                        monster.setElement1Int(-1);
                     }
                     if (monsterNode.hasNonNull("element2")) {
-                        monster.setElement2(monsterNode.get("element2").asInt());
+                        monster.setElement2Int(monsterNode.get("element2").asInt());
                     } else {
-                        monster.setElement2(-1);
+                        monster.setElement2Int(-1);
                     }
                     if (monsterNode.hasNonNull("name")) {
                         monster.setName(monsterNode.get("name").asText());

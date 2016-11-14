@@ -41,7 +41,7 @@ public class TeamLoadDialogFragment extends DialogFragment {
         TeamLoadDialogFragment dialogFragment = new TeamLoadDialogFragment();
         dialogFragment.setLoadTeam(loadTeam);
         Bundle args = new Bundle();
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         return dialogFragment;
     }
 

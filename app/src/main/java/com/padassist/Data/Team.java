@@ -9,6 +9,8 @@ import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Comparators.NumberComparator;
 import com.padassist.Util.Singleton;
 
+import org.parceler.ParcelPropertyConverter;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,14 +18,17 @@ import java.util.Comparator;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
+import io.realm.TeamRealmProxy;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by DragonLotus on 8/10/2015.
  */
-
-public class Team extends RealmObject implements Parcelable {
+@org.parceler.Parcel(implementations = {TeamRealmProxy.class},
+        value = org.parceler.Parcel.Serialization.BEAN,
+        analyze = {Team.class})
+public class Team extends RealmObject {
     @PrimaryKey
     private long teamId;
     @Ignore
@@ -91,8 +96,8 @@ public class Team extends RealmObject implements Parcelable {
     private ArrayList<Integer> latentsList = new ArrayList<>();
     @Ignore
     private Comparator<Integer> numberComparator = new NumberComparator();
-    @Ignore
-    private Realm realm = Realm.getDefaultInstance();
+//    @Ignore
+//    private Realm realm = Realm.getDefaultInstance();
     private int teamBadge = 0;
 
     public Team() {
@@ -205,12 +210,14 @@ public class Team extends RealmObject implements Parcelable {
 
     }
 
-    public void setOrbMatches() {
-        RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
+    public void setOrbMatches(ArrayList<OrbMatch> orbMatchList) {
+//        RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
+//        orbMatches.clear();
+//        for (int i = 0; i < results.size(); i++) {
+//            orbMatches.add(realm.copyFromRealm(results.get(i)));
+//        }
         orbMatches.clear();
-        for (int i = 0; i < results.size(); i++) {
-            orbMatches.add(realm.copyFromRealm(results.get(i)));
-        }
+        orbMatches.addAll(orbMatchList);
     }
 
 
@@ -355,23 +362,23 @@ public class Team extends RealmObject implements Parcelable {
     }
 
     public LeaderSkill getLeadSkill() {
-        LeaderSkill leaderSkill;
-        if (isBound.get(0) || monsters.get(0).getMonsterId() == 0) {
-            leaderSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
-            return realm.copyFromRealm(leaderSkill);
-        } else {
+//        LeaderSkill leaderSkill;
+//        if (isBound.get(0) || monsters.get(0).getMonsterId() == 0) {
+//            leaderSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
+//            return realm.copyFromRealm(leaderSkill);
+//        } else {
             return lead.getLeaderSkill();
-        }
+//        }
     }
 
     public LeaderSkill getHelperSkill() {
-        LeaderSkill helperSkill;
-        if (isBound.get(5) || monsters.get(5).getMonsterId() == 0) {
-            helperSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
-            return realm.copyFromRealm(helperSkill);
-        } else {
+//        LeaderSkill helperSkill;
+//        if (isBound.get(5) || monsters.get(5).getMonsterId() == 0) {
+//            helperSkill = realm.where(LeaderSkill.class).equalTo("name", "Blank").findFirst();
+//            return realm.copyFromRealm(helperSkill);
+//        } else {
             return helper.getLeaderSkill();
-        }
+//        }
     }
 
     public ArrayList<Double> getAtk1Multiplier() {
@@ -745,7 +752,7 @@ public class Team extends RealmObject implements Parcelable {
         }
     }
 
-    public void setTeamStats() {
+    public void setTeamStats(Realm realm) {
         realm.beginTransaction();
         setHpRcvMultiplierArrays(0);
         Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
@@ -806,7 +813,7 @@ public class Team extends RealmObject implements Parcelable {
     }
 
     public void setAtkMultiplierArrays(int combos) {
-        Log.d("Team", "Leader skill is: " + getLeadSkill().getName() + " Helper skill is: " + getHelperSkill().getName());
+        Log.d("Team", "Leader skill is: " + lead.getLeaderSkill().getName() + " Helper skill is: " + helper.getLeaderSkill().getName());
         for (int i = 0; i < getMonsters().size(); i++){
             ArrayList<Double> atkMultiplier = new ArrayList<>();
             atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
@@ -837,67 +844,68 @@ public class Team extends RealmObject implements Parcelable {
 //        }
 //    }
 
-    public Team(Parcel source) {
-        teamHealth = source.readInt();
-        teamRcv = source.readInt();
-        totalDamage = source.readLong();
-        orbPlusAwakenings = source.readArrayList(Integer.class.getClassLoader());
-        rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
-        monsters = source.readArrayList(Monster.class.getClassLoader());
-        orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
-        haveElements = source.readArrayList(Element.class.getClassLoader());
-        compareElements = source.readArrayList(Element.class.getClassLoader());
-        isBound = source.readArrayList(Boolean.class.getClassLoader());
-        hpMultiplier = source.readArrayList(Double.class.getClassLoader());
-        rcvMultiplier = source.readArrayList(Double.class.getClassLoader());
-        atk1Multiplier = source.readArrayList(Double.class.getClassLoader());
-        atk2Multiplier = source.readArrayList(Double.class.getClassLoader());
-        teamId = source.readLong();
-        teamName = source.readString();
-        teamGroup = source.readInt();
-        teamOrder = source.readInt();
-        favorite = source.readByte() == 1;
-        teamIdOverwrite = source.readLong();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(teamHealth);
-        dest.writeInt(teamRcv);
-        dest.writeLong(totalDamage);
-        dest.writeList(orbPlusAwakenings);
-        dest.writeList(rowAwakenings);
-        dest.writeList(monsters);
-        dest.writeList(orbMatches);
-        dest.writeList(haveElements);
-        dest.writeList(compareElements);
-        dest.writeList(isBound);
-        dest.writeList(hpMultiplier);
-        dest.writeList(rcvMultiplier);
-        dest.writeList(atk1Multiplier);
-        dest.writeList(atk2Multiplier);
-        dest.writeLong(teamId);
-        dest.writeString(teamName);
-        dest.writeInt(teamGroup);
-        dest.writeInt(teamOrder);
-        dest.writeByte((byte) (favorite ? 1 : 0));
-        dest.writeLong(teamIdOverwrite);
-    }
-
-    public static final Parcelable.Creator<Team> CREATOR = new Creator<Team>() {
-        public Team createFromParcel(Parcel source) {
-            return new Team(source);
-        }
-
-        public Team[] newArray(int size) {
-            return new Team[size];
-        }
-    };
+//
+//    public Team(Parcel source) {
+//        teamHealth = source.readInt();
+//        teamRcv = source.readInt();
+//        totalDamage = source.readLong();
+//        orbPlusAwakenings = source.readArrayList(Integer.class.getClassLoader());
+//        rowAwakenings = source.readArrayList(Integer.class.getClassLoader());
+//        monsters = source.readArrayList(Monster.class.getClassLoader());
+//        orbMatches = source.readArrayList(OrbMatch.class.getClassLoader());
+//        haveElements = source.readArrayList(Element.class.getClassLoader());
+//        compareElements = source.readArrayList(Element.class.getClassLoader());
+//        isBound = source.readArrayList(Boolean.class.getClassLoader());
+//        hpMultiplier = source.readArrayList(Double.class.getClassLoader());
+//        rcvMultiplier = source.readArrayList(Double.class.getClassLoader());
+//        atk1Multiplier = source.readArrayList(Double.class.getClassLoader());
+//        atk2Multiplier = source.readArrayList(Double.class.getClassLoader());
+//        teamId = source.readLong();
+//        teamName = source.readString();
+//        teamGroup = source.readInt();
+//        teamOrder = source.readInt();
+//        favorite = source.readByte() == 1;
+//        teamIdOverwrite = source.readLong();
+//    }
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeInt(teamHealth);
+//        dest.writeInt(teamRcv);
+//        dest.writeLong(totalDamage);
+//        dest.writeList(orbPlusAwakenings);
+//        dest.writeList(rowAwakenings);
+//        dest.writeList(monsters);
+//        dest.writeList(orbMatches);
+//        dest.writeList(haveElements);
+//        dest.writeList(compareElements);
+//        dest.writeList(isBound);
+//        dest.writeList(hpMultiplier);
+//        dest.writeList(rcvMultiplier);
+//        dest.writeList(atk1Multiplier);
+//        dest.writeList(atk2Multiplier);
+//        dest.writeLong(teamId);
+//        dest.writeString(teamName);
+//        dest.writeInt(teamGroup);
+//        dest.writeInt(teamOrder);
+//        dest.writeByte((byte) (favorite ? 1 : 0));
+//        dest.writeLong(teamIdOverwrite);
+//    }
+//
+//    public static final Parcelable.Creator<Team> CREATOR = new Creator<Team>() {
+//        public Team createFromParcel(Parcel source) {
+//            return new Team(source);
+//        }
+//
+//        public Team[] newArray(int size) {
+//            return new Team[size];
+//        }
+//    };
 
 //    public static List<Team> getAllTeams() {
 //        return new Select().from(Team.class).where("teamId > ?", 0).execute();

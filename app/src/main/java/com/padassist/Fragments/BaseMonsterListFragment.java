@@ -86,7 +86,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
 //                    long lastMonsterId = results.get(results.size() - 1).getMonsterId();
                     long lastMonsterId = realm.where(Monster.class).findAllSorted("monsterId").last().getMonsterId();
 
-                    newMonster = new Monster(monsterList.get(position).getMonsterId());
+                    newMonster = new Monster(monsterList.get(position));
                     if (monsterPosition == 5) {
                         newMonster.setHelper(true);
                     }
@@ -167,7 +167,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
                 } else {
                     RealmResults<Monster> results = realm.where(Monster.class).findAllSorted("monsterId");
                     long lastMonsterId = results.get(results.size() - 1).getMonsterId();
-                    newMonster = new Monster(monsterList.get(position).getMonsterId());
+                    newMonster = new Monster(monsterList.get(position));
                     if (monsterPosition == 5) {
                         newMonster.setHelper(true);
                     }

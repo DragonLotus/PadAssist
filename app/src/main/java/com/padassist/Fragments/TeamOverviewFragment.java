@@ -60,7 +60,7 @@ public class TeamOverviewFragment extends Fragment {
     public static TeamOverviewFragment newInstance(Team team) {
         TeamOverviewFragment fragment = new TeamOverviewFragment();
         Bundle args = new Bundle();
-        args.putParcelable("team", team);
+//        args.putParcelable("team", team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,7 +98,7 @@ public class TeamOverviewFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.toggleCoop:
-                team.setTeamStats();
+                team.setTeamStats(realm);
                 setTeamStats();
                 break;
         }
@@ -373,7 +373,7 @@ public class TeamOverviewFragment extends Fragment {
             }
             realm.commitTransaction();
             setTeamBadge();
-            team.setTeamStats();
+            team.setTeamStats(realm);
             setTeamStats();
             utilityAwakeningGridAdapter.updateTeamBadge(team.getTeamBadge());
         }
@@ -387,7 +387,7 @@ public class TeamOverviewFragment extends Fragment {
             } else if (buttonView.equals(hasLeaderSkillCheck2)){
                 Singleton.getInstance().setHasHelperSkill(isChecked);
             }
-            team.setTeamStats();
+            team.setTeamStats(realm);
             setTeamStats();
         }
     };
