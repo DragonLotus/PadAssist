@@ -209,28 +209,6 @@ public class MainActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         enemy = new Enemy();
 
-        if (realm.where(Team.class).equalTo("teamId", 0).findFirst() == null) {
-            team = new Team();
-            team.setLead(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setSub1(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setSub2(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setSub3(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setSub4(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setHelper(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            realm.beginTransaction();
-            team = realm.copyToRealmOrUpdate(team);
-            realm.commitTransaction();
-        } else {
-            team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
-            for (int i = 0; i < team.getMonsters().size(); i++) {
-                if (team.getMonsters().get(i) == null) {
-                    realm.beginTransaction();
-                    team.setMonsters(i, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-                    realm.commitTransaction();
-                }
-            }
-        }
-
         if (realm.where(OrbMatch.class).findAll().size() != 0) {
             RealmResults<OrbMatch> orbMatchList;
             orbMatchList = realm.where(OrbMatch.class).findAll();
@@ -293,6 +271,28 @@ public class MainActivity extends AppCompatActivity {
             realm.beginTransaction();
             realm.copyToRealm(monster);
             realm.commitTransaction();
+        }
+
+        if (realm.where(Team.class).equalTo("teamId", 0).findFirst() == null) {
+            team = new Team();
+            team.setLead(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setSub1(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setSub2(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setSub3(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setSub4(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.setHelper(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            realm.beginTransaction();
+            team = realm.copyToRealmOrUpdate(team);
+            realm.commitTransaction();
+        } else {
+            team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+            for (int i = 0; i < team.getMonsters().size(); i++) {
+                if (team.getMonsters().get(i) == null) {
+                    realm.beginTransaction();
+                    team.setMonsters(i, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+                    realm.commitTransaction();
+                }
+            }
         }
 
         switchFragment(MonsterListFragment.newInstance(enemy), MonsterListFragment.TAG, "good");

@@ -155,11 +155,6 @@ public class TeamListFragment extends Fragment {
         super.onStart();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        realm.close();
-    }
 
     @Override
     public void onDestroy() {
@@ -169,6 +164,7 @@ public class TeamListFragment extends Fragment {
                 MenuItemCompat.collapseActionView(searchMenuItem);
             }
         }
+        realm.close();
     }
 
     @Override

@@ -659,8 +659,8 @@ public class OrbMatchFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         realm.close();
     }
 

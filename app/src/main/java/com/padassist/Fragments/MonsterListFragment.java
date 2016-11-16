@@ -76,8 +76,6 @@ public class MonsterListFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment MonsterListFragment.
      */
     // TODO: Rename and change types and number of parameters
@@ -101,7 +99,6 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        realm.close();
     }
 
     @Override
@@ -147,6 +144,12 @@ public class MonsterListFragment extends Fragment {
         super.onDestroyView();
         team.setTeamStats(realm);
         team.setAwakenings();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 
     /**
