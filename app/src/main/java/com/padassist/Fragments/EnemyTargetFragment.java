@@ -1,13 +1,11 @@
 package com.padassist.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,12 +32,15 @@ import com.padassist.Adapters.GravityListAdapter;
 import com.padassist.Adapters.TypeSpinnerAdapter;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
+import com.padassist.Data.RealmElement;
+import com.padassist.Data.RealmInt;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.TooltipText;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 
+import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.text.DecimalFormat;
@@ -69,8 +70,8 @@ public class EnemyTargetFragment extends Fragment {
     private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, damageImmunityValue, reductionValue;
     private ImageView targetAbsorb, targetReduction, damageThreshold, damageImmunity, defenseBreakIcon;
     private TextView percentHpValue, totalGravityValue;
-    private RadioGroup orbRadioGroup, absorbRadioGroup, reductionRadioGroup;
-    private RadioButton redOrb, blueOrb, greenOrb, lightOrb, darkOrb;
+    private RadioGroup orbRadioGroup1, orbRadioGroup2, absorbRadioGroup, reductionRadioGroup;
+    private RadioButton redOrb1, blueOrb1, greenOrb1, lightOrb1, darkOrb1, redOrb2, blueOrb2, greenOrb2, lightOrb2, darkOrb2;
     private Button gravityShowHideButton, clearButton, hpReset, calculate;
     private LinearLayout gravityHolder;
     private GravityListAdapter gravityListAdapter;
@@ -125,9 +126,9 @@ public class EnemyTargetFragment extends Fragment {
                 enemy.setTargetDef(statValue);
             } else if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD) {
                 enemy.setDamageThreshold(statValue);
-            } else if (statToChange == MyTextWatcher.REDUCTION_VALUE){
+            } else if (statToChange == MyTextWatcher.REDUCTION_VALUE) {
                 enemy.setReductionValue(statValue);
-                if(statValue > 100){
+                if (statValue > 100) {
                     enemy.setReductionValue(100);
                     reductionValue.setText("100");
                 }
@@ -154,7 +155,7 @@ public class EnemyTargetFragment extends Fragment {
      * @return A new instance of fragment EnemyTargetFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EnemyTargetFragment newInstance(int additionalCombos, Parcelable team, Enemy enemy) {
+    public static EnemyTargetFragment newInstance(int additionalCombos, Parcelable team, Parcelable enemy) {
         EnemyTargetFragment fragment = new EnemyTargetFragment();
         Bundle args = new Bundle();
         args.putInt("additionalCombos", additionalCombos);
@@ -186,7 +187,8 @@ public class EnemyTargetFragment extends Fragment {
         targetDefenseValue = (EditText) rootView.findViewById(R.id.targetDefenseValue);
         damageThresholdValue = (EditText) rootView.findViewById(R.id.damageThresholdValue);
         percentHpValue = (TextView) rootView.findViewById(R.id.percentHPValue);
-        orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.elementRadioGroup);
+        orbRadioGroup1 = (RadioGroup) rootView.findViewById(R.id.element1RadioGroup);
+        orbRadioGroup2 = (RadioGroup) rootView.findViewById(R.id.element2RadioGroup);
         gravityList = (ListView) rootView.findViewById(R.id.gravityList);
         totalGravityValue = (TextView) rootView.findViewById(R.id.totalGravityValue);
         gravityButtonList = (GridView) rootView.findViewById(R.id.gravityButtonGrid);
@@ -211,11 +213,16 @@ public class EnemyTargetFragment extends Fragment {
         greenOrbAbsorb = (CheckBox) rootView.findViewById(R.id.greenOrbAbsorb);
         lightOrbAbsorb = (CheckBox) rootView.findViewById(R.id.lightOrbAbsorb);
         darkOrbAbsorb = (CheckBox) rootView.findViewById(R.id.darkOrbAbsorb);
-        redOrb = (RadioButton) rootView.findViewById(R.id.redOrb);
-        blueOrb = (RadioButton) rootView.findViewById(R.id.blueOrb);
-        greenOrb = (RadioButton) rootView.findViewById(R.id.greenOrb);
-        lightOrb = (RadioButton) rootView.findViewById(R.id.lightOrb);
-        darkOrb = (RadioButton) rootView.findViewById(R.id.darkOrb);
+        redOrb1 = (RadioButton) rootView.findViewById(R.id.redOrb1);
+        blueOrb1 = (RadioButton) rootView.findViewById(R.id.blueOrb1);
+        greenOrb1 = (RadioButton) rootView.findViewById(R.id.greenOrb1);
+        lightOrb1 = (RadioButton) rootView.findViewById(R.id.lightOrb1);
+        darkOrb1 = (RadioButton) rootView.findViewById(R.id.darkOrb1);
+        redOrb2 = (RadioButton) rootView.findViewById(R.id.redOrb2);
+        blueOrb2 = (RadioButton) rootView.findViewById(R.id.blueOrb2);
+        greenOrb2 = (RadioButton) rootView.findViewById(R.id.greenOrb2);
+        lightOrb2 = (RadioButton) rootView.findViewById(R.id.lightOrb2);
+        darkOrb2 = (RadioButton) rootView.findViewById(R.id.darkOrb2);
         type1Spinner = (Spinner) rootView.findViewById(R.id.type1Spinner);
         type2Spinner = (Spinner) rootView.findViewById(R.id.type2Spinner);
         type3Spinner = (Spinner) rootView.findViewById(R.id.type3Spinner);
@@ -235,15 +242,15 @@ public class EnemyTargetFragment extends Fragment {
         if (getArguments() != null) {
             additionalCombos = getArguments().getInt("additionalCombos");
             team = Parcels.unwrap(getArguments().getParcelable("team"));
-            enemy = getArguments().getParcelable("enemy");
+            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
         tempAbsorbList = new ArrayList<>();
         tempReductionList = new ArrayList<>();
-        for(int i = 0; i < enemy.getAbsorb().size(); i++){
-            tempAbsorbList.add(enemy.getAbsorb().get(i));
+        for (int i = 0; i < enemy.getAbsorb().size(); i++) {
+            tempAbsorbList.add(enemy.getAbsorb().get(i).getElement());
         }
-        for(int i = 0; i < enemy.getReduction().size(); i++){
-            tempReductionList.add(enemy.getReduction().get(i));
+        for (int i = 0; i < enemy.getReduction().size(); i++) {
+            tempReductionList.add(enemy.getReduction().get(i).getElement());
         }
         tempAbsorb = enemy.getHasAbsorb();
         tempReduction = enemy.getHasReduction();
@@ -256,8 +263,8 @@ public class EnemyTargetFragment extends Fragment {
         totalGravityValue.setText(String.valueOf(enemy.getCurrentHp()));
         targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
         reductionValue.setText(String.valueOf(enemy.getReductionValue()));
-
-        gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, enemy, updateGravityPercent);
+        Parcelable enemyParcel = Parcels.wrap(enemy);
+        gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, enemyParcel, updateGravityPercent, enemy.getGravityArrayList());
         gravityList.setAdapter(gravityListAdapter);
         gravityList.setOnItemClickListener(gravityRemoveOnClickListener);
         gravityButtonAdapter = new GravityButtonAdapter(getActivity(), R.layout.gravity_button_grid, new ArrayList<Integer>());
@@ -273,7 +280,7 @@ public class EnemyTargetFragment extends Fragment {
         targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
         reductionValue.setOnFocusChangeListener(editTextOnFocusChange);
 
-        if(enemy.isDamaged()){
+        if (enemy.getDamaged()) {
             enemy.clearGravityList();
             gravityListAdapter.notifyDataSetChanged();
             enemy.setIsDamaged(false);
@@ -330,7 +337,8 @@ public class EnemyTargetFragment extends Fragment {
         damageImmunityValue.setOnFocusChangeListener(editTextOnFocusChange);
         damageImmunityCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
 
-        orbRadioGroup.setOnCheckedChangeListener(enemyElementOnCheckedChangeListener);
+        orbRadioGroup1.setOnCheckedChangeListener(enemyElement1OnCheckedChangeListener);
+        orbRadioGroup2.setOnCheckedChangeListener(enemyElement2OnCheckedChangeListener);
 
         redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         blueOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
@@ -366,8 +374,8 @@ public class EnemyTargetFragment extends Fragment {
         enemy.setReductionValue(tempReductionValue);
         enemy.setDamageImmunity(tempDamageImmunityValue);
         enemy.setHasDamageImmunity(tempDamageImmunity);
-        enemy.setAbsorb(tempAbsorbList);
-        enemy.setReduction(tempReductionList);
+//        enemy.setAbsorb(tempAbsorbList);
+//        enemy.setReduction(tempReductionList);
         setReductionOrbs();
         setAbsorbOrbs();
         setDamageThreshold();
@@ -417,7 +425,7 @@ public class EnemyTargetFragment extends Fragment {
                 clearTextFocus();
                 gravityListAdapter.add(gravityButtonAdapter.getItem(position));
                 gravityListAdapter.notifyDataSetChanged();
-                gravityList.smoothScrollToPosition(gravityListAdapter.getCount()-1);
+                gravityList.smoothScrollToPosition(gravityListAdapter.getCount() - 1);
                 enemy.setCurrentHp((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent()));
                 currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
             }
@@ -457,7 +465,7 @@ public class EnemyTargetFragment extends Fragment {
 
                 if (v.equals(targetHpValue)) {
                     enemy.setBeforeGravityHP(enemy.getCurrentHp());
-                    if(enemy.getTargetHp() < enemy.getCurrentHp()){
+                    if (enemy.getTargetHp() < enemy.getCurrentHp()) {
                         currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
                     }
                     enemy.clearGravityList();
@@ -620,7 +628,7 @@ public class EnemyTargetFragment extends Fragment {
                 } else {
                     damageThresholdValue.setEnabled(false);
                 }
-            } else if (buttonView.equals(damageImmunityCheck)){
+            } else if (buttonView.equals(damageImmunityCheck)) {
                 enemy.setHasDamageImmunity(isChecked);
                 if (isChecked) {
                     damageImmunityValue.setEnabled(true);
@@ -633,26 +641,51 @@ public class EnemyTargetFragment extends Fragment {
         }
     };
 
-    private RadioGroup.OnCheckedChangeListener enemyElementOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+    private RadioGroup.OnCheckedChangeListener enemyElement1OnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             clearTextFocus();
             int radioChecked = group.getCheckedRadioButtonId();
             switch (radioChecked) {
-                case R.id.redOrb:
-                    enemy.setTargetElement(Element.RED);
+                case R.id.redOrb1:
+                    enemy.setTargetElement1(0);
                     break;
-                case R.id.blueOrb:
-                    enemy.setTargetElement(Element.BLUE);
+                case R.id.blueOrb1:
+                    enemy.setTargetElement1(1);
                     break;
-                case R.id.greenOrb:
-                    enemy.setTargetElement(Element.GREEN);
+                case R.id.greenOrb1:
+                    enemy.setTargetElement1(2);
                     break;
-                case R.id.lightOrb:
-                    enemy.setTargetElement(Element.LIGHT);
+                case R.id.lightOrb1:
+                    enemy.setTargetElement1(3);
                     break;
-                case R.id.darkOrb:
-                    enemy.setTargetElement(Element.DARK);
+                case R.id.darkOrb1:
+                    enemy.setTargetElement1(4);
+                    break;
+            }
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener enemyElement2OnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            clearTextFocus();
+            int radioChecked = group.getCheckedRadioButtonId();
+            switch (radioChecked) {
+                case R.id.redOrb2:
+                    enemy.setTargetElement2(0);
+                    break;
+                case R.id.blueOrb2:
+                    enemy.setTargetElement2(1);
+                    break;
+                case R.id.greenOrb2:
+                    enemy.setTargetElement2(2);
+                    break;
+                case R.id.lightOrb2:
+                    enemy.setTargetElement2(3);
+                    break;
+                case R.id.darkOrb2:
+                    enemy.setTargetElement2(4);
                     break;
             }
         }
@@ -667,32 +700,41 @@ public class EnemyTargetFragment extends Fragment {
 
     private void setElementReduction(boolean isChecked, int buttonId) {
         clearTextFocus();
-        Element element = null;
+        int element = -1;
+        Boolean contains = false;
         switch (buttonId) {
             case R.id.redOrbReduction:
-                element = Element.RED;
+                element = 0;
                 break;
             case R.id.blueOrbReduction:
-                element = Element.BLUE;
+                element = 1;
                 break;
             case R.id.greenOrbReduction:
-                element = Element.GREEN;
+                element = 2;
                 break;
             case R.id.lightOrbReduction:
-                element = Element.LIGHT;
+                element = 3;
                 break;
             case R.id.darkOrbReduction:
-                element = Element.DARK;
+                element = 4;
                 break;
         }
 
         if (isChecked) {
-            if (!enemy.containsReduction(element)) {
-                enemy.addReduction(element);
+            for (int i = 0; i < enemy.getReduction().size(); i++) {
+                if (enemy.getReduction().get(i).getValue() == element && !contains) {
+                    contains = true;
+                }
+            }
+            if (element >= 0 && !contains) {
+                enemy.getReduction().add(new RealmElement(element));
             }
         } else {
-            if (enemy.containsReduction(element)) {
-                enemy.removeReduction(element);
+            for (int i = 0; i < enemy.getReduction().size(); i++) {
+                if (enemy.getReduction().get(i).getValue() == element) {
+                    enemy.getReduction().remove(i);
+                    break;
+                }
             }
         }
     }
@@ -706,32 +748,41 @@ public class EnemyTargetFragment extends Fragment {
 
     private void setElementAbsorb(boolean isChecked, int buttonId) {
         clearTextFocus();
-        Element element = null;
+        int element = -1;
+        Boolean contains = false;
         switch (buttonId) {
             case R.id.redOrbAbsorb:
-                element = Element.RED;
+                element = 0;
                 break;
             case R.id.blueOrbAbsorb:
-                element = Element.BLUE;
+                element = 1;
                 break;
             case R.id.greenOrbAbsorb:
-                element = Element.GREEN;
+                element = 2;
                 break;
             case R.id.lightOrbAbsorb:
-                element = Element.LIGHT;
+                element = 3;
                 break;
             case R.id.darkOrbAbsorb:
-                element = Element.DARK;
+                element = 4;
                 break;
         }
 
         if (isChecked) {
-            if (!enemy.getAbsorb().contains(element)) {
-                enemy.getAbsorb().add(element);
+            for (int i = 0; i < enemy.getAbsorb().size(); i++) {
+                if (enemy.getAbsorb().get(i).getValue() == element && !contains) {
+                    contains = true;
+                }
+            }
+            if (element >= 0 && !contains) {
+                enemy.getAbsorb().add(new RealmElement(element));
             }
         } else {
-            if (enemy.getAbsorb().contains(element)) {
-                enemy.getAbsorb().remove(element);
+            for (int i = 0; i < enemy.getAbsorb().size(); i++) {
+                if (enemy.getAbsorb().get(i).getValue() == element) {
+                    enemy.getAbsorb().remove(i);
+                    break;
+                }
             }
         }
     }
@@ -742,33 +793,33 @@ public class EnemyTargetFragment extends Fragment {
             for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                 reductionRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.containsReduction(Element.RED)) {
+            if (enemy.reductionContains(Element.RED)) {
                 redOrbReduction.setChecked(true);
             } else {
                 redOrbReduction.setChecked(false);
             }
-            if (enemy.containsReduction(Element.BLUE)) {
+            if (enemy.reductionContains(Element.BLUE)) {
                 blueOrbReduction.setChecked(true);
             } else {
                 blueOrbReduction.setChecked(false);
             }
-            if (enemy.containsReduction(Element.GREEN)) {
+            if (enemy.reductionContains(Element.GREEN)) {
                 greenOrbReduction.setChecked(true);
             } else {
                 greenOrbReduction.setChecked(false);
             }
-            if (enemy.containsReduction(Element.DARK)) {
+            if (enemy.reductionContains(Element.DARK)) {
                 darkOrbReduction.setChecked(true);
             } else {
                 darkOrbReduction.setChecked(false);
             }
-            if (enemy.containsReduction(Element.LIGHT)) {
+            if (enemy.reductionContains(Element.LIGHT)) {
                 lightOrbReduction.setChecked(true);
             } else {
                 lightOrbReduction.setChecked(false);
             }
 
-        }else {
+        } else {
             reductionCheck.setChecked(false);
             redOrbReduction.setChecked(false);
             blueOrbReduction.setChecked(false);
@@ -787,33 +838,33 @@ public class EnemyTargetFragment extends Fragment {
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.getAbsorb().contains(Element.RED)) {
+            if (enemy.absorbContains(Element.RED)) {
                 redOrbAbsorb.setChecked(true);
             } else {
                 redOrbAbsorb.setChecked(false);
             }
-            if (enemy.getAbsorb().contains(Element.BLUE)) {
+            if (enemy.absorbContains(Element.BLUE)) {
                 blueOrbAbsorb.setChecked(true);
             } else {
                 blueOrbAbsorb.setChecked(false);
             }
-            if (enemy.getAbsorb().contains(Element.GREEN)) {
+            if (enemy.absorbContains(Element.GREEN)) {
                 greenOrbAbsorb.setChecked(true);
             } else {
                 greenOrbAbsorb.setChecked(false);
             }
-            if (enemy.getAbsorb().contains(Element.DARK)) {
+            if (enemy.absorbContains(Element.DARK)) {
                 darkOrbAbsorb.setChecked(true);
             } else {
                 darkOrbAbsorb.setChecked(false);
             }
-            if (enemy.getAbsorb().contains(Element.LIGHT)) {
+            if (enemy.absorbContains(Element.LIGHT)) {
                 lightOrbAbsorb.setChecked(true);
             } else {
                 lightOrbAbsorb.setChecked(false);
             }
 
-        }else {
+        } else {
             absorbCheck.setChecked(false);
             redOrbAbsorb.setChecked(false);
             blueOrbAbsorb.setChecked(false);
@@ -832,7 +883,7 @@ public class EnemyTargetFragment extends Fragment {
         if (enemy.getHasDamageThreshold()) {
             damageThresholdValue.setEnabled(true);
             damageThresholdCheck.setChecked(true);
-        }else {
+        } else {
             damageThresholdValue.setEnabled(false);
             damageThresholdCheck.setChecked(false);
         }
@@ -845,28 +896,44 @@ public class EnemyTargetFragment extends Fragment {
         }
     }
 
-    private void setEnemyElement(){
-        switch(enemy.getTargetElement()){
+    private void setEnemyElement() {
+        switch (enemy.getTargetElement().get(0).getElement()) {
             case RED:
-                orbRadioGroup.check(redOrb.getId());
+                orbRadioGroup1.check(redOrb1.getId());
                 break;
             case BLUE:
-                orbRadioGroup.check(blueOrb.getId());
+                orbRadioGroup1.check(blueOrb1.getId());
                 break;
             case GREEN:
-                orbRadioGroup.check(greenOrb.getId());
+                orbRadioGroup1.check(greenOrb1.getId());
                 break;
             case LIGHT:
-                orbRadioGroup.check(lightOrb.getId());
+                orbRadioGroup1.check(lightOrb1.getId());
                 break;
             case DARK:
-                orbRadioGroup.check(darkOrb.getId());
+                orbRadioGroup1.check(darkOrb1.getId());
                 break;
-
+        }
+        switch (enemy.getTargetElement().get(1).getElement()) {
+            case RED:
+                orbRadioGroup2.check(redOrb2.getId());
+                break;
+            case BLUE:
+                orbRadioGroup2.check(blueOrb2.getId());
+                break;
+            case GREEN:
+                orbRadioGroup2.check(greenOrb2.getId());
+                break;
+            case LIGHT:
+                orbRadioGroup2.check(lightOrb2.getId());
+                break;
+            case DARK:
+                orbRadioGroup2.check(darkOrb2.getId());
+                break;
         }
     }
 
-    private void clearTextFocus(){
+    private void clearTextFocus() {
         targetHpValue.clearFocus();
         currentHpValue.clearFocus();
         targetDefenseValue.clearFocus();
@@ -875,8 +942,8 @@ public class EnemyTargetFragment extends Fragment {
         reductionValue.clearFocus();
     }
 
-    private void setSpinner(){
-        switch (enemy.getTypes().get(0)){
+    private void setSpinner() {
+        switch (enemy.getTypes().get(0).getValue()) {
             case 0:
                 type1Spinner.setSelection(1);
                 break;
@@ -917,7 +984,7 @@ public class EnemyTargetFragment extends Fragment {
                 type1Spinner.setSelection(0);
                 break;
         }
-        switch (enemy.getTypes().get(1)){
+        switch (enemy.getTypes().get(1).getValue()) {
             case 0:
                 type2Spinner.setSelection(1);
                 break;
@@ -958,7 +1025,7 @@ public class EnemyTargetFragment extends Fragment {
                 type2Spinner.setSelection(0);
                 break;
         }
-        switch (enemy.getTypes().get(2)){
+        switch (enemy.getTypes().get(2).getValue()) {
             case 0:
                 type3Spinner.setSelection(1);
                 break;
@@ -1001,15 +1068,15 @@ public class EnemyTargetFragment extends Fragment {
         }
     }
 
-    private Spinner.OnItemSelectedListener typeOnItemSelectedListener = new Spinner.OnItemSelectedListener(){
+    private Spinner.OnItemSelectedListener typeOnItemSelectedListener = new Spinner.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if(parent==type1Spinner){
-                enemy.getTypes().set(0, typeItems.get(type1Spinner.getSelectedItemPosition()));
-            } else if (parent == type2Spinner){
-                enemy.getTypes().set(1, typeItems.get(type2Spinner.getSelectedItemPosition()));
-            } else if (parent == type3Spinner){
-                enemy.getTypes().set(2, typeItems.get(type3Spinner.getSelectedItemPosition()));
+            if (parent == type1Spinner) {
+                enemy.getTypes().set(0, new RealmInt(typeItems.get(type1Spinner.getSelectedItemPosition())));
+            } else if (parent == type2Spinner) {
+                enemy.getTypes().set(1, new RealmInt(typeItems.get(type2Spinner.getSelectedItemPosition())));
+            } else if (parent == type3Spinner) {
+                enemy.getTypes().set(2, new RealmInt(typeItems.get(type3Spinner.getSelectedItemPosition())));
             }
         }
 
@@ -1021,7 +1088,7 @@ public class EnemyTargetFragment extends Fragment {
 
     public void hideKeyboard(View view) {
         if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
@@ -1048,7 +1115,8 @@ public class EnemyTargetFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Parcelable teamParcel = Parcels.wrap(team);
-            ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, additionalCombos, teamParcel, enemy), TeamDamageListFragment.TAG, "good");
+            Parcelable enemyParcel = Parcels.wrap(enemy);
+            ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(true, additionalCombos, teamParcel, enemyParcel), TeamDamageListFragment.TAG, "good");
         }
     };
 

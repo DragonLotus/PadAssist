@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.media.AudioTrack;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.support.v4.*;
@@ -59,6 +60,8 @@ import com.padassist.Fragments.UpdateAvailableDialogFragment;
 import com.padassist.Threads.ParseMonsterDatabaseThread;
 import com.padassist.Util.Migration;
 import com.padassist.Util.Singleton;
+
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -207,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        enemy = new Enemy();
+//        enemy = new Enemy();
 
         if (realm.where(OrbMatch.class).findAll().size() != 0) {
             RealmResults<OrbMatch> orbMatchList;
@@ -295,7 +298,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        switchFragment(MonsterListFragment.newInstance(enemy), MonsterListFragment.TAG, "good");
+//        realm.beginTransaction();
+//        realm.where(Enemy.class).findAll().deleteAllFromRealm();
+//        realm.commitTransaction();
+
+        if(realm.where(Enemy.class).equalTo("enemyId", 0).findFirst() == null){
+            enemy = new Enemy();
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(enemy);
+            realm.commitTransaction();
+        } else {
+            enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
+        }
+
+        Parcelable enemyParcel = Parcels.wrap(enemy);
+
+        switchFragment(MonsterListFragment.newInstance(enemyParcel), MonsterListFragment.TAG, "good");
 
 
         // Get the Default External Cache Directory

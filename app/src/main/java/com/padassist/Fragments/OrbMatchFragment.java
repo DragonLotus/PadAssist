@@ -79,6 +79,7 @@ public class OrbMatchFragment extends Fragment {
     private NoDropDialogFragment disclaimerDialog;
     private boolean noDrop = false;
     private ArrayList<LeaderSkillType> noDropLeaderSkills = new ArrayList<>();
+    private ArrayList<LeaderSkillType> bigBoardSizeLeaderSkills = new ArrayList<>();
 
     private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout() {
         @Override
@@ -400,10 +401,11 @@ public class OrbMatchFragment extends Fragment {
                 toast.show();
             } else {
                 Parcelable teamParcel = Parcels.wrap(team);
+                Parcelable enemyParcel = Parcels.wrap(enemy);
                 if (Singleton.getInstance().isIgnoreEnemy()) {
                     ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, teamParcel), TeamDamageListFragment.TAG, "good");
                 } else {
-                    ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, teamParcel, enemy), EnemyTargetFragment.TAG, "good");
+                    ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, teamParcel, enemyParcel), EnemyTargetFragment.TAG, "good");
                 }
             }
         }
@@ -636,7 +638,7 @@ public class OrbMatchFragment extends Fragment {
         }
     }
 
-    public static OrbMatchFragment newInstance(Parcelable team, Enemy enemy) {
+    public static OrbMatchFragment newInstance(Parcelable team, Parcelable enemy) {
         OrbMatchFragment fragment = new OrbMatchFragment();
         Bundle args = new Bundle();
         args.putParcelable("team", team);
@@ -691,7 +693,7 @@ public class OrbMatchFragment extends Fragment {
         //Write your code here
         if (getArguments() != null) {
             team = Parcels.unwrap(getArguments().getParcelable("team"));
-            enemy = getArguments().getParcelable("enemy");
+            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
         realm = Realm.getDefaultInstance();
         rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
@@ -711,6 +713,10 @@ public class OrbMatchFragment extends Fragment {
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_INDIAN_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_MATCH_ELEMENT_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_ORB_LINK_FLAT);
+
+        bigBoardSizeLeaderSkills.add(LeaderSkillType.BIG_BOARD);
+        bigBoardSizeLeaderSkills.add(LeaderSkillType.BIG_BOARD_SIZE_INDIAN);
+        bigBoardSizeLeaderSkills.add(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT);
 
         if (minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) || minimumMatchLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())) {
             if (team.getLeadSkill().getMinimumMatch() > minimumMatch) {
@@ -734,7 +740,8 @@ public class OrbMatchFragment extends Fragment {
             emptyText.setVisibility(View.VISIBLE);
         }
 
-        if(team.getLeadSkill().getAtkSkillType().getLeaderSkillType().equals(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT) || team.getHelperSkill().getAtkSkillType().getLeaderSkillType().equals(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT)){
+        if(bigBoardSizeLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) ||
+                bigBoardSizeLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())){
             Singleton.getInstance().setBoardSize(2);
             boardSize.setEnabled(false);
             for(int i = 0; i < orbMatchList.size(); i++){

@@ -1,9 +1,7 @@
 package com.padassist.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -35,18 +33,16 @@ import android.widget.Toast;
 import com.padassist.Adapters.MonsterDamageListRecycler;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
-import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.OrbMatch;
+import com.padassist.Data.RealmElement;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.TooltipText;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.DamageCalculationUtil;
-import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Util.Singleton;
 
 import org.parceler.Parcels;
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -119,7 +115,7 @@ public class TeamDamageListFragment extends Fragment {
     }
 
 
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, int additionalCombos, Parcelable team, Enemy enemy) {
+    public static TeamDamageListFragment newInstance(boolean hasEnemy, int additionalCombos, Parcelable team, Parcelable enemy) {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
         args.putBoolean("hasEnemy", hasEnemy);
@@ -249,7 +245,7 @@ public class TeamDamageListFragment extends Fragment {
             hasEnemy = getArguments().getBoolean("hasEnemy");
             additionalCombos = getArguments().getInt("additionalCombos");
             team = Parcels.unwrap(getArguments().getParcelable("team"));
-            enemy = getArguments().getParcelable("enemy");
+            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
         realm = Realm.getDefaultInstance();
         if (hasEnemy) {
@@ -603,15 +599,15 @@ public class TeamDamageListFragment extends Fragment {
     };
 
     private void setTextColors() {
-        if (enemy.getTargetElement().equals(Element.RED)) {
+        if (enemy.getTargetCurrentElement().equals(Element.RED)) {
             enemyHPValue.setTextColor(Color.parseColor("#FF0000"));
-        } else if (enemy.getTargetElement().equals(Element.BLUE)) {
+        } else if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
             enemyHPValue.setTextColor(Color.parseColor("#4444FF"));
-        } else if (enemy.getTargetElement().equals(Element.GREEN)) {
+        } else if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
             enemyHPValue.setTextColor(Color.parseColor("#00CC00"));
-        } else if (enemy.getTargetElement().equals(Element.LIGHT)) {
+        } else if (enemy.getTargetCurrentElement().equals(Element.LIGHT)) {
             enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
-        } else if (enemy.getTargetElement().equals(Element.DARK)) {
+        } else if (enemy.getTargetCurrentElement().equals(Element.DARK)) {
             enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
         }
     }
@@ -710,19 +706,19 @@ public class TeamDamageListFragment extends Fragment {
             for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                 reductionRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.containsReduction(Element.RED)) {
+            if (enemy.reductionContains(Element.RED)) {
                 redOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(Element.BLUE)) {
+            if (enemy.reductionContains(Element.BLUE)) {
                 blueOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(Element.GREEN)) {
+            if (enemy.reductionContains(Element.GREEN)) {
                 greenOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(Element.DARK)) {
+            if (enemy.reductionContains(Element.DARK)) {
                 darkOrbReduction.setChecked(true);
             }
-            if (enemy.containsReduction(Element.LIGHT)) {
+            if (enemy.reductionContains(Element.LIGHT)) {
                 lightOrbReduction.setChecked(true);
             }
         } else {
@@ -738,19 +734,19 @@ public class TeamDamageListFragment extends Fragment {
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
             }
-            if (enemy.getAbsorb().contains(Element.RED)) {
+            if (enemy.absorbContains(Element.RED)) {
                 redOrbAbsorb.setChecked(true);
             }
-            if (enemy.getAbsorb().contains(Element.BLUE)) {
+            if (enemy.absorbContains(Element.BLUE)) {
                 blueOrbAbsorb.setChecked(true);
             }
-            if (enemy.getAbsorb().contains(Element.GREEN)) {
+            if (enemy.absorbContains(Element.GREEN)) {
                 greenOrbAbsorb.setChecked(true);
             }
-            if (enemy.getAbsorb().contains(Element.DARK)) {
+            if (enemy.absorbContains(Element.DARK)) {
                 darkOrbAbsorb.setChecked(true);
             }
-            if (enemy.getAbsorb().contains(Element.LIGHT)) {
+            if (enemy.absorbContains(Element.LIGHT)) {
                 lightOrbAbsorb.setChecked(true);
             }
 
@@ -875,36 +871,43 @@ public class TeamDamageListFragment extends Fragment {
 
     private void setElementReduction(boolean isChecked, int buttonId) {
         clearTextFocus();
-        Element element = null;
+        int element = -1;
+        Boolean contains = false;
         switch (buttonId) {
             case R.id.redOrbReduction:
-                element = Element.RED;
+                element = 0;
                 break;
             case R.id.blueOrbReduction:
-                element = Element.BLUE;
+                element = 1;
                 break;
             case R.id.greenOrbReduction:
-                element = Element.GREEN;
-                break;
-            case R.id.darkOrbReduction:
-                element = Element.DARK;
+                element = 2;
                 break;
             case R.id.lightOrbReduction:
-                element = Element.LIGHT;
+                element = 3;
+                break;
+            case R.id.darkOrbReduction:
+                element = 4;
                 break;
         }
 
         if (isChecked) {
-            if (!enemy.containsReduction(element)) {
-                enemy.addReduction(element);
+            for(int i = 0; i < enemy.getReduction().size(); i++){
+                if(enemy.getReduction().get(i).getValue() == element && !contains){
+                    contains = true;
+                }
+            }
+            if(element >= 0 && !contains){
+                enemy.getReduction().add(new RealmElement(element));
             }
         } else {
-            if (enemy.containsReduction(element)) {
-                enemy.removeReduction(element);
+            for(int i = 0; i < enemy.getReduction().size(); i++){
+                if(enemy.getReduction().get(i).getValue() == element){
+                    enemy.getReduction().remove(i);
+                    break;
+                }
             }
         }
-//        updateTextView();
-//        monsterListAdapter.notifyDataSetChanged();
     }
 
     private CompoundButton.OnCheckedChangeListener absorbCheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
@@ -916,32 +919,41 @@ public class TeamDamageListFragment extends Fragment {
 
     private void setElementAbsorb(boolean isChecked, int buttonId) {
         clearTextFocus();
-        Element element = null;
+        int element = -1;
+        Boolean contains = false;
         switch (buttonId) {
             case R.id.redOrbAbsorb:
-                element = Element.RED;
+                element = 0;
                 break;
             case R.id.blueOrbAbsorb:
-                element = Element.BLUE;
+                element = 1;
                 break;
             case R.id.greenOrbAbsorb:
-                element = Element.GREEN;
+                element = 2;
                 break;
             case R.id.lightOrbAbsorb:
-                element = Element.LIGHT;
+                element = 3;
                 break;
             case R.id.darkOrbAbsorb:
-                element = Element.DARK;
+                element = 4;
                 break;
         }
 
         if (isChecked) {
-            if (!enemy.getAbsorb().contains(element)) {
-                enemy.getAbsorb().add(element);
+            for (int i = 0; i < enemy.getAbsorb().size(); i++) {
+                if (enemy.getAbsorb().get(i).getValue() == element && !contains) {
+                    contains = true;
+                }
+            }
+            if (element >= 0 && !contains) {
+                enemy.getAbsorb().add(new RealmElement(element));
             }
         } else {
-            if (enemy.getAbsorb().contains(element)) {
-                enemy.getAbsorb().remove(element);
+            for (int i = 0; i < enemy.getAbsorb().size(); i++) {
+                if (enemy.getAbsorb().get(i).getValue() == element) {
+                    enemy.getAbsorb().remove(i);
+                    break;
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,10 @@ import android.widget.TextView;
 
 import com.padassist.Data.Enemy;
 import com.padassist.R;
+
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
 
 /**
  * Created by Anthony on 7/16/2015.
@@ -20,10 +25,10 @@ public class GravityListAdapter extends ArrayAdapter<Integer> {
     private int resourceId;
     private UpdateGravityPercent updateGravityPercent;
 
-    public GravityListAdapter(Context context, int textViewResourceId, Enemy enemy, UpdateGravityPercent updateGravityPercent) {
-        super(context, textViewResourceId, enemy.getGravityList());
+    public GravityListAdapter(Context context, int textViewResourceId, Parcelable enemy, UpdateGravityPercent updateGravityPercent, ArrayList<Integer> gravityArrayList) {
+        super(context, textViewResourceId, gravityArrayList);
         mContext = context;
-        this.enemy = enemy;
+        this.enemy = Parcels.unwrap(enemy);
         this.resourceId = textViewResourceId;
         this.updateGravityPercent = updateGravityPercent;
     }

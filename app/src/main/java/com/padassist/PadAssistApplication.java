@@ -18,7 +18,7 @@ public class PadAssistApplication extends Application {
         super.onCreate();
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
-                .schemaVersion(5)
+                .schemaVersion(6)
                 .migration(new Migration())
                 .build();
         Realm.setDefaultConfiguration(config);

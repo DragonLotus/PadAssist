@@ -1,16 +1,11 @@
 package com.padassist.Util;
 
-import android.util.Log;
-
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
-import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
-import com.padassist.Fragments.DisclaimerDialogFragment;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -171,29 +166,29 @@ public class DamageCalculationUtil {
             return 0;
         }
         if (monster.getElement1().equals(Element.RED)) {
-            if (enemy.getTargetElement().equals(Element.BLUE)) {
+            if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.GREEN)) {
+            } else if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement1().equals(Element.BLUE)) {
-            if (enemy.getTargetElement().equals(Element.GREEN)) {
+            if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.RED)) {
+            } else if (enemy.getTargetCurrentElement().equals(Element.RED)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement1().equals(Element.GREEN)) {
-            if (enemy.getTargetElement().equals(Element.RED)) {
+            if (enemy.getTargetCurrentElement().equals(Element.RED)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.BLUE)) {
+            } else if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement1().equals(Element.LIGHT)) {
-            if (enemy.getTargetElement().equals(Element.DARK)) {
+            if (enemy.getTargetCurrentElement().equals(Element.DARK)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement1().equals(Element.DARK)) {
-            if (enemy.getTargetElement().equals(Element.LIGHT)) {
+            if (enemy.getTargetCurrentElement().equals(Element.LIGHT)) {
                 damage = damage * 2;
             }
         }
@@ -207,29 +202,29 @@ public class DamageCalculationUtil {
             return 0;
         }
         if (monster.getElement2().equals(Element.RED)) {
-            if (enemy.getTargetElement().equals(Element.BLUE)) {
+            if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.GREEN)) {
+            } else if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement2().equals(Element.BLUE)) {
-            if (enemy.getTargetElement().equals(Element.GREEN)) {
+            if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.RED)) {
+            } else if (enemy.getTargetCurrentElement().equals(Element.RED)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement2().equals(Element.GREEN)) {
-            if (enemy.getTargetElement().equals(Element.RED)) {
+            if (enemy.getTargetCurrentElement().equals(Element.RED)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetElement().equals(Element.BLUE)) {
+            } else if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement2().equals(Element.LIGHT)) {
-            if (enemy.getTargetElement().equals(Element.DARK)) {
+            if (enemy.getTargetCurrentElement().equals(Element.DARK)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement2().equals(Element.DARK)) {
-            if (enemy.getTargetElement().equals(Element.LIGHT)) {
+            if (enemy.getTargetCurrentElement().equals(Element.LIGHT)) {
                 damage = damage * 2;
             }
         }

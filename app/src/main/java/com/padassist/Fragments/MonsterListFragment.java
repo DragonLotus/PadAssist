@@ -79,7 +79,7 @@ public class MonsterListFragment extends Fragment {
      * @return A new instance of fragment MonsterListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MonsterListFragment newInstance(Enemy enemy) {
+    public static MonsterListFragment newInstance(Parcelable enemy) {
         MonsterListFragment fragment = new MonsterListFragment();
         Bundle args = new Bundle();
         args.putParcelable("enemy", enemy);
@@ -284,7 +284,7 @@ public class MonsterListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            enemy = getArguments().getParcelable("enemy");
+            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
 
         realm = Realm.getDefaultInstance();
@@ -355,7 +355,8 @@ public class MonsterListFragment extends Fragment {
 //                team.updateLeaderSkills();
 //                team.save();
                 Parcelable teamParcel = Parcels.wrap(team);
-                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(teamParcel, enemy), OrbMatchFragment.TAG, "good");
+                Parcelable enemyParcel = Parcels.wrap(enemy);
+                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(teamParcel, enemyParcel), OrbMatchFragment.TAG, "good");
             }
         }
     };

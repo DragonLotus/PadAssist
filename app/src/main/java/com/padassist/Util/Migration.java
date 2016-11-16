@@ -88,6 +88,33 @@ public class Migration implements RealmMigration {
                     .addIndex("activeSkill2String")
                     .addField("activeSkillString", String.class, FieldAttribute.INDEXED)
                     .addField("leaderSkillString", String.class, FieldAttribute.INDEXED);
+            oldVersion++;
+        }
+
+        if(oldVersion == 5){
+            schema.create("Enemy")
+                    .addField("enemyId", long.class, FieldAttribute.PRIMARY_KEY)
+                    .addField("enemyName", String.class, FieldAttribute.INDEXED)
+                    .addField("monsterIdPicture", long.class)
+                    .addField("targetDef", int.class)
+                    .addField("beforeDefenseBreak", int.class)
+                    .addField("damageThreshold", int.class)
+                    .addField("damageImmunity", int.class)
+                    .addField("reductionValue", int.class)
+                    .addField("targetHp", long.class)
+                    .addField("currentHp", long.class)
+                    .addField("beforeGravityHP", long.class)
+                    .addField("gravityPercent", double.class)
+                    .addRealmListField("targetElement", schema.get("RealmElement"))
+                    .addRealmListField("reduction", schema.get("RealmElement"))
+                    .addRealmListField("absorb", schema.get("RealmElement"))
+                    .addRealmListField("gravityList", schema.get("RealmInt"))
+                    .addRealmListField("types", schema.get("RealmInt"))
+                    .addField("hasAbsorb", boolean.class)
+                    .addField("hasReduction", boolean.class)
+                    .addField("hasDamageThreshold", boolean.class)
+                    .addField("isDamaged", boolean.class)
+                    .addField("hasDamageImmunity", boolean.class);
         }
 
     }
