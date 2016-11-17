@@ -813,7 +813,6 @@ public class Team extends RealmObject {
     }
 
     public void setAtkMultiplierArrays(int combos) {
-        Log.d("Team", "Leader skill is: " + lead.getLeaderSkill().getName() + " Helper skill is: " + helper.getLeaderSkill().getName());
         for (int i = 0; i < getMonsters().size(); i++){
             ArrayList<Double> atkMultiplier = new ArrayList<>();
             atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));

@@ -12,6 +12,7 @@ import com.padassist.ParcelConverters.RealmIntParcelConverter;
 import com.padassist.ParcelConverters.RealmLongParcelConverter;
 import com.padassist.R;
 import com.padassist.Util.DamageCalculationUtil;
+import com.padassist.Util.ImageResourceUtil;
 import com.padassist.Util.Singleton;
 
 import org.parceler.ParcelPropertyConverter;
@@ -332,23 +333,7 @@ public class BaseMonster extends RealmObject {
 
     public Bitmap getMonsterPicture() {
 
-        File imgFile = new File(com.padassist.Util.Singleton.getInstance().getContext().getFilesDir(), "monster_images/monster_" + monsterId + ".png");
-        if(imgFile.exists()){
-            return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        } else
-
-//        try {
-//            String picture = "monster_" + monsterId;
-//            Class res = R.drawable.class;
-//            Field field = res.getField(picture);
-//            int drawableId = field.getInt(null);
-//            return drawableId;
-//        } catch (NoSuchFieldException e) {
-//            Log.e("drawableId", "Unable to get drawable id " + monsterId);
-//        } catch (IllegalAccessException e) {
-//            Log.e("IllegalTag", "Illegal Access Exception");
-//        }
-        return BitmapFactory.decodeResource(com.padassist.Util.Singleton.getInstance().getContext().getResources(), R.drawable.monster_0);
+        return ImageResourceUtil.getMonsterPicture(monsterId);
     }
 
 //    public void setMonsterPicture(int monsterPicture) {

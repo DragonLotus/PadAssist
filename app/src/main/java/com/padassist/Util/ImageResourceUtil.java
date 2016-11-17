@@ -1,5 +1,7 @@
 package com.padassist.Util;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.padassist.Data.Element;
@@ -8,6 +10,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -478,5 +481,14 @@ public class ImageResourceUtil {
             case 14:
                 return R.drawable.team_badge_super_attack;
         }
+    }
+
+    public static Bitmap getMonsterPicture(long monsterId) {
+
+        File imgFile = new File(com.padassist.Util.Singleton.getInstance().getContext().getFilesDir(), "monster_images/monster_" + monsterId + ".png");
+        if(imgFile.exists()){
+            return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        } else
+            return BitmapFactory.decodeResource(com.padassist.Util.Singleton.getInstance().getContext().getResources(), R.drawable.monster_0);
     }
 }

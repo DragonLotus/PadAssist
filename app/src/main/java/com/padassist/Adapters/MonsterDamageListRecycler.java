@@ -1,7 +1,6 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -111,7 +110,7 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
         }
 
         if (hasEnemy) {
-            if (enemy.getHasDamageThreshold()) {
+            if (enemy.isHasDamageThreshold()) {
                 element1DamageEnemy = (long)DamageCalculationUtil.monsterElement1DamageThreshold(team, team.getMonsters(position), position, combos, enemy);
                 element2DamageEnemy = (long)DamageCalculationUtil.monsterElement2DamageThreshold(team, team.getMonsters(position), position, combos, enemy);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");
@@ -121,12 +120,12 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
                 element2DamageEnemy = (long)DamageCalculationUtil.monsterElement2DamageImmunity(team, team.getMonsters(position), position, combos, enemy);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + dfSpace.format(element2DamageEnemy) + ")");
-            } else if (enemy.getHasAbsorb()) {
+            } else if (enemy.isHasAbsorb()) {
                 element1DamageEnemy = (long)DamageCalculationUtil.monsterElement1DamageAbsorb(team, team.getMonsters(position), position, combos, enemy);
                 element2DamageEnemy = (long)DamageCalculationUtil.monsterElement2DamageAbsorb(team, team.getMonsters(position), position, combos, enemy);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + dfSpace.format(element2DamageEnemy) + ")");
-            } else if (enemy.getHasReduction()) {
+            } else if (enemy.isHasReduction()) {
                 element1DamageEnemy = (long)DamageCalculationUtil.monsterElement1DamageReduction(team, team.getMonsters(position), position, combos, enemy);
                 element2DamageEnemy = (long)DamageCalculationUtil.monsterElement2DamageReduction(team, team.getMonsters(position), position, combos, enemy);
                 viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format(element1DamageEnemy) + ")");

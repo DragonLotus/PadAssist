@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,12 +40,14 @@ import com.padassist.Graphics.TooltipText;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
+import com.padassist.Util.ImageResourceUtil;
 
-import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import io.realm.Realm;
 
 
 /**
@@ -68,8 +71,9 @@ public class EnemyTargetFragment extends Fragment {
     private String mParam2;
     private Team team;
     private EditText targetHpValue, currentHpValue, targetDefenseValue, damageThresholdValue, damageImmunityValue, reductionValue;
-    private ImageView targetAbsorb, targetReduction, damageThreshold, damageImmunity, defenseBreakIcon;
-    private TextView percentHpValue, totalGravityValue;
+    private ImageView targetAbsorb, targetReduction, damageThreshold, damageImmunity, defenseBreakIcon, monsterPicture;
+//    private TextView percentHpValue;
+    private TextView totalGravityValue, enemyName;
     private RadioGroup orbRadioGroup1, orbRadioGroup2, absorbRadioGroup, reductionRadioGroup;
     private RadioButton redOrb1, blueOrb1, greenOrb1, lightOrb1, darkOrb1, redOrb2, blueOrb2, greenOrb2, lightOrb2, darkOrb2;
     private Button gravityShowHideButton, clearButton, hpReset, calculate;
@@ -79,18 +83,17 @@ public class EnemyTargetFragment extends Fragment {
     private ListView gravityList;
     private GridView gravityButtonList;
     private Enemy enemy;
-    private DecimalFormat df;
+    private DecimalFormat df = new DecimalFormat("#.##");;
     private OnFragmentInteractionListener mListener;
     private Toast toast;
     private Spinner defenseBreakSpinner, type1Spinner, type2Spinner, type3Spinner;
     private String[] defenseBreakItems;
     private TypeSpinnerAdapter typeSpinnerAdapter;
     private ArrayList<Integer> typeItems;
-    private int additionalCombos, tempDamageThresholdValue, tempReductionValue, tempDamageImmunityValue;
-    private Boolean tempAbsorb, tempReduction, tempDamageThreshold, tempDamageImmunity;
-    private ArrayList<Element> tempAbsorbList, tempReductionList;
+    private int additionalCombos;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction, blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, redOrbAbsorb, blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb, damageImmunityCheck;
     private double defenseBreakValue = 1.0;
+    private Realm realm;
     private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent() {
         @Override
         public void updatePercent() {
@@ -135,8 +138,8 @@ public class EnemyTargetFragment extends Fragment {
             } else if (statToChange == MyTextWatcher.DAMAGE_IMMUNITY) {
                 enemy.setDamageImmunity(statValue);
             }
-            df = new DecimalFormat("#.##");
-            percentHpValue.setText(df.format(enemy.getPercentHp() * 100) + "%");
+//            percentHpValue.setText(df.format(enemy.getPercentHp() * 100) + "%");
+            getActivity().setTitle("Set Enemy" + " (" + df.format(enemy.getPercentHp() * 100) + "%)");
 
         }
     };
@@ -186,7 +189,7 @@ public class EnemyTargetFragment extends Fragment {
         currentHpValue = (EditText) rootView.findViewById(R.id.currentHPValue);
         targetDefenseValue = (EditText) rootView.findViewById(R.id.targetDefenseValue);
         damageThresholdValue = (EditText) rootView.findViewById(R.id.damageThresholdValue);
-        percentHpValue = (TextView) rootView.findViewById(R.id.percentHPValue);
+//        percentHpValue = (TextView) rootView.findViewById(R.id.percentHPValue);
         orbRadioGroup1 = (RadioGroup) rootView.findViewById(R.id.element1RadioGroup);
         orbRadioGroup2 = (RadioGroup) rootView.findViewById(R.id.element2RadioGroup);
         gravityList = (ListView) rootView.findViewById(R.id.gravityList);
@@ -234,6 +237,8 @@ public class EnemyTargetFragment extends Fragment {
         damageThreshold = (ImageView) rootView.findViewById(R.id.damageThreshold);
         damageImmunity = (ImageView) rootView.findViewById(R.id.damageImmunity);
         defenseBreakIcon = (ImageView) rootView.findViewById(R.id.spinnerIcon);
+        monsterPicture = (ImageView) rootView.findViewById(R.id.monsterPicture);
+        enemyName = (TextView) rootView.findViewById(R.id.enemyName);
         return rootView;
     }
 
@@ -244,25 +249,15 @@ public class EnemyTargetFragment extends Fragment {
             team = Parcels.unwrap(getArguments().getParcelable("team"));
             enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
-        tempAbsorbList = new ArrayList<>();
-        tempReductionList = new ArrayList<>();
-        for (int i = 0; i < enemy.getAbsorb().size(); i++) {
-            tempAbsorbList.add(enemy.getAbsorb().get(i).getElement());
-        }
-        for (int i = 0; i < enemy.getReduction().size(); i++) {
-            tempReductionList.add(enemy.getReduction().get(i).getElement());
-        }
-        tempAbsorb = enemy.getHasAbsorb();
-        tempReduction = enemy.getHasReduction();
-        tempDamageThreshold = enemy.getHasDamageThreshold();
-        tempDamageThresholdValue = enemy.getDamageThreshold();
-        tempReductionValue = enemy.getReductionValue();
-        tempDamageImmunity = enemy.hasDamageImmunity();
-        tempDamageImmunityValue = enemy.getDamageImmunity();
+        realm = Realm.getDefaultInstance();
+        Log.d("EnemyTarget", "Reduction value is: " + enemy.getReductionValue());
         targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
         totalGravityValue.setText(String.valueOf(enemy.getCurrentHp()));
         targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
-        reductionValue.setText(String.valueOf(enemy.getReductionValue()));
+        enemyName.setText(enemy.getEnemyName());
+        enemyName.setSelected(true);
+        enemyName.setHorizontallyScrolling(true);
+        monsterPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(enemy.getMonsterIdPicture()));
         Parcelable enemyParcel = Parcels.wrap(enemy);
         gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, enemyParcel, updateGravityPercent, enemy.getGravityArrayList());
         gravityList.setAdapter(gravityListAdapter);
@@ -274,16 +269,15 @@ public class EnemyTargetFragment extends Fragment {
         targetHpValue.addTextChangedListener(targetHPWatcher);
         currentHpValue.addTextChangedListener(currentHPWatcher);
         targetDefenseValue.addTextChangedListener(targetDefenseWatcher);
-        reductionValue.addTextChangedListener(reductionValueWatcher);
+
         targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
         currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
         targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
-        reductionValue.setOnFocusChangeListener(editTextOnFocusChange);
 
-        if (enemy.getDamaged()) {
+        if (enemy.isDamaged()) {
             enemy.clearGravityList();
             gravityListAdapter.notifyDataSetChanged();
-            enemy.setIsDamaged(false);
+            enemy.setDamaged(false);
         }
         updateGravityPercent.updatePercent();
 
@@ -328,6 +322,45 @@ public class EnemyTargetFragment extends Fragment {
 
         gravityList.setOnTouchListener(listViewScroll);
         gravityButtonList.setOnTouchListener(listViewScroll);
+
+        calculate.setOnClickListener(calculateOnClickListener);
+
+        targetAbsorb.setOnClickListener(tooltipOnClickListener);
+        targetReduction.setOnClickListener(tooltipOnClickListener);
+        damageThreshold.setOnClickListener(tooltipOnClickListener);
+        damageImmunity.setOnClickListener(tooltipOnClickListener);
+        defenseBreakIcon.setOnClickListener(tooltipOnClickListener);
+        //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
+        getActivity().setTitle("Set Enemy" + "(" + df.format(enemy.getPercentHp() * 100) + "%)");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("EnemyTarget", "Reduction value on start is: " + enemy.getReductionValue());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
+        Log.d("EnemyTarget", "Reduction value on resume is: " + enemy.getReductionValue());
+//        enemy.setHasAbsorb(tempAbsorb);
+//        enemy.setHasReduction(tempReduction);
+//        enemy.setHasDamageThreshold(tempDamageThreshold);
+//        enemy.setDamageThreshold(tempDamageThresholdValue);
+//        enemy.setReductionValue(tempReductionValue);
+//        enemy.setDamageImmunity(tempDamageImmunityValue);
+//        enemy.setHasDamageImmunity(tempDamageImmunity);
+//        enemy.setAbsorb(tempAbsorbList);
+//        enemy.setReduction(tempReductionList);
+        setReductionOrbs();
+        setAbsorbOrbs();
+        setDamageThreshold();
+        setEnemyElement();
+        reductionValue.setText(String.valueOf(enemy.getReductionValue()));
+        reductionValue.addTextChangedListener(reductionValueWatcher);
+        reductionValue.setOnFocusChangeListener(editTextOnFocusChange);
         absorbCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         reductionCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         damageThresholdCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
@@ -351,35 +384,6 @@ public class EnemyTargetFragment extends Fragment {
         greenOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
         darkOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
         lightOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
-
-        calculate.setOnClickListener(calculateOnClickListener);
-
-        targetAbsorb.setOnClickListener(tooltipOnClickListener);
-        targetReduction.setOnClickListener(tooltipOnClickListener);
-        damageThreshold.setOnClickListener(tooltipOnClickListener);
-        damageImmunity.setOnClickListener(tooltipOnClickListener);
-        defenseBreakIcon.setOnClickListener(tooltipOnClickListener);
-        //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
-        getActivity().setTitle("Set Enemy");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
-        enemy.setHasAbsorb(tempAbsorb);
-        enemy.setHasReduction(tempReduction);
-        enemy.setHasDamageThreshold(tempDamageThreshold);
-        enemy.setDamageThreshold(tempDamageThresholdValue);
-        enemy.setReductionValue(tempReductionValue);
-        enemy.setDamageImmunity(tempDamageImmunityValue);
-        enemy.setHasDamageImmunity(tempDamageImmunity);
-//        enemy.setAbsorb(tempAbsorbList);
-//        enemy.setReduction(tempReductionList);
-        setReductionOrbs();
-        setAbsorbOrbs();
-        setDamageThreshold();
-        setEnemyElement();
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
@@ -393,6 +397,15 @@ public class EnemyTargetFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(enemy);
+        realm.commitTransaction();
+
     }
 
     /**
@@ -450,11 +463,13 @@ public class EnemyTargetFragment extends Fragment {
                     enemy.setTargetHp(0);
                     enemy.setCurrentHp(0);
                     currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-                    percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+//                    percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+                    getActivity().setTitle("Set Enemy" + "(" + df.format(enemy.getPercentHp() * 100) + "%)");
                 } else if (currentHpValue.getText().toString().equals("")) {
                     currentHpValue.setText("0");
                     enemy.setCurrentHp(0);
-                    percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+//                    percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+                    getActivity().setTitle("Set Enemy" + "(" + df.format(enemy.getPercentHp() * 100) + "%)");
                 } else if (targetDefenseValue.getText().toString().equals("")) {
                     targetDefenseValue.setText("0");
                     enemy.setTargetDef(0);
@@ -788,7 +803,7 @@ public class EnemyTargetFragment extends Fragment {
     }
 
     private void setReductionOrbs() {
-        if (enemy.getHasReduction()) {
+        if (enemy.isHasReduction()) {
             reductionCheck.setChecked(true);
             for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                 reductionRadioGroup.getChildAt(i).setEnabled(true);
@@ -833,7 +848,7 @@ public class EnemyTargetFragment extends Fragment {
     }
 
     private void setAbsorbOrbs() {
-        if (enemy.getHasAbsorb()) {
+        if (enemy.isHasAbsorb()) {
             absorbCheck.setChecked(true);
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
@@ -880,7 +895,7 @@ public class EnemyTargetFragment extends Fragment {
     private void setDamageThreshold() {
         damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
         damageImmunityValue.setText(String.valueOf(enemy.getDamageImmunity()));
-        if (enemy.getHasDamageThreshold()) {
+        if (enemy.isHasDamageThreshold()) {
             damageThresholdValue.setEnabled(true);
             damageThresholdCheck.setChecked(true);
         } else {

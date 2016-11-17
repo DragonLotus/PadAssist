@@ -1,13 +1,18 @@
 package com.padassist.Data;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.padassist.ParcelConverters.RealmElementParcelConverter;
 import com.padassist.ParcelConverters.RealmIntParcelConverter;
+import com.padassist.R;
 
 import org.parceler.ParcelPropertyConverter;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import io.realm.EnemyRealmProxy;
@@ -51,9 +56,59 @@ public class Enemy extends RealmObject {
 
     //default is DKali from Arena 3
     public Enemy() {
+//        enemyId = 0;
+//        enemyName = "Blazing Goddess of Power, Kali";
+//        monsterIdPicture = 2078;
+//        absorb = new RealmList<>();
+//        reduction = new RealmList<RealmElement>();
+//        gravityList = new RealmList<RealmInt>();
+//        types = new RealmList<RealmInt>();
+//        targetHp = 37408889;
+//        targetDef = 0;
+//        currentHp = targetHp;
+//        beforeGravityHP = currentHp;
+//        beforeDefenseBreak = targetDef;
+////        targetElement = new RealmList<>();
+////        targetElement.add(new RealmElement(4));
+////        targetElement.add(new RealmElement(0));
+////        RealmList<RealmElement> tmpTargetElement = new RealmList<>();
+////        tmpTargetElement.add(new RealmElement(4));
+////        tmpTargetElement.add(new RealmElement(0));
+//        targetElement = new RealmList<>(new RealmElement(4), new RealmElement(0));
+//        gravityPercent = 1;
+//        damageThreshold = 200000;
+//        damageImmunity = 1000000;
+//        isDamaged = false;
+//        hasReduction = true;
+//        hasDamageThreshold = false;
+//        hasDamageImmunity = false;
+//        RealmList<RealmElement> tmpReduction = new RealmList<>();
+//        tmpReduction.add(new RealmElement(0));
+//        tmpReduction.add(new RealmElement(1));
+//        tmpReduction.add(new RealmElement(2));
+//        tmpReduction.add(new RealmElement(3));
+//        tmpReduction.add(new RealmElement(4));
+//        reduction = tmpReduction;
+////        reduction.add(new RealmElement(0));
+////        reduction.add(new RealmElement(1));
+////        reduction.add(new RealmElement(2));
+////        reduction.add(new RealmElement(3));
+////        reduction.add(new RealmElement(4));
+//        RealmList<RealmInt> tmpTypes = new RealmList<>();
+//        tmpTypes.add(new RealmInt(4));
+//        tmpTypes.add(new RealmInt(5));
+//        tmpTypes.add(new RealmInt(1337));
+//        types = tmpTypes;
+////        types.add(new RealmInt(5));
+////        types.add(new RealmInt(4));
+////        types.add(new RealmInt(1337));
+//        reductionValue = 50;
+    }
+
+    public Enemy(Long monsterId) {
         enemyId = 0;
         enemyName = "Blazing Goddess of Power, Kali";
-        monsterIdPicture = 2078;
+        monsterIdPicture = monsterId;
         absorb = new RealmList<>();
         reduction = new RealmList<RealmElement>();
         gravityList = new RealmList<RealmInt>();
@@ -121,7 +176,8 @@ public class Enemy extends RealmObject {
     }
 
     public Element getTargetCurrentElement() {
-        if((double)targetHp/(double)currentHp > .5){
+        Log.d("Enemy", "Percent HP is: " + (double)currentHp/(double)targetHp);
+        if((double)currentHp/(double)targetHp > .5){
             return targetElement.get(0).getElement();
         } else {
             return targetElement.get(1).getElement();
@@ -134,6 +190,10 @@ public class Enemy extends RealmObject {
 
     public void setTargetElement2(int targetElement) {
         this.targetElement.set(1,new RealmElement(targetElement));
+    }
+
+    public boolean isDamaged() {
+        return isDamaged;
     }
 
     public long getEnemyId() {
@@ -152,16 +212,8 @@ public class Enemy extends RealmObject {
         this.enemyName = enemyName;
     }
 
-    public boolean getHasDamageImmunity() {
+    public boolean isHasDamageImmunity() {
         return hasDamageImmunity;
-    }
-
-    public boolean getDamaged() {
-        return isDamaged;
-    }
-
-    public void setDamaged(boolean damaged) {
-        isDamaged = damaged;
     }
 
     public long getMonsterIdPicture() {
@@ -170,6 +222,10 @@ public class Enemy extends RealmObject {
 
     public void setMonsterIdPicture(long monsterIdPicture) {
         this.monsterIdPicture = monsterIdPicture;
+    }
+
+    public void setDamaged(boolean damaged) {
+        isDamaged = damaged;
     }
 
     public RealmList<RealmElement> getTargetElement() {
@@ -247,7 +303,7 @@ public class Enemy extends RealmObject {
         return false;
     }
 
-    public boolean getHasAbsorb() {
+    public boolean isHasAbsorb() {
         return hasAbsorb;
     }
 
@@ -255,7 +311,7 @@ public class Enemy extends RealmObject {
         this.hasAbsorb = hasAbsorb;
     }
 
-    public boolean getHasDamageThreshold() {
+    public boolean isHasDamageThreshold() {
         return hasDamageThreshold;
     }
 
@@ -263,11 +319,7 @@ public class Enemy extends RealmObject {
         this.hasDamageThreshold = hasDamageThreshold;
     }
 
-    public void setIsDamaged(boolean isDamaged) {
-        this.isDamaged = isDamaged;
-    }
-
-    public boolean getHasReduction() {
+    public boolean isHasReduction() {
         return hasReduction;
     }
 

@@ -303,12 +303,13 @@ public class MainActivity extends AppCompatActivity {
 //        realm.commitTransaction();
 
         if(realm.where(Enemy.class).equalTo("enemyId", 0).findFirst() == null){
-            enemy = new Enemy();
+            enemy = new Enemy(2078L);
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(enemy);
             realm.commitTransaction();
         } else {
             enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
+            enemy = realm.copyFromRealm(enemy);
         }
 
         Parcelable enemyParcel = Parcels.wrap(enemy);

@@ -142,6 +142,16 @@ public class TeamDamageListFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(enemy!= null){
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(enemy);
+            realm.commitTransaction();
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         realm.close();
@@ -412,7 +422,7 @@ public class TeamDamageListFragment extends Fragment {
             }
         } else {
             enemy.setCurrentHp(temp);
-            if (enemy.getHasDamageThreshold()) {
+            if (enemy.isHasDamageThreshold()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getIsBound().get(i)) {
                     } else {
@@ -470,7 +480,7 @@ public class TeamDamageListFragment extends Fragment {
                         }
                     }
                 }
-            } else if (enemy.getHasAbsorb()) {
+            } else if (enemy.isHasAbsorb()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getIsBound().get(i)) {
                     } else {
@@ -500,7 +510,7 @@ public class TeamDamageListFragment extends Fragment {
 
                     }
                 }
-            } else if (enemy.getHasReduction()) {
+            } else if (enemy.isHasReduction()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
                     if (team.getIsBound().get(i)) {
                     } else {
@@ -518,17 +528,18 @@ public class TeamDamageListFragment extends Fragment {
                 }
             }
             //Need to set colors of each enemy element stuff
-            setTextColors();
+
             enemy.setCurrentHp(enemy.getCurrentHp() - totalDamage);
             if (enemy.getCurrentHp() != temp) {
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
-                enemy.setIsDamaged(true);
+                enemy.setDamaged(true);
             }
             if (totalDamage == 0 && enemy.getCurrentHp() == enemy.getTargetHp()) {
                 enemy.setBeforeGravityHP(enemy.getCurrentHp());
             }
             enemyHPValue.setText(" " + dfSpace.format(enemy.getCurrentHp()) + " ");
             enemyHPPercentValue.setText(String.valueOf(df.format((double) enemy.getCurrentHp() / enemy.getTargetHp() * 100) + "%"));
+            setTextColors();
         }
         team.setTotalDamage(totalDamage);
         totalDamageValue.setText(" " + dfSpace.format(totalDamage) + " ");
@@ -700,7 +711,7 @@ public class TeamDamageListFragment extends Fragment {
 
     private void setReductionOrbs() {
         reductionValue.setText(String.valueOf(enemy.getReductionValue()));
-        if (enemy.getHasReduction()) {
+        if (enemy.isHasReduction()) {
             reductionCheck.setChecked(true);
             reductionValue.setEnabled(true);
             for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
@@ -729,7 +740,7 @@ public class TeamDamageListFragment extends Fragment {
     }
 
     private void setAbsorbOrbs() {
-        if (enemy.getHasAbsorb()) {
+        if (enemy.isHasAbsorb()) {
             absorbCheck.setChecked(true);
             for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
                 absorbRadioGroup.getChildAt(i).setEnabled(true);
@@ -766,7 +777,7 @@ public class TeamDamageListFragment extends Fragment {
     private void setDamageThreshold() {
         damageThresholdValue.setText(String.valueOf(enemy.getDamageThreshold()));
         damageImmunityValue.setText(String.valueOf(enemy.getDamageImmunity()));
-        if (enemy.getHasDamageThreshold()) {
+        if (enemy.isHasDamageThreshold()) {
             damageThresholdValue.setEnabled(true);
             damageThresholdCheck.setChecked(true);
         }
