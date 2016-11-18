@@ -5,10 +5,10 @@
 
     <item
         android:id="@+id/search"
-        android:title="@string/search_title"
         android:icon="@drawable/search"
-        app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        android:title="@string/search_title"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom" />
 
     <item
         android:id="@+id/action_settings"
@@ -50,9 +50,14 @@
 
     <group android:id="@+id/searchGroup">
         <item
+            android:id="@+id/addMonster"
+            android:icon="@drawable/person_add"
+            android:title="Add Monster"
+            app:showAsAction="ifRoom" />
+        <item
             android:id="@+id/monsterList"
             android:icon="@drawable/person_swap"
-            android:title="Monster List"
+            android:title="Swap Monster"
             app:showAsAction="ifRoom" />
     </group>
 
@@ -101,10 +106,10 @@
             android:title="Sort by # of Awakenings"
             app:showAsAction="never" />
         <!--<item-->
-            <!--android:id="@+id/filter"-->
-            <!--android:title="Filter Monsters"-->
-            <!--app:showAsAction="never"-->
-            <!--android:orderInCategory="99"/>-->
+        <!--android:id="@+id/filter"-->
+        <!--android:title="Filter Monsters"-->
+        <!--app:showAsAction="never"-->
+        <!--android:orderInCategory="99"/>-->
     </group>
 
     <group android:id="@+id/sortMoreGroup">

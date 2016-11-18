@@ -326,24 +326,33 @@ public class ParseMonsterDatabaseThread extends Thread {
                 } else if (!monster.getActiveSkill2String().equals("Blank")) {
                     monster.setActiveSkill2(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkill2String()).findFirst());
                 }
+
+                if(monster.getName() != null){
+                    if(!monster.getName().equals(monster.getBaseMonster().getName())){
+                        monster.setName(monster.getBaseMonster().getName());
+                    }
+                } else {
+                    monster.setName(monster.getBaseMonster().getName());
+                }
+
                 if (monster.getType1String() == null) {
                     monster.setType1String(getTypeString(monster.getType1()));
                 } else {
-                    if (monster.getType1String().isEmpty()) {
+                    if (monster.getType1String().isEmpty() || !monster.getType1String().equals(monster.getBaseMonster().getType1String())) {
                         monster.setType1String(getTypeString(monster.getType1()));
                     }
                 }
                 if (monster.getType2String() == null) {
                     monster.setType2String(getTypeString(monster.getType2()));
                 } else {
-                    if (monster.getType2String().isEmpty()) {
+                    if (monster.getType2String().isEmpty() || !monster.getType1String().equals(monster.getBaseMonster().getType2String())) {
                         monster.setType2String(getTypeString(monster.getType2()));
                     }
                 }
                 if (monster.getType3String() == null) {
                     monster.setType3String(getTypeString(monster.getType3()));
                 } else {
-                    if (monster.getType3String().isEmpty()) {
+                    if (monster.getType3String().isEmpty() || !monster.getType1String().equals(monster.getBaseMonster().getType3String())) {
                         monster.setType3String(getTypeString(monster.getType3()));
                     }
                 }

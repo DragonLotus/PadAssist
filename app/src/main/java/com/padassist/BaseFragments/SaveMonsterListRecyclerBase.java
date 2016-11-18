@@ -367,6 +367,13 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         ViewHolderGrid viewHolderGrid = (ViewHolderGrid) viewHolder;
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
 
+        viewHolderGrid.itemView.setTag(R.string.index, position);
+        if (monsterList.get(position).getMonsterId() == 0) {
+            viewHolderGrid.itemView.setOnClickListener(monsterListOnClickListener);
+        } else {
+            viewHolderGrid.itemView.setOnClickListener(expandOnItemClickListener);
+        }
+
         if (monsterList.get(position).getMonsterId() == 0) {
             viewHolderGrid.monsterPlus.setVisibility(View.GONE);
             viewHolderGrid.monsterAwakenings.setVisibility(View.GONE);
@@ -470,7 +477,6 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         switch (viewType) {
             case GRID:
                 ViewHolderGrid viewHolderGrid = new ViewHolderGrid(inflater.inflate(R.layout.save_monster_list_grid, parent, false));
-                viewHolderGrid.itemView.setOnClickListener(expandOnItemClickListener);
                 viewHolderGrid.itemView.setTag(viewHolderGrid);
                 viewHolderGrid.itemView.setOnLongClickListener(monsterListOnLongClickListener);
                 viewHolderGrid.favorite.setColorFilter(0xFFFFAADD);
@@ -482,7 +488,6 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
 
                 viewHolderLinear.favorite.setOnClickListener(favoriteOnClickListener);
                 viewHolderLinear.favoriteOutline.setOnClickListener(favoriteOnClickListener);
-                viewHolderLinear.itemView.setOnClickListener(expandOnItemClickListener);
 
                 viewHolderLinear.monsterName.setHorizontallyScrolling(true);
                 viewHolderLinear.leaderSkillName.setHorizontallyScrolling(true);

@@ -285,6 +285,7 @@ public abstract class MonsterPageBase extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.searchGroup, true);
+        menu.findItem(R.id.addMonster).setVisible(false);
         menu.findItem(R.id.manageMonsters).setVisible(false);
     }
 
