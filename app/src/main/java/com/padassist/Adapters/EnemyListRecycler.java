@@ -1,203 +1,276 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.padassist.Data.Monster;
-import com.padassist.Fragments.MonsterPageFragment;
-import com.padassist.Fragments.MonsterTabLayoutFragment;
+import com.padassist.Data.Enemy;
+import com.padassist.Graphics.TextStroke;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
-import com.padassist.Util.Singleton;
-
-import org.parceler.Parcels;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
 
 /**
  * Created by DragonLotus on 11/4/2015.
  */
-public class EnemyListRecycler extends RecyclerView.Adapter<EnemyListRecycler.ViewHolder> {
-    private ArrayList<Monster> monsterList;
+public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private final int GRID = 0, LINEAR = 1;
+    private ArrayList<Enemy> monsterList;
     private Context mContext;
     private LayoutInflater inflater;
-    private ArrayList<Integer> latentList;
+    private Toast toast;
+    private int expandedPosition = -1;
+    private RecyclerView monsterListView;
+    private Realm realm;
+    private boolean isGrid;
+    private int fortyEightDp;
+    private int eightDp;
+    private int fiftyFourDp;
+    private ClearTextFocus clearTextFocus;
+    private Enemy enemy;
 
-    private View.OnClickListener onItemClickListener = new View.OnClickListener() {
+    public EnemyListRecycler(Context context, ArrayList<Enemy> monsterList, RecyclerView monsterListView,
+                             boolean isGrid, Realm realm, ClearTextFocus clearTextFocus, Enemy enemy) {
+        mContext = context;
+        this.monsterList = monsterList;
+        this.monsterListView = monsterListView;
+        this.isGrid = isGrid;
+        this.clearTextFocus = clearTextFocus;
+        this.realm = realm;
+        this.enemy = enemy;
+
+        fortyEightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, mContext.getResources().getDisplayMetrics());
+        eightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
+        fiftyFourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 54, mContext.getResources().getDisplayMetrics());
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+    public interface ClearTextFocus {
+        public void doThis();
+
+        void emptyCheck();
+    }
+
+    private View.OnClickListener expandOnItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            ViewHolder holder = (ViewHolder) v.getTag();
-//            team.setMonsterOverwrite(holder.getAdapterPosition());
-//            team.save();
-            Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
-            if (monsterList.get(holder.getAdapterPosition()).getMonsterId() == 0) {
-                ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
+            clearTextFocus.doThis();
+            int previous;
+            RecyclerView.ViewHolder holder = (RecyclerView.ViewHolder) v.getTag();
+            if (holder.getAdapterPosition() != expandedPosition) {
+                if (expandedPosition >= 0) {
+                    previous = expandedPosition;
+                    notifyItemChanged(previous);
+                }
+                expandedPosition = holder.getAdapterPosition();
+                notifyItemChanged(expandedPosition);
+                monsterListView.smoothScrollToPosition(expandedPosition);
             } else {
-                Parcelable monsterParcel = Parcels.wrap(monsterList.get(holder.getAdapterPosition()));
-                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition(), monsterParcel), MonsterPageFragment.TAG, "good");
-
-//                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(realm.copyFromRealm(monsterList.get(holder.getAdapterPosition())), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
+                previous = expandedPosition;
+                expandedPosition = -1;
+                notifyItemChanged(previous);
             }
         }
     };
 
-    private View.OnLongClickListener onItemLongClickListener = new View.OnLongClickListener() {
+    private View.OnClickListener enemyOnClickListener = new View.OnClickListener() {
         @Override
-        public boolean onLongClick(View v) {
-            ViewHolder holder = (ViewHolder) v.getTag();
-            Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
-//            Intent i = new Intent(mContext, MonsterTabLayoutActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putBoolean("replaceAll", false);
-//            bundle.putLong("replaceMonsterId", monsterList.get(holder.getAdapterPosition()).getMonsterId());
-//            bundle.putInt("monsterPosition", holder.getAdapterPosition());
-//            i.putExtras(bundle);
-//            ((Activity)mContext).startActivityForResult(i, 1);
-            ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
+        public void onClick(View view) {
+            int position = (int) view.getTag(R.string.index);
+            enemy = monsterList.get(position);
+            ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
+        }
+    };
+
+    private View.OnClickListener enemyDeleteOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            enemy = monsterList.get(0);
+        }
+    };
+
+    private View.OnLongClickListener enemyOnLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            int position = (int) view.getTag(R.string.index);
+            enemy = monsterList.get(position);
+            ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
             return true;
         }
     };
 
-    public EnemyListRecycler(Context context, ArrayList<Monster> monsterList) {
-        mContext = context;
-        this.monsterList = monsterList;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+        if (isGrid && position != expandedPosition) {
+            setGridLayout(viewHolder, position);
+        } else {
+            setLinearLayout(viewHolder, position);
+        }
+
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-//        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
-        viewHolder.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
-        viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()) + " / ");
-        viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));
-        viewHolder.monsterHP.setText(Integer.toString(monsterList.get(position).getTotalHp()) + " / ");
-        viewHolder.monsterAwakenings.setText(" " + Integer.toString(monsterList.get(position).getCurrentAwakenings()));
-        viewHolder.monsterName.setText(monsterList.get(position).getName());
-        viewHolder.monsterLevelValue.setText(Integer.toString(monsterList.get(position).getCurrentLevel()));
-        viewHolder.monsterPlus.setText(" +" + Integer.toString(monsterList.get(position).getTotalPlus()) + " ");
-        viewHolder.rarity.setText("" + monsterList.get(position).getRarity());
-        viewHolder.rarityStar.setColorFilter(0xFFD4D421);
-        if (monsterList.get(position).getCurrentAwakenings() >= monsterList.get(position).getMaxAwakenings()) {
-            viewHolder.monsterAwakenings.setBackgroundResource(R.drawable.awakening_max);
-            viewHolder.monsterAwakenings.setText("");
-        }
-
-        if (latentList == null) {
-            latentList = new ArrayList<>();
-        } else {
-            latentList.clear();
-        }
-
-        for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
-            if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
-                latentList.add(1);
-            }
-        }
-        if (latentList.size() == 6) {
-            viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
-            viewHolder.monsterLatents.setText("");
-            viewHolder.monsterLatents.setVisibility(View.VISIBLE);
-        } else if (latentList.size() == 0) {
-            viewHolder.monsterLatents.setVisibility(View.INVISIBLE);
-        } else {
-            viewHolder.monsterLatents.setText(" " + latentList.size());
-            viewHolder.monsterLatents.setVisibility(View.VISIBLE);
-        }
-
-        if (monsterList.get(position).getTotalPlus() == 0) {
-            viewHolder.monsterPlus.setVisibility(View.INVISIBLE);
-        } else {
-            viewHolder.monsterPlus.setVisibility(View.VISIBLE);
-        }
-        if (monsterList.get(position).getCurrentAwakenings() == 0) {
-            viewHolder.monsterAwakenings.setVisibility(View.INVISIBLE);
-            if (latentList.size() != 0) {
-                ViewGroup.LayoutParams z = viewHolder.monsterAwakenings.getLayoutParams();
-                viewHolder.monsterLatents.setLayoutParams(z);
-            }
-        } else {
-            viewHolder.monsterAwakenings.setVisibility(View.VISIBLE);
-        }
-
-        if (monsterList.get(position).getMonsterId() == 0) {
-            viewHolder.monsterLevelValue.setVisibility(View.INVISIBLE);
-            viewHolder.monsterHP.setVisibility(View.INVISIBLE);
-            viewHolder.monsterATK.setVisibility(View.INVISIBLE);
-            viewHolder.monsterRCV.setVisibility(View.INVISIBLE);
-            viewHolder.monsterLevel.setVisibility(View.INVISIBLE);
-            viewHolder.type1.setVisibility(View.INVISIBLE);
-            viewHolder.type2.setVisibility(View.INVISIBLE);
-            viewHolder.rarity.setVisibility(View.INVISIBLE);
-            viewHolder.rarityStar.setVisibility(View.INVISIBLE);
-        } else {
-            viewHolder.monsterLevelValue.setVisibility(View.VISIBLE);
-            viewHolder.monsterHP.setVisibility(View.VISIBLE);
-            viewHolder.monsterATK.setVisibility(View.VISIBLE);
-            viewHolder.monsterRCV.setVisibility(View.VISIBLE);
-            viewHolder.monsterLevel.setVisibility(View.VISIBLE);
-            viewHolder.type1.setVisibility(View.VISIBLE);
-            viewHolder.type2.setVisibility(View.VISIBLE);
-            viewHolder.type3.setVisibility(View.VISIBLE);
-            viewHolder.rarity.setVisibility(View.VISIBLE);
-            viewHolder.rarityStar.setVisibility(View.VISIBLE);
-        }
-
-        if (monsterList.get(position).getType2() == -1 && monsterList.get(position).getMonsterId() != 0) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.type1.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            viewHolder.type1.setLayoutParams(params);
-            viewHolder.type1.setVisibility(View.VISIBLE);
-        }
-
-        if (monsterList.get(position).getType3() == -1) {
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) viewHolder.type2.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            viewHolder.type2.setLayoutParams(params);
-            viewHolder.type2.setVisibility(View.VISIBLE);
-        }
-        if(monsterList.get(position).getType1() >= 0){
-            viewHolder.type1.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType1()));
-            viewHolder.type1.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.type1.setVisibility(View.GONE);
-        }
-        if(monsterList.get(position).getType2() >= 0){
-            viewHolder.type2.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType2()));
-            viewHolder.type2.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.type2.setVisibility(View.GONE);
-        }
-        if(monsterList.get(position).getType3() >= 0){
-            viewHolder.type3.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getType3()));
-            viewHolder.type3.setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.type3.setVisibility(View.GONE);
-        }
-        viewHolder.monsterName.setHorizontallyScrolling(true);
-        viewHolder.monsterName.setSelected(true);
-
-        viewHolder.itemView.setOnClickListener(onItemClickListener);
-        viewHolder.itemView.setOnLongClickListener(onItemLongClickListener);
-        viewHolder.itemView.setTag(viewHolder);
+    private void setLinearLayout(RecyclerView.ViewHolder viewHolder, int position) {
+        EnemyListRecycler.ViewHolderLinear viewHolderLinear = (EnemyListRecycler.ViewHolderLinear) viewHolder;
 
         if (position % 2 == 1) {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
         } else {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
+        viewHolderLinear.enemyName.setText(monsterList.get(position).getEnemyName());
+        viewHolderLinear.monsterPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(monsterList.get(position).getMonsterIdPicture()));
+        viewHolderLinear.enemyHP.setText("HP: " + Long.toString(monsterList.get(position).getTargetHp()) + " ");
+        viewHolderLinear.enemyDef.setText("DEF: " + Integer.toString(monsterList.get(position).getBeforeDefenseBreak()));
+
+        viewHolderLinear.element1.setImageResource(ImageResourceUtil.orbColor(monsterList.get(position).getTargetElement().get(0).getElement()));
+
+        if (monsterList.get(position).getTargetElement().get(0).getValue() == monsterList.get(position).getTargetElement().get(1).getValue()) {
+            viewHolderLinear.element2.setVisibility(View.GONE);
+        } else {
+            viewHolderLinear.element2.setImageResource(ImageResourceUtil.orbColor(monsterList.get(position).getTargetElement().get(1).getElement()));
+        }
+
+        if (monsterList.get(position).isHasAbsorb()) {
+            viewHolderLinear.spacer2.setVisibility(View.VISIBLE);
+            viewHolderLinear.elementAbsorb.setVisibility(View.VISIBLE);
+        } else {
+            viewHolderLinear.spacer2.setVisibility(View.GONE);
+            viewHolderLinear.elementAbsorb.setVisibility(View.GONE);
+        }
+
+        if (monsterList.get(position).isHasReduction()) {
+            viewHolderLinear.elementReduction.setVisibility(View.VISIBLE);
+            viewHolderLinear.spacer3.setVisibility(View.VISIBLE);
+        } else {
+            viewHolderLinear.spacer3.setVisibility(View.GONE);
+            viewHolderLinear.elementReduction.setVisibility(View.GONE);
+        }
+
+        if (monsterList.get(position).isHasDamageThreshold()) {
+            viewHolderLinear.spacer4.setVisibility(View.VISIBLE);
+            viewHolderLinear.damageThreshold.setVisibility(View.VISIBLE);
+            viewHolderLinear.damageImmunity.setVisibility(View.GONE);
+        } else if (monsterList.get(position).hasDamageImmunity()) {
+            viewHolderLinear.spacer4.setVisibility(View.VISIBLE);
+            viewHolderLinear.damageThreshold.setVisibility(View.GONE);
+            viewHolderLinear.damageImmunity.setVisibility(View.VISIBLE);
+        } else {
+            viewHolderLinear.damageThreshold.setVisibility(View.GONE);
+            viewHolderLinear.damageImmunity.setVisibility(View.GONE);
+            viewHolderLinear.spacer4.setVisibility(View.GONE);
+        }
+
+        if (monsterList.get(position).getTypes().get(0).getValue() >= 0) {
+            viewHolderLinear.type1.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getTypes().get(0).getValue()));
+        } else {
+            viewHolderLinear.type1.setVisibility(View.GONE);
+        }
+
+        if (monsterList.get(position).getTypes().get(1).getValue() >= 0) {
+            viewHolderLinear.type2.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getTypes().get(1).getValue()));
+        } else {
+            viewHolderLinear.type2.setVisibility(View.GONE);
+        }
+
+        if (monsterList.get(position).getTypes().get(2).getValue() >= 0) {
+            viewHolderLinear.type3.setImageResource(ImageResourceUtil.monsterType(monsterList.get(position).getTypes().get(2).getValue()));
+        } else {
+            viewHolderLinear.type3.setVisibility(View.GONE);
+        }
+
+        viewHolderLinear.itemView.setTag(R.string.index, position);
+        viewHolderLinear.choose.setTag(R.string.index, position);
+        viewHolderLinear.delete.setTag(R.string.index, position);
+
+        if (position == expandedPosition) {
+            viewHolderLinear.expandLayout.setVisibility(View.VISIBLE);
+            viewHolderLinear.enemyAttributeHolder.setVisibility(View.GONE);
+
+            //Set expand layout stuff here
+
+            if (isGrid) {
+                ((StaggeredGridLayoutManager.LayoutParams) viewHolderLinear.itemView.getLayoutParams()).setFullSpan(true);
+                viewHolderLinear.monsterPicture.getLayoutParams().height = fortyEightDp;
+                viewHolderLinear.monsterPicture.getLayoutParams().width = fortyEightDp;
+                viewHolderLinear.monsterPicture.requestLayout();
+                viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+            }
+        } else {
+            viewHolderLinear.expandLayout.setVisibility(View.GONE);
+            if (!isGrid) {
+                viewHolderLinear.enemyAttributeHolder.setVisibility(View.VISIBLE);
+            } else {
+                ((StaggeredGridLayoutManager.LayoutParams) viewHolderLinear.itemView.getLayoutParams()).setFullSpan(false);
+                viewHolderLinear.monsterPicture.getLayoutParams().height = fiftyFourDp;
+                viewHolderLinear.monsterPicture.getLayoutParams().width = fiftyFourDp;
+                viewHolderLinear.monsterPicture.requestLayout();
+            }
+        }
+    }
+
+    private void setGridLayout(RecyclerView.ViewHolder viewHolder, int position) {
+        EnemyListRecycler.ViewHolderGrid viewHolderGrid = (EnemyListRecycler.ViewHolderGrid) viewHolder;
+        viewHolderGrid.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+//        viewHolderGrid.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+        viewHolderGrid.monsterPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(monsterList.get(position).getMonsterIdPicture()));
+    }
+
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case GRID:
+                EnemyListRecycler.ViewHolderGrid viewHolderGrid = new EnemyListRecycler.ViewHolderGrid(inflater.inflate(R.layout.base_monster_list_grid, parent, false));
+                viewHolderGrid.itemView.setOnClickListener(expandOnItemClickListener);
+                viewHolderGrid.itemView.setTag(viewHolderGrid);
+                viewHolderGrid.itemView.setOnLongClickListener(enemyOnLongClickListener);
+                viewHolderGrid.monsterIdStroke.setVisibility(View.GONE);
+                return viewHolderGrid;
+            default:
+                EnemyListRecycler.ViewHolderLinear viewHolderLinear = new EnemyListRecycler.ViewHolderLinear(inflater.inflate(R.layout.enemy_list_row, parent, false));
+
+                viewHolderLinear.enemyName.setHorizontallyScrolling(true);
+                viewHolderLinear.enemyName.setSelected(true);
+
+                viewHolderLinear.itemView.setOnClickListener(expandOnItemClickListener);
+                viewHolderLinear.itemView.setTag(viewHolderLinear);
+
+                viewHolderLinear.choose.setOnClickListener(enemyOnClickListener);
+                if (monsterList.size() > 1) {
+                    viewHolderLinear.delete.setOnClickListener(enemyDeleteOnClickListener);
+                    viewHolderLinear.delete.setEnabled(true);
+                } else {
+                    viewHolderLinear.delete.setOnClickListener(null);
+                    viewHolderLinear.delete.setEnabled(false);
+                }
+                viewHolderLinear.itemView.setOnLongClickListener(enemyOnLongClickListener);
+                return viewHolderLinear;
+        }
+
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflater.inflate(R.layout.monster_list_row, parent, false));
+    public int getItemViewType(int position) {
+        if (isGrid && position != expandedPosition) {
+            return GRID;
+        } else {
+            return LINEAR;
+        }
     }
 
     @Override
@@ -205,34 +278,95 @@ public class EnemyListRecycler extends RecyclerView.Adapter<EnemyListRecycler.Vi
         return monsterList.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterLevelValue, monsterHP, monsterATK, monsterRCV, monsterLevel, rarity, monsterLatents;
-        ImageView monsterPicture, type1, type2, type3, rarityStar;
-        RelativeLayout relativeLayout;
+    static class ViewHolderLinear extends RecyclerView.ViewHolder {
+        TextView enemyName, enemyHP, enemyDef, spacer1, spacer2, spacer3, spacer4;
+        ImageView monsterPicture, type1, type2, type3, element1, element2, elementAbsorb, elementReduction,
+                damageThreshold, damageImmunity;
+        RelativeLayout expandLayout, enemyAttributeRelativeLayout, relativeLayout;
+        LinearLayout typeHolder, enemyElementHolder, enemyAttributeHolder, buttonLinearLayout;
+        Button choose, delete;
 
-        public ViewHolder(View convertView) {
+        public ViewHolderLinear(View convertView) {
             super(convertView);
-            monsterName = (TextView) convertView.findViewById(R.id.monsterName);
-            monsterPlus = (TextView) convertView.findViewById(R.id.monsterPlus);
-            monsterAwakenings = (TextView) convertView.findViewById(R.id.monsterAwakenings);
-            monsterLatents = (TextView) convertView.findViewById(R.id.monsterLatents);
-            monsterATK = (TextView) convertView.findViewById(R.id.monsterATK);
-            monsterRCV = (TextView) convertView.findViewById(R.id.monsterRCV);
-            monsterHP = (TextView) convertView.findViewById(R.id.monsterHP);
-            monsterLevelValue = (TextView) convertView.findViewById(R.id.monsterLevelValue);
-            monsterLevel = (TextView) convertView.findViewById(R.id.monsterLevel);
-            monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
+            enemyName = (TextView) convertView.findViewById(R.id.enemyName);
+            enemyHP = (TextView) convertView.findViewById(R.id.enemyHP);
+            enemyDef = (TextView) convertView.findViewById(R.id.enemyDef);
+            spacer1 = (TextView) convertView.findViewById(R.id.spacer1);
+            spacer2 = (TextView) convertView.findViewById(R.id.spacer2);
+            spacer3 = (TextView) convertView.findViewById(R.id.spacer3);
+            spacer4 = (TextView) convertView.findViewById(R.id.spacer4);
             type1 = (ImageView) convertView.findViewById(R.id.type1);
             type2 = (ImageView) convertView.findViewById(R.id.type2);
             type3 = (ImageView) convertView.findViewById(R.id.type3);
-            rarity = (TextView) convertView.findViewById(R.id.rarity);
-            rarityStar = (ImageView) convertView.findViewById(R.id.rarityStar);
+            elementAbsorb = (ImageView) convertView.findViewById(R.id.elementAbsorb);
+            elementReduction = (ImageView) convertView.findViewById(R.id.elementReduction);
+            damageThreshold = (ImageView) convertView.findViewById(R.id.damageThreshold);
+            damageImmunity = (ImageView) convertView.findViewById(R.id.damageImmunity);
+            element1 = (ImageView) convertView.findViewById(R.id.element1);
+            element2 = (ImageView) convertView.findViewById(R.id.element2);
+            monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
+            choose = (Button) convertView.findViewById(R.id.choose);
+            delete = (Button) convertView.findViewById(R.id.delete);
+            expandLayout = (RelativeLayout) convertView.findViewById(R.id.expandLayout);
             relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
+            enemyAttributeRelativeLayout = (RelativeLayout) convertView.findViewById(R.id.enemyAttributeRelativeLayout);
+            typeHolder = (LinearLayout) convertView.findViewById(R.id.typeHolder);
+            enemyElementHolder = (LinearLayout) convertView.findViewById(R.id.enemyElementHolder);
+            enemyAttributeHolder = (LinearLayout) convertView.findViewById(R.id.enemyAttributeHolder);
+            buttonLinearLayout = (LinearLayout) convertView.findViewById(R.id.buttonLinearLayout);
         }
     }
 
-    public void updateList(ArrayList<Monster> monsterList) {
+    static class ViewHolderGrid extends RecyclerView.ViewHolder {
+        ImageView monsterPicture;
+        TextStroke monsterIdStroke;
+
+        public ViewHolderGrid(View convertView) {
+            super(convertView);
+            monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
+            monsterIdStroke = (TextStroke) convertView.findViewById(R.id.monsterIdStroke);
+        }
+    }
+
+    public void notifyDataSetChanged(ArrayList<Enemy> monsterList) {
         this.monsterList = monsterList;
         notifyDataSetChanged();
     }
+
+    public void notifyDataSetChanged(boolean isGrid) {
+        this.isGrid = isGrid;
+        notifyDataSetChanged();
+    }
+
+    public int getExpandedPosition() {
+        return expandedPosition;
+    }
+
+    public ArrayList<Enemy> getMonsterList() {
+        return monsterList;
+    }
+
+    public void setMonsterList(ArrayList<Enemy> monsterList) {
+        this.monsterList = monsterList;
+    }
+
+    public Enemy getItem(int position) {
+        return monsterList.get(position);
+    }
+
+    public boolean expanded() {
+        if (expandedPosition != -1) {
+            return true;
+        } else return false;
+    }
+
+    public void setExpandedPosition(int expandedPosition) {
+        int previous = this.expandedPosition;
+        this.expandedPosition = expandedPosition;
+        notifyItemChanged(previous);
+        if (expandedPosition >= 0) {
+            notifyItemChanged(expandedPosition);
+        }
+    }
+
 }

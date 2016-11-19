@@ -193,6 +193,12 @@ public class EnemyTargetFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.monsterList:
+                Parcelable enemyParcel = Parcels.wrap(enemy);
+                ((MainActivity) getActivity()).switchFragment(EnemyListFragment.newInstance(enemyParcel), EnemyListFragment.TAG, "good");
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -310,7 +316,7 @@ public class EnemyTargetFragment extends Fragment {
 
         typeItems = new ArrayList<>();
 
-        typeItems.add(1337);
+        typeItems.add(-1);
         typeItems.add(0);
         typeItems.add(1);
         typeItems.add(2);

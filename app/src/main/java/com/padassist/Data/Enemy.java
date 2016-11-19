@@ -135,7 +135,7 @@ public class Enemy extends RealmObject {
         reduction.add(new RealmElement(4));
         types.add(new RealmInt(5));
         types.add(new RealmInt(4));
-        types.add(new RealmInt(1337));
+        types.add(new RealmInt(-1));
         reductionValue = 50;
     }
 

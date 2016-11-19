@@ -483,6 +483,23 @@ public class ImageResourceUtil {
         }
     }
 
+    public static int orbColor(Element element){
+        switch(element){
+            case RED:
+                return R.drawable.red_orb;
+            case BLUE:
+                return R.drawable.blue_orb;
+            case GREEN:
+                return R.drawable.green_orb;
+            case LIGHT:
+                return R.drawable.light_orb;
+            case DARK:
+                return R.drawable.dark_orb;
+            default:
+                return R.drawable.jammer_orb;
+        }
+    }
+
     public static Bitmap getMonsterPicture(long monsterId) {
 
         File imgFile = new File(com.padassist.Util.Singleton.getInstance().getContext().getFilesDir(), "monster_images/monster_" + monsterId + ".png");

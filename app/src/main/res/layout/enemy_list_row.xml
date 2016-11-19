@@ -98,6 +98,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/enemyAttributeRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/monsterPicture">
@@ -129,14 +130,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/enemyElementHolder"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/spacer1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5" />
+
             <ImageView
                 android:id="@+id/elementAbsorb"
                 android:layout_width="18dp"
@@ -148,7 +150,7 @@
                 android:id="@+id/spacer2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5" />
 
             <ImageView
                 android:id="@+id/elementReduction"
@@ -156,13 +158,13 @@
                 android:layout_height="18dp"
                 android:background="@drawable/damage_background"
                 android:gravity="center_vertical"
-                android:src="@drawable/damage_defense"/>
+                android:src="@drawable/damage_defense" />
 
             <TextView
                 android:id="@+id/spacer3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5" />
 
             <ImageView
                 android:id="@+id/damageThreshold"
@@ -171,12 +173,6 @@
                 android:background="@drawable/damage_background"
                 android:gravity="center_vertical"
                 android:src="@drawable/damage_threshold" />
-
-            <TextView
-                android:id="@+id/spacer4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".5"/>
 
             <ImageView
                 android:id="@+id/damageImmunity"
@@ -187,10 +183,10 @@
                 android:src="@drawable/damage_immunity" />
 
             <TextView
-                android:id="@+id/spacer5"
+                android:id="@+id/spacer4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -199,14 +195,202 @@
         android:id="@+id/expandLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/monsterPicture"
-        android:visibility="invisible">
+        android:layout_below="@+id/enemyAttributeRelativeLayout"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/enemyAttributeHolderExpand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/absorbHolderExpand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@id/elementAbsorb"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="4dp"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/color_wheel_absorb" />
+
+                <LinearLayout
+                    android:id="@+id/absorbElementHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/elementAbsorb"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/elementAbsorb1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/red_orb" />
+
+                    <ImageView
+                        android:id="@+id/elementAbsorb2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/blue_orb" />
+
+                    <ImageView
+                        android:id="@+id/elementAbsorb3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/green_orb" />
+
+                    <ImageView
+                        android:id="@+id/elementAbsorb4"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/light_orb" />
+
+                    <ImageView
+                        android:id="@+id/elementAbsorb5"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/dark_orb" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/reductionHolderExpand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@id/elementReduction"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/damage_background"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/damage_defense" />
+
+                <LinearLayout
+                    android:id="@+id/reductionElementHolder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/elementReduction"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/elementReduction1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/red_orb" />
+
+                    <ImageView
+                        android:id="@+id/elementReduction2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/blue_orb" />
+
+                    <ImageView
+                        android:id="@+id/elementReduction3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/green_orb" />
+
+                    <ImageView
+                        android:id="@+id/elementReduction4"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/light_orb" />
+
+                    <ImageView
+                        android:id="@+id/elementReduction5"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="4dp"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/dark_orb" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/damageThresholdHolderExpand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@id/damageThreshold"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/damage_background"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/damage_threshold"
+                    android:layout_marginRight="4dp"/>
+
+                <TextView
+                    android:id="@+id/damageThresholdValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_alignTop="@+id/damageThreshold"
+                    android:layout_alignBottom="@+id/damageThreshold"
+                    android:layout_toRightOf="@+id/damageThreshold"
+                    android:gravity="center"
+                    android:text="200000"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/damageImmunityHolderExpand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@id/damageImmunity"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/damage_background"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/damage_immunity"
+                    android:layout_marginRight="4dp"/>
+
+                <TextView
+                    android:id="@+id/damageImmunityValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:layout_alignTop="@+id/damageImmunity"
+                    android:layout_alignBottom="@+id/damageImmunity"
+                    android:layout_toRightOf="@+id/damageImmunity"
+                    android:gravity="center"
+                    android:text="1000000"/>
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/buttonLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/leaderSkillHolder"
+            android:layout_below="@+id/enemyAttributeHolderExpand"
             android:orientation="horizontal">
 
             <Button
