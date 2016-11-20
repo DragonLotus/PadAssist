@@ -30,6 +30,19 @@
             android:text="I am a monster."
             android:textSize="18dp" />
 
+        <EditText
+            android:id="@+id/enemyNameEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/monsterPicture"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="I am a monster."
+            android:textSize="18dp"
+            android:visibility="invisible"
+            android:inputType="textNoSuggestions"
+            android:layout_marginTop="-8dp"/>
+
         <TextView
             android:id="@+id/targetHP"
             android:layout_width="wrap_content"

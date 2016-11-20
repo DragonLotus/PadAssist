@@ -260,7 +260,7 @@ public class EnemyListFragment extends Fragment {
                 }
                 RealmResults<Enemy> results = realm.where(Enemy.class)
                         .beginGroup()
-                        .contains("name", query, Case.INSENSITIVE)
+                        .contains("enemyName", query, Case.INSENSITIVE)
 //                        .or()
 //                        .contains("type1String", query, Case.INSENSITIVE)
 //                        .or()
@@ -279,12 +279,6 @@ public class EnemyListFragment extends Fragment {
 
                 enemyList.addAll(results);
 
-//                filterMonsters(query);
-
-//                filterMonsterName(query);
-//                filterMonsterType(query);
-//                filterMonsterNumber(query);
-//                filterMonsterElement(query);
             } else {
                 enemyList.clear();
                 enemyList.addAll(enemyListAll);

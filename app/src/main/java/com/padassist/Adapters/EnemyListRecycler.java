@@ -93,6 +93,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
         public void onClick(View view) {
             int position = (int) view.getTag(R.string.index);
             enemy = monsterList.get(position);
+            Log.d("EnemyListRecycler", "monster id is: " + enemy.getMonsterIdPicture());
             ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
         }
     };
@@ -100,7 +101,15 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
     private View.OnClickListener enemyDeleteOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            enemy = monsterList.get(0);
+            int position = (int) view.getTag(R.string.index);
+            realm.beginTransaction();
+            realm.where(Enemy.class).equalTo("enemyId", monsterList.get(position).getEnemyId()).findFirst().deleteFromRealm();
+            realm.commitTransaction();
+            monsterList.clear();
+            monsterList.addAll(realm.where(Enemy.class).findAll());
+            notifyItemRemoved(position);
+            notifyDataSetChanged(monsterList);
+            expandedPosition = -1;
         }
     };
 
@@ -109,6 +118,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
         public boolean onLongClick(View view) {
             int position = (int) view.getTag(R.string.index);
             enemy = monsterList.get(position);
+            Log.d("EnemyListRecycler", "monster id is: " + enemy.getMonsterIdPicture());
             ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
             return true;
         }
@@ -132,6 +142,15 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
+
+        if (monsterList.size() > 1) {
+            viewHolderLinear.delete.setOnClickListener(enemyDeleteOnClickListener);
+            viewHolderLinear.delete.setEnabled(true);
+        } else {
+            viewHolderLinear.delete.setOnClickListener(null);
+            viewHolderLinear.delete.setEnabled(false);
+        }
+
         viewHolderLinear.enemyName.setText(monsterList.get(position).getEnemyName());
         viewHolderLinear.monsterPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(monsterList.get(position).getMonsterIdPicture()));
         viewHolderLinear.enemyHP.setText("HP: " + Long.toString(monsterList.get(position).getTargetHp()) + " ");
@@ -148,31 +167,56 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (monsterList.get(position).isHasAbsorb()) {
             viewHolderLinear.spacer2.setVisibility(View.VISIBLE);
             viewHolderLinear.elementAbsorb.setVisibility(View.VISIBLE);
+            viewHolderLinear.absorbHolderExpand.setVisibility(View.VISIBLE);
+            for(int i = 0; i < monsterList.get(position).getAbsorb().size(); i++){
+                viewHolderLinear.absorbElementHolder.getChildAt(monsterList.get(position).getAbsorb().get(i).getValue()).setVisibility(View.VISIBLE);
+            }
         } else {
             viewHolderLinear.spacer2.setVisibility(View.GONE);
             viewHolderLinear.elementAbsorb.setVisibility(View.GONE);
+            viewHolderLinear.absorbHolderExpand.setVisibility(View.GONE);
+            for(int i = 0; i < viewHolderLinear.absorbElementHolder.getChildCount(); i++){
+                viewHolderLinear.absorbElementHolder.getChildAt(i).setVisibility(View.GONE);
+            }
         }
 
         if (monsterList.get(position).isHasReduction()) {
             viewHolderLinear.elementReduction.setVisibility(View.VISIBLE);
             viewHolderLinear.spacer3.setVisibility(View.VISIBLE);
+            viewHolderLinear.reductionHolderExpand.setVisibility(View.VISIBLE);
+            viewHolderLinear.reductionValue.setText(monsterList.get(position).getReductionValue() + "% ");
+            for(int i = 0; i < monsterList.get(position).getReduction().size(); i++){
+                viewHolderLinear.reductionElementHolder.getChildAt(monsterList.get(position).getReduction().get(i).getValue()).setVisibility(View.VISIBLE);
+            }
         } else {
             viewHolderLinear.spacer3.setVisibility(View.GONE);
             viewHolderLinear.elementReduction.setVisibility(View.GONE);
+            viewHolderLinear.reductionHolderExpand.setVisibility(View.GONE);
+            for(int i = 0; i < viewHolderLinear.reductionElementHolder.getChildCount(); i++){
+                viewHolderLinear.reductionElementHolder.getChildAt(i).setVisibility(View.GONE);
+            }
         }
 
         if (monsterList.get(position).isHasDamageThreshold()) {
             viewHolderLinear.spacer4.setVisibility(View.VISIBLE);
             viewHolderLinear.damageThreshold.setVisibility(View.VISIBLE);
+            viewHolderLinear.damageThresholdHolderExpand.setVisibility(View.VISIBLE);
             viewHolderLinear.damageImmunity.setVisibility(View.GONE);
+            viewHolderLinear.damageImmunityHolderExpand.setVisibility(View.GONE);
+            viewHolderLinear.damageThresholdValue.setText("" + monsterList.get(position).getDamageThreshold());
         } else if (monsterList.get(position).hasDamageImmunity()) {
             viewHolderLinear.spacer4.setVisibility(View.VISIBLE);
             viewHolderLinear.damageThreshold.setVisibility(View.GONE);
             viewHolderLinear.damageImmunity.setVisibility(View.VISIBLE);
+            viewHolderLinear.damageThresholdHolderExpand.setVisibility(View.GONE);
+            viewHolderLinear.damageImmunityHolderExpand.setVisibility(View.VISIBLE);
+            viewHolderLinear.damageImmunityValue.setText("" + monsterList.get(position).getDamageImmunity());
         } else {
             viewHolderLinear.damageThreshold.setVisibility(View.GONE);
             viewHolderLinear.damageImmunity.setVisibility(View.GONE);
             viewHolderLinear.spacer4.setVisibility(View.GONE);
+            viewHolderLinear.damageThresholdHolderExpand.setVisibility(View.GONE);
+            viewHolderLinear.damageImmunityHolderExpand.setVisibility(View.GONE);
         }
 
         if (monsterList.get(position).getTypes().get(0).getValue() >= 0) {
@@ -251,13 +295,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
                 viewHolderLinear.itemView.setTag(viewHolderLinear);
 
                 viewHolderLinear.choose.setOnClickListener(enemyOnClickListener);
-                if (monsterList.size() > 1) {
-                    viewHolderLinear.delete.setOnClickListener(enemyDeleteOnClickListener);
-                    viewHolderLinear.delete.setEnabled(true);
-                } else {
-                    viewHolderLinear.delete.setOnClickListener(null);
-                    viewHolderLinear.delete.setEnabled(false);
-                }
+
                 viewHolderLinear.itemView.setOnLongClickListener(enemyOnLongClickListener);
                 return viewHolderLinear;
         }
@@ -279,11 +317,14 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     static class ViewHolderLinear extends RecyclerView.ViewHolder {
-        TextView enemyName, enemyHP, enemyDef, spacer1, spacer2, spacer3, spacer4;
+        TextView enemyName, enemyHP, enemyDef, spacer1, spacer2, spacer3, spacer4, damageThresholdValue,
+        damageImmunityValue, reductionValue;
         ImageView monsterPicture, type1, type2, type3, element1, element2, elementAbsorb, elementReduction,
                 damageThreshold, damageImmunity;
-        RelativeLayout expandLayout, enemyAttributeRelativeLayout, relativeLayout;
-        LinearLayout typeHolder, enemyElementHolder, enemyAttributeHolder, buttonLinearLayout;
+        RelativeLayout expandLayout, enemyAttributeRelativeLayout, relativeLayout, absorbHolderExpand,
+        reductionHolderExpand, damageThresholdHolderExpand, damageImmunityHolderExpand;
+        LinearLayout typeHolder, enemyElementHolder, enemyAttributeHolder, buttonLinearLayout,
+        absorbElementHolder, reductionElementHolder;
         Button choose, delete;
 
         public ViewHolderLinear(View convertView) {
@@ -295,6 +336,9 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
             spacer2 = (TextView) convertView.findViewById(R.id.spacer2);
             spacer3 = (TextView) convertView.findViewById(R.id.spacer3);
             spacer4 = (TextView) convertView.findViewById(R.id.spacer4);
+            damageThresholdValue = (TextView) convertView.findViewById(R.id.damageThresholdValue);
+            damageImmunityValue = (TextView) convertView.findViewById(R.id.damageImmunityValue);
+            reductionValue = (TextView) convertView.findViewById(R.id.reductionValue);
             type1 = (ImageView) convertView.findViewById(R.id.type1);
             type2 = (ImageView) convertView.findViewById(R.id.type2);
             type3 = (ImageView) convertView.findViewById(R.id.type3);
@@ -310,9 +354,15 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
             expandLayout = (RelativeLayout) convertView.findViewById(R.id.expandLayout);
             relativeLayout = (RelativeLayout) convertView.findViewById(R.id.relativeLayout);
             enemyAttributeRelativeLayout = (RelativeLayout) convertView.findViewById(R.id.enemyAttributeRelativeLayout);
+            absorbHolderExpand = (RelativeLayout) convertView.findViewById(R.id.absorbHolderExpand);
+            reductionHolderExpand = (RelativeLayout) convertView.findViewById(R.id.reductionHolderExpand);
+            damageThresholdHolderExpand = (RelativeLayout) convertView.findViewById(R.id.damageThresholdHolderExpand);
+            damageImmunityHolderExpand = (RelativeLayout) convertView.findViewById(R.id.damageImmunityHolderExpand);
             typeHolder = (LinearLayout) convertView.findViewById(R.id.typeHolder);
             enemyElementHolder = (LinearLayout) convertView.findViewById(R.id.enemyElementHolder);
             enemyAttributeHolder = (LinearLayout) convertView.findViewById(R.id.enemyAttributeHolder);
+            absorbElementHolder = (LinearLayout) convertView.findViewById(R.id.absorbElementHolder);
+            reductionElementHolder = (LinearLayout) convertView.findViewById(R.id.reductionElementHolder);
             buttonLinearLayout = (LinearLayout) convertView.findViewById(R.id.buttonLinearLayout);
         }
     }

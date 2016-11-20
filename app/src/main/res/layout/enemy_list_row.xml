@@ -195,7 +195,7 @@
         android:id="@+id/expandLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/enemyAttributeRelativeLayout"
+        android:layout_below="@+id/monsterPicture"
         android:visibility="visible">
 
         <LinearLayout
@@ -232,7 +232,8 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/red_orb" />
+                        android:src="@drawable/red_orb"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/elementAbsorb2"
@@ -240,7 +241,8 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/blue_orb" />
+                        android:src="@drawable/blue_orb"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/elementAbsorb3"
@@ -248,7 +250,8 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/green_orb" />
+                        android:src="@drawable/green_orb"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/elementAbsorb4"
@@ -256,7 +259,8 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/light_orb" />
+                        android:src="@drawable/light_orb"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/elementAbsorb5"
@@ -264,14 +268,16 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/dark_orb" />
+                        android:src="@drawable/dark_orb"
+                        android:visibility="gone" />
                 </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/reductionHolderExpand"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp">
 
                 <ImageView
                     android:id="@id/elementReduction"
@@ -282,11 +288,22 @@
                     android:gravity="center_vertical"
                     android:src="@drawable/damage_defense" />
 
+                <TextView
+                    android:id="@+id/reductionValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/elementReduction"
+                    android:layout_alignTop="@+id/elementReduction"
+                    android:layout_toRightOf="@+id/elementReduction"
+                    android:gravity="center"
+                    android:text="50% "
+                    android:textSize="18dp" />
+
                 <LinearLayout
                     android:id="@+id/reductionElementHolder"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/elementReduction"
+                    android:layout_toRightOf="@+id/reductionValue"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -296,7 +313,8 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/red_orb" />
+                        android:src="@drawable/red_orb"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/elementReduction2"
@@ -304,7 +322,8 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/blue_orb" />
+                        android:src="@drawable/blue_orb"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/elementReduction3"
@@ -312,7 +331,8 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/green_orb" />
+                        android:src="@drawable/green_orb"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/elementReduction4"
@@ -320,7 +340,8 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/light_orb" />
+                        android:src="@drawable/light_orb"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/elementReduction5"
@@ -328,60 +349,63 @@
                         android:layout_height="20dp"
                         android:layout_marginRight="4dp"
                         android:gravity="center_vertical"
-                        android:src="@drawable/dark_orb" />
+                        android:src="@drawable/dark_orb"
+                        android:visibility="gone" />
                 </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/damageThresholdHolderExpand"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp">
 
                 <ImageView
                     android:id="@id/damageThreshold"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_marginRight="4dp"
                     android:background="@drawable/damage_background"
                     android:gravity="center_vertical"
-                    android:src="@drawable/damage_threshold"
-                    android:layout_marginRight="4dp"/>
+                    android:src="@drawable/damage_threshold" />
 
                 <TextView
                     android:id="@+id/damageThresholdValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:layout_alignTop="@+id/damageThreshold"
                     android:layout_alignBottom="@+id/damageThreshold"
+                    android:layout_alignTop="@+id/damageThreshold"
                     android:layout_toRightOf="@+id/damageThreshold"
                     android:gravity="center"
-                    android:text="200000"/>
+                    android:text="200000"
+                    android:textSize="18dp" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/damageImmunityHolderExpand"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp">
 
                 <ImageView
                     android:id="@id/damageImmunity"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_marginRight="4dp"
                     android:background="@drawable/damage_background"
                     android:gravity="center_vertical"
-                    android:src="@drawable/damage_immunity"
-                    android:layout_marginRight="4dp"/>
+                    android:src="@drawable/damage_immunity" />
 
                 <TextView
                     android:id="@+id/damageImmunityValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:layout_alignTop="@+id/damageImmunity"
                     android:layout_alignBottom="@+id/damageImmunity"
+                    android:layout_alignTop="@+id/damageImmunity"
                     android:layout_toRightOf="@+id/damageImmunity"
                     android:gravity="center"
-                    android:text="1000000"/>
+                    android:text="1000000"
+                    android:textSize="18dp" />
             </RelativeLayout>
 
         </LinearLayout>
