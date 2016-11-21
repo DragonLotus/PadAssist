@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
+import com.padassist.Data.RealmElement;
+import com.padassist.Data.RealmInt;
 import com.padassist.Graphics.TextStroke;
 import com.padassist.MainActivity;
 import com.padassist.R;
@@ -24,6 +26,7 @@ import com.padassist.Util.ImageResourceUtil;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 /**
  * Created by DragonLotus on 11/4/2015.
@@ -34,7 +37,6 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
     private Context mContext;
     private LayoutInflater inflater;
     private Toast toast;
-    private int expandedPosition = -1;
     private RecyclerView monsterListView;
     private Realm realm;
     private boolean isGrid;
@@ -61,13 +63,23 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
         public void onClick(View view) {
             int position = (int) view.getTag(R.string.index);
             enemy.setMonsterIdPicture(monsterList.get(position).getMonsterId());
+            enemy.getTargetElement().set(0, new RealmElement(monsterList.get(position).getElement1Int()));
+            if (monsterList.get(position).getElement2Int() == -1) {
+                enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement1Int()));
+            } else {
+                enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement2Int()));
+            }
+            enemy.getTypes().set(0, new RealmInt(monsterList.get(position).getType1()));
+            enemy.getTypes().set(1, new RealmInt(monsterList.get(position).getType2()));
+            enemy.getTypes().set(2, new RealmInt(monsterList.get(position).getType3()));
+            enemy.setEnemyName(monsterList.get(position).getName());
             ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
         }
     };
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if (isGrid && position != expandedPosition) {
+        if (isGrid) {
             setGridLayout(viewHolder, position);
         } else {
             setLinearLayout(viewHolder, position);
@@ -125,7 +137,7 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
 
     @Override
     public int getItemViewType(int position) {
-        if (isGrid && position != expandedPosition) {
+        if (isGrid) {
             return GRID;
         } else {
             return LINEAR;
@@ -170,10 +182,6 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
         notifyDataSetChanged();
     }
 
-    public int getExpandedPosition() {
-        return expandedPosition;
-    }
-
     public ArrayList<BaseMonster> getMonsterList() {
         return monsterList;
     }
@@ -184,21 +192,6 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
 
     public BaseMonster getItem(int position) {
         return monsterList.get(position);
-    }
-
-    public boolean expanded() {
-        if (expandedPosition != -1) {
-            return true;
-        } else return false;
-    }
-
-    public void setExpandedPosition(int expandedPosition) {
-        int previous = this.expandedPosition;
-        this.expandedPosition = expandedPosition;
-        notifyItemChanged(previous);
-        if (expandedPosition >= 0) {
-            notifyItemChanged(expandedPosition);
-        }
     }
 
 }

@@ -292,6 +292,7 @@ public class EnemyListFragment extends Fragment {
             }
             firstRun = false;
             enemyListRecycler.setExpandedPosition(-1);
+            enemyListRecycler.notifyDataSetChanged();
             if (enemyList.size() == 0) {
                 savedMonsters.setText("No results");
                 savedMonsters.setVisibility(View.VISIBLE);

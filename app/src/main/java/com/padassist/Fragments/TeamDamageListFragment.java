@@ -768,7 +768,7 @@ public class TeamDamageListFragment extends Fragment {
             reductionRadioGroup.getChildAt(i).setEnabled(false);
         }
     }
-    
+
     private void setAbsorbOrbs() {
         if (enemy.isHasAbsorb()) {
             absorbCheck.setChecked(true);

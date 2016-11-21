@@ -195,7 +195,7 @@
         android:id="@+id/expandLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/monsterPicture"
+        android:layout_below="@+id/enemyAttributeRelativeLayout"
         android:visibility="visible">
 
         <LinearLayout
@@ -429,7 +429,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:text="Choose Enemy" />
+                android:text="Load Enemy" />
         </LinearLayout>
 
     </RelativeLayout>

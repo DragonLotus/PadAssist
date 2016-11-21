@@ -295,15 +295,9 @@ public class EnemyTargetFragment extends Fragment {
             enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
         realm = Realm.getDefaultInstance();
-        Log.d("EnemyTargetFragment", "is valid: " + enemy.isValid() + " is managed: " + enemy.isManaged());
-        targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
-        totalGravityValue.setText(String.valueOf(enemy.getCurrentHp()));
-        targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
         enemyName.setSelected(true);
         enemyName.setHorizontallyScrolling(true);
         monsterPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(enemy.getMonsterIdPicture()));
-        Log.d("EnemyTargetFragment", "monster id is: " + enemy.getMonsterIdPicture());
-        Log.d("EnemyTargetFragment", "enemy id is: " + enemy.getEnemyId());
         Parcelable enemyParcel = Parcels.wrap(enemy);
         gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, enemyParcel, updateGravityPercent, enemy.getGravityArrayList());
         gravityList.setAdapter(gravityListAdapter);
@@ -312,10 +306,6 @@ public class EnemyTargetFragment extends Fragment {
         gravityButtonList.setAdapter(gravityButtonAdapter);
         gravityButtonList.setOnItemClickListener(gravityButtonOnClickListener);
         gravityButtonInit();
-
-        targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
-        currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
-        targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
 
         if (enemy.isDamaged()) {
             enemy.clearGravityList();
@@ -358,10 +348,6 @@ public class EnemyTargetFragment extends Fragment {
         type2Spinner.setAdapter(typeSpinnerAdapter);
         type3Spinner.setAdapter(typeSpinnerAdapter);
 
-        setSpinner();
-        type1Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
-        type2Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
-        type3Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
 
         gravityList.setOnTouchListener(listViewScroll);
         gravityButtonList.setOnTouchListener(listViewScroll);
@@ -380,17 +366,16 @@ public class EnemyTargetFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("EnemyTarget", "Reduction value on start is: " + enemy.getReductionValue());
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        Log.d("EnemyTargetFragment", "resume monster id is: " + enemy.getMonsterIdPicture());
-        Log.d("EnemyTargetFragment", "resume enemy id is: " + enemy.getEnemyId());
         currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
+        targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
+        totalGravityValue.setText(String.valueOf(enemy.getCurrentHp()));
+        targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
+
+        targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
+        currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
+        targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
 
         targetHpValue.addTextChangedListener(targetHPWatcher);
         currentHpValue.addTextChangedListener(currentHPWatcher);
@@ -415,6 +400,7 @@ public class EnemyTargetFragment extends Fragment {
         damageImmunityValue.setOnFocusChangeListener(editTextOnFocusChange);
         damageImmunityCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
 
+        Log.d("EnemyTargetFrag", "element 1 is: " + enemy.getTargetElement().get(0).getValue() + " element 2 is: " + enemy.getTargetElement().get(1).getValue());
         orbRadioGroup1.setOnCheckedChangeListener(enemyElement1OnCheckedChangeListener);
         orbRadioGroup2.setOnCheckedChangeListener(enemyElement2OnCheckedChangeListener);
 
@@ -433,6 +419,11 @@ public class EnemyTargetFragment extends Fragment {
         enemyName.setOnClickListener(enemyNameOnClickListener);
         enemyNameEditText.setOnFocusChangeListener(enemyNameEditTextOnFocusChangeListener);
         enemyNameEditText.addTextChangedListener(enemyNameEditTextWatcher);
+
+        setSpinner();
+        type1Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
+        type2Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
+        type3Spinner.setOnItemSelectedListener(typeOnItemSelectedListener);
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event
@@ -514,7 +505,6 @@ public class EnemyTargetFragment extends Fragment {
             } else {
                 enemy.setEnemyName(charSequence.toString());
             }
-            Log.d("EnemyTargetFragment", "enemy name is: " + enemy.getEnemyName());
         }
 
         @Override

@@ -151,10 +151,10 @@ public class Enemy extends RealmObject {
         gravityList = enemy.getGravityList();
         types = enemy.getTypes();
         targetHp = enemy.getTargetHp();
-        targetDef = enemy.getTargetDef();
-        currentHp = targetHp;
-        beforeGravityHP = enemy.getBeforeGravityHP();
-        beforeDefenseBreak = targetDef;
+        targetDef = enemy.getBeforeDefenseBreak();
+        currentHp = enemy.getTargetHp();
+        beforeGravityHP = enemy.getTargetHp();
+        beforeDefenseBreak = enemy.getBeforeDefenseBreak();
         targetElement = enemy.getTargetElement();
         gravityPercent = enemy.getGravityPercent();
         damageThreshold = enemy.getDamageThreshold();

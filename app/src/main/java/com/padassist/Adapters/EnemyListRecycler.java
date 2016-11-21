@@ -105,7 +105,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
             realm.where(Enemy.class).equalTo("enemyId", monsterList.get(position).getEnemyId()).findFirst().deleteFromRealm();
             realm.commitTransaction();
             monsterList.clear();
-            monsterList.addAll(realm.where(Enemy.class).greaterThan("enemyId",0).findAll());
+            monsterList.addAll(realm.where(Enemy.class).greaterThan("enemyId", 0).findAll());
             notifyItemRemoved(position);
             notifyDataSetChanged(monsterList);
             expandedPosition = -1;
@@ -405,7 +405,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void setExpandedPosition(int expandedPosition) {
         int previous = this.expandedPosition;
         this.expandedPosition = expandedPosition;
-        notifyItemChanged(previous);
+            notifyItemChanged(previous);
         if (expandedPosition >= 0) {
             notifyItemChanged(expandedPosition);
         }

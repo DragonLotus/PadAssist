@@ -222,9 +222,7 @@ public class MonsterPortraitListFragment extends Fragment {
                     monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
                 }
                 monsterPortraitListRecycler.notifyDataSetChanged(isGrid);
-                if (monsterPortraitListRecycler.getExpandedPosition() > -1) {
-                    monsterListView.scrollToPosition(monsterPortraitListRecycler.getExpandedPosition());
-                }
+
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -574,7 +572,6 @@ public class MonsterPortraitListFragment extends Fragment {
             }
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
             firstRun = false;
-            monsterPortraitListRecycler.setExpandedPosition(-1);
             if (monsterList.size() == 0) {
                 noResults.setVisibility(View.VISIBLE);
             } else {
@@ -648,7 +645,6 @@ public class MonsterPortraitListFragment extends Fragment {
                 }
             }
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
-            monsterPortraitListRecycler.setExpandedPosition(-1);
             monsterPortraitListRecycler.notifyDataSetChanged();
             if (monsterList.size() == 0) {
                 noResults.setVisibility(View.VISIBLE);
@@ -717,7 +713,6 @@ public class MonsterPortraitListFragment extends Fragment {
                 }
             }
             sortArrayList(Singleton.getInstance().getBaseSortMethod());
-            monsterPortraitListRecycler.setExpandedPosition(-1);
             monsterPortraitListRecycler.notifyDataSetChanged();
             if (monsterList.size() == 0) {
                 noResults.setVisibility(View.VISIBLE);
