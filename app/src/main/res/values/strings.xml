@@ -21,6 +21,7 @@
     <string name="position">position</string>
     <string name="search_hint"># | Name | Type | Skill</string>
     <string name="search_hint_team">Team Name | Monster Name</string>
+    <string name="search_hint_enemy">Monster Name</string>
 
     <string name="title_activity_loading_screen">LoadingScreenActivity</string>
     <string name="dummy_button">Dummy Button</string>

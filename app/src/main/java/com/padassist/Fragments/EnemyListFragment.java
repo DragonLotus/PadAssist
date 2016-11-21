@@ -50,7 +50,6 @@ public class EnemyListFragment extends Fragment {
     protected ArrayList<Enemy> enemyListAll;
     private MenuItem searchMenuItem;
     protected SearchView searchView;
-    private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
     protected EnemyListRecycler enemyListRecycler;
     private Toast toast;
     private TextView savedMonsters;
@@ -119,6 +118,7 @@ public class EnemyListFragment extends Fragment {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         searchView.setSubmitButtonEnabled(true);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        searchView.setQueryHint(getResources().getString(R.string.search_hint_enemy));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextChange(String newText) {

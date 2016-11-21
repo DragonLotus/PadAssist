@@ -37,8 +37,8 @@ android {
         applicationId "com.padassist"
         minSdkVersion 11
         targetSdkVersion 25
-        versionCode 33
-        versionName "0.41.1"
+        versionCode 34
+        versionName "0.42"
     }
     buildTypes {
         release {

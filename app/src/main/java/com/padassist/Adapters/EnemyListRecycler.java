@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Data.Enemy;
+import com.padassist.Fragments.DeleteMonsterConfirmationDialogFragment;
 import com.padassist.Graphics.TextStroke;
 import com.padassist.MainActivity;
 import com.padassist.R;
@@ -43,6 +44,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int fiftyFourDp;
     private ClearTextFocus clearTextFocus;
     private Enemy enemy;
+    private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
     public EnemyListRecycler(Context context, ArrayList<Enemy> monsterList, RecyclerView monsterListView,
                              boolean isGrid, Realm realm, ClearTextFocus clearTextFocus, Enemy enemy) {
@@ -101,6 +103,20 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onClick(View view) {
             int position = (int) view.getTag(R.string.index);
+
+            if (deleteConfirmationDialog == null) {
+                deleteConfirmationDialog = DeleteMonsterConfirmationDialogFragment.newInstance(deleteMonster, position);
+            }
+            if (!deleteConfirmationDialog.isAdded()) {
+                deleteConfirmationDialog.show(((MainActivity)mContext).getSupportFragmentManager(), position, "Delete Confirmation");
+            }
+
+        }
+    };
+
+    private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
+        @Override
+        public void resetLayout(int position) {
             realm.beginTransaction();
             realm.where(Enemy.class).equalTo("enemyId", monsterList.get(position).getEnemyId()).findFirst().deleteFromRealm();
             realm.commitTransaction();
