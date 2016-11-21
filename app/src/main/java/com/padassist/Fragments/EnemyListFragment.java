@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -83,6 +84,11 @@ public class EnemyListFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         realm.close();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     @Override
@@ -166,6 +172,7 @@ public class EnemyListFragment extends Fragment {
         if (getArguments() != null) {
             enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
+        savedMonsters.setText("No Saved Enemies");
         preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
         isGrid = preferences.getBoolean("isGrid", true);
         realm = Realm.getDefaultInstance();
@@ -175,7 +182,7 @@ public class EnemyListFragment extends Fragment {
         }
 
         enemyListAll.clear();
-        enemyListAll.addAll(realm.where(Enemy.class).findAll());
+        enemyListAll.addAll(realm.where(Enemy.class).greaterThan("enemyId", 0).findAll());
 
         if (enemyList == null) {
             enemyList = new ArrayList<>();
@@ -194,14 +201,14 @@ public class EnemyListFragment extends Fragment {
         getActivity().setTitle("Replace Enemy");
     }
 
-    protected EnemyListRecycler.ClearTextFocus clearTextFocus = new EnemyListRecycler.ClearTextFocus() {
+    private EnemyListRecycler.ClearTextFocus clearTextFocus = new EnemyListRecycler.ClearTextFocus() {
         @Override
         public void doThis() {
             searchView.clearFocus();
         }
 
         @Override
-        public void emptyCheck() {
+        public void checkEmpty() {
             emptyCheck();
         }
     };
@@ -274,7 +281,7 @@ public class EnemyListFragment extends Fragment {
 //                        .or()
 //                        .contains("leaderSkillString", query, Case.INSENSITIVE)
                         .endGroup()
-//                        .greaterThan("enemyId", 0)
+                        .greaterThan("enemyId", 0)
                         .findAll();
 
                 enemyList.addAll(results);

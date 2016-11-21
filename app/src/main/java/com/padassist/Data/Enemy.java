@@ -52,6 +52,7 @@ public class Enemy extends RealmObject {
     private boolean hasDamageThreshold;
     private boolean isDamaged;
     private boolean hasDamageImmunity;
+    private long overwriteEnemyId;
 
 
     //default is DKali from Arena 3
@@ -137,8 +138,41 @@ public class Enemy extends RealmObject {
         types.add(new RealmInt(4));
         types.add(new RealmInt(-1));
         reductionValue = 50;
+        overwriteEnemyId = 0;
     }
 
+    public void setEnemy(Enemy enemy){
+        enemyId = 0;
+        overwriteEnemyId = enemy.getEnemyId();
+        enemyName = enemy.getEnemyName();
+        monsterIdPicture = enemy.getMonsterIdPicture();
+        absorb = enemy.getAbsorb();
+        reduction = enemy.getReduction();
+        gravityList = enemy.getGravityList();
+        types = enemy.getTypes();
+        targetHp = enemy.getTargetHp();
+        targetDef = enemy.getTargetDef();
+        currentHp = targetHp;
+        beforeGravityHP = enemy.getBeforeGravityHP();
+        beforeDefenseBreak = targetDef;
+        targetElement = enemy.getTargetElement();
+        gravityPercent = enemy.getGravityPercent();
+        damageThreshold = enemy.getDamageThreshold();
+        damageImmunity = enemy.getDamageImmunity();
+        isDamaged = enemy.isDamaged;
+        hasReduction = enemy.isHasReduction();
+        hasDamageThreshold = enemy.isHasDamageThreshold();
+        hasDamageImmunity = enemy.isHasDamageImmunity();
+        reductionValue = enemy.getReductionValue();
+    }
+
+    public long getOverwriteEnemyId() {
+        return overwriteEnemyId;
+    }
+
+    public void setOverwriteEnemyId(long overwriteEnemyId) {
+        this.overwriteEnemyId = overwriteEnemyId;
+    }
 
     public long getTargetHp() {
         return targetHp;
@@ -351,6 +385,15 @@ public class Enemy extends RealmObject {
     @ParcelPropertyConverter(RealmIntParcelConverter.class)
     public void setTypes(RealmList<RealmInt> types) {
         this.types = types;
+    }
+
+    public boolean typeContains(int type){
+        for(int i = 0; i < types.size(); i++){
+            if(types.get(i).getValue() == (type)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getReductionValue() {

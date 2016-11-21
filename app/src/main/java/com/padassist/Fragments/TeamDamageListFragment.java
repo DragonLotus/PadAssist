@@ -713,32 +713,62 @@ public class TeamDamageListFragment extends Fragment {
         reductionValue.setText(String.valueOf(enemy.getReductionValue()));
         if (enemy.isHasReduction()) {
             reductionCheck.setChecked(true);
-            reductionValue.setEnabled(true);
             for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                 reductionRadioGroup.getChildAt(i).setEnabled(true);
             }
             if (enemy.reductionContains(Element.RED)) {
                 redOrbReduction.setChecked(true);
+            } else {
+                redOrbReduction.setChecked(false);
             }
             if (enemy.reductionContains(Element.BLUE)) {
                 blueOrbReduction.setChecked(true);
+            } else {
+                blueOrbReduction.setChecked(false);
             }
             if (enemy.reductionContains(Element.GREEN)) {
                 greenOrbReduction.setChecked(true);
+            } else {
+                greenOrbReduction.setChecked(false);
             }
             if (enemy.reductionContains(Element.DARK)) {
                 darkOrbReduction.setChecked(true);
+            } else {
+                darkOrbReduction.setChecked(false);
             }
             if (enemy.reductionContains(Element.LIGHT)) {
                 lightOrbReduction.setChecked(true);
+            } else {
+                lightOrbReduction.setChecked(false);
             }
         } else {
             reductionValue.setEnabled(false);
             reductionCheck.setChecked(false);
+            clearReduction();
         }
-
     }
 
+    private void clearReduction(){
+        redOrbReduction.setOnCheckedChangeListener(null);
+        blueOrbReduction.setOnCheckedChangeListener(null);
+        greenOrbReduction.setOnCheckedChangeListener(null);
+        darkOrbReduction.setOnCheckedChangeListener(null);
+        lightOrbReduction.setOnCheckedChangeListener(null);
+        redOrbReduction.setChecked(false);
+        blueOrbReduction.setChecked(false);
+        greenOrbReduction.setChecked(false);
+        lightOrbReduction.setChecked(false);
+        darkOrbReduction.setChecked(false);
+        redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
+        blueOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
+        greenOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
+        darkOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
+        lightOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
+        for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
+            reductionRadioGroup.getChildAt(i).setEnabled(false);
+        }
+    }
+    
     private void setAbsorbOrbs() {
         if (enemy.isHasAbsorb()) {
             absorbCheck.setChecked(true);
@@ -747,30 +777,54 @@ public class TeamDamageListFragment extends Fragment {
             }
             if (enemy.absorbContains(Element.RED)) {
                 redOrbAbsorb.setChecked(true);
+            } else {
+                redOrbAbsorb.setChecked(false);
             }
             if (enemy.absorbContains(Element.BLUE)) {
                 blueOrbAbsorb.setChecked(true);
+            } else {
+                blueOrbAbsorb.setChecked(false);
             }
             if (enemy.absorbContains(Element.GREEN)) {
                 greenOrbAbsorb.setChecked(true);
+            } else {
+                greenOrbAbsorb.setChecked(false);
             }
             if (enemy.absorbContains(Element.DARK)) {
                 darkOrbAbsorb.setChecked(true);
+            } else {
+                darkOrbAbsorb.setChecked(false);
             }
             if (enemy.absorbContains(Element.LIGHT)) {
                 lightOrbAbsorb.setChecked(true);
+            } else {
+                lightOrbAbsorb.setChecked(false);
             }
 
         } else {
             absorbCheck.setChecked(false);
-            redOrbAbsorb.setChecked(false);
-            blueOrbAbsorb.setChecked(false);
-            greenOrbAbsorb.setChecked(false);
-            darkOrbAbsorb.setChecked(false);
-            lightOrbAbsorb.setChecked(false);
-            for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
-                absorbRadioGroup.getChildAt(i).setEnabled(false);
-            }
+            clearAbsorb();
+        }
+    }
+
+    private void clearAbsorb(){
+        redOrbAbsorb.setOnCheckedChangeListener(null);
+        blueOrbAbsorb.setOnCheckedChangeListener(null);
+        greenOrbAbsorb.setOnCheckedChangeListener(null);
+        lightOrbAbsorb.setOnCheckedChangeListener(null);
+        darkOrbAbsorb.setOnCheckedChangeListener(null);
+        redOrbAbsorb.setChecked(false);
+        blueOrbAbsorb.setChecked(false);
+        greenOrbAbsorb.setChecked(false);
+        lightOrbAbsorb.setChecked(false);
+        darkOrbAbsorb.setChecked(false);
+        redOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        blueOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        greenOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        darkOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        lightOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+        for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
+            absorbRadioGroup.getChildAt(i).setEnabled(false);
         }
     }
 
@@ -812,39 +866,10 @@ public class TeamDamageListFragment extends Fragment {
 
             } else if (buttonView.equals(reductionCheck)) {
                 enemy.setHasReduction(isChecked);
-                if (isChecked) {
-                    for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
-                        reductionRadioGroup.getChildAt(i).setEnabled(true);
-                    }
-                    reductionValue.setEnabled(true);
-                } else {
-                    redOrbReduction.setChecked(false);
-                    blueOrbReduction.setChecked(false);
-                    greenOrbReduction.setChecked(false);
-                    lightOrbReduction.setChecked(false);
-                    darkOrbReduction.setChecked(false);
-                    for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
-                        reductionRadioGroup.getChildAt(i).setEnabled(false);
-                    }
-                    setElementReduction(isChecked, buttonView.getId());
-                    reductionValue.setEnabled(false);
-                }
+                setReductionOrbs();
             } else if (buttonView.equals(absorbCheck)) {
                 enemy.setHasAbsorb(isChecked);
-                if (isChecked) {
-                    for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
-                        absorbRadioGroup.getChildAt(i).setEnabled(true);
-                    }
-                } else {
-                    redOrbAbsorb.setChecked(false);
-                    blueOrbAbsorb.setChecked(false);
-                    greenOrbAbsorb.setChecked(false);
-                    lightOrbAbsorb.setChecked(false);
-                    darkOrbAbsorb.setChecked(false);
-                    for (int i = 0; i < absorbRadioGroup.getChildCount(); i++) {
-                        absorbRadioGroup.getChildAt(i).setEnabled(false);
-                    }
-                }
+                setAbsorbOrbs();
             } else if (buttonView.equals(hasAwakeningsCheck)) {
                 Singleton.getInstance().setHasAwakenings(!isChecked);
                 team.updateAwakenings();

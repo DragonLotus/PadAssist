@@ -210,11 +210,11 @@ public class EnemyTargetFragment extends Fragment {
                 break;
             case R.id.addMonster:
                 RealmResults<Enemy> realmResults = realm.where(Enemy.class).findAllSorted("enemyId");
-                enemy.setEnemyId(realmResults.get(realmResults.size() - 1).getEnemyId() + 1);
+                enemy.setOverwriteEnemyId(realmResults.get(realmResults.size() - 1).getEnemyId() + 1);
+                enemy.setEnemyId(enemy.getOverwriteEnemyId());
                 realm.beginTransaction();
                 realm.copyToRealmOrUpdate(enemy);
                 realm.commitTransaction();
-                Log.d("EnemyTargetFragment", "Is enemy managed: " + enemy.isManaged());
                 if (toast != null) {
                 toast.cancel();
             }
@@ -295,7 +295,7 @@ public class EnemyTargetFragment extends Fragment {
             enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
         realm = Realm.getDefaultInstance();
-        Log.d("EnemyTarget", "Reduction value is: " + enemy.getReductionValue());
+        Log.d("EnemyTargetFragment", "is valid: " + enemy.isValid() + " is managed: " + enemy.isManaged());
         targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
         totalGravityValue.setText(String.valueOf(enemy.getCurrentHp()));
         targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
@@ -303,6 +303,7 @@ public class EnemyTargetFragment extends Fragment {
         enemyName.setHorizontallyScrolling(true);
         monsterPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(enemy.getMonsterIdPicture()));
         Log.d("EnemyTargetFragment", "monster id is: " + enemy.getMonsterIdPicture());
+        Log.d("EnemyTargetFragment", "enemy id is: " + enemy.getEnemyId());
         Parcelable enemyParcel = Parcels.wrap(enemy);
         gravityListAdapter = new GravityListAdapter(getActivity(), R.layout.gravity_list_row, enemyParcel, updateGravityPercent, enemy.getGravityArrayList());
         gravityList.setAdapter(gravityListAdapter);
@@ -387,7 +388,8 @@ public class EnemyTargetFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("EnemyTargetFragment", " resume monster id is: " + enemy.getMonsterIdPicture());
+        Log.d("EnemyTargetFragment", "resume monster id is: " + enemy.getMonsterIdPicture());
+        Log.d("EnemyTargetFragment", "resume enemy id is: " + enemy.getEnemyId());
         currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
 
         targetHpValue.addTextChangedListener(targetHPWatcher);
@@ -450,6 +452,11 @@ public class EnemyTargetFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         realm.beginTransaction();
+        if(realm.where(Enemy.class).equalTo("enemyId", enemy.getOverwriteEnemyId()).findFirst() != null){
+            enemy.setEnemyId(enemy.getOverwriteEnemyId());
+            realm.copyToRealmOrUpdate(enemy);
+        }
+        enemy.setEnemyId(0);
         realm.copyToRealmOrUpdate(enemy);
         realm.commitTransaction();
 

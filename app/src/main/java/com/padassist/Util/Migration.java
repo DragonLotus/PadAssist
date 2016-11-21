@@ -114,8 +114,8 @@ public class Migration implements RealmMigration {
                     .addField("hasReduction", boolean.class)
                     .addField("hasDamageThreshold", boolean.class)
                     .addField("isDamaged", boolean.class)
-                    .addField("hasDamageImmunity", boolean.class);
+                    .addField("hasDamageImmunity", boolean.class)
+                    .addField("overwriteEnemyId", long.class);
         }
-
     }
 }
