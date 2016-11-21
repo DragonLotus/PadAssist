@@ -443,6 +443,11 @@ public class EnemyTargetFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         realm.beginTransaction();
+        if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
+            enemy.setCurrentElement(enemy.getTargetElement().get(0));
+        } else {
+            enemy.setCurrentElement(enemy.getTargetElement().get(1));
+        }
         if(realm.where(Enemy.class).equalTo("enemyId", enemy.getOverwriteEnemyId()).findFirst() != null){
             enemy.setEnemyId(enemy.getOverwriteEnemyId());
             realm.copyToRealmOrUpdate(enemy);

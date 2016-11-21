@@ -1,20 +1,15 @@
 package com.padassist.Data;
 
 import com.padassist.ParcelConverters.RealmDoubleParcelConverter;
-import com.padassist.ParcelConverters.RealmElementParcelConverter;
+import com.padassist.ParcelConverters.RealmElementListParcelConverter;
 import com.padassist.ParcelConverters.RealmIntParcelConverter;
 import com.padassist.ParcelConverters.RealmLongParcelConverter;
-import com.padassist.Util.Singleton;
 
 import org.parceler.ParcelPropertyConverter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.LeaderSkillRealmProxy;
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -242,7 +237,7 @@ public class LeaderSkill extends RealmObject {
         return matchElements;
     }
 
-    @ParcelPropertyConverter(RealmElementParcelConverter.class)
+    @ParcelPropertyConverter(RealmElementListParcelConverter.class)
     public void setMatchElements(RealmList<RealmElement> matchElements) {
         this.matchElements = matchElements;
     }
@@ -255,7 +250,7 @@ public class LeaderSkill extends RealmObject {
         return matchElements2;
     }
 
-    @ParcelPropertyConverter(RealmElementParcelConverter.class)
+    @ParcelPropertyConverter(RealmElementListParcelConverter.class)
     public void setMatchElements2(RealmList<RealmElement> matchElements2) {
         this.matchElements2 = matchElements2;
     }

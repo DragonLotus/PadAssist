@@ -166,29 +166,29 @@ public class DamageCalculationUtil {
             return 0;
         }
         if (monster.getElement1().equals(Element.RED)) {
-            if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.BLUE)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
+            } else if (enemy.getCurrentElement().getElement().equals(Element.GREEN)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement1().equals(Element.BLUE)) {
-            if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.GREEN)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetCurrentElement().equals(Element.RED)) {
+            } else if (enemy.getCurrentElement().getElement().equals(Element.RED)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement1().equals(Element.GREEN)) {
-            if (enemy.getTargetCurrentElement().equals(Element.RED)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.RED)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
+            } else if (enemy.getCurrentElement().getElement().equals(Element.BLUE)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement1().equals(Element.LIGHT)) {
-            if (enemy.getTargetCurrentElement().equals(Element.DARK)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.DARK)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement1().equals(Element.DARK)) {
-            if (enemy.getTargetCurrentElement().equals(Element.LIGHT)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.LIGHT)) {
                 damage = damage * 2;
             }
         }
@@ -202,29 +202,29 @@ public class DamageCalculationUtil {
             return 0;
         }
         if (monster.getElement2().equals(Element.RED)) {
-            if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.BLUE)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
+            } else if (enemy.getCurrentElement().getElement().equals(Element.GREEN)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement2().equals(Element.BLUE)) {
-            if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.GREEN)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetCurrentElement().equals(Element.RED)) {
+            } else if (enemy.getCurrentElement().getElement().equals(Element.RED)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement2().equals(Element.GREEN)) {
-            if (enemy.getTargetCurrentElement().equals(Element.RED)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.RED)) {
                 damage = damage / 2;
-            } else if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
+            } else if (enemy.getCurrentElement().getElement().equals(Element.BLUE)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement2().equals(Element.LIGHT)) {
-            if (enemy.getTargetCurrentElement().equals(Element.DARK)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.DARK)) {
                 damage = damage * 2;
             }
         } else if (monster.getElement2().equals(Element.DARK)) {
-            if (enemy.getTargetCurrentElement().equals(Element.LIGHT)) {
+            if (enemy.getCurrentElement().getElement().equals(Element.LIGHT)) {
                 damage = damage * 2;
             }
         }

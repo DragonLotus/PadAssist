@@ -144,8 +144,13 @@ public class TeamDamageListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if(enemy!= null){
+        if (enemy != null) {
             realm.beginTransaction();
+            if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
+                enemy.setCurrentElement(enemy.getTargetElement().get(0));
+            } else {
+                enemy.setCurrentElement(enemy.getTargetElement().get(1));
+            }
             realm.copyToRealmOrUpdate(enemy);
             realm.commitTransaction();
         }
@@ -610,16 +615,32 @@ public class TeamDamageListFragment extends Fragment {
     };
 
     private void setTextColors() {
-        if (enemy.getTargetCurrentElement().equals(Element.RED)) {
-            enemyHPValue.setTextColor(Color.parseColor("#FF0000"));
-        } else if (enemy.getTargetCurrentElement().equals(Element.BLUE)) {
-            enemyHPValue.setTextColor(Color.parseColor("#4444FF"));
-        } else if (enemy.getTargetCurrentElement().equals(Element.GREEN)) {
-            enemyHPValue.setTextColor(Color.parseColor("#00CC00"));
-        } else if (enemy.getTargetCurrentElement().equals(Element.LIGHT)) {
-            enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
-        } else if (enemy.getTargetCurrentElement().equals(Element.DARK)) {
-            enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
+        Element currentElement = null;
+        if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
+            currentElement = enemy.getTargetElement().get(0).getElement();
+        } else {
+            currentElement = enemy.getTargetElement().get(1).getElement();
+        }
+
+        switch (currentElement){
+            case RED:
+                enemyHPValue.setTextColor(Color.parseColor("#FF0000"));
+                break;
+            case BLUE:
+                enemyHPValue.setTextColor(Color.parseColor("#4444FF"));
+                break;
+            case GREEN:
+                enemyHPValue.setTextColor(Color.parseColor("#00CC00"));
+                break;
+            case LIGHT:
+                enemyHPValue.setTextColor(Color.parseColor("#F0F000"));
+                break;
+            case DARK:
+                enemyHPValue.setTextColor(Color.parseColor("#AA00FF"));
+                break;
+            default:
+                enemyHPValue.setTextColor(Color.parseColor("#FFFFFF"));
+                break;
         }
     }
 
@@ -748,7 +769,7 @@ public class TeamDamageListFragment extends Fragment {
         }
     }
 
-    private void clearReduction(){
+    private void clearReduction() {
         redOrbReduction.setOnCheckedChangeListener(null);
         blueOrbReduction.setOnCheckedChangeListener(null);
         greenOrbReduction.setOnCheckedChangeListener(null);
@@ -807,7 +828,7 @@ public class TeamDamageListFragment extends Fragment {
         }
     }
 
-    private void clearAbsorb(){
+    private void clearAbsorb() {
         redOrbAbsorb.setOnCheckedChangeListener(null);
         blueOrbAbsorb.setOnCheckedChangeListener(null);
         greenOrbAbsorb.setOnCheckedChangeListener(null);
@@ -928,17 +949,17 @@ public class TeamDamageListFragment extends Fragment {
         }
 
         if (isChecked) {
-            for(int i = 0; i < enemy.getReduction().size(); i++){
-                if(enemy.getReduction().get(i).getValue() == element && !contains){
+            for (int i = 0; i < enemy.getReduction().size(); i++) {
+                if (enemy.getReduction().get(i).getValue() == element && !contains) {
                     contains = true;
                 }
             }
-            if(element >= 0 && !contains){
+            if (element >= 0 && !contains) {
                 enemy.getReduction().add(new RealmElement(element));
             }
         } else {
-            for(int i = 0; i < enemy.getReduction().size(); i++){
-                if(enemy.getReduction().get(i).getValue() == element){
+            for (int i = 0; i < enemy.getReduction().size(); i++) {
+                if (enemy.getReduction().get(i).getValue() == element) {
                     enemy.getReduction().remove(i);
                     break;
                 }

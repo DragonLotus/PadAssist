@@ -7,6 +7,7 @@ import android.util.StringBuilderPrinter;
 
 import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
+import com.padassist.Data.Element;
 import com.padassist.Data.LeaderSkill;
 
 import io.realm.DynamicRealm;
@@ -115,7 +116,9 @@ public class Migration implements RealmMigration {
                     .addField("hasDamageThreshold", boolean.class)
                     .addField("isDamaged", boolean.class)
                     .addField("hasDamageImmunity", boolean.class)
-                    .addField("overwriteEnemyId", long.class);
+                    .addField("overwriteEnemyId", long.class)
+                    .addRealmObjectField("currentElement", schema.get("RealmElement"));
         }
+
     }
 }

@@ -1,18 +1,11 @@
 package com.padassist.Data;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.util.Log;
-
+import com.padassist.ParcelConverters.RealmElementListParcelConverter;
 import com.padassist.ParcelConverters.RealmElementParcelConverter;
 import com.padassist.ParcelConverters.RealmIntParcelConverter;
-import com.padassist.R;
 
 import org.parceler.ParcelPropertyConverter;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import io.realm.EnemyRealmProxy;
@@ -53,6 +46,7 @@ public class Enemy extends RealmObject {
     private boolean isDamaged;
     private boolean hasDamageImmunity;
     private long overwriteEnemyId;
+    private RealmElement currentElement;
 
 
     //default is DKali from Arena 3
@@ -139,9 +133,10 @@ public class Enemy extends RealmObject {
         types.add(new RealmInt(-1));
         reductionValue = 50;
         overwriteEnemyId = 0;
+        currentElement = new RealmElement(targetElement.get(0).getValue());
     }
 
-    public void setEnemy(Enemy enemy){
+    public void setEnemy(Enemy enemy) {
         enemyId = 0;
         overwriteEnemyId = enemy.getEnemyId();
         enemyName = enemy.getEnemyName();
@@ -209,21 +204,21 @@ public class Enemy extends RealmObject {
         this.gravityPercent = gravityPercent;
     }
 
-    public Element getTargetCurrentElement() {
-        Log.d("Enemy", "Percent HP is: " + (double)currentHp/(double)targetHp);
-        if((double)currentHp/(double)targetHp > .5){
-            return targetElement.get(0).getElement();
-        } else {
-            return targetElement.get(1).getElement();
-        }
+    public RealmElement getCurrentElement() {
+        return currentElement;
+    }
+
+    @ParcelPropertyConverter(RealmElementParcelConverter.class)
+    public void setCurrentElement(RealmElement currentElement) {
+        this.currentElement = currentElement;
     }
 
     public void setTargetElement1(int targetElement) {
-        this.targetElement.set(0,new RealmElement(targetElement));
+        this.targetElement.set(0, new RealmElement(targetElement));
     }
 
     public void setTargetElement2(int targetElement) {
-        this.targetElement.set(1,new RealmElement(targetElement));
+        this.targetElement.set(1, new RealmElement(targetElement));
     }
 
     public boolean isDamaged() {
@@ -266,7 +261,7 @@ public class Enemy extends RealmObject {
         return targetElement;
     }
 
-    @ParcelPropertyConverter(RealmElementParcelConverter.class)
+    @ParcelPropertyConverter(RealmElementListParcelConverter.class)
     public void setTargetElement(RealmList<RealmElement> targetElement) {
         this.targetElement = targetElement;
     }
@@ -305,14 +300,15 @@ public class Enemy extends RealmObject {
     public RealmList<RealmElement> getAbsorb() {
         return absorb;
     }
-    @ParcelPropertyConverter(RealmElementParcelConverter.class)
+
+    @ParcelPropertyConverter(RealmElementListParcelConverter.class)
     public void setAbsorb(RealmList<RealmElement> absorb) {
         this.absorb = absorb;
     }
 
-    public boolean absorbContains(Element element){
-        for(int i = 0; i < absorb.size(); i++){
-            if(absorb.get(i).getElement().equals(element)){
+    public boolean absorbContains(Element element) {
+        for (int i = 0; i < absorb.size(); i++) {
+            if (absorb.get(i).getElement().equals(element)) {
                 return true;
             }
         }
@@ -323,14 +319,14 @@ public class Enemy extends RealmObject {
         return reduction;
     }
 
-    @ParcelPropertyConverter(RealmElementParcelConverter.class)
+    @ParcelPropertyConverter(RealmElementListParcelConverter.class)
     public void setReduction(RealmList<RealmElement> reduction) {
         this.reduction = reduction;
     }
 
-    public boolean reductionContains(Element element){
-        for(int i = 0; i < reduction.size(); i++){
-            if(reduction.get(i).getElement().equals(element)){
+    public boolean reductionContains(Element element) {
+        for (int i = 0; i < reduction.size(); i++) {
+            if (reduction.get(i).getElement().equals(element)) {
                 return true;
             }
         }
@@ -387,9 +383,9 @@ public class Enemy extends RealmObject {
         this.types = types;
     }
 
-    public boolean typeContains(int type){
-        for(int i = 0; i < types.size(); i++){
-            if(types.get(i).getValue() == (type)){
+    public boolean typeContains(int type) {
+        for (int i = 0; i < types.size(); i++) {
+            if (types.get(i).getValue() == (type)) {
                 return true;
             }
         }
@@ -420,9 +416,9 @@ public class Enemy extends RealmObject {
         this.damageImmunity = damageImmunity;
     }
 
-    public ArrayList<Integer> getGravityArrayList(){
+    public ArrayList<Integer> getGravityArrayList() {
         ArrayList<Integer> gravityArrayList = new ArrayList<>();
-        for (int i = 0; i < gravityList.size(); i++){
+        for (int i = 0; i < gravityList.size(); i++) {
             gravityArrayList.add(gravityList.get(i).getValue());
         }
         return gravityArrayList;
