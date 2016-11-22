@@ -717,8 +717,10 @@ public class OrbMatchFragment extends Fragment {
         bigBoardSizeLeaderSkills.add(LeaderSkillType.BIG_BOARD);
         bigBoardSizeLeaderSkills.add(LeaderSkillType.BIG_BOARD_SIZE_INDIAN);
         bigBoardSizeLeaderSkills.add(LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT);
+        bigBoardSizeLeaderSkills.add(LeaderSkillType.BIG_BOARD_ORB_LINK);
 
-        if (minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) || minimumMatchLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())) {
+        if (minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) ||
+                minimumMatchLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())) {
             if (team.getLeadSkill().getMinimumMatch() > minimumMatch) {
                 minimumMatch = team.getLeadSkill().getMinimumMatch();
             }
@@ -739,7 +741,6 @@ public class OrbMatchFragment extends Fragment {
         } else {
             emptyText.setVisibility(View.VISIBLE);
         }
-
         if(bigBoardSizeLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) ||
                 bigBoardSizeLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())){
             Singleton.getInstance().setBoardSize(2);
@@ -768,7 +769,8 @@ public class OrbMatchFragment extends Fragment {
                 break;
         }
 
-        if (team.getTeamBadge() == 13 || noDropLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) || noDropLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())) {
+        if (team.getTeamBadge() == 13 || noDropLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) ||
+                noDropLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())) {
             noDrop = true;
         }
 

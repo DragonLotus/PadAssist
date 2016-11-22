@@ -40,7 +40,7 @@ public class Enemy extends RealmObject {
     private RealmList<RealmElement> absorb;
     private RealmList<RealmInt> gravityList;
     private RealmList<RealmInt> types;
-    private boolean hasAbsorb = false;
+    private boolean hasAbsorb;
     private boolean hasReduction;
     private boolean hasDamageThreshold;
     private boolean isDamaged;
@@ -120,6 +120,7 @@ public class Enemy extends RealmObject {
         damageThreshold = 200000;
         damageImmunity = 1000000;
         isDamaged = false;
+        hasAbsorb = false;
         hasReduction = true;
         hasDamageThreshold = false;
         hasDamageImmunity = false;
@@ -154,7 +155,8 @@ public class Enemy extends RealmObject {
         gravityPercent = enemy.getGravityPercent();
         damageThreshold = enemy.getDamageThreshold();
         damageImmunity = enemy.getDamageImmunity();
-        isDamaged = enemy.isDamaged;
+        isDamaged = enemy.isDamaged();
+        hasAbsorb = enemy.isHasAbsorb();
         hasReduction = enemy.isHasReduction();
         hasDamageThreshold = enemy.isHasDamageThreshold();
         hasDamageImmunity = enemy.isHasDamageImmunity();

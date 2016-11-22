@@ -290,6 +290,9 @@ public class LeaderSkillCalculationUtil {
                 case BIG_BOARD_SIZE_INDIAN:
                     indian(monster, team, team.getLeadSkill());
                     break;
+                case BIG_BOARD_ORB_LINK:
+                    orbLink(monster, team, team.getLeadSkill());
+                    break;
             }
         }
 
@@ -525,6 +528,9 @@ public class LeaderSkillCalculationUtil {
                     break;
                 case BIG_BOARD_SIZE_INDIAN:
                     indian(monster, team, team.getHelperSkill());
+                    break;
+                case BIG_BOARD_ORB_LINK:
+                    orbLink(monster, team, team.getHelperSkill());
                     break;
             }
         }

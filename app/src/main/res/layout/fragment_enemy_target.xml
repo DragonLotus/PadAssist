@@ -250,7 +250,6 @@
                     android:layout_below="@+id/element1RadioGroup"
                     android:layout_marginTop="6dp"
                     android:layout_toRightOf="@+id/element1"
-                    android:checkedButton="@+id/redOrb2"
                     android:gravity="center"
                     android:orientation="horizontal">
 

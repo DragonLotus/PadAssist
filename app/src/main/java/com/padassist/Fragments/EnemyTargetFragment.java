@@ -400,7 +400,6 @@ public class EnemyTargetFragment extends Fragment {
         damageImmunityValue.setOnFocusChangeListener(editTextOnFocusChange);
         damageImmunityCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
 
-        Log.d("EnemyTargetFrag", "element 1 is: " + enemy.getTargetElement().get(0).getValue() + " element 2 is: " + enemy.getTargetElement().get(1).getValue());
         orbRadioGroup1.setOnCheckedChangeListener(enemyElement1OnCheckedChangeListener);
         orbRadioGroup2.setOnCheckedChangeListener(enemyElement2OnCheckedChangeListener);
 

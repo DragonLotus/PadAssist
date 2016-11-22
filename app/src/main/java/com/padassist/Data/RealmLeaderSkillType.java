@@ -179,6 +179,8 @@ public class RealmLeaderSkillType extends RealmObject {
                 return LeaderSkillType.BIG_BOARD_SIZE_INDIAN;
             case 78:
                 return LeaderSkillType.BIG_BOARD;
+            case 79:
+                return LeaderSkillType.BIG_BOARD_ORB_LINK;
             default:
                 return LeaderSkillType.BLANK;
         }
