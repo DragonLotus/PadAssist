@@ -785,6 +785,7 @@ public class Team extends RealmObject {
             rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
         }
         if(lead.getLeaderSkill() != null){
+            Log.d("Team", "Leader skill type is: " + lead.getLeaderSkill().getRcvSkillType());
             if(lead.getLeaderSkill().getRcvSkillType() != null){
                 if(lead.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.COMBO)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
@@ -793,6 +794,10 @@ public class Team extends RealmObject {
                 } else if(lead.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
                         rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, lead.getLeaderSkill()));
+                    }
+                } else if(lead.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.ORB_LINK)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.orbLinkRcv(this, lead.getLeaderSkill()));
                     }
                 }
             }
@@ -806,6 +811,10 @@ public class Team extends RealmObject {
                 } else if(helper.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
                         rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, helper.getLeaderSkill()));
+                    }
+                } else if(helper.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.ORB_LINK)){
+                    for (int i = 0; i < rcvMultiplier.size(); i++){
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.orbLinkRcv(this, helper.getLeaderSkill()));
                     }
                 }
             }

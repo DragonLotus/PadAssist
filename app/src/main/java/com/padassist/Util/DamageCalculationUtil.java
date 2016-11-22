@@ -16,7 +16,7 @@ import io.realm.RealmResults;
  */
 public class DamageCalculationUtil {
 
-    private static Realm realm = Realm.getDefaultInstance();
+//    private static Realm realm = Realm.getDefaultInstance();
 
     public static double monsterElement1Damage(Team team, Monster monster, int position, int combos) {
         double totalOrbDamage = 0;
@@ -77,9 +77,9 @@ public class DamageCalculationUtil {
         //No active skill multiplier
         double returnDamage = damage;
         int counter = 0;
-        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
-            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement1())) {
-                if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement1())) {
+                if (team.getOrbMatches().get(i).isRow()) {
                     counter++;
                 }
             }
@@ -93,16 +93,16 @@ public class DamageCalculationUtil {
                 returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
                 affected = true;
             }
-            if(Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType1()) || Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType2()) ||Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType3()) && !affected){
-                if(!affected){
+            if (Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType1()) || Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType2()) || Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType3()) && !affected) {
+                if (!affected) {
                     returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
                 }
             }
         }
-        if(team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()){
-            return (int)(returnDamage * 1.05);
-        } else if(team.getTeamBadge() == 14 && !Singleton.getInstance().isCoopEnable()){
-            return (int)(returnDamage * 1.15);
+        if (team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()) {
+            return (int) (returnDamage * 1.05);
+        } else if (team.getTeamBadge() == 14 && !Singleton.getInstance().isCoopEnable()) {
+            return (int) (returnDamage * 1.15);
         } else {
             return returnDamage;
         }
@@ -112,9 +112,9 @@ public class DamageCalculationUtil {
         //No active skill multiplier
         double returnDamage = damage;
         int counter = 0;
-        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
-            if (realm.where(OrbMatch.class).findAll().get(i).getElement().equals(monster.getElement2())) {
-                if (realm.where(OrbMatch.class).findAll().get(i).isRow()) {
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getElement().equals(monster.getElement2())) {
+                if (team.getOrbMatches().get(i).isRow()) {
                     counter++;
                 }
             }
@@ -128,14 +128,14 @@ public class DamageCalculationUtil {
                 returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
                 affected = true;
             }
-            if(Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType1()) || Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType2()) ||Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType3())){
-                if(!affected){
+            if (Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType1()) || Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType2()) || Singleton.getInstance().getExtraTypeMultiplier().contains(monster.getType3())) {
+                if (!affected) {
                     returnDamage *= Singleton.getInstance().getExtraDamageMultiplier();
                 }
             }
         }
-        if(team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()){
-            return (int)(returnDamage * 1.05);
+        if (team.getTeamBadge() == 6 && !Singleton.getInstance().isCoopEnable()) {
+            return (int) (returnDamage * 1.05);
         } else {
             return returnDamage;
         }
@@ -162,7 +162,7 @@ public class DamageCalculationUtil {
 
     public static double monsterElement1DamageEnemyElement(Team team, Monster monster, int position, int combos, Enemy enemy) {
         double damage = monsterElement1Damage(team, monster, position, combos);
-        if(damage == 0){
+        if (damage == 0) {
             return 0;
         }
         if (monster.getElement1().equals(Element.RED)) {
@@ -314,13 +314,22 @@ public class DamageCalculationUtil {
         double totalRcv = 0;
         ArrayList<OrbMatch> heartOrbMatches = new ArrayList<>();
         ArrayList<OrbMatch> poisonOrbMatches = new ArrayList<>();
-        RealmResults<OrbMatch> heartResults = realm.where(OrbMatch.class).equalTo("elementInt", 5).findAll();
-        RealmResults<OrbMatch> poisonResults = realm.where(OrbMatch.class).equalTo("elementInt", 7).or().equalTo("elementInt", 8).findAll();
-        for(int i = 0; i < heartResults.size(); i++){
-            heartOrbMatches.add(realm.copyFromRealm(heartResults.get(i)));
-        }
-        for(int i = 0; i < poisonResults.size(); i++){
-            poisonOrbMatches.add(realm.copyFromRealm(poisonResults.get(i)));
+//        RealmResults<OrbMatch> heartResults = realm.where(OrbMatch.class).equalTo("elementInt", 5).findAll();
+//        RealmResults<OrbMatch> poisonResults = realm.where(OrbMatch.class).equalTo("elementInt", 7).or().equalTo("elementInt", 8).findAll();
+//        for (int i = 0; i < heartResults.size(); i++) {
+//            heartOrbMatches.add(realm.copyFromRealm(heartResults.get(i)));
+//        }
+//        for (int i = 0; i < poisonResults.size(); i++) {
+//            poisonOrbMatches.add(realm.copyFromRealm(poisonResults.get(i)));
+//        }
+
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            if (team.getOrbMatches().get(i).getElement().equals(Element.HEART)) {
+                heartOrbMatches.add(team.getOrbMatches().get(i));
+            } else if (team.getOrbMatches().get(i).getElement().equals(Element.POISON) ||
+                    team.getOrbMatches().get(i).getElement().equals(Element.MORTAL_POISON)) {
+                poisonOrbMatches.add(team.getOrbMatches().get(i));
+            }
         }
 
 //        for (int i = 0; i < realm.where(OrbMatch.class).findAll().size(); i++) {
@@ -331,11 +340,11 @@ public class DamageCalculationUtil {
 //                poisonOrbMatches.add(realm.where(OrbMatch.class).findAll().get(i));
 //            }
 //        }
-        for(int i = 0; i < team.getMonsters().size(); i++){
+        for (int i = 0; i < team.getMonsters().size(); i++) {
             double totalOrbDamage = 0;
             double rcv = team.getMonsters().get(i).getTotalRcv() * team.getRcvMultiplier().get(i);
-            for(int j = 0; j < heartOrbMatches.size(); j++){
-                totalOrbDamage += orbMatch((int)Math.floor(rcv + 0.5d), heartOrbMatches.get(j));
+            for (int j = 0; j < heartOrbMatches.size(); j++) {
+                totalOrbDamage += orbMatch((int) Math.floor(rcv + 0.5d), heartOrbMatches.get(j));
             }
             totalRcv += comboMultiplier(totalOrbDamage, combos);
         }
@@ -359,17 +368,17 @@ public class DamageCalculationUtil {
         return Math.ceil(heal);
     }
 
-    public static double poisonDamage(Team team, ArrayList<OrbMatch> poisonOrbMatches){
-        if(poisonOrbMatches.size() == 0){
+    public static double poisonDamage(Team team, ArrayList<OrbMatch> poisonOrbMatches) {
+        if (poisonOrbMatches.size() == 0) {
             return 0;
         }
         double damage = 0;
         double teamHealth = team.getTeamHealth();
-        for(int i = 0; i < poisonOrbMatches.size(); i++){
-            if(poisonOrbMatches.get(i).getElement().equals(Element.POISON)){
-                damage += ((poisonOrbMatches.get(i).getOrbsLinked() - 3)*.05 + .20)*teamHealth;
-            } else if(poisonOrbMatches.get(i).getElement().equals(Element.MORTAL_POISON)){
-                damage += ((poisonOrbMatches.get(i).getOrbsLinked() - 3)*.125 + .50)*teamHealth;
+        for (int i = 0; i < poisonOrbMatches.size(); i++) {
+            if (poisonOrbMatches.get(i).getElement().equals(Element.POISON)) {
+                damage += ((poisonOrbMatches.get(i).getOrbsLinked() - 3) * .05 + .20) * teamHealth;
+            } else if (poisonOrbMatches.get(i).getElement().equals(Element.MORTAL_POISON)) {
+                damage += ((poisonOrbMatches.get(i).getOrbsLinked() - 3) * .125 + .50) * teamHealth;
             }
         }
         return damage;
@@ -395,14 +404,14 @@ public class DamageCalculationUtil {
         return Math.floor(minimumStat + (maximumStat - minimumStat) * (Math.pow((double) (currentLevel - 1) / (maxLevel - 1), statScale)));
     }
 
-    public static int monsterHpCalc(Monster monster, Team team, int position){
+    public static int monsterHpCalc(Monster monster, Team team, int position) {
         double monsterHp = 0;
         monsterHp = monster.getTotalHp();
         monsterHp = monsterHp * team.getHpMultiplier().get(position);
         return (int) Math.ceil(monsterHp);
     }
 
-    public static double monsterRcvCalc(Monster monster, Team team, int position){
+    public static double monsterRcvCalc(Monster monster, Team team, int position) {
         double monsterRcv;
         monsterRcv = monster.getTotalRcv() * team.getRcvMultiplier().get(position);
 //        Log.d("DamageCalcUtil", "LeadSkill is: " + team.getLeadSkill().getName() + " rcvSkillType is: " + team.getLeadSkill().getRcvSkillType());
@@ -420,137 +429,137 @@ public class DamageCalculationUtil {
         return monsterRcv;
     }
 
-    private static double killerCalculation(double damage, Monster monster, Enemy enemy){
+    private static double killerCalculation(double damage, Monster monster, Enemy enemy) {
         double killerDamage = damage;
         int counter;
         ArrayList<Integer> trimmedKillerAwakenings = new ArrayList<>();
-        if(monster.getKillerAwakenings().size() != 0){
-            for(int i = 0; i < monster.getKillerAwakenings().size(); i++){
-                if(!trimmedKillerAwakenings.contains(monster.getKillerAwakenings().get(i).getValue())){
+        if (monster.getKillerAwakenings().size() != 0) {
+            for (int i = 0; i < monster.getKillerAwakenings().size(); i++) {
+                if (!trimmedKillerAwakenings.contains(monster.getKillerAwakenings().get(i).getValue())) {
                     trimmedKillerAwakenings.add(monster.getKillerAwakenings().get(i).getValue());
                 }
             }
-            for(int i = 0; i < trimmedKillerAwakenings.size(); i++){
+            for (int i = 0; i < trimmedKillerAwakenings.size(); i++) {
                 counter = 0;
-                switch(trimmedKillerAwakenings.get(i)){
+                switch (trimmedKillerAwakenings.get(i)) {
                     case 31:
-                        if(enemy.typeContains(4)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(4)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 32:
-                        if(enemy.typeContains(5)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(5)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 33:
-                        if(enemy.typeContains(7)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(7)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 34:
-                        if(enemy.typeContains(8)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(8)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 35:
-                        if(enemy.typeContains(6)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(6)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 36:
-                        if(enemy.typeContains(2)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(2)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 37:
-                        if(enemy.typeContains(3)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(3)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 38:
-                        if(enemy.typeContains(1)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(1)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 39:
-                        if(enemy.typeContains(12)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(12)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 40:
-                        if(enemy.typeContains(14)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(14)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 41:
-                        if(enemy.typeContains(15)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(15)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                     case 42:
-                        if(enemy.typeContains(0)){
-                            for(int j = 0; j < monster.getKillerAwakenings().size(); j++){
-                                if(trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()){
+                        if (enemy.typeContains(0)) {
+                            for (int j = 0; j < monster.getKillerAwakenings().size(); j++) {
+                                if (trimmedKillerAwakenings.get(i) == monster.getKillerAwakenings().get(j).getValue()) {
                                     counter++;
                                 }
                             }
-                            killerDamage *= Math.pow(3,counter);
+                            killerDamage *= Math.pow(3, counter);
                         }
                         break;
                 }

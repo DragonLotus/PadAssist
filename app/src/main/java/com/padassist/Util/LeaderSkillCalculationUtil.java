@@ -13,7 +13,6 @@ import io.realm.Realm;
 
 public class LeaderSkillCalculationUtil {
 
-    private static Realm realm = Realm.getDefaultInstance();
     private static double hpMultiplier;
     private static ArrayList<Double> atkMultiplier = new ArrayList<>();
     private static double rcvMultiplier;
@@ -610,6 +609,28 @@ public class LeaderSkillCalculationUtil {
                 }
             }
         }
+        if (counter >= leaderSkill.getComboMax()) {
+            return leaderSkill.getRcvData().get(comboDiff).getValue();
+        } else if (counter >= leaderSkill.getComboMin()) {
+            return leaderSkill.getRcvData().get(counter - leaderSkill.getComboMin()).getValue();
+        } else return 1;
+    }
+
+    public static double orbLinkRcv(Team team, LeaderSkill leaderSkill) {
+        Log.d("LeaderSkillCalc","orb link rcv");
+        int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
+        int counter = 0;
+        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+            for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
+                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
+                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                    }
+                }
+            }
+
+        }
+
         if (counter >= leaderSkill.getComboMax()) {
             return leaderSkill.getRcvData().get(comboDiff).getValue();
         } else if (counter >= leaderSkill.getComboMin()) {
