@@ -64,11 +64,11 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
             int position = (int) view.getTag(R.string.index);
             enemy.setMonsterIdPicture(monsterList.get(position).getMonsterId());
             enemy.getTargetElement().set(0, new RealmElement(monsterList.get(position).getElement1Int()));
-            if (monsterList.get(position).getElement2Int() == -1) {
-                enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement1Int()));
-            } else {
+//            if (monsterList.get(position).getElement2Int() == -1) {
+//                enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement1Int()));
+//            } else {
                 enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement2Int()));
-            }
+//            }
             enemy.getTypes().set(0, new RealmInt(monsterList.get(position).getType1()));
             enemy.getTypes().set(1, new RealmInt(monsterList.get(position).getType2()));
             enemy.getTypes().set(2, new RealmInt(monsterList.get(position).getType3()));

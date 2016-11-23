@@ -80,7 +80,7 @@ public class LoadingFragment extends Fragment {
             progressDialog.setMessage("Loading Leader Skills...");
             progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(false);
-            progressDialog.setMax(preferences.getInt("numOfActiveSkills", 1) + preferences.getInt("numOfLeaderSkills", 1) + preferences.getInt("numOfMonsters", 1) + Constants.numOfSavedMonsters);
+            progressDialog.setMax(2 + preferences.getInt("numOfActiveSkills", 1) + preferences.getInt("numOfLeaderSkills", 1) + preferences.getInt("numOfMonsters", 1) + Constants.numOfSavedMonsters);
             progressDialog.setProgress(0);
             progressDialog.show();
         }

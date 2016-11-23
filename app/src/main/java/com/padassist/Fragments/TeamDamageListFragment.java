@@ -149,7 +149,9 @@ public class TeamDamageListFragment extends Fragment {
             if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
                 enemy.setCurrentElement(enemy.getTargetElement().get(0));
             } else {
-                enemy.setCurrentElement(enemy.getTargetElement().get(1));
+                if (enemy.getTargetElement().get(0).getValue() > -1) {
+                    enemy.setCurrentElement(enemy.getTargetElement().get(1));
+                }
             }
             realm.copyToRealmOrUpdate(enemy);
             realm.commitTransaction();
@@ -615,14 +617,14 @@ public class TeamDamageListFragment extends Fragment {
     };
 
     private void setTextColors() {
-        Element currentElement = null;
-        if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
-            currentElement = enemy.getTargetElement().get(0).getElement();
-        } else {
-            currentElement = enemy.getTargetElement().get(1).getElement();
+        Element currentElement = enemy.getTargetElement().get(0).getElement();
+        if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() < .5) {
+            if (enemy.getTargetElement().get(1).getValue() > -1) {
+                currentElement = enemy.getTargetElement().get(1).getElement();
+            }
         }
 
-        switch (currentElement){
+        switch (currentElement) {
             case RED:
                 enemyHPValue.setTextColor(Color.parseColor("#FF0000"));
                 break;

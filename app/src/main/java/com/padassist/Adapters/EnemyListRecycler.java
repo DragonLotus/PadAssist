@@ -165,7 +165,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         viewHolderLinear.element1.setImageResource(ImageResourceUtil.orbColor(monsterList.get(position).getTargetElement().get(0).getElement()));
 
-        if (monsterList.get(position).getTargetElement().get(0).getValue() == monsterList.get(position).getTargetElement().get(1).getValue()) {
+        if (monsterList.get(position).getTargetElement().get(1).getValue() == -1) {
             viewHolderLinear.element2.setVisibility(View.GONE);
         } else {
             viewHolderLinear.element2.setImageResource(ImageResourceUtil.orbColor(monsterList.get(position).getTargetElement().get(1).getElement()));

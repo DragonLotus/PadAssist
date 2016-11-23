@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -28,8 +29,10 @@ import io.realm.RealmResults;
 public class ParseMonsterDatabaseThread extends Thread {
 
     private UpdateProgress update;
-    int counter = 0;
+    private int counter = 0;
     private Realm realm;
+    private ArrayList<String> usedLeaderSkills;
+    private ArrayList<String> usedActiveSkills;
 
     public interface UpdateProgress {
         public void updateValues(int counter);
@@ -46,6 +49,8 @@ public class ParseMonsterDatabaseThread extends Thread {
     public void run() {
         super.run();
         realm = Realm.getDefaultInstance();
+        usedLeaderSkills = new ArrayList<>();
+        usedActiveSkills = new ArrayList<>();
         parseLeaderSkillDatabase();
         parseActiveSkillDatabase();
         parseMonsterDatabase();
@@ -290,6 +295,8 @@ public class ParseMonsterDatabaseThread extends Thread {
                     monster.setType2String(getTypeString(monster.getType2()));
                     monster.setType3String(getTypeString(monster.getType3()));
                     monster.setMonsterIdString(String.valueOf(monster.getMonsterId()));
+                    usedLeaderSkills.add(monster.getLeaderSkillString());
+                    usedActiveSkills.add(monster.getActiveSkillString());
                     realm.copyToRealmOrUpdate(monster);
                     update.updateValues(counter);
                 }
@@ -387,6 +394,22 @@ public class ParseMonsterDatabaseThread extends Thread {
                 update.updateValues(counter);
             }
         }
+        RealmResults<LeaderSkill> savedLeaderSkillResults = realm.where(LeaderSkill.class).findAll();
+        for(LeaderSkill leaderSkill : savedLeaderSkillResults){
+            if(!usedLeaderSkills.contains(leaderSkill.getName())){
+                leaderSkill.deleteFromRealm();
+            }
+        }
+        counter++;
+        update.updateValues(counter);
+        RealmResults<ActiveSkill> savedActiveSkillResults = realm.where(ActiveSkill.class).findAll();
+        for(ActiveSkill activeSkill : savedActiveSkillResults){
+            if(!usedActiveSkills.contains(activeSkill.getName())){
+                activeSkill.deleteFromRealm();
+            }
+        }
+        counter++;
+        update.updateValues(counter);
         Log.d("ParseMonsterDatabase", "LinkMonsters counter is: " + counter);
     }
 

@@ -83,10 +83,10 @@ public class EnemyTargetFragment extends Fragment {
             damageImmunityValue, reductionValue, enemyNameEditText;
     private ImageView targetAbsorb, targetReduction, damageThreshold, damageImmunity,
             defenseBreakIcon, monsterPicture;
-//    private TextView percentHpValue;
+    //    private TextView percentHpValue;
     private TextView totalGravityValue, enemyName;
     private RadioGroup orbRadioGroup1, orbRadioGroup2, absorbRadioGroup, reductionRadioGroup;
-    private RadioButton redOrb1, blueOrb1, greenOrb1, lightOrb1, darkOrb1, redOrb2, blueOrb2, greenOrb2, lightOrb2, darkOrb2;
+    private RadioButton redOrb1, blueOrb1, greenOrb1, lightOrb1, darkOrb1;
     private Button gravityShowHideButton, clearButton, hpReset, calculate;
     private LinearLayout gravityHolder;
     private GravityListAdapter gravityListAdapter;
@@ -104,7 +104,8 @@ public class EnemyTargetFragment extends Fragment {
     private int additionalCombos;
     private CheckBox absorbCheck, reductionCheck, damageThresholdCheck, redOrbReduction,
             blueOrbReduction, greenOrbReduction, lightOrbReduction, darkOrbReduction, redOrbAbsorb,
-            blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb, damageImmunityCheck;
+            blueOrbAbsorb, greenOrbAbsorb, lightOrbAbsorb, darkOrbAbsorb, damageImmunityCheck,
+            redOrb2, blueOrb2, greenOrb2, lightOrb2, darkOrb2;
     private double defenseBreakValue = 1.0;
     private Realm realm;
     private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent() {
@@ -203,7 +204,7 @@ public class EnemyTargetFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.monsterList:
                 Parcelable enemyParcel = Parcels.wrap(enemy);
                 ((MainActivity) getActivity()).switchFragment(EnemyListFragment.newInstance(enemyParcel), EnemyListFragment.TAG, "good");
@@ -216,8 +217,8 @@ public class EnemyTargetFragment extends Fragment {
                 realm.copyToRealmOrUpdate(enemy);
                 realm.commitTransaction();
                 if (toast != null) {
-                toast.cancel();
-            }
+                    toast.cancel();
+                }
                 toast = Toast.makeText(getActivity(), "Enemy added", Toast.LENGTH_SHORT);
                 toast.show();
                 break;
@@ -265,11 +266,11 @@ public class EnemyTargetFragment extends Fragment {
         greenOrb1 = (RadioButton) rootView.findViewById(R.id.greenOrb1);
         lightOrb1 = (RadioButton) rootView.findViewById(R.id.lightOrb1);
         darkOrb1 = (RadioButton) rootView.findViewById(R.id.darkOrb1);
-        redOrb2 = (RadioButton) rootView.findViewById(R.id.redOrb2);
-        blueOrb2 = (RadioButton) rootView.findViewById(R.id.blueOrb2);
-        greenOrb2 = (RadioButton) rootView.findViewById(R.id.greenOrb2);
-        lightOrb2 = (RadioButton) rootView.findViewById(R.id.lightOrb2);
-        darkOrb2 = (RadioButton) rootView.findViewById(R.id.darkOrb2);
+        redOrb2 = (CheckBox) rootView.findViewById(R.id.redOrb2);
+        blueOrb2 = (CheckBox) rootView.findViewById(R.id.blueOrb2);
+        greenOrb2 = (CheckBox) rootView.findViewById(R.id.greenOrb2);
+        lightOrb2 = (CheckBox) rootView.findViewById(R.id.lightOrb2);
+        darkOrb2 = (CheckBox) rootView.findViewById(R.id.darkOrb2);
         type1Spinner = (Spinner) rootView.findViewById(R.id.type1Spinner);
         type2Spinner = (Spinner) rootView.findViewById(R.id.type2Spinner);
         type3Spinner = (Spinner) rootView.findViewById(R.id.type3Spinner);
@@ -401,7 +402,7 @@ public class EnemyTargetFragment extends Fragment {
         damageImmunityCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
 
         orbRadioGroup1.setOnCheckedChangeListener(enemyElement1OnCheckedChangeListener);
-        orbRadioGroup2.setOnCheckedChangeListener(enemyElement2OnCheckedChangeListener);
+//        orbRadioGroup2.setOnCheckedChangeListener(enemyElement2OnCheckedChangeListener);
 
         redOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
         blueOrbReduction.setOnCheckedChangeListener(reductionCheckedChangedListener);
@@ -414,6 +415,12 @@ public class EnemyTargetFragment extends Fragment {
         greenOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
         darkOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
         lightOrbAbsorb.setOnCheckedChangeListener(absorbCheckedChangedListener);
+//
+        redOrb2.setOnCheckedChangeListener(element2CheckedChangedListener);
+        blueOrb2.setOnCheckedChangeListener(element2CheckedChangedListener);
+        greenOrb2.setOnCheckedChangeListener(element2CheckedChangedListener);
+        darkOrb2.setOnCheckedChangeListener(element2CheckedChangedListener);
+        lightOrb2.setOnCheckedChangeListener(element2CheckedChangedListener);
 
         enemyName.setOnClickListener(enemyNameOnClickListener);
         enemyNameEditText.setOnFocusChangeListener(enemyNameEditTextOnFocusChangeListener);
@@ -442,12 +449,15 @@ public class EnemyTargetFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         realm.beginTransaction();
+        Log.d("EnemyTargetFrag", "on destroy element 2 is: " + enemy.getTargetElement().get(1).getValue());
         if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
             enemy.setCurrentElement(enemy.getTargetElement().get(0));
         } else {
-            enemy.setCurrentElement(enemy.getTargetElement().get(1));
+            if (enemy.getTargetElement().get(0).getValue() > -1) {
+                enemy.setCurrentElement(enemy.getTargetElement().get(1));
+            }
         }
-        if(realm.where(Enemy.class).equalTo("enemyId", enemy.getOverwriteEnemyId()).findFirst() != null){
+        if (realm.where(Enemy.class).equalTo("enemyId", enemy.getOverwriteEnemyId()).findFirst() != null) {
             enemy.setEnemyId(enemy.getOverwriteEnemyId());
             realm.copyToRealmOrUpdate(enemy);
         }
@@ -486,7 +496,7 @@ public class EnemyTargetFragment extends Fragment {
     private View.OnFocusChangeListener enemyNameEditTextOnFocusChangeListener = new View.OnFocusChangeListener() {
         @Override
         public void onFocusChange(View view, boolean b) {
-            if(!b){
+            if (!b) {
                 hideKeyboard(view);
                 enemyName.setVisibility(View.VISIBLE);
                 enemyName.setText(enemy.getEnemyName());
@@ -504,7 +514,7 @@ public class EnemyTargetFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if(charSequence.toString().equals("")){
+            if (charSequence.toString().equals("")) {
                 enemy.setEnemyName((realm.where(BaseMonster.class).equalTo("monsterId", enemy.getMonsterIdPicture()).findFirst()).getName());
             } else {
                 enemy.setEnemyName(charSequence.toString());
@@ -775,11 +785,20 @@ public class EnemyTargetFragment extends Fragment {
                     enemy.setTargetElement2(4);
                     break;
             }
-            if(enemy.getTargetElement().get(0).getValue() == enemy.getTargetElement().get(1).getValue()){
-                orbRadioGroup2.setOnCheckedChangeListener(null);
-                orbRadioGroup2.clearCheck();
-                orbRadioGroup2.setOnCheckedChangeListener(enemyElement2OnCheckedChangeListener);
+        }
+    };
+
+    private CompoundButton.OnCheckedChangeListener element2CheckedChangedListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            for (int i = 0; i < orbRadioGroup2.getChildCount(); i++) {
+                if (orbRadioGroup2.getChildAt(i).getId() != buttonView.getId()) {
+                    ((CheckBox) orbRadioGroup2.getChildAt(i)).setOnCheckedChangeListener(null);
+                    ((CheckBox) orbRadioGroup2.getChildAt(i)).setChecked(false);
+                    ((CheckBox) orbRadioGroup2.getChildAt(i)).setOnCheckedChangeListener(element2CheckedChangedListener);
+                }
             }
+            setElement2(isChecked, buttonView.getId());
         }
     };
 
@@ -789,6 +808,35 @@ public class EnemyTargetFragment extends Fragment {
             setElementReduction(isChecked, buttonView.getId());
         }
     };
+
+    private void setElement2(boolean isChecked, int buttonId) {
+        clearTextFocus();
+        Log.d("EnemyTargetFrag", "before element 2 is: " + enemy.getTargetElement().get(1).getValue());
+        int element = -1;
+        switch (buttonId) {
+            case R.id.redOrb2:
+                element = 0;
+                break;
+            case R.id.blueOrb2:
+                element = 1;
+                break;
+            case R.id.greenOrb2:
+                element = 2;
+                break;
+            case R.id.lightOrb2:
+                element = 3;
+                break;
+            case R.id.darkOrb2:
+                element = 4;
+                break;
+        }
+        if (isChecked) {
+            enemy.setTargetElement2(element);
+        } else {
+            enemy.setTargetElement2(-1);
+        }
+        Log.d("EnemyTargetFrag", "after element 2 is: " + enemy.getTargetElement().get(1).getValue());
+    }
 
     private void setElementReduction(boolean isChecked, int buttonId) {
         clearTextFocus();
@@ -955,7 +1003,7 @@ public class EnemyTargetFragment extends Fragment {
         }
     }
 
-    private void clearAbsorb(){
+    private void clearAbsorb() {
         redOrbAbsorb.setOnCheckedChangeListener(null);
         blueOrbAbsorb.setOnCheckedChangeListener(null);
         greenOrbAbsorb.setOnCheckedChangeListener(null);
@@ -976,7 +1024,7 @@ public class EnemyTargetFragment extends Fragment {
         }
     }
 
-    private void clearReduction(){
+    private void clearReduction() {
         redOrbReduction.setOnCheckedChangeListener(null);
         blueOrbReduction.setOnCheckedChangeListener(null);
         greenOrbReduction.setOnCheckedChangeListener(null);
@@ -1034,28 +1082,29 @@ public class EnemyTargetFragment extends Fragment {
                 orbRadioGroup1.check(darkOrb1.getId());
                 break;
         }
-        if(enemy.getTargetElement().get(1).getValue() != enemy.getTargetElement().get(0).getValue()){
-            switch (enemy.getTargetElement().get(1).getElement()) {
-                case RED:
-                    orbRadioGroup2.check(redOrb2.getId());
-                    break;
-                case BLUE:
-                    orbRadioGroup2.check(blueOrb2.getId());
-                    break;
-                case GREEN:
-                    orbRadioGroup2.check(greenOrb2.getId());
-                    break;
-                case LIGHT:
-                    orbRadioGroup2.check(lightOrb2.getId());
-                    break;
-                case DARK:
-                    orbRadioGroup2.check(darkOrb2.getId());
-                    break;
-            }
-        } else {
-            orbRadioGroup2.clearCheck();
-        }
 
+        redOrb2.setChecked(false);
+        blueOrb2.setChecked(false);
+        greenOrb2.setChecked(false);
+        lightOrb2.setChecked(false);
+        darkOrb2.setChecked(false);
+        switch (enemy.getTargetElement().get(1).getValue()) {
+            case 0:
+                redOrb2.setChecked(true);
+                break;
+            case 1:
+                blueOrb2.setChecked(true);
+                break;
+            case 2:
+                greenOrb2.setChecked(true);
+                break;
+            case 3:
+                lightOrb2.setChecked(true);
+                break;
+            case 4:
+                darkOrb2.setChecked(true);
+                break;
+        }
     }
 
     private void clearTextFocus() {

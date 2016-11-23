@@ -467,12 +467,12 @@ public class MonsterListFragment extends Fragment {
             } else if(teamOverwrite != null){
                 if (!team.getMonsters().equals(teamOverwrite.getMonsters()) || !team.getTeamName().equals(teamOverwrite.getTeamName()) || team.getTeamBadge() != teamOverwrite.getTeamBadge()) {
                     teamSaveDialogFragment.dismiss();
-//                    if (clearTeamConfirmationDialogFragment == null) {
-//                        clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
-//                    }
-//                    if (!clearTeamConfirmationDialogFragment.isAdded()) {
-//                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
-//                    }
+                    if (clearTeamConfirmationDialogFragment == null) {
+                        clearTeamConfirmationDialogFragment = ClearTeamConfirmationDialogFragment.newInstance(clearTeam);
+                    }
+                    if (!clearTeamConfirmationDialogFragment.isAdded()) {
+                        clearTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Clear confirmation");
+                    }
                 } else {
                     clearTeamMethod();
                 }

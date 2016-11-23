@@ -785,7 +785,6 @@ public class Team extends RealmObject {
             rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
         }
         if(lead.getLeaderSkill() != null){
-            Log.d("Team", "Leader skill type is: " + lead.getLeaderSkill().getRcvSkillType());
             if(lead.getLeaderSkill().getRcvSkillType() != null){
                 if(lead.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.COMBO)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
