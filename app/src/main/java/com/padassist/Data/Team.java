@@ -756,6 +756,9 @@ public class Team extends RealmObject {
         realm.beginTransaction();
         setHpRcvMultiplierArrays(0);
         Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
+        if(getLeadSkill() != null){
+            Log.d("Team", "leaderSkill noSkyfall is: " + getLeadSkill().isNoSkyfall());
+        }
         int hp = 0;
         double rcv = 0;
         for (int i = 0; i < getMonsters().size(); i++) {

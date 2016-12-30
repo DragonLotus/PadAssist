@@ -74,6 +74,8 @@ public class LeaderSkill extends RealmObject {
 
     private RealmList<RealmInt> hpPercent;
     private int minimumMatch;
+    private int boardSize;
+    private boolean noSkyfall;
 //    private double hpMultiplier;
 //    private double atkElement1Multiplier;
 //    private double atkElement2Multiplier;
@@ -98,6 +100,8 @@ public class LeaderSkill extends RealmObject {
         matchElements2 = new RealmList<>();
         matchMonsters = new RealmList<>();
         hpPercent = new RealmList<>();
+        boardSize = 1;
+        noSkyfall = false;
     }
 
     public RealmList<RealmDouble> getAtkData() {
@@ -416,5 +420,21 @@ public class LeaderSkill extends RealmObject {
 
     public void setMinimumMatch(int minimumMatch) {
         this.minimumMatch = minimumMatch;
+    }
+
+    public int getBoardSize() {
+        return boardSize;
+    }
+
+    public void setBoardSize(int boardSize) {
+        this.boardSize = boardSize;
+    }
+
+    public boolean isNoSkyfall() {
+        return noSkyfall;
+    }
+
+    public void setNoSkyfall(boolean noSkyfall) {
+        this.noSkyfall = noSkyfall;
     }
 }

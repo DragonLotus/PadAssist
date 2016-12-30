@@ -76,9 +76,11 @@ import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import io.realm.FieldAttribute;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import io.realm.RealmSchema;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -123,6 +125,14 @@ public class MainActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
         database = FirebaseDatabase.getInstance();
+
+//        realm.beginTransaction();
+//        RealmSchema schema = realm.getSchema();
+//        schema.get("BaseMonster")
+//                .addField("inheritable", boolean.class, FieldAttribute.INDEXED);
+//        schema.get("Monster")
+//                .removeField("inheritable");
+//        realm.commitTransaction();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 

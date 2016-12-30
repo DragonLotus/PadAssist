@@ -19,25 +19,29 @@ public class LeaderSkillCalculationUtil {
 
     public static double hpMultiplier(Monster monster, Team team) {
         hpMultiplier = 1;
-        if (team.getLeadSkill().getHpSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
-            switch (team.getLeadSkill().getHpSkillType().getLeaderSkillType()) {
-                case FLAT:
-                    flat(monster, team.getLeadSkill(), 1);
-                    break;
-                case MONSTER_CONDITIONAL:
-                    monsterConditional(monster, team, team.getLeadSkill(), 1);
-                    break;
+        if(team.getLeadSkill() != null){
+            if (team.getLeadSkill().getHpSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
+                switch (team.getLeadSkill().getHpSkillType().getLeaderSkillType()) {
+                    case FLAT:
+                        flat(monster, team.getLeadSkill(), 1);
+                        break;
+                    case MONSTER_CONDITIONAL:
+                        monsterConditional(monster, team, team.getLeadSkill(), 1);
+                        break;
+                }
             }
         }
 
-        if (team.getHelperSkill().getHpSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
-            switch (team.getHelperSkill().getHpSkillType().getLeaderSkillType()) {
-                case FLAT:
-                    flat(monster, team.getHelperSkill(), 1);
-                    break;
-                case MONSTER_CONDITIONAL:
-                    monsterConditional(monster, team, team.getHelperSkill(), 1);
-                    break;
+        if(team.getHelperSkill() != null){
+            if (team.getHelperSkill().getHpSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
+                switch (team.getHelperSkill().getHpSkillType().getLeaderSkillType()) {
+                    case FLAT:
+                        flat(monster, team.getHelperSkill(), 1);
+                        break;
+                    case MONSTER_CONDITIONAL:
+                        monsterConditional(monster, team, team.getHelperSkill(), 1);
+                        break;
+                }
             }
         }
 
@@ -538,45 +542,51 @@ public class LeaderSkillCalculationUtil {
 
     public static double rcvMultiplier(Monster monster, Team team) {
         rcvMultiplier = 1;
+        if(team.getLeadSkill() != null){
+            if (team.getLeadSkill().getRcvSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
+                switch (team.getLeadSkill().getRcvSkillType().getLeaderSkillType()) {
+                    case FLAT:
+                        flat(monster, team.getLeadSkill(), 3);
+                        break;
+                    case MONSTER_CONDITIONAL:
+                        monsterConditional(monster, team, team.getLeadSkill(), 3);
+                        break;
+                    case HP_FLAT:
+                        hpFlat(monster, team, team.getLeadSkill(), 3);
+                        break;
+                    case ACTIVE:
+                        active(monster, team, team.getLeadSkill(), 3);
+                        break;
+                    case CO_OP:
+                        coop(monster, team, team.getLeadSkill(), 3);
+                        break;
+                }
+            }
+        }
 
-        if (team.getLeadSkill().getRcvSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
-            switch (team.getLeadSkill().getRcvSkillType().getLeaderSkillType()) {
-                case FLAT:
-                    flat(monster, team.getLeadSkill(), 3);
-                    break;
-                case MONSTER_CONDITIONAL:
-                    monsterConditional(monster, team, team.getLeadSkill(), 3);
-                    break;
-                case HP_FLAT:
-                    hpFlat(monster, team, team.getLeadSkill(), 3);
-                    break;
-                case ACTIVE:
-                    active(monster, team, team.getLeadSkill(), 3);
-                    break;
-                case CO_OP:
-                    coop(monster, team, team.getLeadSkill(), 3);
-                    break;
+
+        if(team.getHelperSkill() != null){
+            if (team.getHelperSkill().getRcvSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
+                switch (team.getHelperSkill().getRcvSkillType().getLeaderSkillType()) {
+                    case FLAT:
+                        flat(monster, team.getHelperSkill(), 3);
+                        break;
+                    case MONSTER_CONDITIONAL:
+                        monsterConditional(monster, team, team.getHelperSkill(), 3);
+                        break;
+                    case HP_FLAT:
+                        hpFlat(monster, team, team.getHelperSkill(), 3);
+                        break;
+                    case ACTIVE:
+                        active(monster, team, team.getHelperSkill(), 3);
+                        break;
+                    case CO_OP:
+                        coop(monster, team, team.getHelperSkill(), 3);
+                        break;
+                }
             }
         }
-        if (team.getHelperSkill().getRcvSkillType() != null && Singleton.getInstance().hasHelperSkill()) {
-            switch (team.getHelperSkill().getRcvSkillType().getLeaderSkillType()) {
-                case FLAT:
-                    flat(monster, team.getHelperSkill(), 3);
-                    break;
-                case MONSTER_CONDITIONAL:
-                    monsterConditional(monster, team, team.getHelperSkill(), 3);
-                    break;
-                case HP_FLAT:
-                    hpFlat(monster, team, team.getHelperSkill(), 3);
-                    break;
-                case ACTIVE:
-                    active(monster, team, team.getHelperSkill(), 3);
-                    break;
-                case CO_OP:
-                    coop(monster, team, team.getHelperSkill(), 3);
-                    break;
-            }
-        }
+
         return rcvMultiplier;
     }
 

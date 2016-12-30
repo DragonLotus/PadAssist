@@ -7,6 +7,7 @@ import android.util.Log;
 
 
 import com.padassist.ParcelConverters.ActiveSkillParcelConverter;
+import com.padassist.ParcelConverters.MonsterParcelConverter;
 import com.padassist.ParcelConverters.RealmIntParcelConverter;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.Singleton;
@@ -90,6 +91,8 @@ public class Monster extends RealmObject {
     DecimalFormat format = new DecimalFormat("0.00");
     @Ignore
     private ArrayList<Integer> awakenings = new ArrayList<>();
+
+    private Monster monsterInherit;
 
     public Monster() {
 
@@ -518,6 +521,15 @@ public class Monster extends RealmObject {
 
     public int getTotalPlus() {
         return hpPlus + atkPlus + rcvPlus;
+    }
+
+    public Monster getMonsterInherit() {
+        return monsterInherit;
+    }
+
+    @ParcelPropertyConverter(MonsterParcelConverter.class)
+    public void setMonsterInherit(Monster monsterInherit) {
+        this.monsterInherit = monsterInherit;
     }
 
     public int getMaxAwakenings() {

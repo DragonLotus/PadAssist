@@ -43,6 +43,13 @@
             android:textSize="16dp" />
 
         <RadioButton
+            android:id="@+id/setInherit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set inherit"
+            android:textSize="16dp" />
+
+        <RadioButton
             android:id="@+id/evolveMonster"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

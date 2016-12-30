@@ -118,6 +118,21 @@ public class Migration implements RealmMigration {
                     .addField("hasDamageImmunity", boolean.class)
                     .addField("overwriteEnemyId", long.class)
                     .addRealmObjectField("currentElement", schema.get("RealmElement"));
+            oldVersion++;
+        }
+
+        if(oldVersion == 6){
+            schema.get("BaseMonster")
+                    .addField("inheritable", boolean.class);
+            schema.get("Monster")
+                    .addRealmObjectField("monsterInherit", schema.get("Monster"));
+            schema.get("LeaderSkill")
+                    .addField("noSkyfall", boolean.class)
+                    .addField("boardSize", int.class);
+            oldVersion++;
+        }
+
+        if(oldVersion == 7){
         }
 
     }

@@ -105,6 +105,8 @@ public class ImageResourceUtil {
                return R.drawable.awakening_41;
             case 42:
                return R.drawable.awakening_42;
+            case 43:
+                return R.drawable.awakening_43;
             default:
                return R.drawable.awakening;
         }
@@ -196,6 +198,8 @@ public class ImageResourceUtil {
                 return R.drawable.awakening_41_disabled;
             case 42:
                 return R.drawable.awakening_42_disabled;
+            case 43:
+                return R.drawable.awakening_43_disabled;
             default:
                 return R.drawable.awakening_disabled;
         }
@@ -287,6 +291,8 @@ public class ImageResourceUtil {
                 return R.drawable.awakening_41_gray;
             case 42:
                 return R.drawable.awakening_42_gray;
+            case 43:
+                return R.drawable.awakening_43_gray;
             default:
                 return R.drawable.awakening;
         }

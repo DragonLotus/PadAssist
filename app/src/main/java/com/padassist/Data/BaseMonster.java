@@ -106,6 +106,8 @@ public class BaseMonster extends RealmObject {
     private RealmList<RealmLong> evolutions;
     @Ignore
     DecimalFormat format = new DecimalFormat("0.00");
+    @Index
+    private boolean inheritable;
 
     public BaseMonster() {
         monsterId = 0;
@@ -134,6 +136,7 @@ public class BaseMonster extends RealmObject {
         awokenSkills = new RealmList<>();
         evolutions = new RealmList<>();
         teamCost = 0;
+        inheritable = false;
     }
 
     public double getWeightedBase(){
@@ -458,6 +461,14 @@ public class BaseMonster extends RealmObject {
     @ParcelPropertyConverter(RealmLongParcelConverter.class)
     public void setEvolutions(RealmList<RealmLong> evolutions) {
         this.evolutions = evolutions;
+    }
+
+    public boolean isInheritable() {
+        return inheritable;
+    }
+
+    public void setInheritable(boolean inheritable) {
+        this.inheritable = inheritable;
     }
 
     public ArrayList<Integer> getTypes() {

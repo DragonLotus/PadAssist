@@ -146,6 +146,14 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
     private void setLinearLayout(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolderLinear viewHolderLinear = (ViewHolderLinear) viewHolder;
 
+        viewHolderLinear.element1.setImageResource(ImageResourceUtil.orbColor(monsterList.get(position).getElement1()));
+        if (monsterList.get(position).getElement1Int() == -1) {
+            viewHolderLinear.element2.setVisibility(View.GONE);
+        } else {
+            viewHolderLinear.element2.setImageResource(ImageResourceUtil.orbColor(monsterList.get(position).getElement2()));
+            viewHolderLinear.element2.setVisibility(View.VISIBLE);
+        }
+
         evolutions.clear();
         for (int i = 0; i < monsterList.get(position).getEvolutions().size(); i++) {
             evolutions.add(realm.where(BaseMonster.class).equalTo("monsterId", monsterList.get(position).getEvolutions().get(i).getValue()).findFirst());
@@ -399,7 +407,7 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 leaderSkillName, leaderSkillDesc, levelMax, activeSkillDesc, activeSkillName, activeSkillCooldown,
                 weightedBase, weightedTotal, evolutionText;
         ImageView monsterPicture, type1, type2, type3, rarityStar, awakening1, awakening2, awakening3, awakening4, awakening5,
-                awakening6, awakening7, awakening8, awakening9, leaderSkill, activeSkill;
+                awakening6, awakening7, awakening8, awakening9, leaderSkill, activeSkill, element1, element2;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose;
@@ -456,6 +464,8 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
             evolutionRecyclerView = (RecyclerView) convertView.findViewById(R.id.evolutionRecyclerView);
             evolutionText = (TextView) convertView.findViewById(R.id.evolutionText);
             evolutionHolder = (RelativeLayout) convertView.findViewById(R.id.evolutionHolder);
+            element1 = (ImageView) convertView.findViewById(R.id.element1);
+            element2 = (ImageView) convertView.findViewById(R.id.element2);
         }
     }
 

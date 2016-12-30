@@ -2,6 +2,7 @@ package com.padassist.Threads;
 
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.LeaderSkill;
@@ -143,6 +144,18 @@ public class ParseMonsterDatabaseThread extends Thread {
                     }
                     if (leaderSkillNode.hasNonNull("minimumMatch")) {
                         leaderSkill.setMinimumMatch(leaderSkillNode.get("minimumMatch").asInt());
+                    } else {
+                        leaderSkill.setMinimumMatch(3);
+                    }
+                    if(leaderSkillNode.hasNonNull("boardSize")){
+                        leaderSkill.setBoardSize(leaderSkillNode.get("boardSize").asInt());
+                    } else {
+                        leaderSkill.setBoardSize(1);
+                    }
+                    if(leaderSkillNode.hasNonNull("noSkyfall")){
+                        leaderSkill.setNoSkyfall(leaderSkillNode.get("noSkyfall").asBoolean());
+                    } else {
+                        leaderSkill.setNoSkyfall(false);
                     }
                     realm.copyToRealmOrUpdate(leaderSkill);
                     update.updateValues(counter);
@@ -288,6 +301,12 @@ public class ParseMonsterDatabaseThread extends Thread {
                     } else {
                         monster.getEvolutions().clear();
                     }
+                    if (monsterNode.hasNonNull("inheritable")) {
+                        monster.setInheritable(monsterNode.get("inheritable").asBoolean());
+                    } else {
+                        monster.setInheritable(false);
+                    }
+
 
                     monster.setLeaderSkill(realm.where(LeaderSkill.class).equalTo("name", monster.getLeaderSkillString()).findFirst());
                     monster.setActiveSkill(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkillString()).findFirst());

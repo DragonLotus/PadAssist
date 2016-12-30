@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,6 +38,7 @@ import com.padassist.Comparators.BaseMonsterType1Comparator;
 import com.padassist.Comparators.BaseMonsterType2Comparator;
 import com.padassist.Comparators.BaseMonsterType3Comparator;
 import com.padassist.Data.BaseMonster;
+import com.padassist.Data.LeaderSkill;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.FilterDialogFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
@@ -550,6 +552,10 @@ public abstract class BaseMonsterListBase extends Fragment {
                 }
                 if(query.length() == 1){
                     filterMonsters(query);
+                } else if (query.toLowerCase().contains("inherit")){
+                  RealmResults<BaseMonster> results = realm.where(BaseMonster.class)
+                          .equalTo("inheritable", true).findAll();
+                    monsterList.addAll(results);
                 } else {
                     RealmResults<BaseMonster> results = realm.where(BaseMonster.class)
                             .beginGroup()
