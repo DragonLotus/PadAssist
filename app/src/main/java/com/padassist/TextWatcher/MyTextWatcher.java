@@ -20,6 +20,7 @@ public class MyTextWatcher implements TextWatcher
    public static final int ADDITIONAL_COMBOS = 9;
    public static final int REDUCTION_VALUE = 10;
    public static final int DAMAGE_IMMUNITY = 11;
+   public static final int MONSTER_INHERIT_LEVEL = 12;
 
    private int statToChange;
 

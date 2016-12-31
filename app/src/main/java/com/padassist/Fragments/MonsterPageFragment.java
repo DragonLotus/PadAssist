@@ -208,8 +208,7 @@ public class MonsterPageFragment extends MonsterPageBase {
 
         @Override
         public void setInherit() {
-            Parcelable monsterParcel = Parcels.wrap(monster);
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(monsterParcel), MonsterTabLayoutFragment.TAG, "good");
+            setMonsterInherit();
             monsterRemoveDialogFragment.dismiss();
         }
     };
@@ -226,7 +225,7 @@ public class MonsterPageFragment extends MonsterPageBase {
         @Override
         public void resetLayout(int position) {
             ArrayList<Team> teamList = new ArrayList<>();
-            RealmResults results = realm.where(Team.class).findAll();
+            RealmResults<Team> results = realm.where(Team.class).findAll();
             teamList.addAll(results);
             final long monsterId = monster.getMonsterId();
             Log.d("SaveMonsterList", "teamlist is: " + teamList);

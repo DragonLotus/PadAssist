@@ -112,6 +112,12 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
 
+        if(monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0){
+            viewHolderLinear.monsterPicture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolderLinear.monsterPicture.setBackgroundResource(0);
+        }
+
 //        viewHolderLinear.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
         viewHolderLinear.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
         viewHolderLinear.monsterPlus.setText(" +" + monsterList.get(position).getTotalPlus() + " ");
@@ -366,6 +372,12 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
     private void setGridLayout(RecyclerView.ViewHolder viewHolder, int position) {
         ViewHolderGrid viewHolderGrid = (ViewHolderGrid) viewHolder;
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+
+        if(monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0){
+            viewHolderGrid.monsterPicture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolderGrid.monsterPicture.setBackgroundResource(0);
+        }
 
         viewHolderGrid.itemView.setTag(R.string.index, position);
         if (monsterList.get(position).getMonsterId() == 0) {

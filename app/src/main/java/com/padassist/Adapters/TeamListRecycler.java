@@ -67,6 +67,37 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
         viewHolder.monster6Awakenings.setText(" " + Integer.toString(teamList.get(position).getMonsters(5).getCurrentAwakenings()));
         viewHolder.monster6Picture.setImageBitmap(teamList.get(position).getMonsters(5).getMonsterPicture());
 
+        if(teamList.get(position).getMonsters(0).getMonsterInherit() != null && teamList.get(position).getMonsters(0).getMonsterInherit().getMonsterId() != 0){
+            viewHolder.monster1Picture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolder.monster1Picture.setBackgroundResource(0);
+        }
+        if(teamList.get(position).getMonsters(1).getMonsterInherit() != null && teamList.get(position).getMonsters(1).getMonsterInherit().getMonsterId() != 0){
+            viewHolder.monster2Picture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolder.monster2Picture.setBackgroundResource(0);
+        }
+        if(teamList.get(position).getMonsters(2).getMonsterInherit() != null && teamList.get(position).getMonsters(2).getMonsterInherit().getMonsterId() != 0){
+            viewHolder.monster3Picture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolder.monster3Picture.setBackgroundResource(0);
+        }
+        if(teamList.get(position).getMonsters(3).getMonsterInherit() != null && teamList.get(position).getMonsters(3).getMonsterInherit().getMonsterId() != 0){
+            viewHolder.monster4Picture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolder.monster4Picture.setBackgroundResource(0);
+        }
+        if(teamList.get(position).getMonsters(4).getMonsterInherit() != null && teamList.get(position).getMonsters(4).getMonsterInherit().getMonsterId() != 0){
+            viewHolder.monster5Picture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolder.monster5Picture.setBackgroundResource(0);
+        }
+        if(teamList.get(position).getMonsters(5).getMonsterInherit() != null && teamList.get(position).getMonsters(5).getMonsterInherit().getMonsterId() != 0){
+            viewHolder.monster6Picture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolder.monster6Picture.setBackgroundResource(0);
+        }
+
         if (latentList1 == null) {
             latentList1 = new ArrayList<>();
         } else {

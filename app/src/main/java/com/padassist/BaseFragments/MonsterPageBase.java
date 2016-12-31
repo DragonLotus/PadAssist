@@ -1,9 +1,9 @@
 package com.padassist.BaseFragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,6 +40,8 @@ import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.ImageResourceUtil;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 
 import io.realm.Realm;
@@ -59,14 +61,16 @@ public abstract class MonsterPageBase extends Fragment {
             monsterStatsATKBase, monsterStatsATKTotal, monsterStatsRCVBase, monsterStatsRCVTotal,
             monsterStatsWeightedValue, monsterStatsTotalWeightedValue, rarity, monsterAwakenings,
             skill1Level, activeSkill1Name, activeSkill1Cooldown, activeSkill1Desc, skill2Level, activeSkill2Name,
-            activeSkill2Cooldown, activeSkill2Desc, leaderSkillName, leaderSkillDesc, evolutionText;
-    protected EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue;
+            activeSkill2Cooldown, activeSkill2Desc, leaderSkillName, leaderSkillDesc, evolutionText,
+            monsterInheritHP, monsterInheritATK, monsterInheritRCV, monsterInheritName;
+    protected EditText monsterLevelValue, monsterStatsHPPlus, monsterStatsATKPlus, monsterStatsRCVPlus, monsterAwakeningsValue, monsterInheritLevelValue;
     protected Button monsterLevelMax, monsterStatsMax, monsterStatsHPMax, monsterStatsATKMax, monsterStatsRCVMax,
             monsterAwakeningsMax, monsterRemove, monsterStatsMaxAll, awakeningPlus, awakeningMinus,
             skill1Plus, skill1Minus, skill1Max, skill2Plus, skill2Minus, skill2Max;
-    protected ImageView monsterPicture, rarityStar, type1, type2, type3, favorite, favoriteOutline, activeSkill1, activeSkill2, leaderSkill;
+    protected ImageView monsterPicture, rarityStar, type1, type2, type3, favorite, favoriteOutline,
+            activeSkill1, activeSkill2, leaderSkill, monsterInheritPicture;
     private LinearLayout awakeningHolder, latentHolder;
-    private RelativeLayout skill1Holder, skill2Holder, leaderSkillHolder, evolutionHolder;
+    private RelativeLayout skill1Holder, skill2Holder, leaderSkillHolder, evolutionHolder, monsterInheritHolder;
     private ScrollView monsterScrollView;
     protected TableLayout table1;
     protected Monster monster;
@@ -119,6 +123,19 @@ public abstract class MonsterPageBase extends Fragment {
             } else if (statToChange == MyTextWatcher.AWAKENINGS) {
                 monster.setCurrentAwakenings(statValue);
                 grayAwakenings();
+            } else if (statToChange == MyTextWatcher.MONSTER_INHERIT_LEVEL) {
+                if(statValue == 0){
+                    statValue = 1;
+                }
+                monster.getMonsterInherit().setCurrentLevel(statValue);
+                monster.getMonsterInherit().setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getHpMin(), monster.getMonsterInherit().getHpMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getHpScale()));
+                monster.getMonsterInherit().setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getAtkMin(), monster.getMonsterInherit().getAtkMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getAtkScale()));
+                monster.getMonsterInherit().setCurrentRcv(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getRcvMin(), monster.getMonsterInherit().getRcvMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getRcvScale()));
+                setInheritStats();
+                monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
+                monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
+                monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
+                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             }
         }
     };
@@ -128,6 +145,7 @@ public abstract class MonsterPageBase extends Fragment {
     private MyTextWatcher atkPlusWatcher = new MyTextWatcher(MyTextWatcher.ATK_STAT, changeStats);
     private MyTextWatcher rcvPlusWatcher = new MyTextWatcher(MyTextWatcher.RCV_STAT, changeStats);
     private MyTextWatcher awakeningsWatcher = new MyTextWatcher(MyTextWatcher.AWAKENINGS, changeStats);
+    private MyTextWatcher monsterInheritLevelWatcher = new MyTextWatcher(MyTextWatcher.MONSTER_INHERIT_LEVEL, changeStats);
 
     private View.OnFocusChangeListener editTextOnFocusChange = new View.OnFocusChangeListener() {
         @Override
@@ -142,11 +160,12 @@ public abstract class MonsterPageBase extends Fragment {
                     monsterLevelValue.setText("1");
                 } else if (monsterStatsHPPlus.getText().toString().equals("")) {
                     monsterStatsHPPlus.setText("0");
-
                 } else if (monsterStatsATKPlus.getText().toString().equals("")) {
                     monsterStatsATKPlus.setText("0");
                 } else if (monsterStatsRCVPlus.getText().toString().equals("")) {
                     monsterStatsRCVPlus.setText("0");
+                } else if (monsterInheritLevelValue.getText().toString().equals("")) {
+                    monsterInheritLevelValue.setText("1");
                 }
                 setMonsterStats();
             }
@@ -233,6 +252,13 @@ public abstract class MonsterPageBase extends Fragment {
         evolutionRecyclerView = (RecyclerView) rootView.findViewById(R.id.evolutionRecyclerView);
         evolutionText = (TextView) rootView.findViewById(R.id.evolutionText);
         monsterScrollView = (ScrollView) rootView.findViewById(R.id.monsterScrollView);
+        monsterInheritHolder = (RelativeLayout) rootView.findViewById(R.id.monsterInheritHolder);
+        monsterInheritName = (TextView) rootView.findViewById(R.id.monsterInheritName);
+        monsterInheritHP = (TextView) rootView.findViewById(R.id.monsterInheritHP);
+        monsterInheritATK = (TextView) rootView.findViewById(R.id.monsterInheritATK);
+        monsterInheritRCV = (TextView) rootView.findViewById(R.id.monsterInheritRCV);
+        monsterInheritPicture = (ImageView) rootView.findViewById(R.id.monsterInheritPicture);
+        monsterInheritLevelValue = (EditText) rootView.findViewById(R.id.monsterInheritLevelValue);
         return rootView;
     }
 
@@ -328,6 +354,7 @@ public abstract class MonsterPageBase extends Fragment {
         monsterStatsATKPlus.addTextChangedListener(atkPlusWatcher);
         monsterStatsRCVPlus.addTextChangedListener(rcvPlusWatcher);
         monsterAwakeningsValue.addTextChangedListener(awakeningsWatcher);
+        monsterInheritLevelValue.addTextChangedListener(monsterInheritLevelWatcher);
 
         monsterLevelValue.setOnFocusChangeListener(editTextOnFocusChange);
         monsterStatsHPPlus.setOnFocusChangeListener(editTextOnFocusChange);
@@ -360,6 +387,9 @@ public abstract class MonsterPageBase extends Fragment {
         monsterName.setHorizontallyScrolling(true);
         monsterName.setSelected(true);
 
+        monsterInheritName.setHorizontallyScrolling(true);
+        monsterInheritName.setSelected(true);
+
         activeSkill1Name.setHorizontallyScrolling(true);
         activeSkill1Name.setSelected(true);
 
@@ -381,10 +411,10 @@ public abstract class MonsterPageBase extends Fragment {
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
         evolutions = new ArrayList<>();
-        for(int i = 0; i < monster.getEvolutions().size(); i++){
+        for (int i = 0; i < monster.getEvolutions().size(); i++) {
             evolutions.add(realm.where(BaseMonster.class).equalTo("monsterId", monster.getEvolutions().get(i).getValue()).findFirst());
         }
-        if(evolutions.size() == 0){
+        if (evolutions.size() == 0) {
             evolutionHolder.setVisibility(View.GONE);
         } else {
             evolutionHolder.setOnClickListener(expandEvolutionClickListener);
@@ -392,6 +422,8 @@ public abstract class MonsterPageBase extends Fragment {
             evolutionRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             evolutionRecyclerView.setAdapter(evolutionListRecycler);
         }
+
+        monsterInheritHolder.setOnClickListener(inheritOnClickListener);
 
         getActivity().setTitle("Modify Monster");
     }
@@ -442,6 +474,13 @@ public abstract class MonsterPageBase extends Fragment {
 
     }
 
+    protected View.OnClickListener inheritOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            setMonsterInherit();
+        }
+    };
+
     private View.OnClickListener awakeningButtons = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -471,7 +510,7 @@ public abstract class MonsterPageBase extends Fragment {
                 if (monster.getActiveSkillLevel() > 1) {
                     monster.setActiveSkillLevel(monster.getActiveSkillLevel() - 1);
                     setActive1Values();
-                    if(monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0){
+                    if (monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0) {
                         setActive2Values();
                     }
                 }
@@ -479,17 +518,17 @@ public abstract class MonsterPageBase extends Fragment {
                 if (monster.getActiveSkillLevel() < monster.getActiveSkill().getMaxLevel()) {
                     monster.setActiveSkillLevel(monster.getActiveSkillLevel() + 1);
                     setActive1Values();
-                    if(monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0){
+                    if (monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0) {
                         setActive2Values();
                     }
                 }
-            } else if (v.equals(skill2Minus)){
-                if(monster.getMonsterInherit().getActiveSkillLevel() > 1){
+            } else if (v.equals(skill2Minus)) {
+                if (monster.getMonsterInherit().getActiveSkillLevel() > 1) {
                     monster.getMonsterInherit().setActiveSkillLevel(monster.getMonsterInherit().getActiveSkillLevel() - 1);
                     setActive2Values();
                 }
-            } else if (v.equals(skill2Plus)){
-                if(monster.getMonsterInherit().getActiveSkillLevel() < monster.getMonsterInherit().getActiveSkill().getMaxLevel()){
+            } else if (v.equals(skill2Plus)) {
+                if (monster.getMonsterInherit().getActiveSkillLevel() < monster.getMonsterInherit().getActiveSkill().getMaxLevel()) {
                     monster.getMonsterInherit().setActiveSkillLevel(monster.getMonsterInherit().getActiveSkillLevel() + 1);
                     setActive2Values();
                 }
@@ -562,7 +601,7 @@ public abstract class MonsterPageBase extends Fragment {
                 monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
                 monster.setCurrentAwakenings(monster.getMaxAwakenings());
                 monster.setActiveSkillLevel(monster.getActiveSkill().getMaxLevel());
-                if(monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0){
+                if (monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0) {
                     monster.getMonsterInherit().setActiveSkillLevel(monster.getMonsterInherit().getActiveSkill().getMaxLevel());
                 }
                 grayAwakenings();
@@ -618,14 +657,15 @@ public abstract class MonsterPageBase extends Fragment {
     private View.OnClickListener sameSkillToolTipOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(v.equals(skill1Holder)){
-                if(!monster.getActiveSkillString().equals("Blank")){
+            clearTextFocus();
+            if (v.equals(skill1Holder)) {
+                if (!monster.getActiveSkillString().equals("Blank")) {
                     RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getActiveSkillString()).findAllSorted("monsterId");
                     tooltipSameSkill = new TooltipSameSkill(getContext(), "Monsters with the same skill:", results);
                     tooltipSameSkill.show(activeSkill1Name);
                 }
-            } else if(v.equals(skill2Holder)){
-                if(!monster.getMonsterInherit().getActiveSkillString().equals("Blank")){
+            } else if (v.equals(skill2Holder)) {
+                if (!monster.getMonsterInherit().getActiveSkillString().equals("Blank")) {
                     RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getMonsterInherit().getActiveSkillString()).findAllSorted("monsterId");
                     tooltipSameSkill = new TooltipSameSkill(getContext(), "Monsters with the same skill:", results);
                     tooltipSameSkill.show(activeSkill2Name);
@@ -719,13 +759,30 @@ public abstract class MonsterPageBase extends Fragment {
         }
         if (monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0) {
             skill2Holder.setVisibility(View.VISIBLE);
-            monsterPicture.setBackgroundResource(R.drawable.portrait_stroke);
+            monsterPicture.setBackgroundResource(R.drawable.portrait_stroke_small);
+            monsterInheritPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(monster.getMonsterInherit().getBaseMonsterId()));
+            monsterInheritName.setText(monster.getMonsterInherit().getName());
+            monsterInheritLevelValue.setText("" + monster.getMonsterInherit().getCurrentLevel());
+            setInheritStats();
             activeSkill2Name.setText(monster.getMonsterInherit().getActiveSkillString());
             activeSkill2Desc.setText(monster.getMonsterInherit().getActiveSkill().getDescription());
             setActive2Values();
         } else {
             skill2Holder.setVisibility(View.GONE);
             monsterPicture.setBackgroundResource(0);
+        }
+    }
+
+    protected void setInheritStats() {
+        if (monster.getElement1Int() == monster.getMonsterInherit().getElement1Int()) {
+            monsterInheritHP.setText("+" + (int) (monster.getMonsterInherit().getCurrentHpInt() * .1 + .5) + " / ");
+            monsterInheritATK.setText("+" + (int) (monster.getMonsterInherit().getCurrentAtkInt() * .05 + .5) + " / ");
+            monsterInheritRCV.setText("+" + (int) (monster.getMonsterInherit().getCurrentRcvInt() * .15 + .5));
+
+        } else {
+            monsterInheritHP.setText("+0 / ");
+            monsterInheritATK.setText("+0 / ");
+            monsterInheritRCV.setText("+0");
         }
     }
 
@@ -748,6 +805,11 @@ public abstract class MonsterPageBase extends Fragment {
             skill2Level.setText("Skill 2 Level: " + monster.getMonsterInherit().getActiveSkillLevel());
             activeSkill2Cooldown.setText("(CD " + (monster.getMonsterInherit().getActiveSkill().getMaximumCooldown() - monster.getMonsterInherit().getActiveSkillLevel() + 2 + monster.getActiveSkill().getMaximumCooldown() - monster.getActiveSkillLevel()) + ")");
         }
+    }
+
+    protected void setMonsterInherit(){
+        Parcelable monsterParcel = Parcels.wrap(monster);
+        ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(monsterParcel), MonsterTabLayoutFragment.TAG, "good");
     }
 
     protected void setTextViews() {
@@ -902,6 +964,7 @@ public abstract class MonsterPageBase extends Fragment {
         monsterStatsATKPlus.clearFocus();
         monsterStatsRCVPlus.clearFocus();
         monsterAwakeningsValue.clearFocus();
+        monsterInheritLevelValue.clearFocus();
     }
 
     private View.OnClickListener latentOnClickListener = new View.OnClickListener() {
@@ -963,7 +1026,7 @@ public abstract class MonsterPageBase extends Fragment {
     private View.OnClickListener expandEvolutionClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(evolutionExpanded){
+            if (evolutionExpanded) {
                 evolutionText.setText("Show Evolutions");
                 evolutionRecyclerView.setVisibility(View.GONE);
             } else {

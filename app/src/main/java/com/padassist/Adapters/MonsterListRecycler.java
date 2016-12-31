@@ -77,6 +77,13 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
 //        viewHolder.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
+
+        if(monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0){
+            viewHolder.monsterPicture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolder.monsterPicture.setBackgroundResource(0);
+        }
+
         viewHolder.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
         viewHolder.monsterATK.setText(Integer.toString(monsterList.get(position).getTotalAtk()) + " / ");
         viewHolder.monsterRCV.setText(Integer.toString(monsterList.get(position).getTotalRcv()));

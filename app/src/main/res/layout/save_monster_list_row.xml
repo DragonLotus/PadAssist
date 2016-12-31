@@ -53,6 +53,7 @@
         android:layout_height="48dp"
         android:layout_marginRight="4dp"
         android:layout_toRightOf="@+id/favorite"
+        android:background="@drawable/portrait_stroke_small"
         android:src="@drawable/monster_0" />
 
     <TextView

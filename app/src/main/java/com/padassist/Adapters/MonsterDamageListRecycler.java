@@ -82,6 +82,13 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
         } else {
             viewHolder.monsterOverlay.setVisibility(View.GONE);
         }
+
+        if(team.getMonsters(position).getMonsterInherit() != null && team.getMonsters(position).getMonsterInherit().getMonsterId() != 0){
+            viewHolder.monsterPicture.setBackgroundResource(R.drawable.portrait_stroke_small);
+        } else {
+            viewHolder.monsterPicture.setBackgroundResource(0);
+        }
+
 //        viewHolder.monsterPicture.setImageResource(team.getMonsters(position).getMonsterPicture());
         viewHolder.monsterPicture.setImageBitmap(team.getMonsters(position).getMonsterPicture());
         //Needs to get # of orb awakenings from team object maybe

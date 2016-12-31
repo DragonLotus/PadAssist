@@ -199,6 +199,11 @@ public class Monster extends RealmObject {
         }
         int latentHp = (int) Math.floor(currentHp * counter2 * 0.015 + .5);
         totalHp = totalHp + (200 * counter) + latentHp;
+        if(monsterInherit!= null) {
+            if (monsterInherit.getElement1Int() == getElement1Int()) {
+                totalHp += (int) (monsterInherit.getCurrentHpInt() * .1 + .5);
+            }
+        }
 
         if (Singleton.getInstance().isCoopEnable()) {
             if (awakenings.contains(30)) {
@@ -226,6 +231,12 @@ public class Monster extends RealmObject {
         int latentAtk = (int) Math.floor(currentAtk * counter2 * 0.01 + .5);
         totalAtk = totalAtk + (100 * counter) + latentAtk;
 
+        if(monsterInherit!= null){
+            if(monsterInherit.getElement1Int() == getElement1Int()){
+                totalAtk += (int)(monsterInherit.getCurrentAtkInt() * .05 + .5);
+            }
+        }
+
         if (Singleton.getInstance().isCoopEnable()) {
             if (awakenings.contains(30)) {
                 totalAtk *= 1.5;
@@ -251,6 +262,12 @@ public class Monster extends RealmObject {
         }
         int latentRcv = (int) Math.floor(currentRcv * counter2 * 0.05 + .5);
         totalRcv = totalRcv + (50 * counter) + latentRcv;
+        if(monsterInherit!= null) {
+            if (monsterInherit.getElement1Int() == getElement1Int()) {
+                totalRcv += (int) (monsterInherit.getCurrentRcvInt() * .15 + .5);
+            }
+        }
+
         if (Singleton.getInstance().isCoopEnable()) {
             if (awakenings.contains(30)) {
                 totalRcv *= 1.5;

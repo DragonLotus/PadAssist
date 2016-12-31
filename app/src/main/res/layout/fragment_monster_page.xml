@@ -16,14 +16,13 @@
         android:clickable="true"
         android:focusableInTouchMode="true">
 
-
         <ImageView
             android:id="@+id/monsterPicture"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/monster_0"
-            android:background="@drawable/portrait_stroke"/>
+            android:background="@drawable/portrait_stroke_small"
+            android:src="@drawable/monster_0" />
 
         <TextView
             android:id="@+id/monsterName"
@@ -43,8 +42,8 @@
             android:layout_height="20dp"
             android:layout_alignBottom="@+id/monsterPicture"
             android:layout_alignLeft="@+id/monsterPicture"
-            android:layout_marginLeft="2dp"
             android:layout_marginBottom="2dp"
+            android:layout_marginLeft="2dp"
             android:src="@drawable/type_balanced" />
 
         <ImageView
@@ -52,8 +51,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignBottom="@+id/monsterPicture"
-            android:layout_toRightOf="@+id/type1"
             android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@+id/type1"
             android:src="@drawable/type_balanced" />
 
         <ImageView
@@ -61,28 +60,28 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignBottom="@+id/monsterPicture"
-            android:layout_toRightOf="@+id/type2"
             android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@+id/type2"
             android:src="@drawable/type_balanced" />
 
         <ImageView
             android:id="@+id/favorite"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="2dp"
             android:layout_alignRight="@+id/monsterPicture"
             android:layout_alignTop="@+id/monsterPicture"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
             android:src="@drawable/favorite" />
 
         <ImageView
             android:id="@+id/favoriteOutline"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="2dp"
             android:layout_alignRight="@+id/monsterPicture"
             android:layout_alignTop="@+id/monsterPicture"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
             android:src="@drawable/not_favorite" />
 
         <TextView
@@ -141,13 +140,30 @@
 
     </RelativeLayout>
 
+
+    <Button
+        android:id="@+id/monsterRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Monster Options" />
+
+    <Button
+        android:id="@+id/monsterStatsMaxAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Max All" />
+
     <ScrollView
         android:id="@+id/monsterScrollView"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/monsterStatsMaxAll"
-        android:layout_below="@id/monsterHeader">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/monsterHeader"
+        android:layout_above="@+id/monsterRemove">
 
         <RelativeLayout
             android:id="@+id/scrollRelativeLayout"
@@ -428,9 +444,9 @@
                     android:id="@+id/awakeningHolder"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
+                    android:gravity="center"
                     android:paddingBottom="8dp"
-                    android:gravity="center">
+                    android:paddingTop="8dp">
 
                     <ImageView
                         android:id="@+id/monsterAwakening1"
@@ -558,12 +574,13 @@
                 android:gravity="center_vertical"
                 android:text="Awakenings: "
                 android:textSize="18dp" />
+
             <LinearLayout
                 android:id="@+id/skillLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_below="@+id/awakeningLinearLayout">
+                android:layout_below="@+id/awakeningLinearLayout"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/skill1Holder"
@@ -656,7 +673,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/skill1Holder"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:id="@+id/skill2Level"
@@ -737,7 +754,83 @@
                         android:layout_below="@+id/activeSkill2"
                         android:text="Does not exist in database."
                         android:textSize="16dp" />
-                </RelativeLayout></LinearLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/monsterInheritHolder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/activeSkill2Desc">
+
+                        <ImageView
+                            android:id="@+id/monsterInheritPicture"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginRight="6dp"
+                            android:src="@drawable/monster_0" />
+
+                        <TextView
+                            android:id="@+id/monsterInheritName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/monsterInheritPicture"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:maxLines="1"
+                            android:text="Kirin of the Sacred Gleam, Sakuya"
+                            android:textSize="16dp" />
+
+                        <LinearLayout
+                            android:id="@+id/monsterInheritStatHolder"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/monsterInheritPicture"
+                            android:layout_toRightOf="@+id/monsterInheritPicture"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="-8dp">
+
+                            <TextView
+                                android:id="@+id/monsterInheritLevel"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Level: "
+                                android:textSize="16dp" />
+
+                            <EditText
+                                android:id="@+id/monsterInheritLevelValue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/monsterInheritLevel"
+                                android:inputType="number"
+                                android:maxLength="2"
+                                android:text="99"
+                                android:textSize="16dp"
+                                android:layout_marginRight="4dp"/>
+
+                            <TextView
+                                android:id="@+id/monsterInheritHP"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+999 / "
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/monsterInheritATK"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+999 / "
+                                android:textSize="16dp" />
+
+                            <TextView
+                                android:id="@+id/monsterInheritRCV"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="+999"
+                                android:textSize="16dp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/leaderSkillHolder"
                 android:layout_width="match_parent"
@@ -783,40 +876,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/leaderSkillHolder">
+
                 <TextView
                     android:id="@+id/evolutionText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Show Evolutions"
-                    android:textSize="16dp"
                     android:gravity="center"
+                    android:paddingBottom="8dp"
                     android:paddingTop="8dp"
-                    android:paddingBottom="8dp"/>
+                    android:text="Show Evolutions"
+                    android:textSize="16dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/evolutionRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/evolutionText"
-                    android:visibility="gone"></android.support.v7.widget.RecyclerView></RelativeLayout>
+                    android:visibility="gone"></android.support.v7.widget.RecyclerView>
+            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
-
-
-    <Button
-        android:id="@+id/monsterRemove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Monster Options" />
-
-    <Button
-        android:id="@+id/monsterStatsMaxAll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="Max All" />
 </RelativeLayout>
 
 

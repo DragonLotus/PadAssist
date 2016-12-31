@@ -8,7 +8,8 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/monster_0" />
+        android:src="@drawable/monster_0"
+        android:background="@drawable/portrait_stroke_small"/>
 
     <ImageView
         android:id="@+id/monsterOverlay"
