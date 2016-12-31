@@ -43,6 +43,7 @@ import com.padassist.Comparators.MonsterType2Comparator;
 import com.padassist.Comparators.MonsterType3Comparator;
 import com.padassist.Data.Monster;
 import com.padassist.Fragments.FilterDialogFragment;
+import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
 import com.padassist.Fragments.SortPlusDialogFragment;
 import com.padassist.Fragments.SortStatsDialogFragment;
@@ -100,6 +101,8 @@ public abstract class SaveMonsterListBase extends Fragment {
     private FilterDialogFragment filterDialogFragment;
     protected Realm realm;
     private Monster monsterZero;
+    protected int selection;
+    protected Monster monster;
 
     protected SharedPreferences preferences;
     protected boolean isGrid;
@@ -637,25 +640,50 @@ public abstract class SaveMonsterListBase extends Fragment {
                 if (!monsterList.isEmpty()) {
                     monsterList.clear();
                 }
-                RealmResults<Monster> results = realm.where(Monster.class)
-                        .beginGroup()
-                        .contains("name", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("type1String", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("type2String", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("type3String", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("baseMonsterIdString", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("activeSkillString", query, Case.INSENSITIVE)
-                        .or()
-                        .contains("leaderSkillString", query, Case.INSENSITIVE)
-                        .endGroup()
-                        .greaterThan("monsterId", 0)
-                        .equalTo("helper", helper)
-                        .findAll();
+                RealmResults<Monster> results;
+                if (selection == MonsterTabLayoutFragment.INHERIT) {
+                    results = realm.where(Monster.class)
+                            .equalTo("baseMonster.inheritable", true)
+                            .notEqualTo("monsterId", monster.getMonsterId())
+                            .beginGroup()
+                            .contains("name", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type1String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type2String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type3String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("baseMonsterIdString", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("activeSkillString", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("leaderSkillString", query, Case.INSENSITIVE)
+                            .endGroup()
+                            .greaterThan("monsterId", 0)
+                            .equalTo("helper", helper)
+                            .findAll();
+                } else {
+                    results = realm.where(Monster.class)
+                            .beginGroup()
+                            .contains("name", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type1String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type2String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type3String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("baseMonsterIdString", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("activeSkillString", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("leaderSkillString", query, Case.INSENSITIVE)
+                            .endGroup()
+                            .greaterThan("monsterId", 0)
+                            .equalTo("helper", helper)
+                            .findAll();
+                }
 
                 monsterList.addAll(results);
 

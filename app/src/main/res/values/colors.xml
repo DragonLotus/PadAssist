@@ -3,4 +3,5 @@
     <color name="black_overlay">#66000000</color>
     <color name="background">#F8F8F8</color>
     <color name="background_alternate">#e8e8e8</color>
+    <color name="inherit_stroke">#7700DD</color>
 </resources>

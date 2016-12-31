@@ -347,10 +347,11 @@ public class ParseMonsterDatabaseThread extends Thread {
                     monster.setLeaderSkillString(monster.getBaseMonster().getLeaderSkillString());
                 }
 
+                //This needs some fixing
                 if (monster.getActiveSkill2String() == null) {
                     monster.setActiveSkill2String("Blank");
-                } else if (!monster.getActiveSkill2String().equals("Blank")) {
-                    monster.setActiveSkill2(realm.where(ActiveSkill.class).equalTo("name", monster.getActiveSkill2String()).findFirst());
+                } else if (monster.getMonsterInherit() != null) {
+                    monster.setActiveSkill2String(monster.getMonsterInherit().getActiveSkillString());
                 }
 
                 if(monster.getName() != null){
@@ -399,9 +400,6 @@ public class ParseMonsterDatabaseThread extends Thread {
 
                 if (monster.getActiveSkillLevel() == 0) {
                     monster.setActiveSkillLevel(1);
-                }
-                if (monster.getActiveSkill2Level() == 0) {
-                    monster.setActiveSkill2Level(1);
                 }
 
                 if (monster.getLatents().size() == 5) {

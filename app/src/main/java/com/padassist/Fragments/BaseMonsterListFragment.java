@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 
 import com.padassist.Adapters.BaseMonsterListRecycler;
+import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
@@ -23,13 +24,13 @@ import java.util.ArrayList;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static com.padassist.Fragments.MonsterTabLayoutFragment.INHERIT;
+import static com.padassist.Fragments.MonsterTabLayoutFragment.SUB;
+
 
 public class BaseMonsterListFragment extends BaseMonsterListBase {
     public static final String TAG = BaseMonsterListFragment.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
-    private boolean replaceAll;
-    private long replaceMonsterId;
-    private int monsterPosition;
     private Toast toast;
 
     public static BaseMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId, int monsterPosition) {
@@ -38,6 +39,16 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
         args.putLong("replaceMonsterId", replaceMonsterId);
         args.putBoolean("replaceAll", replaceAll);
         args.putInt("monsterPosition", monsterPosition);
+        args.putInt("selection", SUB);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static BaseMonsterListFragment newInstance(Parcelable monster) {
+        BaseMonsterListFragment fragment = new BaseMonsterListFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("monster", monster);
+        args.putInt("selection", MonsterTabLayoutFragment.INHERIT);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,11 +59,6 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (getArguments() != null) {
-            replaceAll = getArguments().getBoolean("replaceAll");
-            replaceMonsterId = getArguments().getLong("replaceMonsterId");
-            monsterPosition = getArguments().getInt("monsterPosition");
-        }
 
         if (isGrid) {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
@@ -60,8 +66,50 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
 
-        baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid, clearTextFocus, realm);
+        if(selection == SUB){
+            baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener, monsterListOnLongClickListener, isGrid, clearTextFocus, realm);
+        } else if(selection == INHERIT) {
+            baseMonsterListRecycler = new BaseMonsterListRecycler(getActivity(), monsterList, monsterListView, inheritOnClickListener, inheritOnLongClickListener, isGrid, clearTextFocus, realm);
+        }
         monsterListView.setAdapter(baseMonsterListRecycler);
+
+    }
+
+
+
+    private View.OnClickListener inheritOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int position = (int) view.getTag(R.string.index);
+            inheritMonster(monster, monsterList.get(position));
+            getActivity().getSupportFragmentManager().popBackStack(MonsterPageFragment.TAG, 0);
+        }
+    };
+
+    private View.OnLongClickListener inheritOnLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            int position = (int) view.getTag(R.string.index);
+            inheritMonster(monster, monsterList.get(position));
+            getActivity().getSupportFragmentManager().popBackStack(MonsterPageFragment.TAG, 0);
+            return true;
+        }
+    };
+
+    private void inheritMonster(Monster monster, BaseMonster inheritMonster){
+        if(inheritMonster.getMonsterId() != 0){
+            Monster newMonster = new Monster(inheritMonster);
+            long lastMonsterId = realm.where(Monster.class).findAllSorted("monsterId").last().getMonsterId();
+            newMonster.setMonsterId(lastMonsterId + 1);
+            realm.beginTransaction();
+            newMonster = realm.copyToRealm(newMonster);
+            realm.commitTransaction();
+            monster.setMonsterInherit(realm.copyFromRealm(newMonster));
+            monster.setActiveSkill2String(inheritMonster.getActiveSkillString());
+        } else {
+            monster.setMonsterInherit(null);
+            monster.setActiveSkill2String(null);
+        }
 
     }
 

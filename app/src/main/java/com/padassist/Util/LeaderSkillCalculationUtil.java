@@ -257,44 +257,17 @@ public class LeaderSkillCalculationUtil {
                 case MINIMUM_MATCH_COMBO_FLAT:
                     comboFlat(monster, team, team.getLeadSkill(), totalCombos);
                     break;
-                case COMBO_NO_DROP:
-                    combo(monster, team, team.getLeadSkill(), totalCombos);
-                    break;
-                case MATCH_ELEMENTS_FLAT_NO_DROP:
-                    matchElementFlat(monster, team, team.getLeadSkill());
-                    break;
                 case ORB_LINK_ORB_LINK:
                     orbLinkOrbLink(monster, team, team.getLeadSkill());
                     break;
-                case COMBO_FLAT_NO_DROP:
-                    comboFlat(monster, team, team.getLeadSkill(), totalCombos);
-                    break;
-                case FLAT_CROSS_NO_DROP:
-                    flatCross(monster, team, team.getLeadSkill());
-                    break;
                 case ORB_LINK_HEART_CROSS:
                     orbLinkHeartCross(monster, team, team.getLeadSkill());
-                    break;
-                case COMBO_EXACT_NO_DROP:
-                    comboExact(monster, team, team.getLeadSkill(), totalCombos);
                     break;
                 case COMBO_ORB_LINK:
                     comboOrbLink(monster, team, team.getLeadSkill(), totalCombos);
                     break;
                 case MATCH_ELEMENT_MONSTER_CONDITIONAL:
                     matchElementMonsterConditional(monster, team, team.getLeadSkill());
-                    break;
-                case BIG_BOARD_SIZE_MATCH_ELEMENT:
-                    matchElement(monster, team, team.getLeadSkill());
-                    break;
-                case ORB_LINK_FLAT_NO_DROP:
-                    orbLinkFlat(monster, team, team.getLeadSkill());
-                    break;
-                case BIG_BOARD_SIZE_INDIAN:
-                    indian(monster, team, team.getLeadSkill());
-                    break;
-                case BIG_BOARD_ORB_LINK:
-                    orbLink(monster, team, team.getLeadSkill());
                     break;
             }
         }
@@ -496,44 +469,17 @@ public class LeaderSkillCalculationUtil {
                 case MINIMUM_MATCH_COMBO_FLAT:
                     comboFlat(monster, team, team.getHelperSkill(), totalCombos);
                     break;
-                case COMBO_NO_DROP:
-                    combo(monster, team, team.getHelperSkill(), totalCombos);
-                    break;
-                case MATCH_ELEMENTS_FLAT_NO_DROP:
-                    matchElementFlat(monster, team, team.getHelperSkill());
-                    break;
                 case ORB_LINK_ORB_LINK:
                     orbLinkOrbLink(monster, team, team.getHelperSkill());
                     break;
-                case COMBO_FLAT_NO_DROP:
-                    comboFlat(monster, team, team.getHelperSkill(), totalCombos);
-                    break;
-                case FLAT_CROSS_NO_DROP:
-                    flatCross(monster, team, team.getHelperSkill());
-                    break;
                 case ORB_LINK_HEART_CROSS:
                     orbLinkHeartCross(monster, team, team.getHelperSkill());
-                    break;
-                case COMBO_EXACT_NO_DROP:
-                    comboExact(monster, team, team.getHelperSkill(), totalCombos);
                     break;
                 case COMBO_ORB_LINK:
                     comboOrbLink(monster, team, team.getHelperSkill(), totalCombos);
                     break;
                 case MATCH_ELEMENT_MONSTER_CONDITIONAL:
                     matchElementMonsterConditional(monster, team, team.getHelperSkill());
-                    break;
-                case BIG_BOARD_SIZE_MATCH_ELEMENT:
-                    matchElement(monster, team, team.getHelperSkill());
-                    break;
-                case ORB_LINK_FLAT_NO_DROP:
-                    orbLinkFlat(monster, team, team.getHelperSkill());
-                    break;
-                case BIG_BOARD_SIZE_INDIAN:
-                    indian(monster, team, team.getHelperSkill());
-                    break;
-                case BIG_BOARD_ORB_LINK:
-                    orbLink(monster, team, team.getHelperSkill());
                     break;
             }
         }
@@ -627,7 +573,6 @@ public class LeaderSkillCalculationUtil {
     }
 
     public static double orbLinkRcv(Team team, LeaderSkill leaderSkill) {
-        Log.d("LeaderSkillCalc","orb link rcv");
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < team.getOrbMatches().size(); i++) {

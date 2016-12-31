@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +40,11 @@ import com.padassist.Comparators.BaseMonsterType2Comparator;
 import com.padassist.Comparators.BaseMonsterType3Comparator;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Enemy;
+import com.padassist.Data.Monster;
+import com.padassist.Data.RealmElement;
+import com.padassist.Data.RealmInt;
 import com.padassist.Graphics.FastScroller;
+import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.Util.Singleton;
 
@@ -52,11 +57,14 @@ import java.util.Iterator;
 
 import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 
 public class MonsterPortraitListFragment extends Fragment {
     public static final String TAG = MonsterPortraitListFragment.class.getSimpleName();
+    public static final int ENEMY = 1;
+    public static final int INHERIT = 2;
     private OnFragmentInteractionListener mListener;
     private RecyclerView monsterListView;
     private ArrayList<BaseMonster> filteredMonsters = new ArrayList<>();
@@ -86,6 +94,8 @@ public class MonsterPortraitListFragment extends Fragment {
     private FilterDialogFragment filterDialogFragment;
     private TextView noResults;
     private Enemy enemy;
+    private Monster monster;
+    private int selection;
 
     private SharedPreferences preferences;
     private boolean isGrid;
@@ -95,14 +105,14 @@ public class MonsterPortraitListFragment extends Fragment {
     public MonsterPortraitListFragment() {
     }
 
-    public static MonsterPortraitListFragment newInstance(Parcelable enemy) {
+    public static MonsterPortraitListFragment newInstance(Parcelable parcelable, int selection) {
         MonsterPortraitListFragment fragment = new MonsterPortraitListFragment();
         Bundle args = new Bundle();
-        args.putParcelable("enemy", enemy);
+        args.putParcelable("parcelable", parcelable);
+        args.putInt("selection", selection);
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onStart() {
@@ -242,7 +252,13 @@ public class MonsterPortraitListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
+            selection = getArguments().getInt("selection");
+            if(selection == ENEMY){
+                Log.d("MonsterPortrait", "Selection is enemy.");
+                enemy = Parcels.unwrap(getArguments().getParcelable("parcelable"));
+            } else if (selection == INHERIT){
+                monster = Parcels.unwrap(getArguments().getParcelable("parcelable"));
+            }
         }
         preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
         isGrid = preferences.getBoolean("isGrid", true);
@@ -251,12 +267,19 @@ public class MonsterPortraitListFragment extends Fragment {
         if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }
-
         monsterListAll.clear();
-        monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAll());
 
         if (monsterList == null) {
             monsterList = new ArrayList<>();
+        }
+
+        if(selection == ENEMY){
+            monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAll());
+            monsterPortraitListRecycler = new MonsterPortraitListRecycler(getContext(), monsterList, monsterListView, isGrid, false, enemyOnClickListener);
+        } else if (selection == INHERIT){
+            monsterListAll.addAll(realm.where(BaseMonster.class).equalTo("inheritable", true).findAll());
+            monsterListAll.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+            monsterPortraitListRecycler = new MonsterPortraitListRecycler(getContext(), monsterList, monsterListView, isGrid, true, inheritOnClickListener);
         }
 
         fastScroller.setRecyclerView(monsterListView);
@@ -267,10 +290,39 @@ public class MonsterPortraitListFragment extends Fragment {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
 
-        monsterPortraitListRecycler = new MonsterPortraitListRecycler(getContext(), monsterList, monsterListView, isGrid, realm, enemy);
         monsterListView.setAdapter(monsterPortraitListRecycler);
-        getActivity().setTitle("Select Portrait");
+        getActivity().setTitle("Select Monster");
     }
+
+    private View.OnClickListener enemyOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int position = (int) view.getTag(R.string.index);
+            enemy.setMonsterIdPicture(monsterList.get(position).getMonsterId());
+            enemy.getTargetElement().set(0, new RealmElement(monsterList.get(position).getElement1Int()));
+//            if (monsterList.get(position).getElement2Int() == -1) {
+//                enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement1Int()));
+//            } else {
+            enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement2Int()));
+//            }
+            enemy.getTypes().set(0, new RealmInt(monsterList.get(position).getType1()));
+            enemy.getTypes().set(1, new RealmInt(monsterList.get(position).getType2()));
+            enemy.getTypes().set(2, new RealmInt(monsterList.get(position).getType3()));
+            enemy.setEnemyName(monsterList.get(position).getName());
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    };
+
+    private View.OnClickListener inheritOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int position = (int) view.getTag(R.string.index);
+//            monster.setMonsterInherit(monsterList.get(position));
+//            monster.setActiveSkill2String(monsterList.get(position).getActiveSkillString());
+//            monster.setActiveSkill2Level(1);
+//            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    };
 
     private MonsterPortraitListRecycler.ClearTextFocus clearTextFocus = new MonsterPortraitListRecycler.ClearTextFocus() {
         @Override
@@ -546,23 +598,45 @@ public class MonsterPortraitListFragment extends Fragment {
                 if(query.length() == 1){
                     filterMonsters(query);
                 } else {
-                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class)
-                            .beginGroup()
-                            .contains("name", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type1String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type2String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type3String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("monsterIdString", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("activeSkillString", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("leaderSkillString", query, Case.INSENSITIVE)
-                            .endGroup()
-                            .greaterThan("monsterId", 0).findAll();
+                    RealmResults<BaseMonster> results;
+                    if(selection == INHERIT){
+                         results = realm.where(BaseMonster.class)
+                                 .equalTo("inheritable", true)
+                                .beginGroup()
+                                .contains("name", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type1String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type2String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type3String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("monsterIdString", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("activeSkillString", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("leaderSkillString", query, Case.INSENSITIVE)
+                                .endGroup()
+                                .greaterThan("monsterId", 0).findAll();
+                    } else {
+                        results = realm.where(BaseMonster.class)
+                                .beginGroup()
+                                .contains("name", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type1String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type2String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type3String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("monsterIdString", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("activeSkillString", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("leaderSkillString", query, Case.INSENSITIVE)
+                                .endGroup()
+                                .greaterThan("monsterId", 0).findAll();
+                    }
                     monsterList.addAll(results);
                 }
 

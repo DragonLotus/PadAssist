@@ -348,6 +348,12 @@ public abstract class BaseMonsterListRecyclerBase extends RecyclerView.Adapter<R
         viewHolderGrid.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
 //        viewHolderGrid.monsterPicture.setImageResource(monsterList.get(position).getMonsterPicture());
         viewHolderGrid.monsterPicture.setImageBitmap(monsterList.get(position).getMonsterPicture());
+        viewHolderGrid.itemView.setTag(R.string.index, position);
+        if (monsterList.get(position).getMonsterId() == 0) {
+            viewHolderGrid.itemView.setOnClickListener(monsterListOnClickListener);
+        } else {
+            viewHolderGrid.itemView.setOnClickListener(expandOnItemClickListener);
+        }
     }
 
 

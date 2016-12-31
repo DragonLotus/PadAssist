@@ -2,13 +2,17 @@ package com.padassist.Adapters;
 
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.padassist.Data.Monster;
 import com.padassist.Fragments.BaseMonsterListFragment;
 import com.padassist.Fragments.SaveMonsterListFragment;
 import com.padassist.Util.Singleton;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -27,6 +31,12 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
         super(fragmentManager);
         fragmentList.add(SaveMonsterListFragment.newInstance(replaceAll, replaceMonsterId, monsterPosition));
         fragmentList.add(BaseMonsterListFragment.newInstance(replaceAll, replaceMonsterId, monsterPosition));
+    }
+    public MonsterPagerAdapter(FragmentManager fragmentManager, Monster monster){
+        super(fragmentManager);
+        Parcelable monsterParcel = Parcels.wrap(monster);
+        fragmentList.add(SaveMonsterListFragment.newInstance(monsterParcel));
+        fragmentList.add(BaseMonsterListFragment.newInstance(monsterParcel));
     }
 
     @Override

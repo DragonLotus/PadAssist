@@ -205,6 +205,13 @@ public class MonsterPageFragment extends MonsterPageBase {
         public void evolveMonster(long baseMonsterId) {
             evolveMonsterBase(baseMonsterId);
         }
+
+        @Override
+        public void setInherit() {
+            Parcelable monsterParcel = Parcels.wrap(monster);
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(monsterParcel), MonsterTabLayoutFragment.TAG, "good");
+            monsterRemoveDialogFragment.dismiss();
+        }
     };
 
     private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout() {

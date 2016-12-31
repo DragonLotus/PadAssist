@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -348,6 +349,7 @@ public abstract class MonsterPageBase extends Fragment {
         monsterAwakeningsMax.setOnClickListener(maxButtons);
         monsterStatsMaxAll.setOnClickListener(maxButtons);
         skill1Max.setOnClickListener(maxButtons);
+        skill2Max.setOnClickListener(maxButtons);
 
         rarity.setText("" + monster.getRarity());
         rarityStar.setColorFilter(0xFFD4D421);
@@ -370,7 +372,11 @@ public abstract class MonsterPageBase extends Fragment {
         skill1Minus.setOnClickListener(activeSkillPlusMinusOnClickListener);
         skill1Plus.setOnClickListener(activeSkillPlusMinusOnClickListener);
 
+        skill2Minus.setOnClickListener(activeSkillPlusMinusOnClickListener);
+        skill2Plus.setOnClickListener(activeSkillPlusMinusOnClickListener);
+
         skill1Holder.setOnClickListener(sameSkillToolTipOnClickListener);
+        skill2Holder.setOnClickListener(sameSkillToolTipOnClickListener);
 
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
 
@@ -465,11 +471,27 @@ public abstract class MonsterPageBase extends Fragment {
                 if (monster.getActiveSkillLevel() > 1) {
                     monster.setActiveSkillLevel(monster.getActiveSkillLevel() - 1);
                     setActive1Values();
+                    if(monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0){
+                        setActive2Values();
+                    }
                 }
             } else if (v.equals(skill1Plus)) {
                 if (monster.getActiveSkillLevel() < monster.getActiveSkill().getMaxLevel()) {
                     monster.setActiveSkillLevel(monster.getActiveSkillLevel() + 1);
                     setActive1Values();
+                    if(monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0){
+                        setActive2Values();
+                    }
+                }
+            } else if (v.equals(skill2Minus)){
+                if(monster.getMonsterInherit().getActiveSkillLevel() > 1){
+                    monster.getMonsterInherit().setActiveSkillLevel(monster.getMonsterInherit().getActiveSkillLevel() - 1);
+                    setActive2Values();
+                }
+            } else if (v.equals(skill2Plus)){
+                if(monster.getMonsterInherit().getActiveSkillLevel() < monster.getMonsterInherit().getActiveSkill().getMaxLevel()){
+                    monster.getMonsterInherit().setActiveSkillLevel(monster.getMonsterInherit().getActiveSkillLevel() + 1);
+                    setActive2Values();
                 }
             }
         }
@@ -540,7 +562,9 @@ public abstract class MonsterPageBase extends Fragment {
                 monsterAwakeningsValue.setText(Integer.toString(monster.getMaxAwakenings()));
                 monster.setCurrentAwakenings(monster.getMaxAwakenings());
                 monster.setActiveSkillLevel(monster.getActiveSkill().getMaxLevel());
-                monster.setActiveSkill2Level(monster.getActiveSkill().getMaxLevel());
+                if(monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0){
+                    monster.getMonsterInherit().setActiveSkillLevel(monster.getMonsterInherit().getActiveSkill().getMaxLevel());
+                }
                 grayAwakenings();
                 updateMonster();
                 setSkillTextViews();
@@ -558,7 +582,7 @@ public abstract class MonsterPageBase extends Fragment {
                 toast = Toast.makeText(getActivity(), "Skill maxed", Toast.LENGTH_SHORT);
                 toast.show();
             } else if (v.equals(skill2Max)) {
-                monster.setActiveSkill2Level(monster.getActiveSkill2().getMaxLevel());
+                monster.getMonsterInherit().setActiveSkillLevel(monster.getMonsterInherit().getActiveSkill().getMaxLevel());
                 setActive2Values();
                 if (toast != null) {
                     toast.cancel();
@@ -599,6 +623,12 @@ public abstract class MonsterPageBase extends Fragment {
                     RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getActiveSkillString()).findAllSorted("monsterId");
                     tooltipSameSkill = new TooltipSameSkill(getContext(), "Monsters with the same skill:", results);
                     tooltipSameSkill.show(activeSkill1Name);
+                }
+            } else if(v.equals(skill2Holder)){
+                if(!monster.getMonsterInherit().getActiveSkillString().equals("Blank")){
+                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getMonsterInherit().getActiveSkillString()).findAllSorted("monsterId");
+                    tooltipSameSkill = new TooltipSameSkill(getContext(), "Monsters with the same skill:", results);
+                    tooltipSameSkill.show(activeSkill2Name);
                 }
             }
         }
@@ -687,10 +717,15 @@ public abstract class MonsterPageBase extends Fragment {
             leaderSkillDesc.setText(monster.getLeaderSkill().getDescription());
             leaderSkillName.setText(monster.getLeaderSkillString());
         }
-        if (skill2Holder.getVisibility() == View.VISIBLE) {
-            activeSkill2Name.setText(monster.getActiveSkill2String());
-            activeSkill2Desc.setText(monster.getActiveSkill2().getDescription());
+        if (monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0) {
+            skill2Holder.setVisibility(View.VISIBLE);
+            monsterPicture.setBackgroundResource(R.drawable.portrait_stroke);
+            activeSkill2Name.setText(monster.getMonsterInherit().getActiveSkillString());
+            activeSkill2Desc.setText(monster.getMonsterInherit().getActiveSkill().getDescription());
             setActive2Values();
+        } else {
+            skill2Holder.setVisibility(View.GONE);
+            monsterPicture.setBackgroundResource(0);
         }
     }
 
@@ -705,12 +740,13 @@ public abstract class MonsterPageBase extends Fragment {
     }
 
     protected void setActive2Values() {
-        if (monster.getActiveSkill2Level() == monster.getActiveSkill2().getMaxLevel()) {
+        Log.d("MonsterPageBase", "Monster skill2Level is: " + monster.getMonsterInherit().getActiveSkillLevel());
+        if (monster.getMonsterInherit().getActiveSkillLevel() == monster.getMonsterInherit().getActiveSkill().getMaxLevel()) {
             skill2Level.setText("Skill 2 Level: Max");
-            activeSkill2Cooldown.setText("(CD " + monster.getActiveSkill2().getMinimumCooldown() + " (Max))");
+            activeSkill2Cooldown.setText("(CD " + (monster.getMonsterInherit().getActiveSkill().getMinimumCooldown() + monster.getActiveSkill().getMaximumCooldown() - monster.getActiveSkillLevel() + 1) + " (Max))");
         } else {
-            skill2Level.setText("Skill 2 Level: " + monster.getActiveSkill2Level());
-            activeSkill2Cooldown.setText("(CD " + (monster.getActiveSkill2().getMaximumCooldown() - monster.getActiveSkill2Level() + 1) + ")");
+            skill2Level.setText("Skill 2 Level: " + monster.getMonsterInherit().getActiveSkillLevel());
+            activeSkill2Cooldown.setText("(CD " + (monster.getMonsterInherit().getActiveSkill().getMaximumCooldown() - monster.getMonsterInherit().getActiveSkillLevel() + 2 + monster.getActiveSkill().getMaximumCooldown() - monster.getActiveSkillLevel()) + ")");
         }
     }
 

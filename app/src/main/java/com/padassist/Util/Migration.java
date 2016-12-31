@@ -125,6 +125,8 @@ public class Migration implements RealmMigration {
             schema.get("BaseMonster")
                     .addField("inheritable", boolean.class);
             schema.get("Monster")
+                    .removeField("activeSkill2")
+                    .removeField("activeSkill2Level")
                     .addRealmObjectField("monsterInherit", schema.get("Monster"));
             schema.get("LeaderSkill")
                     .addField("noSkyfall", boolean.class)

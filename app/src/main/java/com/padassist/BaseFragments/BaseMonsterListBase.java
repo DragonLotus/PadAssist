@@ -39,14 +39,18 @@ import com.padassist.Comparators.BaseMonsterType2Comparator;
 import com.padassist.Comparators.BaseMonsterType3Comparator;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.LeaderSkill;
+import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.FilterDialogFragment;
+import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
 import com.padassist.Fragments.SortStatsDialogFragment;
 import com.padassist.Fragments.SortTypeDialogFragment;
 import com.padassist.Graphics.FastScroller;
 import com.padassist.R;
 import com.padassist.Util.Singleton;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,12 +61,16 @@ import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static com.padassist.Fragments.MonsterTabLayoutFragment.INHERIT;
+import static com.padassist.Fragments.MonsterTabLayoutFragment.SUB;
+
 
 public abstract class BaseMonsterListBase extends Fragment {
     public static final String TAG = BaseMonsterListBase.class.getSimpleName();
     private OnFragmentInteractionListener mListener;
-    private boolean replaceAll;
-    private long replaceMonsterId;
+    protected boolean replaceAll;
+    protected long replaceMonsterId;
+    protected int monsterPosition;
     protected RecyclerView monsterListView;
     protected ArrayList<BaseMonster> filteredMonsters = new ArrayList<>();
     protected ArrayList<BaseMonster> monsterList;
@@ -90,6 +98,8 @@ public abstract class BaseMonsterListBase extends Fragment {
     protected Realm realm;
     private FilterDialogFragment filterDialogFragment;
     private TextView noResults;
+    protected int selection;
+    protected Monster monster;
 
     protected SharedPreferences preferences;
     protected boolean isGrid;
@@ -239,8 +249,14 @@ public abstract class BaseMonsterListBase extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            replaceAll = getArguments().getBoolean("replaceAll");
-            replaceMonsterId = getArguments().getLong("replaceMonsterId");
+            selection = getArguments().getInt("selection");
+            if (selection == SUB) {
+                replaceAll = getArguments().getBoolean("replaceAll");
+                replaceMonsterId = getArguments().getLong("replaceMonsterId");
+                monsterPosition = getArguments().getInt("monsterPosition");
+            } else if (selection == MonsterTabLayoutFragment.INHERIT) {
+                monster = Parcels.unwrap(getArguments().getParcelable("monster"));
+            }
         }
 
         preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
@@ -251,12 +267,17 @@ public abstract class BaseMonsterListBase extends Fragment {
             monsterListAll = new ArrayList<>();
         }
         monsterListAll.clear();
-        monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId"));
+        if (selection == MonsterTabLayoutFragment.INHERIT) {
+            monsterListAll.addAll(realm.where(BaseMonster.class).equalTo("inheritable", true).findAll());
+            monsterListAll.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
+        } else {
+            monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId"));
 
-        if(realm.where(Team.class).equalTo("teamName", "Marvel Fan Boy").findFirst() != null){
-            RealmResults<BaseMonster> easterEggResults = realm.where(BaseMonster.class).lessThan("monsterId", 0).findAllSorted("monsterId");
-            for(int i = 0; i < easterEggResults.size(); i++){
-                monsterListAll.add(0, easterEggResults.get(i));
+            if (realm.where(Team.class).equalTo("teamName", "Marvel Fan Boy").findFirst() != null) {
+                RealmResults<BaseMonster> easterEggResults = realm.where(BaseMonster.class).lessThan("monsterId", 0).findAllSorted("monsterId");
+                for (int i = 0; i < easterEggResults.size(); i++) {
+                    monsterListAll.add(0, easterEggResults.get(i));
+                }
             }
         }
 
@@ -550,30 +571,53 @@ public abstract class BaseMonsterListBase extends Fragment {
                 if (!monsterList.isEmpty()) {
                     monsterList.clear();
                 }
-                if(query.length() == 1){
+                if (query.length() == 1) {
                     filterMonsters(query);
-                } else if (query.toLowerCase().contains("inherit")){
-                  RealmResults<BaseMonster> results = realm.where(BaseMonster.class)
-                          .equalTo("inheritable", true).findAll();
+                } else if (query.toLowerCase().contains("inherit")) {
+                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class)
+                            .equalTo("inheritable", true).findAll();
                     monsterList.addAll(results);
                 } else {
-                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class)
-                            .beginGroup()
-                            .contains("name", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type1String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type2String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type3String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("monsterIdString", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("activeSkillString", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("leaderSkillString", query, Case.INSENSITIVE)
-                            .endGroup()
-                            .greaterThan("monsterId", 0).findAll();
+                    RealmResults<BaseMonster> results;
+                    if (selection == INHERIT) {
+                        results = realm.where(BaseMonster.class)
+                                .equalTo("inheritable", true)
+                                .beginGroup()
+                                .contains("name", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type1String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type2String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type3String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("monsterIdString", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("activeSkillString", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("leaderSkillString", query, Case.INSENSITIVE)
+                                .endGroup()
+                                .greaterThan("monsterId", 0).findAll();
+                    } else {
+                        results = realm.where(BaseMonster.class)
+                                .beginGroup()
+                                .contains("name", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type1String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type2String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("type3String", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("monsterIdString", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("activeSkillString", query, Case.INSENSITIVE)
+                                .or()
+                                .contains("leaderSkillString", query, Case.INSENSITIVE)
+                                .endGroup()
+                                .greaterThan("monsterId", 0).findAll();
+                    }
+
                     monsterList.addAll(results);
                 }
 
@@ -594,7 +638,6 @@ public abstract class BaseMonsterListBase extends Fragment {
 //            }
         }
     }
-
 
 
     private void filterMonsters(String query) {

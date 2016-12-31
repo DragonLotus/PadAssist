@@ -6,7 +6,9 @@ import android.os.Parcelable;
 import android.util.Log;
 
 
+import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.ParcelConverters.ActiveSkillParcelConverter;
+import com.padassist.ParcelConverters.BaseMonsterParcelConverter;
 import com.padassist.ParcelConverters.MonsterParcelConverter;
 import com.padassist.ParcelConverters.RealmIntParcelConverter;
 import com.padassist.Util.DamageCalculationUtil;
@@ -70,11 +72,7 @@ public class Monster extends RealmObject {
     @Index
     private String activeSkill2String;
 
-    private ActiveSkill activeSkill2;
-
     private int activeSkillLevel;
-
-    private int activeSkill2Level;
 
     private RealmList<RealmInt> latents;
     @Index
@@ -130,8 +128,6 @@ public class Monster extends RealmObject {
         activeSkillString = baseMonster.getActiveSkillString();
         activeSkill2String = "Blank";
         activeSkillLevel = 1;
-        activeSkill2Level = 1;
-
         setIndices();
     }
 
@@ -147,7 +143,7 @@ public class Monster extends RealmObject {
         activeSkillString = monster.getActiveSkillString();
         activeSkill2String = monster.getActiveSkill2String();
         activeSkillLevel = monster.getActiveSkillLevel();
-        activeSkill2Level = monster.getActiveSkill2Level();
+        monsterInherit = monster.getMonsterInherit();
         setIndices();
     }
 
@@ -426,29 +422,12 @@ public class Monster extends RealmObject {
         return baseMonster.getActiveSkillString();
     }
 
-    public ActiveSkill getActiveSkill2() {
-        return activeSkill2;
-    }
-
     public String getActiveSkill2String() {
         return activeSkill2String;
     }
 
     public void setActiveSkill2String(String activeSkill2String) {
         this.activeSkill2String = activeSkill2String;
-    }
-
-    @ParcelPropertyConverter(ActiveSkillParcelConverter.class)
-    public void setActiveSkill2(ActiveSkill activeSkill2) {
-        this.activeSkill2 = activeSkill2;
-    }
-
-    public int getActiveSkill2Level() {
-        return activeSkill2Level;
-    }
-
-    public void setActiveSkill2Level(int activeSkill2Level) {
-        this.activeSkill2Level = activeSkill2Level;
     }
 
     public int getActiveSkillLevel() {
@@ -712,60 +691,6 @@ public class Monster extends RealmObject {
 
         return numOfDoubleProngs;
     }
-
-//    public Monster(Parcel source) {
-//        monsterId = source.readLong();
-//        baseMonster = source.readParcelable(BaseMonster.class.getClassLoader());
-//        favorite = source.readByte() == 1;
-//        priority = source.readInt();
-//        currentLevel = source.readInt();
-//        atkPlus = source.readInt();
-//        hpPlus = source.readInt();
-//        rcvPlus = source.readInt();
-//        currentAwakenings = source.readInt();
-//        currentAtk = source.readDouble();
-//        currentHp = source.readDouble();
-//        helper = source.readByte() == 1;
-////        latents = source.readArrayList(Integer.class.getClassLoader());
-////        killerAwakenings = source.readArrayList(Integer.class.getClassLoader());
-////        awakenings = source.readArrayList(Integer.class.getClassLoader());
-//        //isBound = source.readByte() == 1;
-//    }
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeLong(monsterId);
-//        dest.writeParcelable(baseMonster, flags);
-//        dest.writeByte((byte) (favorite ? 1 : 0));
-//        dest.writeInt(priority);
-//        dest.writeInt(currentLevel);
-//        dest.writeInt(atkPlus);
-//        dest.writeInt(hpPlus);
-//        dest.writeInt(rcvPlus);
-//        dest.writeInt(currentAwakenings);
-//        dest.writeDouble(currentAtk);
-//        dest.writeDouble(currentHp);
-//        dest.writeByte((byte) (helper ? 1 : 0));
-////        dest.writeList(latents);
-////        dest.writeList(killerAwakenings);
-////        dest.writeList(awakenings);
-//        //dest.writeByte((byte) (isBound ? 1 : 0));
-//    }
-//
-//    public static final Parcelable.Creator<Monster> CREATOR = new Creator<Monster>() {
-//        public Monster createFromParcel(Parcel source) {
-//            return new Monster(source);
-//        }
-//
-//        public Monster[] newArray(int size) {
-//            return new Monster[size];
-//        }
-//    };
 }
 
 

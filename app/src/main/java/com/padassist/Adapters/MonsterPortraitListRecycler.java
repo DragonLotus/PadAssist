@@ -38,18 +38,18 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
     private LayoutInflater inflater;
     private Toast toast;
     private RecyclerView monsterListView;
-    private Realm realm;
     private boolean isGrid;
-    private Enemy enemy;
+    private boolean isExpandable;
+    private View.OnClickListener portraitOnClickListener;
 
     public MonsterPortraitListRecycler(Context context, ArrayList<BaseMonster> monsterList, RecyclerView monsterListView,
-                                       boolean isGrid, Realm realm, Enemy enemy) {
+                                       boolean isGrid, boolean isExpandable, View.OnClickListener portraitOnClickListener) {
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListView = monsterListView;
         this.isGrid = isGrid;
-        this.realm = realm;
-        this.enemy = enemy;
+        this.isExpandable = isExpandable;
+        this.portraitOnClickListener = portraitOnClickListener;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -57,25 +57,6 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
     public interface ClearTextFocus {
         public void doThis();
     }
-
-    private View.OnClickListener enemyOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int position = (int) view.getTag(R.string.index);
-            enemy.setMonsterIdPicture(monsterList.get(position).getMonsterId());
-            enemy.getTargetElement().set(0, new RealmElement(monsterList.get(position).getElement1Int()));
-//            if (monsterList.get(position).getElement2Int() == -1) {
-//                enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement1Int()));
-//            } else {
-                enemy.getTargetElement().set(1, new RealmElement(monsterList.get(position).getElement2Int()));
-//            }
-            enemy.getTypes().set(0, new RealmInt(monsterList.get(position).getType1()));
-            enemy.getTypes().set(1, new RealmInt(monsterList.get(position).getType2()));
-            enemy.getTypes().set(2, new RealmInt(monsterList.get(position).getType3()));
-            enemy.setEnemyName(monsterList.get(position).getName());
-            ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
-        }
-    };
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
@@ -94,6 +75,12 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));
         } else {
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
+        }
+
+        if(monsterList.get(position).getMonsterId() == 0){
+            viewHolderLinear.monsterId.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolderLinear.monsterId.setVisibility(View.VISIBLE);
         }
 
         viewHolderLinear.itemView.setTag(R.string.index, position);
@@ -119,7 +106,7 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
                 MonsterPortraitListRecycler.ViewHolderGrid viewHolderGrid = new MonsterPortraitListRecycler.ViewHolderGrid(inflater.inflate(R.layout.base_monster_list_grid, parent, false));
 
                 viewHolderGrid.itemView.setTag(viewHolderGrid);
-                viewHolderGrid.itemView.setOnClickListener(enemyOnClickListener);
+                viewHolderGrid.itemView.setOnClickListener(portraitOnClickListener);
                 return viewHolderGrid;
             default:
                 MonsterPortraitListRecycler.ViewHolderLinear viewHolderLinear = new MonsterPortraitListRecycler.ViewHolderLinear(inflater.inflate(R.layout.monster_portrait_list_row, parent, false));
@@ -129,7 +116,7 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
 
                 viewHolderLinear.itemView.setTag(viewHolderLinear);
 
-                viewHolderLinear.itemView.setOnClickListener(enemyOnClickListener);
+                viewHolderLinear.itemView.setOnClickListener(portraitOnClickListener);
                 return viewHolderLinear;
         }
 

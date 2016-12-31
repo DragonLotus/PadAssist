@@ -37,6 +37,8 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
 
         public void evolveMonster(long baseMonsterId);
 
+        void setInherit();
+
     }
 
     private RadioGroup choiceRadioGroup;
@@ -82,6 +84,8 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
                             remove.replaceMonster();
                         } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.evolveMonster) {
                             remove.evolveMonster(evolutions.get(evolutionSpinner.getSelectedItemPosition()).getMonsterId());
+                        } else if(choiceRadioGroup.getCheckedRadioButtonId() == R.id.setInherit){
+                            remove.setInherit();
                         } else {
                             dialog.dismiss();
                         }

@@ -16,7 +16,11 @@ import java.util.ArrayList;
  */
 public class SaveMonsterListRecycler extends SaveMonsterListRecyclerBase {
 
-    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList, RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener, View.OnLongClickListener monsterListOnLongClickListener, View.OnClickListener deleteOnClickListener, boolean isGrid, ClearTextFocus clearTextFocus){
+    public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList,
+                                   RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener,
+                                   View.OnLongClickListener monsterListOnLongClickListener,
+                                   View.OnClickListener deleteOnClickListener, boolean isGrid,
+                                   ClearTextFocus clearTextFocus){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;

@@ -154,33 +154,33 @@ public class RealmLeaderSkillType extends RealmObject {
             case 65:
                 return LeaderSkillType.MINIMUM_MATCH_COMBO_FLAT;
             case 66:
-                return LeaderSkillType.COMBO_NO_DROP;
+                return LeaderSkillType.BLANK;
             case 67:
-                return LeaderSkillType.MATCH_ELEMENTS_FLAT_NO_DROP;
+                return LeaderSkillType.BLANK;
             case 68:
                 return LeaderSkillType.ORB_LINK_ORB_LINK;
             case 69:
-                return LeaderSkillType.COMBO_FLAT_NO_DROP;
+                return LeaderSkillType.BLANK;
             case 70:
-                return LeaderSkillType.FLAT_CROSS_NO_DROP;
+                return LeaderSkillType.BLANK;
             case 71:
                 return LeaderSkillType.ORB_LINK_HEART_CROSS;
             case 72:
-                return LeaderSkillType.COMBO_EXACT_NO_DROP;
+                return LeaderSkillType.BLANK;
             case 73:
                 return LeaderSkillType.COMBO_ORB_LINK;
             case 74:
                 return LeaderSkillType.MATCH_ELEMENT_MONSTER_CONDITIONAL;
             case 75:
-                return LeaderSkillType.BIG_BOARD_SIZE_MATCH_ELEMENT;
+                return LeaderSkillType.BLANK;
             case 76:
-                return LeaderSkillType.ORB_LINK_FLAT_NO_DROP;
+                return LeaderSkillType.BLANK;
             case 77:
-                return LeaderSkillType.BIG_BOARD_SIZE_INDIAN;
+                return LeaderSkillType.BLANK;
             case 78:
-                return LeaderSkillType.BIG_BOARD;
+                return LeaderSkillType.BLANK;
             case 79:
-                return LeaderSkillType.BIG_BOARD_ORB_LINK;
+                return LeaderSkillType.BLANK;
             default:
                 return LeaderSkillType.BLANK;
         }

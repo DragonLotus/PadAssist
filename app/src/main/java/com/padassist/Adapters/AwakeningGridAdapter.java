@@ -454,40 +454,43 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = "Boost stats by " + Math.pow(1.5, counter) + "x during cooperation mode";
                         break;
                     case 31:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Dragon types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Dragon types";
                         break;
                     case 32:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus God types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus God types";
                         break;
                     case 33:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Devil types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Devil types";
                         break;
                     case 34:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Machine types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Machine types";
                         break;
                     case 35:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Attacker types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Attacker types";
                         break;
                     case 36:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Physical types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Physical types";
                         break;
                     case 37:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Healer types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Healer types";
                         break;
                     case 38:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Balanced types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Balanced types";
                         break;
                     case 39:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Awoken Material types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Awoken Material types";
                         break;
                     case 40:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Enhance Material types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Enhance Material types";
                         break;
                     case 41:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Vendor types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Vendor types";
                         break;
                     case 42:
-                        text = String.format("%d", (long) (counter * 3)) + "x bonus damage versus Evo Material types";
+                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Evo Material types";
+                        break;
+                    case 43:
+                        text = String.format("%d", (long) Math.pow(2, counter)) + "x bonus damage when reaching 7 combos";
                         break;
                 }
                 for (int i = 0; i < monsterList.size(); i++) {

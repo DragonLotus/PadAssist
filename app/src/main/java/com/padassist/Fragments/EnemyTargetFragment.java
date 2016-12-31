@@ -531,7 +531,7 @@ public class EnemyTargetFragment extends Fragment {
         @Override
         public void onClick(View view) {
             Parcelable enemyParcel = Parcels.wrap(enemy);
-            ((MainActivity) getActivity()).switchFragment(MonsterPortraitListFragment.newInstance(enemyParcel), EnemyListFragment.TAG, "good");
+            ((MainActivity) getActivity()).switchFragment(MonsterPortraitListFragment.newInstance(enemyParcel, MonsterPortraitListFragment.ENEMY), EnemyListFragment.TAG, "good");
         }
     };
 
