@@ -279,8 +279,7 @@
                     android:text="1337"
                     android:textSize="16dp" />
 
-                <TextView
-                    android:text=""/>
+                <TextView android:text="" />
 
                 <TextView
                     android:id="@+id/weightedTotal"
@@ -401,62 +400,121 @@
                 android:layout_height="18dp" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/skill1Holder"
+        <LinearLayout
+            android:id="@+id/skillLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/latentHolder">
+            android:layout_below="@+id/latentHolder"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/activeSkill"
-                android:layout_width="51dp"
-                android:layout_height="20dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginRight="4dp"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/active_skill" />
+            <RelativeLayout
+                android:id="@+id/skill1Holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/activeSkillName"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/activeSkill"
+                    android:layout_width="51dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/active_skill" />
+
+                <TextView
+                    android:id="@+id/activeSkillName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/activeSkill"
+                    android:layout_alignTop="@+id/activeSkill"
+                    android:layout_marginBottom="-4dp"
+                    android:layout_toLeftOf="@+id/activeSkillCooldown"
+                    android:layout_toRightOf="@id/activeSkill"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text="Active Skill Name"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/activeSkillCooldown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/activeSkill"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/activeSkill"
+                    android:text="CD 99"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/activeSkillDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activeSkill"
+                    android:text="Does not exist in database."
+                    android:textSize="16dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/skill2Holder"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/activeSkill"
-                android:layout_alignTop="@+id/activeSkill"
-                android:layout_marginBottom="-4dp"
-                android:layout_toLeftOf="@+id/activeSkillCooldown"
-                android:layout_toRightOf="@id/activeSkill"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:maxLines="1"
-                android:scrollHorizontally="true"
-                android:text="Active Skill Name"
-                android:textSize="16dp" />
+                android:visibility="visible">
 
-            <TextView
-                android:id="@+id/activeSkillCooldown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/activeSkill"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/activeSkill"
-                android:text="CD 99"
-                android:textSize="16dp" />
+                <ImageView
+                    android:id="@+id/activeSkill2"
+                    android:layout_width="51dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/skill2Max"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/active_skill_2" />
 
-            <TextView
-                android:id="@+id/activeSkillDesc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activeSkill"
-                android:text="Does not exist in database."
-                android:textSize="16dp" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/activeSkill2Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/activeSkill2"
+                    android:layout_alignTop="@+id/activeSkill2"
+                    android:layout_marginBottom="-4dp"
+                    android:layout_toLeftOf="@+id/activeSkill2Cooldown"
+                    android:layout_toRightOf="@id/activeSkill2"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text="Active Skill Name"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/activeSkill2Cooldown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/activeSkill2"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/activeSkill2"
+                    android:text="CD 99"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/activeSkill2Desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activeSkill2"
+                    android:text="Does not exist in database."
+                    android:textSize="16dp" />
+            </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/leaderSkillHolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/skill1Holder">
+            android:layout_below="@+id/skillLinearLayout">
 
             <ImageView
                 android:id="@+id/leaderSkill"

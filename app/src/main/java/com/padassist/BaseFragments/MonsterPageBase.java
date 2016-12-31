@@ -767,9 +767,11 @@ public abstract class MonsterPageBase extends Fragment {
             activeSkill2Name.setText(monster.getMonsterInherit().getActiveSkillString());
             activeSkill2Desc.setText(monster.getMonsterInherit().getActiveSkill().getDescription());
             setActive2Values();
+            activeSkill1.setImageResource(R.drawable.active_skill_1);
         } else {
             skill2Holder.setVisibility(View.GONE);
             monsterPicture.setBackgroundResource(0);
+            activeSkill1.setImageResource(R.drawable.active_skill);
         }
     }
 
@@ -970,8 +972,9 @@ public abstract class MonsterPageBase extends Fragment {
     private View.OnClickListener latentOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Parcelable monsterParcel = Parcels.wrap(monster);
             if (latentAwakeningDialogFragment == null) {
-                latentAwakeningDialogFragment = LatentAwakeningDialogFragment.newInstance(setLatents);
+                latentAwakeningDialogFragment = LatentAwakeningDialogFragment.newInstance(setLatents, monsterParcel);
             }
             if (!latentAwakeningDialogFragment.isAdded()) {
                 latentAwakeningDialogFragment.show(getChildFragmentManager(), "LAATENTSNTSNTS", monster);

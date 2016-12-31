@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.TypedValue;
@@ -30,13 +31,14 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
     private Monster monster;
     private ResetLatents setLatents;
 
-    public static LatentAwakeningDialogFragment newInstance(ResetLatents setLatents) {
+    public static LatentAwakeningDialogFragment newInstance(ResetLatents setLatents, Parcelable monster) {
         LatentAwakeningDialogFragment dialogFragment = new LatentAwakeningDialogFragment();
         Bundle args = new Bundle();
-//        args.putParcelable("monster", monster);
+        args.putParcelable("monster", monster);
         dialogFragment.setLatents(setLatents);
 //        favoriteBoolean = favorite;
 //        monsterEvolve = monster;
+        dialogFragment.setArguments(args);
         return dialogFragment;
     }
 

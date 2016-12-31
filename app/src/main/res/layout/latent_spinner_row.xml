@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/latentIcon"
-        android:layout_width="24dp"
+        android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:src="@drawable/latent_awakening_blank"
         android:layout_marginRight="4dp"/>
@@ -23,7 +23,7 @@
         android:layout_alignBottom="@+id/latentIcon"
         android:layout_toRightOf="@+id/latentIcon"
         android:gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="Latent Name: "
         android:textSize="16dp" />
 

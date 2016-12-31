@@ -39,16 +39,14 @@ public class MonsterPortraitListRecycler extends RecyclerView.Adapter<RecyclerVi
     private Toast toast;
     private RecyclerView monsterListView;
     private boolean isGrid;
-    private boolean isExpandable;
     private View.OnClickListener portraitOnClickListener;
 
     public MonsterPortraitListRecycler(Context context, ArrayList<BaseMonster> monsterList, RecyclerView monsterListView,
-                                       boolean isGrid, boolean isExpandable, View.OnClickListener portraitOnClickListener) {
+                                       boolean isGrid, View.OnClickListener portraitOnClickListener) {
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListView = monsterListView;
         this.isGrid = isGrid;
-        this.isExpandable = isExpandable;
         this.portraitOnClickListener = portraitOnClickListener;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

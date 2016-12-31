@@ -238,6 +238,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolderLinear.monsterRCV.setVisibility(View.GONE);
             viewHolderLinear.monsterName.setVisibility(View.VISIBLE);
             viewHolderLinear.monsterLevel.setVisibility(View.VISIBLE);
+
             if (monsterList.get(position).isFavorite()) {
                 viewHolderLinear.favorite.setVisibility(View.VISIBLE);
                 viewHolderLinear.delete.setEnabled(false);
@@ -323,8 +324,30 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 }
                 viewHolderLinear.activeSkillName.setVisibility(View.VISIBLE);
                 viewHolderLinear.activeSkillDesc.setVisibility(View.VISIBLE);
-                viewHolderLinear.activeSkillName.setText("" + monsterList.get(position).getActiveSkillString() + "");
+                viewHolderLinear.activeSkillName.setText(monsterList.get(position).getActiveSkillString());
             }
+
+            if(monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0){
+                viewHolderLinear.skill2Holder.setVisibility(View.VISIBLE);
+                viewHolderLinear.activeSkill.setImageResource(R.drawable.active_skill_1);
+                if(monsterList.get(position).getMonsterInherit().getActiveSkill() == null){
+                    viewHolderLinear.activeSkill2Desc.setText("This monster has an active skill but the author of this app has not realized that it doesn't exist in his database yet.");
+                    viewHolderLinear.activeSkill2Cooldown.setVisibility(View.GONE);
+                } else {
+                    viewHolderLinear.activeSkill2Desc.setText("" + monsterList.get(position).getMonsterInherit().getActiveSkill().getDescription());
+                    if (monsterList.get(position).getMonsterInherit().getActiveSkillLevel() == monsterList.get(position).getMonsterInherit().getActiveSkill().getMaxLevel()) {
+                        viewHolderLinear.activeSkill2Cooldown.setText("(CD " + (monsterList.get(position).getMonsterInherit().getActiveSkill().getMinimumCooldown() + monsterList.get(position).getActiveSkill().getMaximumCooldown() - monsterList.get(position).getActiveSkillLevel() + 1) + " (Max))");
+                    } else {
+                        viewHolderLinear.activeSkill2Cooldown.setText("(CD " + (monsterList.get(position).getMonsterInherit().getActiveSkill().getMaximumCooldown() - monsterList.get(position).getMonsterInherit().getActiveSkillLevel() + monsterList.get(position).getActiveSkill().getMaximumCooldown() - monsterList.get(position).getActiveSkillLevel() + 2) + ")");
+                    }
+                    viewHolderLinear.activeSkill2Cooldown.setVisibility(View.VISIBLE);
+                }
+                viewHolderLinear.activeSkill2Name.setText(monsterList.get(position).getMonsterInherit().getActiveSkillString());
+            } else {
+                viewHolderLinear.skill2Holder.setVisibility(View.GONE);
+                viewHolderLinear.activeSkill.setImageResource(R.drawable.active_skill);
+            }
+
             if (monsterList.get(position).getLeaderSkillString().equals("Blank")) {
                 viewHolderLinear.leaderSkillName.setText("None");
                 viewHolderLinear.leaderSkillDesc.setVisibility(View.GONE);
@@ -540,15 +563,16 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         TextView monsterName, monsterPlus, monsterAwakenings, monsterHP, monsterATK, monsterRCV,
                 monsterLevel, monsterLatents, hpBase, hpPlus, hpTotal, atkBase, atkPlus, atkTotal,
                 rcvBase, rcvPlus, rcvTotal, rarity, leaderSkillName, leaderSkillDesc,
-                activeSkillName, activeSkillDesc, activeSkillCooldown, weightedBase, weightedTotal;
+                activeSkillName, activeSkillDesc, activeSkillCooldown, weightedBase, weightedTotal,
+                activeSkill2Name, activeSkill2Cooldown, activeSkill2Desc;
         ImageView monsterPicture, type1, type2, type3, favorite, favoriteOutline,
                 awakening1, awakening2, awakening3, awakening4, awakening5, awakening6, awakening7,
                 awakening8, awakening9, latent1, latent2, latent3, latent4, latent5, rarityStar,
-                leaderSkill, activeSkill;
+                leaderSkill, activeSkill, activeSkill2;
         RelativeLayout expandLayout;
         LinearLayout awakeningHolder, latentHolder;
         Button choose, delete;
-        RelativeLayout relativeLayout, skill1Holder, leaderSkillHolder;
+        RelativeLayout relativeLayout, skill1Holder, skill2Holder, leaderSkillHolder;
 
         public ViewHolderLinear(View convertView) {
             super(convertView);
@@ -605,6 +629,11 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             activeSkillName = (TextView) convertView.findViewById(R.id.activeSkillName);
             activeSkillCooldown = (TextView) convertView.findViewById(R.id.activeSkillCooldown);
             skill1Holder = (RelativeLayout) convertView.findViewById(R.id.skill1Holder);
+            activeSkill2 = (ImageView) convertView.findViewById(R.id.activeSkill2);
+            activeSkill2Desc = (TextView) convertView.findViewById(R.id.activeSkill2Desc);
+            activeSkill2Name = (TextView) convertView.findViewById(R.id.activeSkill2Name);
+            activeSkill2Cooldown = (TextView) convertView.findViewById(R.id.activeSkill2Cooldown);
+            skill2Holder = (RelativeLayout) convertView.findViewById(R.id.skill2Holder);
             leaderSkillHolder = (RelativeLayout) convertView.findViewById(R.id.leaderSkillHolder);
             weightedBase = (TextView) convertView.findViewById(R.id.weightedBase);
             weightedTotal = (TextView) convertView.findViewById(R.id.weightedTotal);

@@ -63,8 +63,6 @@ import io.realm.RealmResults;
 
 public class MonsterPortraitListFragment extends Fragment {
     public static final String TAG = MonsterPortraitListFragment.class.getSimpleName();
-    public static final int ENEMY = 1;
-    public static final int INHERIT = 2;
     private OnFragmentInteractionListener mListener;
     private RecyclerView monsterListView;
     private ArrayList<BaseMonster> filteredMonsters = new ArrayList<>();
@@ -95,7 +93,6 @@ public class MonsterPortraitListFragment extends Fragment {
     private TextView noResults;
     private Enemy enemy;
     private Monster monster;
-    private int selection;
 
     private SharedPreferences preferences;
     private boolean isGrid;
@@ -105,11 +102,10 @@ public class MonsterPortraitListFragment extends Fragment {
     public MonsterPortraitListFragment() {
     }
 
-    public static MonsterPortraitListFragment newInstance(Parcelable parcelable, int selection) {
+    public static MonsterPortraitListFragment newInstance(Parcelable parcelable) {
         MonsterPortraitListFragment fragment = new MonsterPortraitListFragment();
         Bundle args = new Bundle();
         args.putParcelable("parcelable", parcelable);
-        args.putInt("selection", selection);
         fragment.setArguments(args);
         return fragment;
     }
@@ -252,13 +248,7 @@ public class MonsterPortraitListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            selection = getArguments().getInt("selection");
-            if(selection == ENEMY){
-                Log.d("MonsterPortrait", "Selection is enemy.");
                 enemy = Parcels.unwrap(getArguments().getParcelable("parcelable"));
-            } else if (selection == INHERIT){
-                monster = Parcels.unwrap(getArguments().getParcelable("parcelable"));
-            }
         }
         preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
         isGrid = preferences.getBoolean("isGrid", true);
@@ -273,14 +263,9 @@ public class MonsterPortraitListFragment extends Fragment {
             monsterList = new ArrayList<>();
         }
 
-        if(selection == ENEMY){
             monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAll());
-            monsterPortraitListRecycler = new MonsterPortraitListRecycler(getContext(), monsterList, monsterListView, isGrid, false, enemyOnClickListener);
-        } else if (selection == INHERIT){
-            monsterListAll.addAll(realm.where(BaseMonster.class).equalTo("inheritable", true).findAll());
-            monsterListAll.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
-            monsterPortraitListRecycler = new MonsterPortraitListRecycler(getContext(), monsterList, monsterListView, isGrid, true, inheritOnClickListener);
-        }
+            monsterPortraitListRecycler = new MonsterPortraitListRecycler(getContext(), monsterList, monsterListView, isGrid, enemyOnClickListener);
+
 
         fastScroller.setRecyclerView(monsterListView);
 
@@ -310,17 +295,6 @@ public class MonsterPortraitListFragment extends Fragment {
             enemy.getTypes().set(2, new RealmInt(monsterList.get(position).getType3()));
             enemy.setEnemyName(monsterList.get(position).getName());
             getActivity().getSupportFragmentManager().popBackStack();
-        }
-    };
-
-    private View.OnClickListener inheritOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            int position = (int) view.getTag(R.string.index);
-//            monster.setMonsterInherit(monsterList.get(position));
-//            monster.setActiveSkill2String(monsterList.get(position).getActiveSkillString());
-//            monster.setActiveSkill2Level(1);
-//            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 
@@ -599,26 +573,7 @@ public class MonsterPortraitListFragment extends Fragment {
                     filterMonsters(query);
                 } else {
                     RealmResults<BaseMonster> results;
-                    if(selection == INHERIT){
-                         results = realm.where(BaseMonster.class)
-                                 .equalTo("inheritable", true)
-                                .beginGroup()
-                                .contains("name", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type1String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type2String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type3String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("monsterIdString", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("activeSkillString", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("leaderSkillString", query, Case.INSENSITIVE)
-                                .endGroup()
-                                .greaterThan("monsterId", 0).findAll();
-                    } else {
+
                         results = realm.where(BaseMonster.class)
                                 .beginGroup()
                                 .contains("name", query, Case.INSENSITIVE)
@@ -636,7 +591,7 @@ public class MonsterPortraitListFragment extends Fragment {
                                 .contains("leaderSkillString", query, Case.INSENSITIVE)
                                 .endGroup()
                                 .greaterThan("monsterId", 0).findAll();
-                    }
+
                     monsterList.addAll(results);
                 }
 

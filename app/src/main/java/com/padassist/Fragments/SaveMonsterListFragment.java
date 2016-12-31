@@ -119,7 +119,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
         public void onClick(View view) {
             int position = (int) view.getTag(R.string.index);
             inheritMonster(monster, monsterList.get(position));
-            getActivity().getSupportFragmentManager().popBackStack(MonsterPageFragment.TAG, 0);
+            getActivity().getSupportFragmentManager().popBackStack();
         }
     };
 
@@ -128,7 +128,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
         public boolean onLongClick(View view) {
             int position = (int) view.getTag(R.string.index);
             inheritMonster(monster, monsterList.get(position));
-            getActivity().getSupportFragmentManager().popBackStack(MonsterPageFragment.TAG, 0);
+            getActivity().getSupportFragmentManager().popBackStack();
             return true;
         }
     };
