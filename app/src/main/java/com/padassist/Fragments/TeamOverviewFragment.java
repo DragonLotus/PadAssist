@@ -153,7 +153,7 @@ public class TeamOverviewFragment extends Fragment {
         damageAwakenings.setAdapter(damageAwakeningGridAdapter);
 //        damageAwakenings.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         damageAwakenings.setExpanded(true);
-        monsterSpecificAwakeningsListAdapter = new MonsterSpecificAwakeningsListAdapter(getActivity(), R.layout.monster_specific_awakening_list_row, monsterList, team.getTeamBadge());
+        monsterSpecificAwakeningsListAdapter = new MonsterSpecificAwakeningsListAdapter(getActivity(), R.layout.monster_specific_awakening_list_row, monsterList, monsterSpecificFilter, latentMonsterSpecificFilter, team.getTeamBadge());
         monsterSpecific.setAdapter(monsterSpecificAwakeningsListAdapter);
         setListViewHeightBasedOnChildren(monsterSpecific);
         getActivity().setTitle("Team Overview");
@@ -236,6 +236,15 @@ public class TeamOverviewFragment extends Fragment {
         latentMonsterSpecificFilter.add(3);
         latentMonsterSpecificFilter.add(5);
         latentMonsterSpecificFilter.add(11);
+        latentMonsterSpecificFilter.add(12);
+        latentMonsterSpecificFilter.add(13);
+        latentMonsterSpecificFilter.add(14);
+        latentMonsterSpecificFilter.add(15);
+        latentMonsterSpecificFilter.add(16);
+        latentMonsterSpecificFilter.add(17);
+        latentMonsterSpecificFilter.add(18);
+        latentMonsterSpecificFilter.add(19);
+        latentMonsterSpecificFilter.add(20);
     }
 
     private void trimAwakenings() {

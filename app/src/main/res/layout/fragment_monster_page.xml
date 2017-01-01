@@ -521,32 +521,50 @@
                     <ImageView
                         android:id="@+id/monsterLatentAwakening1"
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:adjustViewBounds="true"/>
 
                     <ImageView
                         android:id="@+id/monsterLatentAwakening2"
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:adjustViewBounds="true"/>
 
                     <ImageView
                         android:id="@+id/monsterLatentAwakening3"
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp" />
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:adjustViewBounds="true"/>
 
                     <ImageView
                         android:id="@+id/monsterLatentAwakening4"
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:adjustViewBounds="true"/>
 
                     <ImageView
                         android:id="@+id/monsterLatentAwakening5"
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp" />
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:adjustViewBounds="true" />
 
                     <ImageView
                         android:id="@+id/monsterLatentAwakening6"
                         android:layout_width="wrap_content"
-                        android:layout_height="24dp"/>
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginRight="3dp"
+                        android:adjustViewBounds="true"/>
                 </LinearLayout>
             </LinearLayout>
 

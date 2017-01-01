@@ -89,13 +89,9 @@ public class ManageMonsterPageFragment extends MonsterPageBase {
         }
 
         @Override
-        public void replaceAllTeam() {
-            if (replaceConfirmationDialog == null) {
-                replaceConfirmationDialog = ReplaceAllConfirmationDialogFragment.newInstance(replaceAllMonster);
-            }
-            if(!replaceConfirmationDialog.isAdded()){
-                replaceConfirmationDialog.show(getChildFragmentManager(), "Monster Replace All");
-            }
+        public void setInherit() {
+            setMonsterInherit();
+            monsterManageDialogFragment.dismiss();
         }
 
         @Override

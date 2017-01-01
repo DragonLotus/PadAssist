@@ -13,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:src="@drawable/latent_awakening_blank"
-        android:layout_marginRight="4dp"/>
+        android:layout_marginRight="4dp"
+        android:adjustViewBounds="true"/>
 
     <TextView
         android:id="@+id/latentName"
@@ -25,7 +26,10 @@
         android:gravity="center_vertical"
         android:maxLines="1"
         android:text="Latent Name: "
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:ellipsize="marquee"
+        android:scrollHorizontally="true"
+        android:marqueeRepeatLimit="marquee_forever"/>
 
     <TextView
         android:id="@+id/latentDesc"
@@ -35,7 +39,7 @@
         android:layout_alignBottom="@+id/latentIcon"
         android:layout_toRightOf="@+id/latentName"
         android:gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="Latent does this."
         android:textSize="16dp"
         android:ellipsize="marquee"

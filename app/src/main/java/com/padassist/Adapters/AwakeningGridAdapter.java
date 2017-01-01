@@ -567,6 +567,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         amount++;
                     }
                 }
+                if(latentList.get(i) > 11){
+                    amount = amount / 2;
+                }
                 latentAmountList.add(amount);
                 amount = 0;
 

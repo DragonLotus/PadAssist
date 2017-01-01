@@ -28,7 +28,7 @@ public class MonsterManageDialogFragment extends DialogFragment {
 
         public void favoriteMonster(boolean favorite);
 
-        public void replaceAllTeam();
+        public void setInherit();
 
         public void evolveMonster(long baseMonsterId);
 
@@ -70,6 +70,8 @@ public class MonsterManageDialogFragment extends DialogFragment {
 //                            remove.replaceAllTeam();
                         } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.evolveMonster) {
                             remove.evolveMonster(evolutions.get(evolutionSpinner.getSelectedItemPosition()).getMonsterId());
+                        } else if (choiceRadioGroup.getCheckedRadioButtonId() == R.id.setInherit) {
+                            remove.setInherit();
                         } else {
                             dialog.dismiss();
                         }

@@ -322,6 +322,24 @@ public class ImageResourceUtil {
                 return R.drawable.latent_awakening_10;
             case 11:
                 return R.drawable.latent_awakening_11;
+            case 12:
+                return R.drawable.latent_awakening_12;
+            case 13:
+                return R.drawable.latent_awakening_13;
+            case 14:
+                return R.drawable.latent_awakening_14;
+            case 15:
+                return R.drawable.latent_awakening_15;
+            case 16:
+                return R.drawable.latent_awakening_16;
+            case 17:
+                return R.drawable.latent_awakening_17;
+            case 18:
+                return R.drawable.latent_awakening_18;
+            case 19:
+                return R.drawable.latent_awakening_19;
+            case 20:
+                return R.drawable.latent_awakening_20;
             default:
                 return R.drawable.latent_awakening_blank;
 
@@ -352,6 +370,24 @@ public class ImageResourceUtil {
                 return R.drawable.latent_awakening_10_gray;
             case 11:
                 return R.drawable.latent_awakening_11_gray;
+            case 12:
+                return R.drawable.latent_awakening_12_gray;
+            case 13:
+                return R.drawable.latent_awakening_13_gray;
+            case 14:
+                return R.drawable.latent_awakening_14_gray;
+            case 15:
+                return R.drawable.latent_awakening_15_gray;
+            case 16:
+                return R.drawable.latent_awakening_16_gray;
+            case 17:
+                return R.drawable.latent_awakening_17_gray;
+            case 18:
+                return R.drawable.latent_awakening_18_gray;
+            case 19:
+                return R.drawable.latent_awakening_19_gray;
+            case 20:
+                return R.drawable.latent_awakening_20_gray;
             default:
                 return R.drawable.latent_awakening_blank;
 
@@ -386,7 +422,6 @@ public class ImageResourceUtil {
                 return R.drawable.type_vendor;
             default:
                 return R.drawable.type_what_is_this;
-
         }
     }
 

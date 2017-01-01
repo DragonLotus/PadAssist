@@ -107,8 +107,62 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
                 viewHolder.latentName.setText("Skill Delay Resist");
                 viewHolder.latentDesc.setText("");
                 break;
+            case 12:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_12);
+                viewHolder.latentName.setText("Improve All Stats");
+                viewHolder.latentDesc.setText("");
+                break;
+            case 13:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_13);
+                viewHolder.latentName.setText("God Killer");
+                viewHolder.latentDesc.setText("");
+                break;
+            case 14:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_14);
+                viewHolder.latentName.setText("Dragon Killer");
+                viewHolder.latentDesc.setText("");
+                break;
+            case 15:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_15);
+                viewHolder.latentName.setText("Devil Killer");
+                viewHolder.latentDesc.setText("");
+                break;
+            case 16:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_16);
+                viewHolder.latentName.setText("Machine Killer");
+                viewHolder.latentDesc.setText("");
+                break;
+            case 17:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_17);
+                viewHolder.latentName.setText("Balanced Killer");
+                viewHolder.latentDesc.setText("");
+                break;
+            case 18:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_18);
+                viewHolder.latentName.setText("Attacker Killer");
+                viewHolder.latentDesc.setText("");
+                break;
+            case 19:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_19);
+                viewHolder.latentName.setText("Physical Killer");
+                viewHolder.latentDesc.setText("");
+                break;
+            case 20:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_20);
+                viewHolder.latentName.setText("Healer Killer");
+                viewHolder.latentDesc.setText("");
+                break;
+            default:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_blank);
+                viewHolder.latentName.setText("Name goes here");
+                viewHolder.latentDesc.setText("");
+                break;
         }
+        viewHolder.latentDesc.setHorizontallyScrolling(true);
         viewHolder.latentDesc.setSelected(true);
+
+        viewHolder.latentName.setHorizontallyScrolling(true);
+        viewHolder.latentName.setSelected(true);
         return convertView;
     }
 
@@ -188,8 +242,62 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
                 viewHolder.latentName.setText("");
                 viewHolder.latentDesc.setText("Reduce skill delay by 1 turn.");
                 break;
+            case 12:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_12);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("Base HP increased by 1.5%, base ATK increased by 1%, base RCV increased by 5%. Takes 2 Latent slots.");
+                break;
+            case 13:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_13);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus God types");
+                break;
+            case 14:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_14);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Dragon types");
+                break;
+            case 15:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_15);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Devil types");
+                break;
+            case 16:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_16);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Machine types");
+                break;
+            case 17:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_17);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Balanced types");
+                break;
+            case 18:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_18);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Attacker types");
+                break;
+            case 19:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_19);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Physical types");
+                break;
+            case 20:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_20);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Healer types");
+                break;
+            default:
+                viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_blank);
+                viewHolder.latentName.setText("");
+                viewHolder.latentDesc.setText("Description goes here.");
+                break;
         }
+        viewHolder.latentDesc.setHorizontallyScrolling(true);
         viewHolder.latentDesc.setSelected(true);
+
+        viewHolder.latentName.setHorizontallyScrolling(true);
+        viewHolder.latentName.setSelected(true);
 
         if (position % 2 == 1) {
             viewHolder.relativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.background_alternate));

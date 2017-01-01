@@ -174,14 +174,26 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                     latentList.add(1);
                 }
             }
-            viewHolderLinear.latentHolder.getChildAt(viewHolderLinear.latentHolder.getChildCount() - 1).setVisibility(View.VISIBLE);
+//            viewHolderLinear.latentHolder.getChildAt(viewHolderLinear.latentHolder.getChildCount() - 1).setVisibility(View.VISIBLE);
         } else {
             for (int i = 0; i < monsterList.get(position).getLatents().size() - 1; i++) {
                 if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
                     latentList.add(1);
                 }
             }
-            viewHolderLinear.latentHolder.getChildAt(viewHolderLinear.latentHolder.getChildCount() - 1).setVisibility(View.GONE);
+//            viewHolderLinear.latentHolder.getChildAt(viewHolderLinear.latentHolder.getChildCount() - 1).setVisibility(View.GONE);
+        }
+        for(int i = 0; i < viewHolderLinear.latentHolder.getChildCount(); i++){
+            if(monsterList.get(position).getLatents().get(i).getValue() > 11){
+                viewHolderLinear.latentHolder.getChildAt(i+1).setVisibility(View.GONE);
+                i++;
+            } else if (monsterList.get(position).getTotalPlus() == 297 && i == 5){
+                viewHolderLinear.latentHolder.getChildAt(i).setVisibility(View.VISIBLE);
+            } else if (monsterList.get(position).getTotalPlus() != 297 && i == 5) {
+                viewHolderLinear.latentHolder.getChildAt(i).setVisibility(View.GONE);
+            } else {
+                viewHolderLinear.latentHolder.getChildAt(i).setVisibility(View.VISIBLE);
+            }
         }
         if(latentList.size() == 0){
             viewHolderLinear.monsterLatents.setVisibility(View.INVISIBLE);
@@ -295,15 +307,15 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             }
             if (monsterList.get(position).getCurrentAwakenings() < monsterList.get(position).getMaxAwakenings()) {
                 for (int j = 0; j < monsterList.get(position).getCurrentAwakenings(); j++) {
-                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    ((ImageView)viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
 
                 for (int j = monsterList.get(position).getCurrentAwakenings(); j < monsterList.get(position).getMaxAwakenings(); j++) {
-                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningDisabled(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    ((ImageView)viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakeningDisabled(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
             } else {
                 for (int j = 0; j < monsterList.get(position).getMaxAwakenings(); j++) {
-                    viewHolderLinear.awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    ((ImageView)viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
             }
 
@@ -312,7 +324,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             } else {
                 viewHolderLinear.latentHolder.setVisibility(View.VISIBLE);
                 for (int j = 0; j < monsterList.get(position).getLatents().size(); j++) {
-                    viewHolderLinear.latentHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterLatent(monsterList.get(position).getLatents().get(j).getValue()));
+                    ((ImageView)viewHolderLinear.latentHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterLatent(monsterList.get(position).getLatents().get(j).getValue()));
                 }
             }
             viewHolderLinear.rarity.setText("" + monsterList.get(position).getRarity());

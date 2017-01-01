@@ -25,20 +25,23 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
     private int resourceId;
     private int teamBadge;
 
-    public MonsterSpecificAwakeningsListAdapter(Context context, int textViewResourceId, ArrayList<Monster> monsterList, int teamBadge) {
+    public MonsterSpecificAwakeningsListAdapter(Context context, int textViewResourceId,
+                                                ArrayList<Monster> monsterList,
+                                                ArrayList<Integer> monsterSpecificFilter,
+                                                ArrayList<Integer> latentMonsterSpecificFilter,
+                                                int teamBadge) {
         super(context, textViewResourceId, monsterList);
         mContext = context;
         this.monsterList = monsterList;
         this.resourceId = textViewResourceId;
         awakeningList = new ArrayList<>();
         awakeningListAll = new ArrayList<>();
-        monsterSpecificFilter = new ArrayList<>();
+        this.monsterSpecificFilter = monsterSpecificFilter;
         latentList = new ArrayList<>();
         latentListAll = new ArrayList<>();
-        latentMonsterSpecificFilter = new ArrayList<>();
+        this.latentMonsterSpecificFilter = latentMonsterSpecificFilter;
         this.teamBadge = teamBadge;
 
-        setupAwakeningFilters();
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -72,33 +75,6 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
         ImageView monsterPicture;
         ExpandableHeightGridView monsterAwakenings;
         RelativeLayout relativeLayout;
-    }
-
-    private void setupAwakeningFilters() {
-        monsterSpecificFilter.add(1);
-        monsterSpecificFilter.add(2);
-        monsterSpecificFilter.add(3);
-        monsterSpecificFilter.add(10);
-        monsterSpecificFilter.add(27);
-        monsterSpecificFilter.add(30);
-        monsterSpecificFilter.add(31);
-        monsterSpecificFilter.add(32);
-        monsterSpecificFilter.add(33);
-        monsterSpecificFilter.add(34);
-        monsterSpecificFilter.add(35);
-        monsterSpecificFilter.add(36);
-        monsterSpecificFilter.add(37);
-        monsterSpecificFilter.add(38);
-        monsterSpecificFilter.add(39);
-        monsterSpecificFilter.add(40);
-        monsterSpecificFilter.add(41);
-        monsterSpecificFilter.add(42);
-        monsterSpecificFilter.add(43);
-        latentMonsterSpecificFilter.add(1);
-        latentMonsterSpecificFilter.add(2);
-        latentMonsterSpecificFilter.add(3);
-        latentMonsterSpecificFilter.add(5);
-        latentMonsterSpecificFilter.add(11);
     }
 
     private void trimAwakenings(int position) {

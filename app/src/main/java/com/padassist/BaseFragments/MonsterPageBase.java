@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.padassist.Adapters.EvolutionListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
+import com.padassist.Data.RealmInt;
 import com.padassist.Fragments.DeleteMonsterConfirmationDialogFragment;
 import com.padassist.Fragments.LatentAwakeningDialogFragment;
 import com.padassist.Fragments.MonsterRemoveDialogFragment;
@@ -692,9 +693,28 @@ public abstract class MonsterPageBase extends Fragment {
 
     public void showLatents(){
         if(monster.getTotalPlus() != 297){
-            latentHolder.getChildAt(latentHolder.getChildCount() - 1).setVisibility(View.GONE);
+            if(monster.getLatents().get(4).getValue() > 11){
+                if(monster.getLatents().get(4).getValue() == monster.getLatents().get(5).getValue()){
+                    monster.getLatents().set(4, new RealmInt(0));
+                    monster.getLatents().set(5, new RealmInt(0));
+                }
+                setLatents();
+            }
+//            latentHolder.getChildAt(latentHolder.getChildCount() - 1).setVisibility(View.GONE);
         } else {
-            latentHolder.getChildAt(latentHolder.getChildCount() - 1).setVisibility(View.VISIBLE);
+//            latentHolder.getChildAt(latentHolder.getChildCount() - 1).setVisibility(View.VISIBLE);
+        }
+        for(int i = 0; i < latentHolder.getChildCount(); i++){
+            if(monster.getLatents().get(i).getValue() > 11){
+                latentHolder.getChildAt(i+1).setVisibility(View.GONE);
+                i++;
+            } else if(monster.getTotalPlus() == 297 && i == 5){
+                latentHolder.getChildAt(i).setVisibility(View.VISIBLE);
+            } else if (monster.getTotalPlus() != 297 && i == 5) {
+                latentHolder.getChildAt(i).setVisibility(View.GONE);
+            } else {
+                latentHolder.getChildAt(i).setVisibility(View.VISIBLE);
+            }
         }
         setTextViewValues();
     }
@@ -795,9 +815,9 @@ public abstract class MonsterPageBase extends Fragment {
             monsterInheritRCV.setText("+" + (int) (monster.getMonsterInherit().getCurrentRcvInt() * .15 + .5));
 
         } else {
-            monsterInheritHP.setText("+0 / ");
-            monsterInheritATK.setText("+0 / ");
-            monsterInheritRCV.setText("+0");
+            monsterInheritHP.setText("(No bonus stats)");
+            monsterInheritATK.setText("");
+            monsterInheritRCV.setText("");
         }
     }
 
@@ -999,7 +1019,7 @@ public abstract class MonsterPageBase extends Fragment {
         @Override
         public void refreshLatents() {
             setLatents();
-            setTextViewValues();
+            showLatents();
         }
     };
 
