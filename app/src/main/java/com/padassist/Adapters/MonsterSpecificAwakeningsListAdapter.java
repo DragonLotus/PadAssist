@@ -130,15 +130,22 @@ public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> 
             latentListAll.clear();
         }
 
-        if (monsterList.get(position).getLatents().get(0).getValue() != 0 || monsterList.get(position).getLatents().get(1).getValue() != 0 || monsterList.get(position).getLatents().get(2).getValue() != 0 || monsterList.get(position).getLatents().get(3).getValue() != 0 || monsterList.get(position).getLatents().get(4).getValue() != 0) {
-
-            for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
-                latentListAll.add(monsterList.get(position).getLatents().get(i).getValue());
-            }
-            for (int i = 0; i < latentListAll.size(); i++) {
-                if (latentMonsterSpecificFilter.contains(latentListAll.get(i))) {
-                    latentList.add(latentListAll.get(i));
+        if(monsterList.get(position).getTotalPlus() == 297){
+            for(int i = 0; i < monsterList.get(position).getLatents().size(); i++){
+                if(monsterList.get(position).getLatents().get(i).getValue() != 0){
+                    latentListAll.add(monsterList.get(position).getLatents().get(i).getValue());
                 }
+            }
+        } else {
+            for(int i = 0; i < monsterList.get(position).getLatents().size() - 1; i++){
+                if(monsterList.get(position).getLatents().get(i).getValue() != 0){
+                    latentListAll.add(monsterList.get(position).getLatents().get(i).getValue());
+                }
+            }
+        }
+        for (int i = 0; i < latentListAll.size(); i++) {
+            if (latentMonsterSpecificFilter.contains(latentListAll.get(i))) {
+                latentList.add(latentListAll.get(i));
             }
         }
 

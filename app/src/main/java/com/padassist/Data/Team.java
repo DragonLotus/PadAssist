@@ -589,11 +589,20 @@ public class Team extends RealmObject {
         Collections.sort(awakeningsList, numberComparator);
         latentsList.clear();
         for (int i = 0; i < monsters.size(); i++) {
-            for (int j = 0; j < monsters.get(i).getLatents().size(); j++) {
-                if (monsters.get(i).getLatents().get(j).getValue() != 0) {
-                    latentsList.add(monsters.get(i).getLatents().get(j).getValue());
+            if(monsters.get(i).getTotalPlus() == 297){
+                for (int j = 0; j < monsters.get(i).getLatents().size(); j++) {
+                    if (monsters.get(i).getLatents().get(j).getValue() != 0) {
+                        latentsList.add(monsters.get(i).getLatents().get(j).getValue());
+                    }
+                }
+            } else {
+                for (int j = 0; j < monsters.get(i).getLatents().size() - 1; j++) {
+                    if (monsters.get(i).getLatents().get(j).getValue() != 0) {
+                        latentsList.add(monsters.get(i).getLatents().get(j).getValue());
+                    }
                 }
             }
+
         }
         Collections.sort(latentsList, numberComparator);
     }

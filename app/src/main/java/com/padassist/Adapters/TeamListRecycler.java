@@ -104,20 +104,39 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             latentList1.clear();
         }
 
-        for (int i = 0; i < teamList.get(position).getMonsters(0).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(0).getLatents().get(i).getValue() != 0) {
-                latentList1.add(1);
+        if(teamList.get(position).getMonsters(0).getTotalPlus() == 297){
+            for (int i = 0; i < teamList.get(position).getMonsters(0).getLatents().size(); i++) {
+                if (teamList.get(position).getMonsters(0).getLatents().get(i).getValue() != 0) {
+                    latentList1.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < teamList.get(position).getMonsters(0).getLatents().size() - 1; i++) {
+                if (teamList.get(position).getMonsters(0).getLatents().get(i).getValue() != 0) {
+                    latentList1.add(1);
+                }
             }
         }
-        if (latentList1.size() == 6) {
-            viewHolder.monster1Latents.setBackgroundResource(R.drawable.latent_max);
-            viewHolder.monster1Latents.setText("");
-            viewHolder.monster1Latents.setVisibility(View.VISIBLE);
-        } else if (latentList1.size() == 0) {
+        if(latentList1.size() == 0){
             viewHolder.monster1Latents.setVisibility(View.INVISIBLE);
+        } else if(teamList.get(position).getMonsters(0).getTotalPlus() == 297){
+            if(latentList1.size() == 6){
+                viewHolder.monster1Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster1Latents.setText("");
+                viewHolder.monster1Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster1Latents.setText(" " + latentList1.size());
+                viewHolder.monster1Latents.setVisibility(View.VISIBLE);
+            }
         } else {
-            viewHolder.monster1Latents.setText(" " + latentList1.size());
-            viewHolder.monster1Latents.setVisibility(View.VISIBLE);
+            if(latentList1.size() == 5){
+                viewHolder.monster1Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster1Latents.setText("");
+                viewHolder.monster1Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster1Latents.setText(" " + latentList1.size());
+                viewHolder.monster1Latents.setVisibility(View.VISIBLE);
+            }
         }
 
         if (latentList2 == null) {
@@ -126,20 +145,39 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             latentList2.clear();
         }
 
-        for (int i = 0; i < teamList.get(position).getMonsters(1).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(1).getLatents().get(i).getValue() != 0) {
-                latentList2.add(1);
+        if(teamList.get(position).getMonsters(1).getTotalPlus() == 297){
+            for (int i = 0; i < teamList.get(position).getMonsters(1).getLatents().size(); i++) {
+                if (teamList.get(position).getMonsters(1).getLatents().get(i).getValue() != 0) {
+                    latentList2.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < teamList.get(position).getMonsters(1).getLatents().size() - 1; i++) {
+                if (teamList.get(position).getMonsters(1).getLatents().get(i).getValue() != 0) {
+                    latentList2.add(1);
+                }
             }
         }
-        if (latentList2.size() == 6) {
-            viewHolder.monster2Latents.setBackgroundResource(R.drawable.latent_max);
-            viewHolder.monster2Latents.setText("");
-            viewHolder.monster2Latents.setVisibility(View.VISIBLE);
-        } else if (latentList2.size() == 0) {
+        if(latentList2.size() == 0){
             viewHolder.monster2Latents.setVisibility(View.INVISIBLE);
+        } else if(teamList.get(position).getMonsters(1).getTotalPlus() == 297){
+            if(latentList2.size() == 6){
+                viewHolder.monster2Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster2Latents.setText("");
+                viewHolder.monster2Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster2Latents.setText(" " + latentList2.size());
+                viewHolder.monster2Latents.setVisibility(View.VISIBLE);
+            }
         } else {
-            viewHolder.monster2Latents.setText(" " + latentList2.size());
-            viewHolder.monster2Latents.setVisibility(View.VISIBLE);
+            if(latentList2.size() == 5){
+                viewHolder.monster2Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster2Latents.setText("");
+                viewHolder.monster2Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster2Latents.setText(" " + latentList2.size());
+                viewHolder.monster2Latents.setVisibility(View.VISIBLE);
+            }
         }
 
         if (latentList3 == null) {
@@ -148,20 +186,39 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             latentList3.clear();
         }
 
-        for (int i = 0; i < teamList.get(position).getMonsters(2).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(2).getLatents().get(i).getValue() != 0) {
-                latentList3.add(1);
+        if(teamList.get(position).getMonsters(2).getTotalPlus() == 297){
+            for (int i = 0; i < teamList.get(position).getMonsters(2).getLatents().size(); i++) {
+                if (teamList.get(position).getMonsters(2).getLatents().get(i).getValue() != 0) {
+                    latentList3.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < teamList.get(position).getMonsters(2).getLatents().size() - 1; i++) {
+                if (teamList.get(position).getMonsters(2).getLatents().get(i).getValue() != 0) {
+                    latentList3.add(1);
+                }
             }
         }
-        if (latentList3.size() == 6) {
-            viewHolder.monster3Latents.setBackgroundResource(R.drawable.latent_max);
-            viewHolder.monster3Latents.setText("");
-            viewHolder.monster3Latents.setVisibility(View.VISIBLE);
-        } else if (latentList3.size() == 0) {
+        if(latentList3.size() == 0){
             viewHolder.monster3Latents.setVisibility(View.INVISIBLE);
+        } else if(teamList.get(position).getMonsters(2).getTotalPlus() == 297){
+            if(latentList3.size() == 6){
+                viewHolder.monster3Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster3Latents.setText("");
+                viewHolder.monster3Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster3Latents.setText(" " + latentList3.size());
+                viewHolder.monster3Latents.setVisibility(View.VISIBLE);
+            }
         } else {
-            viewHolder.monster3Latents.setText(" " + latentList3.size());
-            viewHolder.monster3Latents.setVisibility(View.VISIBLE);
+            if(latentList3.size() == 5){
+                viewHolder.monster3Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster3Latents.setText("");
+                viewHolder.monster3Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster3Latents.setText(" " + latentList3.size());
+                viewHolder.monster3Latents.setVisibility(View.VISIBLE);
+            }
         }
 
         if (latentList4 == null) {
@@ -170,20 +227,40 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             latentList4.clear();
         }
 
-        for (int i = 0; i < teamList.get(position).getMonsters(3).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(3).getLatents().get(i).getValue() != 0) {
-                latentList4.add(1);
+
+        if(teamList.get(position).getMonsters(3).getTotalPlus() == 297){
+            for (int i = 0; i < teamList.get(position).getMonsters(3).getLatents().size(); i++) {
+                if (teamList.get(position).getMonsters(3).getLatents().get(i).getValue() != 0) {
+                    latentList4.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < teamList.get(position).getMonsters(3).getLatents().size() - 1; i++) {
+                if (teamList.get(position).getMonsters(3).getLatents().get(i).getValue() != 0) {
+                    latentList4.add(1);
+                }
             }
         }
-        if (latentList4.size() == 6) {
-            viewHolder.monster4Latents.setBackgroundResource(R.drawable.latent_max);
-            viewHolder.monster4Latents.setText("");
-            viewHolder.monster4Latents.setVisibility(View.VISIBLE);
-        } else if (latentList4.size() == 0) {
+        if(latentList4.size() == 0){
             viewHolder.monster4Latents.setVisibility(View.INVISIBLE);
+        } else if(teamList.get(position).getMonsters(3).getTotalPlus() == 297){
+            if(latentList4.size() == 6){
+                viewHolder.monster4Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster4Latents.setText("");
+                viewHolder.monster4Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster4Latents.setText(" " + latentList4.size());
+                viewHolder.monster4Latents.setVisibility(View.VISIBLE);
+            }
         } else {
-            viewHolder.monster4Latents.setText(" " + latentList4.size());
-            viewHolder.monster4Latents.setVisibility(View.VISIBLE);
+            if(latentList4.size() == 5){
+                viewHolder.monster4Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster4Latents.setText("");
+                viewHolder.monster4Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster4Latents.setText(" " + latentList4.size());
+                viewHolder.monster4Latents.setVisibility(View.VISIBLE);
+            }
         }
 
         if (latentList5 == null) {
@@ -192,20 +269,40 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             latentList5.clear();
         }
 
-        for (int i = 0; i < teamList.get(position).getMonsters(4).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(4).getLatents().get(i).getValue() != 0) {
-                latentList5.add(1);
+
+        if(teamList.get(position).getMonsters(4).getTotalPlus() == 297){
+            for (int i = 0; i < teamList.get(position).getMonsters(4).getLatents().size(); i++) {
+                if (teamList.get(position).getMonsters(4).getLatents().get(i).getValue() != 0) {
+                    latentList5.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < teamList.get(position).getMonsters(4).getLatents().size() - 1; i++) {
+                if (teamList.get(position).getMonsters(4).getLatents().get(i).getValue() != 0) {
+                    latentList5.add(1);
+                }
             }
         }
-        if (latentList5.size() == 6) {
-            viewHolder.monster5Latents.setBackgroundResource(R.drawable.latent_max);
-            viewHolder.monster5Latents.setText("");
-            viewHolder.monster5Latents.setVisibility(View.VISIBLE);
-        } else if (latentList5.size() == 0) {
+        if(latentList5.size() == 0){
             viewHolder.monster5Latents.setVisibility(View.INVISIBLE);
+        } else if(teamList.get(position).getMonsters(4).getTotalPlus() == 297){
+            if(latentList5.size() == 6){
+                viewHolder.monster5Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster5Latents.setText("");
+                viewHolder.monster5Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster5Latents.setText(" " + latentList5.size());
+                viewHolder.monster5Latents.setVisibility(View.VISIBLE);
+            }
         } else {
-            viewHolder.monster5Latents.setText(" " + latentList5.size());
-            viewHolder.monster5Latents.setVisibility(View.VISIBLE);
+            if(latentList5.size() == 5){
+                viewHolder.monster5Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster5Latents.setText("");
+                viewHolder.monster5Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster5Latents.setText(" " + latentList5.size());
+                viewHolder.monster5Latents.setVisibility(View.VISIBLE);
+            }
         }
 
         if (latentList6 == null) {
@@ -214,20 +311,40 @@ public class TeamListRecycler extends RecyclerView.Adapter<TeamListRecycler.View
             latentList6.clear();
         }
 
-        for (int i = 0; i < teamList.get(position).getMonsters(5).getLatents().size(); i++) {
-            if (teamList.get(position).getMonsters(5).getLatents().get(i).getValue() != 0) {
-                latentList6.add(1);
+
+        if(teamList.get(position).getMonsters(5).getTotalPlus() == 297){
+            for (int i = 0; i < teamList.get(position).getMonsters(5).getLatents().size(); i++) {
+                if (teamList.get(position).getMonsters(5).getLatents().get(i).getValue() != 0) {
+                    latentList6.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < teamList.get(position).getMonsters(5).getLatents().size() - 1; i++) {
+                if (teamList.get(position).getMonsters(5).getLatents().get(i).getValue() != 0) {
+                    latentList6.add(1);
+                }
             }
         }
-        if (latentList6.size() == 6) {
-            viewHolder.monster6Latents.setBackgroundResource(R.drawable.latent_max);
-            viewHolder.monster6Latents.setText("");
-            viewHolder.monster6Latents.setVisibility(View.VISIBLE);
-        } else if (latentList6.size() == 0) {
+        if(latentList6.size() == 0){
             viewHolder.monster6Latents.setVisibility(View.INVISIBLE);
+        } else if(teamList.get(position).getMonsters(5).getTotalPlus() == 297){
+            if(latentList6.size() == 6){
+                viewHolder.monster6Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster6Latents.setText("");
+                viewHolder.monster6Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster6Latents.setText(" " + latentList6.size());
+                viewHolder.monster6Latents.setVisibility(View.VISIBLE);
+            }
         } else {
-            viewHolder.monster6Latents.setText(" " + latentList6.size());
-            viewHolder.monster6Latents.setVisibility(View.VISIBLE);
+            if(latentList6.size() == 5){
+                viewHolder.monster6Latents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monster6Latents.setText("");
+                viewHolder.monster6Latents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monster6Latents.setText(" " + latentList6.size());
+                viewHolder.monster6Latents.setVisibility(View.VISIBLE);
+            }
         }
 
         viewHolder.favorite.setColorFilter(0xFFFFAADD);

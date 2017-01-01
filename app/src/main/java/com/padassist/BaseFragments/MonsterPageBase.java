@@ -110,16 +110,19 @@ public abstract class MonsterPageBase extends Fragment {
                 monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
             } else if (statToChange == MyTextWatcher.ATK_STAT) {
                 monster.setAtkPlus(statValue);
-                monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
-                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+//                monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
+//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                showLatents();
             } else if (statToChange == MyTextWatcher.RCV_STAT) {
                 monster.setRcvPlus(statValue);
-                monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
-                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+//                monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
+//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                showLatents();
             } else if (statToChange == MyTextWatcher.HP_STAT) {
                 monster.setHpPlus(statValue);
-                monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
-                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+//                monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
+//                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                showLatents();
             } else if (statToChange == MyTextWatcher.AWAKENINGS) {
                 monster.setCurrentAwakenings(statValue);
                 grayAwakenings();
@@ -364,6 +367,7 @@ public abstract class MonsterPageBase extends Fragment {
 
 //        monster.setCurrentAwakenings(Integer.parseInt(monsterAwakeningsValue.getText().toString()));
         showAwakenings();
+        showLatents();
         grayAwakenings();
         awakeningMinus.setOnClickListener(awakeningButtons);
         awakeningPlus.setOnClickListener(awakeningButtons);
@@ -604,6 +608,7 @@ public abstract class MonsterPageBase extends Fragment {
                 if (monster.getMonsterInherit() != null && monster.getMonsterInherit().getMonsterId() != 0) {
                     monster.getMonsterInherit().setActiveSkillLevel(monster.getMonsterInherit().getActiveSkill().getMaxLevel());
                 }
+                showLatents();
                 grayAwakenings();
                 updateMonster();
                 setSkillTextViews();
@@ -685,15 +690,23 @@ public abstract class MonsterPageBase extends Fragment {
         }
     }
 
+    public void showLatents(){
+        if(monster.getTotalPlus() != 297){
+            latentHolder.getChildAt(latentHolder.getChildCount() - 1).setVisibility(View.GONE);
+        } else {
+            latentHolder.getChildAt(latentHolder.getChildCount() - 1).setVisibility(View.VISIBLE);
+        }
+        setTextViewValues();
+    }
+
     //Gray out depending on monsterAwakeningsValue
-    //@TargetApi(11)
     public void grayAwakenings() {
         if (monster.getCurrentAwakenings() < monster.getMaxAwakenings()) {
             for (int j = 0; j < monster.getCurrentAwakenings(); j++) {
-                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
+                ((ImageView)awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
             }
             for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++) {
-                awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningDisabled(monster.getAwokenSkills().get(j).getValue()));
+                ((ImageView)awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakeningDisabled(monster.getAwokenSkills().get(j).getValue()));
             }
         } else {
             for (int j = 0; j < monster.getMaxAwakenings(); j++) {
@@ -992,7 +1005,7 @@ public abstract class MonsterPageBase extends Fragment {
 
     private void setLatents() {
         for (int i = 0; i < monster.getLatents().size(); i++) {
-            latentHolder.getChildAt(i).setBackgroundResource(ImageResourceUtil.monsterLatent(monster.getLatents().get(i).getValue()));
+            ((ImageView)latentHolder.getChildAt(i)).setImageResource(ImageResourceUtil.monsterLatent(monster.getLatents().get(i).getValue()));
         }
     }
 

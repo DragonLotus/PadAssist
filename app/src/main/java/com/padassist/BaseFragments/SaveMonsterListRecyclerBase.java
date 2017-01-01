@@ -168,20 +168,41 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             latentList.clear();
         }
 
-        for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
-            if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
-                latentList.add(1);
+        if(monsterList.get(position).getTotalPlus() == 297){
+            for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
+                if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
+                    latentList.add(1);
+                }
             }
-        }
-        if (latentList.size() == 6) {
-            viewHolderLinear.monsterLatents.setBackgroundResource(R.drawable.latent_max);
-            viewHolderLinear.monsterLatents.setText("");
-            viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
-        } else if (latentList.size() == 0) {
-            viewHolderLinear.monsterLatents.setVisibility(View.INVISIBLE);
+            viewHolderLinear.latentHolder.getChildAt(viewHolderLinear.latentHolder.getChildCount() - 1).setVisibility(View.VISIBLE);
         } else {
-            viewHolderLinear.monsterLatents.setText(" " + latentList.size());
-            viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
+            for (int i = 0; i < monsterList.get(position).getLatents().size() - 1; i++) {
+                if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
+                    latentList.add(1);
+                }
+            }
+            viewHolderLinear.latentHolder.getChildAt(viewHolderLinear.latentHolder.getChildCount() - 1).setVisibility(View.GONE);
+        }
+        if(latentList.size() == 0){
+            viewHolderLinear.monsterLatents.setVisibility(View.INVISIBLE);
+        } else if(monsterList.get(position).getTotalPlus() == 297){
+            if(latentList.size() == 6){
+                viewHolderLinear.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+                viewHolderLinear.monsterLatents.setText("");
+                viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolderLinear.monsterLatents.setText(" " + latentList.size());
+                viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if(latentList.size() == 5){
+                viewHolderLinear.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+                viewHolderLinear.monsterLatents.setText("");
+                viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolderLinear.monsterLatents.setText(" " + latentList.size());
+                viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
+            }
         }
 
         if (monsterList.get(position).getTotalPlus() == 0) {
@@ -437,20 +458,39 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             latentList.clear();
         }
 
-        for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
-            if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
-                latentList.add(1);
+        if(monsterList.get(position).getTotalPlus() == 297){
+            for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
+                if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
+                    latentList.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < monsterList.get(position).getLatents().size() - 1; i++) {
+                if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
+                    latentList.add(1);
+                }
             }
         }
-        if (latentList.size() == 6) {
-            viewHolderGrid.monsterLatents.setBackgroundResource(R.drawable.latent_max);
-            viewHolderGrid.monsterLatents.setText("");
-            viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
-        } else if (latentList.size() == 0) {
+        if(latentList.size() == 0){
             viewHolderGrid.monsterLatents.setVisibility(View.INVISIBLE);
+        } else if(monsterList.get(position).getTotalPlus() == 297){
+            if(latentList.size() == 6){
+                viewHolderGrid.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+                viewHolderGrid.monsterLatents.setText("");
+                viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolderGrid.monsterLatents.setText(" " + latentList.size());
+                viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
+            }
         } else {
-            viewHolderGrid.monsterLatents.setText(" " + latentList.size());
-            viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
+            if(latentList.size() == 5){
+                viewHolderGrid.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+                viewHolderGrid.monsterLatents.setText("");
+                viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolderGrid.monsterLatents.setText(" " + latentList.size());
+                viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
+            }
         }
 
         if (monsterList.get(position).getTotalPlus() == 0) {

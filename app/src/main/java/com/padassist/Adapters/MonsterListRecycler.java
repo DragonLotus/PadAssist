@@ -105,20 +105,39 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
             latentList.clear();
         }
 
-        for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
-            if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
-                latentList.add(1);
+        if(monsterList.get(position).getTotalPlus() == 297){
+            for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
+                if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
+                    latentList.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < monsterList.get(position).getLatents().size() - 1; i++) {
+                if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
+                    latentList.add(1);
+                }
             }
         }
-        if (latentList.size() == 6) {
-            viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
-            viewHolder.monsterLatents.setText("");
-            viewHolder.monsterLatents.setVisibility(View.VISIBLE);
-        } else if (latentList.size() == 0) {
+        if(latentList.size() == 0){
             viewHolder.monsterLatents.setVisibility(View.INVISIBLE);
+        } else if(monsterList.get(position).getTotalPlus() == 297){
+            if(latentList.size() == 6){
+                viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monsterLatents.setText("");
+                viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monsterLatents.setText(" " + latentList.size());
+                viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            }
         } else {
-            viewHolder.monsterLatents.setText(" " + latentList.size());
-            viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            if(latentList.size() == 5){
+                viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monsterLatents.setText("");
+                viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monsterLatents.setText(" " + latentList.size());
+                viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            }
         }
 
         if (monsterList.get(position).getTotalPlus() == 0) {

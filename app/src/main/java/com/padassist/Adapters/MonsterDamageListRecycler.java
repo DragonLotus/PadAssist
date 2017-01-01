@@ -18,6 +18,7 @@ import com.padassist.Util.DamageCalculationUtil;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
 
 /**
  * Created by DragonLotus on 11/4/2015.
@@ -35,6 +36,7 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
     private View.OnClickListener bindMonsterOnClickListener;
     private DecimalFormatSymbols dfs = new DecimalFormatSymbols();
     private DecimalFormat dfSpace;
+    private ArrayList<Integer> latentList;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
         @Override
@@ -77,6 +79,48 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
                 viewHolder.monsterAwakenings.setText(" " + Integer.toString(team.getMonsters(position).getCurrentAwakenings()));
             }
         }
+
+        if (latentList == null) {
+            latentList = new ArrayList<>();
+        } else {
+            latentList.clear();
+        }
+
+        if(team.getMonsters(position).getTotalPlus() == 297){
+            for (int i = 0; i < team.getMonsters(position).getLatents().size(); i++) {
+                if (team.getMonsters(position).getLatents().get(i).getValue() != 0) {
+                    latentList.add(1);
+                }
+            }
+        } else {
+            for (int i = 0; i < team.getMonsters(position).getLatents().size() - 1; i++) {
+                if (team.getMonsters(position).getLatents().get(i).getValue() != 0) {
+                    latentList.add(1);
+                }
+            }
+        }
+        if(latentList.size() == 0){
+            viewHolder.monsterLatents.setVisibility(View.INVISIBLE);
+        } else if(team.getMonsters(position).getTotalPlus() == 297){
+            if(latentList.size() == 6){
+                viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monsterLatents.setText("");
+                viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monsterLatents.setText(" " + latentList.size());
+                viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if(latentList.size() == 5){
+                viewHolder.monsterLatents.setBackgroundResource(R.drawable.latent_max);
+                viewHolder.monsterLatents.setText("");
+                viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.monsterLatents.setText(" " + latentList.size());
+                viewHolder.monsterLatents.setVisibility(View.VISIBLE);
+            }
+        }
+
         if(team.getIsBound().get(position)){
             viewHolder.monsterOverlay.setVisibility(View.VISIBLE);
         } else {
@@ -188,7 +232,9 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage, monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy, monsterElement1Percent, monsterElement2Percent;
+        TextView monsterName, monsterPlus, monsterAwakenings, monsterElement1Damage,
+                monsterElement1DamageEnemy, monsterElement2Damage, monsterElement2DamageEnemy,
+                monsterElement1Percent, monsterElement2Percent, monsterLatents;
         ImageView monsterPicture, monsterOverlay;
         RelativeLayout relativeLayout;
 
@@ -198,6 +244,7 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
             monsterOverlay = (ImageView) convertView.findViewById(R.id.monsterOverlay);
             monsterName = (TextView) convertView.findViewById(R.id.monsterName);
             monsterPlus = (TextView) convertView.findViewById(R.id.monsterPlus);
+            monsterLatents = (TextView) convertView.findViewById(R.id.monsterLatents);
             monsterAwakenings = (TextView) convertView.findViewById(R.id.monsterAwakenings);
             monsterElement1Damage = (TextView) convertView.findViewById(R.id.monsterElement1Damage);
             monsterElement1DamageEnemy = (TextView) convertView.findViewById(R.id.monsterElement1DamageEnemy);

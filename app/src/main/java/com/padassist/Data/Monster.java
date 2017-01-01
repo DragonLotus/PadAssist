@@ -192,9 +192,18 @@ public class Monster extends RealmObject {
             }
         }
         int counter2 = 0;
-        for (int i = 0; i < latents.size(); i++) {
-            if (latents.get(i).getValue() == 1) {
-                counter2++;
+
+        if(getTotalPlus() == 297){
+            for (int i = 0; i < latents.size(); i++) {
+                if (latents.get(i).getValue() == 1) {
+                    counter2++;
+                }
+            }
+        } else {
+            for (int i = 0; i < latents.size() - 1; i++) {
+                if (latents.get(i).getValue() == 1) {
+                    counter2++;
+                }
             }
         }
         int latentHp = (int) Math.floor(currentHp * counter2 * 0.015 + .5);
@@ -223,9 +232,18 @@ public class Monster extends RealmObject {
             }
         }
         int counter2 = 0;
-        for (int i = 0; i < latents.size(); i++) {
-            if (latents.get(i).getValue() == 2) {
-                counter2++;
+
+        if(getTotalPlus() == 297){
+            for (int i = 0; i < latents.size(); i++) {
+                if (latents.get(i).getValue() == 2) {
+                    counter2++;
+                }
+            }
+        } else {
+            for (int i = 0; i < latents.size() - 1; i++) {
+                if (latents.get(i).getValue() == 2) {
+                    counter2++;
+                }
             }
         }
         int latentAtk = (int) Math.floor(currentAtk * counter2 * 0.01 + .5);
@@ -255,9 +273,18 @@ public class Monster extends RealmObject {
             }
         }
         int counter2 = 0;
-        for (int i = 0; i < latents.size(); i++) {
-            if (latents.get(i).getValue() == 3) {
-                counter2++;
+
+        if(getTotalPlus() == 297){
+            for (int i = 0; i < latents.size(); i++) {
+                if (latents.get(i).getValue() == 3) {
+                    counter2++;
+                }
+            }
+        } else {
+            for (int i = 0; i < latents.size() - 1; i++) {
+                if (latents.get(i).getValue() == 3) {
+                    counter2++;
+                }
             }
         }
         int latentRcv = (int) Math.floor(currentRcv * counter2 * 0.05 + .5);

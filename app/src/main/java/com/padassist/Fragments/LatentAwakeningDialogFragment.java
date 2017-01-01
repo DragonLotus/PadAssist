@@ -16,6 +16,8 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.RealmInt;
 import com.padassist.R;
 
+import org.parceler.Parcels;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
@@ -100,7 +102,7 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            monster = getArguments().getParcelable("monster");
+            monster = Parcels.unwrap(getArguments().getParcelable("monster"));
         }
         latentSpinnerAdapter = new LatentSpinnerAdapter(getActivity(), R.layout.latent_spinner_row, latents);
         latent1Spinner.setAdapter(latentSpinnerAdapter);
@@ -115,15 +117,20 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
         latent4Spinner.setSelection(monster.getLatents().get(3).getValue());
         latent5Spinner.setSelection(monster.getLatents().get(4).getValue());
         latent6Spinner.setSelection(monster.getLatents().get(5).getValue());
+        if(monster.getTotalPlus() != 297){
+            latent6Spinner.setEnabled(false);
+        } else {
+            latent6Spinner.setEnabled(true);
+        }
     }
 
     private void updateLatents(){
-        monster.getLatents().set(0, new RealmInt(latent1Spinner.getSelectedItemPosition()));
-        monster.getLatents().set(1, new RealmInt(latent2Spinner.getSelectedItemPosition()));
-        monster.getLatents().set(2, new RealmInt(latent3Spinner.getSelectedItemPosition()));
-        monster.getLatents().set(3, new RealmInt(latent4Spinner.getSelectedItemPosition()));
-        monster.getLatents().set(4, new RealmInt(latent5Spinner.getSelectedItemPosition()));
-        monster.getLatents().set(5, new RealmInt(latent6Spinner.getSelectedItemPosition()));
+        monster.getLatents().set(0, new RealmInt(latents.get(latent1Spinner.getSelectedItemPosition())));
+        monster.getLatents().set(1, new RealmInt(latents.get(latent2Spinner.getSelectedItemPosition())));
+        monster.getLatents().set(2, new RealmInt(latents.get(latent3Spinner.getSelectedItemPosition())));
+        monster.getLatents().set(3, new RealmInt(latents.get(latent4Spinner.getSelectedItemPosition())));
+        monster.getLatents().set(4, new RealmInt(latents.get(latent5Spinner.getSelectedItemPosition())));
+        monster.getLatents().set(5, new RealmInt(latents.get(latent6Spinner.getSelectedItemPosition())));
 //        monster.save();
     }
 
@@ -133,7 +140,7 @@ public class LatentAwakeningDialogFragment extends DialogFragment {
 
     public void show(FragmentManager manager, String tag, Monster monster) {
         super.show(manager, tag);
-        this.monster = monster;
+//        this.monster = monster;
     }
 
 

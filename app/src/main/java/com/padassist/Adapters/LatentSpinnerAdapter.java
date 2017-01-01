@@ -156,7 +156,7 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
             case 5:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_5);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("Heal 3% of RCV every turn a match is made.");
+                viewHolder.latentDesc.setText("Heal 15% of RCV every turn a match is made.");
                 break;
             case 6:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_6);
