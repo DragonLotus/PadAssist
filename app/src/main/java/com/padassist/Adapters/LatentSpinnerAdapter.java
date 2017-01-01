@@ -250,42 +250,42 @@ public class LatentSpinnerAdapter extends ArrayAdapter<Integer> {
             case 13:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_13);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("1.5x bonus damage versus God types");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus God types. Takes 2 Latent slots.");
                 break;
             case 14:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_14);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("1.5x bonus damage versus Dragon types");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Dragon types. Takes 2 Latent slots.");
                 break;
             case 15:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_15);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("1.5x bonus damage versus Devil types");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Devil types. Takes 2 Latent slots.");
                 break;
             case 16:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_16);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("1.5x bonus damage versus Machine types");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Machine types. Takes 2 Latent slots.");
                 break;
             case 17:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_17);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("1.5x bonus damage versus Balanced types");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Balanced types. Takes 2 Latent slots.");
                 break;
             case 18:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_18);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("1.5x bonus damage versus Attacker types");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Attacker types. Takes 2 Latent slots.");
                 break;
             case 19:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_19);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("1.5x bonus damage versus Physical types");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Physical types. Takes 2 Latent slots.");
                 break;
             case 20:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_20);
                 viewHolder.latentName.setText("");
-                viewHolder.latentDesc.setText("1.5x bonus damage versus Healer types");
+                viewHolder.latentDesc.setText("1.5x bonus damage versus Healer types. Takes 2 Latent slots.");
                 break;
             default:
                 viewHolder.latentIcon.setImageResource(R.drawable.latent_awakening_blank);

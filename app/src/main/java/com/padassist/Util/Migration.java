@@ -123,7 +123,7 @@ public class Migration implements RealmMigration {
 
         if(oldVersion == 6){
             schema.get("BaseMonster")
-                    .addField("inheritable", boolean.class);
+                    .addField("inheritable", boolean.class, FieldAttribute.INDEXED);
             schema.get("Monster")
                     .removeField("activeSkill2")
                     .removeField("activeSkill2Level")

@@ -191,22 +191,30 @@ public class Monster extends RealmObject {
                 counter++;
             }
         }
-        int counter2 = 0;
+        int singleLatent = 0;
+        int doubleLatent = 0;
 
         if(getTotalPlus() == 297){
             for (int i = 0; i < latents.size(); i++) {
                 if (latents.get(i).getValue() == 1) {
-                    counter2++;
+                    singleLatent++;
+                }
+                if(latents.get(i).getValue() == 12){
+                    doubleLatent++;
                 }
             }
         } else {
             for (int i = 0; i < latents.size() - 1; i++) {
                 if (latents.get(i).getValue() == 1) {
-                    counter2++;
+                    singleLatent++;
+                }
+                if(latents.get(i).getValue() == 12){
+                    doubleLatent++;
                 }
             }
         }
-        int latentHp = (int) Math.floor(currentHp * counter2 * 0.015 + .5);
+        doubleLatent = doubleLatent / 2;
+        int latentHp = (int) Math.floor(currentHp * (singleLatent + doubleLatent) * 0.015 + .5);
         totalHp = totalHp + (200 * counter) + latentHp;
         if(monsterInherit!= null) {
             if (monsterInherit.getElement1Int() == getElement1Int()) {
@@ -231,22 +239,30 @@ public class Monster extends RealmObject {
                 counter++;
             }
         }
-        int counter2 = 0;
+        int singleLatent = 0;
+        int doubleLatent = 0;
 
         if(getTotalPlus() == 297){
             for (int i = 0; i < latents.size(); i++) {
                 if (latents.get(i).getValue() == 2) {
-                    counter2++;
+                    singleLatent++;
+                }
+                if(latents.get(i).getValue() == 12){
+                    doubleLatent++;
                 }
             }
         } else {
             for (int i = 0; i < latents.size() - 1; i++) {
                 if (latents.get(i).getValue() == 2) {
-                    counter2++;
+                    singleLatent++;
+                }
+                if(latents.get(i).getValue() == 12){
+                    doubleLatent++;
                 }
             }
         }
-        int latentAtk = (int) Math.floor(currentAtk * counter2 * 0.01 + .5);
+        doubleLatent = doubleLatent / 2;
+        int latentAtk = (int) Math.floor(currentAtk * (singleLatent + doubleLatent) * 0.01 + .5);
         totalAtk = totalAtk + (100 * counter) + latentAtk;
 
         if(monsterInherit!= null){
@@ -272,22 +288,30 @@ public class Monster extends RealmObject {
                 counter++;
             }
         }
-        int counter2 = 0;
+        int singleLatent = 0;
+        int doubleLatent = 0;
 
         if(getTotalPlus() == 297){
             for (int i = 0; i < latents.size(); i++) {
                 if (latents.get(i).getValue() == 3) {
-                    counter2++;
+                    singleLatent++;
+                }
+                if(latents.get(i).getValue() == 12){
+                    doubleLatent++;
                 }
             }
         } else {
             for (int i = 0; i < latents.size() - 1; i++) {
                 if (latents.get(i).getValue() == 3) {
-                    counter2++;
+                    singleLatent++;
+                }
+                if(latents.get(i).getValue() == 12){
+                    doubleLatent++;
                 }
             }
         }
-        int latentRcv = (int) Math.floor(currentRcv * counter2 * 0.05 + .5);
+        doubleLatent = doubleLatent / 2;
+        int latentRcv = (int) Math.floor(currentRcv * (singleLatent + doubleLatent) * 0.05 + .5);
         totalRcv = totalRcv + (50 * counter) + latentRcv;
         if(monsterInherit!= null) {
             if (monsterInherit.getElement1Int() == getElement1Int()) {
@@ -584,6 +608,18 @@ public class Monster extends RealmObject {
             }
         }
         this.currentAwakenings = currentAwakenings;
+    }
+
+    public ArrayList<Integer> getAwakenings(){
+        ArrayList<Integer> awakenings =  new ArrayList<>();
+        for(int i = 0; i < currentAwakenings; i++){
+            if(currentAwakenings > getMaxAwakenings()){
+                break;
+            } else {
+                awakenings.add(getAwokenSkills(i));
+            }
+        }
+        return awakenings;
     }
 
     private void addKillerAwakenings(int awakening) {

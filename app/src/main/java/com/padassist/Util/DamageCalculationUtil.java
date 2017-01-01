@@ -193,6 +193,11 @@ public class DamageCalculationUtil {
             }
         }
         damage = killerCalculation(damage, monster, enemy);
+        if(monster.getAwakenings().contains(43)){
+            if(combos > 6){
+                damage *= 2;
+            }
+        }
         return damage;
     }
 
@@ -229,6 +234,11 @@ public class DamageCalculationUtil {
             }
         }
         damage = killerCalculation(damage, monster, enemy);
+        if(monster.getAwakenings().contains(43)){
+            if(combos > 6){
+                damage *= 2;
+            }
+        }
         return damage;
     }
 
@@ -560,6 +570,116 @@ public class DamageCalculationUtil {
                                 }
                             }
                             killerDamage *= Math.pow(3, counter);
+                        }
+                        break;
+                }
+            }
+        }
+
+        ArrayList<Integer> latentKillerAwakenings = new ArrayList<>();
+        if (monster.getTotalPlus() == 297) {
+            for (int i = 0; i < monster.getLatents().size(); i++) {
+                if (monster.getLatents().get(i).getValue() > 12 && !latentKillerAwakenings.contains(monster.getLatents().get(i).getValue())) {
+                    latentKillerAwakenings.add(monster.getLatents().get(i).getValue());
+                }
+            }
+        } else {
+            for (int i = 0; i < monster.getLatents().size() - 1; i++) {
+                if (monster.getLatents().get(i).getValue() > 12 && !latentKillerAwakenings.contains(monster.getLatents().get(i).getValue())) {
+                    latentKillerAwakenings.add(monster.getLatents().get(i).getValue());
+                }
+            }
+        }
+        if (latentKillerAwakenings.size() != 0) {
+            for (int i = 0; i < latentKillerAwakenings.size(); i++) {
+                counter = 0;
+                switch (latentKillerAwakenings.get(i)) {
+                    case 13:
+                        if (enemy.typeContains(5)) {
+                            for (int j = 0; j < monster.getLatents().size(); j++) {
+                                if (monster.getLatents().get(j).getValue() == latentKillerAwakenings.get(i)) {
+                                    counter++;
+                                }
+                            }
+                            counter = counter / 2;
+                            killerDamage *= Math.pow(1.5, counter);
+                        }
+                        break;
+                    case 14:
+                        if (enemy.typeContains(4)) {
+                            for (int j = 0; j < monster.getLatents().size(); j++) {
+                                if (monster.getLatents().get(j).getValue() == latentKillerAwakenings.get(i)) {
+                                    counter++;
+                                }
+                            }
+                            counter = counter / 2;
+                            killerDamage *= Math.pow(1.5, counter);
+                        }
+                        break;
+                    case 15:
+                        if (enemy.typeContains(7)) {
+                            for (int j = 0; j < monster.getLatents().size(); j++) {
+                                if (monster.getLatents().get(j).getValue() == latentKillerAwakenings.get(i)) {
+                                    counter++;
+                                }
+                            }
+                            counter = counter / 2;
+                            killerDamage *= Math.pow(1.5, counter);
+                        }
+                        break;
+                    case 16:
+                        if (enemy.typeContains(8)) {
+                            for (int j = 0; j < monster.getLatents().size(); j++) {
+                                if (monster.getLatents().get(j).getValue() == latentKillerAwakenings.get(i)) {
+                                    counter++;
+                                }
+                            }
+                            counter = counter / 2;
+                            killerDamage *= Math.pow(1.5, counter);
+                        }
+                        break;
+                    case 17:
+                        if (enemy.typeContains(1)) {
+                            for (int j = 0; j < monster.getLatents().size(); j++) {
+                                if (monster.getLatents().get(j).getValue() == latentKillerAwakenings.get(i)) {
+                                    counter++;
+                                }
+                            }
+                            counter = counter / 2;
+                            killerDamage *= Math.pow(1.5, counter);
+                        }
+                        break;
+                    case 18:
+                        if (enemy.typeContains(6)) {
+                            for (int j = 0; j < monster.getLatents().size(); j++) {
+                                if (monster.getLatents().get(j).getValue() == latentKillerAwakenings.get(i)) {
+                                    counter++;
+                                }
+                            }
+                            counter = counter / 2;
+                            killerDamage *= Math.pow(1.5, counter);
+                        }
+                        break;
+                    case 19:
+                        if (enemy.typeContains(2)) {
+                            for (int j = 0; j < monster.getLatents().size(); j++) {
+                                if (monster.getLatents().get(j).getValue() == latentKillerAwakenings.get(i)) {
+                                    counter++;
+                                }
+                            }
+                            counter = counter / 2;
+                            killerDamage *= Math.pow(1.5, counter);
+                        }
+                        break;
+                    case 20:
+                        if (enemy.typeContains(3)) {
+                            for (int j = 0; j < monster.getLatents().size(); j++) {
+                                if (monster.getLatents().get(j).getValue() == latentKillerAwakenings.get(i)) {
+                                    counter++;
+                                }
+                            }
+                            counter = counter / 2;
+                            killerDamage *= Math.pow(1.5, counter);
                         }
                         break;
                 }

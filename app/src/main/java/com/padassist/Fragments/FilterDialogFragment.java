@@ -115,7 +115,7 @@ public class FilterDialogFragment extends DialogFragment {
             latentAwakenings.setVisibility(View.VISIBLE);
             latentAwakeningsGrid.setVisibility(View.VISIBLE);
             latentsList = new ArrayList<>();
-            for (int i = 1; i < 12; i++) {
+            for (int i = 1; i < 21; i++) {
                 latentsList.add(i);
             }
             latentGridAdapter = new LatentGridAdapter(getActivity(), latentsList, Singleton.getInstance().getFilterLatents());

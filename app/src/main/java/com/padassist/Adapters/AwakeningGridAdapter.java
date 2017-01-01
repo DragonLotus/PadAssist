@@ -1,6 +1,7 @@
 package com.padassist.Adapters;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -129,20 +130,12 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         break;
                     case 4:
                         if (awakeningList.contains(19)) {
-                            int awakeningPosition = 0;
-                            for (int i = 0; i < awakeningList.size(); i++) {
-                                if (awakeningList.get(i) != 19) {
-                                    awakeningPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
                             if (teamBadge == 2) {
-                                text = "Extra " + (counter * .05 + 1 + awakeningAmountList.get(awakeningPosition) * .5) + " seconds to match (1s from Team Badge and " + awakeningAmountList.get(awakeningPosition) * .5 + "s from awakenings)";
+                                text = "Extra " + (counter * .05 + 1 + awakeningAmountList.get(awakeningList.indexOf(19)) * .5) + " seconds to match (1s from Team Badge and " + awakeningAmountList.get(awakeningList.indexOf(19)) * .5 + "s from awakenings)";
                             } else if (teamBadge == 11) {
-                                text = "Extra " + (counter * .05 + 2 + awakeningAmountList.get(awakeningPosition) * .5) + " seconds to match (2s from Team Badge and " + awakeningAmountList.get(awakeningPosition) * .5 + "s from awakenings)";
+                                text = "Extra " + (counter * .05 + 2 + awakeningAmountList.get(awakeningList.indexOf(19)) * .5) + " seconds to match (2s from Team Badge and " + awakeningAmountList.get(awakeningList.indexOf(19)) * .5 + "s from awakenings)";
                             } else {
-                                text = "Extra " + (counter * .05 + awakeningAmountList.get(awakeningPosition) * .5) + " seconds to match (" + awakeningAmountList.get(awakeningPosition) * .5 + "s from awakenings)";
+                                text = "Extra " + (counter * .05 + awakeningAmountList.get(awakeningList.indexOf(19)) * .5) + " seconds to match (" + awakeningAmountList.get(awakeningList.indexOf(19)) * .5 + "s from awakenings)";
                             }
                         } else {
                             if (teamBadge == 2) {
@@ -163,15 +156,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         break;
                     case 6:
                         if (awakeningList.contains(4)) {
-                            int awakeningPosition = 0;
-                            for (int i = 0; i < awakeningList.size(); i++) {
-                                if (awakeningList.get(i) != 4) {
-                                    awakeningPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of fire damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningList.indexOf(4)) * 5)) + "% of fire damage (" + awakeningAmountList.get(awakeningList.indexOf(4)) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + String.format("%d", (long) counter) + "% of fire damage";
@@ -179,15 +164,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         break;
                     case 7:
                         if (awakeningList.contains(5)) {
-                            int awakeningPosition = 0;
-                            for (int i = 0; i < awakeningList.size(); i++) {
-                                if (awakeningList.get(i) != 5) {
-                                    awakeningPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of water damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningList.indexOf(5)) * 5)) + "% of water damage (" + awakeningAmountList.get(awakeningList.indexOf(5)) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + String.format("%d", (long) counter) + "% of water damage";
@@ -195,15 +172,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         break;
                     case 8:
                         if (awakeningList.contains(6)) {
-                            int awakeningPosition = 0;
-                            for (int i = 0; i < awakeningList.size(); i++) {
-                                if (awakeningList.get(i) != 6) {
-                                    awakeningPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of wood damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningList.indexOf(6)) * 5)) + "% of wood damage (" + awakeningAmountList.get(awakeningList.indexOf(6)) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + String.format("%d", (long) counter) + "% of wood damage";
@@ -211,15 +180,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         break;
                     case 9:
                         if (awakeningList.contains(7)) {
-                            int awakeningPosition = 0;
-                            for (int i = 0; i < awakeningList.size(); i++) {
-                                if (awakeningList.get(i) != 7) {
-                                    awakeningPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of light damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningList.indexOf(7)) * 5)) + "% of light damage (" + awakeningAmountList.get(awakeningList.indexOf(7)) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + String.format("%d", (long) counter) + "% of light damage";
@@ -227,15 +188,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         break;
                     case 10:
                         if (awakeningList.contains(8)) {
-                            int awakeningPosition = 0;
-                            for (int i = 0; i < awakeningList.size(); i++) {
-                                if (awakeningList.get(i) != 8) {
-                                    awakeningPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningPosition) * 5)) + "% of dark damage (" + awakeningAmountList.get(awakeningPosition) * 5 + "% from awakenings)";
+                            text = "Resist " + String.format("%d", (long) (counter + awakeningAmountList.get(awakeningList.indexOf(8)) * 5)) + "% of dark damage (" + awakeningAmountList.get(awakeningList.indexOf(8)) * 5 + "% from awakenings)";
 
                         } else {
                             text = "Resist " + String.format("%d", (long) counter) + "% of dark damage";
@@ -246,6 +199,69 @@ public class AwakeningGridAdapter extends BaseAdapter {
                             text = "Resist " + String.format("%d", (long) counter) + " turn of skill delay";
                         } else {
                             text = "Resist " + String.format("%d", (long) counter) + " turns of skill delay";
+                        }
+                        break;
+                    case 12:
+                        if ((counter * 1.5) == (long) (counter * 1.5)) {
+                            text = "Bonus " + String.format("%d", (long) (counter * 1.5)) + "% of base HP, " + String.format("%d", (long) counter) + "% of base ATK, " + String.format("%d", (long) (counter * 5)) + "% of base RCV";
+                        } else {
+                            text = "Bonus " + counter * 1.5 + "% of base HP, " + String.format("%d", (long) counter) + "% of base ATK, " + String.format("%d", (long) (counter * 5)) + "% of base RCV";
+                        }
+                        break;
+                    case 13:
+                        if(awakeningList.contains(32)){
+                            text = Math.pow(1.5, counter) * Math.pow(3, awakeningAmountList.get(awakeningList.indexOf(32))) + "x bonus damage versus God types";
+                        } else {
+                            text = Math.pow(1.5, counter) + "x bonus damage versus God types";
+                        }
+                        break;
+                    case 14:
+                        if(awakeningList.contains(31)){
+                            text = Math.pow(1.5, counter) * Math.pow(3, awakeningAmountList.get(awakeningList.indexOf(31))) + "x bonus damage versus Dragon types";
+                        } else {
+                            text = Math.pow(1.5, counter) + "x bonus damage versus Dragon types";
+                        }
+                        break;
+                    case 15:
+                        if(awakeningList.contains(33)){
+                            text = Math.pow(1.5, counter) * Math.pow(3, awakeningAmountList.get(awakeningList.indexOf(33))) + "x bonus damage versus Devil types";
+                        } else {
+                            text = Math.pow(1.5, counter) + "x bonus damage versus Devil types";
+                        }
+                        break;
+                    case 16:
+                        if(awakeningList.contains(34)){
+                            text = Math.pow(1.5, counter) * Math.pow(3, awakeningAmountList.get(awakeningList.indexOf(34))) + "x bonus damage versus Machine types";
+                        } else {
+                            text = Math.pow(1.5, counter) + "x bonus damage versus Machine types";
+                        }
+                        break;
+                    case 17:
+                        if(awakeningList.contains(38)){
+                            text = Math.pow(1.5, counter) * Math.pow(3, awakeningAmountList.get(awakeningList.indexOf(38))) + "x bonus damage versus Balanced types";
+                        } else {
+                            text = Math.pow(1.5, counter) + "x bonus damage versus Balanced types";
+                        }
+                        break;
+                    case 18:
+                        if(awakeningList.contains(35)){
+                            text = Math.pow(1.5, counter) * Math.pow(3, awakeningAmountList.get(awakeningList.indexOf(35))) + "x bonus damage versus Attacker types";
+                        } else {
+                            text = Math.pow(1.5, counter) + "x bonus damage versus Attacker types";
+                        }
+                        break;
+                    case 19:
+                        if(awakeningList.contains(36)){
+                            text = Math.pow(1.5, counter) * Math.pow(3, awakeningAmountList.get(awakeningList.indexOf(36))) + "x bonus damage versus Physical types";
+                        } else {
+                            text = Math.pow(1.5, counter) + "x bonus damage versus Physical types";
+                        }
+                        break;
+                    case 20:
+                        if(awakeningList.contains(37)){
+                            text = Math.pow(1.5, counter) * Math.pow(3, awakeningAmountList.get(awakeningList.indexOf(37))) + "x bonus damage versus Healer types";
+                        } else {
+                            text = Math.pow(1.5, counter) + "x bonus damage versus Healer types";
                         }
                         break;
                 }
@@ -274,75 +290,36 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         break;
                     case 4:
                         if (latentList.contains(6)) {
-                            int latentPosition = 0;
-                            for (int i = 0; i < latentList.size(); i++) {
-                                if (latentList.get(i) != 6) {
-                                    latentPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + (String.format("%d", (long) (counter * 5) + latentAmountList.get(latentPosition))) + "% of fire damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + (String.format("%d", (long) (counter * 5) + latentAmountList.get(latentList.indexOf(6)))) + "% of fire damage (" + latentAmountList.get(latentList.indexOf(6)) + "% from latents)";
                         } else {
                             text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of fire damage";
                         }
                         break;
                     case 5:
                         if (latentList.contains(7)) {
-                            int latentPosition = 0;
-                            for (int i = 0; i < latentList.size(); i++) {
-                                if (latentList.get(i) != 7) {
-                                    latentPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + (String.format("%d", (long) (counter * 5 + latentAmountList.get(latentPosition)))) + "% of water damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + (String.format("%d", (long) (counter * 5 + latentAmountList.get(latentList.indexOf(7))))) + "% of water damage (" + latentAmountList.get(latentList.indexOf(7)) + "% from latents)";
                         } else {
                             text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of water damage";
                         }
                         break;
                     case 6:
                         if (latentList.contains(8)) {
-                            int latentPosition = 0;
-                            for (int i = 0; i < latentList.size(); i++) {
-                                if (latentList.get(i) != 8) {
-                                    latentPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentPosition))) + "% of wood damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentList.indexOf(8)))) + "% of wood damage (" + latentAmountList.get(latentList.indexOf(8)) + "% from latents)";
                         } else {
                             text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of wood damage";
                         }
                         break;
                     case 7:
                         if (latentList.contains(9)) {
-                            int latentPosition = 0;
-                            for (int i = 0; i < latentList.size(); i++) {
-                                if (latentList.get(i) != 9) {
-                                    latentPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentPosition))) + "% of light damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+
+                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentList.indexOf(9)))) + "% of light damage (" + latentAmountList.get(latentList.indexOf(9)) + "% from latents)";
                         } else {
                             text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of light damage";
                         }
                         break;
                     case 8:
                         if (latentList.contains(10)) {
-                            int latentPosition = 0;
-                            for (int i = 0; i < latentList.size(); i++) {
-                                if (latentList.get(i) != 10) {
-                                    latentPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
-                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentPosition))) + "% of dark damage (" + latentAmountList.get(latentPosition) + "% from latents)";
+                            text = "Resist " + String.format("%d", (long) (counter * 5 + latentAmountList.get(latentList.indexOf(10)))) + "% of dark damage (" + latentAmountList.get(latentList.indexOf(10)) + "% from latents)";
                         } else {
                             text = "Resist " + String.format("%d", (long) (counter * 5)) + "% of dark damage";
                         }
@@ -379,20 +356,12 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         break;
                     case 19:
                         if (latentList.contains(4)) {
-                            int latentPosition = 0;
-                            for (int i = 0; i < latentList.size(); i++) {
-                                if (latentList.get(i) != 4) {
-                                    latentPosition++;
-                                } else {
-                                    break;
-                                }
-                            }
                             if (teamBadge == 2) {
-                                text = "Extra " + (counter * .5 + 1 + latentAmountList.get(latentPosition) * .05) + " seconds to match (1s from Team Badge and " + latentAmountList.get(latentPosition) * .05 + "s from latents)";
+                                text = "Extra " + (counter * .5 + 1 + latentAmountList.get(latentList.indexOf(4)) * .05) + " seconds to match (1s from Team Badge and " + latentAmountList.get(latentList.indexOf(4)) * .05 + "s from latents)";
                             } else if (teamBadge == 11) {
-                                text = "Extra " + (counter * .5 + 2 + latentAmountList.get(latentPosition) * .05) + " seconds to match (2s from Team Badge and " + latentAmountList.get(latentPosition) * .05 + "s from latents)";
+                                text = "Extra " + (counter * .5 + 2 + latentAmountList.get(latentList.indexOf(4)) * .05) + " seconds to match (2s from Team Badge and " + latentAmountList.get(latentList.indexOf(4)) * .05 + "s from latents)";
                             } else {
-                                text = "Extra " + (counter * .5 + latentAmountList.get(latentPosition) * .05) + " seconds to match (" + latentAmountList.get(latentPosition) * .05 + "s from latents)";
+                                text = "Extra " + (counter * .5 + latentAmountList.get(latentList.indexOf(4)) * .05) + " seconds to match (" + latentAmountList.get(latentList.indexOf(4)) * .05 + "s from latents)";
                             }
                         } else {
                             if (teamBadge == 2) {
@@ -454,28 +423,60 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         text = "Boost stats by " + Math.pow(1.5, counter) + "x during cooperation mode";
                         break;
                     case 31:
-                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Dragon types";
+                        if(latentList.contains(14)){
+                            text = Math.pow(3, counter) * Math.pow(1.5, latentAmountList.get(latentList.indexOf(14))) + "x bonus damage versus Dragon types";
+                        } else {
+                            text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Dragon types";
+                        }
                         break;
                     case 32:
-                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus God types";
+                        if(latentList.contains(13)){
+                            text = Math.pow(3, counter) * Math.pow(1.5, latentAmountList.get(latentList.indexOf(13))) + "x bonus damage versus God types";
+                        } else {
+                            text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus God types";
+                        }
                         break;
                     case 33:
-                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Devil types";
+                        if(latentList.contains(15)){
+                            text = Math.pow(3, counter) * Math.pow(1.5, latentAmountList.get(latentList.indexOf(15))) + "x bonus damage versus Devil types";
+                        } else {
+                            text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Devil types";
+                        }
                         break;
                     case 34:
-                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Machine types";
+                        if(latentList.contains(16)){
+                            text = Math.pow(3, counter) * Math.pow(1.5, latentAmountList.get(latentList.indexOf(16))) + "x bonus damage versus Machine types";
+                        } else {
+                            text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Machine types";
+                        }
                         break;
                     case 35:
-                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Attacker types";
+                        if(latentList.contains(18)){
+                            text = Math.pow(3, counter) * Math.pow(1.5, latentAmountList.get(latentList.indexOf(18))) + "x bonus damage versus Attacker types";
+                        } else {
+                            text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Attacker types";
+                        }
                         break;
                     case 36:
-                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Physical types";
+                        if(latentList.contains(19)){
+                            text = Math.pow(3, counter) * Math.pow(1.5, latentAmountList.get(latentList.indexOf(19))) + "x bonus damage versus Physical types";
+                        } else {
+                            text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Physical types";
+                        }
                         break;
                     case 37:
-                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Healer types";
+                        if(latentList.contains(20)){
+                            text = Math.pow(3, counter) * Math.pow(1.5, latentAmountList.get(latentList.indexOf(20))) + "x bonus damage versus Healer types";
+                        } else {
+                            text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Healer types";
+                        }
                         break;
                     case 38:
-                        text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Balanced types";
+                        if(latentList.contains(17)){
+                            text = Math.pow(3, counter) * Math.pow(1.5, latentAmountList.get(latentList.indexOf(17))) + "x bonus damage versus Dragon types";
+                        } else {
+                            text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Balanced types";
+                        }
                         break;
                     case 39:
                         text = String.format("%d", (long) Math.pow(3, counter)) + "x bonus damage versus Awoken Material types";
