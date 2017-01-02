@@ -1036,7 +1036,6 @@ public abstract class MonsterPageBase extends Fragment {
             if (!previousActiveSkill.equals(monster.getActiveSkillString())) {
                 monster.setActiveSkillLevel(1);
             }
-            monster.setIndices();
             setSkillTextViews();
             showAwakenings();
             grayAwakenings();

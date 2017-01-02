@@ -41,8 +41,6 @@ public class Monster extends RealmObject {
     private long baseMonsterId;
 
     private BaseMonster baseMonster;
-    @Index
-    private String baseMonsterIdString;
 
     private boolean favorite;
 
@@ -65,24 +63,10 @@ public class Monster extends RealmObject {
     private double currentHp;
 
     private boolean helper;
-    @Index
-    private String leaderSkillString;
-    @Index
-    private String activeSkillString;
-    @Index
-    private String activeSkill2String;
 
     private int activeSkillLevel;
 
     private RealmList<RealmInt> latents;
-    @Index
-    private String name;
-    @Index
-    private String type1String;
-    @Index
-    private String type2String;
-    @Index
-    private String type3String;
 
     private RealmList<RealmInt> killerAwakenings;
     @Ignore
@@ -124,11 +108,7 @@ public class Monster extends RealmObject {
             setCurrentAtk(DamageCalculationUtil.monsterStatCalc(baseMonster.getAtkMin(), baseMonster.getAtkMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getAtkScale()));
             setCurrentRcv(DamageCalculationUtil.monsterStatCalc(baseMonster.getRcvMin(), baseMonster.getRcvMax(), currentLevel, baseMonster.getMaxLevel(), baseMonster.getRcvScale()));
         }
-        leaderSkillString = baseMonster.getLeaderSkillString();
-        activeSkillString = baseMonster.getActiveSkillString();
-        activeSkill2String = "Blank";
         activeSkillLevel = 1;
-        setIndices();
     }
 
     public Monster(Monster monster) {
@@ -139,22 +119,9 @@ public class Monster extends RealmObject {
         rcvPlus = monster.getRcvPlus();
         currentAwakenings = monster.getCurrentAwakenings();
         latents = monster.getLatents();
-        leaderSkillString = monster.getLeaderSkillString();
-        activeSkillString = monster.getActiveSkillString();
-        activeSkill2String = monster.getActiveSkill2String();
         activeSkillLevel = monster.getActiveSkillLevel();
         monsterInherit = monster.getMonsterInherit();
-        setIndices();
     }
-
-    public void setIndices() {
-        name = baseMonster.getName();
-        baseMonsterIdString = baseMonster.getMonsterIdString();
-        type1String = baseMonster.getType1String();
-        type2String = baseMonster.getType2String();
-        type3String = baseMonster.getType3String();
-    }
-
 
     public int getCurrentLevel() {
         return currentLevel;
@@ -414,38 +381,6 @@ public class Monster extends RealmObject {
         return baseMonster.getType3();
     }
 
-    public String getType1String() {
-        return type1String;
-    }
-
-    public String getType2String() {
-        return type2String;
-    }
-
-    public String getType3String() {
-        return type3String;
-    }
-
-    public String getBaseMonsterIdString() {
-        return baseMonsterIdString;
-    }
-
-    public void setType1String(String type1String) {
-        this.type1String = type1String;
-    }
-
-    public void setType2String(String type2String) {
-        this.type2String = type2String;
-    }
-
-    public void setType3String(String type3String) {
-        this.type3String = type3String;
-    }
-
-    public void setBaseMonsterIdString(String baseMonsterIdString) {
-        this.baseMonsterIdString = baseMonsterIdString;
-    }
-
     public Element getElement1() {
         return baseMonster.getElement1();
     }
@@ -470,17 +405,6 @@ public class Monster extends RealmObject {
         return baseMonster.getAwokenSkills(position).getValue();
     }
 
-    public void setActiveSkillString(String activeSkillString) {
-        this.activeSkillString = activeSkillString;
-    }
-
-    public String getActiveSkillStringMonster() {
-        return activeSkillString;
-    }
-
-    public void setLeaderSkillString(String leaderSkillString) {
-        this.leaderSkillString = leaderSkillString;
-    }
 
     public ActiveSkill getActiveSkill() {
         return baseMonster.getActiveSkill();
@@ -490,13 +414,6 @@ public class Monster extends RealmObject {
         return baseMonster.getActiveSkillString();
     }
 
-    public String getActiveSkill2String() {
-        return activeSkill2String;
-    }
-
-    public void setActiveSkill2String(String activeSkill2String) {
-        this.activeSkill2String = activeSkill2String;
-    }
 
     public int getActiveSkillLevel() {
         return activeSkillLevel;
@@ -514,16 +431,8 @@ public class Monster extends RealmObject {
         return baseMonster.getLeaderSkillString();
     }
 
-    public String getLeaderSkillStringMonster() {
-        return leaderSkillString;
-    }
-
     public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return baseMonster.getName();
     }
 
     public double getAtkScale() {

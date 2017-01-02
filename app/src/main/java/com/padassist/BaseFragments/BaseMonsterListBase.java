@@ -269,7 +269,6 @@ public abstract class BaseMonsterListBase extends Fragment {
         monsterListAll.clear();
         if (selection == MonsterTabLayoutFragment.INHERIT) {
             monsterListAll.addAll(realm.where(BaseMonster.class).equalTo("inheritable", true).findAll());
-            monsterListAll.add(0, realm.where(BaseMonster.class).equalTo("monsterId", 0).findFirst());
         } else {
             monsterListAll.addAll(realm.where(BaseMonster.class).greaterThan("monsterId", 0).findAllSorted("monsterId"));
 
@@ -579,45 +578,26 @@ public abstract class BaseMonsterListBase extends Fragment {
                     monsterList.addAll(results);
                 } else {
                     RealmResults<BaseMonster> results;
+                    results = realm.where(BaseMonster.class)
+                            .beginGroup()
+                            .contains("name", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type1String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type2String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("type3String", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("monsterIdString", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("activeSkillString", query, Case.INSENSITIVE)
+                            .or()
+                            .contains("leaderSkillString", query, Case.INSENSITIVE)
+                            .endGroup()
+                            .greaterThan("monsterId", 0).findAll();
                     if (selection == INHERIT) {
-                        results = realm.where(BaseMonster.class)
-                                .equalTo("inheritable", true)
-                                .beginGroup()
-                                .contains("name", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type1String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type2String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type3String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("monsterIdString", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("activeSkillString", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("leaderSkillString", query, Case.INSENSITIVE)
-                                .endGroup()
-                                .greaterThan("monsterId", 0).findAll();
-                    } else {
-                        results = realm.where(BaseMonster.class)
-                                .beginGroup()
-                                .contains("name", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type1String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type2String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("type3String", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("monsterIdString", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("activeSkillString", query, Case.INSENSITIVE)
-                                .or()
-                                .contains("leaderSkillString", query, Case.INSENSITIVE)
-                                .endGroup()
-                                .greaterThan("monsterId", 0).findAll();
+                        results = results.where().equalTo("inheritable", true).findAll();
                     }
-
                     monsterList.addAll(results);
                 }
 

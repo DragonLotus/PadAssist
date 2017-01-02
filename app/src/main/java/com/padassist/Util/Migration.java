@@ -52,7 +52,7 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-        if(oldVersion == 3){
+        if (oldVersion == 3) {
             schema.get("BaseMonster")
                     .renameField("leaderSkill", "leaderSkillString")
                     .renameField("activeSkill", "activeSkillString")
@@ -81,7 +81,7 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-        if(oldVersion == 4){
+        if (oldVersion == 4) {
             schema.get("BaseMonster")
                     .addIndex("leaderSkillString")
                     .addIndex("activeSkillString");
@@ -92,7 +92,7 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-        if(oldVersion == 5){
+        if (oldVersion == 5) {
             schema.create("Enemy")
                     .addField("enemyId", long.class, FieldAttribute.PRIMARY_KEY)
                     .addField("enemyName", String.class, FieldAttribute.INDEXED)
@@ -121,7 +121,7 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-        if(oldVersion == 6){
+        if (oldVersion == 6) {
             schema.get("BaseMonster")
                     .addField("inheritable", boolean.class, FieldAttribute.INDEXED);
             schema.get("Monster")
@@ -134,7 +134,17 @@ public class Migration implements RealmMigration {
             oldVersion++;
         }
 
-        if(oldVersion == 7){
+        if (oldVersion == 7) {
+            schema.get("Monster")
+                    .removeField("type1String")
+                    .removeField("type2String")
+                    .removeField("type3String")
+                    .removeField("leaderSkillString")
+                    .removeField("activeSkillString")
+                    .removeField("activeSkill2String")
+                    .removeField("baseMonsterIdString")
+                    .removeField("name");
+            oldVersion++;
         }
 
     }

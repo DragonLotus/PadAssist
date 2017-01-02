@@ -336,68 +336,6 @@ public class ParseMonsterDatabaseThread extends Thread {
             for (Monster monster : savedMonstersResults) {
                 counter++;
 
-                if (monster.getActiveSkillStringMonster() == null) {
-                    monster.setActiveSkillString(monster.getBaseMonster().getActiveSkillString());
-                } else if (!monster.getActiveSkillStringMonster().equals(monster.getActiveSkillString())) {
-                    monster.setActiveSkillString(monster.getBaseMonster().getActiveSkillString());
-                }
-                if (monster.getLeaderSkillStringMonster() == null) {
-                    monster.setLeaderSkillString(monster.getBaseMonster().getLeaderSkillString());
-                } else if (!monster.getLeaderSkillStringMonster().equals(monster.getLeaderSkillString())) {
-                    monster.setLeaderSkillString(monster.getBaseMonster().getLeaderSkillString());
-                }
-
-                //This needs some fixing
-                if (monster.getActiveSkill2String() == null) {
-                    monster.setActiveSkill2String("Blank");
-                } else if (monster.getMonsterInherit() != null) {
-                    monster.setActiveSkill2String(monster.getMonsterInherit().getActiveSkillString());
-                }
-
-                if(monster.getName() != null){
-                    if(!monster.getName().equals(monster.getBaseMonster().getName())){
-                        monster.setName(monster.getBaseMonster().getName());
-                    }
-                } else {
-                    monster.setName(monster.getBaseMonster().getName());
-                }
-
-                if (monster.getType1String() == null) {
-                    monster.setType1String(getTypeString(monster.getType1()));
-                } else {
-                    if (monster.getType1String().isEmpty() || !monster.getType1String().equals(monster.getBaseMonster().getType1String())) {
-                        monster.setType1String(getTypeString(monster.getType1()));
-                    }
-                }
-                if (monster.getType2String() == null) {
-                    monster.setType2String(getTypeString(monster.getType2()));
-                } else {
-                    if (monster.getType2String().isEmpty() || !monster.getType1String().equals(monster.getBaseMonster().getType2String())) {
-                        monster.setType2String(getTypeString(monster.getType2()));
-                    }
-                }
-                if (monster.getType3String() == null) {
-                    monster.setType3String(getTypeString(monster.getType3()));
-                } else {
-                    if (monster.getType3String().isEmpty() || !monster.getType1String().equals(monster.getBaseMonster().getType3String())) {
-                        monster.setType3String(getTypeString(monster.getType3()));
-                    }
-                }
-                if (monster.getBaseMonsterIdString() == null) {
-                    monster.setBaseMonsterIdString(monster.getBaseMonster().getMonsterIdString());
-                } else {
-                    if (monster.getBaseMonsterIdString().isEmpty()) {
-                        monster.setBaseMonsterIdString(monster.getBaseMonster().getMonsterIdString());
-                    }
-                }
-                if (monster.getName() == null) {
-                    monster.setName(monster.getBaseMonster().getName());
-                } else {
-                    if (monster.getName().isEmpty()) {
-                        monster.setName(monster.getBaseMonster().getName());
-                    }
-                }
-
                 if (monster.getActiveSkillLevel() == 0) {
                     monster.setActiveSkillLevel(1);
                 }

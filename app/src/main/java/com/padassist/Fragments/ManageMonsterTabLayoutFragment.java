@@ -1,8 +1,11 @@
 package com.padassist.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.padassist.Adapters.ManageMonsterPagerAdapter;
 import com.padassist.BaseFragments.MonsterTabLayoutBase;
@@ -38,7 +41,7 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
         }
         monsterPagerAdapter = new ManageMonsterPagerAdapter(getChildFragmentManager(), getActivity());
         viewPager.setAdapter(monsterPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager, true);
 
         if(tabLayout.getSelectedTabPosition() == 0){
             getActivity().setTitle("Saved Monsters");
@@ -48,6 +51,12 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
             getActivity().setTitle("Create Monster");
         }
         viewPager.addOnPageChangeListener(tabLayoutOnPageChangeListener);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
     }
 
     private TabLayout.TabLayoutOnPageChangeListener tabLayoutOnPageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(tabLayout){
@@ -71,6 +80,10 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
             }else if(position == 2) {
                 getActivity().setTitle("Create Monster");
             }
+            Log.d("MonsterTabLayoutFrag", "Send out broadcast");
+            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+            Intent i = new Intent("TAG_REFRESH");
+            lbm.sendBroadcast(i);
         }
     };
 }

@@ -1,9 +1,13 @@
 package com.padassist.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Data.Monster;
@@ -96,7 +100,8 @@ public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
             getActivity().setTitle("Select Inherit");
         }
         viewPager.setAdapter(monsterPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager, true);
+        Log.d("MonsterTabLayoutFrag", "setUpWithViewPager");
         if (realm.where(Monster.class).equalTo("helper", true).findAll().size() < 1 && monsterPosition == 5 && replaceMonsterId == 0) {
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
@@ -105,13 +110,8 @@ public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
             tab.select();
         }
 
+//        viewPager.addOnPageChangeListener(pageChangeListener);
 
-//        if(tabLayout.getSelectedTabPosition() == 0){
-//            getActivity().setTitle("Saved Monsters");
-//        } else if(tabLayout.getSelectedTabPosition() == 1) {
-//            getActivity().setTitle("Create Monster");
-//        }
-        //    viewPager.addOnPageChangeListener(tabLayoutOnPageChangeListener);
     }
 
     private TabLayout.TabLayoutOnPageChangeListener tabLayoutOnPageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
@@ -128,11 +128,10 @@ public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
         @Override
         public void onPageSelected(int position) {
             super.onPageSelected(position);
-            if (position == 0) {
-                getActivity().setTitle("Saved Monsters");
-            } else if (position == 1) {
-                getActivity().setTitle("Create Monster");
-            }
+            Log.d("MonsterTabLayoutFrag", "Send out broadcast");
+            LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
+            Intent i = new Intent("TAG_REFRESH");
+            lbm.sendBroadcast(i);
         }
     };
 

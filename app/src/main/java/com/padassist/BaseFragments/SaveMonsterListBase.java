@@ -1,17 +1,22 @@
 package com.padassist.BaseFragments;
 
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,6 +108,7 @@ public abstract class SaveMonsterListBase extends Fragment {
     private Monster monsterZero;
     protected int selection;
     protected Monster monster;
+    protected RefreshReceiver r;
 
     protected SharedPreferences preferences;
     protected boolean isGrid;
@@ -121,16 +127,6 @@ public abstract class SaveMonsterListBase extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         realm.close();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (searchMenuItem != null) {
-            if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
-                MenuItemCompat.collapseActionView(searchMenuItem);
-            }
-        }
     }
 
     @Override
@@ -238,6 +234,26 @@ public abstract class SaveMonsterListBase extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        r = new RefreshReceiver();
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_REFRESH"));
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (searchMenuItem != null) {
+            if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
+                MenuItemCompat.collapseActionView(searchMenuItem);
+            }
+        }
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -641,48 +657,29 @@ public abstract class SaveMonsterListBase extends Fragment {
                     monsterList.clear();
                 }
                 RealmResults<Monster> results;
+                results = realm.where(Monster.class)
+                        .beginGroup()
+                        .contains("baseMonster.name", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("baseMonster.type1String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("baseMonster.type2String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("baseMonster.type3String", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("baseMonster.monsterIdString", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("baseMonster.activeSkillString", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("baseMonster.leaderSkillString", query, Case.INSENSITIVE)
+                        .or()
+                        .contains("monsterInherit.baseMonster.activeSkillString", query, Case.INSENSITIVE)
+                        .endGroup()
+                        .greaterThan("monsterId", 0)
+                        .equalTo("helper", helper)
+                        .findAll();
                 if (selection == MonsterTabLayoutFragment.INHERIT) {
-                    results = realm.where(Monster.class)
-                            .equalTo("baseMonster.inheritable", true)
-                            .notEqualTo("monsterId", monster.getMonsterId())
-                            .beginGroup()
-                            .contains("name", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type1String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type2String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type3String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("baseMonsterIdString", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("activeSkillString", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("leaderSkillString", query, Case.INSENSITIVE)
-                            .endGroup()
-                            .greaterThan("monsterId", 0)
-                            .equalTo("helper", helper)
-                            .findAll();
-                } else {
-                    results = realm.where(Monster.class)
-                            .beginGroup()
-                            .contains("name", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type1String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type2String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("type3String", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("baseMonsterIdString", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("activeSkillString", query, Case.INSENSITIVE)
-                            .or()
-                            .contains("leaderSkillString", query, Case.INSENSITIVE)
-                            .endGroup()
-                            .greaterThan("monsterId", 0)
-                            .equalTo("helper", helper)
-                            .findAll();
+                    results = results.where().equalTo("baseMonster.inheritable", true).findAll();
                 }
 
                 monsterList.addAll(results);
@@ -707,22 +704,6 @@ public abstract class SaveMonsterListBase extends Fragment {
             } else {
                 savedMonsters.setText("No Saved Monsters");
                 savedMonsters.setVisibility(View.INVISIBLE);
-            }
-        }
-    }
-
-    private void filterMonsters(String query) {
-        for (Monster monster : monsterListAll) {
-            if (monster.getName().toLowerCase().contains(query.toLowerCase())) {
-                monsterList.add(monster);
-            } else if (String.valueOf(monster.getBaseMonsterId()).toLowerCase().contains(query.toLowerCase())) {
-                monsterList.add(monster);
-            } else if (monster.getType1String().toLowerCase().contains(query.toLowerCase())) {
-                monsterList.add(monster);
-            } else if (monster.getType2String().toLowerCase().contains(query.toLowerCase())) {
-                monsterList.add(monster);
-            } else if (monster.getType3String().toLowerCase().contains(query.toLowerCase())) {
-                monsterList.add(monster);
             }
         }
     }
@@ -879,4 +860,33 @@ public abstract class SaveMonsterListBase extends Fragment {
             }
         }
     };
+
+    public void refresh(){
+        if(preferences.getBoolean("isGrid", true) != isGrid){
+            preferences.edit().putBoolean("isGrid", !isGrid).apply();
+            isGrid = preferences.getBoolean("isGrid", true);
+            if (isGrid) {
+                monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
+            } else {
+                monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+            }
+            saveMonsterListRecycler.notifyDataSetChanged(isGrid);
+            if (saveMonsterListRecycler.getExpandedPosition() > -1) {
+                monsterListView.scrollToPosition(saveMonsterListRecycler.getExpandedPosition());
+            }
+        }
+    }
+
+    private class RefreshReceiver extends BroadcastReceiver{
+        public RefreshReceiver() {
+            super();
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            SaveMonsterListBase.this.refresh();
+        }
+    }
 }
+
+

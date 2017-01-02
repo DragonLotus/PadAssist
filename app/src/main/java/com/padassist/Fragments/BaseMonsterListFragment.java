@@ -105,10 +105,8 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
             newMonster = realm.copyToRealm(newMonster);
             realm.commitTransaction();
             monster.setMonsterInherit(realm.copyFromRealm(newMonster));
-            monster.setActiveSkill2String(inheritMonster.getActiveSkillString());
         } else {
             monster.setMonsterInherit(null);
-            monster.setActiveSkill2String(null);
         }
 
     }
