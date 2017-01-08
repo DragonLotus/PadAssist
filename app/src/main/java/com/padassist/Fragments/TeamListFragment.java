@@ -4,12 +4,14 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,6 +55,8 @@ import com.padassist.Comparators.TeamLeaderRcvComparator;
 import com.padassist.Comparators.TeamLeaderType1Comparator;
 import com.padassist.Comparators.TeamLeaderType2Comparator;
 import com.padassist.Comparators.TeamLeaderType3Comparator;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -127,21 +131,14 @@ public class TeamListFragment extends Fragment {
     private Comparator<Team> teamHelperPlusRcvComparator = new TeamHelperPlusRcvComparator();
     private Comparator<Team> teamHelperRarityComparator = new TeamHelperRarityComparator();
     private Realm realm;
+    private Team team;
 
 //    private FastScroller fastScroller;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TeamListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TeamListFragment newInstance() {
+    public static TeamListFragment newInstance(Parcelable team) {
         TeamListFragment fragment = new TeamListFragment();
         Bundle args = new Bundle();
+        args.putParcelable("team", team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -272,7 +269,7 @@ public class TeamListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
         }
         realm = Realm.getDefaultInstance();
         teamListAll = new ArrayList<>();
@@ -323,7 +320,7 @@ public class TeamListFragment extends Fragment {
             if (teamLoadDialogFragment == null) {
                 teamLoadDialogFragment = TeamLoadDialogFragment.newInstance(loadTeam, teamList.get(selectedTeam));
             }
-            if(!teamLoadDialogFragment.isAdded()){
+            if (!teamLoadDialogFragment.isAdded()) {
                 teamLoadDialogFragment.show(getChildFragmentManager(), "Show Team Load dialog", teamList.get(selectedTeam));
             }
         }
@@ -458,7 +455,7 @@ public class TeamListFragment extends Fragment {
                 if (sortLeaderDialogFragment == null) {
                     sortLeaderDialogFragment = SortLeaderDialogFragment.newInstance(sortByLead);
                 }
-                if(!sortLeaderDialogFragment.isAdded() && !firstRun){
+                if (!sortLeaderDialogFragment.isAdded() && !firstRun) {
                     sortLeaderDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
                 }
                 break;
@@ -466,7 +463,7 @@ public class TeamListFragment extends Fragment {
                 if (sortHelperDialogFragment == null) {
                     sortHelperDialogFragment = SortHelperDialogFragment.newInstance(sortByHelper);
                 }
-                if(!sortHelperDialogFragment.isAdded() && !firstRun){
+                if (!sortHelperDialogFragment.isAdded() && !firstRun) {
                     sortHelperDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
                 }
                 break;
@@ -593,7 +590,7 @@ public class TeamListFragment extends Fragment {
             if (sortElementDialogFragment == null) {
                 sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
             }
-            if(!sortElementDialogFragment.isAdded()){
+            if (!sortElementDialogFragment.isAdded()) {
                 sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Lead");
             }
         }
@@ -603,7 +600,7 @@ public class TeamListFragment extends Fragment {
             if (sortTypeDialogFragment == null) {
                 sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
             }
-            if(!sortTypeDialogFragment.isAdded()){
+            if (!sortTypeDialogFragment.isAdded()) {
                 sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
             }
         }
@@ -613,7 +610,7 @@ public class TeamListFragment extends Fragment {
             if (sortStatsDialogFragment == null) {
                 sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
             }
-            if(!sortStatsDialogFragment.isAdded()){
+            if (!sortStatsDialogFragment.isAdded()) {
                 sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
             }
         }
@@ -623,7 +620,7 @@ public class TeamListFragment extends Fragment {
             if (sortPlusDialogFragment == null) {
                 sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
             }
-            if(!sortPlusDialogFragment.isAdded()){
+            if (!sortPlusDialogFragment.isAdded()) {
                 sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
             }
         }
@@ -643,7 +640,7 @@ public class TeamListFragment extends Fragment {
             if (sortElementDialogFragment == null) {
                 sortElementDialogFragment = SortElementDialogFragment.newInstance(sortByElement);
             }
-            if(!sortElementDialogFragment.isAdded()){
+            if (!sortElementDialogFragment.isAdded()) {
                 sortElementDialogFragment.show(getChildFragmentManager(), "Sort by Element");
             }
         }
@@ -653,7 +650,7 @@ public class TeamListFragment extends Fragment {
             if (sortTypeDialogFragment == null) {
                 sortTypeDialogFragment = SortTypeDialogFragment.newInstance(sortByType);
             }
-            if(!sortTypeDialogFragment.isAdded()){
+            if (!sortTypeDialogFragment.isAdded()) {
                 sortTypeDialogFragment.show(getChildFragmentManager(), "Sort by Type");
             }
         }
@@ -663,7 +660,7 @@ public class TeamListFragment extends Fragment {
             if (sortStatsDialogFragment == null) {
                 sortStatsDialogFragment = SortStatsDialogFragment.newInstance(sortByStats);
             }
-            if(!sortStatsDialogFragment.isAdded()){
+            if (!sortStatsDialogFragment.isAdded()) {
                 sortStatsDialogFragment.show(getChildFragmentManager(), "Sort by Stats");
             }
         }
@@ -673,7 +670,7 @@ public class TeamListFragment extends Fragment {
             if (sortPlusDialogFragment == null) {
                 sortPlusDialogFragment = SortPlusDialogFragment.newInstance(sortByPlus);
             }
-            if(!sortPlusDialogFragment.isAdded()){
+            if (!sortPlusDialogFragment.isAdded()) {
                 sortPlusDialogFragment.show(getChildFragmentManager(), "Sort by Plus");
             }
         }
@@ -890,7 +887,7 @@ public class TeamListFragment extends Fragment {
         }
     }
 
-    private void filterTeam(String query){
+    private void filterTeam(String query) {
         for (Team team : teamListAll) {
             if (team.getTeamName().toLowerCase().contains(query.toLowerCase())) {
                 teamList.add(team);

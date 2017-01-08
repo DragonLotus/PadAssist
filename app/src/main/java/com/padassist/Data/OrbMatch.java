@@ -35,8 +35,8 @@ public class OrbMatch extends RealmObject {
     public OrbMatch(){
     }
 
-    public OrbMatch(int orbsLinked, int numOrbPlus, int elementInt, boolean isRow, boolean isCross) {
-        matchId = 0;
+    public OrbMatch(long matchId, int orbsLinked, int numOrbPlus, int elementInt, boolean isRow, boolean isCross) {
+        this.matchId = matchId;
         this.orbsLinked = orbsLinked;
         this.numOrbPlus = numOrbPlus;
         this.elementInt = elementInt;
@@ -120,45 +120,5 @@ public class OrbMatch extends RealmObject {
     public void setMatchId(long matchId) {
         this.matchId = matchId;
     }
-
-//    public OrbMatch(Parcel source) {
-//        orbsLinked = source.readInt();
-//        numOrbPlus = source.readInt();
-////        element = (Element) source.readSerializable();
-//        isRow = source.readByte() == 1;
-//        isCross = source.readByte() == 1;
-//    }
-//
-//    @Override
-//    public void writeToParcel(Parcel dest, int flags) {
-//        dest.writeInt(orbsLinked);
-//        dest.writeInt(numOrbPlus);
-////        dest.writeSerializable(element);
-//        dest.writeByte((byte) (isRow ? 1 : 0));
-//        dest.writeByte((byte) (isCross ? 1 : 0));
-//    }
-//
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    public static final Parcelable.Creator<OrbMatch> CREATOR = new Creator<OrbMatch>() {
-//        public OrbMatch createFromParcel(Parcel source) {
-//            return new OrbMatch(source);
-//        }
-//
-//        public OrbMatch[] newArray(int size) {
-//            return new OrbMatch[size];
-//        }
-//    };
-//
-//    public static List<OrbMatch> getAllOrbMatches(){
-//        return new Select().from(OrbMatch.class).execute();
-//    }
-//
-//    public static void deleteAllOrbMatches(){
-//        new Delete().from(OrbMatch.class).execute();
-//    }
 
 }

@@ -49,8 +49,10 @@ import com.padassist.Data.Team;
 import com.padassist.Fragments.AboutDialogFragment;
 import com.padassist.Fragments.CloseDialogFragment;
 import com.padassist.Fragments.DisclaimerDialogFragment;
+import com.padassist.Fragments.MainTabLayoutFragment;
 import com.padassist.Fragments.ManageMonsterTabLayoutFragment;
 import com.padassist.Fragments.MonsterListFragment;
+import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.NotWiFiDialogFragment;
 import com.padassist.Fragments.ThreeProgressDialog;
 import com.padassist.Fragments.UnableToConnectDialogFragment;
@@ -125,14 +127,6 @@ public class MainActivity extends AppCompatActivity {
 
         realm = Realm.getDefaultInstance();
         database = FirebaseDatabase.getInstance();
-
-//        realm.beginTransaction();
-//        RealmSchema schema = realm.getSchema();
-//        schema.get("BaseMonster")
-//                .addField("inheritable", boolean.class, FieldAttribute.INDEXED);
-//        schema.get("Monster")
-//                .removeField("inheritable");
-//        realm.commitTransaction();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -306,6 +300,9 @@ public class MainActivity extends AppCompatActivity {
                     realm.commitTransaction();
                 }
             }
+            RealmResults<OrbMatch> orbMatchResults = realm.where(OrbMatch.class).findAll();
+
+            team.getOrbMatches().addAll(realm.copyFromRealm(orbMatchResults));
         }
 
 //        realm.beginTransaction();
@@ -323,8 +320,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Parcelable enemyParcel = Parcels.wrap(enemy);
+        Parcelable teamParcel = Parcels.wrap(team);
 
-        switchFragment(MonsterListFragment.newInstance(enemyParcel), MonsterListFragment.TAG, "good");
+//        switchFragment(MonsterListFragment.newInstance(enemyParcel), MonsterListFragment.TAG, "good");
+        setTitle("Set Team");
+        switchFragment(MainTabLayoutFragment.newInstance(teamParcel, enemyParcel), MainTabLayoutFragment.TAG, "good");
 
 
         // Get the Default External Cache Directory
@@ -459,7 +459,6 @@ public class MainActivity extends AppCompatActivity {
         menu.setGroupVisible(R.id.sortTeam, false);
         menu.setGroupVisible(R.id.teamDamage, false);
         menu.findItem(R.id.search).setVisible(false);
-        menu.findItem(R.id.manageMonsters).setVisible(false);
         MenuItem toggleCoop = menu.findItem(R.id.toggleCoop);
         toggleCoop.setTitle(Singleton.getInstance().isCoopEnable() ? "Toggle Co-op off" : "Toggle Co-op on");
 //        MenuItem toggleGrid = menu.findItem(R.id.toggleGrid);
@@ -500,9 +499,6 @@ public class MainActivity extends AppCompatActivity {
                     toast.show();
                 }
                 item.setTitle(isEnable ? "Toggle Co-op off" : "Toggle Co-op on");
-                break;
-            case R.id.manageMonsters:
-                switchFragment(ManageMonsterTabLayoutFragment.newInstance(), ManageMonsterTabLayoutFragment.TAG, "good");
                 break;
             case R.id.updateCheck:
                 ConnectivityManager cm =

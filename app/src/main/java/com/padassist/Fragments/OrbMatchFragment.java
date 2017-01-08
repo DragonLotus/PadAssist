@@ -1,12 +1,16 @@
 package com.padassist.Fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -30,11 +34,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Adapters.OrbMatchRecycler;
-import com.padassist.Data.Enemy;
+import com.padassist.BroadcastReceivers.JustAnotherBroadcastReceiver;
 import com.padassist.Data.LeaderSkillType;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
-import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.TextWatcher.MyTextWatcher;
 import com.padassist.Util.Singleton;
@@ -66,11 +69,11 @@ public class OrbMatchFragment extends Fragment {
     private boolean isRow, maxLeadMultiplier = false, hasEnemy = true, isCross;
     private OrbMatch orbMatch;
     private Team team;
-    private Enemy enemy;
+//    private Enemy enemy;
     private Toast toast;
     private RadioGroup orbRadioGroup;
     private MyDialogFragment dialog;
-    private ArrayList<OrbMatch> orbMatchList;
+    private RealmResults<OrbMatch> orbMatchList;
     private OrbMatchOptionsDialogFragment orbMatchOptionsDialogFragment;
     private Realm realm;
     private ArrayList<LeaderSkillType> minimumMatchLeaderSkills = new ArrayList<>();
@@ -78,18 +81,24 @@ public class OrbMatchFragment extends Fragment {
     private SharedPreferences preferences;
     private NoDropDialogFragment disclaimerDialog;
     private boolean noDrop = false;
+    private JustAnotherBroadcastReceiver broadcastReceiver;
 
     private MyDialogFragment.ResetLayout dialogFrag = new MyDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
             additionalComboValue.clearFocus();
-            orbMatchRecycler.clear();
+            realm.beginTransaction();
+            orbMatchList.deleteAllFromRealm();
+            realm.commitTransaction();
             orbMatchRecycler.notifyDataSetChanged();
+            Log.d("OrbMatchFragment", "orbMatchList size is: " + orbMatchList.size());
+            additionalComboValue.setText("" + (orbMatchList.size() + additionalCombos));
             if (toast != null) {
                 toast.cancel();
             }
             toast = Toast.makeText(getActivity(), "Matches Reset", Toast.LENGTH_SHORT);
             toast.show();
+            emptyText.setVisibility(View.VISIBLE);
             dialog.dismiss();
         }
     };
@@ -216,14 +225,6 @@ public class OrbMatchFragment extends Fragment {
                     if (orbsPlus.getSelectedItemPosition() > 20) {
                         orbsPlus.setSelection(20);
                     }
-                    orbsLinkedItems.clear();
-                    orbsPlusItems.clear();
-                    for (int i = minimumMatch; i <= maximumOrbs; i++) {
-                        orbsLinkedItems.add("" + i);
-                    }
-                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + minimumMatch + 1; i++) {
-                        orbsPlusItems.add("" + i);
-                    }
                     Singleton.getInstance().setBoardSize(0);
                     if ((orbsLinked.getSelectedItemPosition() + minimumMatch) < 17 && (orbsLinked.getSelectedItemPosition() + minimumMatch) >= 5 && (orbsLinked.getSelectedItemPosition() + minimumMatch) != 6) {
                         rowCheckBox.setEnabled(true);
@@ -243,14 +244,6 @@ public class OrbMatchFragment extends Fragment {
                     if (orbsPlus.getSelectedItemPosition() > 30) {
                         orbsPlus.setSelection(30);
                     }
-                    orbsLinkedItems.clear();
-                    orbsPlusItems.clear();
-                    for (int i = minimumMatch; i <= maximumOrbs; i++) {
-                        orbsLinkedItems.add("" + i);
-                    }
-                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + minimumMatch + 1; i++) {
-                        orbsPlusItems.add("" + i);
-                    }
                     Singleton.getInstance().setBoardSize(1);
                     if ((orbsLinked.getSelectedItemPosition() + minimumMatch) < 26 && (orbsLinked.getSelectedItemPosition() + minimumMatch) >= 6 && (orbsLinked.getSelectedItemPosition() + minimumMatch) != 7) {
                         rowCheckBox.setEnabled(true);
@@ -264,14 +257,6 @@ public class OrbMatchFragment extends Fragment {
                     break;
                 case 2:
                     maximumOrbs = 42;
-                    orbsLinkedItems.clear();
-                    orbsPlusItems.clear();
-                    for (int i = minimumMatch; i <= maximumOrbs; i++) {
-                        orbsLinkedItems.add("" + i);
-                    }
-                    for (int i = 0; i < orbsLinked.getSelectedItemPosition() + minimumMatch; i++) {
-                        orbsPlusItems.add("" + i);
-                    }
                     Singleton.getInstance().setBoardSize(2);
                     if ((orbsLinked.getSelectedItemPosition() + minimumMatch) < 37 && (orbsLinked.getSelectedItemPosition() + minimumMatch) >= 7 && (orbsLinked.getSelectedItemPosition() + minimumMatch) != 8) {
                         rowCheckBox.setEnabled(true);
@@ -284,7 +269,10 @@ public class OrbMatchFragment extends Fragment {
                     }
                     break;
             }
-            orbMatchRecycler.clear();
+            updateSpinners();
+            realm.beginTransaction();
+            orbMatchList.deleteAllFromRealm();
+            realm.commitTransaction();
             orbMatchRecycler.notifyDataSetChanged();
             if (toast != null) {
                 toast.cancel();
@@ -399,11 +387,11 @@ public class OrbMatchFragment extends Fragment {
                 toast.show();
             } else {
                 Parcelable teamParcel = Parcels.wrap(team);
-                Parcelable enemyParcel = Parcels.wrap(enemy);
+//                Parcelable enemyParcel = Parcels.wrap(enemy);
                 if (Singleton.getInstance().isIgnoreEnemy()) {
-                    ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, teamParcel), TeamDamageListFragment.TAG, "good");
+//                    ((MainActivity) getActivity()).switchFragment(TeamDamageListFragment.newInstance(false, additionalCombos, teamParcel), TeamDamageListFragment.TAG, "good");
                 } else {
-                    ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, teamParcel, enemyParcel), EnemyTargetFragment.TAG, "good");
+//                    ((MainActivity) getActivity()).switchFragment(EnemyTargetFragment.newInstance(additionalCombos, teamParcel, enemyParcel), EnemyTargetFragment.TAG, "good");
                 }
             }
         }
@@ -413,13 +401,19 @@ public class OrbMatchFragment extends Fragment {
         @Override
         public void onClick(View v) {
             additionalComboValue.clearFocus();
-            orbMatch = new OrbMatch(orbsLinked.getSelectedItemPosition() + minimumMatch, orbsPlus.getSelectedItemPosition(), getOrbColor(), isRow, isCross);
-//            orbMatchList.add(0, orbMatch);
-            orbMatchList.add(orbMatch);
-            orbMatchRecycler.notifyItemInserted(orbMatchList.size() - 1);
-            orbMatches.scrollToPosition(orbMatchList.size() - 1);
+            if(orbMatchList.size() == 0){
+                orbMatch = new OrbMatch(0, orbsLinked.getSelectedItemPosition() + minimumMatch, orbsPlus.getSelectedItemPosition(), getOrbColor(), isRow, isCross);
+            } else {
+                orbMatch = new OrbMatch(orbMatchList.get(orbMatchList.size() - 1).getMatchId() + 1,orbsLinked.getSelectedItemPosition() + minimumMatch, orbsPlus.getSelectedItemPosition(), getOrbColor(), isRow, isCross);
+            }
+            realm.beginTransaction();
+            orbMatch = realm.copyToRealmOrUpdate(orbMatch);
+            realm.commitTransaction();
+
+            orbMatchRecycler.notifyItemInserted(orbMatchList.size());
+            orbMatches.scrollToPosition(orbMatchList.size());
             emptyText.setVisibility(View.INVISIBLE);
-            additionalComboValue.setText("" + (orbMatchList.size() + additionalCombos));
+            additionalComboValue.setText("" + (orbMatchList.size() + 1 + additionalCombos));
             if (noDrop) {
                 maximumOrbs -= orbsLinked.getSelectedItemPosition() + minimumMatch;
                 updateSpinners();
@@ -444,7 +438,9 @@ public class OrbMatchFragment extends Fragment {
                 }
                 updateSpinners();
             }
-            orbMatchList.remove(position);
+            realm.beginTransaction();
+            orbMatchList.deleteFromRealm(position);
+            realm.commitTransaction();
             orbMatchRecycler.notifyDataSetChanged();
             if (orbMatchList.size() == 0) {
                 emptyText.setVisibility(View.VISIBLE);
@@ -645,6 +641,14 @@ public class OrbMatchFragment extends Fragment {
         return fragment;
     }
 
+    public static OrbMatchFragment newInstance(Parcelable team) {
+        OrbMatchFragment fragment = new OrbMatchFragment();
+        Bundle args = new Bundle();
+        args.putParcelable("team", team);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public OrbMatchFragment() {
     }
 
@@ -657,6 +661,8 @@ public class OrbMatchFragment extends Fragment {
     public void onStart() {
         super.onStart();
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -691,7 +697,7 @@ public class OrbMatchFragment extends Fragment {
         //Write your code here
         if (getArguments() != null) {
             team = Parcels.unwrap(getArguments().getParcelable("team"));
-            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
+//            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
         realm = Realm.getDefaultInstance();
         rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
@@ -705,89 +711,22 @@ public class OrbMatchFragment extends Fragment {
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_MATCH_ELEMENT_FLAT);
         minimumMatchLeaderSkills.add(LeaderSkillType.MINIMUM_MATCH_ORB_LINK_FLAT);
 
-        if (minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType()) ||
-                minimumMatchLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())) {
-            if (team.getLeadSkill().getMinimumMatch() > minimumMatch) {
-                minimumMatch = team.getLeadSkill().getMinimumMatch();
-            }
-            if (team.getHelperSkill().getMinimumMatch() > minimumMatch) {
-                minimumMatch = team.getHelperSkill().getMinimumMatch();
-            }
-            Log.d("OrbMatchFragment", "minimumMatch is: " + minimumMatch);
-        }
-
-        if (orbMatchList == null) {
-            orbMatchList = new ArrayList<>();
-        } else {
-            orbMatchList.clear();
-        }
-        if (realm.where(OrbMatch.class).greaterThanOrEqualTo("orbsLinked", minimumMatch).findAll().size() != 0) {
-            orbMatchList.addAll(realm.where(OrbMatch.class).greaterThanOrEqualTo("orbsLinked", minimumMatch).findAll());
-            emptyText.setVisibility(View.INVISIBLE);
-        } else {
-            emptyText.setVisibility(View.VISIBLE);
-        }
-        if(team.getLeadSkill().getBoardSize() == 2 || team.getHelperSkill().getBoardSize() == 2){
-            Singleton.getInstance().setBoardSize(2);
-            boardSize.setEnabled(false);
-            for(int i = 0; i < orbMatchList.size(); i++){
-                if(orbMatchList.get(i).getOrbsLinked() == 6 || orbMatchList.get(i).getOrbsLinked() == 5 || orbMatchList.get(i).getOrbsLinked() == 8){
-                    if (orbMatchList.get(i).isRow()){
-                        orbMatchList.remove(i);
-                        i--;
-                    }
-                }
-            }
-        } else {
-            boardSize.setEnabled(true);
-        }
-
-        switch (Singleton.getInstance().getBoardSize()) {
-            case 0:
-                maximumOrbs = 20;
-                break;
-            case 1:
-                maximumOrbs = 30;
-                break;
-            case 2:
-                maximumOrbs = 42;
-                break;
-        }
-
-        if (team.getTeamBadge() == 13 || team.getLeadSkill().isNoSkyfall() || team.getHelperSkill().isNoSkyfall()) {
-            noDrop = true;
-        }
-
         preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
-        if (noDrop && preferences.getBoolean("showNoDropDisclaimer", true)) {
-            disclaimerDialog = NoDropDialogFragment.newInstance(new NoDropDialogFragment.Preferences() {
-                @Override
-                public void setShowAgain(boolean showAgain) {
-                    if (!showAgain) {
-                        preferences.edit().putBoolean("showNoDropDisclaimer", true).apply();
-                    } else {
-                        preferences.edit().putBoolean("showNoDropDisclaimer", false).apply();
-                    }
-                }
-            });
-            disclaimerDialog.show(getChildFragmentManager(), "Show Disclaimer");
-        }
 
-        if(noDrop){
-            for (int i = 0; i < orbMatchList.size(); i++) {
-                if (maximumOrbs - orbMatchList.get(i).getOrbsLinked() >= 0) {
-                    maximumOrbs -= orbMatchList.get(i).getOrbsLinked();
-                } else {
-                    orbMatchList.remove(i);
-                }
-            }
-            additionalComboValue.setEnabled(false);
-        }
+        orbMatchList = realm.where(OrbMatch.class).findAllSorted("matchId");
+        orbsLinkedItems = new ArrayList<>();
+        orbsPlusItems = new ArrayList<>();
+
+        boardSizeItems = new ArrayList<>();
+        boardSizeItems.add("5x4");
+        boardSizeItems.add("6x5");
+        boardSizeItems.add("7x6");
+
+//        onSelect();
 
         orbMatchRecycler = new OrbMatchRecycler(getActivity(), orbMatchList, orbMatchOnClickListener, removeMatchOnClickListener);
         orbMatches.setAdapter(orbMatchRecycler);
         orbMatches.setLayoutManager(new LinearLayoutManager(getActivity()));
-        additionalComboValue.setText("" + orbMatchList.size());
         additionalComboValue.addTextChangedListener(totalCombosTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
         calculateButton.setOnClickListener(calculateOnClickListener);
@@ -795,23 +734,6 @@ public class OrbMatchFragment extends Fragment {
         ignoreEnemyCheckBox.setChecked(Singleton.getInstance().isIgnoreEnemy());
 
         orbRadioGroup.setOnCheckedChangeListener(orbRadioGroupOnCheckChangeListener);
-
-        orbsLinkedItems = new ArrayList<>();
-        orbsPlusItems = new ArrayList<>();
-
-        updateSpinners();
-
-        if (maximumOrbs < minimumMatch) {
-                orbsLinkedItems.add("" + minimumMatch);
-            for (int i = 0; i <= minimumMatch; i++) {
-                orbsPlusItems.add("" + i);
-            }
-        }
-
-        boardSizeItems = new ArrayList<>();
-        boardSizeItems.add("5x4");
-        boardSizeItems.add("6x5");
-        boardSizeItems.add("7x6");
         ArrayAdapter<String> orbsLinkedAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, orbsLinkedItems);
         orbsLinked.setAdapter(orbsLinkedAdapter);
         ArrayAdapter<String> orbsPlusAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, orbsPlusItems);
@@ -826,89 +748,14 @@ public class OrbMatchFragment extends Fragment {
 
         options.setOnClickListener(optionsOnClickListener);
 
-        getActivity().setTitle("Set Orb Matches");
+//        getActivity().setTitle("Set Orb Matches");
         //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        for (int i = 0; i < OrbMatch.getAllOrbMatches().size(); i++) {
-//            if (!orbMatchList.contains(OrbMatch.getAllOrbMatches().get(i))) {
-//                OrbMatch.getAllOrbMatches().get(i).delete();
-//                i -= 1;
-//            }
-//        }
-//        if (orbMatchList.size() == 0) {
-//            OrbMatch.deleteAllOrbMatches();
-//        }
-//        for (int i = 0; i < orbMatchList.size(); i++) {
-//            if (!OrbMatch.getAllOrbMatches().contains(orbMatchList.get(i))) {
-//                orbMatchList.get(i).save();
-//            }
-//        }
-//        team.updateOrbs();
-        realm.beginTransaction();
-        if (orbMatchList.size() == 0) {
-            realm.where(OrbMatch.class).findAll().deleteAllFromRealm();
-        } else if (realm.where(OrbMatch.class).findAll().size() == 0) {
-            for (int i = 0; i < orbMatchList.size(); i++) {
-                orbMatchList.get(i).setMatchId(i);
-                realm.copyToRealm(orbMatchList.get(i));
-            }
-        } else {
-            RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
-            for (int i = 0; i < results.size(); i++) {
-                if (!orbMatchList.contains(results.get(i))) {
-                    results.get(i).deleteFromRealm();
-                }
-            }
-            results = realm.where(OrbMatch.class).findAllSorted("matchId");
-            long lastMatchId;
-            if (results.size() == 0) {
-                lastMatchId = -1;
-            } else {
-                lastMatchId = results.get(results.size() - 1).getMatchId();
-            }
-            for (int i = 0; i < orbMatchList.size(); i++) {
-                if ((orbMatchList.get(i).getMatchId() == 0) && !orbMatchList.get(i).isManaged()) {
-                    orbMatchList.get(i).setMatchId(lastMatchId + 1);
-                    lastMatchId++;
-                    realm.copyToRealm(orbMatchList.get(i));
-                }
-            }
-        }
-        realm.commitTransaction();
-        team.setOrbMatches(orbMatchList);
-        team.updateOrbs();
-        if (orbMatchList.size() != 0) {
-            team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
-        }
-        team.setHpRcvMultiplierArrays(orbMatchList.size() + additionalCombos);
-//        if(team.getLeadSkill().getRcvSkillType() != null){
-//            if(team.getLeadSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.COMBO)){
-//                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
-//                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getLeadSkill(), orbMatchList.size() + additionalCombos));
-//                }
-//            } else if(team.getHelperSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
-//                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
-//                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.indianRcv(team, team.getLeadSkill()));
-//                }
-//            }
-//        }
-//
-//        if(team.getHelperSkill().getRcvSkillType() != null){
-//            if(team.getHelperSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.COMBO)){
-//                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
-//                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.comboRcv(team.getHelperSkill(), orbMatchList.size() + additionalCombos));
-//                }
-//            } else if(team.getHelperSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
-//                for (int i = 0; i < team.getRcvMultiplier().size(); i++){
-//                    team.getRcvMultiplier().set(i, team.getRcvMultiplier().get(i) * LeaderSkillCalculationUtil.indianRcv(team, team.getHelperSkill()));
-//                }
-//            }
-//        }
-        Log.d("OrbMatchFragment", "rcvMultiplier is: " + team.getRcvMultiplier());
+        onDeselect();
     }
 
     private void updateSpinners() {
@@ -935,6 +782,179 @@ public class OrbMatchFragment extends Fragment {
             }
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        broadcastReceiver = new JustAnotherBroadcastReceiver(receiverMethods);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter("REFRESH_ORB_MATCH"));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter("ONDESELECT_ORB_MATCH"));
+    }
+
+    private JustAnotherBroadcastReceiver.receiverMethods receiverMethods = new JustAnotherBroadcastReceiver.receiverMethods() {
+        @Override
+        public void onReceiveMethod(Intent intent) {
+            switch(intent.getAction()){
+                case "ONDESELECT_ORB_MATCH":
+                    onDeselect();
+                    break;
+                case "REFRESH_ORB_MATCH":
+                    onSelect();
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
+    }
+
+    public void onSelect(){
+        additionalCombos = Singleton.getInstance().getAdditionalCombos();
+        if(team.getLeadSkill() != null){
+            if(minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType())){
+                if (team.getLeadSkill().getMinimumMatch() > minimumMatch) {
+                    minimumMatch = team.getLeadSkill().getMinimumMatch();
+                }
+            }
+        }
+        if(team.getHelperSkill() != null){
+            if(minimumMatchLeaderSkills.contains(team.getHelperSkill().getAtkSkillType().getLeaderSkillType())){
+                if (team.getHelperSkill().getMinimumMatch() > minimumMatch) {
+                    minimumMatch = team.getHelperSkill().getMinimumMatch();
+                }
+            }
+        }
+
+        realm.beginTransaction();
+        for (int i = 0; i < orbMatchList.size(); i++){
+            if(orbMatchList.get(i).getOrbsLinked() < minimumMatch){
+                orbMatchList.deleteFromRealm(i);
+            }
+        }
+        if(team.getLeadSkill() !=  null){
+            if(team.getLeadSkill().getBoardSize() == 2){
+                Singleton.getInstance().setBoardSize(2);
+                boardSize.setEnabled(false);
+                for(int i = 0; i < orbMatchList.size(); i++){
+                    if(orbMatchList.get(i).getOrbsLinked() == 6 || orbMatchList.get(i).getOrbsLinked() == 5 || orbMatchList.get(i).getOrbsLinked() == 8){
+                        if (orbMatchList.get(i).isRow()){
+                            orbMatchList.deleteFromRealm(i);
+                            i--;
+                        }
+                    }
+                }
+            } else if(team.getHelperSkill() != null){
+                if(team.getHelperSkill().getBoardSize() == 2){
+                    Singleton.getInstance().setBoardSize(2);
+                    boardSize.setEnabled(false);
+                    for(int i = 0; i < orbMatchList.size(); i++){
+                        if(orbMatchList.get(i).getOrbsLinked() == 6 || orbMatchList.get(i).getOrbsLinked() == 5 || orbMatchList.get(i).getOrbsLinked() == 8){
+                            if (orbMatchList.get(i).isRow()){
+                                orbMatchList.deleteFromRealm(i);
+                                i--;
+                            }
+                        }
+                    }
+                } else {
+                    boardSize.setEnabled(true);
+                }
+            } else {
+                boardSize.setEnabled(true);
+            }
+        }
+//        if(team.getLeadSkill().getBoardSize() == 2 || team.getHelperSkill().getBoardSize() == 2){
+//            Singleton.getInstance().setBoardSize(2);
+//            boardSize.setEnabled(false);
+//            for(int i = 0; i < orbMatchList.size(); i++){
+//                if(orbMatchList.get(i).getOrbsLinked() == 6 || orbMatchList.get(i).getOrbsLinked() == 5 || orbMatchList.get(i).getOrbsLinked() == 8){
+//                    if (orbMatchList.get(i).isRow()){
+//                        orbMatchList.deleteFromRealm(i);
+//                        i--;
+//                    }
+//                }
+//            }
+//        } else {
+//            boardSize.setEnabled(true);
+//        }
+
+        switch (Singleton.getInstance().getBoardSize()) {
+            case 0:
+                maximumOrbs = 20;
+                break;
+            case 1:
+                maximumOrbs = 30;
+                break;
+            case 2:
+                maximumOrbs = 42;
+                break;
+        }
+
+        if (team.getTeamBadge() == 13 || team.getLeadSkill().isNoSkyfall() || team.getHelperSkill().isNoSkyfall()) {
+            noDrop = true;
+        }
+
+        if (noDrop && preferences.getBoolean("showNoDropDisclaimer", true)) {
+            disclaimerDialog = NoDropDialogFragment.newInstance(new NoDropDialogFragment.Preferences() {
+                @Override
+                public void setShowAgain(boolean showAgain) {
+                    if (!showAgain) {
+                        preferences.edit().putBoolean("showNoDropDisclaimer", true).apply();
+                    } else {
+                        preferences.edit().putBoolean("showNoDropDisclaimer", false).apply();
+                    }
+                }
+            });
+            disclaimerDialog.show(getChildFragmentManager(), "Show Disclaimer");
+        }
+
+        if(noDrop){
+            for (int i = 0; i < orbMatchList.size(); i++) {
+                if (maximumOrbs - orbMatchList.get(i).getOrbsLinked() >= 0) {
+                    maximumOrbs -= orbMatchList.get(i).getOrbsLinked();
+                } else {
+                    orbMatchList.deleteFromRealm(i);
+                }
+            }
+            additionalComboValue.setEnabled(false);
+        }
+        realm.commitTransaction();
+
+        if (maximumOrbs < minimumMatch) {
+            orbsLinkedItems.add("" + minimumMatch);
+            for (int i = 0; i <= minimumMatch; i++) {
+                orbsPlusItems.add("" + i);
+            }
+        }
+
+        if(orbMatchList.size() == 0){
+            emptyText.setVisibility(View.VISIBLE);
+        } else {
+            emptyText.setVisibility(View.INVISIBLE);
+        }
+
+        updateSpinners();
+        additionalComboValue.setText("" + (orbMatchList.size() + additionalCombos));
+        boardSize.setSelection(Singleton.getInstance().getBoardSize(), false);
+    }
+
+    public void onDeselect(){
+        Log.d("OrbMatchFrag", "onDeselect");
+        team.getOrbMatches().clear();
+        team.getOrbMatches().addAll(orbMatchList);
+        team.updateOrbs();
+        if (orbMatchList.size() != 0) {
+            team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
+        }
+        team.setHpRcvMultiplierArrays(orbMatchList.size() + additionalCombos);
+
+        Singleton.getInstance().setAdditionalCombos(additionalCombos);
+        Log.d("OrbMatchFragment", "OrbMatch realm is: " + realm.where(OrbMatch.class).findAll());
+        Log.d("OrbMatchFragment", "additional combos is: " + Singleton.getInstance().getAdditionalCombos());
+        Log.d("OrbMatchFragment", "rcvMultiplier is: " + team.getRcvMultiplier());
     }
 
 }

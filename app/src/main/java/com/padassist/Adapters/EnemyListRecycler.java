@@ -47,14 +47,14 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
     public EnemyListRecycler(Context context, ArrayList<Enemy> monsterList, RecyclerView monsterListView,
-                             boolean isGrid, Realm realm, ClearTextFocus clearTextFocus, Enemy enemy) {
+                             boolean isGrid, Realm realm, ClearTextFocus clearTextFocus) {
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListView = monsterListView;
         this.isGrid = isGrid;
         this.clearTextFocus = clearTextFocus;
         this.realm = realm;
-        this.enemy = enemy;
+//        this.enemy = enemy;
 
         fortyEightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, mContext.getResources().getDisplayMetrics());
         eightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, mContext.getResources().getDisplayMetrics());
@@ -94,7 +94,16 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void onClick(View view) {
             int position = (int) view.getTag(R.string.index);
-            enemy.setEnemy(realm.copyFromRealm(monsterList.get(position)));
+            enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
+            enemy = realm.copyFromRealm(enemy);
+            realm.beginTransaction();
+            enemy.setEnemy(monsterList.get(position));
+            realm.copyToRealmOrUpdate(enemy);
+            realm.commitTransaction();
+            Log.d("EnemyListRecycler", "enemyId is: " + enemy.getEnemyId());
+            for(int i = 0; i < enemy.getTypes().size(); i++){
+                Log.d("EnemyListRecycler", "Type " + i + " is: " + enemy.getTypes().get(i).getValue());
+            }
             ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
         }
     };
@@ -129,15 +138,15 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     };
 
-    private View.OnLongClickListener enemyOnLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(View view) {
-            int position = (int) view.getTag(R.string.index);
-            enemy.setEnemy(realm.copyFromRealm(monsterList.get(position)));
-            ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
-            return true;
-        }
-    };
+//    private View.OnLongClickListener enemyOnLongClickListener = new View.OnLongClickListener() {
+//        @Override
+//        public boolean onLongClick(View view) {
+//            int position = (int) view.getTag(R.string.index);
+//            enemy.setEnemy(realm.copyFromRealm(monsterList.get(position)));
+//            ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
+//            return true;
+//        }
+//    };
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
@@ -290,7 +299,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
                 EnemyListRecycler.ViewHolderGrid viewHolderGrid = new EnemyListRecycler.ViewHolderGrid(inflater.inflate(R.layout.base_monster_list_grid, parent, false));
                 viewHolderGrid.itemView.setOnClickListener(expandOnItemClickListener);
                 viewHolderGrid.itemView.setTag(viewHolderGrid);
-                viewHolderGrid.itemView.setOnLongClickListener(enemyOnLongClickListener);
+//                viewHolderGrid.itemView.setOnLongClickListener(enemyOnLongClickListener);
                 viewHolderGrid.monsterIdStroke.setVisibility(View.GONE);
                 return viewHolderGrid;
             default:
@@ -304,7 +313,7 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                 viewHolderLinear.choose.setOnClickListener(enemyOnClickListener);
 
-                viewHolderLinear.itemView.setOnLongClickListener(enemyOnLongClickListener);
+//                viewHolderLinear.itemView.setOnLongClickListener(enemyOnLongClickListener);
                 viewHolderLinear.delete.setOnClickListener(enemyDeleteOnClickListener);
                 return viewHolderLinear;
         }

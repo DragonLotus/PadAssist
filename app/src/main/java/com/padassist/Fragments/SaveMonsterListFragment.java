@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.padassist.Adapters.SaveMonsterListRecycler;
-import com.padassist.BaseFragments.MonsterTabLayoutBase;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.FastScroller;
@@ -108,7 +108,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
             }
             monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).findAll());
         } else if(selection == MonsterTabLayoutFragment.INHERIT){
-            monsterListAll.addAll(realm.where(Monster.class).equalTo("baseMonster.inheritable", true).notEqualTo("monsterId", monster.getMonsterId()).findAll());
+            monsterListAll.addAll(realm.where(Monster.class).equalTo("baseMonster.inheritable", true).equalTo("helper", false).notEqualTo("monsterId", monster.getMonsterId()).findAll());
             monsterListAll.add(0, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
         }
 
@@ -188,7 +188,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
                     realm.commitTransaction();
                 }
 
-                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                getActivity().getSupportFragmentManager().popBackStack(MainTabLayoutFragment.TAG, 0);
                 Parcelable monsterParcel = Parcels.wrap(saveMonsterListRecycler.getItem(position));
                 ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");
             }
@@ -245,7 +245,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
                     }
                     realm.commitTransaction();
                 }
-                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                getActivity().getSupportFragmentManager().popBackStack(MainTabLayoutFragment.TAG, 0);
             }
             return true;
         }

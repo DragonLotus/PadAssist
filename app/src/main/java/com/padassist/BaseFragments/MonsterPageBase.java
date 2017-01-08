@@ -131,15 +131,17 @@ public abstract class MonsterPageBase extends Fragment {
                 if(statValue == 0){
                     statValue = 1;
                 }
-                monster.getMonsterInherit().setCurrentLevel(statValue);
-                monster.getMonsterInherit().setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getHpMin(), monster.getMonsterInherit().getHpMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getHpScale()));
-                monster.getMonsterInherit().setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getAtkMin(), monster.getMonsterInherit().getAtkMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getAtkScale()));
-                monster.getMonsterInherit().setCurrentRcv(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getRcvMin(), monster.getMonsterInherit().getRcvMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getRcvScale()));
-                setInheritStats();
-                monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
-                monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
-                monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
-                monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                if(monster.getMonsterInherit() != null){
+                    monster.getMonsterInherit().setCurrentLevel(statValue);
+                    monster.getMonsterInherit().setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getHpMin(), monster.getMonsterInherit().getHpMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getHpScale()));
+                    monster.getMonsterInherit().setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getAtkMin(), monster.getMonsterInherit().getAtkMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getAtkScale()));
+                    monster.getMonsterInherit().setCurrentRcv(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getRcvMin(), monster.getMonsterInherit().getRcvMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getRcvScale()));
+                    setInheritStats();
+                    monsterStatsHPTotal.setText(String.valueOf(monster.getTotalHp()));
+                    monsterStatsATKTotal.setText(String.valueOf(monster.getTotalAtk()));
+                    monsterStatsRCVTotal.setText(String.valueOf(monster.getTotalRcv()));
+                    monsterStatsTotalWeightedValue.setText(String.valueOf(monster.getTotalWeightedString()));
+                }
             }
         }
     };
@@ -317,7 +319,6 @@ public abstract class MonsterPageBase extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.searchGroup, true);
         menu.findItem(R.id.addMonster).setVisible(false);
-        menu.findItem(R.id.manageMonsters).setVisible(false);
     }
 
     @Override

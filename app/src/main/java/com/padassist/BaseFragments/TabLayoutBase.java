@@ -1,11 +1,9 @@
 package com.padassist.BaseFragments;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,23 +16,18 @@ import com.padassist.R;
 
 import io.realm.Realm;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MonsterTabLayoutBase.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MonsterTabLayoutBase#newInstance} factory method to
- * create an instance of this fragment.
- */
-public abstract class MonsterTabLayoutBase extends Fragment {
+public abstract class TabLayoutBase extends Fragment {
 
-    public static final String TAG = MonsterTabLayoutBase.class.getSimpleName();
+    public static final String TAG = TabLayoutBase.class.getSimpleName();
+    public static final int MAIN = 1;
+    public static final int MONSTERS = 2;
+    protected int selection;
     protected OnFragmentInteractionListener mListener;
     protected TabLayout tabLayout;
     protected ViewPager viewPager;
     protected Realm realm = Realm.getDefaultInstance();
 
-    public MonsterTabLayoutBase() {
+    public TabLayoutBase() {
         // Required empty public constructor
     }
 
@@ -47,19 +40,25 @@ public abstract class MonsterTabLayoutBase extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.findItem(R.id.manageMonsters).setVisible(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_monster_tab_layout, container, false);
+        View rootView;
+        if(getSelection() == MAIN) {
+            rootView = inflater.inflate(R.layout.fragment_monster_tab_layout_bottom, container, false);
+        }else {
+            rootView = inflater.inflate(R.layout.fragment_monster_tab_layout, container, false);
+        }
 
         viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
         tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
         // Inflate the layout for this fragment
         return rootView;
     }
+
+    public abstract int getSelection();
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

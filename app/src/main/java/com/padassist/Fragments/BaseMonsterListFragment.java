@@ -179,7 +179,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
                     realm.commitTransaction();
                 }
                 Log.d("BaseMonsterList", "newTeam monsters is: " + newTeam.getMonsters());
-                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                getActivity().getSupportFragmentManager().popBackStack(MainTabLayoutFragment.TAG, 0);
                 if (newMonster.getMonsterId() != 0) {
                     Parcelable monsterParcel = Parcels.wrap(newMonster);
                     ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster.getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");
@@ -259,7 +259,7 @@ public class BaseMonsterListFragment extends BaseMonsterListBase {
                     }
                     realm.commitTransaction();
                 }
-                getActivity().getSupportFragmentManager().popBackStack(MonsterListFragment.TAG, 0);
+                getActivity().getSupportFragmentManager().popBackStack(MainTabLayoutFragment.TAG, 0);
                 if (newMonster.getMonsterId() != 0) {
                     Parcelable monsterParcel = Parcels.wrap(newMonster);
                     ((MainActivity)getActivity()).switchFragment(MonsterPageFragment.newInstance(newMonster.getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");

@@ -13,7 +13,7 @@ public class UpdateAvailableDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Update available");
-        builder.setMessage("There is a new update available on the Play Store.");
+        builder.setMessage("There is a new version available on the Play Store.");
         builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dismiss();

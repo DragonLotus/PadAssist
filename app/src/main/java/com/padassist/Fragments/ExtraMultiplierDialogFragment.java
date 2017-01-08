@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class ExtraMultiplierDialogFragment extends DialogFragment {
     private RadioGroup elementRadioGroup;
-    private CheckBox redOrb, blueOrb, greenOrb, lightOrb, darkOrb, enable, coopCheck;
+    private CheckBox redOrb, blueOrb, greenOrb, lightOrb, darkOrb, enable, coopCheck, hasEnemyCheck;
     private ExpandableHeightGridView typeGrid;
     private EditText multiplier;
     private SaveTeam saveTeam;
@@ -68,6 +68,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         multiplier = (EditText) rootView.findViewById(R.id.multiplier);
         enable = (CheckBox) rootView.findViewById(R.id.enable);
         coopCheck = (CheckBox) rootView.findViewById(R.id.coopCheck);
+        hasEnemyCheck = (CheckBox) rootView.findViewById(R.id.hasEnemyCheck);
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         typeList = new ArrayList<>();
@@ -115,6 +116,7 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
                 public void onClick(View v) {
                     saveTeam.update();
                     Singleton.getInstance().setCoopEnable(coopCheck.isChecked());
+                    Singleton.getInstance().setHasEnemy(hasEnemyCheck.isChecked());
                     dismiss();
                 }
             });
@@ -176,6 +178,11 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
         } else {
             coopCheck.setChecked(false);
         }
+        if(Singleton.getInstance().hasEnemy()){
+            hasEnemyCheck.setChecked(true);
+        } else {
+            hasEnemyCheck.setChecked(false);
+        }
     }
 
     private void setElements() {
@@ -199,33 +206,6 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
 
             }
         }
-//        if (Singleton.getInstance().getExtraElementMultiplier().size() != 0) {
-//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.RED)) {
-//                redOrb.setChecked(true);
-//            } else {
-//                redOrb.setChecked(false);
-//            }
-//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.BLUE)) {
-//                blueOrb.setChecked(true);
-//            } else {
-//                blueOrb.setChecked(false);
-//            }
-//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.GREEN)) {
-//                greenOrb.setChecked(true);
-//            } else {
-//                greenOrb.setChecked(false);
-//            }
-//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.LIGHT)) {
-//                lightOrb.setChecked(true);
-//            } else {
-//                lightOrb.setChecked(false);
-//            }
-//            if (Singleton.getInstance().getExtraElementMultiplier().contains(Element.DARK)) {
-//                darkOrb.setChecked(true);
-//            } else {
-//                darkOrb.setChecked(false);
-//            }
-//        }
     }
 
     private GridView.OnItemClickListener typeGridOnClickListener = new GridView.OnItemClickListener() {

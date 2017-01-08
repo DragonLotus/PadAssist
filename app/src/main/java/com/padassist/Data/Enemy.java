@@ -138,7 +138,7 @@ public class Enemy extends RealmObject {
     }
 
     public void setEnemy(Enemy enemy) {
-        enemyId = 0;
+//        enemyId = 0;
         overwriteEnemyId = enemy.getEnemyId();
         enemyName = enemy.getEnemyName();
         monsterIdPicture = enemy.getMonsterIdPicture();

@@ -58,7 +58,6 @@ public class MonsterPageFragment extends MonsterPageBase {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.findItem(R.id.manageMonsters).setVisible(false);
     }
 
 

@@ -82,6 +82,9 @@ public class EnemyListFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        for(int i = 0; i < enemy.getTargetElement().size(); i++){
+            Log.d("EnemyListFrag", "Enemy element " + i+ " is: " + enemy.getTargetElement().get(i).getValue());
+        }
         realm.close();
     }
 
@@ -170,12 +173,18 @@ public class EnemyListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
+//            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
         savedMonsters.setText("No Saved Enemies");
         preferences = PreferenceManager.getDefaultSharedPreferences(Singleton.getInstance().getContext());
         isGrid = preferences.getBoolean("isGrid", true);
         realm = Realm.getDefaultInstance();
+        enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
+        Log.d("EnemyListFrag", "onActivityCreated Enemy is: " + enemy);
+//        enemy = realm.copyFromRealm(enemy);
+        for(int i = 0; i < enemy.getTargetElement().size(); i++){
+            Log.d("EnemyListFrag", "onActivityCreated Enemy element " + i+ " is: " + enemy.getTargetElement().get(i).getValue());
+        }
 
         if (enemyListAll == null) {
             enemyListAll = new ArrayList<>();
@@ -196,10 +205,12 @@ public class EnemyListFragment extends Fragment {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
 
-        enemyListRecycler = new EnemyListRecycler(getContext(), enemyList, monsterListView, isGrid, realm, clearTextFocus, enemy);
+        enemyListRecycler = new EnemyListRecycler(getContext(), enemyList, monsterListView, isGrid, realm, clearTextFocus);
         monsterListView.setAdapter(enemyListRecycler);
         getActivity().setTitle("Replace Enemy");
     }
+
+
 
     private EnemyListRecycler.ClearTextFocus clearTextFocus = new EnemyListRecycler.ClearTextFocus() {
         @Override

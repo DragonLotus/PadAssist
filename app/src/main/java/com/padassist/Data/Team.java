@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.padassist.ParcelConverters.MonsterParcelConverter;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Comparators.NumberComparator;
@@ -112,9 +113,7 @@ public class Team extends RealmObject {
         teamHealth = 0;
         teamRcv = 0;
         orbMatches = new ArrayList<>();
-//        hasAwakenings = true;
         favorite = false;
-//        isActiveSkillUsed = false;
         teamName = "Untitled Team";
         teamHp = 100;
         isBound.clear();
@@ -131,6 +130,21 @@ public class Team extends RealmObject {
             atk1Multiplier.add(1.0);
             atk2Multiplier.add(1.0);
         }
+    }
+
+    public void setTeam(Team team){
+        lead = team.getLead();
+        sub1 = team.getSub1();
+        sub2 = team.getSub2();
+        sub3 = team.getSub3();
+        sub4 = team.getSub4();
+        helper = team.getHelper();
+        teamName = team.getTeamName();
+        teamGroup = team.getTeamGroup();
+        teamOrder = team.getTeamOrder();
+        favorite = team.isFavorite();
+        teamIdOverwrite = team.getTeamId();
+        teamBadge = team.getTeamBadge();
     }
 
 //    public Team(Team oldTeam) {
@@ -309,6 +323,7 @@ public class Team extends RealmObject {
         return sub1;
     }
 
+    @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setSub1(Monster sub1) {
         this.sub1 = sub1;
     }
@@ -317,6 +332,7 @@ public class Team extends RealmObject {
         return sub2;
     }
 
+    @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setSub2(Monster sub2) {
         this.sub2 = sub2;
     }
@@ -325,6 +341,7 @@ public class Team extends RealmObject {
         return sub3;
     }
 
+    @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setSub3(Monster sub3) {
         this.sub3 = sub3;
     }
@@ -333,6 +350,7 @@ public class Team extends RealmObject {
         return sub4;
     }
 
+    @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setSub4(Monster sub4) {
         this.sub4 = sub4;
     }
@@ -341,6 +359,7 @@ public class Team extends RealmObject {
         return lead;
     }
 
+    @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setLead(Monster lead) {
         this.lead = lead;
     }
@@ -349,6 +368,7 @@ public class Team extends RealmObject {
         return helper;
     }
 
+    @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setHelper(Monster helper) {
         this.helper = helper;
     }
@@ -830,11 +850,14 @@ public class Team extends RealmObject {
     }
 
     public void setAtkMultiplierArrays(int combos) {
-        for (int i = 0; i < getMonsters().size(); i++){
-            ArrayList<Double> atkMultiplier = new ArrayList<>();
-            atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
-            atk1Multiplier.set(i, atkMultiplier.get(0));
-            atk2Multiplier.set(i, atkMultiplier.get(1));
+        Log.d("Team", "orbMatches size is: " + orbMatches.size());
+        if(orbMatches.size() != 0){
+            for (int i = 0; i < getMonsters().size(); i++){
+                ArrayList<Double> atkMultiplier = new ArrayList<>();
+                atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
+                atk1Multiplier.set(i, atkMultiplier.get(0));
+                atk2Multiplier.set(i, atkMultiplier.get(1));
+            }
         }
         Log.d("Team","atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier);
     }

@@ -2,17 +2,19 @@ package com.padassist.BaseFragments;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,8 +25,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.fasterxml.jackson.databind.deser.Deserializers;
 import com.padassist.Adapters.BaseMonsterListRecycler;
+import com.padassist.BroadcastReceivers.JustAnotherBroadcastReceiver;
 import com.padassist.Comparators.BaseMonsterAlphabeticalComparator;
 import com.padassist.Comparators.BaseMonsterAtkComparator;
 import com.padassist.Comparators.BaseMonsterAwakeningComparator;
@@ -38,7 +40,6 @@ import com.padassist.Comparators.BaseMonsterType1Comparator;
 import com.padassist.Comparators.BaseMonsterType2Comparator;
 import com.padassist.Comparators.BaseMonsterType3Comparator;
 import com.padassist.Data.BaseMonster;
-import com.padassist.Data.LeaderSkill;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Fragments.FilterDialogFragment;
@@ -100,6 +101,7 @@ public abstract class BaseMonsterListBase extends Fragment {
     private TextView noResults;
     protected int selection;
     protected Monster monster;
+    protected JustAnotherBroadcastReceiver broadcastReceiver;
 
     protected SharedPreferences preferences;
     protected boolean isGrid;
@@ -118,16 +120,6 @@ public abstract class BaseMonsterListBase extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         realm.close();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (searchMenuItem != null) {
-            if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
-                MenuItemCompat.collapseActionView(searchMenuItem);
-            }
-        }
     }
 
     @Override
@@ -229,17 +221,7 @@ public abstract class BaseMonsterListBase extends Fragment {
                 }
                 break;
             case R.id.toggleGrid:
-                preferences.edit().putBoolean("isGrid", !isGrid).apply();
-                isGrid = preferences.getBoolean("isGrid", true);
-                if (isGrid) {
-                    monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
-                } else {
-                    monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-                }
-                baseMonsterListRecycler.notifyDataSetChanged(isGrid);
-                if (baseMonsterListRecycler.getExpandedPosition() > -1) {
-                    monsterListView.scrollToPosition(baseMonsterListRecycler.getExpandedPosition());
-                }
+                gridToggle();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -760,4 +742,53 @@ public abstract class BaseMonsterListBase extends Fragment {
             }
         }
     };
+
+    private void gridToggle(){
+        preferences.edit().putBoolean("isGrid", !isGrid).apply();
+        isGrid = preferences.getBoolean("isGrid", true);
+        if (isGrid) {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
+        } else {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        }
+        baseMonsterListRecycler.notifyDataSetChanged(isGrid);
+        if (baseMonsterListRecycler.getExpandedPosition() > -1) {
+            monsterListView.scrollToPosition(baseMonsterListRecycler.getExpandedPosition());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        broadcastReceiver = new JustAnotherBroadcastReceiver(receiverMethods);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter("REFRESH"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (searchMenuItem != null) {
+            if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
+                MenuItemCompat.collapseActionView(searchMenuItem);
+            }
+        }
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
+    }
+
+    private JustAnotherBroadcastReceiver.receiverMethods receiverMethods = new JustAnotherBroadcastReceiver.receiverMethods() {
+        @Override
+        public void onReceiveMethod(Intent intent) {
+            switch(intent.getAction()){
+                case "REFRESH":
+                    onSelect();
+                    break;
+            }
+        }
+    };
+
+    public void onSelect(){
+        if(preferences.getBoolean("isGrid", true) != isGrid){
+            gridToggle();
+        }
+    }
 }

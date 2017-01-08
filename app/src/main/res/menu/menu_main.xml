@@ -23,12 +23,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/manageMonsters"
-        android:orderInCategory="99"
-        android:title="Manage Monsters"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/updateCheck"
         android:orderInCategory="99"
         android:title="Sync Monster Updates"
@@ -45,6 +39,12 @@
             android:id="@+id/loadTeam"
             android:icon="@drawable/people_swap"
             android:title="Load Team"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/teamOverview"
+            android:icon="@drawable/people"
+            android:title="Team Overview"
             app:showAsAction="ifRoom" />
     </group>
 

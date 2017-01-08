@@ -1,9 +1,12 @@
 package com.padassist.Fragments;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,8 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Adapters.MonsterListRecycler;
-import com.padassist.Data.BaseMonster;
-import com.padassist.Data.Enemy;
+import com.padassist.BroadcastReceivers.JustAnotherBroadcastReceiver;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
@@ -58,12 +60,12 @@ public class MonsterListFragment extends Fragment {
     private RecyclerView monsterListView;
     private ArrayList<Monster> monsters;
     private MonsterListRecycler monsterListRecycler;
-    private Button importButton, orbMatchButton;
+//    private Button importButton, orbMatchButton;
     private ImageView favorite, favoriteOutline;
     private TextView teamName;
     private ImageView teamBadge;
     private Team team;
-    private Enemy enemy;
+//    private Enemy enemy;
     private Toast toast;
     private TeamSaveDialogFragment teamSaveDialogFragment;
     private TeamBadgeDialogFragment teamBadgeDialogFragment;
@@ -71,6 +73,7 @@ public class MonsterListFragment extends Fragment {
     private Realm realm;
     private Monster monster0;
     private LoadTeamConfirmationDialogFragment loadTeamConfirmationDialogFragment;
+    private JustAnotherBroadcastReceiver broadcastReceiver;
 
     /**
      * Use this factory method to create a new instance of
@@ -79,10 +82,16 @@ public class MonsterListFragment extends Fragment {
      * @return A new instance of fragment MonsterListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MonsterListFragment newInstance(Parcelable enemy) {
+    public static MonsterListFragment newInstance(Parcelable team) {
         MonsterListFragment fragment = new MonsterListFragment();
         Bundle args = new Bundle();
-        args.putParcelable("enemy", enemy);
+        args.putParcelable("team", team);
+        fragment.setArguments(args);
+        return fragment;
+    }
+    public static MonsterListFragment newInstance() {
+        MonsterListFragment fragment = new MonsterListFragment();
+        Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
@@ -116,8 +125,8 @@ public class MonsterListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_monster_list, container, false);
         monsterListView = (RecyclerView) rootView.findViewById(R.id.monsterListView);
-        importButton = (Button) rootView.findViewById(R.id.importButton);
-        orbMatchButton = (Button) rootView.findViewById(R.id.orbMatchButton);
+//        importButton = (Button) rootView.findViewById(R.id.importButton);
+//        orbMatchButton = (Button) rootView.findViewById(R.id.orbMatchButton);
         teamName = (TextView) rootView.findViewById(R.id.teamName);
         favorite = (ImageView) rootView.findViewById(R.id.favorite);
         favoriteOutline = (ImageView) rootView.findViewById(R.id.favoriteOutline);
@@ -142,8 +151,7 @@ public class MonsterListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        team.setTeamStats(realm);
-        team.setAwakenings();
+        onDeselect();
     }
 
     @Override
@@ -172,12 +180,15 @@ public class MonsterListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.setGroupVisible(R.id.saveTeamGroup, true);
         menu.findItem(R.id.saveTeam).setVisible(true);
-        menu.findItem(R.id.manageMonsters).setVisible(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Parcelable teamParcel = Parcels.wrap(team);
         switch (item.getItemId()) {
+            case R.id.teamOverview:
+                ((MainActivity) getActivity()).switchFragment(TeamOverviewFragment.newInstance(teamParcel), TeamOverviewFragment.TAG, "good");
+                break;
             case R.id.saveTeam:
                 if (team.getMonsters(0).getMonsterId() == 0) {
                     if (toast != null) {
@@ -200,6 +211,7 @@ public class MonsterListFragment extends Fragment {
                 break;
             case R.id.loadTeam:
                 Monster monsterZero = realm.where(Monster.class).equalTo("monsterId", 0).findFirst();
+//                Parcelable teamParcel = Parcels.wrap(team);
                 if(team.getTeamIdOverwrite() == 0){
                     boolean notEqual = false;
                     for (int i = 0; i < monsters.size(); i++){
@@ -215,7 +227,7 @@ public class MonsterListFragment extends Fragment {
                             loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
                         }
                     } else {
-                        ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+                        ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(teamParcel), TeamListFragment.TAG, "good");
                     }
                 } else {
                     Team teamOverwrite = realm.where(Team.class).equalTo("teamId", team.getTeamIdOverwrite()).findFirst();
@@ -228,7 +240,7 @@ public class MonsterListFragment extends Fragment {
                                 loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
                             }
                         } else {
-                            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+                            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(teamParcel), TeamListFragment.TAG, "good");
                         }
                     } else {
                         boolean notEqual = false;
@@ -245,12 +257,13 @@ public class MonsterListFragment extends Fragment {
                                 loadTeamConfirmationDialogFragment.show(getChildFragmentManager(), "Load Team Confirmation");
                             }
                         } else {
-                            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+                            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(teamParcel), TeamListFragment.TAG, "good");
                         }
                     }
 
                 }
                 break;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -259,7 +272,8 @@ public class MonsterListFragment extends Fragment {
         @Override
         public void resetLayout() {
             loadTeamConfirmationDialogFragment.dismiss();
-            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG, "good");
+            Parcelable teamParcel = Parcels.wrap(team);
+            ((MainActivity)getActivity()).switchFragment(TeamListFragment.newInstance(teamParcel), TeamListFragment.TAG, "good");
         }
     };
 
@@ -270,21 +284,10 @@ public class MonsterListFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-//        team = Team.getTeamById(0);
-//        monsters = team.getMonsters();
-//        monsterListRecycler.updateList(monsters);
-//        team.updateAwakenings();
-//        team.updateLeaderSkills();
-//        team.setTeamStats();
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
         }
 
         realm = Realm.getDefaultInstance();
@@ -322,12 +325,12 @@ public class MonsterListFragment extends Fragment {
         monsterListRecycler = new MonsterListRecycler(getActivity(), monsters);
         monsterListView.setAdapter(monsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        importButton.setOnClickListener(importButtonOnClickListener);
-        orbMatchButton.setOnClickListener(orbMatchOnClickListener);
+//        importButton.setOnClickListener(importButtonOnClickListener);
+//        orbMatchButton.setOnClickListener(orbMatchOnClickListener);
         favorite.setColorFilter(0xFFFFAADD);
         favoriteOutline.setOnClickListener(favoriteOnClickListener);
         teamBadge.setOnClickListener(teamBadgeOnClickListener);
-        getActivity().setTitle("Set Team");
+//        getActivity().setTitle("Set Team");
     }
 
     private View.OnClickListener importButtonOnClickListener = new View.OnClickListener() {
@@ -336,9 +339,6 @@ public class MonsterListFragment extends Fragment {
 //            ((MainActivity) getActivity()).switchFragment(TeamListFragment.newInstance(), TeamListFragment.TAG);
 //            team.updateLeaderSkills();
 //            team.save();
-
-            Parcelable teamParcel = Parcels.wrap(team);
-            ((MainActivity) getActivity()).switchFragment(TeamOverviewFragment.newInstance(teamParcel), TeamOverviewFragment.TAG, "good");
         }
     };
 
@@ -354,9 +354,9 @@ public class MonsterListFragment extends Fragment {
             } else {
 //                team.updateLeaderSkills();
 //                team.save();
-                Parcelable teamParcel = Parcels.wrap(team);
-                Parcelable enemyParcel = Parcels.wrap(enemy);
-                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(teamParcel, enemyParcel), OrbMatchFragment.TAG, "good");
+
+//                Parcelable enemyParcel = Parcels.wrap(enemy);
+//                ((MainActivity) getActivity()).switchFragment(OrbMatchFragment.newInstance(teamParcel, enemyParcel), OrbMatchFragment.TAG, "good");
             }
         }
     };
@@ -409,19 +409,6 @@ public class MonsterListFragment extends Fragment {
 
     private void setTeamBadge(){
         teamBadge.setImageResource(ImageResourceUtil.teamBadge(team.getTeamBadge()));
-    }
-
-    public void updateTeam() {
-        realm.beginTransaction();
-        team.setMonsters(monsters.get(0), monsters.get(1), monsters.get(2), monsters.get(3), monsters.get(4), monsters.get(5));
-        realm.commitTransaction();
-        for (Monster monster : team.getMonsters()) {
-//            monster.save();
-        }
-        team.updateAwakenings();
-//        team.updateLeaderSkills();
-//        team.setTeamStats();
-//        team.save();
     }
 
     private TeamSaveDialogFragment.SaveTeam saveTeam = new TeamSaveDialogFragment.SaveTeam() {
@@ -505,6 +492,43 @@ public class MonsterListFragment extends Fragment {
         teamName.setText(team.getTeamName());
         favorite.setVisibility(View.INVISIBLE);
         teamBadge.setImageResource(R.drawable.team_badge_nothing);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        broadcastReceiver = new JustAnotherBroadcastReceiver(receiverMethods);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter("REFRESH_MONSTER_LIST"));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter("ONDESELECT_ORB_MATCH"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
+    }
+
+    private JustAnotherBroadcastReceiver.receiverMethods receiverMethods = new JustAnotherBroadcastReceiver.receiverMethods() {
+        @Override
+        public void onReceiveMethod(Intent intent) {
+            switch(intent.getAction()){
+                case "ONDESELECT_MONSTER_LIST":
+                    onDeselect();
+                    break;
+                case "REFRESH_MONSTER_LIST":
+                    onSelect();
+                    break;
+            }
+        }
+    };
+
+    public void onSelect(){
+        Log.d("MonsterListFragment", "onSelect");
+    }
+
+    public void onDeselect(){
+        team.setTeamStats(realm);
+        team.setAwakenings();
     }
 
 }

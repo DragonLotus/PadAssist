@@ -99,7 +99,6 @@ public class MonsterTabLayoutActivity extends AppCompatActivity {
         menu.setGroupVisible(R.id.sortTeam, false);
         menu.setGroupVisible(R.id.teamDamage, false);
         menu.findItem(R.id.search).setVisible(false);
-        menu.findItem(R.id.manageMonsters).setVisible(false);
         MenuItem toggleCoop = menu.findItem(R.id.toggleCoop);
         toggleCoop.setTitle(Singleton.getInstance().isCoopEnable() ? "Toggle Co-op off" : "Toggle Co-op on");
         return true;

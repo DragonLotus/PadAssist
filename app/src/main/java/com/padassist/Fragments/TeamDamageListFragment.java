@@ -1,11 +1,14 @@
 package com.padassist.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -31,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Adapters.MonsterDamageListRecycler;
+import com.padassist.BroadcastReceivers.JustAnotherBroadcastReceiver;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
 import com.padassist.Data.OrbMatch;
@@ -95,6 +99,7 @@ public class TeamDamageListFragment extends Fragment {
     private DecimalFormat dfSpace;
     private ExtraMultiplierDialogFragment extraMultiplierDialogFragment;
     private Realm realm;
+    private JustAnotherBroadcastReceiver broadcastReceiver;
 
     /**
      * Use this factory method to create a new instance of
@@ -114,24 +119,11 @@ public class TeamDamageListFragment extends Fragment {
         return fragment;
     }
 
-
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, int additionalCombos, Parcelable team, Parcelable enemy) {
+    public static TeamDamageListFragment newInstance(Parcelable team, Parcelable enemy) {
         TeamDamageListFragment fragment = new TeamDamageListFragment();
         Bundle args = new Bundle();
-        args.putBoolean("hasEnemy", hasEnemy);
-        args.putInt("additionalCombos", additionalCombos);
         args.putParcelable("team", team);
         args.putParcelable("enemy", enemy);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static TeamDamageListFragment newInstance(boolean hasEnemy, int additionalCombos, Parcelable team) {
-        TeamDamageListFragment fragment = new TeamDamageListFragment();
-        Bundle args = new Bundle();
-        args.putBoolean("hasEnemy", hasEnemy);
-        args.putInt("additionalCombos", additionalCombos);
-        args.putParcelable("team", team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -144,18 +136,7 @@ public class TeamDamageListFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (enemy != null) {
-            realm.beginTransaction();
-            if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
-                enemy.setCurrentElement(enemy.getTargetElement().get(0));
-            } else {
-                if (enemy.getTargetElement().get(0).getValue() > -1) {
-                    enemy.setCurrentElement(enemy.getTargetElement().get(1));
-                }
-            }
-            realm.copyToRealmOrUpdate(enemy);
-            realm.commitTransaction();
-        }
+        onDeselect();
     }
 
     @Override
@@ -178,12 +159,7 @@ public class TeamDamageListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.refresh:
-                clearTextFocus();
-                team.setHpRcvMultiplierArrays(totalCombos);
-                monsterListAdapter.setCombos(totalCombos);
-                team.setAtkMultiplierArrays(totalCombos);
-                updateTextView();
-                monsterListAdapter.notifyDataSetChanged();
+                onSelect();
                 break;
             case R.id.toggleCoop:
                 updateTextView();
@@ -259,12 +235,12 @@ public class TeamDamageListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
-            hasEnemy = getArguments().getBoolean("hasEnemy");
-            additionalCombos = getArguments().getInt("additionalCombos");
             team = Parcels.unwrap(getArguments().getParcelable("team"));
-            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
+//            enemy = Parcels.unwrap(getArguments().getParcelable("enemy"));
         }
         realm = Realm.getDefaultInstance();
+        hasEnemy = Singleton.getInstance().hasEnemy();
+        enemy = realm.copyFromRealm(realm.where(Enemy.class).equalTo("enemyId", 0).findFirst());
         if (hasEnemy) {
             temp = enemy.getCurrentHp();
             setReductionOrbs();
@@ -274,10 +250,11 @@ public class TeamDamageListFragment extends Fragment {
         dfs.setGroupingSeparator(' ');
         dfSpace = new DecimalFormat("###,###", dfs);
         setCheckBoxes();
+
+        additionalCombos = Singleton.getInstance().getAdditionalCombos();
         totalCombos = additionalCombos + realm.where(OrbMatch.class).findAll().size();
         additionalComboValue.setText("" + totalCombos);
-        updateTextView();
-        setupHpSeekBar();
+
         monsterListAdapter = new MonsterDamageListRecycler(getActivity(), hasEnemy, enemy, totalCombos, team, bindMonsterOnClickListener);
         monsterListView.setAdapter(monsterListAdapter);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -314,11 +291,11 @@ public class TeamDamageListFragment extends Fragment {
         hasLeaderSkillCheck1.setOnCheckedChangeListener(checkBoxOnChangeListener);
         hasLeaderSkillCheck2.setOnCheckedChangeListener(checkBoxOnChangeListener);
         teamHp.setOnSeekBarChangeListener(teamHpSeekBarListener);
-        if (hasEnemy) {
-            getActivity().setTitle("Team Damage (with target)");
-        } else {
-            getActivity().setTitle("Team Damage (no target)");
-        }
+//        if (hasEnemy) {
+//            getActivity().setTitle("Team Damage (with target)");
+//        } else {
+//            getActivity().setTitle("Team Damage (no target)");
+//        }
 
         targetAbsorb.setOnClickListener(tooltipOnClickListener);
         targetReduction.setOnClickListener(tooltipOnClickListener);
@@ -391,11 +368,6 @@ public class TeamDamageListFragment extends Fragment {
             damageImmunity.setVisibility(View.GONE);
             damageImmunityCheck.setVisibility(View.GONE);
             reductionPercent.setVisibility(View.GONE);
-//            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT);
-//            z.addRule(RelativeLayout.BELOW, totalComboValue.getId());
-//            z.addRule(RelativeLayout.RIGHT_OF, hasAwakenings.getId());
-//            hasAwakeningsCheck.setLayoutParams(z);
 
             int fourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getContext().getResources().getDisplayMetrics());
             int twentyFourDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getContext().getResources().getDisplayMetrics());
@@ -428,6 +400,24 @@ public class TeamDamageListFragment extends Fragment {
                 }
             }
         } else {
+            enemyHP.setVisibility(View.VISIBLE);
+            enemyHPValue.setVisibility(View.VISIBLE);
+            enemyHPPercent.setVisibility(View.VISIBLE);
+            enemyHPPercentValue.setVisibility(View.VISIBLE);
+            reductionRadioGroup.setVisibility(View.VISIBLE);
+            targetReduction.setVisibility(View.VISIBLE);
+            targetAbsorb.setVisibility(View.VISIBLE);
+            absorbRadioGroup.setVisibility(View.VISIBLE);
+            damageThresholdCheck.setVisibility(View.VISIBLE);
+            damageThresholdValue.setVisibility(View.VISIBLE);
+            damageThreshold.setVisibility(View.VISIBLE);
+            reductionCheck.setVisibility(View.VISIBLE);
+            absorbCheck.setVisibility(View.VISIBLE);
+            reductionValue.setVisibility(View.VISIBLE);
+            damageImmunityValue.setVisibility(View.VISIBLE);
+            damageImmunity.setVisibility(View.VISIBLE);
+            damageImmunityCheck.setVisibility(View.VISIBLE);
+            reductionPercent.setVisibility(View.VISIBLE);
             enemy.setCurrentHp(temp);
             if (enemy.isHasDamageThreshold()) {
                 for (int i = 0; i < team.sizeMonsters(); i++) {
@@ -677,7 +667,7 @@ public class TeamDamageListFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (!s.toString().equals("")) {
                 totalCombos = Integer.valueOf(s.toString());
-                Log.d("OrbMatchFragment", "Additional combos value is: " + totalCombos);
+                Singleton.getInstance().setAdditionalCombos(totalCombos - team.getOrbMatches().size());
             }
         }
 
@@ -720,7 +710,10 @@ public class TeamDamageListFragment extends Fragment {
     ExtraMultiplierDialogFragment.SaveTeam saveTeam = new ExtraMultiplierDialogFragment.SaveTeam() {
         @Override
         public void update() {
+            hasEnemy = Singleton.getInstance().hasEnemy();
+            Log.d("TeamDamageListFrag", "hasEnemy is: " + hasEnemy);
             updateTextView();
+            monsterListAdapter.setHasEnemy(hasEnemy);
             monsterListAdapter.notifyDataSetChanged();
         }
     };
@@ -1124,5 +1117,78 @@ public class TeamDamageListFragment extends Fragment {
             tooltipText.show(v);
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        broadcastReceiver = new JustAnotherBroadcastReceiver(receiverMethods);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter("REFRESH_TEAM_DAMAGE"));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter("ONDESELECT_TEAM_DAMAGE"));
+    }
+
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if(menuVisible){
+            updateTextView();
+            setupHpSeekBar();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
+    }
+
+    private JustAnotherBroadcastReceiver.receiverMethods receiverMethods = new JustAnotherBroadcastReceiver.receiverMethods() {
+        @Override
+        public void onReceiveMethod(Intent intent) {
+            switch (intent.getAction()) {
+                case "ONDESELECT_TEAM_DAMAGE":
+                    TeamDamageListFragment.this.onDeselect();
+                    break;
+                case "REFRESH_TEAM_DAMAGE":
+                    TeamDamageListFragment.this.onSelect();
+                    break;
+            }
+        }
+    };
+
+    public void onSelect() {
+        enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
+        Log.d("TeamDamageList", "enemy is: " + enemy);
+        enemy = realm.copyFromRealm(enemy);
+        if (hasEnemy) {
+            temp = enemy.getCurrentHp();
+            setReductionOrbs();
+            setAbsorbOrbs();
+            setDamageThreshold();
+        }
+        clearTextFocus();
+        additionalCombos = Singleton.getInstance().getAdditionalCombos();
+        totalCombos = team.getOrbMatches().size() + additionalCombos;
+        team.setHpRcvMultiplierArrays(totalCombos);
+        monsterListAdapter.setCombos(totalCombos);
+        team.setAtkMultiplierArrays(totalCombos);
+        updateTextView();
+        monsterListAdapter.notifyDataSetChanged();
+    }
+
+    public void onDeselect() {
+        Singleton.getInstance().setAdditionalCombos(totalCombos - team.getOrbMatches().size());
+        if (enemy != null) {
+            realm.beginTransaction();
+            if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
+                enemy.setCurrentElement(enemy.getTargetElement().get(0));
+            } else {
+                if (enemy.getTargetElement().get(0).getValue() > -1) {
+                    enemy.setCurrentElement(enemy.getTargetElement().get(1));
+                }
+            }
+            realm.copyToRealmOrUpdate(enemy);
+            realm.commitTransaction();
+        }
+    }
 
 }

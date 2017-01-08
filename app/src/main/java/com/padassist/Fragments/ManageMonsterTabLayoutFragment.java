@@ -5,10 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.padassist.Adapters.ManageMonsterPagerAdapter;
-import com.padassist.BaseFragments.MonsterTabLayoutBase;
+import com.padassist.BaseFragments.TabLayoutBase;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,7 +17,7 @@ import com.padassist.BaseFragments.MonsterTabLayoutBase;
  * Use the {@link ManageMonsterTabLayoutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
+public class ManageMonsterTabLayoutFragment extends TabLayoutBase {
 
     private ManageMonsterPagerAdapter monsterPagerAdapter;
 
@@ -35,6 +34,11 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
     }
 
     @Override
+    public int getSelection() {
+        return MONSTERS;
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
@@ -42,15 +46,7 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
         monsterPagerAdapter = new ManageMonsterPagerAdapter(getChildFragmentManager(), getActivity());
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager, true);
-
-        if(tabLayout.getSelectedTabPosition() == 0){
-            getActivity().setTitle("Saved Monsters");
-        } else if(tabLayout.getSelectedTabPosition() == 1) {
-            getActivity().setTitle("Saved Helpers");
-        }else if(tabLayout.getSelectedTabPosition() == 2) {
-            getActivity().setTitle("Create Monster");
-        }
-        viewPager.addOnPageChangeListener(tabLayoutOnPageChangeListener);
+        viewPager.addOnPageChangeListener(pageChangeListener);
     }
 
     @Override
@@ -59,7 +55,7 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
         mListener = null;
     }
 
-    private TabLayout.TabLayoutOnPageChangeListener tabLayoutOnPageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(tabLayout){
+    private TabLayout.TabLayoutOnPageChangeListener pageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(tabLayout){
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -73,16 +69,8 @@ public class ManageMonsterTabLayoutFragment extends MonsterTabLayoutBase {
         @Override
         public void onPageSelected(int position) {
             super.onPageSelected(position);
-            if(position == 0){
-                getActivity().setTitle("Saved Monsters");
-            } else if(position == 1) {
-                getActivity().setTitle("Saved Helpers");
-            }else if(position == 2) {
-                getActivity().setTitle("Create Monster");
-            }
-            Log.d("MonsterTabLayoutFrag", "Send out broadcast");
             LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-            Intent i = new Intent("TAG_REFRESH");
+            Intent i = new Intent("REFRESH");
             lbm.sendBroadcast(i);
         }
     };

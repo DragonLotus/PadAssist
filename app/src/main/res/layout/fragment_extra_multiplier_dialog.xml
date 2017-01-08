@@ -52,26 +52,71 @@
         android:id="@+id/clearButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/coopCheck"
+        android:layout_below="@+id/checkBoxLayout"
         android:text="Clear" />
 
-    <TextView
-        android:id="@+id/coopText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/coopCheck"
-        android:layout_alignTop="@+id/coopCheck"
-        android:layout_toLeftOf="@+id/coopCheck"
-        android:gravity="center"
-        android:text="Toggle Co-op: "
-        android:textSize="16dp" />
-
-    <CheckBox
-        android:id="@+id/coopCheck"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/checkBoxLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/typeGrid"
-        android:layout_alignParentRight="true"/>
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/hasEnemyLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_weight=".5">
+
+            <TextView
+                android:id="@+id/hasEnemyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/hasEnemyCheck"
+                android:layout_alignParentLeft="true"
+                android:layout_alignTop="@+id/hasEnemyCheck"
+                android:gravity="center"
+                android:text="Enemy: "
+                android:textSize="16dp" />
+
+            <CheckBox
+                android:id="@+id/hasEnemyCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_toRightOf="@+id/hasEnemyText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/coopLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/coopText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/coopCheck"
+                android:layout_alignTop="@+id/coopCheck"
+                android:layout_toRightOf="@+id/hasEnemyLayout"
+                android:gravity="center"
+                android:text="Toggle Co-op: "
+                android:textSize="16dp" />
+
+            <CheckBox
+                android:id="@+id/coopCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/typeGrid"
+                android:layout_toRightOf="@+id/coopText" />
+        </LinearLayout>
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/elements"

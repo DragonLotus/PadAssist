@@ -33,6 +33,8 @@ public class Singleton {
     private boolean meetsFilterRequirements = false;
     private boolean hasLeaderSkill = true;
     private boolean hasHelperSkill = true;
+    private int additionalCombos = 0;
+    private boolean hasEnemy = true;
 
     private Context context;
 
@@ -230,5 +232,21 @@ public class Singleton {
 
     public void setHasLeaderSkill(boolean hasLeaderSkill) {
         this.hasLeaderSkill = hasLeaderSkill;
+    }
+
+    public boolean hasEnemy() {
+        return hasEnemy;
+    }
+
+    public void setHasEnemy(boolean hasEnemy) {
+        this.hasEnemy = hasEnemy;
+    }
+
+    public int getAdditionalCombos() {
+        return additionalCombos;
+    }
+
+    public void setAdditionalCombos(int additionalCombos) {
+        this.additionalCombos = additionalCombos;
     }
 }

@@ -83,11 +83,20 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         public void onClick(View v) {
             RelativeLayout layout = (RelativeLayout) v.getTag();
             Monster monster = monsterList.get(expandedPosition);
-                if(!monster.getActiveSkillString().equals("Blank")){
+            if(v.getId() == R.id.skill1Holder){
+                if (!monster.getActiveSkillString().equals("Blank")) {
                     RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getActiveSkillString()).findAllSorted("monsterId");
                     tooltipSameSkill = new TooltipSameSkill(mContext, "Monsters with the same skill:", results);
                     tooltipSameSkill.show(layout.getChildAt(1));
                 }
+            } else if (v.getId() == R.id.skill2Holder){
+                if (!monster.getMonsterInherit().getActiveSkillString().equals("Blank")) {
+                    RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getMonsterInherit().getActiveSkillString()).findAllSorted("monsterId");
+                    tooltipSameSkill = new TooltipSameSkill(mContext, "Monsters with the same skill:", results);
+                    tooltipSameSkill.show(layout.getChildAt(1));
+                }
+            }
+
 
         }
     };
@@ -112,7 +121,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
         }
 
-        if(monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0){
+        if (monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0) {
             viewHolderLinear.monsterPicture.setBackgroundResource(R.drawable.portrait_stroke_small);
         } else {
             viewHolderLinear.monsterPicture.setBackgroundResource(0);
@@ -168,7 +177,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             latentList.clear();
         }
 
-        if(monsterList.get(position).getTotalPlus() == 297){
+        if (monsterList.get(position).getTotalPlus() == 297) {
             for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
                 if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
                     latentList.add(1);
@@ -183,11 +192,11 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             }
 //            viewHolderLinear.latentHolder.getChildAt(viewHolderLinear.latentHolder.getChildCount() - 1).setVisibility(View.GONE);
         }
-        for(int i = 0; i < viewHolderLinear.latentHolder.getChildCount(); i++){
-            if(monsterList.get(position).getLatents().get(i).getValue() > 11){
-                viewHolderLinear.latentHolder.getChildAt(i+1).setVisibility(View.GONE);
+        for (int i = 0; i < viewHolderLinear.latentHolder.getChildCount(); i++) {
+            if (monsterList.get(position).getLatents().get(i).getValue() > 11) {
+                viewHolderLinear.latentHolder.getChildAt(i + 1).setVisibility(View.GONE);
                 i++;
-            } else if (monsterList.get(position).getTotalPlus() == 297 && i == 5){
+            } else if (monsterList.get(position).getTotalPlus() == 297 && i == 5) {
                 viewHolderLinear.latentHolder.getChildAt(i).setVisibility(View.VISIBLE);
             } else if (monsterList.get(position).getTotalPlus() != 297 && i == 5) {
                 viewHolderLinear.latentHolder.getChildAt(i).setVisibility(View.GONE);
@@ -195,10 +204,10 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.latentHolder.getChildAt(i).setVisibility(View.VISIBLE);
             }
         }
-        if(latentList.size() == 0){
+        if (latentList.size() == 0) {
             viewHolderLinear.monsterLatents.setVisibility(View.INVISIBLE);
-        } else if(monsterList.get(position).getTotalPlus() == 297){
-            if(latentList.size() == 6){
+        } else if (monsterList.get(position).getTotalPlus() == 297) {
+            if (latentList.size() == 6) {
                 viewHolderLinear.monsterLatents.setBackgroundResource(R.drawable.latent_max);
                 viewHolderLinear.monsterLatents.setText("");
                 viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
@@ -207,7 +216,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
             }
         } else {
-            if(latentList.size() == 5){
+            if (latentList.size() == 5) {
                 viewHolderLinear.monsterLatents.setBackgroundResource(R.drawable.latent_max);
                 viewHolderLinear.monsterLatents.setText("");
                 viewHolderLinear.monsterLatents.setVisibility(View.VISIBLE);
@@ -307,15 +316,15 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             }
             if (monsterList.get(position).getCurrentAwakenings() < monsterList.get(position).getMaxAwakenings()) {
                 for (int j = 0; j < monsterList.get(position).getCurrentAwakenings(); j++) {
-                    ((ImageView)viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    ((ImageView) viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
 
                 for (int j = monsterList.get(position).getCurrentAwakenings(); j < monsterList.get(position).getMaxAwakenings(); j++) {
-                    ((ImageView)viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakeningDisabled(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    ((ImageView) viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakeningDisabled(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
             } else {
                 for (int j = 0; j < monsterList.get(position).getMaxAwakenings(); j++) {
-                    ((ImageView)viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
+                    ((ImageView) viewHolderLinear.awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monsterList.get(position).getAwokenSkills().get(j).getValue()));
                 }
             }
 
@@ -324,7 +333,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             } else {
                 viewHolderLinear.latentHolder.setVisibility(View.VISIBLE);
                 for (int j = 0; j < monsterList.get(position).getLatents().size(); j++) {
-                    ((ImageView)viewHolderLinear.latentHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterLatent(monsterList.get(position).getLatents().get(j).getValue()));
+                    ((ImageView) viewHolderLinear.latentHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterLatent(monsterList.get(position).getLatents().get(j).getValue()));
                 }
             }
             viewHolderLinear.rarity.setText("" + monsterList.get(position).getRarity());
@@ -360,10 +369,10 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.activeSkillName.setText(monsterList.get(position).getActiveSkillString());
             }
 
-            if(monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0){
+            if (monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0) {
                 viewHolderLinear.skill2Holder.setVisibility(View.VISIBLE);
                 viewHolderLinear.activeSkill.setImageResource(R.drawable.active_skill_1);
-                if(monsterList.get(position).getMonsterInherit().getActiveSkill() == null){
+                if (monsterList.get(position).getMonsterInherit().getActiveSkill() == null) {
                     viewHolderLinear.activeSkill2Desc.setText("This monster has an active skill but the author of this app has not realized that it doesn't exist in his database yet.");
                     viewHolderLinear.activeSkill2Cooldown.setVisibility(View.GONE);
                 } else {
@@ -429,7 +438,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         ViewHolderGrid viewHolderGrid = (ViewHolderGrid) viewHolder;
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
 
-        if(monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0){
+        if (monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0) {
             viewHolderGrid.monsterPicture.setBackgroundResource(R.drawable.portrait_stroke_small);
         } else {
             viewHolderGrid.monsterPicture.setBackgroundResource(0);
@@ -470,7 +479,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             latentList.clear();
         }
 
-        if(monsterList.get(position).getTotalPlus() == 297){
+        if (monsterList.get(position).getTotalPlus() == 297) {
             for (int i = 0; i < monsterList.get(position).getLatents().size(); i++) {
                 if (monsterList.get(position).getLatents().get(i).getValue() != 0) {
                     latentList.add(1);
@@ -483,10 +492,10 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 }
             }
         }
-        if(latentList.size() == 0){
+        if (latentList.size() == 0) {
             viewHolderGrid.monsterLatents.setVisibility(View.INVISIBLE);
-        } else if(monsterList.get(position).getTotalPlus() == 297){
-            if(latentList.size() == 6){
+        } else if (monsterList.get(position).getTotalPlus() == 297) {
+            if (latentList.size() == 6) {
                 viewHolderGrid.monsterLatents.setBackgroundResource(R.drawable.latent_max);
                 viewHolderGrid.monsterLatents.setText("");
                 viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
@@ -495,7 +504,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
             }
         } else {
-            if(latentList.size() == 5){
+            if (latentList.size() == 5) {
                 viewHolderGrid.monsterLatents.setBackgroundResource(R.drawable.latent_max);
                 viewHolderGrid.monsterLatents.setText("");
                 viewHolderGrid.monsterLatents.setVisibility(View.VISIBLE);
@@ -589,6 +598,8 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.itemView.setOnLongClickListener(monsterListOnLongClickListener);
                 viewHolderLinear.skill1Holder.setOnClickListener(sameSkillToolTipOnClickListener);
                 viewHolderLinear.skill1Holder.setTag(viewHolderLinear.skill1Holder);
+                viewHolderLinear.skill2Holder.setOnClickListener(sameSkillToolTipOnClickListener);
+                viewHolderLinear.skill2Holder.setTag(viewHolderLinear.skill2Holder);
 
                 return viewHolderLinear;
 

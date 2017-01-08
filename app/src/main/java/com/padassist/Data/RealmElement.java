@@ -40,7 +40,7 @@ public class RealmElement extends RealmObject {
             case 8:
                 return Element.MORTAL_POISON;
             default:
-                return null;
+                return Element.BLANK;
         }
     }
 

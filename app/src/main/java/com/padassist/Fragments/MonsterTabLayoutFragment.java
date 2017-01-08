@@ -6,17 +6,13 @@ import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Data.Monster;
-import com.padassist.BaseFragments.MonsterTabLayoutBase;
+import com.padassist.BaseFragments.TabLayoutBase;
 
-import org.parceler.ParcelPropertyConverter;
 import org.parceler.Parcels;
-
-import java.nio.charset.IllegalCharsetNameException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +22,7 @@ import java.nio.charset.IllegalCharsetNameException;
  * Use the {@link MonsterTabLayoutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
+public class MonsterTabLayoutFragment extends TabLayoutBase {
     public static final int SUB = 1;
     public static final int INHERIT = 2;
     private boolean replaceAll;
@@ -59,6 +55,11 @@ public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
 
     public MonsterTabLayoutFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public int getSelection() {
+        return MONSTERS;
     }
 
     @Override
@@ -101,7 +102,6 @@ public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
         }
         viewPager.setAdapter(monsterPagerAdapter);
         tabLayout.setupWithViewPager(viewPager, true);
-        Log.d("MonsterTabLayoutFrag", "setUpWithViewPager");
         if (realm.where(Monster.class).equalTo("helper", true).findAll().size() < 1 && monsterPosition == 5 && replaceMonsterId == 0) {
             TabLayout.Tab tab = tabLayout.getTabAt(1);
             tab.select();
@@ -110,11 +110,10 @@ public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
             tab.select();
         }
 
-//        viewPager.addOnPageChangeListener(pageChangeListener);
+        viewPager.addOnPageChangeListener(pageChangeListener);
 
     }
-
-    private TabLayout.TabLayoutOnPageChangeListener tabLayoutOnPageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
+    private TabLayout.TabLayoutOnPageChangeListener pageChangeListener = new TabLayout.TabLayoutOnPageChangeListener(tabLayout){
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             super.onPageScrolled(position, positionOffset, positionOffsetPixels);
@@ -128,9 +127,8 @@ public class MonsterTabLayoutFragment extends MonsterTabLayoutBase {
         @Override
         public void onPageSelected(int position) {
             super.onPageSelected(position);
-            Log.d("MonsterTabLayoutFrag", "Send out broadcast");
             LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(getActivity());
-            Intent i = new Intent("TAG_REFRESH");
+            Intent i = new Intent("REFRESH");
             lbm.sendBroadcast(i);
         }
     };

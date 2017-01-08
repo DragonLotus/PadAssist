@@ -311,6 +311,10 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
         }
     }
 
+    public void setHasEnemy(boolean hasEnemy){
+        this.hasEnemy = hasEnemy;
+    }
+
     public void setCombos(int combos) {
         this.combos = combos;
     }

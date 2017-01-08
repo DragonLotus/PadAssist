@@ -19,12 +19,14 @@ import com.padassist.R;
 
 import java.util.ArrayList;
 
+import io.realm.RealmResults;
+
 /**
  * Created by DragonLotus on 11/4/2015.
  */
 public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.ViewHolder> {
 
-    private ArrayList<OrbMatch> orbMatches;
+    private RealmResults<OrbMatch> orbMatches;
     private Context mContext;
     private LayoutInflater inflater;
     private View.OnClickListener orbMatchOnClickListener;
@@ -49,7 +51,7 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
 //        }
 //    };
 
-    public OrbMatchRecycler(Context context, ArrayList<OrbMatch> orbMatches, View.OnClickListener orbMatchOnClickListener, View.OnClickListener removeOnClickListener){
+    public OrbMatchRecycler(Context context, RealmResults<OrbMatch> orbMatches, View.OnClickListener orbMatchOnClickListener, View.OnClickListener removeOnClickListener){
         mContext = context;
         this.orbMatches = orbMatches;
         this.orbMatchOnClickListener = orbMatchOnClickListener;
@@ -63,42 +65,37 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
         String rowResult = Integer.toString(currentMatch.getOrbsLinked()) + " Linked, " + Integer.toString(currentMatch.getNumOrbPlus()) + "+, Row: " + Boolean.toString(currentMatch.isRow()) + ", Cross: " + Boolean.toString(currentMatch.isCross());
         viewHolder.orbMatchTotal.setText(rowResult);
 
-        Drawable orbDrawable = getDrawable(R.drawable.red_orb);
-        if (currentMatch.getElement() == Element.DARK)
-        {
-            orbDrawable = getDrawable(R.drawable.dark_orb);
-        }
-        if (currentMatch.getElement() == Element.BLUE)
-        {
-            orbDrawable = getDrawable(R.drawable.blue_orb);
-        }
-        if (currentMatch.getElement() == Element.GREEN)
-        {
-            orbDrawable = getDrawable(R.drawable.green_orb);
-        }
-        if (currentMatch.getElement() == Element.LIGHT)
-        {
-            orbDrawable = getDrawable(R.drawable.light_orb);
-        }
-        if (currentMatch.getElement() == Element.HEART)
-        {
-            orbDrawable = getDrawable(R.drawable.heart_orb);
-        }
-        if (currentMatch.getElement() == Element.JAMMER)
-        {
-            orbDrawable = getDrawable(R.drawable.jammer_orb);
-        }
-        if (currentMatch.getElement() == Element.POISON)
-        {
-            orbDrawable = getDrawable(R.drawable.poison_orb);
-        }
-        if (currentMatch.getElement() == Element.MORTAL_POISON)
-        {
-            orbDrawable = getDrawable(R.drawable.mortal_poison_orb);
+        int orbImageResource = R.drawable.red_orb;
+
+        switch (currentMatch.getElement()){
+            case RED:
+                orbImageResource = R.drawable.red_orb;
+                break;
+            case BLUE:
+                orbImageResource = R.drawable.blue_orb;
+                break;
+            case GREEN:
+                orbImageResource = R.drawable.green_orb;
+                break;
+            case LIGHT:
+                orbImageResource = R.drawable.light_orb;
+                break;
+            case HEART:
+                orbImageResource = R.drawable.heart_orb;
+                break;
+            case JAMMER:
+                orbImageResource = R.drawable.jammer_orb;
+                break;
+            case POISON:
+                orbImageResource = R.drawable.poison_orb;
+                break;
+            case MORTAL_POISON:
+                orbImageResource = R.drawable.mortal_poison_orb;
+                break;
         }
 
         viewHolder.orbMatchTotal.setSelected(true);
-        viewHolder.orbImage.setImageDrawable(orbDrawable);
+        viewHolder.orbImage.setImageResource(orbImageResource);
         viewHolder.remove.setTag(R.string.index, position);
         viewHolder.remove.setOnClickListener(removeOnClickListener);
 
@@ -144,15 +141,5 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
             return mContext.getDrawable(drawable);
         }
         return mContext.getResources().getDrawable(drawable);
-    }
-
-    public void add (OrbMatch orbMatch){
-        orbMatches.add(orbMatch);
-        notifyDataSetChanged();
-    }
-
-    public void clear (){
-        orbMatches.clear();
-        notifyDataSetChanged();
     }
 }

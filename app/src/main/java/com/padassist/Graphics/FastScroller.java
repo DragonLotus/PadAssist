@@ -138,7 +138,7 @@ public class FastScroller extends LinearLayout {
         } else {
             handle.setY(y - offset);
         }
-        Log.d("FastScrollerTag", "handle Height: " + handle.getHeight() + " deltaYRatio: " + deltaYRatio + " deltaY: " + deltaY + " previousY: " + previousY + " handle getY is: " + handle.getY());
+//        Log.d("FastScrollerTag", "handle Height: " + handle.getHeight() + " deltaYRatio: " + deltaYRatio + " deltaY: " + deltaY + " previousY: " + previousY + " handle getY is: " + handle.getY());
 
 //        recyclerView.scrollBy(0, (int)(deltaYRatio*recyclerView.computeVerticalScrollRange()));
         previousY = y;
@@ -147,14 +147,14 @@ public class FastScroller extends LinearLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
-        Log.d("FastScrollerTag", "onLayout: "+ changed + " " + l + " " + t + " " + r + " " + b);
+//        Log.d("FastScrollerTag", "onLayout: "+ changed + " " + l + " " + t + " " + r + " " + b);
 
         int scrollOffset = recyclerView.computeVerticalScrollOffset();
         int verticalScrollRange = recyclerView.computeVerticalScrollRange() + recyclerView.getPaddingBottom();
 
         int trackHeight = recyclerView.getMeasuredHeight();
-        Log.d("FastScrollerTag", "VerticalScrollOffset: " + scrollOffset + " verticalScrollRange: " + verticalScrollRange + " trackHeight: " + trackHeight);
-        Log.d("FastScrollerTag", "getMeasuredHeight: " + trackHeight);
+//        Log.d("FastScrollerTag", "VerticalScrollOffset: " + scrollOffset + " verticalScrollRange: " + verticalScrollRange + " trackHeight: " + trackHeight);
+//        Log.d("FastScrollerTag", "getMeasuredHeight: " + trackHeight);
         float ratio = (float) scrollOffset/(verticalScrollRange - trackHeight);
         int resizedHandleHeight = (int)((float)trackHeight / verticalScrollRange * trackHeight);
         if(resizedHandleHeight < convertDpToPx(24)){

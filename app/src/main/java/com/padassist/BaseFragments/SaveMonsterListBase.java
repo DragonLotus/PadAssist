@@ -16,7 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.padassist.Adapters.SaveMonsterListRecycler;
+import com.padassist.BroadcastReceivers.JustAnotherBroadcastReceiver;
 import com.padassist.Comparators.MonsterAlphabeticalComparator;
 import com.padassist.Comparators.MonsterAtkComparator;
 import com.padassist.Comparators.MonsterAwakeningComparator;
@@ -108,7 +108,7 @@ public abstract class SaveMonsterListBase extends Fragment {
     private Monster monsterZero;
     protected int selection;
     protected Monster monster;
-    protected RefreshReceiver r;
+    protected JustAnotherBroadcastReceiver broadcastReceiver;
 
     protected SharedPreferences preferences;
     protected boolean isGrid;
@@ -219,41 +219,11 @@ public abstract class SaveMonsterListBase extends Fragment {
                 }
                 break;
             case R.id.toggleGrid:
-                preferences.edit().putBoolean("isGrid", !isGrid).apply();
-                isGrid = preferences.getBoolean("isGrid", true);
-                if (isGrid) {
-                    monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
-                } else {
-                    monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
-                }
-                saveMonsterListRecycler.notifyDataSetChanged(isGrid);
-                if (saveMonsterListRecycler.getExpandedPosition() > -1) {
-                    monsterListView.scrollToPosition(saveMonsterListRecycler.getExpandedPosition());
-                }
+                gridToggle();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        r = new RefreshReceiver();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(r, new IntentFilter("TAG_REFRESH"));
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (searchMenuItem != null) {
-            if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
-                MenuItemCompat.collapseActionView(searchMenuItem);
-            }
-        }
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(r);
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -861,30 +831,53 @@ public abstract class SaveMonsterListBase extends Fragment {
         }
     };
 
-    public void refresh(){
-        if(preferences.getBoolean("isGrid", true) != isGrid){
-            preferences.edit().putBoolean("isGrid", !isGrid).apply();
-            isGrid = preferences.getBoolean("isGrid", true);
-            if (isGrid) {
-                monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
-            } else {
-                monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+    @Override
+    public void onResume() {
+        super.onResume();
+        broadcastReceiver = new JustAnotherBroadcastReceiver(receiverMethods);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(broadcastReceiver, new IntentFilter("REFRESH"));
+
+    }
+
+    private JustAnotherBroadcastReceiver.receiverMethods receiverMethods = new JustAnotherBroadcastReceiver.receiverMethods() {
+        @Override
+        public void onReceiveMethod(Intent intent) {
+            switch(intent.getAction()){
+                case "REFRESH":
+                    onSelect();
+                    break;
             }
-            saveMonsterListRecycler.notifyDataSetChanged(isGrid);
-            if (saveMonsterListRecycler.getExpandedPosition() > -1) {
-                monsterListView.scrollToPosition(saveMonsterListRecycler.getExpandedPosition());
+        }
+    };
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (searchMenuItem != null) {
+            if (MenuItemCompat.isActionViewExpanded(searchMenuItem)) {
+                MenuItemCompat.collapseActionView(searchMenuItem);
             }
+        }
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(broadcastReceiver);
+    }
+
+    private void gridToggle(){
+        preferences.edit().putBoolean("isGrid", !isGrid).apply();
+        isGrid = preferences.getBoolean("isGrid", true);
+        if (isGrid) {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL));
+        } else {
+            monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        }
+        saveMonsterListRecycler.notifyDataSetChanged(isGrid);
+        if (saveMonsterListRecycler.getExpandedPosition() > -1) {
+            monsterListView.scrollToPosition(saveMonsterListRecycler.getExpandedPosition());
         }
     }
 
-    private class RefreshReceiver extends BroadcastReceiver{
-        public RefreshReceiver() {
-            super();
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            SaveMonsterListBase.this.refresh();
+    public void onSelect(){
+        if(preferences.getBoolean("isGrid", true) != isGrid){
+            gridToggle();
         }
     }
 }

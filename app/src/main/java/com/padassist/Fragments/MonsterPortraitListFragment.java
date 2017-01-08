@@ -283,6 +283,7 @@ public class MonsterPortraitListFragment extends Fragment {
         @Override
         public void onClick(View view) {
             int position = (int) view.getTag(R.string.index);
+            realm.beginTransaction();
             enemy.setMonsterIdPicture(monsterList.get(position).getMonsterId());
             enemy.getTargetElement().set(0, new RealmElement(monsterList.get(position).getElement1Int()));
 //            if (monsterList.get(position).getElement2Int() == -1) {
@@ -294,6 +295,10 @@ public class MonsterPortraitListFragment extends Fragment {
             enemy.getTypes().set(1, new RealmInt(monsterList.get(position).getType2()));
             enemy.getTypes().set(2, new RealmInt(monsterList.get(position).getType3()));
             enemy.setEnemyName(monsterList.get(position).getName());
+
+            enemy = realm.copyToRealmOrUpdate(enemy);
+            realm.commitTransaction();
+
             getActivity().getSupportFragmentManager().popBackStack();
         }
     };
