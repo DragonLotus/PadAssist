@@ -193,7 +193,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/element1"
-                    android:checkedButton="@+id/darkOrb1"
                     android:gravity="center"
                     android:orientation="horizontal">
 

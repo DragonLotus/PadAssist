@@ -425,6 +425,25 @@ public class EnemyTargetFragment extends Fragment {
 //        gravityButtonInit();
 
 //        updateGravityPercent.updatePercent();
+
+
+        setReductionOrbs();
+        setAbsorbOrbs();
+        setDamageThreshold();
+        setEnemyElement();
+        setSpinner();
+        targetHp = enemy.getTargetHp();
+        currentHp = enemy.getCurrentHp();
+        defenseBeforeBreak = enemy.getBeforeDefenseBreak();
+        enemyName.setText(enemy.getEnemyName());
+        enemyNameEditText.setText(enemy.getEnemyName());
+        monsterPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(enemy.getMonsterIdPicture()));
+//            currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
+        currentHpValue.setText(String.valueOf(currentHp));
+        targetHpValue.setText(String.valueOf(targetHp));
+//            totalGravityValue.setText();
+        targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
+        reductionValue.setText(String.valueOf(enemy.getReductionValue()));
     }
 
     // TODO: Rename method, updateAwakenings argument and hook method into UI event

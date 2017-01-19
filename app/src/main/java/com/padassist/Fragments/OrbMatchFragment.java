@@ -63,6 +63,9 @@ public class OrbMatchFragment extends Fragment {
     private Button addMatch, calculateButton, reset, options;
     private Spinner orbsLinked, orbsPlus, boardSize;
     private List<String> orbsLinkedItems, orbsPlusItems, boardSizeItems;
+    private ArrayAdapter<String> orbsLinkedAdapter;
+    private ArrayAdapter<String> orbsPlusAdapter;
+    private ArrayAdapter<String> boardSizeAdapter;
     private CheckBox rowCheckBox, maxLeadMultiplierCheckBox, ignoreEnemyCheckBox, crossCheckBox;
     private RecyclerView orbMatches;
     private OrbMatchRecycler orbMatchRecycler;
@@ -734,11 +737,11 @@ public class OrbMatchFragment extends Fragment {
         ignoreEnemyCheckBox.setChecked(Singleton.getInstance().isIgnoreEnemy());
 
         orbRadioGroup.setOnCheckedChangeListener(orbRadioGroupOnCheckChangeListener);
-        ArrayAdapter<String> orbsLinkedAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, orbsLinkedItems);
+        orbsLinkedAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, orbsLinkedItems);
         orbsLinked.setAdapter(orbsLinkedAdapter);
-        ArrayAdapter<String> orbsPlusAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, orbsPlusItems);
+        orbsPlusAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, orbsPlusItems);
         orbsPlus.setAdapter(orbsPlusAdapter);
-        ArrayAdapter<String> boardSizeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, boardSizeItems);
+        boardSizeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, boardSizeItems);
         boardSize.setAdapter(boardSizeAdapter);
 
         boardSize.setSelection(Singleton.getInstance().getBoardSize(), false);
@@ -781,6 +784,8 @@ public class OrbMatchFragment extends Fragment {
                 orbsPlusItems.add("" + i);
             }
         }
+        orbsPlusAdapter.notifyDataSetChanged();
+        orbsLinkedAdapter.notifyDataSetChanged();
 
     }
 
@@ -893,8 +898,16 @@ public class OrbMatchFragment extends Fragment {
                 break;
         }
 
-        if (team.getTeamBadge() == 13 || team.getLeadSkill().isNoSkyfall() || team.getHelperSkill().isNoSkyfall()) {
+        if (team.getTeamBadge() == 13) {
             noDrop = true;
+        } else if(team.getLeadSkill() != null){
+            if(team.getLeadSkill().isNoSkyfall()){
+                noDrop = true;
+            }
+        } else if(team.getHelperSkill() != null){
+            if(team.getHelperSkill().isNoSkyfall()){
+                noDrop = true;
+            }
         }
 
         if (noDrop && preferences.getBoolean("showNoDropDisclaimer", true)) {

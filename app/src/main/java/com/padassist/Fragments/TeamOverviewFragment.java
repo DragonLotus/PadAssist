@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class TeamOverviewFragment extends Fragment {
     public static final String TAG = TeamOverviewFragment.class.getSimpleName();
@@ -42,7 +43,7 @@ public class TeamOverviewFragment extends Fragment {
     private ListView monsterSpecific;
     private ExpandableHeightGridView utilityAwakenings, damageAwakenings;
     //    private RecyclerView utilityAwakenings, damageAwakenings;
-    private ArrayList<Monster> monsterList;
+    private RealmList<Monster> monsterList;
     private ArrayList<Integer> utilityAwakeningList, damageAwakeningList, awakeningListAll, latentListAll, latentUtilityAwakeningList, latentDamageAwakeningList;
     private ArrayList<Integer> utilityFilter = new ArrayList<>();
     private ArrayList<Integer> latentUtilityFilter = new ArrayList<>();
@@ -136,7 +137,7 @@ public class TeamOverviewFragment extends Fragment {
         latentUtilityAwakeningList = new ArrayList<>();
         damageAwakeningList = new ArrayList<>();
         latentDamageAwakeningList = new ArrayList<>();
-        monsterList = new ArrayList<>();
+        monsterList = new RealmList<>();
         monsterList.addAll(team.getMonsters());
         setTeamStats();
         setupAwakeningFilters();

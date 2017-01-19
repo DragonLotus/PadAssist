@@ -20,6 +20,8 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import io.realm.RealmList;
+
 /**
  * Created by DragonLotus on 10/18/2015.
  */
@@ -28,7 +30,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> awakeningList;
-    private ArrayList<Monster> monsterList;
+    private RealmList<Monster> monsterList;
     private ArrayList<Integer> latentList = new ArrayList<>();
     private ArrayList<Integer> awakeningListAll;
     private ArrayList<Integer> latentListAll;
@@ -38,7 +40,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
     private int teamBadge;
     DecimalFormat format = new DecimalFormat("0");
 
-    public AwakeningGridAdapter(Context context, ArrayList<Monster> monsterList, ArrayList<Integer> awakenings, ArrayList<Integer> latents, boolean isMonsterSpecificAdapter, int teamBadge) {
+    public AwakeningGridAdapter(Context context, RealmList<Monster> monsterList, ArrayList<Integer> awakenings, ArrayList<Integer> latents, boolean isMonsterSpecificAdapter, int teamBadge) {
         mContext = context;
         this.monsterList = monsterList;
         awakeningListAll = awakenings;

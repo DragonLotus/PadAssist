@@ -9,6 +9,7 @@ import com.padassist.Data.ActiveSkill;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Element;
 import com.padassist.Data.LeaderSkill;
+import com.padassist.Data.Team;
 
 import io.realm.DynamicRealm;
 import io.realm.FieldAttribute;
@@ -145,6 +146,11 @@ public class Migration implements RealmMigration {
                     .removeField("baseMonsterIdString")
                     .removeField("name");
             oldVersion++;
+        }
+
+        if(oldVersion == 8){
+            schema.get("Team")
+                    .addRealmListField("monsters", schema.get("Monster"));
         }
 
     }

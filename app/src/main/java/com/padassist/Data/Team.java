@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.padassist.ParcelConverters.MonsterParcelConverter;
+import com.padassist.ParcelConverters.RealmMonsterListParcelConverter;
 import com.padassist.Util.DamageCalculationUtil;
 import com.padassist.Util.LeaderSkillCalculationUtil;
 import com.padassist.Comparators.NumberComparator;
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.TeamRealmProxy;
@@ -42,8 +44,8 @@ public class Team extends RealmObject {
     private ArrayList<Integer> rowAwakenings = new ArrayList<Integer>();
     @Ignore
     private ArrayList<Integer> orbPlusAwakenings = new ArrayList<Integer>();
-    @Ignore
-    private ArrayList<Monster> monsters;
+
+    private RealmList<Monster> monsters;
     @Ignore
     private ArrayList<Long> baseMonsterId = new ArrayList<Long>();
 
@@ -186,9 +188,9 @@ public class Team extends RealmObject {
         return orbPlusAwakenings;
     }
 
-    public ArrayList<Monster> getMonsters() {
-        if (monsters == null || monsters.contains(null)) {
-            monsters = new ArrayList<>();
+    public RealmList<Monster> getMonsters() {
+        if (monsters == null || monsters.contains(null) || monsters.size() == 0) {
+            monsters = new RealmList<>();
             monsters.add(lead);
             monsters.add(sub1);
             monsters.add(sub2);
@@ -198,8 +200,8 @@ public class Team extends RealmObject {
         }
         return monsters;
     }
-
-    public void setMonsters(ArrayList<Monster> monsters) {
+    @ParcelPropertyConverter(RealmMonsterListParcelConverter.class)
+    public void setMonsters(RealmList<Monster> monsters) {
         this.monsters = monsters;
     }
 
@@ -294,7 +296,7 @@ public class Team extends RealmObject {
 
     public void setMonsters(int position, Monster monster) {
         if (monsters == null) {
-            monsters = new ArrayList<>();
+            monsters = new RealmList<>();
         }
         monsters.set(position, monster);
         switch (position) {
@@ -326,6 +328,7 @@ public class Team extends RealmObject {
     @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setSub1(Monster sub1) {
         this.sub1 = sub1;
+        monsters.set(1, sub1);
     }
 
     public Monster getSub2() {
@@ -335,6 +338,7 @@ public class Team extends RealmObject {
     @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setSub2(Monster sub2) {
         this.sub2 = sub2;
+        monsters.set(2, sub2);
     }
 
     public Monster getSub3() {
@@ -344,6 +348,7 @@ public class Team extends RealmObject {
     @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setSub3(Monster sub3) {
         this.sub3 = sub3;
+        monsters.set(3, sub3);
     }
 
     public Monster getSub4() {
@@ -353,6 +358,7 @@ public class Team extends RealmObject {
     @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setSub4(Monster sub4) {
         this.sub4 = sub4;
+        monsters.set(4, sub4);
     }
 
     public Monster getLead() {
@@ -362,6 +368,7 @@ public class Team extends RealmObject {
     @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setLead(Monster lead) {
         this.lead = lead;
+        monsters.set(0, lead);
     }
 
     public Monster getHelper() {
@@ -371,6 +378,7 @@ public class Team extends RealmObject {
     @ParcelPropertyConverter(MonsterParcelConverter.class)
     public void setHelper(Monster helper) {
         this.helper = helper;
+        monsters.set(5, helper);
     }
 
     public ArrayList<Boolean> getIsBound() {
@@ -858,6 +866,9 @@ public class Team extends RealmObject {
                 atk1Multiplier.set(i, atkMultiplier.get(0));
                 atk2Multiplier.set(i, atkMultiplier.get(1));
             }
+        }
+        for(int i = 0; i < monsters.size(); i++){
+            Log.d("Team", "monster " + i + " is : " + monsters.get(i));
         }
         Log.d("Team","atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier);
     }

@@ -23,12 +23,13 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 
 /**
  * Created by DragonLotus on 11/4/2015.
  */
 public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycler.ViewHolder> {
-    private ArrayList<Monster> monsterList;
+    private RealmList<Monster> monsterList;
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> latentList;
@@ -68,7 +69,7 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         }
     };
 
-    public MonsterListRecycler(Context context, ArrayList<Monster> monsterList) {
+    public MonsterListRecycler(Context context, RealmList<Monster> monsterList) {
         mContext = context;
         this.monsterList = monsterList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -259,8 +260,9 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         }
     }
 
-    public void updateList(ArrayList<Monster> monsterList) {
-        this.monsterList = monsterList;
+    public void updateList(RealmList<Monster> monsterList) {
+        this.monsterList.clear();
+        this.monsterList.addAll(monsterList);
         notifyDataSetChanged();
     }
 }

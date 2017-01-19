@@ -293,13 +293,13 @@ public class MainActivity extends AppCompatActivity {
             realm.commitTransaction();
         } else {
             team = realm.where(Team.class).equalTo("teamId", 0).findFirst();
+            realm.beginTransaction();
             for (int i = 0; i < team.getMonsters().size(); i++) {
                 if (team.getMonsters().get(i) == null) {
-                    realm.beginTransaction();
                     team.setMonsters(i, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-                    realm.commitTransaction();
                 }
             }
+            realm.commitTransaction();
             RealmResults<OrbMatch> orbMatchResults = realm.where(OrbMatch.class).findAll();
 
             team.getOrbMatches().addAll(realm.copyFromRealm(orbMatchResults));
@@ -318,6 +318,8 @@ public class MainActivity extends AppCompatActivity {
             enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
             enemy = realm.copyFromRealm(enemy);
         }
+
+        Log.d("MainActivity", "enemy hp is: " + enemy.getTargetHp());
 
         Parcelable enemyParcel = Parcels.wrap(enemy);
         Parcelable teamParcel = Parcels.wrap(team);

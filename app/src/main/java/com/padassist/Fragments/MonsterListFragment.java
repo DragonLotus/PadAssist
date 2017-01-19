@@ -34,6 +34,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 
@@ -58,7 +59,7 @@ public class MonsterListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private RecyclerView monsterListView;
-    private ArrayList<Monster> monsters;
+    private RealmList<Monster> monsters;
     private MonsterListRecycler monsterListRecycler;
 //    private Button importButton, orbMatchButton;
     private ImageView favorite, favoriteOutline;

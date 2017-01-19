@@ -188,6 +188,10 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
                     realm.commitTransaction();
                 }
 
+                for(int i = 0; i < newTeam.getMonsters().size(); i++){
+                    Log.d("SaveMonsterListFragment", "monster " + i + " is : " + newTeam.getMonsters().get(i));
+                }
+
                 getActivity().getSupportFragmentManager().popBackStack(MainTabLayoutFragment.TAG, 0);
                 Parcelable monsterParcel = Parcels.wrap(saveMonsterListRecycler.getItem(position));
                 ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");

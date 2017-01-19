@@ -16,17 +16,19 @@ import com.padassist.R;
 
 import java.util.ArrayList;
 
+import io.realm.RealmList;
+
 public class MonsterSpecificAwakeningsListAdapter extends ArrayAdapter<Monster> {
     private Context mContext;
     private LayoutInflater inflater;
-    private ArrayList<Monster> monsterList;
+    private RealmList<Monster> monsterList;
     private ArrayList<Integer> awakeningList, awakeningListAll, monsterSpecificFilter, latentList, latentListAll, latentMonsterSpecificFilter;
     private AwakeningGridAdapter monsterAwakeningsGridAdapter;
     private int resourceId;
     private int teamBadge;
 
     public MonsterSpecificAwakeningsListAdapter(Context context, int textViewResourceId,
-                                                ArrayList<Monster> monsterList,
+                                                RealmList<Monster> monsterList,
                                                 ArrayList<Integer> monsterSpecificFilter,
                                                 ArrayList<Integer> latentMonsterSpecificFilter,
                                                 int teamBadge) {
