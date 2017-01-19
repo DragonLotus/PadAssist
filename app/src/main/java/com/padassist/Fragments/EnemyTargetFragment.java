@@ -115,8 +115,11 @@ public class EnemyTargetFragment extends Fragment {
     private int defenseBeforeBreak;
     private long hpBeforeGravity;
     private int element2Selection = -1;
+    private long targetHp;
+    private long currentHp;
     private Realm realm;
     private JustAnotherBroadcastReceiver broadcastReceiver;
+    private Parcelable enemyParcel;
     private GravityListAdapter.UpdateGravityPercent updateGravityPercent = new GravityListAdapter.UpdateGravityPercent() {
         @Override
         public void updatePercent() {
@@ -133,29 +136,25 @@ public class EnemyTargetFragment extends Fragment {
         @Override
         public void changeMonsterAttribute(int statToChange, int statValue) {
             if (statToChange == MyTextWatcher.TARGET_HP) {
-
-                enemy.setTargetHp(statValue);
+                targetHp = statValue;
             } else if (statToChange == MyTextWatcher.CURRENT_HP) {
-                enemy.setCurrentHp(statValue);
-                if (enemy.getCurrentHp() > enemy.getTargetHp()) {
-                    currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
-                    enemy.setCurrentHp(enemy.getTargetHp());
-                    enemy.setBeforeGravityHP(enemy.getTargetHp());
+                currentHp = statValue;
+                if (currentHp > targetHp) {
+                    currentHpValue.setText(String.valueOf(targetHp));
+//                    enemy.setBeforeGravityHP(enemy.getTargetHp());
                 }
-
-                if (enemy.getBeforeGravityHP() * enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 0 && enemy.getBeforeGravityHP() != 0) {
-                    enemy.setCurrentHp(1);
-                    currentHpValue.setText("1");
-                }
-
+//                if (enemy.getBeforeGravityHP() * enemy.getGravityPercent() < 1 && enemy.getCurrentHp() == 0 && enemy.getBeforeGravityHP() != 0) {
+//                    enemy.setCurrentHp(1);
+//                    currentHpValue.setText("1");
+//                }
             } else if (statToChange == MyTextWatcher.TARGET_DEFENSE) {
                 enemy.setTargetDef(statValue);
             } else if (statToChange == MyTextWatcher.DAMAGE_THRESHOLD) {
                 enemy.setDamageThreshold(statValue);
             } else if (statToChange == MyTextWatcher.REDUCTION_VALUE) {
-                enemy.setReductionValue(statValue);
+//                enemy.setReductionValue(statValue);
                 if (statValue > 100) {
-                    enemy.setReductionValue(100);
+//                    enemy.setReductionValue(100);
                     reductionValue.setText("100");
                 }
             } else if (statToChange == MyTextWatcher.DAMAGE_IMMUNITY) {
@@ -166,12 +165,12 @@ public class EnemyTargetFragment extends Fragment {
         }
     };
 
-//    private MyTextWatcher targetHPWatcher = new MyTextWatcher(MyTextWatcher.TARGET_HP, changeStats);
-//    private MyTextWatcher currentHPWatcher = new MyTextWatcher(MyTextWatcher.CURRENT_HP, changeStats);
-//    private MyTextWatcher targetDefenseWatcher = new MyTextWatcher(MyTextWatcher.TARGET_DEFENSE, changeStats);
-//    private MyTextWatcher damageThresholdWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_THRESHOLD, changeStats);
-//    private MyTextWatcher reductionValueWatcher = new MyTextWatcher(MyTextWatcher.REDUCTION_VALUE, changeStats);
-//    private MyTextWatcher damageImmunityWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_IMMUNITY, changeStats);
+    private MyTextWatcher targetHPWatcher = new MyTextWatcher(MyTextWatcher.TARGET_HP, changeStats);
+    private MyTextWatcher currentHPWatcher = new MyTextWatcher(MyTextWatcher.CURRENT_HP, changeStats);
+    private MyTextWatcher targetDefenseWatcher = new MyTextWatcher(MyTextWatcher.TARGET_DEFENSE, changeStats);
+    private MyTextWatcher damageThresholdWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_THRESHOLD, changeStats);
+    private MyTextWatcher reductionValueWatcher = new MyTextWatcher(MyTextWatcher.REDUCTION_VALUE, changeStats);
+    private MyTextWatcher damageImmunityWatcher = new MyTextWatcher(MyTextWatcher.DAMAGE_IMMUNITY, changeStats);
 
     /**
      * Use this factory method to create a new instance of
@@ -222,11 +221,8 @@ public class EnemyTargetFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.monsterList:
-                updateMonster();
-                Parcelable enemyParcel = Parcels.wrap(enemy);
-                for(int i = 0; i < enemy.getTargetElement().size(); i++){
-                    Log.d("EnemyTargetFrag", "monsterList Enemy element " + i+ " is: " + enemy.getTargetElement().get(i).getValue());
-                }
+//                updateMonster();
+//                Parcelable enemyParcel = Parcels.wrap(enemy);
                 ((MainActivity) getActivity()).switchFragment(EnemyListFragment.newInstance(enemyParcel), EnemyListFragment.TAG, "good");
                 break;
             case R.id.addMonster:
@@ -369,20 +365,17 @@ public class EnemyTargetFragment extends Fragment {
 
         monsterPicture.setOnClickListener(enemyPortraitOnClickListener);
 
-        //Log.d("Testing orbMatch", "orbMatch: " + DamageCalculationUtil.orbMatch(1984, 4, 4, 6, 1));
-//        getActivity().setTitle("Set Enemy" + "(" + df.format(enemy.getPercentHp() * 100) + "%)");
-
 //        orbRadioGroup1.setOnCheckedChangeListener(enemyElement1OnCheckedChangeListener);
 
-//        targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
-//        currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
-//        targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
+        targetHpValue.setOnFocusChangeListener(editTextOnFocusChange);
+        currentHpValue.setOnFocusChangeListener(editTextOnFocusChange);
+        targetDefenseValue.setOnFocusChangeListener(editTextOnFocusChange);
 
-//        targetHpValue.addTextChangedListener(targetHPWatcher);
-//        currentHpValue.addTextChangedListener(currentHPWatcher);
+        targetHpValue.addTextChangedListener(targetHPWatcher);
+        currentHpValue.addTextChangedListener(currentHPWatcher);
 //        targetDefenseValue.addTextChangedListener(targetDefenseWatcher);
 //
-//        reductionValue.addTextChangedListener(reductionValueWatcher);
+        reductionValue.addTextChangedListener(reductionValueWatcher);
         reductionValue.setOnFocusChangeListener(editTextOnFocusChange);
         absorbCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
         reductionCheck.setOnCheckedChangeListener(checkBoxOnChangeListener);
@@ -451,10 +444,6 @@ public class EnemyTargetFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         onDeselect();
-        Enemy testEnemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
-        for(int i = 0; i < testEnemy.getTargetElement().size(); i++){
-            Log.d("EnemyTargetFrag", "onDestroy Enemy element " + i+ " is: " + testEnemy.getTargetElement().get(i).getValue());
-        }
     }
 
     @Override
@@ -528,7 +517,7 @@ public class EnemyTargetFragment extends Fragment {
     private View.OnClickListener enemyPortraitOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Parcelable enemyParcel = Parcels.wrap(enemy);
+//            updateMonster();
             ((MainActivity) getActivity()).switchFragment(MonsterPortraitListFragment.newInstance(enemyParcel), EnemyListFragment.TAG, "good");
         }
     };
@@ -567,50 +556,36 @@ public class EnemyTargetFragment extends Fragment {
         public void onFocusChange(View v, boolean hasFocus) {
             if (!hasFocus) {
                 hideKeyboard(v);
-                if (targetHpValue.getText().toString().equals("")) {
-                    targetHpValue.setText("0");
-//                    enemy.setTargetHp(0);
-//                    enemy.setCurrentHp(0);
-                    currentHpValue.setText(String.valueOf(enemy.getCurrentHp()));
-                    percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
-                } else if (currentHpValue.getText().toString().equals("")) {
-                    currentHpValue.setText("0");
-//                    enemy.setCurrentHp(0);
-                    percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
-                } else if (targetDefenseValue.getText().toString().equals("")) {
-                    targetDefenseValue.setText("0");
-//                    enemy.setTargetDef(0);
+                if (targetDefenseValue.getText().toString().equals("")) {
+//                    targetDefenseValue.setText("0");
                 } else if (damageThresholdValue.getText().toString().equals("")) {
-                    damageThresholdValue.setText("0");
-//                    enemy.setDamageThreshold(0);
+//                    damageThresholdValue.setText("0");
                 }
 
                 if (v.equals(targetHpValue)) {
-//                    enemy.setBeforeGravityHP(enemy.getCurrentHp());
-                    if (enemy.getTargetHp() < enemy.getCurrentHp()) {
-                        currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
+                    if (targetHpValue.getText().toString().equals("")) {
+                        targetHpValue.setText(String.valueOf(targetHp));
+                        percentHpValue.setText(String.valueOf(getPercentHp()));
                     }
-                    enemy.clearGravityList();
-//                    gravityListAdapter.notifyDataSetChanged();
-//                    updateGravityPercent.updatePercent();
+                    currentHpValue.setText(String.valueOf(currentHp));
                     if (toast != null) {
                         toast.cancel();
                     }
                     toast = Toast.makeText(getActivity(), "Current HP set", Toast.LENGTH_LONG);
                     toast.show();
                 } else if (v.equals(currentHpValue)) {
-//                    enemy.setBeforeGravityHP(enemy.getCurrentHp());
-//                    enemy.clearGravityList();
-//                    gravityListAdapter.notifyDataSetChanged();
-//                    updateGravityPercent.updatePercent();
+                    if (currentHpValue.getText().toString().equals("")) {
+                        currentHpValue.setText(String.valueOf(targetHp));
+                        percentHpValue.setText(String.valueOf(enemy.getPercentHp()));
+                    }
                     if (toast != null) {
                         toast.cancel();
                     }
                     toast = Toast.makeText(getActivity(), "Initial HP set", Toast.LENGTH_LONG);
                     toast.show();
                 } else if (v.equals(targetDefenseValue)) {
-//                    enemy.setBeforeDefenseBreak(enemy.getTargetDef());
-                    targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
+                    defenseBeforeBreak = Integer.valueOf(targetDefenseValue.getText().toString());
+                    targetDefenseValue.setText(String.valueOf((int) (defenseBeforeBreak * defenseBreakValue)));
                     if (toast != null) {
                         toast.cancel();
                     }
@@ -679,7 +654,7 @@ public class EnemyTargetFragment extends Fragment {
             } else if (position == 4) {
                 defenseBreakValue = 0;
             }
-            targetDefenseValue.setText(String.valueOf((int) (enemy.getBeforeDefenseBreak() * defenseBreakValue)));
+            targetDefenseValue.setText(String.valueOf((int) (defenseBeforeBreak * defenseBreakValue)));
         }
 
         @Override
@@ -692,8 +667,8 @@ public class EnemyTargetFragment extends Fragment {
         @Override
         public void onClick(View v) {
 //            gravityListAdapter.clear();
-            currentHpValue.setText(String.valueOf(enemy.getTargetHp()));
-            enemy.setBeforeGravityHP(enemy.getCurrentHp());
+            currentHpValue.setText(String.valueOf(targetHp));
+//            enemy.setBeforeGravityHP(enemy.getCurrentHp());
             if (toast != null) {
                 toast.cancel();
             }
@@ -735,10 +710,12 @@ public class EnemyTargetFragment extends Fragment {
                     for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                         reductionRadioGroup.getChildAt(i).setEnabled(false);
                     }
+                    reductionValue.setEnabled(false);
                 } else {
                     for (int i = 0; i < reductionRadioGroup.getChildCount(); i++) {
                         reductionRadioGroup.getChildAt(i).setEnabled(true);
                     }
+                    reductionValue.setEnabled(true);
                 }
             } else if (buttonView.equals(damageThresholdCheck)) {
 //                enemy.setHasDamageThreshold(isChecked);
@@ -1379,6 +1356,13 @@ public class EnemyTargetFragment extends Fragment {
         }
     };
 
+    public double getPercentHp() {
+        if (targetHp == 0) {
+            return 0;
+        }
+        return (double) currentHp / targetHp;
+    }
+
     @Override
     public void onResume() {
         broadcastReceiver = new JustAnotherBroadcastReceiver(receiverMethods);
@@ -1408,11 +1392,7 @@ public class EnemyTargetFragment extends Fragment {
     };
 
     public void onSelect() {
-        Log.d("EnemyTargetFrag", "onSelect");
         clearTextFocus();
-        for(int i = 0; i < enemy.getTargetElement().size(); i++){
-            Log.d("EnemyTargetFrag", "onSelect Enemy element " + i+ " is: " + enemy.getTargetElement().get(i).getValue());
-        }
 //        enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
 //        enemy = realm.copyFromRealm(enemy);
 //        if (enemy.isDamaged()) {
@@ -1435,12 +1415,16 @@ public class EnemyTargetFragment extends Fragment {
             setDamageThreshold();
             setEnemyElement();
             setSpinner();
+            targetHp = enemy.getTargetHp();
+            currentHp = enemy.getCurrentHp();
+            defenseBeforeBreak = enemy.getBeforeDefenseBreak();
             enemyName.setText(enemy.getEnemyName());
             enemyNameEditText.setText(enemy.getEnemyName());
             monsterPicture.setImageBitmap(ImageResourceUtil.getMonsterPicture(enemy.getMonsterIdPicture()));
-            currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
-            targetHpValue.setText(String.valueOf(enemy.getTargetHp()));
-            totalGravityValue.setText(String.valueOf(enemy.getCurrentHp()));
+//            currentHpValue.setText(String.valueOf((int) (enemy.getBeforeGravityHP() * enemy.getGravityPercent())));
+            currentHpValue.setText(String.valueOf(currentHp));
+            targetHpValue.setText(String.valueOf(targetHp));
+//            totalGravityValue.setText();
             targetDefenseValue.setText(String.valueOf(enemy.getTargetDef()));
             reductionValue.setText(String.valueOf(enemy.getReductionValue()));
         }
@@ -1449,7 +1433,8 @@ public class EnemyTargetFragment extends Fragment {
     public void onDeselect() {
         updateMonster();
     }
-    private void updateMonster(){
+
+    private void updateMonster() {
         realm.beginTransaction();
         enemy.setCurrentHp(Integer.valueOf(currentHpValue.getText().toString()));
         enemy.setTargetHp(Integer.valueOf(targetHpValue.getText().toString()));
@@ -1532,7 +1517,17 @@ public class EnemyTargetFragment extends Fragment {
         }
         enemy.setReductionValue(Integer.valueOf(reductionValue.getText().toString()));
         enemy.setDamageThreshold(Integer.valueOf(damageThresholdValue.getText().toString()));
+        if (damageThresholdCheck.isChecked()) {
+            enemy.setHasDamageThreshold(true);
+        } else {
+            enemy.setHasDamageThreshold(false);
+        }
         enemy.setDamageImmunity(Integer.valueOf(damageImmunityValue.getText().toString()));
+        if (damageImmunityCheck.isChecked()) {
+            enemy.setHasDamageImmunity(true);
+        } else {
+            enemy.setHasDamageImmunity(false);
+        }
         if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
             enemy.setCurrentElement(enemy.getTargetElement().get(0));
         } else {
@@ -1547,11 +1542,7 @@ public class EnemyTargetFragment extends Fragment {
         }
 //        enemy.setEnemyId(0);
 //        realm.copyToRealmOrUpdate(enemy);
-        enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
-        Log.d("EnemyTargetFrag", "onDeselect enemy is: " + enemy);
-        for(int i = 0; i < enemy.getTargetElement().size(); i++){
-            Log.d("EnemyTargetFrag", "onDeselect Enemy element " + i+ " is: " + enemy.getTargetElement().get(i).getValue());
-        }
         realm.commitTransaction();
+        enemyParcel = Parcels.wrap(enemy);
     }
 }

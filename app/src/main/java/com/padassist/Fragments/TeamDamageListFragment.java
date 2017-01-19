@@ -1032,7 +1032,7 @@ public class TeamDamageListFragment extends Fragment {
                         }
                     }
                 }
-                team.setTeamHp(team.getHelperSkill().getHpPercent().get(0 + 2 * position).getValue());
+                team.setTeamHp(team.getHelperSkill().getHpPercent().get(2 * position).getValue());
             }
         } else {
             for (int i = 0; i < team.getLeadSkill().getAtkData().size(); i++) {
@@ -1044,7 +1044,8 @@ public class TeamDamageListFragment extends Fragment {
                     }
                 }
             }
-            team.setTeamHp(team.getLeadSkill().getHpPercent().get(0 + 2 * position).getValue());
+            Log.d("TeamDamageListFragment", "team hpPercent is: " + team.getLeadSkill().getHpPercent());
+            team.setTeamHp(team.getLeadSkill().getHpPercent().get(2 * position).getValue());
         }
 //        team.save();
         teamHp.setProgress(team.getTeamHp());
@@ -1186,7 +1187,7 @@ public class TeamDamageListFragment extends Fragment {
                     enemy.setCurrentElement(enemy.getTargetElement().get(1));
                 }
             }
-            realm.copyToRealmOrUpdate(enemy);
+//            realm.copyToRealmOrUpdate(enemy);
             realm.commitTransaction();
         }
     }

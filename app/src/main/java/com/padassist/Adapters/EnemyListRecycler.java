@@ -100,10 +100,6 @@ public class EnemyListRecycler extends RecyclerView.Adapter<RecyclerView.ViewHol
             enemy.setEnemy(monsterList.get(position));
             realm.copyToRealmOrUpdate(enemy);
             realm.commitTransaction();
-            Log.d("EnemyListRecycler", "enemyId is: " + enemy.getEnemyId());
-            for(int i = 0; i < enemy.getTypes().size(); i++){
-                Log.d("EnemyListRecycler", "Type " + i + " is: " + enemy.getTypes().get(i).getValue());
-            }
             ((MainActivity) mContext).getSupportFragmentManager().popBackStack();
         }
     };
