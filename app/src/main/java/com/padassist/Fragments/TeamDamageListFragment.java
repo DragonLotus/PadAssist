@@ -1158,7 +1158,6 @@ public class TeamDamageListFragment extends Fragment {
 
     public void onSelect() {
         enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
-        Log.d("TeamDamageList", "enemy is: " + enemy);
         enemy = realm.copyFromRealm(enemy);
         if (hasEnemy) {
             temp = enemy.getCurrentHp();

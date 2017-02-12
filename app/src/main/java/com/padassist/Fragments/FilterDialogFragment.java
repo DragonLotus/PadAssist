@@ -105,7 +105,7 @@ public class FilterDialogFragment extends DialogFragment {
         typeGrid.setExpanded(true);
         typeGridAdapter.notifyEnable(true);
         awakeningsList = new ArrayList<>();
-        for (int i = 1; i < 44; i++) {
+        for (int i = 1; i < 45; i++) {
             awakeningsList.add(i);
         }
         awakeningsGridAdapter = new AwakeningGridFilterAdapter(getActivity(), awakeningsList, Singleton.getInstance().getFilterAwakenings());

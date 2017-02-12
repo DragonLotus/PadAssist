@@ -862,20 +862,19 @@ public class Team extends RealmObject {
         if(orbMatches.size() != 0){
             for (int i = 0; i < getMonsters().size(); i++){
                 ArrayList<Double> atkMultiplier = new ArrayList<>();
-                atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
-                atk1Multiplier.set(i, atkMultiplier.get(0));
-                atk2Multiplier.set(i, atkMultiplier.get(1));
+                if(getLeadSkill()!= null && getHelperSkill() != null){
+                    atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
+                    atk1Multiplier.set(i, atkMultiplier.get(0));
+                    atk2Multiplier.set(i, atkMultiplier.get(1));
+                }
             }
-        }
-        for(int i = 0; i < monsters.size(); i++){
-            Log.d("Team", "monster " + i + " is : " + monsters.get(i));
         }
         Log.d("Team","atk1Multiplier is: " + atk1Multiplier + " atk2Multiplier is: " + atk2Multiplier);
     }
 
     public int getTeamCost(){
         int cost = 0;
-        for (int i = 0; i < monsters.size(); i++){
+        for (int i = 0; i < monsters.size() - 1; i++){
             cost += monsters.get(i).getTeamCost();
         }
         return cost;

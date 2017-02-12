@@ -99,10 +99,10 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
         }
 
         monsterListAll.clear();
-
         if(selection == SUB){
             if (monsterPosition == 5) {
                 helper = true;
+                monsterListAll.add(0, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
             } else {
                 helper = false;
             }

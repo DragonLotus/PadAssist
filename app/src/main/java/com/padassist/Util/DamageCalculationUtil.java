@@ -146,7 +146,7 @@ public class DamageCalculationUtil {
         if (damage == 0) {
             return 0;
         }
-        damage = monsterDamageEnemyDefense(damage, enemy);
+        damage = monsterDamageEnemyDefense(damage, monster, enemy);
         return damage;
     }
 
@@ -156,7 +156,7 @@ public class DamageCalculationUtil {
             return 0;
         }
 
-        damage = monsterDamageEnemyDefense(damage, enemy);
+        damage = monsterDamageEnemyDefense(damage, monster, enemy);
         return damage;
     }
 
@@ -193,9 +193,17 @@ public class DamageCalculationUtil {
             }
         }
         damage = killerCalculation(damage, monster, enemy);
-        if(monster.getAwakenings().contains(43)){
+
+        int counter = 0;
+        ArrayList<Integer> monsterAwakenings = monster.getAwakenings();
+        if(monsterAwakenings.contains(43)){
             if(combos > 6){
-                damage *= 2;
+                for (int i = 0; i < monsterAwakenings.size(); i++){
+                    if(monsterAwakenings.get(i) == 43){
+                        counter++;
+                    }
+                }
+                damage *= Math.pow(2,counter);
             }
         }
         return damage;
@@ -234,15 +242,25 @@ public class DamageCalculationUtil {
             }
         }
         damage = killerCalculation(damage, monster, enemy);
-        if(monster.getAwakenings().contains(43)){
+
+        int counter = 0;
+        ArrayList<Integer> monsterAwakenings = monster.getAwakenings();
+        if(monsterAwakenings.contains(43)){
             if(combos > 6){
-                damage *= 2;
+                for (int i = 0; i < monsterAwakenings.size(); i++){
+                    if(monsterAwakenings.get(i) == 43){
+                        counter++;
+                    }
+                }
+                damage *= Math.pow(2,counter);
             }
         }
+
         return damage;
     }
 
-    public static double monsterDamageEnemyDefense(double damage, Enemy enemy) {
+    public static double monsterDamageEnemyDefense(double damage, Monster monster, Enemy enemy) {
+
         if (damage - enemy.getTargetDef() < 0) {
             return 1;
         }
@@ -255,10 +273,10 @@ public class DamageCalculationUtil {
             return 0;
         }
         if (enemy.getReduction().isEmpty()) {
-            return monsterDamageEnemyDefense(damage, enemy);
-        } else if (enemy.reductionContains(monster.getElement1())) {
-            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, enemy);
-        } else return monsterDamageEnemyDefense(damage, enemy);
+            return monsterDamageEnemyDefense(damage, monster, enemy);
+        } else if (enemy.reductionContains(monster.getElement1()) && enemy.isHasReduction()) {
+            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, monster, enemy);
+        } else return monsterDamageEnemyDefense(damage, monster, enemy);
     }
 
     public static double monsterElement2DamageReduction(Team team, Monster monster, int position, int combos, Enemy enemy) {
@@ -267,15 +285,15 @@ public class DamageCalculationUtil {
             return 0;
         }
         if (enemy.getReduction().isEmpty() || enemy.getReduction() == null) {
-            return monsterDamageEnemyDefense(damage, enemy);
-        } else if (enemy.reductionContains(monster.getElement2())) {
-            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, enemy);
-        } else return monsterDamageEnemyDefense(damage, enemy);
+            return monsterDamageEnemyDefense(damage, monster, enemy);
+        } else if (enemy.reductionContains(monster.getElement2()) && enemy.isHasReduction()) {
+            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, monster, enemy);
+        } else return monsterDamageEnemyDefense(damage, monster, enemy);
     }
 
     public static double monsterElement1DamageAbsorb(Team team, Monster monster, int position, int combos, Enemy enemy) {
         double damage = monsterElement1DamageReduction(team, monster, position, combos, enemy);
-        if (enemy.absorbContains(monster.getElement1())) {
+        if (enemy.absorbContains(monster.getElement1()) && enemy.isHasAbsorb()) {
             return damage * -1;
         }
         return damage;
@@ -283,7 +301,7 @@ public class DamageCalculationUtil {
 
     public static double monsterElement2DamageAbsorb(Team team, Monster monster, int position, int combos, Enemy enemy) {
         double damage = monsterElement2DamageReduction(team, monster, position, combos, enemy);
-        if (enemy.absorbContains(monster.getElement2())) {
+        if (enemy.absorbContains(monster.getElement2()) && enemy.isHasAbsorb()) {
             return damage * -1;
         } else return damage;
     }

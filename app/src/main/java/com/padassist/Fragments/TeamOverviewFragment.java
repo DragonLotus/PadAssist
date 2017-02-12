@@ -225,6 +225,7 @@ public class TeamOverviewFragment extends Fragment {
         monsterSpecificFilter.add(41);
         monsterSpecificFilter.add(42);
         monsterSpecificFilter.add(43);
+        monsterSpecificFilter.add(44);
         latentUtilityFilter.add(4);
         latentUtilityFilter.add(6);
         latentUtilityFilter.add(7);

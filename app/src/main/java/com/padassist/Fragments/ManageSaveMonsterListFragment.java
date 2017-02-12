@@ -60,7 +60,7 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListBase {
         if (getArguments() != null) {
             helper = getArguments().getBoolean("helper");
         }
-            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).findAll());
+            monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).greaterThan("monsterId", 0).findAll());
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

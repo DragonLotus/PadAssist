@@ -505,7 +505,6 @@ public abstract class MonsterPageBase extends Fragment {
                 }
                 setTextViewValues();
             }
-            grayAwakenings();
         }
     };
 
@@ -722,14 +721,18 @@ public abstract class MonsterPageBase extends Fragment {
 
     //Gray out depending on monsterAwakeningsValue
     public void grayAwakenings() {
+        Log.d("MonsterPageBase","monster current awakenings is: " + monster.getCurrentAwakenings());
         if (monster.getCurrentAwakenings() < monster.getMaxAwakenings()) {
+            Log.d("MonsterPageBase","Not max awakenings");
             for (int j = 0; j < monster.getCurrentAwakenings(); j++) {
                 ((ImageView)awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
             }
             for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++) {
+                Log.d("MonsterPageBase","Graying awakening " + j);
                 ((ImageView)awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakeningDisabled(monster.getAwokenSkills().get(j).getValue()));
             }
         } else {
+            Log.d("MonsterPageBase","Max awakenings");
             for (int j = 0; j < monster.getMaxAwakenings(); j++) {
                 awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
             }

@@ -495,6 +495,9 @@ public class AwakeningGridAdapter extends BaseAdapter {
                     case 43:
                         text = String.format("%d", (long) Math.pow(2, counter)) + "x bonus damage when reaching 7 combos";
                         break;
+                    case 44:
+                        text = (long)(50 * counter) + "% enemy defense ignored when matching 5 colors";
+                        break;
                 }
                 for (int i = 0; i < monsterList.size(); i++) {
                     for (int j = 0; j < monsterList.get(i).getAwokenSkills().size(); j++) {
