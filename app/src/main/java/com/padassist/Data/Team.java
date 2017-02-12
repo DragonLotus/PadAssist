@@ -60,8 +60,8 @@ public class Team extends RealmObject {
     private Monster sub4;
 
     private Monster helper;
-    @Ignore
-    private ArrayList<OrbMatch> orbMatches;
+//    @Ignore
+//    private ArrayList<OrbMatch> orbMatches;
 
     private String teamName;
 
@@ -91,8 +91,8 @@ public class Team extends RealmObject {
     private ArrayList<Element> compareElements = new ArrayList<>();
     @Ignore
     private ArrayList<Element> haveElements = new ArrayList();
-    @Ignore
-    private ArrayList<Element> compareAllElements = new ArrayList<>();
+//    @Ignore
+//    private ArrayList<Element> compareAllElements = new ArrayList<>();
     @Ignore
     private ArrayList<Integer> awakeningsList = new ArrayList<>();
     @Ignore
@@ -114,7 +114,7 @@ public class Team extends RealmObject {
         teamIdOverwrite = 0;
         teamHealth = 0;
         teamRcv = 0;
-        orbMatches = new ArrayList<>();
+//        orbMatches = new ArrayList<>();
         favorite = false;
         teamName = "Untitled Team";
         teamHp = 100;
@@ -221,20 +221,20 @@ public class Team extends RealmObject {
         this.totalDamage = totalDamage;
     }
 
-    public ArrayList<OrbMatch> getOrbMatches() {
-        return orbMatches;
+//    public ArrayList<OrbMatch> getOrbMatches() {
+//        return orbMatches;
+//
+//    }
 
-    }
-
-    public void setOrbMatches(ArrayList<OrbMatch> orbMatchList) {
-//        RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
+//    public void setOrbMatches(ArrayList<OrbMatch> orbMatchList) {
+////        RealmResults<OrbMatch> results = realm.where(OrbMatch.class).findAllSorted("matchId");
+////        orbMatches.clear();
+////        for (int i = 0; i < results.size(); i++) {
+////            orbMatches.add(realm.copyFromRealm(results.get(i)));
+////        }
 //        orbMatches.clear();
-//        for (int i = 0; i < results.size(); i++) {
-//            orbMatches.add(realm.copyFromRealm(results.get(i)));
-//        }
-        orbMatches.clear();
-        orbMatches.addAll(orbMatchList);
-    }
+//        orbMatches.addAll(orbMatchList);
+//    }
 
 
     public int sizeMonsters() {
@@ -453,15 +453,15 @@ public class Team extends RealmObject {
         return compareElements;
     }
 
-    public ArrayList<Element> getAllOrbMatchElements() {
-        if (compareAllElements.size() != 0) {
-            compareAllElements.clear();
-        }
-        for (int i = 0; i < orbMatches.size(); i++) {
-            compareAllElements.add(orbMatches.get(i).getElement());
-        }
-        return compareAllElements;
-    }
+//    public ArrayList<Element> getAllOrbMatchElements() {
+//        if (compareAllElements.size() != 0) {
+//            compareAllElements.clear();
+//        }
+//        for (int i = 0; i < orbMatches.size(); i++) {
+//            compareAllElements.add(orbMatches.get(i).getElement());
+//        }
+//        return compareAllElements;
+//    }
 
     public int getTeamBadge() {
         return teamBadge;
@@ -765,7 +765,7 @@ public class Team extends RealmObject {
         }
     }
 
-    public void updateOrbs() {
+    public void updateOrbs(RealmResults<OrbMatch> orbMatchList) {
         haveElements.clear();
         compareElements.clear();
         for (int i = 0; i < getMonsters().size(); i++) {
@@ -779,11 +779,11 @@ public class Team extends RealmObject {
             }
 
         }
-        for (int i = 0; i < orbMatches.size(); i++) {
-            if (haveElements.contains(orbMatches.get(i).getElement())) {
-                compareElements.add(orbMatches.get(i).getElement());
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (haveElements.contains(orbMatchList.get(i).getElement())) {
+                compareElements.add(orbMatchList.get(i).getElement());
             }
-            if (orbMatches.get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
+            if (orbMatchList.get(i).getElement().equals(Element.HEART) && !compareElements.contains(Element.HEART)) {
                 compareElements.add(Element.HEART);
             }
         }
@@ -791,13 +791,14 @@ public class Team extends RealmObject {
 
     public void setTeamStats(Realm realm) {
         realm.beginTransaction();
-        setHpRcvMultiplierArrays(0);
+        RealmResults<OrbMatch> orbMatchList = realm.where(OrbMatch.class).findAllSorted("matchId");
+        setHpRcvMultiplierArrays(orbMatchList, 0);
         Log.d("Team", "hpMultiplier is: " + hpMultiplier + " rcvMultiplier is: " + rcvMultiplier);
         int hp = 0;
         double rcv = 0;
         for (int i = 0; i < getMonsters().size(); i++) {
-            hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this, i);
-            rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this, i);
+            hp += DamageCalculationUtil.monsterHpCalc(getMonsters(i), this, orbMatchList, i);
+            rcv += DamageCalculationUtil.monsterRcvCalc(getMonsters(i), this, orbMatchList, i);
         }
         if(teamBadge == 5 && !Singleton.getInstance().isCoopEnable()){
             this.teamHealth = (int) (hp * 1.05);
@@ -816,10 +817,10 @@ public class Team extends RealmObject {
         realm.commitTransaction();
     }
 
-    public void setHpRcvMultiplierArrays(int totalCombos) {
+    public void setHpRcvMultiplierArrays(RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         for (int i = 0; i < getMonsters().size(); i++) {
-            hpMultiplier.set(i, LeaderSkillCalculationUtil.hpMultiplier(getMonsters().get(i), this));
-            rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this));
+            hpMultiplier.set(i, LeaderSkillCalculationUtil.hpMultiplier(getMonsters().get(i), this, orbMatchList));
+            rcvMultiplier.set(i, LeaderSkillCalculationUtil.rcvMultiplier(getMonsters().get(i), this, orbMatchList));
         }
         if(lead.getLeaderSkill() != null){
             if(lead.getLeaderSkill().getRcvSkillType() != null){
@@ -829,11 +830,11 @@ public class Team extends RealmObject {
                     }
                 } else if(lead.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
-                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, lead.getLeaderSkill()));
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, lead.getLeaderSkill(), orbMatchList));
                     }
                 } else if(lead.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.ORB_LINK)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
-                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.orbLinkRcv(this, lead.getLeaderSkill()));
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.orbLinkRcv(this, lead.getLeaderSkill(), orbMatchList));
                     }
                 }
             }
@@ -846,24 +847,23 @@ public class Team extends RealmObject {
                     }
                 } else if(helper.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.INDIAN)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
-                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, helper.getLeaderSkill()));
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.indianRcv(this, helper.getLeaderSkill(), orbMatchList));
                     }
                 } else if(helper.getLeaderSkill().getRcvSkillType().getLeaderSkillType().equals(LeaderSkillType.ORB_LINK)){
                     for (int i = 0; i < rcvMultiplier.size(); i++){
-                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.orbLinkRcv(this, helper.getLeaderSkill()));
+                        rcvMultiplier.set(i, rcvMultiplier.get(i) * LeaderSkillCalculationUtil.orbLinkRcv(this, helper.getLeaderSkill(), orbMatchList));
                     }
                 }
             }
         }
     }
 
-    public void setAtkMultiplierArrays(int combos) {
-        Log.d("Team", "orbMatches size is: " + orbMatches.size());
-        if(orbMatches.size() != 0){
+    public void setAtkMultiplierArrays(RealmResults<OrbMatch> orbMatchList, int combos) {
+        if(orbMatchList.size() != 0){
             for (int i = 0; i < getMonsters().size(); i++){
                 ArrayList<Double> atkMultiplier = new ArrayList<>();
                 if(getLeadSkill()!= null && getHelperSkill() != null){
-                    atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, combos));
+                    atkMultiplier.addAll(LeaderSkillCalculationUtil.atkMultiplier(getMonsters().get(i), this, orbMatchList, combos));
                     atk1Multiplier.set(i, atkMultiplier.get(0));
                     atk2Multiplier.set(i, atkMultiplier.get(1));
                 }

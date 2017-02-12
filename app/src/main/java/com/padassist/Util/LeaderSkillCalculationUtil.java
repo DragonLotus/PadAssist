@@ -5,11 +5,13 @@ import android.util.Log;
 import com.padassist.Data.Element;
 import com.padassist.Data.LeaderSkill;
 import com.padassist.Data.Monster;
+import com.padassist.Data.OrbMatch;
 import com.padassist.Data.Team;
 
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class LeaderSkillCalculationUtil {
 
@@ -17,7 +19,7 @@ public class LeaderSkillCalculationUtil {
     private static ArrayList<Double> atkMultiplier = new ArrayList<>();
     private static double rcvMultiplier;
 
-    public static double hpMultiplier(Monster monster, Team team) {
+    public static double hpMultiplier(Monster monster, Team team, RealmResults<OrbMatch> orbMatchList) {
         hpMultiplier = 1;
         if(team.getLeadSkill() != null){
             if (team.getLeadSkill().getHpSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
@@ -26,7 +28,7 @@ public class LeaderSkillCalculationUtil {
                         flat(monster, team.getLeadSkill(), 1);
                         break;
                     case MONSTER_CONDITIONAL:
-                        monsterConditional(monster, team, team.getLeadSkill(), 1);
+                        monsterConditional(monster, team, team.getLeadSkill(), orbMatchList, 1);
                         break;
                 }
             }
@@ -39,7 +41,7 @@ public class LeaderSkillCalculationUtil {
                         flat(monster, team.getHelperSkill(), 1);
                         break;
                     case MONSTER_CONDITIONAL:
-                        monsterConditional(monster, team, team.getHelperSkill(), 1);
+                        monsterConditional(monster, team, team.getHelperSkill(), orbMatchList, 1);
                         break;
                 }
             }
@@ -48,7 +50,7 @@ public class LeaderSkillCalculationUtil {
         return hpMultiplier;
     }
 
-    public static ArrayList<Double> atkMultiplier(Monster monster, Team team, int totalCombos) {
+    public static ArrayList<Double> atkMultiplier(Monster monster, Team team, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         if (atkMultiplier == null) {
             atkMultiplier = new ArrayList<>();
         }
@@ -66,94 +68,94 @@ public class LeaderSkillCalculationUtil {
                     flat(monster, team.getLeadSkill(), 2);
                     break;
                 case FLAT_ATTRIBUTE_ACTIVE_ATTRIBUTE:
-                    flatAttributeActiveAttribute(monster, team, team.getLeadSkill());
+                    flatAttributeActiveAttribute(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case FLAT_TYPE_FLAT_ATTRIBUTE:
-                    flatTypeFlatAttribute(monster, team, team.getLeadSkill());
+                    flatTypeFlatAttribute(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case COMBO:
-                    combo(monster, team, team.getLeadSkill(), totalCombos);
+                    combo(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case MATCH_ELEMENT:
-                    matchElement(monster, team, team.getLeadSkill());
+                    matchElement(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MONSTER_CONDITIONAL:
-                    monsterConditional(monster, team, team.getLeadSkill(), 2);
+                    monsterConditional(monster, team, team.getLeadSkill(), orbMatchList, 2);
                     break;
                 case FLAT_MONSTER_CONDITIONAL:
-                    flatMonsterConditional(monster, team, team.getLeadSkill());
+                    flatMonsterConditional(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_LINK:
-                    orbLink(monster, team, team.getLeadSkill());
+                    orbLink(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_LINK_FLAT:
-                    orbLinkFlat(monster, team, team.getLeadSkill());
+                    orbLinkFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_LINK_INDIAN:
-                    orbLinkIndian(monster, team, team.getLeadSkill());
+                    orbLinkIndian(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_FLAT:
-                    matchElementFlat(monster, team, team.getLeadSkill());
+                    matchElementFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case COMBO_MATCH_ELEMENT:
-                    comboMatchElement(monster, team, team.getLeadSkill(), totalCombos);
+                    comboMatchElement(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case MATCH_ELEMENT_ACTIVE:
-                    matchElementActive(monster, team, team.getLeadSkill());
+                    matchElementActive(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case FLAT_ACTIVE:
-                    flatActive(monster, team, team.getLeadSkill());
+                    flatActive(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case COMBO_ACTIVE:
-                    comboActive(monster, team, team.getLeadSkill(), totalCombos);
+                    comboActive(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case COMBO_FLAT:
-                    comboFlat(monster, team, team.getLeadSkill(), totalCombos);
+                    comboFlat(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case COMBO_ATTRIBUTE:
-                    comboAttribute(monster, team, team.getLeadSkill(), totalCombos);
+                    comboAttribute(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case COMBO_EXACT:
-                    comboExact(monster, team, team.getLeadSkill(), totalCombos);
+                    comboExact(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case INDIAN:
-                    indian(monster, team, team.getLeadSkill());
+                    indian(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case INDIAN_FLAT:
-                    indianFlat(monster, team, team.getLeadSkill());
+                    indianFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_PLUS:
-                    orbPlus(monster, team, team.getLeadSkill());
+                    orbPlus(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_PLUS_FLAT:
-                    orbPlusFlat(monster, team, team.getLeadSkill());
+                    orbPlusFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case INDIAN_ORB_PLUS:
-                    indianOrbPlus(monster, team, team.getLeadSkill());
+                    indianOrbPlus(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_ORB_PLUS:
-                    matchElementOrbPlus(monster, team, team.getLeadSkill());
+                    matchElementOrbPlus(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case COMBO_ORB_PLUS:
-                    comboOrbPlus(monster, team, team.getLeadSkill(), totalCombos);
+                    comboOrbPlus(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case GRIMOIRE_FLAT:
-                    multiFlat(monster, team, team.getLeadSkill());
+                    multiFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case HP_FLAT:
-                    hpFlat(monster, team, team.getLeadSkill(), 2);
+                    hpFlat(monster, team, team.getLeadSkill(), orbMatchList, 2);
                     break;
                 case FLAT_HP_FLAT:
-                    flatHpFlat(monster, team, team.getLeadSkill());
+                    flatHpFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case HP_FLAT_ATTRIBUTE_FLAT_TYPE:
-                    hpFlatAttributeFlatType(monster, team, team.getLeadSkill());
+                    hpFlatAttributeFlatType(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ACTIVE:
-                    active(monster, team, team.getLeadSkill(), 2);
+                    active(monster, team, team.getLeadSkill(), orbMatchList, 2);
                     break;
                 case FLAT_TYPE_ACTIVE_ATTRIBUTE:
-                    flatTypeActiveAttribute(monster, team, team.getLeadSkill());
+                    flatTypeActiveAttribute(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
 //                case ORB_LINK_EXACT_FLAT:
 //                    orbLinkExactFlat(monster, team);
@@ -162,112 +164,112 @@ public class LeaderSkillCalculationUtil {
 //                    orbLinkExact(monster, team);
 //                    break;
                 case ORB_LINK_ORB_PLUS:
-                    orbLinkOrbPlus(monster, team, team.getLeadSkill());
+                    orbLinkOrbPlus(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_ORB_LINK:
-                    matchElementOrbLink(monster, team, team.getLeadSkill());
+                    matchElementOrbLink(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case FLAT_TYPE_FLAT_TYPE:
-                    flatTypeFlatType(monster, team, team.getLeadSkill());
+                    flatTypeFlatType(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case HP_FLAT_ORB_PLUS:
-                    hpFlatOrbPlus(monster, team, team.getLeadSkill());
+                    hpFlatOrbPlus(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case HP_FLAT_MATCH_ELEMENT:
-                    hpFlatMatchElement(monster, team, team.getLeadSkill());
+                    hpFlatMatchElement(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case HP_FLAT_ACTIVE:
-                    hpFlatActive(monster, team, team.getLeadSkill());
+                    hpFlatActive(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_LINK_ACTIVE:
-                    orbLinkActive(monster, team, team.getLeadSkill());
+                    orbLinkActive(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case HP_FLAT_ATTRIBUTE_FLAT_ATTRIBUTE:
-                    hpFlatAttributeFlatAttribute(monster, team, team.getLeadSkill());
+                    hpFlatAttributeFlatAttribute(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case INDIAN_ACTIVE:
-                    indianActive(monster, team, team.getLeadSkill());
+                    indianActive(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case HEART_CROSS:
-                    heartCross(monster, team, team.getLeadSkill());
+                    heartCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case COMBO_INDIAN:
-                    comboIndian(monster, team, team.getLeadSkill(), totalCombos);
+                    comboIndian(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case ORB_LINK_HP_FLAT:
-                    orbLinkHpFlat(monster, team, team.getLeadSkill());
+                    orbLinkHpFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_PLUS_HEART_CROSS:
-                    orbPlusHeartCross(monster, team, team.getLeadSkill());
+                    orbPlusHeartCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case INDIAN_HEART_CROSS:
-                    indianHeartCross(monster, team, team.getLeadSkill());
+                    indianHeartCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case FLAT_HEART_CROSS:
-                    flatHeartCross(monster, team, team.getLeadSkill());
+                    flatHeartCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_HEART_CROSS:
-                    matchElementHeartCross(monster, team, team.getLeadSkill());
+                    matchElementHeartCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ACTIVE_HEART_CROSS:
-                    activeHeartCross(monster, team, team.getLeadSkill());
+                    activeHeartCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case INDIAN_MONSTER_CONDITIONAL:
-                    indianMonsterConditional(monster, team, team.getLeadSkill());
+                    indianMonsterConditional(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_PLUS_MONSTER_CONDITIONAL:
-                    orbPlusMonsterConditional(monster, team, team.getLeadSkill());
+                    orbPlusMonsterConditional(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case CROSS:
-                    cross(monster, team, team.getLeadSkill());
+                    cross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case INDIAN_CROSS:
-                    indianCross(monster, team, team.getLeadSkill());
+                    indianCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ACTIVE_CROSS:
-                    activeCross(monster, team, team.getLeadSkill());
+                    activeCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case CO_OP_HP_FLAT:
-                    coopHpFlat(monster, team, team.getLeadSkill());
+                    coopHpFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case CO_OP_FLAT:
-                    coopFlat(monster, team, team.getLeadSkill());
+                    coopFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case CO_OP:
-                    coop(monster, team, team.getLeadSkill(), 2);
+                    coop(monster, team, team.getLeadSkill(), orbMatchList, 2);
                     break;
                 case FLAT_CROSS:
-                    flatCross(monster, team, team.getLeadSkill());
+                    flatCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case HEART_CROSS_CROSS:
-                    heartCrossCross(monster, team, team.getLeadSkill());
+                    heartCrossCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_INDIAN:
-                    matchElementIndian(monster, team, team.getLeadSkill());
+                    matchElementIndian(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MINIMUM_MATCH_INDIAN_FLAT:
-                    indianFlat(monster, team, team.getLeadSkill());
+                    indianFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MINIMUM_MATCH_ORB_LINK_FLAT:
-                    orbLinkFlat(monster, team, team.getLeadSkill());
+                    orbLinkFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MINIMUM_MATCH_MATCH_ELEMENT_FLAT:
-                    matchElementFlat(monster, team, team.getLeadSkill());
+                    matchElementFlat(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case MINIMUM_MATCH_COMBO_FLAT:
-                    comboFlat(monster, team, team.getLeadSkill(), totalCombos);
+                    comboFlat(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case ORB_LINK_ORB_LINK:
-                    orbLinkOrbLink(monster, team, team.getLeadSkill());
+                    orbLinkOrbLink(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case ORB_LINK_HEART_CROSS:
-                    orbLinkHeartCross(monster, team, team.getLeadSkill());
+                    orbLinkHeartCross(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
                 case COMBO_ORB_LINK:
-                    comboOrbLink(monster, team, team.getLeadSkill(), totalCombos);
+                    comboOrbLink(monster, team, team.getLeadSkill(), orbMatchList, totalCombos);
                     break;
                 case MATCH_ELEMENT_MONSTER_CONDITIONAL:
-                    matchElementMonsterConditional(monster, team, team.getLeadSkill());
+                    matchElementMonsterConditional(monster, team, team.getLeadSkill(), orbMatchList);
                     break;
             }
         }
@@ -278,94 +280,94 @@ public class LeaderSkillCalculationUtil {
                     flat(monster, team.getHelperSkill(), 2);
                     break;
                 case FLAT_ATTRIBUTE_ACTIVE_ATTRIBUTE:
-                    flatAttributeActiveAttribute(monster, team, team.getHelperSkill());
+                    flatAttributeActiveAttribute(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case FLAT_TYPE_FLAT_ATTRIBUTE:
-                    flatTypeFlatAttribute(monster, team, team.getHelperSkill());
+                    flatTypeFlatAttribute(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case COMBO:
-                    combo(monster, team, team.getHelperSkill(), totalCombos);
+                    combo(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case MATCH_ELEMENT:
-                    matchElement(monster, team, team.getHelperSkill());
+                    matchElement(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MONSTER_CONDITIONAL:
-                    monsterConditional(monster, team, team.getHelperSkill(), 2);
+                    monsterConditional(monster, team, team.getHelperSkill(), orbMatchList, 2);
                     break;
                 case FLAT_MONSTER_CONDITIONAL:
-                    flatMonsterConditional(monster, team, team.getHelperSkill());
+                    flatMonsterConditional(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_LINK:
-                    orbLink(monster, team, team.getHelperSkill());
+                    orbLink(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_LINK_FLAT:
-                    orbLinkFlat(monster, team, team.getHelperSkill());
+                    orbLinkFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_LINK_INDIAN:
-                    orbLinkIndian(monster, team, team.getHelperSkill());
+                    orbLinkIndian(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_FLAT:
-                    matchElementFlat(monster, team, team.getHelperSkill());
+                    matchElementFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case COMBO_MATCH_ELEMENT:
-                    comboMatchElement(monster, team, team.getHelperSkill(), totalCombos);
+                    comboMatchElement(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case MATCH_ELEMENT_ACTIVE:
-                    matchElementActive(monster, team, team.getHelperSkill());
+                    matchElementActive(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case FLAT_ACTIVE:
-                    flatActive(monster, team, team.getHelperSkill());
+                    flatActive(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case COMBO_ACTIVE:
-                    comboActive(monster, team, team.getHelperSkill(), totalCombos);
+                    comboActive(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case COMBO_FLAT:
-                    comboFlat(monster, team, team.getHelperSkill(), totalCombos);
+                    comboFlat(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case COMBO_ATTRIBUTE:
-                    comboAttribute(monster, team, team.getHelperSkill(), totalCombos);
+                    comboAttribute(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case COMBO_EXACT:
-                    comboExact(monster, team, team.getHelperSkill(), totalCombos);
+                    comboExact(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case INDIAN:
-                    indian(monster, team, team.getHelperSkill());
+                    indian(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case INDIAN_FLAT:
-                    indianFlat(monster, team, team.getHelperSkill());
+                    indianFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_PLUS:
-                    orbPlus(monster, team, team.getHelperSkill());
+                    orbPlus(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_PLUS_FLAT:
-                    orbPlusFlat(monster, team, team.getHelperSkill());
+                    orbPlusFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case INDIAN_ORB_PLUS:
-                    indianOrbPlus(monster, team, team.getHelperSkill());
+                    indianOrbPlus(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_ORB_PLUS:
-                    matchElementOrbPlus(monster, team, team.getHelperSkill());
+                    matchElementOrbPlus(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case COMBO_ORB_PLUS:
-                    comboOrbPlus(monster, team, team.getHelperSkill(), totalCombos);
+                    comboOrbPlus(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case GRIMOIRE_FLAT:
-                    multiFlat(monster, team, team.getHelperSkill());
+                    multiFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case HP_FLAT:
-                    hpFlat(monster, team, team.getHelperSkill(), 2);
+                    hpFlat(monster, team, team.getHelperSkill(), orbMatchList, 2);
                     break;
                 case FLAT_HP_FLAT:
-                    flatHpFlat(monster, team, team.getHelperSkill());
+                    flatHpFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case HP_FLAT_ATTRIBUTE_FLAT_TYPE:
-                    hpFlatAttributeFlatType(monster, team, team.getHelperSkill());
+                    hpFlatAttributeFlatType(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ACTIVE:
-                    active(monster, team, team.getHelperSkill(), 2);
+                    active(monster, team, team.getHelperSkill(), orbMatchList, 2);
                     break;
                 case FLAT_TYPE_ACTIVE_ATTRIBUTE:
-                    flatTypeActiveAttribute(monster, team, team.getHelperSkill());
+                    flatTypeActiveAttribute(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
 //                case ORB_LINK_EXACT_FLAT:
 //                    orbLinkExactFlat(monster, team);
@@ -374,119 +376,119 @@ public class LeaderSkillCalculationUtil {
 //                    orbLinkExact(monster, team);
 //                    break;
                 case ORB_LINK_ORB_PLUS:
-                    orbLinkOrbPlus(monster, team, team.getHelperSkill());
+                    orbLinkOrbPlus(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_ORB_LINK:
-                    matchElementOrbLink(monster, team, team.getHelperSkill());
+                    matchElementOrbLink(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case FLAT_TYPE_FLAT_TYPE:
-                    flatTypeFlatType(monster, team, team.getHelperSkill());
+                    flatTypeFlatType(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case HP_FLAT_ORB_PLUS:
-                    hpFlatOrbPlus(monster, team, team.getHelperSkill());
+                    hpFlatOrbPlus(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case HP_FLAT_MATCH_ELEMENT:
-                    hpFlatMatchElement(monster, team, team.getHelperSkill());
+                    hpFlatMatchElement(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case HP_FLAT_ACTIVE:
-                    hpFlatActive(monster, team, team.getHelperSkill());
+                    hpFlatActive(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_LINK_ACTIVE:
-                    orbLinkActive(monster, team, team.getHelperSkill());
+                    orbLinkActive(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case HP_FLAT_ATTRIBUTE_FLAT_ATTRIBUTE:
-                    hpFlatAttributeFlatAttribute(monster, team, team.getHelperSkill());
+                    hpFlatAttributeFlatAttribute(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case INDIAN_ACTIVE:
-                    indianActive(monster, team, team.getHelperSkill());
+                    indianActive(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case HEART_CROSS:
-                    heartCross(monster, team, team.getHelperSkill());
+                    heartCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case COMBO_INDIAN:
-                    comboIndian(monster, team, team.getHelperSkill(), totalCombos);
+                    comboIndian(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case ORB_LINK_HP_FLAT:
-                    orbLinkHpFlat(monster, team, team.getHelperSkill());
+                    orbLinkHpFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_PLUS_HEART_CROSS:
-                    orbPlusHeartCross(monster, team, team.getHelperSkill());
+                    orbPlusHeartCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case INDIAN_HEART_CROSS:
-                    indianHeartCross(monster, team, team.getHelperSkill());
+                    indianHeartCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case FLAT_HEART_CROSS:
-                    flatHeartCross(monster, team, team.getHelperSkill());
+                    flatHeartCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_HEART_CROSS:
-                    matchElementHeartCross(monster, team, team.getHelperSkill());
+                    matchElementHeartCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ACTIVE_HEART_CROSS:
-                    activeHeartCross(monster, team, team.getHelperSkill());
+                    activeHeartCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case INDIAN_MONSTER_CONDITIONAL:
-                    indianMonsterConditional(monster, team, team.getHelperSkill());
+                    indianMonsterConditional(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_PLUS_MONSTER_CONDITIONAL:
-                    orbPlusMonsterConditional(monster, team, team.getHelperSkill());
+                    orbPlusMonsterConditional(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case CROSS:
-                    cross(monster, team, team.getHelperSkill());
+                    cross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case INDIAN_CROSS:
-                    indianCross(monster, team, team.getHelperSkill());
+                    indianCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ACTIVE_CROSS:
-                    activeCross(monster, team, team.getHelperSkill());
+                    activeCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case CO_OP_HP_FLAT:
-                    coopHpFlat(monster, team, team.getHelperSkill());
+                    coopHpFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case CO_OP_FLAT:
-                    coopFlat(monster, team, team.getHelperSkill());
+                    coopFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case CO_OP:
-                    coop(monster, team, team.getHelperSkill(), 2);
+                    coop(monster, team, team.getHelperSkill(), orbMatchList, 2);
                     break;
                 case FLAT_CROSS:
-                    flatCross(monster, team, team.getHelperSkill());
+                    flatCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case HEART_CROSS_CROSS:
-                    heartCrossCross(monster, team, team.getHelperSkill());
+                    heartCrossCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MATCH_ELEMENT_INDIAN:
-                    matchElementIndian(monster, team, team.getHelperSkill());
+                    matchElementIndian(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MINIMUM_MATCH_INDIAN_FLAT:
-                    indianFlat(monster, team, team.getHelperSkill());
+                    indianFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MINIMUM_MATCH_ORB_LINK_FLAT:
-                    orbLinkFlat(monster, team, team.getHelperSkill());
+                    orbLinkFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MINIMUM_MATCH_MATCH_ELEMENT_FLAT:
-                    matchElementFlat(monster, team, team.getHelperSkill());
+                    matchElementFlat(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case MINIMUM_MATCH_COMBO_FLAT:
-                    comboFlat(monster, team, team.getHelperSkill(), totalCombos);
+                    comboFlat(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case ORB_LINK_ORB_LINK:
-                    orbLinkOrbLink(monster, team, team.getHelperSkill());
+                    orbLinkOrbLink(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case ORB_LINK_HEART_CROSS:
-                    orbLinkHeartCross(monster, team, team.getHelperSkill());
+                    orbLinkHeartCross(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
                 case COMBO_ORB_LINK:
-                    comboOrbLink(monster, team, team.getHelperSkill(), totalCombos);
+                    comboOrbLink(monster, team, team.getHelperSkill(), orbMatchList, totalCombos);
                     break;
                 case MATCH_ELEMENT_MONSTER_CONDITIONAL:
-                    matchElementMonsterConditional(monster, team, team.getHelperSkill());
+                    matchElementMonsterConditional(monster, team, team.getHelperSkill(), orbMatchList);
                     break;
             }
         }
         return atkMultiplier;
     }
 
-    public static double rcvMultiplier(Monster monster, Team team) {
+    public static double rcvMultiplier(Monster monster, Team team, RealmResults<OrbMatch> orbMatchList) {
         rcvMultiplier = 1;
         if(team.getLeadSkill() != null){
             if (team.getLeadSkill().getRcvSkillType() != null && Singleton.getInstance().hasLeaderSkill()) {
@@ -495,16 +497,16 @@ public class LeaderSkillCalculationUtil {
                         flat(monster, team.getLeadSkill(), 3);
                         break;
                     case MONSTER_CONDITIONAL:
-                        monsterConditional(monster, team, team.getLeadSkill(), 3);
+                        monsterConditional(monster, team, team.getLeadSkill(), orbMatchList, 3);
                         break;
                     case HP_FLAT:
-                        hpFlat(monster, team, team.getLeadSkill(), 3);
+                        hpFlat(monster, team, team.getLeadSkill(), orbMatchList, 3);
                         break;
                     case ACTIVE:
-                        active(monster, team, team.getLeadSkill(), 3);
+                        active(monster, team, team.getLeadSkill(), orbMatchList, 3);
                         break;
                     case CO_OP:
-                        coop(monster, team, team.getLeadSkill(), 3);
+                        coop(monster, team, team.getLeadSkill(), orbMatchList, 3);
                         break;
                 }
             }
@@ -518,16 +520,16 @@ public class LeaderSkillCalculationUtil {
                         flat(monster, team.getHelperSkill(), 3);
                         break;
                     case MONSTER_CONDITIONAL:
-                        monsterConditional(monster, team, team.getHelperSkill(), 3);
+                        monsterConditional(monster, team, team.getHelperSkill(), orbMatchList, 3);
                         break;
                     case HP_FLAT:
-                        hpFlat(monster, team, team.getHelperSkill(), 3);
+                        hpFlat(monster, team, team.getHelperSkill(), orbMatchList, 3);
                         break;
                     case ACTIVE:
-                        active(monster, team, team.getHelperSkill(), 3);
+                        active(monster, team, team.getHelperSkill(), orbMatchList, 3);
                         break;
                     case CO_OP:
-                        coop(monster, team, team.getHelperSkill(), 3);
+                        coop(monster, team, team.getHelperSkill(), orbMatchList, 3);
                         break;
                 }
             }
@@ -548,10 +550,10 @@ public class LeaderSkillCalculationUtil {
         return 1;
     }
 
-    public static double indianRcv(Team team, LeaderSkill leaderSkill) {
+    public static double indianRcv(Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -572,14 +574,14 @@ public class LeaderSkillCalculationUtil {
         } else return 1;
     }
 
-    public static double orbLinkRcv(Team team, LeaderSkill leaderSkill) {
+    public static double orbLinkRcv(Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -655,7 +657,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void flatAttributeActiveAttribute(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void flatAttributeActiveAttribute(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //All attributes on the active skill used so yea. Cheating.
         boolean buffed = false;
         if (leaderSkill.getAtkElement().size() != 0) {
@@ -681,7 +683,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void flatTypeFlatAttribute(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void flatTypeFlatAttribute(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (leaderSkill.getAtkType().size() != 0) {
             for (int i = 0; i < leaderSkill.getAtkType().size(); i++) {
@@ -704,7 +706,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void combo(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void combo(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         //Bastet, Anubis
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = totalCombos - leaderSkill.getComboMin();
@@ -717,7 +719,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void matchElement(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void matchElement(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Kirin, Horus, Ra
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
@@ -736,7 +738,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void monsterConditional(Monster monster, Team team, LeaderSkill leaderSkill, int stat) {
+    private static void monsterConditional(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int stat) {
         //Three kingdoms farmables. Zhao Yun.
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchMonsters().size(); i++) {
@@ -757,7 +759,7 @@ public class LeaderSkillCalculationUtil {
     }
 
 
-    private static void flatMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void flatMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Attack Data will look like {flat multiplier, monster conditional multiplier}
         //See Awoken Jord
         boolean buffed = false;
@@ -792,16 +794,16 @@ public class LeaderSkillCalculationUtil {
 
     }
 
-    private static void orbLink(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbLink(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Heroes
         //matchElements is the elements you can link, 2 for beach pandora and such.
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -817,7 +819,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbLinkFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbLinkFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //{Combos, flat}
         boolean buffed = false;
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
@@ -841,11 +843,11 @@ public class LeaderSkillCalculationUtil {
         }
 
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -860,14 +862,14 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbLinkIndian(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbLinkIndian(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -884,7 +886,7 @@ public class LeaderSkillCalculationUtil {
 
         int comboDiff2 = leaderSkill.getComboMax2() - leaderSkill.getComboMin2();
         int counter2 = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements2().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -908,7 +910,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void matchElementFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void matchElementFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Sonia Gran.
         // atkdata is {match element multipliers, flat multiplier is last}
         boolean buffed = false;
@@ -947,7 +949,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void comboMatchElement(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void comboMatchElement(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         //Lkali ult, Awoken Kirin
         //atkdata is {combo multipliers first, match element multipliers last}
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
@@ -978,7 +980,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void matchElementActive(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void matchElementActive(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Need active flag in team
         //Awoken Ra, Awoken Horus, Green Kirin
         //atkdata is {match elements first, additional damage with skill last}
@@ -1021,7 +1023,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void flatActive(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void flatActive(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //atkData will be {flat, active}
         boolean buffed = false;
         if (Singleton.getInstance().isActiveSkillUsed()) {
@@ -1066,7 +1068,7 @@ public class LeaderSkillCalculationUtil {
 
     }
 
-    private static void comboActive(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void comboActive(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         //Awoken Anubis, Awoken Bastet
         //{Combos, active}
         boolean buffed = false;
@@ -1102,7 +1104,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void comboFlat(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void comboFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         //Ronia ult
         //{combo multiplier, flat multiplier}
         boolean buffed = false;
@@ -1136,7 +1138,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void comboAttribute(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void comboAttribute(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         boolean buffed = false;
 
@@ -1164,19 +1166,19 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void comboExact(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void comboExact(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         if (totalCombos == leaderSkill.getComboMin()) {
             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
         }
     }
 
-    private static void indian(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void indian(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //matchElement will be {fire, fire, fire} or something for Krishna
         //comboMin = 2, comboMax = 3 for Krishna. 3/3 for Sarasvati. 3/4 for Zuoh.
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -1199,7 +1201,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void indianFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void indianFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //matchElement will be {fire, fire, fire} or something for Krishna
         //comboMin = 2, comboMax = 3 for Krishna. 3/3 for Sarasvati. 3/4 for Zuoh.
         //Ruel. atkData {match multiplier, flat multiplier}
@@ -1225,7 +1227,7 @@ public class LeaderSkillCalculationUtil {
         }
 
         int counter = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -1248,17 +1250,17 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbPlus(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbPlus(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Akechi Mitsuhide
         //atkData will be one number
         boolean buffed1 = false, buffed2 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed2 = true;
                 }
@@ -1266,17 +1268,17 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbPlusFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbPlusFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Not Sanada. Wot. Must've been a typo on PADx
         //atkData is {orbPlus multiplier, flat}
         boolean buffed1 = false, buffed2 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed2 = true;
                 }
@@ -1303,25 +1305,25 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void indianOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void indianOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Ult Krishna and ult Sarasvati
         //atkData will be {match elements, orb plus multiplier}
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         boolean buffed1 = false, buffed2 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed2 = true;
                 }
             }
         }
         int counter = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -1344,18 +1346,18 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void matchElementOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void matchElementOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Kite
         //atkData will be {match elements, orb plus multiplier}
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         boolean buffed1 = false, buffed2 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed2 = true;
                 }
@@ -1379,18 +1381,18 @@ public class LeaderSkillCalculationUtil {
     }
 
 
-    private static void comboOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void comboOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         //Awoken Yomi
         //atkData will be {combo multipliers, orb plus multiplier}
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         boolean buffed1 = false, buffed2 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed2 = true;
                 }
@@ -1407,7 +1409,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void multiFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void multiFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Goetia? Not Goemon. I'll use this for Goetia and friends.
         //Damn I don't remember
         //atkdata will be {bigger multiplier, smaller multiplier}
@@ -1442,7 +1444,7 @@ public class LeaderSkillCalculationUtil {
 
     }
 
-    private static void hpFlat(Monster monster, Team team, LeaderSkill leaderSkill, int stat) {
+    private static void hpFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int stat) {
         boolean buffed = false;
         if (stat == 2) {
             if (leaderSkill.getHpPercent().size() == 1) {
@@ -1535,7 +1537,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void flatHpFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void flatHpFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //{HP flats, flat}
         boolean buffed = false;
         if (leaderSkill.getHpPercent().size() == 1) {
@@ -1604,7 +1606,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void hpFlatAttributeFlatType(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void hpFlatAttributeFlatType(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Goemon Ult
         boolean buffed = false;
         if (leaderSkill.getHpPercent().size() == 1) {
@@ -1647,7 +1649,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void active(Monster monster, Team team, LeaderSkill leaderSkill, int stat) {
+    private static void active(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int stat) {
         if (Singleton.getInstance().isActiveSkillUsed()) {
             boolean buffed = false;
             if (stat == 2) {
@@ -1690,7 +1692,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void flatTypeActiveAttribute(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void flatTypeActiveAttribute(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (Singleton.getInstance().isActiveSkillUsed()) {
             if (leaderSkill.getAtkElement().size() != 0) {
@@ -1724,11 +1726,11 @@ public class LeaderSkillCalculationUtil {
 //            atkElement2Multiplier = atkData.get(1);
 //        }
 //        int counter = 0;
-//        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+//        for (int i = 0; i < orbMatchList.size(); i++) {
 //            for (int j = 0; j < matchElements.size(); j++) {
-//                if (team.getOrbMatches().get(i).getElement().equals(matchElements.get(j))) {
-//                    if (team.getOrbMatches().get(i).getOrbsLinked() == comboMin) {
-//                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+//                if (orbMatchList.get(i).getElement().equals(matchElements.get(j))) {
+//                    if (orbMatchList.get(i).getOrbsLinked() == comboMin) {
+//                        counter = orbMatchList.get(i).getOrbsLinked();
 //                    }
 //                }
 //            }
@@ -1742,11 +1744,11 @@ public class LeaderSkillCalculationUtil {
 //
 //    private void orbLinkExact(Monster monster, Team team) {
 //        int counter = 0;
-//        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+//        for (int i = 0; i < orbMatchList.size(); i++) {
 //            for (int j = 0; j < matchElements.size(); j++) {
-//                if (team.getOrbMatches().get(i).getElement().equals(matchElements.get(j))) {
-//                    if (team.getOrbMatches().get(i).getOrbsLinked() == comboMin) {
-//                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+//                if (orbMatchList.get(i).getElement().equals(matchElements.get(j))) {
+//                    if (orbMatchList.get(i).getOrbsLinked() == comboMin) {
+//                        counter = orbMatchList.get(i).getOrbsLinked();
 //                    }
 //                }
 //            }
@@ -1758,14 +1760,14 @@ public class LeaderSkillCalculationUtil {
 //        }
 //    }
 
-    private static void orbLinkOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbLinkOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -1780,13 +1782,13 @@ public class LeaderSkillCalculationUtil {
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter - leaderSkill.getComboMin()).getValue());
         }
         boolean buffed1 = false, buffed2 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     buffed2 = true;
                 }
@@ -1794,7 +1796,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void matchElementOrbLink(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void matchElementOrbLink(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
@@ -1813,11 +1815,11 @@ public class LeaderSkillCalculationUtil {
 
         int comboDiff2 = leaderSkill.getComboMax2() - leaderSkill.getComboMin2();
         int counter2 = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
-                    if (counter2 < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter2 = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
+                    if (counter2 < orbMatchList.get(i).getOrbsLinked()) {
+                        counter2 = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -1832,7 +1834,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void flatTypeFlatType(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void flatTypeFlatType(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (leaderSkill.getAtkType().size() != 0) {
             for (int i = 0; i < leaderSkill.getAtkType().size(); i++) {
@@ -1855,7 +1857,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void hpFlatOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void hpFlatOrbPlus(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed1 = false, buffed2 = false;
         if (leaderSkill.getHpPercent().size() == 1) {
             if (team.getTeamHp() == leaderSkill.getHpPercent().get(0).getValue()) {
@@ -1903,13 +1905,13 @@ public class LeaderSkillCalculationUtil {
             }
         }
         buffed1 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(leaderSkill.getAtkData().size() - 1).getValue());
                     buffed2 = true;
                 }
@@ -1917,7 +1919,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    public static void hpFlatMatchElement(Monster monster, Team team, LeaderSkill leaderSkill) {
+    public static void hpFlatMatchElement(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (leaderSkill.getHpPercent().size() == 1) {
             if (team.getTeamHp() == leaderSkill.getHpPercent().get(0).getValue()) {
@@ -1991,7 +1993,7 @@ public class LeaderSkillCalculationUtil {
 
     }
 
-    public static void hpFlatActive(Monster monster, Team team, LeaderSkill leaderSkill) {
+    public static void hpFlatActive(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (leaderSkill.getHpPercent().size() == 1) {
             if (team.getTeamHp() == leaderSkill.getHpPercent().get(0).getValue()) {
@@ -2061,14 +2063,14 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbLinkActive(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbLinkActive(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -2105,7 +2107,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void hpFlatAttributeFlatAttribute(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void hpFlatAttributeFlatAttribute(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Dmeta
         boolean buffed = false;
         Log.d("LeaderSkillCalc", "Team Hp is: " + team.getTeamHp());
@@ -2150,7 +2152,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void indianActive(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void indianActive(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         //Awoken Sun Quan
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         boolean buffed = false;
@@ -2176,7 +2178,7 @@ public class LeaderSkillCalculationUtil {
         }
 
         int counter = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -2199,7 +2201,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void heartCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void heartCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         if (Singleton.getInstance().isHeartCarryOver()) {
             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
@@ -2207,22 +2209,22 @@ public class LeaderSkillCalculationUtil {
             Boolean matched = false;
             int i = 0;
             while (!matched) {
-                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
-                    if (team.getOrbMatches().get(i).isCross()) {
+                if (orbMatchList.get(i).getElement() == Element.HEART) {
+                    if (orbMatchList.get(i).isCross()) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                         matched = true;
                     }
                 }
                 i++;
-                if (i == team.getOrbMatches().size()) {
+                if (i == orbMatchList.size()) {
                     break;
                 }
             }
         }
     }
 
-    private static void comboIndian(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void comboIndian(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = totalCombos - leaderSkill.getComboMin();
         if (counter >= comboDiff) {
@@ -2235,7 +2237,7 @@ public class LeaderSkillCalculationUtil {
 
         int comboDiff2 = leaderSkill.getComboMax2() - leaderSkill.getComboMin2();
         int counter2 = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements2().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -2259,7 +2261,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbLinkHpFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbLinkHpFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         boolean buffed = false;
         if (leaderSkill.getHpPercent().size() == 1) {
@@ -2308,11 +2310,11 @@ public class LeaderSkillCalculationUtil {
             }
         }
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -2328,7 +2330,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbPlusHeartCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbPlusHeartCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         if (Singleton.getInstance().isHeartCarryOver()) {
             atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
@@ -2336,27 +2338,27 @@ public class LeaderSkillCalculationUtil {
             Boolean matched = false;
             int i = 0;
             while (!matched) {
-                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
-                    if (team.getOrbMatches().get(i).isCross()) {
+                if (orbMatchList.get(i).getElement() == Element.HEART) {
+                    if (orbMatchList.get(i).isCross()) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                         matched = true;
                     }
                 }
                 i++;
-                if (i == team.getOrbMatches().size()) {
+                if (i == orbMatchList.size()) {
                     break;
                 }
             }
         }
         boolean buffed1 = false, buffed2 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed2 = true;
                 }
@@ -2364,10 +2366,10 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void indianHeartCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void indianHeartCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -2396,22 +2398,22 @@ public class LeaderSkillCalculationUtil {
             Boolean matched = false;
             int i = 0;
             while (!matched) {
-                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
-                    if (team.getOrbMatches().get(i).isCross()) {
+                if (orbMatchList.get(i).getElement() == Element.HEART) {
+                    if (orbMatchList.get(i).isCross()) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         matched = true;
                     }
                 }
                 i++;
-                if (i == team.getOrbMatches().size()) {
+                if (i == orbMatchList.size()) {
                     break;
                 }
             }
         }
     }
 
-    private static void flatHeartCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void flatHeartCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (leaderSkill.getAtkType().size() != 0) {
             for (int i = 0; i < leaderSkill.getAtkType().size(); i++) {
@@ -2439,22 +2441,22 @@ public class LeaderSkillCalculationUtil {
             Boolean matched = false;
             int i = 0;
             while (!matched) {
-                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
-                    if (team.getOrbMatches().get(i).isCross()) {
+                if (orbMatchList.get(i).getElement() == Element.HEART) {
+                    if (orbMatchList.get(i).isCross()) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                         matched = true;
                     }
                 }
                 i++;
-                if (i == team.getOrbMatches().size()) {
+                if (i == orbMatchList.size()) {
                     break;
                 }
             }
         }
     }
 
-    private static void matchElementHeartCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void matchElementHeartCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
@@ -2478,22 +2480,22 @@ public class LeaderSkillCalculationUtil {
             Boolean matched = false;
             int i = 0;
             while (!matched) {
-                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
-                    if (team.getOrbMatches().get(i).isCross()) {
+                if (orbMatchList.get(i).getElement() == Element.HEART) {
+                    if (orbMatchList.get(i).isCross()) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         matched = true;
                     }
                 }
                 i++;
-                if (i == team.getOrbMatches().size()) {
+                if (i == orbMatchList.size()) {
                     break;
                 }
             }
         }
     }
 
-    private static void activeHeartCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void activeHeartCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (Singleton.getInstance().isActiveSkillUsed()) {
             if (leaderSkill.getAtkType().size() != 0) {
@@ -2523,25 +2525,25 @@ public class LeaderSkillCalculationUtil {
             Boolean matched = false;
             int i = 0;
             while (!matched) {
-                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
-                    if (team.getOrbMatches().get(i).isCross()) {
+                if (orbMatchList.get(i).getElement() == Element.HEART) {
+                    if (orbMatchList.get(i).isCross()) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                         matched = true;
                     }
                 }
                 i++;
-                if (i == team.getOrbMatches().size()) {
+                if (i == orbMatchList.size()) {
                     break;
                 }
             }
         }
     }
 
-    private static void indianMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void indianMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -2575,7 +2577,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbPlusMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbPlusMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchMonsters().size(); i++) {
             if (team.getBaseMonsterId().contains(leaderSkill.getMatchMonsters().get(i).getValue())) {
@@ -2588,13 +2590,13 @@ public class LeaderSkillCalculationUtil {
         }
 
         boolean buffed1 = false, buffed2 = false;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).getNumOrbPlus() >= 1 && team.getOrbMatches().get(i).getOrbsLinked() == 5) {
-                if (monster.getElement1().equals(team.getOrbMatches().get(i).getElement()) && !buffed1) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).getNumOrbPlus() >= 1 && orbMatchList.get(i).getOrbsLinked() == 5) {
+                if (monster.getElement1().equals(orbMatchList.get(i).getElement()) && !buffed1) {
                     atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                     buffed1 = true;
                 }
-                if (monster.getElement2().equals(team.getOrbMatches().get(i).getElement()) && !buffed2) {
+                if (monster.getElement2().equals(orbMatchList.get(i).getElement()) && !buffed2) {
                     atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     buffed2 = true;
                 }
@@ -2602,11 +2604,11 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void cross(Monster monster, Team team, LeaderSkill leaderSkill) {
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).isCross()) {
+    private static void cross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                     }
@@ -2615,10 +2617,10 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void indianCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void indianCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -2640,10 +2642,10 @@ public class LeaderSkillCalculationUtil {
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter - leaderSkill.getComboMin()).getValue());
         }
 
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).isCross()) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
+                    if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                     }
@@ -2652,7 +2654,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void activeCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void activeCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (Singleton.getInstance().isActiveSkillUsed()) {
             if (leaderSkill.getAtkType().size() != 0) {
@@ -2675,10 +2677,10 @@ public class LeaderSkillCalculationUtil {
             }
         }
 
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).isCross()) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }
@@ -2687,7 +2689,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void coopHpFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void coopHpFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (leaderSkill.getHpPercent().size() == 1) {
             if (team.getTeamHp() == leaderSkill.getHpPercent().get(0).getValue()) {
@@ -2741,7 +2743,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void coopFlat(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void coopFlat(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         boolean buffed = false;
         if (leaderSkill.getAtkType().size() != 0) {
             for (int i = 0; i < leaderSkill.getAtkType().size(); i++) {
@@ -2768,7 +2770,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void coop(Monster monster, Team team, LeaderSkill leaderSkill, int stat) {
+    private static void coop(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int stat) {
         if (Singleton.getInstance().isCoopEnable()) {
             if (stat == 2) {
                 atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
@@ -2779,11 +2781,11 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void flatCross(Monster monster, Team team, LeaderSkill leaderSkill) {
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).isCross()) {
+    private static void flatCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }
@@ -2812,11 +2814,11 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void heartCrossCross(Monster monster, Team team, LeaderSkill leaderSkill) {
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
-            if (team.getOrbMatches().get(i).isCross()) {
+    private static void heartCrossCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
+            if (orbMatchList.get(i).isCross()) {
                 for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                    if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(1).getValue());
                     }
@@ -2831,22 +2833,22 @@ public class LeaderSkillCalculationUtil {
             Boolean matched = false;
             int i = 0;
             while (!matched) {
-                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
-                    if (team.getOrbMatches().get(i).isCross()) {
+                if (orbMatchList.get(i).getElement() == Element.HEART) {
+                    if (orbMatchList.get(i).isCross()) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(0).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(0).getValue());
                         matched = true;
                     }
                 }
                 i++;
-                if (i == team.getOrbMatches().size()) {
+                if (i == orbMatchList.size()) {
                     break;
                 }
             }
         }
     }
 
-    private static void matchElementIndian(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void matchElementIndian(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int counter = 0;
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {
@@ -2865,7 +2867,7 @@ public class LeaderSkillCalculationUtil {
 
         int comboDiff2 = leaderSkill.getComboMax2() - leaderSkill.getComboMin2();
         int counter2 = 0;
-        ArrayList<Element> orbMatchElements = team.getAllOrbMatchElements();
+        ArrayList<Element> orbMatchElements = OrbMatchUtil.getAllOrbMatchElements(orbMatchList);
         for (int i = 0, j = 0; j < leaderSkill.getMatchElements2().size(); i++) {
             if (i == orbMatchElements.size()) {
                 j++;
@@ -2888,14 +2890,14 @@ public class LeaderSkillCalculationUtil {
             atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(counter2 - leaderSkill.getComboMin2() + comboDiff + 1).getValue());
         }
 
-    }private static void orbLinkOrbLink(Monster monster, Team team, LeaderSkill leaderSkill) {
+    }private static void orbLinkOrbLink(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -2911,11 +2913,11 @@ public class LeaderSkillCalculationUtil {
 
         int comboDiff2 = leaderSkill.getComboMax2() - leaderSkill.getComboMin2();
         int counter2 = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
-                    if (counter2 < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter2 = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
+                    if (counter2 < orbMatchList.get(i).getOrbsLinked()) {
+                        counter2 = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -2930,14 +2932,14 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void orbLinkHeartCross(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void orbLinkHeartCross(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
-                    if (counter < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements().get(j).getElement())) {
+                    if (counter < orbMatchList.get(i).getOrbsLinked()) {
+                        counter = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -2959,22 +2961,22 @@ public class LeaderSkillCalculationUtil {
             Boolean matched = false;
             int i = 0;
             while (!matched) {
-                if (team.getOrbMatches().get(i).getElement() == Element.HEART) {
-                    if (team.getOrbMatches().get(i).isCross()) {
+                if (orbMatchList.get(i).getElement() == Element.HEART) {
+                    if (orbMatchList.get(i).isCross()) {
                         atkMultiplier.set(0, atkMultiplier.get(0) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         atkMultiplier.set(1, atkMultiplier.get(1) * leaderSkill.getAtkData().get(comboDiff + 1).getValue());
                         matched = true;
                     }
                 }
                 i++;
-                if (i == team.getOrbMatches().size()) {
+                if (i == orbMatchList.size()) {
                     break;
                 }
             }
         }
     }
 
-    private static void comboOrbLink(Monster monster, Team team, LeaderSkill leaderSkill, int totalCombos) {
+    private static void comboOrbLink(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList, int totalCombos) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = totalCombos - leaderSkill.getComboMin();
         if (counter >= comboDiff) {
@@ -2987,11 +2989,11 @@ public class LeaderSkillCalculationUtil {
 
         int comboDiff2 = leaderSkill.getComboMax2() - leaderSkill.getComboMin2();
         int counter2 = 0;
-        for (int i = 0; i < team.getOrbMatches().size(); i++) {
+        for (int i = 0; i < orbMatchList.size(); i++) {
             for (int j = 0; j < leaderSkill.getMatchElements2().size(); j++) {
-                if (team.getOrbMatches().get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
-                    if (counter2 < team.getOrbMatches().get(i).getOrbsLinked()) {
-                        counter2 = team.getOrbMatches().get(i).getOrbsLinked();
+                if (orbMatchList.get(i).getElement().equals(leaderSkill.getMatchElements2().get(j).getElement())) {
+                    if (counter2 < orbMatchList.get(i).getOrbsLinked()) {
+                        counter2 = orbMatchList.get(i).getOrbsLinked();
                     }
                 }
             }
@@ -3006,7 +3008,7 @@ public class LeaderSkillCalculationUtil {
         }
     }
 
-    private static void matchElementMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill) {
+    private static void matchElementMonsterConditional(Monster monster, Team team, LeaderSkill leaderSkill, RealmResults<OrbMatch> orbMatchList) {
         int comboDiff = leaderSkill.getComboMax() - leaderSkill.getComboMin();
         int counter = 0;
         for (int i = 0; i < leaderSkill.getMatchElements().size(); i++) {

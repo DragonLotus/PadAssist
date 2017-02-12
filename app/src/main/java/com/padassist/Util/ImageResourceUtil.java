@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import io.realm.Realm;
 
 public class ImageResourceUtil {
-
-    private static Realm realm = Realm.getDefaultInstance();
     
     public static int monsterAwakening(int awakening){
         switch (awakening) {

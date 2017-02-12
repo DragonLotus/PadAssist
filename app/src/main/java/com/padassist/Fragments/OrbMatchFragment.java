@@ -413,10 +413,12 @@ public class OrbMatchFragment extends Fragment {
             orbMatch = realm.copyToRealmOrUpdate(orbMatch);
             realm.commitTransaction();
 
-            orbMatchRecycler.notifyItemInserted(orbMatchList.size());
-            orbMatches.scrollToPosition(orbMatchList.size());
+            orbMatchList = realm.where(OrbMatch.class).findAllSorted("matchId");
+
+            orbMatchRecycler.notifyItemInserted(orbMatchList.size() - 1);
+            orbMatches.scrollToPosition(orbMatchList.size() - 1);
             emptyText.setVisibility(View.INVISIBLE);
-            additionalComboValue.setText("" + (orbMatchList.size() + 1 + additionalCombos));
+            additionalComboValue.setText("" + (orbMatchList.size() + additionalCombos));
             if (noDrop) {
                 maximumOrbs -= orbsLinked.getSelectedItemPosition() + minimumMatch;
                 updateSpinners();
@@ -448,6 +450,8 @@ public class OrbMatchFragment extends Fragment {
             if (orbMatchList.size() == 0) {
                 emptyText.setVisibility(View.VISIBLE);
             }
+
+            Log.d("OrbMatchFragment", "orbMatchList size is: " + orbMatchList.size());
 
             additionalComboValue.setText("" + (orbMatchList.size() + additionalCombos));
 
@@ -514,6 +518,7 @@ public class OrbMatchFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (!s.toString().equals("")) {
                 additionalCombos = Integer.valueOf(s.toString()) - orbMatchList.size();
+                Singleton.getInstance().setAdditionalCombos(additionalCombos);
             }
         }
 
@@ -818,6 +823,7 @@ public class OrbMatchFragment extends Fragment {
     }
 
     public void onSelect(){
+        Log.d("OrbMatchFrag", "Additional combos is: " + Singleton.getInstance().getAdditionalCombos());
         additionalCombos = Singleton.getInstance().getAdditionalCombos();
         if(team.getLeadSkill() != null){
             if(minimumMatchLeaderSkills.contains(team.getLeadSkill().getAtkSkillType().getLeaderSkillType())){
@@ -956,15 +962,15 @@ public class OrbMatchFragment extends Fragment {
 
     public void onDeselect(){
         Log.d("OrbMatchFrag", "onDeselect");
-        team.getOrbMatches().clear();
-        team.getOrbMatches().addAll(orbMatchList);
-        team.updateOrbs();
+//        team.getOrbMatches().clear();
+//        team.getOrbMatches().addAll(orbMatchList);
+        orbMatchList = realm.where(OrbMatch.class).findAllSorted("matchId");
+        team.updateOrbs(orbMatchList);
         if (orbMatchList.size() != 0) {
-            team.setAtkMultiplierArrays(orbMatchList.size() + additionalCombos);
+            team.setAtkMultiplierArrays(orbMatchList, orbMatchList.size() + additionalCombos);
         }
-        team.setHpRcvMultiplierArrays(orbMatchList.size() + additionalCombos);
+        team.setHpRcvMultiplierArrays(orbMatchList, orbMatchList.size() + additionalCombos);
 
-        Singleton.getInstance().setAdditionalCombos(additionalCombos);
         Log.d("OrbMatchFragment", "OrbMatch realm is: " + realm.where(OrbMatch.class).findAll());
         Log.d("OrbMatchFragment", "additional combos is: " + Singleton.getInstance().getAdditionalCombos());
         Log.d("OrbMatchFragment", "rcvMultiplier is: " + team.getRcvMultiplier());
