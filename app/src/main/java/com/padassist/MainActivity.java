@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.media.AudioTrack;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
@@ -926,11 +927,14 @@ public class MainActivity extends AppCompatActivity {
             threeProgressDialog.dismiss();
         }
         if (parse) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.pager, new LoadingFragment(), LoadingFragment.TAG)
-                    .addToBackStack(LoadingFragment.TAG)
-                    .commit();
 
+            ImportAsyncTask asyncTask = new ImportAsyncTask();
+            asyncTask.execute();
+//            switchFragment(LoadingFragment.newInstance(), LoadingFragment.TAG, "good");
+//            getSupportFragmentManager().beginTransaction()
+//                    .replace(R.id.pager, new LoadingFragment(), LoadingFragment.TAG)
+//                    .addToBackStack(LoadingFragment.TAG)
+//                    .commit();
         } else {
             if (upToDateDialogFragment == null) {
                 upToDateDialogFragment = UpToDateDialogFragment.newInstance(forceSync);
@@ -1001,4 +1005,102 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     };
+
+    private class ImportAsyncTask extends AsyncTask<Void, Integer, Integer> {
+        @Override
+        protected void onPreExecute() {
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setTitle("Loading...");
+            progressDialog.setMessage("Loading Leader Skills...");
+            progressDialog.setCancelable(false);
+            progressDialog.setIndeterminate(false);
+            progressDialog.setMax(2 + preferences.getInt("numOfActiveSkills", 1) + preferences.getInt("numOfLeaderSkills", 1) + preferences.getInt("numOfMonsters", 1) + Constants.numOfSavedMonsters);
+            progressDialog.setProgress(0);
+            progressDialog.show();
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+
+            Realm realm = Realm.getDefaultInstance();
+
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+
+                    ParseMonsterDatabaseThread parseMonsterDatabaseThread = new ParseMonsterDatabaseThread(new ParseMonsterDatabaseThread.UpdateProgress() {
+                        @Override
+                        public void updateValues(int counter) {
+                            publishProgress(counter);
+                            progressDialog.setProgress(counter);
+                        }
+                    });
+
+                    parseMonsterDatabaseThread.run();
+
+                }
+            });
+            Log.d("LoadingFragment", "image results doInBackground size  size is: " + realm.where(BaseMonster.class).findAll().size());
+            missingImageCheck(realm);
+            realm.close();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            progressDialog.dismiss();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            if(values[0] == preferences.getInt("numOfLeaderSkills", 1)){
+                progressDialog.setMessage("Loading Active Skills...");
+            } else if (values[0] == preferences.getInt("numOfLeaderSkills", 1) + preferences.getInt("numOfActiveSkills", 1)){
+                progressDialog.setMessage("Loading Monsters...");
+            } else if (values[0] == preferences.getInt("numOfLeaderSkills", 1) + preferences.getInt("numOfActiveSkills", 1) + preferences.getInt("numOfMonsters", 1)) {
+                progressDialog.setMessage("Updating Saved Monsters...");
+            }
+        }
+    }
+
+    private void missingImageCheck(Realm realm){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference monsterImageReference;
+        File folder = new File(getFilesDir(), "monster_images");
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+
+        missingImages = new ArrayList<>();
+        File imageCheck;
+        RealmResults<BaseMonster> results = realm.where(BaseMonster.class).findAll();
+        Log.d("LoadingFragment", "image results size is: " + results.size());
+        for (BaseMonster monster : results) {
+            imageCheck = new File(getFilesDir(), "monster_images/monster_" + monster.getMonsterId() + ".png");
+            if (!imageCheck.exists() && monster.getMonsterId() != 0) {
+                missingImages.add(monster.getMonsterId());
+            }
+        }
+        Log.d("LoadingFragment", "missingImages is: " + missingImages + " missingImages size: " + missingImages.size());
+        for (int i = 0; i < missingImages.size(); i++) {
+            Log.d("LoadingFragment", "Supposedly downloading image.");
+            monsterImageReference = storage.getReferenceFromUrl("gs://padassist-7b3cf.appspot.com/monster_images/all/monster_" + missingImages.get(i) + ".png");
+            imageCheck = new File(getFilesDir(), "monster_images/monster_" + missingImages.get(i) + ".png");
+
+            monsterImageReference.getFile(imageCheck)
+                    .addOnProgressListener(new OnProgressListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        }
+                    })
+                    .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Log.d("LoadingFragment", "On download success image.");
+                        }
+                    });
+        }
+    }
 }

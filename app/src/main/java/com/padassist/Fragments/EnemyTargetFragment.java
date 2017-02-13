@@ -576,9 +576,13 @@ public class EnemyTargetFragment extends Fragment {
             if (!hasFocus) {
                 hideKeyboard(v);
                 if (targetDefenseValue.getText().toString().equals("")) {
-//                    targetDefenseValue.setText("0");
+                    targetDefenseValue.setText("0");
                 } else if (damageThresholdValue.getText().toString().equals("")) {
-//                    damageThresholdValue.setText("0");
+                    damageThresholdValue.setText("0");
+                } else if (reductionValue.getText().toString().equals("")){
+                    reductionValue.setText("0");
+                } else if (damageImmunityValue.getText().toString().equals("")){
+                    damageImmunityValue.setText("0");
                 }
 
                 if (v.equals(targetHpValue)) {
