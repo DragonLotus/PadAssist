@@ -452,21 +452,35 @@ public class TeamDamageListFragment extends Fragment {
                 }
 
             }
+        } else {
+            for (int i = 0; i < monsterElement1Damage.size(); i++){
+                if(!team.getIsBound().get(i)){
+                    totalDamage += monsterElement1Damage.get(i);
+                    monsterElement1DamageEffective.set(i, monsterElement1Damage.get(i));
+                    totalDamage += monsterElement2Damage.get(i);
+                    monsterElement2DamageEffective.set(i, monsterElement2Damage.get(i));
+                } else {
+                    monsterElement1DamageEffective.set(i, 0L);
+                    monsterElement2DamageEffective.set(i, 0L);
+                }
+            }
         }
 
         team.setTotalDamage(totalDamage);
         monsterListAdapter.notifyDataSetChanged();
-        realm.beginTransaction();
-        enemy.setCurrentHp(tempCurrent - totalDamage);
-        enemy.setDamaged(true);
-        if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
-            enemy.setCurrentElement(enemy.getTargetElement().get(0));
-        } else {
-            if (enemy.getTargetElement().get(0).getValue() > -1) {
-                enemy.setCurrentElement(enemy.getTargetElement().get(1));
+        if(hasEnemy){
+            realm.beginTransaction();
+            enemy.setCurrentHp(tempCurrent - totalDamage);
+            enemy.setDamaged(true);
+            if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
+                enemy.setCurrentElement(enemy.getTargetElement().get(0));
+            } else {
+                if (enemy.getTargetElement().get(0).getValue() > -1) {
+                    enemy.setCurrentElement(enemy.getTargetElement().get(1));
+                }
             }
+            realm.commitTransaction();
         }
-        realm.commitTransaction();
     }
 
 

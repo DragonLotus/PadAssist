@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             realm.commitTransaction();
-            RealmResults<OrbMatch> orbMatchResults = realm.where(OrbMatch.class).findAll();
+//            RealmResults<OrbMatch> orbMatchResults = realm.where(OrbMatch.class).findAll();
 
 //            team.getOrbMatches().addAll(realm.copyFromRealm(orbMatchResults));
         }

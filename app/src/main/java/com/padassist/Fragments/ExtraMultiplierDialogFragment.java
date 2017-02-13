@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -114,9 +115,10 @@ public class ExtraMultiplierDialogFragment extends DialogFragment {
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    saveTeam.update();
                     Singleton.getInstance().setCoopEnable(coopCheck.isChecked());
                     Singleton.getInstance().setHasEnemy(hasEnemyCheck.isChecked());
+                    saveTeam.update();
+                    Log.d("ExtraMultiplierDialog", "Singleton hasEnemy is: " + Singleton.getInstance().hasEnemy());
                     dismiss();
                 }
             });
