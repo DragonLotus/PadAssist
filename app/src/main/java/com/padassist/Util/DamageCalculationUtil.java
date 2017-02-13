@@ -164,7 +164,7 @@ public class DamageCalculationUtil {
         if (damage == 0) {
             return 0;
         }
-        damage = monsterDamageEnemyDefense(damage, monster, enemy);
+        damage = monsterDamageEnemyDefense(damage, team, monster, enemy);
         return damage;
     }
 
@@ -174,7 +174,7 @@ public class DamageCalculationUtil {
             return 0;
         }
 
-        damage = monsterDamageEnemyDefense(damage, monster, enemy);
+        damage = monsterDamageEnemyDefense(damage, team, monster, enemy);
         return damage;
     }
 
@@ -252,9 +252,36 @@ public class DamageCalculationUtil {
         return damage;
     }
 
-    public static double monsterDamageEnemyDefense(double damage, Monster monster, Enemy enemy) {
+    public static double monsterDamageEnemyDefense(double damage, Team team, Monster monster, Enemy enemy) {
+        int counter = 0;
+        ArrayList<Integer> monsterAwakenings = monster.getAwakenings();
+        if (monsterAwakenings.contains(44)) {
+            ArrayList<Element> matchElements = new ArrayList<>();
+            matchElements.add(Element.RED);
+            matchElements.add(Element.BLUE);
+            matchElements.add(Element.GREEN);
+            matchElements.add(Element.LIGHT);
+            matchElements.add(Element.DARK);
+            for(int i = 0; i < matchElements.size(); i++){
+                if(team.getOrbMatchElements().contains(matchElements.get(i))){
+                    counter++;
+                }
+            }
+            Log.d("DamageCalcUtil", "Match elements counter is: " + counter);
+            if(counter == matchElements.size()){
+                counter = 0;
+                for (int i = 0; i < monsterAwakenings.size(); i++) {
+                    if (monsterAwakenings.get(i) == 44) {
+                        counter++;
+                    }
+                }
+                Log.d("DamageCalcUtil", "Counter is: " + counter);
+                return damage - enemy.getTargetDef()*(1-.5*counter);
+            } else if (damage - enemy.getTargetDef() < 0) {
+                return 1;
+            }
 
-        if (damage - enemy.getTargetDef() < 0) {
+        } else if (damage - enemy.getTargetDef() < 0) {
             return 1;
         }
         return damage - enemy.getTargetDef();
@@ -266,10 +293,10 @@ public class DamageCalculationUtil {
             return 0;
         }
         if (enemy.getReduction().isEmpty()) {
-            return monsterDamageEnemyDefense(damage, monster, enemy);
+            return monsterDamageEnemyDefense(damage, team, monster, enemy);
         } else if (enemy.reductionContains(monster.getElement1()) && enemy.isHasReduction()) {
-            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, monster, enemy);
-        } else return monsterDamageEnemyDefense(damage, monster, enemy);
+            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, team, monster, enemy);
+        } else return monsterDamageEnemyDefense(damage, team, monster, enemy);
     }
 
     public static double monsterElement2DamageReduction(Team team, RealmResults<OrbMatch> orbMatchList, Monster monster, int position, int combos, Enemy enemy) {
@@ -278,10 +305,10 @@ public class DamageCalculationUtil {
             return 0;
         }
         if (enemy.getReduction().isEmpty() || enemy.getReduction() == null) {
-            return monsterDamageEnemyDefense(damage, monster, enemy);
+            return monsterDamageEnemyDefense(damage, team, monster, enemy);
         } else if (enemy.reductionContains(monster.getElement2()) && enemy.isHasReduction()) {
-            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, monster, enemy);
-        } else return monsterDamageEnemyDefense(damage, monster, enemy);
+            return monsterDamageEnemyDefense(damage * (100 - enemy.getReductionValue()) / 100, team, monster, enemy);
+        } else return monsterDamageEnemyDefense(damage, team, monster, enemy);
     }
 
     public static double monsterElement1DamageAbsorb(Team team, RealmResults<OrbMatch> orbMatchList, Monster monster, int position, int combos, Enemy enemy) {

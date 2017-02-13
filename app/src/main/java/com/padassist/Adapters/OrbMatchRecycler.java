@@ -80,6 +80,9 @@ public class OrbMatchRecycler extends RecyclerView.Adapter<OrbMatchRecycler.View
             case LIGHT:
                 orbImageResource = R.drawable.light_orb;
                 break;
+            case DARK:
+                orbImageResource = R.drawable.dark_orb;
+                break;
             case HEART:
                 orbImageResource = R.drawable.heart_orb;
                 break;
