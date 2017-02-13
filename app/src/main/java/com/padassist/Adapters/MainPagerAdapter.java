@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class MainPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 5;
-    private String tabTitles[] = new String[] {"Monsters", "Team", "Orb Matches", "Enemy", "Calculations" };
+    private String tabTitles[] = new String[] {"Monsters", "Team", "Orb Matches", "Enemy", "Damage Calculations" };
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private SharedPreferences preferences;
 

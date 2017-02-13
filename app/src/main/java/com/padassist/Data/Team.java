@@ -126,6 +126,7 @@ public class Team extends RealmObject {
         rcvMultiplier = new ArrayList<>();
         atk1Multiplier = new ArrayList<>();
         atk2Multiplier = new ArrayList<>();
+        monsters = new RealmList<>();
         for (int i = 0; i < 6; i++) {
             hpMultiplier.add(1.0);
             rcvMultiplier.add(1.0);
@@ -292,6 +293,24 @@ public class Team extends RealmObject {
         setSub3(monster4);
         setSub4(monster5);
         setHelper(monster6);
+    }
+
+    public void initializeMonsters(Monster monster){
+        if(monsters ==  null){
+            monsters = new RealmList<>();
+        }
+        monsters.add(monster);
+        monsters.add(monster);
+        monsters.add(monster);
+        monsters.add(monster);
+        monsters.add(monster);
+        monsters.add(monster);
+        lead = monster;
+        sub1 = monster;
+        sub2 = monster;
+        sub3 = monster;
+        sub4 = monster;
+        helper = monster;
     }
 
     public void setMonsters(int position, Monster monster) {

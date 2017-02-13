@@ -2,6 +2,7 @@ package com.padassist.Fragments;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -134,7 +135,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
     };
 
     private void inheritMonster(Monster monster, Monster inheritMonster){
-        monster.setMonsterInherit(realm.copyFromRealm(inheritMonster));
+        monster.setMonsterInherit(inheritMonster);
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
@@ -193,8 +194,8 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
                 }
 
                 getActivity().getSupportFragmentManager().popBackStack(MainTabLayoutFragment.TAG, 0);
-                Parcelable monsterParcel = Parcels.wrap(saveMonsterListRecycler.getItem(position));
-                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");
+//                Parcelable monsterParcel = Parcels.wrap(saveMonsterListRecycler.getItem(position));
+//                ((MainActivity) getActivity()).switchFragment(MonsterPageFragment.newInstance(saveMonsterListRecycler.getItem(position).getMonsterId(), monsterPosition, monsterParcel), MonsterPageFragment.TAG, "good");
             }
         }
     };

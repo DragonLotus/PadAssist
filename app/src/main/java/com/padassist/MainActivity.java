@@ -282,12 +282,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (realm.where(Team.class).equalTo("teamId", 0).findFirst() == null) {
             team = new Team();
-            team.setLead(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setSub1(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setSub2(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setSub3(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setSub4(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
-            team.setHelper(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
+            team.initializeMonsters(realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
             realm.beginTransaction();
             team = realm.copyToRealmOrUpdate(team);
             realm.commitTransaction();

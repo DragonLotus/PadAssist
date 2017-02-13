@@ -113,6 +113,11 @@ public class MonsterRemoveDialogFragment extends DialogFragment {
         } else {
             choiceRadioGroup.getChildAt(choiceRadioGroup.getChildCount() - 1).setEnabled(true);
         }
+        if(monster.getActiveSkill() == null){
+            choiceRadioGroup.getChildAt(3).setEnabled(false);
+        } else {
+            choiceRadioGroup.getChildAt(3).setEnabled(true);
+        }
         favorite.setOnCheckedChangeListener(favoriteCheckListener);
         setupEvolutions();
         evolutionSpinnerAdapter = new EvolutionSpinnerAdapter(getActivity(), R.layout.evolution_spinner_row, monster, evolutions);

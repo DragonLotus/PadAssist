@@ -412,6 +412,7 @@ public abstract class MonsterPageBase extends Fragment {
         skill2Plus.setOnClickListener(activeSkillPlusMinusOnClickListener);
 
         skill1Holder.setOnClickListener(sameSkillToolTipOnClickListener);
+        skill1Holder.setOnLongClickListener(inheritLongClickListener);
         skill2Holder.setOnClickListener(sameSkillToolTipOnClickListener);
 
         //rootView.getViewTreeObserver().addOnGlobalLayoutListener(rootListener);
@@ -484,6 +485,14 @@ public abstract class MonsterPageBase extends Fragment {
         @Override
         public void onClick(View view) {
             setMonsterInherit();
+        }
+    };
+
+    protected View.OnLongClickListener inheritLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View view) {
+            setMonsterInherit();
+            return true;
         }
     };
 
@@ -721,20 +730,16 @@ public abstract class MonsterPageBase extends Fragment {
 
     //Gray out depending on monsterAwakeningsValue
     public void grayAwakenings() {
-        Log.d("MonsterPageBase","monster current awakenings is: " + monster.getCurrentAwakenings());
         if (monster.getCurrentAwakenings() < monster.getMaxAwakenings()) {
-            Log.d("MonsterPageBase","Not max awakenings");
             for (int j = 0; j < monster.getCurrentAwakenings(); j++) {
                 awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
 //                ((ImageView)awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
             }
             for (int j = monster.getCurrentAwakenings(); j < monster.getMaxAwakenings(); j++) {
-                Log.d("MonsterPageBase","Graying awakening " + j);
                 awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakeningDisabled(monster.getAwokenSkills().get(j).getValue()));
 //                ((ImageView)awakeningHolder.getChildAt(j)).setImageResource(ImageResourceUtil.monsterAwakeningDisabled(monster.getAwokenSkills().get(j).getValue()));
             }
         } else {
-            Log.d("MonsterPageBase","Max awakenings");
             for (int j = 0; j < monster.getMaxAwakenings(); j++) {
                 awakeningHolder.getChildAt(j).setBackgroundResource(ImageResourceUtil.monsterAwakening(monster.getAwokenSkills().get(j).getValue()));
             }
@@ -991,11 +996,6 @@ public abstract class MonsterPageBase extends Fragment {
             awakeningMinus.setVisibility(View.VISIBLE);
             monsterAwakeningsMax.setVisibility(View.VISIBLE);
             monsterAwakeningsValue.setVisibility(View.VISIBLE);
-            RelativeLayout.LayoutParams z = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            z.addRule(RelativeLayout.BELOW, awakeningHolder.getId());
-            z.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            z.addRule(RelativeLayout.CENTER_VERTICAL);
-            latentHolder.setLayoutParams(z);
         }
     }
 

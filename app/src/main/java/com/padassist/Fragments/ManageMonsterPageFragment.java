@@ -2,6 +2,8 @@ package com.padassist.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -9,6 +11,7 @@ import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.MainActivity;
 import com.padassist.BaseFragments.MonsterPageBase;
+import com.padassist.R;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,18 @@ public class ManageMonsterPageFragment extends MonsterPageBase {
 
     public ManageMonsterPageFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.setGroupVisible(R.id.searchGroup, false);
     }
 
     @Override
