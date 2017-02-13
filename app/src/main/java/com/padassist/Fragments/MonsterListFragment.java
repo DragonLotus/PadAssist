@@ -479,12 +479,12 @@ public class MonsterListFragment extends Fragment {
     };
 
     private void clearTeamMethod(){
+        Log.d("MonsterListFragment", "monster0 is: " + monster0);
         realm.beginTransaction();
         for (int i = 0; i < 6; i++) {
-            monsters.set(i, monster0);
             team.setMonsters(i, monster0);
         }
-        monsterListRecycler.updateList(team.getMonsters());
+        monsterListRecycler.updateList(monsters);
         team.setTeamName("Untitled Team");
         team.setTeamIdOverwrite(0);
         team.setFavorite(false);
@@ -528,8 +528,6 @@ public class MonsterListFragment extends Fragment {
     }
 
     public void onDeselect(){
-        team.setTeamStats(realm);
-        team.setAwakenings();
     }
 
 }

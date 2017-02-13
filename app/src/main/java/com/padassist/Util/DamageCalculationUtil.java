@@ -28,7 +28,7 @@ public class DamageCalculationUtil {
                 totalOrbDamage += orbMatch(monster.getTotalAtk(), orbMatchList.get(i), orbAwakenings, monster.getTPA());
             }
         }
-        return Math.ceil(leadOtherMultiplier1(comboMultiplier(totalOrbDamage, combos), monster, team, orbMatchList, position));
+        return Math.ceil(leadOtherMultiplier1(comboMultiplier(totalOrbDamage, monster, combos, true), monster, team, orbMatchList, position));
     }
 
     public static double monsterElement2Damage(Team team, RealmResults<OrbMatch> orbMatchList, Monster monster, int position, int combos) {
@@ -40,18 +40,34 @@ public class DamageCalculationUtil {
                     totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() * .1), orbMatchList.get(i), orbAwakenings, monster.getTPA());
                 }
             }
-            return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, orbMatchList, position));
+            return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, monster, combos, true), monster, team, orbMatchList, position));
         }
         for (int i = 0; i < orbMatchList.size(); i++) {
             if (orbMatchList.get(i).getElement().equals(monster.getElement2())) {
                 totalOrbDamage += orbMatch((int) Math.ceil(monster.getTotalAtk() / 3), orbMatchList.get(i), orbAwakenings, monster.getTPA());
             }
         }
-        return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, combos), monster, team, orbMatchList, position));
+        return Math.ceil(leadOtherMultiplier2(comboMultiplier(totalOrbDamage, monster, combos, true), monster, team, orbMatchList, position));
     }
 
-    public static double comboMultiplier(double damage, int combos) {
-        return Math.ceil(damage * ((combos - 1) * .25 + 1.0));
+    public static double comboMultiplier(double damage, Monster monster, int combos, boolean isDamage) {
+        double orbDamage = damage;
+        if (isDamage) {
+            int counter = 0;
+            ArrayList<Integer> monsterAwakenings = monster.getAwakenings();
+            if (monsterAwakenings.contains(43)) {
+                if (combos > 6) {
+                    for (int i = 0; i < monsterAwakenings.size(); i++) {
+                        if (monsterAwakenings.get(i) == 43) {
+                            counter++;
+                        }
+                    }
+                    orbDamage *= Math.pow(2, counter);
+                }
+            }
+        }
+
+        return Math.ceil(orbDamage * ((combos - 1) * .25 + 1.0));
     }
 
     public static double orbMatch(int Attack, OrbMatch orbMatches, int OrbAwakenings, int TPAwakenings) {
@@ -196,18 +212,6 @@ public class DamageCalculationUtil {
         }
         damage = killerCalculation(damage, monster, enemy);
 
-        int counter = 0;
-        ArrayList<Integer> monsterAwakenings = monster.getAwakenings();
-        if(monsterAwakenings.contains(43)){
-            if(combos > 6){
-                for (int i = 0; i < monsterAwakenings.size(); i++){
-                    if(monsterAwakenings.get(i) == 43){
-                        counter++;
-                    }
-                }
-                damage *= Math.pow(2,counter);
-            }
-        }
         return damage;
     }
 
@@ -244,19 +248,6 @@ public class DamageCalculationUtil {
             }
         }
         damage = killerCalculation(damage, monster, enemy);
-
-        int counter = 0;
-        ArrayList<Integer> monsterAwakenings = monster.getAwakenings();
-        if(monsterAwakenings.contains(43)){
-            if(combos > 6){
-                for (int i = 0; i < monsterAwakenings.size(); i++){
-                    if(monsterAwakenings.get(i) == 43){
-                        counter++;
-                    }
-                }
-                damage *= Math.pow(2,counter);
-            }
-        }
 
         return damage;
     }
@@ -376,7 +367,7 @@ public class DamageCalculationUtil {
             for (int j = 0; j < heartOrbMatches.size(); j++) {
                 totalOrbDamage += orbMatch((int) Math.floor(rcv + 0.5d), heartOrbMatches.get(j));
             }
-            totalRcv += comboMultiplier(totalOrbDamage, combos);
+            totalRcv += comboMultiplier(totalOrbDamage, null, combos, false);
         }
         return totalRcv - poisonDamage(team, poisonOrbMatches);
     }

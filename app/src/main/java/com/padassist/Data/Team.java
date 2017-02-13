@@ -298,7 +298,6 @@ public class Team extends RealmObject {
         if (monsters == null) {
             monsters = new RealmList<>();
         }
-        monsters.set(position, monster);
         switch (position) {
             case 0:
                 setLead(monster);

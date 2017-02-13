@@ -37,6 +37,7 @@ import com.padassist.Adapters.MonsterDamageListRecycler;
 import com.padassist.BroadcastReceivers.JustAnotherBroadcastReceiver;
 import com.padassist.Data.Element;
 import com.padassist.Data.Enemy;
+import com.padassist.Data.Monster;
 import com.padassist.Data.OrbMatch;
 import com.padassist.Data.RealmElement;
 import com.padassist.Data.Team;
@@ -257,6 +258,8 @@ public class TeamDamageListFragment extends Fragment {
         additionalCombos = Singleton.getInstance().getAdditionalCombos();
         totalCombos = additionalCombos + realm.where(OrbMatch.class).findAll().size();
         additionalComboValue.setText("" + totalCombos);
+
+        Log.d("TeamDamageList", "onActivityCreated total combos is: " + totalCombos);
 
         monsterListAdapter = new MonsterDamageListRecycler(getActivity(), hasEnemy, enemy, totalCombos, team, orbMatchList, bindMonsterOnClickListener);
         monsterListView.setAdapter(monsterListAdapter);
@@ -670,7 +673,6 @@ public class TeamDamageListFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (!s.toString().equals("")) {
                 totalCombos = Integer.valueOf(s.toString());
-                Singleton.getInstance().setAdditionalCombos(totalCombos - orbMatchList.size());
             }
         }
 
@@ -1134,7 +1136,11 @@ public class TeamDamageListFragment extends Fragment {
     public void setMenuVisibility(boolean menuVisible) {
         super.setMenuVisibility(menuVisible);
         if(menuVisible){
-            Log.d("TeamDamageListFrag", "orbMatchList setMenuVisibility is: " + orbMatchList);
+            additionalCombos = Singleton.getInstance().getAdditionalCombos();
+            totalCombos = additionalCombos + orbMatchList.size();
+            additionalComboValue.setText("" + totalCombos);
+            Log.d("TeamDamageListFrag", "orbMatchList setMenuVisibility is: " + orbMatchList.size());
+            Log.d("TeamDamageListFrag", "totalCombos setMenuVisibility is: " + totalCombos);
             updateTextView();
             setupHpSeekBar();
         }
@@ -1163,10 +1169,6 @@ public class TeamDamageListFragment extends Fragment {
     public void onSelect() {
         enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
         enemy = realm.copyFromRealm(enemy);
-        Log.d("TeamDamageListFrag", "orbMatchList onSelect is: " + orbMatchList);
-        additionalCombos = Singleton.getInstance().getAdditionalCombos();
-        totalCombos = additionalCombos + orbMatchList.size();
-        additionalComboValue.setText("" + totalCombos);
         if (hasEnemy) {
             temp = enemy.getCurrentHp();
             setReductionOrbs();
@@ -1174,8 +1176,6 @@ public class TeamDamageListFragment extends Fragment {
             setDamageThreshold();
         }
         clearTextFocus();
-        additionalCombos = Singleton.getInstance().getAdditionalCombos();
-        totalCombos = orbMatchList.size() + additionalCombos;
         team.setHpRcvMultiplierArrays(orbMatchList, totalCombos);
         monsterListAdapter.setCombos(totalCombos);
         team.setAtkMultiplierArrays(orbMatchList, totalCombos);

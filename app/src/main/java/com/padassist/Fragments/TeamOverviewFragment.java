@@ -139,6 +139,8 @@ public class TeamOverviewFragment extends Fragment {
         latentDamageAwakeningList = new ArrayList<>();
         monsterList = new RealmList<>();
         monsterList.addAll(team.getMonsters());
+        team.setTeamStats(realm);
+        team.setAwakenings();
         setTeamStats();
         setupAwakeningFilters();
         trimAwakenings();

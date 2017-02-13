@@ -518,7 +518,6 @@ public class OrbMatchFragment extends Fragment {
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (!s.toString().equals("")) {
                 additionalCombos = Integer.valueOf(s.toString()) - orbMatchList.size();
-                Singleton.getInstance().setAdditionalCombos(additionalCombos);
             }
         }
 
@@ -972,7 +971,7 @@ public class OrbMatchFragment extends Fragment {
         team.setHpRcvMultiplierArrays(orbMatchList, orbMatchList.size() + additionalCombos);
 
         Log.d("OrbMatchFragment", "OrbMatch realm is: " + realm.where(OrbMatch.class).findAll());
-        Log.d("OrbMatchFragment", "additional combos is: " + Singleton.getInstance().getAdditionalCombos());
+        Log.d("OrbMatchFragment", "additionalCombos onDeselect is: " + Singleton.getInstance().getAdditionalCombos());
         Log.d("OrbMatchFragment", "rcvMultiplier is: " + team.getRcvMultiplier());
     }
 
