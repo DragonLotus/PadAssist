@@ -1414,15 +1414,15 @@ public class EnemyTargetFragment extends Fragment {
         clearTextFocus();
 //        enemy = realm.where(Enemy.class).equalTo("enemyId", 0).findFirst();
 //        enemy = realm.copyFromRealm(enemy);
+//        realm.beginTransaction();
 //        if (enemy.isDamaged()) {
-//            enemy.clearGravityList();
-//            if(gravityListAdapter !=  null){
-//                gravityListAdapter.notifyDataSetChanged();
-//            }
+////            enemy.clearGravityList();
+////            if(gravityListAdapter !=  null){
+////                gravityListAdapter.notifyDataSetChanged();
+////            }
 //            enemy.setDamaged(false);
 //        }
-
-
+//        realm.commitTransaction();
     }
 
     @Override

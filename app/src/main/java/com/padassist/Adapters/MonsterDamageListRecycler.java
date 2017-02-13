@@ -44,6 +44,8 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
     private ArrayList<Long> monsterElement2Damage;
     private ArrayList<Long> monsterElement1DamageEnemy;
     private ArrayList<Long> monsterElement2DamageEnemy;
+    private ArrayList<Long> monsterElement1DamageEffective;
+    private ArrayList<Long> monsterElement2DamageEffective;
 
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener(){
@@ -58,6 +60,8 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
                                      ArrayList<Long> monsterElement2Damage,
                                      ArrayList<Long> monsterElement1DamageEnemy,
                                      ArrayList<Long> monsterElement2DamageEnemy,
+                                     ArrayList<Long> monsterElement1DamageEffective,
+                                     ArrayList<Long> monsterElement2DamageEffective,
                                      View.OnClickListener bindMonsterOnClickListener){
         mContext = context;
         this.hasEnemy = hasEnemy;
@@ -66,6 +70,8 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
         this.monsterElement2Damage = monsterElement2Damage;
         this.monsterElement1DamageEnemy = monsterElement1DamageEnemy;
         this.monsterElement2DamageEnemy = monsterElement2DamageEnemy;
+        this.monsterElement1DamageEffective = monsterElement1DamageEffective;
+        this.monsterElement2DamageEffective = monsterElement2DamageEffective;
         this.bindMonsterOnClickListener = bindMonsterOnClickListener;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -202,26 +208,18 @@ public class MonsterDamageListRecycler extends RecyclerView.Adapter<MonsterDamag
                 viewHolder.monsterElement1DamageEnemy.setText("(" + dfSpace.format( monsterElement1DamageEnemy.get(position)) + ")");
                 viewHolder.monsterElement2DamageEnemy.setText("(" + dfSpace.format( monsterElement2DamageEnemy.get(position)) + ")");
 //            }
-            viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) monsterElement1DamageEnemy.get(position) / team.getTotalDamage() * 100) + "%"));
-            viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) monsterElement2DamageEnemy.get(position) / team.getTotalDamage() * 100) + "%"));
-            if(Double.isNaN((double) monsterElement1DamageEnemy.get(position) / team.getTotalDamage() * 100)){
-                viewHolder.monsterElement1Percent.setText("0%");
-            }
-            if(Double.isNaN((double) monsterElement2DamageEnemy.get(position) / team.getTotalDamage() * 100)){
-                viewHolder.monsterElement2Percent.setText("0%");
-            }
             //if statement to check element damage > total damage, set to 0%?
         } else {
-            viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) monsterElement1Damage.get(position) / team.getTotalDamage() * 100) + "%"));
-            viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) monsterElement2Damage.get(position) / team.getTotalDamage() * 100) + "%"));
-            if(Double.isNaN((double) monsterElement1Damage.get(position) / team.getTotalDamage() * 100)){
-                viewHolder.monsterElement1Percent.setText("0%");
-            }
-            if(Double.isNaN((double) monsterElement2Damage.get(position) / team.getTotalDamage() * 100)) {
-                viewHolder.monsterElement2Percent.setText("0%");
-            }
             viewHolder.monsterElement1DamageEnemy.setVisibility(View.INVISIBLE);
             viewHolder.monsterElement2DamageEnemy.setVisibility(View.INVISIBLE);
+        }
+        viewHolder.monsterElement1Percent.setText(String.valueOf(df.format((double) monsterElement1DamageEffective.get(position) / team.getTotalDamage() * 100) + "%"));
+        viewHolder.monsterElement2Percent.setText(String.valueOf(df.format((double) monsterElement2DamageEffective.get(position) / team.getTotalDamage() * 100) + "%"));
+        if(Double.isNaN((double) monsterElement1DamageEffective.get(position) / team.getTotalDamage() * 100)){
+            viewHolder.monsterElement1Percent.setText("0%");
+        }
+        if(Double.isNaN((double) monsterElement2DamageEffective.get(position) / team.getTotalDamage() * 100)){
+            viewHolder.monsterElement2Percent.setText("0%");
         }
 
         setTextColors(position, viewHolder);

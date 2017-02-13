@@ -683,12 +683,12 @@ public class OrbMatchFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_orb_match, container, false);
         rowCheckBox = (CheckBox) rootView.findViewById(R.id.rowCheckBox);
         crossCheckBox = (CheckBox) rootView.findViewById(R.id.crossCheckBox);
-        ignoreEnemyCheckBox = (CheckBox) rootView.findViewById(R.id.ignoreEnemyCheckBox);
+//        ignoreEnemyCheckBox = (CheckBox) rootView.findViewById(R.id.ignoreEnemyCheckBox);
         orbsLinked = (Spinner) rootView.findViewById(R.id.orbsLinkedSpinner);
         orbsPlus = (Spinner) rootView.findViewById(R.id.orbsPlusSpinner);
         boardSize = (Spinner) rootView.findViewById(R.id.boardSizeSpinner);
         addMatch = (Button) rootView.findViewById(R.id.addMatch);
-        calculateButton = (Button) rootView.findViewById(R.id.calculateButton);
+//        calculateButton = (Button) rootView.findViewById(R.id.calculateButton);
         reset = (Button) rootView.findViewById(R.id.reset);
         orbMatches = (RecyclerView) rootView.findViewById(R.id.orbMatches);
         orbRadioGroup = (RadioGroup) rootView.findViewById(R.id.elementRadioGroup);
@@ -709,7 +709,7 @@ public class OrbMatchFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         rowCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         crossCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
-        ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
+//        ignoreEnemyCheckBox.setOnCheckedChangeListener(rowCheckedChangeListener);
         addMatch.setOnClickListener(addMatchOnClickListener);
         reset.setOnClickListener(resetOnClickListener);
 
@@ -736,9 +736,9 @@ public class OrbMatchFragment extends Fragment {
         orbMatches.setLayoutManager(new LinearLayoutManager(getActivity()));
         additionalComboValue.addTextChangedListener(totalCombosTextWatcher);
         additionalComboValue.setOnFocusChangeListener(editTextOnFocusChange);
-        calculateButton.setOnClickListener(calculateOnClickListener);
+//        calculateButton.setOnClickListener(calculateOnClickListener);
 
-        ignoreEnemyCheckBox.setChecked(Singleton.getInstance().isIgnoreEnemy());
+//        ignoreEnemyCheckBox.setChecked(Singleton.getInstance().isIgnoreEnemy());
 
         orbRadioGroup.setOnCheckedChangeListener(orbRadioGroupOnCheckChangeListener);
         orbsLinkedAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, orbsLinkedItems);

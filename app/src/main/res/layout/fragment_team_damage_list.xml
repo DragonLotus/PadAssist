@@ -19,44 +19,55 @@
         android:text="Show Damage Breakdown"
         android:textSize="16dp" />
 
-
-    <Button
-        android:id="@+id/options"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttonHolder"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:text="More Options" />
+        android:layout_alignParentBottom="true">
 
-    <TextView
-        android:id="@+id/additionalCombo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/additionalComboValue"
-        android:layout_alignTop="@+id/additionalComboValue"
-        android:gravity="center_vertical"
-        android:text="Total Combos: "
-        android:textSize="18dp" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5">
 
-    <EditText
-        android:id="@+id/additionalComboValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/additionalCombo"
-        android:inputType="number"
-        android:maxLength="5"
-        android:text="0"
-        android:textSize="18dp" />
+            <TextView
+                android:id="@+id/additionalCombo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/additionalComboValue"
+                android:layout_alignTop="@+id/additionalComboValue"
+                android:gravity="center_vertical"
+                android:text="Total Combos: "
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/additionalComboValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/additionalCombo"
+                android:inputType="number"
+                android:maxLength="5"
+                android:text="0"
+                android:textSize="18dp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/options"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".5"
+            android:text="More Options" />
+    </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:layout_below="@+id/monsterListToggle"
-        android:layout_above="@+id/options"
+        android:layout_above="@+id/buttonHolder"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/monsterListToggle"
+        android:clickable="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -439,7 +450,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/hasAwakenings"
                     android:layout_alignTop="@+id/hasAwakenings"
-                    android:layout_toRightOf="@+id/hasAwakenings"/>
+                    android:layout_toRightOf="@+id/hasAwakenings" />
 
                 <ImageView
                     android:id="@+id/activeUsed"
@@ -456,7 +467,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/hasAwakeningsCheck"
                     android:layout_alignTop="@+id/hasAwakeningsCheck"
-                    android:layout_toRightOf="@+id/activeUsed"/>
+                    android:layout_toRightOf="@+id/activeUsed" />
 
                 <ImageView
                     android:id="@+id/hasLeaderSkill"
@@ -473,7 +484,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/hasAwakeningsCheck"
                     android:layout_alignTop="@+id/hasAwakeningsCheck"
-                    android:layout_toRightOf="@+id/hasLeaderSkill"/>
+                    android:layout_toRightOf="@+id/hasLeaderSkill" />
 
                 <CheckBox
                     android:id="@+id/hasLeaderSkillCheck2"
@@ -481,7 +492,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/hasAwakeningsCheck"
                     android:layout_alignTop="@+id/hasAwakeningsCheck"
-                    android:layout_toRightOf="@+id/hasLeaderSkillCheck1"/>
+                    android:layout_toRightOf="@+id/hasLeaderSkillCheck1" />
 
                 <TextView
                     android:id="@+id/teamHp"
@@ -495,8 +506,8 @@
                     android:id="@+id/teamHpValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/activeUsed"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@+id/activeUsed"
                     android:text="100"
                     android:textSize="18dp" />
 
@@ -504,8 +515,8 @@
                     android:id="@+id/teamHpSeekBar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/teamHp"
                     android:layout_alignBottom="@+id/teamHp"
+                    android:layout_alignTop="@+id/teamHp"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/teamHpValue"
                     android:layout_toRightOf="@+id/teamHp" />
