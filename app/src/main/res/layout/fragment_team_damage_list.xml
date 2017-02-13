@@ -19,458 +19,6 @@
         android:text="Show Damage Breakdown"
         android:textSize="16dp" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/options"
-        android:layout_below="@+id/monsterListToggle"
-        android:clickable="true">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/monsterListView"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/hpRecovered"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/totalDamageValue"
-                android:text="HP Recovered:"
-                android:textSize="18dp" />
-
-            <com.padassist.Graphics.ThinStroke
-                android:id="@+id/hpRecoveredValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/totalDamageValue"
-                android:text="1337"
-                android:textColor="#FF9999"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/totalDamage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/monsterListView"
-                android:text="Total Damage:"
-                android:textSize="18dp" />
-
-            <com.padassist.Graphics.ThinStroke
-                android:id="@+id/totalDamageValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/monsterListView"
-                android:text="133333333337"
-                android:textColor="#BBBBBB"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/enemyHP"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/hpRecovered"
-                android:text="Enemy HP Remaining:"
-                android:textSize="18dp" />
-
-            <com.padassist.Graphics.ThinStroke
-                android:id="@+id/enemyHPValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/hpRecovered"
-                android:text="1333337"
-                android:textColor="#550055"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/enemyHPPercent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/enemyHP"
-                android:text="Enemy % HP Remaining: "
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/enemyHPPercentValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/enemyHP"
-                android:text="100%"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/absorbAlign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/enemyHPPercent"
-                android:focusable="false"
-                android:visibility="invisible" />
-
-            <ImageView
-                android:id="@+id/elementAbsorb"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignTop="@+id/absorbAlign"
-                android:layout_alignBottom="@+id/absorbAlign"
-                android:layout_centerVertical="true"
-                android:src="@drawable/color_wheel_absorb"
-                android:layout_marginRight="4dp"/>
-
-            <RadioGroup
-                android:id="@+id/absorbOrbRadioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/absorbAlign"
-                android:layout_alignTop="@+id/absorbAlign"
-                android:layout_toLeftOf="@+id/absorbCheck"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/redOrbAbsorb"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/red_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-
-                <CheckBox
-                    android:id="@+id/blueOrbAbsorb"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/blue_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-
-                <CheckBox
-                    android:id="@+id/greenOrbAbsorb"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/green_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-
-                <CheckBox
-                    android:id="@+id/lightOrbAbsorb"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/light_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-
-                <CheckBox
-                    android:id="@+id/darkOrbAbsorb"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/dark_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-            </RadioGroup>
-
-            <CheckBox
-                android:id="@+id/absorbCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/absorbOrbRadioGroup"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/absorbOrbRadioGroup"
-                android:checked="false"
-                android:gravity="center_vertical" />
-
-            <EditText
-                android:id="@+id/reductionAlign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/absorbCheck"
-                android:focusable="false"
-                android:visibility="invisible"
-                android:layout_marginTop="-10dp"/>
-
-            <ImageView
-                android:id="@+id/targetReduction"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_below="@+id/absorbCheck"
-                android:layout_centerVertical="true"
-                android:background="@drawable/damage_background"
-                android:src="@drawable/damage_defense"
-                android:layout_marginRight="4dp"/>
-
-            <EditText
-                android:id="@+id/reductionValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/reductionAlign"
-                android:layout_alignBottom="@+id/reductionAlign"
-                android:layout_toRightOf="@+id/targetReduction"
-                android:inputType="number"
-                android:maxLength="3"
-                android:text="50"
-                android:textSize="18dp"/>
-
-            <TextView
-                android:id="@+id/reductionPercent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/reductionValue"
-                android:layout_alignTop="@+id/reductionValue"
-                android:layout_toRightOf="@+id/reductionValue"
-                android:gravity="center_vertical"
-                android:text="%"
-                android:textSize="18dp" />
-
-            <RadioGroup
-                android:id="@+id/reductionOrbRadioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/reductionAlign"
-                android:layout_alignTop="@+id/reductionAlign"
-                android:layout_toLeftOf="@+id/reductionCheck"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <CheckBox
-                    android:id="@+id/redOrbReduction"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/red_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-
-                <CheckBox
-                    android:id="@+id/blueOrbReduction"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/blue_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-
-                <CheckBox
-                    android:id="@+id/greenOrbReduction"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/green_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-
-                <CheckBox
-                    android:id="@+id/lightOrbReduction"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/light_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-
-                <CheckBox
-                    android:id="@+id/darkOrbReduction"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/dark_orb_selector"
-                    android:button="@null"
-                    android:checked="false"
-                    android:enabled="false" />
-            </RadioGroup>
-
-            <CheckBox
-                android:id="@+id/reductionCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/reductionOrbRadioGroup"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/reductionOrbRadioGroup"
-                android:checked="false"
-                android:gravity="center_vertical" />
-
-            <ImageView
-                android:id="@+id/damageThreshold"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_below="@+id/reductionCheck"
-                android:layout_centerVertical="true"
-                android:background="@drawable/damage_background"
-                android:src="@drawable/damage_threshold"
-                android:layout_marginRight="4dp"/>
-
-            <EditText
-                android:id="@+id/damageThresholdValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/reductionCheck"
-                android:layout_toRightOf="@+id/damageThreshold"
-                android:enabled="false"
-                android:inputType="number"
-                android:maxLength="9"
-                android:text="200000"
-                android:textSize="18dp"
-                android:layout_marginTop="-10dp"/>
-
-            <CheckBox
-                android:id="@+id/damageThresholdCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/damageThresholdValue"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/damageThresholdValue"
-                android:checked="false"
-                android:gravity="center_vertical" />
-
-            <ImageView
-                android:id="@+id/damageImmunity"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_below="@+id/damageThresholdCheck"
-                android:layout_centerVertical="true"
-                android:background="@drawable/damage_background"
-                android:src="@drawable/damage_immunity"
-                android:layout_marginRight="4dp"/>
-
-            <EditText
-                android:id="@+id/damageImmunityValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/damageThresholdValue"
-                android:layout_toRightOf="@+id/damageImmunity"
-                android:enabled="false"
-                android:inputType="number"
-                android:maxLength="9"
-                android:text="200000"
-                android:textSize="18dp"
-                android:layout_marginTop="-10dp"/>
-
-            <CheckBox
-                android:id="@+id/damageImmunityCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/damageImmunityValue"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/damageImmunityValue"
-                android:checked="false"
-                android:gravity="center_vertical" />
-
-            <ImageView
-                android:id="@+id/hasAwakenings"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_below="@id/damageImmunityCheck"
-                android:layout_centerVertical="true"
-                android:src="@drawable/awakening_bind"
-                android:layout_marginRight="4dp"/>
-
-            <CheckBox
-                android:id="@+id/hasAwakeningsCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/hasAwakenings"
-                android:layout_alignTop="@+id/hasAwakenings"
-                android:layout_alignBottom="@+id/hasAwakenings"
-                android:gravity="center"/>
-
-            <ImageView
-                android:id="@+id/activeUsed"
-                android:layout_width="39dp"
-                android:layout_height="24dp"
-                android:layout_below="@id/damageImmunityCheck"
-                android:layout_centerVertical="true"
-                android:src="@drawable/active_skill_enable"
-                android:layout_toRightOf="@+id/hasLeaderSkillCheck2"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="4dp"/>
-
-            <CheckBox
-                android:id="@+id/activeUsedCheck"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/activeUsed"
-                android:layout_alignTop="@+id/hasAwakeningsCheck"
-                android:layout_alignBottom="@+id/hasAwakeningsCheck"/>
-
-            <ImageView
-                android:id="@+id/hasLeaderSkill"
-                android:layout_width="46dp"
-                android:layout_height="24dp"
-                android:layout_below="@id/damageImmunityCheck"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/hasAwakeningsCheck"
-                android:src="@drawable/leader_skill_enable"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="4dp"/>
-
-            <CheckBox
-                android:id="@+id/hasLeaderSkillCheck1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/hasLeaderSkill"
-                android:layout_alignTop="@+id/hasAwakeningsCheck"
-                android:layout_alignBottom="@+id/hasAwakeningsCheck"/>
-
-            <CheckBox
-                android:id="@+id/hasLeaderSkillCheck2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/hasLeaderSkillCheck1"
-                android:layout_alignTop="@+id/hasAwakeningsCheck"
-                android:layout_alignBottom="@+id/hasAwakeningsCheck"/>
-
-            <TextView
-                android:id="@+id/teamHp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/activeUsedCheck"
-                android:gravity="center_vertical"
-                android:text="HP %"
-                android:textSize="18dp" />
-
-            <TextView
-                android:id="@+id/teamHpValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/activeUsedCheck"
-                android:gravity="center_vertical"
-                android:text="100"
-                android:textSize="18dp" />
-
-            <SeekBar
-                android:id="@+id/teamHpSeekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/teamHp"
-                android:layout_alignTop="@+id/teamHp"
-                android:layout_toLeftOf="@id/teamHpValue"
-                android:layout_toRightOf="@+id/teamHp" />
-
-
-        </RelativeLayout>
-    </ScrollView>
-
 
     <Button
         android:id="@+id/options"
@@ -500,6 +48,471 @@
         android:maxLength="5"
         android:text="0"
         android:textSize="18dp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:layout_below="@+id/monsterListToggle"
+        android:layout_above="@+id/options"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/monsterListView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/damageLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/hpRecovered"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/totalDamageValue"
+                    android:text="HP Recovered:"
+                    android:textSize="18dp" />
+
+                <com.padassist.Graphics.ThinStroke
+                    android:id="@+id/hpRecoveredValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/totalDamageValue"
+                    android:text="1337"
+                    android:textColor="#FF9999"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/totalDamage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Damage:"
+                    android:textSize="18dp" />
+
+                <com.padassist.Graphics.ThinStroke
+                    android:id="@+id/totalDamageValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="133333333337"
+                    android:textColor="#BBBBBB"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/enemyHPHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/enemyHP"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enemy HP Remaining:"
+                    android:textSize="18dp" />
+
+                <com.padassist.Graphics.ThinStroke
+                    android:id="@+id/enemyHPValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="1333337"
+                    android:textColor="#550055"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/enemyHPPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/enemyHP"
+                    android:text="Enemy % HP Remaining: "
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/enemyHPPercentValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/enemyHP"
+                    android:text="100%"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/enemyAttributeHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/absorbAlign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/elementAbsorb"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignBottom="@+id/absorbAlign"
+                    android:layout_alignTop="@+id/absorbAlign"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="4dp"
+                    android:src="@drawable/color_wheel_absorb" />
+
+                <RadioGroup
+                    android:id="@+id/absorbOrbRadioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/absorbAlign"
+                    android:layout_alignTop="@+id/absorbAlign"
+                    android:layout_toLeftOf="@+id/absorbCheck"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/redOrbAbsorb"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/red_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+
+                    <CheckBox
+                        android:id="@+id/blueOrbAbsorb"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/blue_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+
+                    <CheckBox
+                        android:id="@+id/greenOrbAbsorb"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/green_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+
+                    <CheckBox
+                        android:id="@+id/lightOrbAbsorb"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/light_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+
+                    <CheckBox
+                        android:id="@+id/darkOrbAbsorb"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/dark_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+                </RadioGroup>
+
+                <CheckBox
+                    android:id="@+id/absorbCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/absorbOrbRadioGroup"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/absorbOrbRadioGroup"
+                    android:checked="false"
+                    android:gravity="center_vertical" />
+
+                <EditText
+                    android:id="@+id/reductionAlign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/absorbCheck"
+                    android:layout_marginTop="-10dp"
+                    android:focusable="false"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/targetReduction"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/absorbCheck"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/damage_background"
+                    android:src="@drawable/damage_defense" />
+
+                <EditText
+                    android:id="@+id/reductionValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/reductionAlign"
+                    android:layout_alignTop="@+id/reductionAlign"
+                    android:layout_toRightOf="@+id/targetReduction"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:text="50"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/reductionPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/reductionValue"
+                    android:layout_alignTop="@+id/reductionValue"
+                    android:layout_toRightOf="@+id/reductionValue"
+                    android:gravity="center_vertical"
+                    android:text="%"
+                    android:textSize="18dp" />
+
+                <RadioGroup
+                    android:id="@+id/reductionOrbRadioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/reductionAlign"
+                    android:layout_alignTop="@+id/reductionAlign"
+                    android:layout_toLeftOf="@+id/reductionCheck"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/redOrbReduction"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/red_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+
+                    <CheckBox
+                        android:id="@+id/blueOrbReduction"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/blue_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+
+                    <CheckBox
+                        android:id="@+id/greenOrbReduction"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/green_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+
+                    <CheckBox
+                        android:id="@+id/lightOrbReduction"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/light_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+
+                    <CheckBox
+                        android:id="@+id/darkOrbReduction"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/dark_orb_selector"
+                        android:button="@null"
+                        android:checked="false"
+                        android:enabled="false" />
+                </RadioGroup>
+
+                <CheckBox
+                    android:id="@+id/reductionCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/reductionOrbRadioGroup"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/reductionOrbRadioGroup"
+                    android:checked="false"
+                    android:gravity="center_vertical" />
+
+                <ImageView
+                    android:id="@+id/damageThreshold"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/reductionCheck"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/damage_background"
+                    android:src="@drawable/damage_threshold" />
+
+                <EditText
+                    android:id="@+id/damageThresholdValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reductionCheck"
+                    android:layout_marginTop="-10dp"
+                    android:layout_toRightOf="@+id/damageThreshold"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:text="200000"
+                    android:textSize="18dp" />
+
+                <CheckBox
+                    android:id="@+id/damageThresholdCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/damageThresholdValue"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/damageThresholdValue"
+                    android:checked="false"
+                    android:gravity="center_vertical" />
+
+                <ImageView
+                    android:id="@+id/damageImmunity"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/damageThresholdCheck"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="4dp"
+                    android:background="@drawable/damage_background"
+                    android:src="@drawable/damage_immunity" />
+
+                <EditText
+                    android:id="@+id/damageImmunityValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/damageThresholdValue"
+                    android:layout_marginTop="-10dp"
+                    android:layout_toRightOf="@+id/damageImmunity"
+                    android:enabled="false"
+                    android:inputType="number"
+                    android:maxLength="9"
+                    android:text="200000"
+                    android:textSize="18dp" />
+
+                <CheckBox
+                    android:id="@+id/damageImmunityCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/damageImmunityValue"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignTop="@+id/damageImmunityValue"
+                    android:checked="false"
+                    android:gravity="center_vertical" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/teamAttributeHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/hasAwakenings"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="4dp"
+                    android:src="@drawable/awakening_bind" />
+
+                <CheckBox
+                    android:id="@+id/hasAwakeningsCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/hasAwakenings"
+                    android:layout_alignTop="@+id/hasAwakenings"
+                    android:layout_toRightOf="@+id/hasAwakenings"/>
+
+                <ImageView
+                    android:id="@+id/activeUsed"
+                    android:layout_width="39dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_toRightOf="@+id/hasLeaderSkillCheck2"
+                    android:src="@drawable/active_skill_enable" />
+
+                <CheckBox
+                    android:id="@+id/activeUsedCheck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/hasAwakeningsCheck"
+                    android:layout_alignTop="@+id/hasAwakeningsCheck"
+                    android:layout_toRightOf="@+id/activeUsed"/>
+
+                <ImageView
+                    android:id="@+id/hasLeaderSkill"
+                    android:layout_width="46dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_toRightOf="@+id/hasAwakeningsCheck"
+                    android:src="@drawable/leader_skill_enable" />
+
+                <CheckBox
+                    android:id="@+id/hasLeaderSkillCheck1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/hasAwakeningsCheck"
+                    android:layout_alignTop="@+id/hasAwakeningsCheck"
+                    android:layout_toRightOf="@+id/hasLeaderSkill"/>
+
+                <CheckBox
+                    android:id="@+id/hasLeaderSkillCheck2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/hasAwakeningsCheck"
+                    android:layout_alignTop="@+id/hasAwakeningsCheck"
+                    android:layout_toRightOf="@+id/hasLeaderSkillCheck1"/>
+
+                <TextView
+                    android:id="@+id/teamHp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activeUsed"
+                    android:text="HP %"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/teamHpValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activeUsed"
+                    android:layout_alignParentRight="true"
+                    android:text="100"
+                    android:textSize="18dp" />
+
+                <SeekBar
+                    android:id="@+id/teamHpSeekBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/teamHp"
+                    android:layout_alignBottom="@+id/teamHp"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/teamHpValue"
+                    android:layout_toRightOf="@+id/teamHp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 
 </RelativeLayout>
