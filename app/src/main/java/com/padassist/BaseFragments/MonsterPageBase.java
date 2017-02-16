@@ -29,6 +29,7 @@ import com.padassist.Adapters.EvolutionListRecycler;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
 import com.padassist.Data.RealmInt;
+import com.padassist.Data.Team;
 import com.padassist.Fragments.DeleteMonsterConfirmationDialogFragment;
 import com.padassist.Fragments.LatentAwakeningDialogFragment;
 import com.padassist.Fragments.MonsterRemoveDialogFragment;
@@ -89,6 +90,7 @@ public abstract class MonsterPageBase extends Fragment {
     protected EvolutionListRecycler evolutionListRecycler;
     protected ArrayList<BaseMonster> evolutions;
     protected boolean evolutionExpanded = false;
+    protected Team team;
 
     private MyTextWatcher.ChangeStats changeStats = new MyTextWatcher.ChangeStats() {
         @Override
@@ -331,7 +333,8 @@ public abstract class MonsterPageBase extends Fragment {
                 }
                 break;
             case R.id.monsterList:
-                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, monster.getMonsterId(), position), MonsterTabLayoutFragment.TAG, "good");
+                Parcelable teamParcel = Parcels.wrap(team);
+                ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, monster.getMonsterId(), position, teamParcel), MonsterTabLayoutFragment.TAG, "good");
         }
         return super.onOptionsItemSelected(item);
     }
@@ -856,7 +859,8 @@ public abstract class MonsterPageBase extends Fragment {
 
     protected void setMonsterInherit(){
         Parcelable monsterParcel = Parcels.wrap(monster);
-        ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(monsterParcel), MonsterTabLayoutFragment.TAG, "good");
+        Parcelable teamParcel = Parcels.wrap(team);
+        ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(monsterParcel, teamParcel), MonsterTabLayoutFragment.TAG, "good");
     }
 
     protected void setTextViews() {

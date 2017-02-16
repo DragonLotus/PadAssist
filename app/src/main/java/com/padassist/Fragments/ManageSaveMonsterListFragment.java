@@ -46,7 +46,7 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListBase {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
         saveMonsterListRecycler = new SaveMonsterListRecycler(getActivity(), monsterList, monsterListView, monsterListOnClickListener,
-                monsterListOnLongClickListener, deleteOnClickListener, isGrid, clearTextFocus);
+                monsterListOnLongClickListener, deleteOnClickListener, expandOnClickListener, isGrid, clearTextFocus);
         monsterListView.setAdapter(saveMonsterListRecycler);
     }
 
@@ -62,6 +62,15 @@ public class ManageSaveMonsterListFragment extends SaveMonsterListBase {
         }
             monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).greaterThan("monsterId", 0).findAll());
     }
+
+    private View.OnClickListener expandOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            searchView.clearFocus();
+            int position = (int) view.getTag(R.string.index);
+            saveMonsterListRecycler.expandItem(position);
+        }
+    };
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {
         @Override

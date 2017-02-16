@@ -41,6 +41,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected int expandedPosition = -1;
     protected RecyclerView monsterListView;
     protected View.OnClickListener deleteOnClickListener;
+    protected View.OnClickListener expandOnClickListener;
     protected Realm realm = Realm.getDefaultInstance();
     protected boolean isGrid;
     protected int sixteenDp;
@@ -269,7 +270,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         if (monsterList.get(position).getMonsterId() == 0) {
             viewHolderLinear.itemView.setOnClickListener(monsterListOnClickListener);
         } else {
-            viewHolderLinear.itemView.setOnClickListener(expandOnItemClickListener);
+            viewHolderLinear.itemView.setOnClickListener(expandOnClickListener);
         }
         if (position == expandedPosition && monsterList.get(position).getMonsterId() != 0) {
             viewHolderLinear.expandLayout.setVisibility(View.VISIBLE);
@@ -448,7 +449,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         if (monsterList.get(position).getMonsterId() == 0) {
             viewHolderGrid.itemView.setOnClickListener(monsterListOnClickListener);
         } else {
-            viewHolderGrid.itemView.setOnClickListener(expandOnItemClickListener);
+            viewHolderGrid.itemView.setOnClickListener(expandOnClickListener);
         }
 
         if (monsterList.get(position).getMonsterId() == 0) {
@@ -573,7 +574,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         switch (viewType) {
             case GRID:
                 ViewHolderGrid viewHolderGrid = new ViewHolderGrid(inflater.inflate(R.layout.save_monster_list_grid, parent, false));
-                viewHolderGrid.itemView.setTag(viewHolderGrid);
+//                viewHolderGrid.itemView.setTag(viewHolderGrid);
                 viewHolderGrid.itemView.setOnLongClickListener(monsterListOnLongClickListener);
                 viewHolderGrid.favorite.setColorFilter(0xFFFFAADD);
                 return viewHolderGrid;
@@ -592,7 +593,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
                 viewHolderLinear.leaderSkillName.setSelected(true);
                 viewHolderLinear.activeSkillName.setSelected(true);
 
-                viewHolderLinear.itemView.setTag(viewHolderLinear);
+//                viewHolderLinear.itemView.setTag(viewHolderLinear);
                 viewHolderLinear.choose.setOnClickListener(monsterListOnClickListener);
                 viewHolderLinear.delete.setOnClickListener(deleteOnClickListener);
                 viewHolderLinear.itemView.setOnLongClickListener(monsterListOnLongClickListener);
@@ -757,6 +758,23 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         notifyItemChanged(previous);
         if (expandedPosition >= 0) {
             notifyItemChanged(expandedPosition);
+        }
+    }
+
+    public void expandItem(int position){
+        int previous;
+        if (position != expandedPosition) {
+            if (expandedPosition >= 0) {
+                previous = expandedPosition;
+                notifyItemChanged(previous);
+            }
+            expandedPosition = position;
+            notifyItemChanged(expandedPosition);
+            monsterListView.smoothScrollToPosition(expandedPosition);
+        } else {
+            previous = expandedPosition;
+            expandedPosition = -1;
+            notifyItemChanged(previous);
         }
     }
 }

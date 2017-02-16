@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.padassist.Data.Monster;
+import com.padassist.Data.Team;
 import com.padassist.Fragments.MonsterPageFragment;
 import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.MainActivity;
@@ -34,19 +35,19 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
     private Context mContext;
     private LayoutInflater inflater;
     private ArrayList<Integer> latentList;
+    private Team team;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             ViewHolder holder = (ViewHolder) v.getTag();
-//            team.setMonsterOverwrite(holder.getAdapterPosition());
-//            team.save();
+            Parcelable teamParcel = Parcels.wrap(team);
             Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
             if (monsterList.get(holder.getAdapterPosition()).getMonsterId() == 0) {
-                ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
+                ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, 0, holder.getAdapterPosition(), teamParcel), MonsterTabLayoutFragment.TAG, "good");
             } else {
                 Parcelable monsterParcel = Parcels.wrap(monsterList.get(holder.getAdapterPosition()));
-                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition(), monsterParcel), MonsterPageFragment.TAG, "good");
+                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition(), monsterParcel, teamParcel), MonsterPageFragment.TAG, "good");
 
 //                ((MainActivity) mContext).switchFragment(MonsterPageFragment.newInstance(realm.copyFromRealm(monsterList.get(holder.getAdapterPosition())), holder.getAdapterPosition()), MonsterPageFragment.TAG, "good");
             }
@@ -58,21 +59,16 @@ public class MonsterListRecycler extends RecyclerView.Adapter<MonsterListRecycle
         public boolean onLongClick(View v) {
             ViewHolder holder = (ViewHolder) v.getTag();
             Singleton.getInstance().setMonsterOverwrite(holder.getAdapterPosition());
-//            Intent i = new Intent(mContext, MonsterTabLayoutActivity.class);
-//            Bundle bundle = new Bundle();
-//            bundle.putBoolean("replaceAll", false);
-//            bundle.putLong("replaceMonsterId", monsterList.get(holder.getAdapterPosition()).getMonsterId());
-//            bundle.putInt("monsterPosition", holder.getAdapterPosition());
-//            i.putExtras(bundle);
-//            ((Activity)mContext).startActivityForResult(i, 1);
-            ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition()), MonsterTabLayoutFragment.TAG, "good");
+            Parcelable teamParcel = Parcels.wrap(team);
+            ((MainActivity) mContext).switchFragment(MonsterTabLayoutFragment.newInstance(false, monsterList.get(holder.getAdapterPosition()).getMonsterId(), holder.getAdapterPosition(), teamParcel), MonsterTabLayoutFragment.TAG, "good");
             return true;
         }
     };
 
-    public MonsterListRecycler(Context context, RealmList<Monster> monsterList) {
+    public MonsterListRecycler(Context context, RealmList<Monster> monsterList, Team team) {
         mContext = context;
         this.monsterList = monsterList;
+        this.team = team;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

@@ -115,13 +115,6 @@ public class ManageMonsterPageFragment extends MonsterPageBase {
         }
     };
 
-    private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout() {
-        @Override
-        public void resetLayout() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId(), position), MonsterTabLayoutFragment.TAG, "good");
-            replaceConfirmationDialog.dismiss();
-        }
-    };
 
     private DeleteMonsterConfirmationDialogFragment.ResetLayout deleteMonster = new DeleteMonsterConfirmationDialogFragment.ResetLayout() {
         @Override

@@ -16,6 +16,7 @@ import com.padassist.R;
 import com.padassist.BaseFragments.MonsterPageBase;
 import com.padassist.Util.Singleton;
 
+import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -40,11 +41,12 @@ public class MonsterPageFragment extends MonsterPageBase {
     private ReplaceAllConfirmationDialogFragment replaceConfirmationDialog;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
 
-    public static MonsterPageFragment newInstance(long monsterId, int position, Parcelable monsterParcel) {
+    public static MonsterPageFragment newInstance(long monsterId, int position, Parcelable monsterParcel, Parcelable teamParcel) {
         MonsterPageFragment fragment = new MonsterPageFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         args.putParcelable("monsterParcel", monsterParcel);
+        args.putParcelable("teamParcel", teamParcel);
 //        args.putLong("monsterId", monsterId);
 //        args.putParcelable("monster", monster);
         args.putInt("position", position);
@@ -69,6 +71,7 @@ public class MonsterPageFragment extends MonsterPageBase {
 //            monster = getArguments().getParcelable("monster");
             monsterId = getArguments().getLong("monsterId");
             position = getArguments().getInt("position");
+            team = Parcels.unwrap(getArguments().getParcelable("teamParcel"));
         }
         monsterRemove.setOnClickListener(maxButtons);
         switch (position) {
@@ -196,7 +199,8 @@ public class MonsterPageFragment extends MonsterPageBase {
 
         @Override
         public void replaceMonster() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, position), MonsterTabLayoutFragment.TAG, "good");
+            Parcelable teamParcel = Parcels.wrap(team);
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(false, 1, position, teamParcel), MonsterTabLayoutFragment.TAG, "good");
             monsterRemoveDialogFragment.dismiss();
         }
 
@@ -215,7 +219,8 @@ public class MonsterPageFragment extends MonsterPageBase {
     private ReplaceAllConfirmationDialogFragment.ResetLayout replaceAllMonster = new ReplaceAllConfirmationDialogFragment.ResetLayout() {
         @Override
         public void resetLayout() {
-            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId(), position), MonsterTabLayoutFragment.TAG, "good");
+            Parcelable teamParcel = Parcels.wrap(team);
+            ((MainActivity) getActivity()).switchFragment(MonsterTabLayoutFragment.newInstance(true, monster.getMonsterId(), position, teamParcel), MonsterTabLayoutFragment.TAG, "good");
             replaceConfirmationDialog.dismiss();
         }
     };

@@ -327,7 +327,7 @@ public class AwakeningGridAdapter extends BaseAdapter {
                         }
                         break;
                     case 9:
-                        text = "Auto-Heal " + String.format("%d", (long) (counter * 500)) + " HP";
+                        text = "Auto-Heal " + String.format("%d", (long) (counter * 800)) + " HP";
                         break;
                     case 10:
                         text = String.format("%d", (long) (counter * 50)) + "% chance to resist binds";

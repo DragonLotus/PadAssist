@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.padassist.Adapters.AwakeningGridFilterAdapter;
 import com.padassist.Adapters.LatentGridAdapter;
 import com.padassist.Adapters.TypeGridAdapter;
+import com.padassist.Constants;
 import com.padassist.Data.Element;
 import com.padassist.Graphics.ExpandableHeightGridView;
 import com.padassist.R;
@@ -105,7 +106,7 @@ public class FilterDialogFragment extends DialogFragment {
         typeGrid.setExpanded(true);
         typeGridAdapter.notifyEnable(true);
         awakeningsList = new ArrayList<>();
-        for (int i = 1; i < 45; i++) {
+        for (int i = 1; i <= Constants.numOfAwakenings; i++) {
             awakeningsList.add(i);
         }
         awakeningsGridAdapter = new AwakeningGridFilterAdapter(getActivity(), awakeningsList, Singleton.getInstance().getFilterAwakenings());

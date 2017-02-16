@@ -16,6 +16,7 @@ import com.padassist.Graphics.FastScroller;
 import com.padassist.MainActivity;
 import com.padassist.R;
 import com.padassist.BaseFragments.SaveMonsterListBase;
+import com.padassist.Util.ScoreMonsterUtil;
 
 import org.parceler.Parcels;
 
@@ -35,24 +36,27 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
     private long replaceMonsterId;
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
     private int monsterPosition;
+    private ArrayList<Integer> teamAwakeningsSansReplace;
 
     private FastScroller fastScroller;
 
-    public static SaveMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId, int monsterPosition) {
+    public static SaveMonsterListFragment newInstance(boolean replaceAll, long replaceMonsterId, int monsterPosition, Parcelable team) {
         SaveMonsterListFragment fragment = new SaveMonsterListFragment();
         Bundle args = new Bundle();
         args.putBoolean("replaceAll", replaceAll);
         args.putLong("replaceMonsterId", replaceMonsterId);
         args.putInt("monsterPosition", monsterPosition);
+        args.putParcelable("team", team);
         args.putInt("selection", SUB);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static SaveMonsterListFragment newInstance(Parcelable monster){
+    public static SaveMonsterListFragment newInstance(Parcelable monster, Parcelable team) {
         SaveMonsterListFragment fragment = new SaveMonsterListFragment();
         Bundle args = new Bundle();
         args.putParcelable("monster", monster);
+        args.putParcelable("team", team);
         args.putInt("selection", MonsterTabLayoutFragment.INHERIT);
         fragment.setArguments(args);
         return fragment;
@@ -71,12 +75,12 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
             monsterListView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
         }
 
-        if(selection == SUB){
+        if (selection == SUB) {
             saveMonsterListRecycler = new SaveMonsterListRecycler(getContext(), monsterList, monsterListView, monsterListOnClickListener,
-                    monsterListOnLongClickListener, deleteOnClickListener, isGrid, clearTextFocus);
-        } else if (selection == INHERIT){
+                    monsterListOnLongClickListener, deleteOnClickListener, expandOnClickListener, isGrid, clearTextFocus);
+        } else if (selection == INHERIT) {
             saveMonsterListRecycler = new SaveMonsterListRecycler(getContext(), monsterList, monsterListView, inheritOnClickListener,
-                    inheritOnLongClickListener, deleteOnClickListener, isGrid, clearTextFocus);
+                    inheritOnLongClickListener, deleteOnClickListener, expandOnClickListener, isGrid, clearTextFocus);
         }
 
         monsterListView.setAdapter(saveMonsterListRecycler);
@@ -88,19 +92,31 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
         if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }
+        if (teamAwakeningsSansReplace == null){
+            teamAwakeningsSansReplace = new ArrayList<>();
+        }
         if (getArguments() != null) {
             selection = getArguments().getInt("selection");
-            if(selection == SUB){
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
+            if (selection == SUB) {
                 replaceAll = getArguments().getBoolean("replaceAll");
                 replaceMonsterId = getArguments().getLong("replaceMonsterId");
                 monsterPosition = getArguments().getInt("monsterPosition");
-            } else if(selection == MonsterTabLayoutFragment.INHERIT){
+            } else if (selection == MonsterTabLayoutFragment.INHERIT) {
                 monster = Parcels.unwrap(getArguments().getParcelable("monster"));
             }
         }
 
         monsterListAll.clear();
-        if(selection == SUB){
+        if (selection == SUB) {
+            teamAwakeningsSansReplace.clear();
+            for(int i = 0; i < team.getMonsters().size(); i++){
+                if(team.getMonsters().get(i).getMonsterId() != replaceMonsterId){
+                    for (int j = 0; j < team.getMonsters().get(i).getCurrentAwakenings();i++){
+                        teamAwakeningsSansReplace.add(team.getMonsters().get(i).getAwokenSkills(j));
+                    }
+                }
+            }
             if (monsterPosition == 5) {
                 helper = true;
                 monsterListAll.add(0, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
@@ -108,12 +124,24 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
                 helper = false;
             }
             monsterListAll.addAll(realm.where(Monster.class).equalTo("helper", helper).findAll());
-        } else if(selection == MonsterTabLayoutFragment.INHERIT){
+        } else if (selection == MonsterTabLayoutFragment.INHERIT) {
             monsterListAll.addAll(realm.where(Monster.class).equalTo("baseMonster.inheritable", true).equalTo("helper", false).notEqualTo("monsterId", monster.getMonsterId()).findAll());
             monsterListAll.add(0, realm.where(Monster.class).equalTo("monsterId", 0).findFirst());
         }
 
     }
+
+    private View.OnClickListener expandOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            searchView.clearFocus();
+            int position = (int) view.getTag(R.string.index);
+            if (selection == SUB && monsterPosition != 0 && monsterPosition != 5) {
+                Log.d("SaveMonsterListFrag","Monster score is: " + ScoreMonsterUtil.scoreMonster(team, teamAwakeningsSansReplace, saveMonsterListRecycler.getItem(position)));
+            }
+            saveMonsterListRecycler.expandItem(position);
+        }
+    };
 
     private View.OnClickListener inheritOnClickListener = new View.OnClickListener() {
         @Override
@@ -134,7 +162,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
         }
     };
 
-    private void inheritMonster(Monster monster, Monster inheritMonster){
+    private void inheritMonster(Monster monster, Monster inheritMonster) {
         monster.setMonsterInherit(realm.copyFromRealm(inheritMonster));
     }
 
@@ -189,7 +217,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
                     realm.commitTransaction();
                 }
 
-                for(int i = 0; i < newTeam.getMonsters().size(); i++){
+                for (int i = 0; i < newTeam.getMonsters().size(); i++) {
                     Log.d("SaveMonsterListFragment", "monster " + i + " is : " + newTeam.getMonsters().get(i));
                 }
 
@@ -203,7 +231,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
     private View.OnLongClickListener monsterListOnLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            int position =  ((RecyclerView.ViewHolder)v.getTag()).getAdapterPosition();
+            int position = ((RecyclerView.ViewHolder) v.getTag()).getAdapterPosition();
             Team newTeam = realm.where(Team.class).equalTo("teamId", 0).findFirst();
             if (saveMonsterListRecycler.getItem(position).getMonsterId() == 0 && monsterPosition == 0) {
                 if (toast != null) {

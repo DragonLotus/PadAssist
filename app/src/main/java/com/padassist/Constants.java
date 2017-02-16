@@ -11,4 +11,5 @@ public class Constants {
     public static String VERSION = "VERSION";
     public static String KEY_INITIALIZED = "INITIALIZED";
     public static int numOfSavedMonsters = Realm.getDefaultInstance().where(Monster.class).findAll().size();
+    public static int numOfAwakenings = 44;
 }

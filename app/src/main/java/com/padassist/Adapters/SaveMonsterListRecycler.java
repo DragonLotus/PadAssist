@@ -19,7 +19,8 @@ public class SaveMonsterListRecycler extends SaveMonsterListRecyclerBase {
     public SaveMonsterListRecycler(Context context, ArrayList<Monster> monsterList,
                                    RecyclerView monsterListView, View.OnClickListener monsterListOnClickListener,
                                    View.OnLongClickListener monsterListOnLongClickListener,
-                                   View.OnClickListener deleteOnClickListener, boolean isGrid,
+                                   View.OnClickListener deleteOnClickListener,
+                                   View.OnClickListener expandOnClickListener, boolean isGrid,
                                    ClearTextFocus clearTextFocus){
         mContext = context;
         this.monsterList = monsterList;
@@ -27,6 +28,7 @@ public class SaveMonsterListRecycler extends SaveMonsterListRecyclerBase {
         this.monsterListOnLongClickListener = monsterListOnLongClickListener;
         this.monsterListView = monsterListView;
         this.deleteOnClickListener = deleteOnClickListener;
+        this.expandOnClickListener = expandOnClickListener;
         this.isGrid = isGrid;
         this.clearTextFocus = clearTextFocus;
 

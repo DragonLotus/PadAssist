@@ -8,10 +8,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.padassist.Data.Monster;
+import com.padassist.Data.Team;
 import com.padassist.Fragments.BaseMonsterListFragment;
 import com.padassist.Fragments.SaveMonsterListFragment;
 import com.padassist.Util.Singleton;
 
+import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -27,15 +29,17 @@ public class MonsterPagerAdapter extends FragmentPagerAdapter {
 //    private Fragment baseMonsterListFragment = BaseMonsterListFragment.newInstance();
 //    private Fragment saveMonsterListFragment = SaveMonsterListFragment.newInstance();
 
-    public MonsterPagerAdapter(FragmentManager fragmentManager, boolean replaceAll, long replaceMonsterId, int monsterPosition){
+    public MonsterPagerAdapter(FragmentManager fragmentManager, boolean replaceAll, long replaceMonsterId, int monsterPosition, Team team){
         super(fragmentManager);
-        fragmentList.add(SaveMonsterListFragment.newInstance(replaceAll, replaceMonsterId, monsterPosition));
+        Parcelable teamParcel = Parcels.wrap(team);
+        fragmentList.add(SaveMonsterListFragment.newInstance(replaceAll, replaceMonsterId, monsterPosition, teamParcel));
         fragmentList.add(BaseMonsterListFragment.newInstance(replaceAll, replaceMonsterId, monsterPosition));
     }
-    public MonsterPagerAdapter(FragmentManager fragmentManager, Monster monster){
+    public MonsterPagerAdapter(FragmentManager fragmentManager, Monster monster, Team team){
         super(fragmentManager);
         Parcelable monsterParcel = Parcels.wrap(monster);
-        fragmentList.add(SaveMonsterListFragment.newInstance(monsterParcel));
+        Parcelable teamParcel = Parcels.wrap(team);
+        fragmentList.add(SaveMonsterListFragment.newInstance(monsterParcel, teamParcel));
         fragmentList.add(BaseMonsterListFragment.newInstance(monsterParcel));
     }
 

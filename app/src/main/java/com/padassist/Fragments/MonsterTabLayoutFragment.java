@@ -11,6 +11,7 @@ import android.util.Log;
 import com.padassist.Adapters.MonsterPagerAdapter;
 import com.padassist.Data.Monster;
 import com.padassist.BaseFragments.TabLayoutBase;
+import com.padassist.Data.Team;
 
 import org.parceler.Parcels;
 
@@ -31,23 +32,26 @@ public class MonsterTabLayoutFragment extends TabLayoutBase {
     private MonsterPagerAdapter monsterPagerAdapter;
     private int selection;
     private Monster monster;
+    private Team team;
 
     // TODO: Rename and change types and number of parameters
-    public static MonsterTabLayoutFragment newInstance(boolean replaceAll, long replaceMonsterId, int monsterPosition) {
+    public static MonsterTabLayoutFragment newInstance(boolean replaceAll, long replaceMonsterId, int monsterPosition, Parcelable team) {
         MonsterTabLayoutFragment fragment = new MonsterTabLayoutFragment();
         Bundle args = new Bundle();
         args.putBoolean("replaceAll", replaceAll);
         args.putLong("replaceMonsterId", replaceMonsterId);
         args.putInt("monsterPosition", monsterPosition);
+        args.putParcelable("team", team);
         args.putInt("selection", SUB);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static MonsterTabLayoutFragment newInstance(Parcelable monster) {
+    public static MonsterTabLayoutFragment newInstance(Parcelable monster, Parcelable team) {
         MonsterTabLayoutFragment fragment = new MonsterTabLayoutFragment();
         Bundle args = new Bundle();
         args.putParcelable("monster", monster);
+        args.putParcelable("team", team);
         args.putInt("selection", INHERIT);
         fragment.setArguments(args);
         return fragment;
@@ -67,6 +71,7 @@ public class MonsterTabLayoutFragment extends TabLayoutBase {
         super.onActivityCreated(savedInstanceState);
         if (getArguments() != null) {
             selection = getArguments().getInt("selection");
+            team = Parcels.unwrap(getArguments().getParcelable("team"));
             if (selection == SUB) {
                 replaceAll = getArguments().getBoolean("replaceAll");
                 replaceMonsterId = getArguments().getLong("replaceMonsterId");
@@ -76,7 +81,7 @@ public class MonsterTabLayoutFragment extends TabLayoutBase {
             }
         }
         if (selection == SUB) {
-            monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), replaceAll, replaceMonsterId, monsterPosition);
+            monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), replaceAll, replaceMonsterId, monsterPosition, team);
             switch (monsterPosition) {
                 case 0:
                     getActivity().setTitle("Replace Leader");
@@ -97,7 +102,7 @@ public class MonsterTabLayoutFragment extends TabLayoutBase {
                     getActivity().setTitle("Replace Helper");
             }
         } else if (selection == INHERIT) {
-            monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), monster);
+            monsterPagerAdapter = new MonsterPagerAdapter(getChildFragmentManager(), monster, team);
             getActivity().setTitle("Select Inherit");
         }
         viewPager.setAdapter(monsterPagerAdapter);

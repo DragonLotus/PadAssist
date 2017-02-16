@@ -323,7 +323,7 @@ public class MonsterListFragment extends Fragment {
         teamName.setSelected(true);
         teamName.setHorizontallyScrolling(true);
 
-        monsterListRecycler = new MonsterListRecycler(getActivity(), monsters);
+        monsterListRecycler = new MonsterListRecycler(getActivity(), monsters, team);
         monsterListView.setAdapter(monsterListRecycler);
         monsterListView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        importButton.setOnClickListener(importButtonOnClickListener);

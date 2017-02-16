@@ -47,6 +47,7 @@ import com.padassist.Comparators.MonsterType1Comparator;
 import com.padassist.Comparators.MonsterType2Comparator;
 import com.padassist.Comparators.MonsterType3Comparator;
 import com.padassist.Data.Monster;
+import com.padassist.Data.Team;
 import com.padassist.Fragments.FilterDialogFragment;
 import com.padassist.Fragments.MonsterTabLayoutFragment;
 import com.padassist.Fragments.SortElementDialogFragment;
@@ -108,6 +109,7 @@ public abstract class SaveMonsterListBase extends Fragment {
     private Monster monsterZero;
     protected int selection;
     protected Monster monster;
+    protected Team team;
     protected JustAnotherBroadcastReceiver broadcastReceiver;
 
     protected SharedPreferences preferences;
