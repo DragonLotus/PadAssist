@@ -481,10 +481,8 @@ public class MonsterListFragment extends Fragment {
     private void clearTeamMethod(){
         Log.d("MonsterListFragment", "monster0 is: " + monster0);
         realm.beginTransaction();
-        for (int i = 0; i < 6; i++) {
-            team.setMonsters(i, monster0);
-        }
-        monsterListRecycler.updateList(monsters);
+        team.initializeMonsters(monster0);
+        monsterListRecycler.notifyDataSetChanged();
         team.setTeamName("Untitled Team");
         team.setTeamIdOverwrite(0);
         team.setFavorite(false);

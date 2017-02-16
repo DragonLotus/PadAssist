@@ -376,6 +376,7 @@ public class TeamDamageListFragment extends Fragment {
         totalDamage = 0;
         monsterElement1Damage.clear();
         monsterElement2Damage.clear();
+        Log.d("TeamDamageListFrag", "Enemy element is: " + enemy.getCurrentElement());
         monsterElement1DamageEnemy.clear();
         monsterElement2DamageEnemy.clear();
         monsterElement1DamageEffective.clear();
@@ -475,11 +476,12 @@ public class TeamDamageListFragment extends Fragment {
             if ((double) enemy.getCurrentHp() / (double) enemy.getTargetHp() > .5) {
                 enemy.setCurrentElement(enemy.getTargetElement().get(0));
             } else {
-                if (enemy.getTargetElement().get(0).getValue() > -1) {
+                if (enemy.getTargetElement().get(1).getValue() > -1) {
                     enemy.setCurrentElement(enemy.getTargetElement().get(1));
                 }
             }
             realm.commitTransaction();
+            Log.d("TeamDamageListFrag", "Enemy after element is: " + enemy.getCurrentElement());
         }
     }
 
@@ -665,6 +667,10 @@ public class TeamDamageListFragment extends Fragment {
                     damageThresholdValue.setText("0");
                     enemy.setDamageThreshold(0);
                 }
+                if(v.equals(additionalComboValue)){
+                    calculateDamage();
+                    updateTextView();
+                }
             }
         }
     };
@@ -686,8 +692,8 @@ public class TeamDamageListFragment extends Fragment {
         @Override
         public void update() {
             hasEnemy = Singleton.getInstance().hasEnemy();
-            Log.d("TeamDamageListFrag", "hasEnemy is: " + hasEnemy);
-            onSelect();
+            calculateDamage();
+            updateTextView();
             monsterListAdapter.setHasEnemy(hasEnemy);
             monsterListAdapter.notifyDataSetChanged();
         }
@@ -735,7 +741,7 @@ public class TeamDamageListFragment extends Fragment {
         } else {
             reductionValue.setEnabled(false);
             reductionCheck.setChecked(false);
-            clearReduction();
+//            clearReduction();
         }
     }
 
@@ -794,7 +800,7 @@ public class TeamDamageListFragment extends Fragment {
 
         } else {
             absorbCheck.setChecked(false);
-            clearAbsorb();
+//            clearAbsorb();
         }
     }
 

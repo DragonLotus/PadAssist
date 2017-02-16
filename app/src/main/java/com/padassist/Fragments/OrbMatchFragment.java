@@ -961,6 +961,7 @@ public class OrbMatchFragment extends Fragment {
 
     public void onDeselect(){
         Log.d("OrbMatchFrag", "onDeselect");
+        Singleton.getInstance().setAdditionalCombos(additionalCombos);
 //        team.getOrbMatches().clear();
 //        team.getOrbMatches().addAll(orbMatchList);
         orbMatchList = realm.where(OrbMatch.class).findAllSorted("matchId");

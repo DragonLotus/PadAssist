@@ -132,6 +132,7 @@ public abstract class MonsterPageBase extends Fragment {
                     statValue = 1;
                 }
                 if(monster.getMonsterInherit() != null){
+                    monster.getMonsterInherit().setCurrentAwakenings(monster.getMonsterInherit().getMaxAwakenings());
                     monster.getMonsterInherit().setCurrentLevel(statValue);
                     monster.getMonsterInherit().setCurrentHp(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getHpMin(), monster.getMonsterInherit().getHpMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getHpScale()));
                     monster.getMonsterInherit().setCurrentAtk(DamageCalculationUtil.monsterStatCalc(monster.getMonsterInherit().getAtkMin(), monster.getMonsterInherit().getAtkMax(), monster.getMonsterInherit().getCurrentLevel(), monster.getMonsterInherit().getMaxLevel(), monster.getMonsterInherit().getAtkScale()));

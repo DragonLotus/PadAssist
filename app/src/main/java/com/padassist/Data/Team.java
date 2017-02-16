@@ -201,6 +201,7 @@ public class Team extends RealmObject {
         }
         return monsters;
     }
+
     @ParcelPropertyConverter(RealmMonsterListParcelConverter.class)
     public void setMonsters(RealmList<Monster> monsters) {
         this.monsters = monsters;
@@ -299,6 +300,7 @@ public class Team extends RealmObject {
         if(monsters ==  null){
             monsters = new RealmList<>();
         }
+        monsters.clear();
         monsters.add(monster);
         monsters.add(monster);
         monsters.add(monster);

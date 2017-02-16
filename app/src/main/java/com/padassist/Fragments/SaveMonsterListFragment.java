@@ -135,7 +135,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
     };
 
     private void inheritMonster(Monster monster, Monster inheritMonster){
-        monster.setMonsterInherit(inheritMonster);
+        monster.setMonsterInherit(realm.copyFromRealm(inheritMonster));
     }
 
     private View.OnClickListener monsterListOnClickListener = new View.OnClickListener() {

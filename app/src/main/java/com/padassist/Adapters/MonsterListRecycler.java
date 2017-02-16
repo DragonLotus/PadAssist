@@ -3,6 +3,7 @@ package com.padassist.Adapters;
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
