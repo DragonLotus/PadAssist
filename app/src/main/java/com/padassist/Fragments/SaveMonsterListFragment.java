@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.padassist.Adapters.SaveMonsterListRecycler;
+import com.padassist.Constants;
 import com.padassist.Data.Monster;
 import com.padassist.Data.Team;
 import com.padassist.Graphics.FastScroller;
@@ -21,6 +22,8 @@ import com.padassist.Util.ScoreMonsterUtil;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -37,6 +40,8 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
     private DeleteMonsterConfirmationDialogFragment deleteConfirmationDialog;
     private int monsterPosition;
     private ArrayList<Integer> teamAwakeningsSansReplace;
+    private ArrayList<Integer> awakeningCount = new ArrayList<>(Constants.numOfAwakenings);
+    private ArrayList<Double> elementDamage = new ArrayList<>(5);
 
     private FastScroller fastScroller;
 
@@ -92,7 +97,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
         if (monsterListAll == null) {
             monsterListAll = new ArrayList<>();
         }
-        if (teamAwakeningsSansReplace == null){
+        if (teamAwakeningsSansReplace == null) {
             teamAwakeningsSansReplace = new ArrayList<>();
         }
         if (getArguments() != null) {
@@ -110,11 +115,99 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
         monsterListAll.clear();
         if (selection == SUB) {
             teamAwakeningsSansReplace.clear();
-            for(int i = 0; i < team.getMonsters().size(); i++){
-                if(team.getMonsters().get(i).getMonsterId() != replaceMonsterId){
-                    for (int j = 0; j < team.getMonsters().get(i).getCurrentAwakenings();i++){
+            double totalDamage = 0;
+            for (int i = 0; i < team.getMonsters().size(); i++) {
+                if (team.getMonsters().get(i).getMonsterId() != replaceMonsterId) {
+                    for (int j = 0; j < team.getMonsters().get(i).getCurrentAwakenings(); i++) {
                         teamAwakeningsSansReplace.add(team.getMonsters().get(i).getAwokenSkills(j));
                     }
+                    switch (team.getMonsters().get(i).getElement1Int()) {
+                        case 0:
+                            elementDamage.set(0, elementDamage.get(0) + team.getMonsters().get(i).getTotalAtk());
+                            totalDamage += team.getMonsters().get(i).getTotalAtk();
+                            break;
+                        case 1:
+                            elementDamage.set(1, elementDamage.get(1) + team.getMonsters().get(i).getTotalAtk());
+                            totalDamage += team.getMonsters().get(i).getTotalAtk();
+                            break;
+                        case 2:
+                            elementDamage.set(2, elementDamage.get(2) + team.getMonsters().get(i).getTotalAtk());
+                            totalDamage += team.getMonsters().get(i).getTotalAtk();
+                            break;
+                        case 3:
+                            elementDamage.set(2, elementDamage.get(3) + team.getMonsters().get(i).getTotalAtk());
+                            totalDamage += team.getMonsters().get(i).getTotalAtk();
+                            break;
+                        case 4:
+                            elementDamage.set(4, elementDamage.get(4) + team.getMonsters().get(i).getTotalAtk());
+                            totalDamage += team.getMonsters().get(i).getTotalAtk();
+                            break;
+                    }
+                    if(team.getMonsters().get(i).getElement1Int() == team.getMonsters().get(i).getElement2Int()){
+                        switch (team.getMonsters().get(i).getElement2Int()) {
+                            case 0:
+                                elementDamage.set(0, elementDamage.get(0) + (double)team.getMonsters().get(i).getTotalAtk() / 10);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                                break;
+                            case 1:
+                                elementDamage.set(1, elementDamage.get(1) + (double)team.getMonsters().get(i).getTotalAtk() / 10);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                                break;
+                            case 2:
+                                elementDamage.set(2, elementDamage.get(2) + (double)team.getMonsters().get(i).getTotalAtk() / 10);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                                break;
+                            case 3:
+                                elementDamage.set(2, elementDamage.get(3) + (double)team.getMonsters().get(i).getTotalAtk() / 10);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                                break;
+                            case 4:
+                                elementDamage.set(4, elementDamage.get(4) + (double)team.getMonsters().get(i).getTotalAtk() / 10);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                                break;
+                        }
+                    } else {
+                        switch (team.getMonsters().get(i).getElement2Int()) {
+                            case 0:
+                                elementDamage.set(0, elementDamage.get(0) + (double)team.getMonsters().get(i).getTotalAtk() / 3);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                                break;
+                            case 1:
+                                elementDamage.set(1, elementDamage.get(1) + (double)team.getMonsters().get(i).getTotalAtk() / 3);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                                break;
+                            case 2:
+                                elementDamage.set(2, elementDamage.get(2) + (double)team.getMonsters().get(i).getTotalAtk() / 3);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                                break;
+                            case 3:
+                                elementDamage.set(2, elementDamage.get(3) + (double)team.getMonsters().get(i).getTotalAtk() / 3);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                                break;
+                            case 4:
+                                elementDamage.set(4, elementDamage.get(4) + (double)team.getMonsters().get(i).getTotalAtk() / 3);
+                                totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                                break;
+                        }
+                    }
+
+                }
+            }
+            for(int i = 0; i < elementDamage.size(); i++){
+                elementDamage.set(i, elementDamage.get(i) / totalDamage);
+            }
+
+            Collections.sort(teamAwakeningsSansReplace);
+            int counter = 0;
+            for (int i = 0; i < teamAwakeningsSansReplace.size(); i++) {
+                if (!teamAwakeningsSansReplace.get(i).equals(teamAwakeningsSansReplace.get(i - 1))) {
+                    awakeningCount.set(teamAwakeningsSansReplace.get(i - 1) - 1, counter);
+                    counter = 1;
+                } else {
+                    counter++;
+                }
+                if (i == teamAwakeningsSansReplace.size() - 1) {
+                    awakeningCount.set(teamAwakeningsSansReplace.get(i) - 1, counter);
                 }
             }
             if (monsterPosition == 5) {
@@ -137,7 +230,7 @@ public class SaveMonsterListFragment extends SaveMonsterListBase {
             searchView.clearFocus();
             int position = (int) view.getTag(R.string.index);
             if (selection == SUB && monsterPosition != 0 && monsterPosition != 5) {
-                Log.d("SaveMonsterListFrag","Monster score is: " + ScoreMonsterUtil.scoreMonster(team, teamAwakeningsSansReplace, saveMonsterListRecycler.getItem(position)));
+                Log.d("SaveMonsterListFrag", "Monster score is: " + ScoreMonsterUtil.scoreMonster(team, awakeningCount, elementDamage, saveMonsterListRecycler.getItem(position)));
             }
             saveMonsterListRecycler.expandItem(position);
         }
