@@ -3,6 +3,7 @@ package com.padassist.BaseFragments;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,26 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padassist.Constants;
 import com.padassist.Data.BaseMonster;
 import com.padassist.Data.Monster;
+import com.padassist.Data.Team;
 import com.padassist.Graphics.TextStroke;
 import com.padassist.Graphics.TooltipSameSkill;
 import com.padassist.R;
 import com.padassist.Util.ImageResourceUtil;
+import com.padassist.Util.ScoreMonsterUtil;
 
+import org.parceler.Parcel;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+
+import static com.padassist.Fragments.MonsterTabLayoutFragment.SUB;
 
 /**
  * Created by DragonLotus on 11/4/2015.
@@ -50,6 +60,17 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
     protected int eightDp;
     protected ClearTextFocus clearTextFocus;
     protected TooltipSameSkill tooltipSameSkill;
+    protected boolean isManageMonsters;
+    protected boolean isInherit;
+    protected int monsterPosition;
+    protected Team team;
+    private ArrayList<Integer> teamAwakeningsSansReplace;
+    private ArrayList<Integer> awakeningCount;
+    private ArrayList<Double> elementDamage;
+    private ArrayList<Double> elementDamageReplace;
+    private double totalDamage;
+    private double totalDamageReplace;
+    private DecimalFormat df = new DecimalFormat("#.##");
 
     public interface ClearTextFocus {
         void doThis();
@@ -84,13 +105,13 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         public void onClick(View v) {
             RelativeLayout layout = (RelativeLayout) v.getTag();
             Monster monster = monsterList.get(expandedPosition);
-            if(v.getId() == R.id.skill1Holder){
+            if (v.getId() == R.id.skill1Holder) {
                 if (!monster.getActiveSkillString().equals("Blank")) {
                     RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getActiveSkillString()).findAllSorted("monsterId");
                     tooltipSameSkill = new TooltipSameSkill(mContext, "Monsters with the same skill:", results);
                     tooltipSameSkill.show(layout.getChildAt(1));
                 }
-            } else if (v.getId() == R.id.skill2Holder){
+            } else if (v.getId() == R.id.skill2Holder) {
                 if (!monster.getMonsterInherit().getActiveSkillString().equals("Blank")) {
                     RealmResults<BaseMonster> results = realm.where(BaseMonster.class).equalTo("activeSkillString", monster.getMonsterInherit().getActiveSkillString()).findAllSorted("monsterId");
                     tooltipSameSkill = new TooltipSameSkill(mContext, "Monsters with the same skill:", results);
@@ -439,6 +460,97 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         ViewHolderGrid viewHolderGrid = (ViewHolderGrid) viewHolder;
         viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.background));
 
+        Log.d("SaveMonsterListRec", "monster is: " + monsterList.get(position));
+        if (isManageMonsters) {
+            viewHolderGrid.monsterScore.setVisibility(View.GONE);
+        } else if (position != 0 && monsterPosition != 0 && monsterPosition != 5) {
+
+            elementDamageReplace.clear();
+            elementDamageReplace.addAll(elementDamage);
+            totalDamageReplace = totalDamage;
+
+            switch (monsterList.get(position).getElement1Int()) {
+                case 0:
+                    elementDamageReplace.set(0, elementDamageReplace.get(0) + monsterList.get(position).getTotalAtk());
+                    totalDamageReplace += monsterList.get(position).getTotalAtk();
+                    break;
+                case 1:
+                    elementDamageReplace.set(1, elementDamageReplace.get(1) + monsterList.get(position).getTotalAtk());
+                    totalDamageReplace += monsterList.get(position).getTotalAtk();
+                    break;
+                case 2:
+                    elementDamageReplace.set(2, elementDamageReplace.get(2) + monsterList.get(position).getTotalAtk());
+                    totalDamageReplace += monsterList.get(position).getTotalAtk();
+                    break;
+                case 3:
+                    elementDamageReplace.set(3, elementDamageReplace.get(3) + monsterList.get(position).getTotalAtk());
+                    totalDamageReplace += monsterList.get(position).getTotalAtk();
+                    break;
+                case 4:
+                    elementDamageReplace.set(4, elementDamageReplace.get(4) + monsterList.get(position).getTotalAtk());
+                    totalDamageReplace += monsterList.get(position).getTotalAtk();
+                    break;
+            }
+            if (monsterList.get(position).getElement1Int() == monsterList.get(position).getElement2Int()) {
+                switch (monsterList.get(position).getElement2Int()) {
+                    case 0:
+                        elementDamageReplace.set(0, elementDamageReplace.get(0) + (double) monsterList.get(position).getTotalAtk() / 10);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 10;
+                        break;
+                    case 1:
+                        elementDamageReplace.set(1, elementDamageReplace.get(1) + (double) monsterList.get(position).getTotalAtk() / 10);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 10;
+                        break;
+                    case 2:
+                        elementDamageReplace.set(2, elementDamageReplace.get(2) + (double) monsterList.get(position).getTotalAtk() / 10);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 10;
+                        break;
+                    case 3:
+                        elementDamageReplace.set(3, elementDamageReplace.get(3) + (double) monsterList.get(position).getTotalAtk() / 10);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 10;
+                        break;
+                    case 4:
+                        elementDamageReplace.set(4, elementDamageReplace.get(4) + (double) monsterList.get(position).getTotalAtk() / 10);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 10;
+                        break;
+                }
+            } else {
+                switch (monsterList.get(position).getElement2Int()) {
+                    case 0:
+                        elementDamageReplace.set(0, elementDamageReplace.get(0) + (double) monsterList.get(position).getTotalAtk() / 3);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 3;
+                        break;
+                    case 1:
+                        elementDamageReplace.set(1, elementDamageReplace.get(1) + (double) monsterList.get(position).getTotalAtk() / 3);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 3;
+                        break;
+                    case 2:
+                        elementDamageReplace.set(2, elementDamageReplace.get(2) + (double) monsterList.get(position).getTotalAtk() / 3);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 3;
+                        break;
+                    case 3:
+                        elementDamageReplace.set(2, elementDamageReplace.get(3) + (double) monsterList.get(position).getTotalAtk() / 3);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 3;
+                        break;
+                    case 4:
+                        elementDamageReplace.set(4, elementDamageReplace.get(4) + (double) monsterList.get(position).getTotalAtk() / 3);
+                        totalDamageReplace += monsterList.get(position).getTotalAtk() / 3;
+                        break;
+                }
+            }
+
+            for (int i = 0; i < elementDamageReplace.size(); i++) {
+                elementDamageReplace.set(i, elementDamageReplace.get(i) / totalDamageReplace);
+            }
+
+            Log.d("SaveMonsterListRec", "Team awakenings are: " + teamAwakeningsSansReplace);
+            Log.d("SaveMonsterListRec", "Awakening count is: " + awakeningCount);
+            Log.d("SaveMonsterListRec", "elementDamage is: " + elementDamageReplace);
+
+            viewHolderGrid.monsterScore.setVisibility(View.VISIBLE);
+            viewHolderGrid.monsterScore.setText("" + df.format(ScoreMonsterUtil.scoreMonster(team, awakeningCount, elementDamageReplace, monsterList.get(position))));
+        }
+
         if (monsterList.get(position).getMonsterInherit() != null && monsterList.get(position).getMonsterInherit().getMonsterId() != 0) {
             viewHolderGrid.monsterPicture.setBackgroundResource(R.drawable.portrait_stroke_small);
         } else {
@@ -706,7 +818,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
 
     static class ViewHolderGrid extends RecyclerView.ViewHolder {
         TextView monsterPlus;
-        TextStroke monsterAwakenings, monsterLatents;
+        TextStroke monsterAwakenings, monsterLatents, monsterScore;
         ImageView monsterPicture, favorite, favoriteOutline;
 
         public ViewHolderGrid(View convertView) {
@@ -714,6 +826,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             monsterPlus = (TextView) convertView.findViewById(R.id.monsterPlus);
             monsterAwakenings = (TextStroke) convertView.findViewById(R.id.monsterAwakenings);
             monsterLatents = (TextStroke) convertView.findViewById(R.id.monsterLatents);
+            monsterScore = (TextStroke) convertView.findViewById(R.id.monsterScore);
             monsterPicture = (ImageView) convertView.findViewById(R.id.monsterPicture);
             favorite = (ImageView) convertView.findViewById(R.id.favorite);
             favoriteOutline = (ImageView) convertView.findViewById(R.id.favoriteOutline);
@@ -761,7 +874,7 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
         }
     }
 
-    public void expandItem(int position){
+    public void expandItem(int position) {
         int previous;
         if (position != expandedPosition) {
             if (expandedPosition >= 0) {
@@ -775,6 +888,119 @@ public abstract class SaveMonsterListRecyclerBase extends RecyclerView.Adapter<R
             previous = expandedPosition;
             expandedPosition = -1;
             notifyItemChanged(previous);
+        }
+    }
+
+    protected void setUpTeam(Team team) {
+        if (teamAwakeningsSansReplace == null) {
+            teamAwakeningsSansReplace = new ArrayList<>();
+        }
+        awakeningCount = new ArrayList<>();
+        elementDamage = new ArrayList<>();
+        elementDamageReplace = new ArrayList<>();
+        for (int i = 0; i <= Constants.numOfAwakenings; i++) {
+            awakeningCount.add(0);
+        }
+        for (int i = 0; i < 5; i++) {
+            elementDamage.add(0d);
+            elementDamageReplace.add(0d);
+        }
+        teamAwakeningsSansReplace.clear();
+        totalDamage = 0;
+        for (int i = 0; i < team.getMonsters().size(); i++) {
+            if (i != monsterPosition) {
+                for (int j = 0; j < team.getMonsters().get(i).getCurrentAwakenings(); j++) {
+                    teamAwakeningsSansReplace.add(team.getMonsters().get(i).getAwokenSkills(j));
+                }
+                switch (team.getMonsters().get(i).getElement1Int()) {
+                    case 0:
+                        elementDamage.set(0, elementDamage.get(0) + team.getMonsters().get(i).getTotalAtk());
+                        totalDamage += team.getMonsters().get(i).getTotalAtk();
+                        break;
+                    case 1:
+                        elementDamage.set(1, elementDamage.get(1) + team.getMonsters().get(i).getTotalAtk());
+                        totalDamage += team.getMonsters().get(i).getTotalAtk();
+                        break;
+                    case 2:
+                        elementDamage.set(2, elementDamage.get(2) + team.getMonsters().get(i).getTotalAtk());
+                        totalDamage += team.getMonsters().get(i).getTotalAtk();
+                        break;
+                    case 3:
+                        elementDamage.set(3, elementDamage.get(3) + team.getMonsters().get(i).getTotalAtk());
+                        totalDamage += team.getMonsters().get(i).getTotalAtk();
+                        break;
+                    case 4:
+                        elementDamage.set(4, elementDamage.get(4) + team.getMonsters().get(i).getTotalAtk());
+                        totalDamage += team.getMonsters().get(i).getTotalAtk();
+                        break;
+                }
+                if (team.getMonsters().get(i).getElement1Int() == team.getMonsters().get(i).getElement2Int()) {
+                    switch (team.getMonsters().get(i).getElement2Int()) {
+                        case 0:
+                            elementDamage.set(0, elementDamage.get(0) + (double) team.getMonsters().get(i).getTotalAtk() / 10);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                            break;
+                        case 1:
+                            elementDamage.set(1, elementDamage.get(1) + (double) team.getMonsters().get(i).getTotalAtk() / 10);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                            break;
+                        case 2:
+                            elementDamage.set(2, elementDamage.get(2) + (double) team.getMonsters().get(i).getTotalAtk() / 10);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                            break;
+                        case 3:
+                            elementDamage.set(3, elementDamage.get(3) + (double) team.getMonsters().get(i).getTotalAtk() / 10);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                            break;
+                        case 4:
+                            elementDamage.set(4, elementDamage.get(4) + (double) team.getMonsters().get(i).getTotalAtk() / 10);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 10;
+                            break;
+                    }
+                } else {
+                    switch (team.getMonsters().get(i).getElement2Int()) {
+                        case 0:
+                            elementDamage.set(0, elementDamage.get(0) + (double) team.getMonsters().get(i).getTotalAtk() / 3);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                            break;
+                        case 1:
+                            elementDamage.set(1, elementDamage.get(1) + (double) team.getMonsters().get(i).getTotalAtk() / 3);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                            break;
+                        case 2:
+                            elementDamage.set(2, elementDamage.get(2) + (double) team.getMonsters().get(i).getTotalAtk() / 3);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                            break;
+                        case 3:
+                            elementDamage.set(2, elementDamage.get(3) + (double) team.getMonsters().get(i).getTotalAtk() / 3);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                            break;
+                        case 4:
+                            elementDamage.set(4, elementDamage.get(4) + (double) team.getMonsters().get(i).getTotalAtk() / 3);
+                            totalDamage += team.getMonsters().get(i).getTotalAtk() / 3;
+                            break;
+                    }
+                }
+
+            }
+        }
+        Collections.sort(teamAwakeningsSansReplace);
+
+        int counter = 0;
+        for (int i = 0; i < teamAwakeningsSansReplace.size(); i++) {
+            if (i == 0) {
+                counter++;
+            } else {
+                if (!teamAwakeningsSansReplace.get(i).equals(teamAwakeningsSansReplace.get(i - 1))) {
+                    awakeningCount.set(teamAwakeningsSansReplace.get(i - 1) - 1, counter);
+                    counter = 1;
+                } else {
+                    counter++;
+                }
+            }
+            if (i == teamAwakeningsSansReplace.size() - 1) {
+                awakeningCount.set(teamAwakeningsSansReplace.get(i) - 1, counter);
+            }
         }
     }
 }

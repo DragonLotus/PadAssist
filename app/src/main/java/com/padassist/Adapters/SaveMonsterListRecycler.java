@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.padassist.Data.Monster;
 import com.padassist.BaseFragments.SaveMonsterListRecyclerBase;
+import com.padassist.Data.Team;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,8 @@ public class SaveMonsterListRecycler extends SaveMonsterListRecyclerBase {
                                    View.OnLongClickListener monsterListOnLongClickListener,
                                    View.OnClickListener deleteOnClickListener,
                                    View.OnClickListener expandOnClickListener, boolean isGrid,
-                                   ClearTextFocus clearTextFocus){
+                                   ClearTextFocus clearTextFocus, boolean isManageMonsters, boolean isInherit,
+                                   Team team, int monsterPosition){
         mContext = context;
         this.monsterList = monsterList;
         this.monsterListOnClickListener = monsterListOnClickListener;
@@ -31,6 +33,14 @@ public class SaveMonsterListRecycler extends SaveMonsterListRecyclerBase {
         this.expandOnClickListener = expandOnClickListener;
         this.isGrid = isGrid;
         this.clearTextFocus = clearTextFocus;
+        this.isManageMonsters = isManageMonsters;
+        this.isInherit = isInherit;
+        this.team = team;
+        this.monsterPosition = monsterPosition;
+
+        if(!isManageMonsters && !isInherit){
+            setUpTeam(team);
+        }
 
         sixteenDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 16, mContext.getResources().getDisplayMetrics());
         fortyEightDp = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, mContext.getResources().getDisplayMetrics());

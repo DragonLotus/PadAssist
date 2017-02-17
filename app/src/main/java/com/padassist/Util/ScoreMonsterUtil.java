@@ -118,7 +118,6 @@ public class ScoreMonsterUtil {
                 }
             }
         }
-        Log.d("ScoreMonsterUtil","awakeningWeights rowVsProng are: " + awakeningWeights);
     }
 
     private static void initializeMonsterBaseScore(Monster monster, ArrayList<Double> elementDamage) {
@@ -143,7 +142,6 @@ public class ScoreMonsterUtil {
         setRowVsProngWeights(tempAwakeningCount, monster);
         tempAwakeningCount.clear();
         tempAwakeningCount.addAll(awakeningCount);
-        Log.d("ScoreMonsterUtil","tempAwakeningCount before is: " + tempAwakeningCount);
         int awakeningIndex;
         int bindResistCounter = 0;
         for (int i = 0; i < monster.getCurrentAwakenings(); i++){
@@ -177,7 +175,6 @@ public class ScoreMonsterUtil {
             } else if((awakeningIndex == 10 || awakeningIndex == 11 || awakeningIndex == 12) && tempAwakeningCount.get(awakeningIndex) >= 5){
                 awakeningWeights.set(awakeningIndex, 0d);
             }
-            Log.d("ScoreMonsterUtil","tempAwakeningCount is: " + tempAwakeningCount);
             if((awakeningIndex >= 13 && awakeningIndex <= 17) || awakeningIndex == 28){
                 awakeningWeights.set(awakeningIndex, awakeningWeights.get(awakeningIndex) * nextEffectiveness(awakeningCount.get(awakeningIndex),.05));
             } else if(awakeningIndex >= 21 && awakeningIndex <= 25) {

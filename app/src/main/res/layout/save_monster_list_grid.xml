@@ -55,6 +55,19 @@
     </LinearLayout>
 
     <com.padassist.Graphics.TextStroke
+        android:id="@+id/monsterScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/monsterPicture"
+        android:layout_alignRight="@+id/monsterPicture"
+        android:gravity="center"
+        android:text="666.66"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:visibility="gone"/>
+
+    <com.padassist.Graphics.TextStroke
         android:id="@+id/monsterAwakenings"
         android:layout_width="16dp"
         android:layout_height="16dp"
